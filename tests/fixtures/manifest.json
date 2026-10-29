@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "content_id": "ming_end",
   "content_version": "0.1.0",
   "files": {
@@ -7,7 +7,6 @@
     "era": "era.json",
     "regions": "regions.json",
     "castes": "castes.json",
-    "traits": "traits.json",
     "cards": "cards.json",
     "pools": "pools.json",
     "events": "events.json",

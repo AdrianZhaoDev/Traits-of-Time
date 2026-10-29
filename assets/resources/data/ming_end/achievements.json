@@ -2,7 +2,7 @@
   {
     "id": "A_PROJECT",
     "name": "匠作有成",
-    "text": "三年匠作功成，在乱世挣得一技防身。",
+    "text": "三年认真学手艺，总算给日子添了一份底气。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -14,7 +14,7 @@
   {
     "id": "A_LONG_LIFE",
     "name": "岁月长存",
-    "text": "在崇祯朝活过七十岁，你比大明能熬。",
+    "text": "走过七十载风雨，平常饭菜也值得慢慢吃。",
     "condition": {
       "op": "compare",
       "field": "age",
@@ -27,7 +27,7 @@
   {
     "id": "A_ds_grain",
     "name": "账平人不平",
-    "text": "账面平平整整，领粮的全饿跑了。",
+    "text": "粮簿核清不算完，街坊更盼份额真正落袋。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -39,7 +39,7 @@
   {
     "id": "A_ds_road",
     "name": "近路直达结算",
-    "text": "抄了一条最快的路，直接快进到下一世。",
+    "text": "近路听来很省事，认清路况才算真有见识。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -51,7 +51,7 @@
   {
     "id": "A_ds_roll",
     "name": "编制比命长",
-    "text": "只要册上不除名，你就永远是大明的常备兵。",
+    "text": "册上名字对清楚，家里的牵挂才有了着落。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -63,7 +63,7 @@
   {
     "id": "A_ds_drill",
     "name": "试用期即终身",
-    "text": "入营即巅峰，试用期直接领抚恤。",
+    "text": "安排不能只看纸，年纪和力气也得算进去。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -75,7 +75,7 @@
   {
     "id": "A_ds_plaque",
     "name": "章程不能泡饭",
-    "text": "章程写得滴水不漏，可惜不能当饭泡水喝。",
+    "text": "章程写得再漂亮，也得有人认真照着办。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -87,7 +87,7 @@
   {
     "id": "A_ds_omen",
     "name": "剧透没有续费",
-    "text": "剧透一时爽，明天没赶上。",
+    "text": "传言讲得再热闹，不如把眼前日子安排好。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -99,7 +99,7 @@
   {
     "id": "A_ds_well",
     "name": "以身补齐设施",
-    "text": "井栏终于修好了，全靠你以身做质。",
+    "text": "井边多留一分心，比满口聪明更让人放心。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -111,7 +111,7 @@
   {
     "id": "A_ds_gate",
     "name": "流程先于用户",
-    "text": "规矩定得很好，下次记得自己先跑。",
+    "text": "队伍不是纸上字，先留安全余地再谈规矩。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -122,8 +122,8 @@
   },
   {
     "id": "A_gm_arms",
-    "name": "史诗·半城有备",
-    "text": "火器靠谱，城头有备，守城有方，来犯敌军看了都直摇头。",
+    "name": "库房有序",
+    "text": "木箱账册都理顺，小工具也有踏实的用处。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -134,8 +134,8 @@
   },
   {
     "id": "A_gm_water",
-    "name": "史诗·井边有人",
-    "text": "深井净水，大疫之下居然救下一整条街。",
+    "name": "井边有伴",
+    "text": "井边有人接着守，用品有限，照应不能少。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -146,8 +146,8 @@
   },
   {
     "id": "A_gm_fort",
-    "name": "史诗·粮在人在",
-    "text": "粮在人在，乱世里真让你拉起了一支保命堡子。",
+    "name": "合仓守约",
+    "text": "合仓轮值商量妥，声音传得远还要有人应。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -397,6 +397,294 @@
       "value": 100
     },
     "priority": 60,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_OIL_SUCCESS",
+    "name": "清醒下班",
+    "text": "小瓶帮你熬过核账，却没替衙门多长出半枚铜钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_OIL_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_OIL_SETBACK",
+    "name": "香过头了",
+    "text": "瓶盖比账目先失守，清洗钱倒算得格外清楚。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_OIL_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_BANDAGE_SUCCESS",
+    "name": "小贴稳妥",
+    "text": "创可贴只管一处小伤，管事终于肯准半天假。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_BANDAGE_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_BANDAGE_SETBACK",
+    "name": "贴不住了",
+    "text": "贴片没撑住场面，你及时请大夫接过了活。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_BANDAGE_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LIGHTER_SUCCESS",
+    "name": "热饭准点",
+    "text": "火苗赶上开饭时辰，管事的催促总算停了一回。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LIGHTER_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LIGHTER_SETBACK",
+    "name": "空响一声",
+    "text": "打火机先下了工，最后还是老灶工接住场面。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LIGHTER_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_CHICKEN_ESSENCE_SUCCESS",
+    "name": "清汤有味",
+    "text": "清汤多了几分鲜味，空账本可没跟着长出粮。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_CHICKEN_ESSENCE_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_CHICKEN_ESSENCE_SETBACK",
+    "name": "众口难调",
+    "text": "一包鲜味没说服众口，你付钱买下这堂厨艺课。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_CHICKEN_ESSENCE_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_GLUE_502_SUCCESS",
+    "name": "旧盒续用",
+    "text": "小瓶修好了旧盒子，修不掉管事拖工钱的习惯。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_GLUE_502_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_GLUE_502_SETBACK",
+    "name": "粘了个空",
+    "text": "旧木没给强力胶面子，老师傅倒肯给你补课。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_GLUE_502_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_THERMOS_SUCCESS",
+    "name": "留住温热",
+    "text": "杯里留下一点温热，驿站总算肯让人歇会儿。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_THERMOS_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_THERMOS_SETBACK",
+    "name": "杯盖失守",
+    "text": "热水没能留在杯里，洗晒账单倒留得很牢。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_THERMOS_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_MEGAPHONE_SUCCESS",
+    "name": "叫号有序",
+    "text": "大家听清了领号次序，管事终于不用空喊安静。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_MEGAPHONE_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_MEGAPHONE_SETBACK",
+    "name": "电池下班",
+    "text": "电池先替你请了假，传话的工钱一文也没省。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_MEGAPHONE_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LASER_POINTER_SUCCESS",
+    "name": "一图说清",
+    "text": "光点只帮图纸说话，没替管事变出半点本领。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LASER_POINTER_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LASER_POINTER_SETBACK",
+    "name": "光点隐身",
+    "text": "白日里光点躲了懒，你用纸笔把场面接回来。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LASER_POINTER_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_WATER_TABS_SUCCESS",
+    "name": "用水有据",
+    "text": "净水片不是担保书，你把适用条件问在前头。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_WATER_TABS_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_WATER_TABS_SETBACK",
+    "name": "另寻清水",
+    "text": "没拿不明水源冒险，这笔买水钱花得明白。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_WATER_TABS_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_SWISS_ARMY_SUCCESS",
+    "name": "小修省钱",
+    "text": "小工具办成一件小事，顺手挤掉账上几分水。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_SWISS_ARMY_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_SWISS_ARMY_SETBACK",
+    "name": "尺寸不合",
+    "text": "工具不合就换办法，修理摊没赚到整箱的钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_SWISS_ARMY_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_ANTIBIOTICS_SUCCESS",
+    "name": "先问再用",
+    "text": "药板没变成万灵药，你却帮药铺少许一场空愿。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_ANTIBIOTICS_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_ANTIBIOTICS_SETBACK",
+    "name": "封板停用",
+    "text": "不明药板暂且不用，比随口包治更值得记账。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_ANTIBIOTICS_SETBACK"
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_HYBRID_SEEDS_SUCCESS",
+    "name": "小田有收",
+    "text": "试田多收了一点粮，水肥工钱也老老实实入账。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_HYBRID_SEEDS_SUCCESS"
+    },
+    "priority": 100,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_HYBRID_SEEDS_SETBACK",
+    "name": "水土不服",
+    "text": "新种不合这片水土，小田替大田先交了学费。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_HYBRID_SEEDS_SETBACK"
+    },
+    "priority": 90,
     "retirable": true
   }
 ]

@@ -23,8 +23,11 @@ describe('play: real stdin, durable decisions and replay', () => {
       start_age: 9, age: 10, calendar_year: 1641, identity_id: 'I_DEPENDENT',
       attributes: { wealth: 2, intelligence: 4, prestige: 3 },
     });
-    expect(afterFirstYear.engine.payload.player.traits).toHaveLength(2);
-    expect(new Set(afterFirstYear.engine.payload.player.traits).size).toBe(2);
+    expect(afterFirstYear.engine.payload.player.cards).toHaveLength(1);
+    const card = context.bundle.cards.find((entry) => entry.id === afterFirstYear.engine.payload.player.cards[0])!;
+    expect(first.stdout).toContain(card.name);
+    expect(first.stdout).toContain(card.rarity);
+    expect(first.stdout).toContain(card.description);
     expect(afterFirstYear.engine.payload.player.chains).toEqual([
       expect.objectContaining({ status: 'active' }),
     ]);
@@ -39,6 +42,9 @@ describe('play: real stdin, durable decisions and replay', () => {
     expectSuccess(continued);
     expect(continued.stdout).toContain('1643');
     expect(continued.stdout).toContain(context.bundle.era.identities.find((entry) => entry.id === 'I_ARTISAN')!.name);
+    expect(continued.stdout).toContain(card.name);
+    expect(continued.stdout).toContain(card.rarity);
+    expect(continued.stdout).toContain(card.description);
     const completed = await savedLife(context.state);
     expect(completed.engine.payload.player).toMatchObject({
       start_age: 9, age: 12, calendar_year: 1643, identity_id: 'I_ARTISAN', highest_identity_id: 'I_ARTISAN',
@@ -138,7 +144,7 @@ describe('play: real stdin, durable decisions and replay', () => {
   it('changes a real work outcome from wealth three to seven through external JSON alone, then refuses its old save', async () => {
     const context = await fixture((bundle) => {
       fixedLife(bundle);
-      bundle.rules.events = { per_year: 1, choice_budget_min: 1, choice_budget_max: 1 };
+      bundle.rules.events = { per_year: 1, automatic_ratio: 0.6 };
       const work = bundle.events.find((event) => event.id === 'E_WORK');
       if (work?.interaction !== 'choice' || work.trigger.kind !== 'random') throw new Error('Missing work event');
       work.trigger.trigger_probability = 1;

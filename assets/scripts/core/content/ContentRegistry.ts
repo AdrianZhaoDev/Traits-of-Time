@@ -22,7 +22,6 @@ class IdMap<T extends { id: string }> implements ReadonlyMap<string, T> {
 export interface ContentRegistry {
   readonly regions: ReadonlyMap<string, ContentBundle['regions'][number]>;
   readonly castes: ReadonlyMap<string, ContentBundle['castes'][number]>;
-  readonly traits: ReadonlyMap<string, ContentBundle['traits'][number]>;
   readonly cards: ReadonlyMap<string, ContentBundle['cards'][number]>;
   readonly pools: ReadonlyMap<string, ContentBundle['pools'][number]>;
   readonly events: ReadonlyMap<string, ContentBundle['events'][number]>;
@@ -52,7 +51,6 @@ export function createContentRegistry(bundle: ContentBundle): ContentRegistry {
   const registry = Object.freeze({
     regions: new IdMap(bundle.regions),
     castes: new IdMap(bundle.castes),
-    traits: new IdMap(bundle.traits),
     cards: new IdMap(bundle.cards),
     pools: new IdMap(bundle.pools),
     events: new IdMap(bundle.events),

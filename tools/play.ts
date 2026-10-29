@@ -1,5 +1,6 @@
 import { createInterface, type Interface } from 'node:readline';
 import { readFile } from 'node:fs/promises';
+import { randomInt } from 'node:crypto';
 import { join, resolve } from 'node:path';
 import { styleText } from 'node:util';
 import { GameEngine } from '../assets/scripts/core/engine/GameEngine.js';
@@ -10,14 +11,14 @@ import { load, save } from './lib/FileStateStore.js';
 import { sha256 } from './lib/canonical.js';
 import { chooseAutomaticOption } from './lib/AutoPlay.js';
 import { buildReplay, writeReplay } from './lib/Replay.js';
-import { DEFAULT_CONTENT, DEFAULT_SEED, parseCli, requiredString, integerArg, assertDestinationOutsideContent, checkSeed, withStateLock, runCli } from './lib/cli.js';
+import { DEFAULT_CONTENT, parseCli, requiredString, integerArg, assertDestinationOutsideContent, checkSeed, withStateLock, runCli } from './lib/cli.js';
 
 await runCli(async () => {
   const args = parseCli({ content: { type: 'string', default: DEFAULT_CONTENT }, seed: { type: 'string' }, state: { type: 'string', default: '.local-state/life' }, 'export-replay': { type: 'string' }, auto: { type: 'boolean', default: false } });
   const directory = requiredString(args, 'state');
   const contentDirectory = requiredString(args, 'content');
   const exportFile = args['export-replay'] === undefined ? undefined : requiredString(args, 'export-replay');
-  const seed = args.seed === undefined ? DEFAULT_SEED : integerArg(args.seed, 'seed', 0, 0xffffffff);
+  const seed = args.seed === undefined ? undefined : integerArg(args.seed, 'seed', 0, 0xffffffff);
   const { bundle, fingerprint } = await loadContent(contentDirectory);
   await assertDestinationOutsideContent(contentDirectory, directory);
   if (exportFile !== undefined) await assertDestinationOutsideContent(contentDirectory, exportFile);
@@ -28,13 +29,17 @@ await runCli(async () => {
     const stored = await load<SessionSave>(directory);
     if (stored) {
       session.restoreSave(stored);
-      checkSeed(args.seed !== undefined, seed, stored.engine.payload.run.seed);
+      if (seed !== undefined) checkSeed(true, seed, stored.engine.payload.run.seed);
     } else {
-      const result = await session.initialize(seed);
+      const result = await session.initialize(seed ?? randomInt(0, 2 ** 32));
       if (!result.ok) throw Object.assign(new Error(result.error.message), { code: result.error.code });
     }
     let shownLog = 0;
     const narrative = (text: string) => styleText('cyan', text, { stream: process.stdout });
+    const showCard = (id: string) => {
+      const card = bundle.cards.find(item => item.id === id)!;
+      console.log(`随身物品：${card.name} [${card.rarity}]（${card.id}）\n${card.description}`);
+    };
     const show = () => {
       const snapshot = session.exportSave();
       const { state, pending } = session.current();
@@ -45,6 +50,7 @@ await runCli(async () => {
         // Selection audits share event text but do not mean the event has executed.
         if (entry.type === 'draw' && entry.data.selected_event_id !== null) continue;
         console.log(`[${entry.calendar_year}年 / ${entry.age}岁] ${narrative(entry.message)}`);
+        if (entry.type === 'opening') showCard(entry.data.card_id);
         if (entry.type === 'event' && entry.data.event_instance_id === pending?.event_instance_id) pendingEventShown = true;
         if (entry.type === 'dice') console.log(`D20=${entry.data.raw}；属性=${entry.data.attribute_value}；修正=${entry.data.modifier_before}→${entry.data.modifier_after}；DC=${entry.data.dc}；${entry.data.success ? '成功' : '失败'}；本阶段成功率=${entry.data.success_probability * 100}%`);
         if (entry.type === 'effects') for (const effect of entry.data.effects) if (effect.type === 'attribute_add') console.log(`属性变化 ${effect.attribute}: ${effect.amount >= 0 ? '+' : ''}${effect.amount}（按配置边界截断）`);
@@ -53,7 +59,7 @@ await runCli(async () => {
       const fictional = p.calendar_year - bundle.era.historical_end_year;
       console.log(`\n${p.calendar_year}年 / ${p.age}岁 ${state.timeline === 'historical' ? '历史窗口' : fictional > 0 ? `架空延续第 ${fictional} 年` : '架空推演'}；状态 ${state.status}`);
       console.log(`身份：${bundle.era.identities.find(item => item.id === p.identity_id)?.name}；地区：${bundle.regions.find(item => item.id === p.region_id)?.name}；门第：${bundle.castes.find(item => item.id === p.caste_id)?.name}`);
-      console.log(`词条：${p.traits.map(id => `${bundle.traits.find(item => item.id === id)?.name} (${id})`).join('、')}`);
+      for (const id of p.cards) showCard(id);
       console.log(`属性：${Object.entries(p.attributes).map(([key, value]) => `${key}=${value}`).join(' / ')}`);
       for (const chain of p.chains) console.log(`任务：${bundle.chains.find(item => item.id === chain.chain_id)?.name} ${chain.status}，节点 ${chain.node_index}，到期年 ${chain.next_due_year ?? '无'}${chain.interruption_reason ? `，原因 ${chain.interruption_reason}` : ''}`);
       for (const id of p.achievements) console.log(`成就：${bundle.achievements.find(item => item.id === id)?.name}`);

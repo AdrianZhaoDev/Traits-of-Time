@@ -2,12 +2,20 @@ import { mkdir, open, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { GameEngine } from '../assets/scripts/core/engine/GameEngine.js';
 import { GachaEngine } from '../assets/scripts/core/engine/GachaEngine.js';
+import type { Condition } from '../assets/scripts/core/types/content.generated.js';
 import { recordCommand, type ReplayAction, type ReplayCommand } from '../assets/scripts/application/ReplayCommands.js';
 import { loadContent } from './lib/ContentLoader.js';
 import { buildInitializationFailureReplay, buildReplay, writeReplay } from './lib/Replay.js';
 import { sha256 } from './lib/canonical.js';
 import { DrawStatistics, LifeStatistics } from './lib/SimulationReport.js';
 import { ArgumentError, DEFAULT_CONTENT, DEFAULT_SEED, assertDestinationOutsideContent, errorDetails, integerArg, parseCli, requiredString, runCli } from './lib/cli.js';
+
+function hasModernCardGate(condition: Condition | undefined): boolean {
+  if (!condition) return false;
+  if (condition.op === 'has') return condition.collection === 'cards' && condition.id.startsWith('CARD_MOD_');
+  if (condition.op === 'all' || condition.op === 'any') return condition.conditions.some(hasModernCardGate);
+  return false;
+}
 
 await runCli(async () => {
   const args = parseCli({ mode: { type: 'string' }, content: { type: 'string' }, runs: { type: 'string' },
@@ -16,7 +24,7 @@ await runCli(async () => {
   const mode = args.mode ?? 'life';
   if (mode !== 'life' && mode !== 'draw') throw new ArgumentError('--mode 必须是 life 或 draw');
   const strategy = args.strategy ?? 'normal';
-  if (strategy !== 'normal' && strategy !== 'cautious' && strategy !== 'risky') throw new ArgumentError('--strategy 必须是 normal、cautious 或 risky');
+  if (strategy !== 'normal' && strategy !== 'cautious' && strategy !== 'risky' && strategy !== 'reaction') throw new ArgumentError('--strategy 必须是 normal、cautious、risky 或 reaction');
   if (mode === 'draw' && args.strategy !== undefined) throw new ArgumentError('draw 模式不接受 --strategy');
   if (mode === 'life' && (args.pool !== undefined || args['draws-per-run'] !== undefined)) throw new ArgumentError('life 模式不接受 --pool 或 --draws-per-run');
   const runs = integerArg(requiredString(args, 'runs'), 'runs', 1);
@@ -82,7 +90,8 @@ await runCli(async () => {
               const available = new Set(pending.options.filter(option => option.available).map(option => option.id));
               const eligible = event.options.filter(option => available.has(option.id));
               const risks = strategy === 'cautious' ? ['safe', 'normal', 'high'] : ['high', 'normal', 'safe'];
-              const option = strategy === 'normal' ? eligible[0] : risks.flatMap(risk => eligible.filter(item => item.risk === risk))[0];
+              const option = strategy === 'reaction' ? eligible.find(item => hasModernCardGate(item.condition)) ?? eligible[0]
+                : strategy === 'normal' ? eligible[0] : risks.flatMap(risk => eligible.filter(item => item.risk === risk))[0];
               if (!option) throw Object.assign(new Error('当前事件没有合法选项'), { code: 'SIMULATION_NO_PROGRESS' });
               action = { api: 'resolveOption', commandId, args: { eventInstanceId: pending.event_instance_id, optionId: option.id } };
             } else if (result.state.status === 'READY') {

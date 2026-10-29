@@ -4,11 +4,11 @@ import type { PlayerState, Timeline } from '../types/schema.js';
 export interface ConditionContext {
   age: number; calendar_year: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;
   region_id: string; caste_id: string; identity_id: string; timeline: Timeline;
-  traits: readonly string[]; flags: readonly string[]; injuries: readonly string[]; completed_chains: readonly string[];
+  cards: readonly string[]; flags: readonly string[]; injuries: readonly string[]; completed_chains: readonly string[];
 }
 export function conditionContext(player: PlayerState, timeline: Timeline): ConditionContext {
   return { ...player.attributes, age: player.age, calendar_year: player.calendar_year, region_id: player.region_id,
-    caste_id: player.caste_id, identity_id: player.identity_id, timeline, traits: player.traits, flags: player.flags,
+    caste_id: player.caste_id, identity_id: player.identity_id, timeline, cards: player.cards, flags: player.flags,
     injuries: player.injuries, completed_chains: player.chains.filter(c => c.status === 'completed').map(c => c.chain_id) };
 }
 export function evaluateCondition(condition: Condition | undefined, state: ConditionContext): boolean {

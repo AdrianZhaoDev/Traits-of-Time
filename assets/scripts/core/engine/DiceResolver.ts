@@ -1,9 +1,9 @@
 import type { Stage } from '../types/content.generated.js';
 import type { DiceResult } from '../types/schema.js';
 import { uniformInt, type RandomSource } from './RandomSource.js';
-export function resolveCheck(check: Stage['check'], attributeValue: number, traitModifier: number,
+export function resolveCheck(check: Stage['check'], attributeValue: number,
   limits: { modifier_min: number; modifier_max: number }, rng: RandomSource): DiceResult {
-  const modifier_before = traitModifier + check.modifier;
+  const modifier_before = check.modifier;
   const modifier_after = Math.max(limits.modifier_min, Math.min(limits.modifier_max, modifier_before));
   const succeeds = (raw: number): boolean => raw === 20 || (raw !== 1 && raw + attributeValue + modifier_after >= check.dc);
   let count = 0;

@@ -38,6 +38,10 @@ async function content(): Promise<ContentBundle> {
   bundle.pools = [pool(), pool({ id: 'other' }), pool({ id: 'plain', hard_pity: null }),
     pool({ id: 'unique', replacement: false, hard_pity: null }),
     pool({ id: 'always', hard_pity: { after: 1, target_card_ids: ['B', 'Z'] } })];
+  bundle.rules.opening.pool_id = 'plain';
+  bundle.events = [];
+  bundle.chains = [];
+  bundle.achievements = [];
   expect(validateContent(bundle)).toEqual({ ok: true, issues: [] });
   return bundle;
 }

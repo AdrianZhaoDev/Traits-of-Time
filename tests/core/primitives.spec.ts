@@ -129,7 +129,7 @@ describe('resolveCheck: explicit D20 resolution', () => {
   it('enumerates exactly 13/20 successes for attribute 4, modifier 2 and DC14', () => {
     const results = Array.from({ length: 20 }, (_, index) => {
       const rng = new SequenceRandom([index]);
-      const result = resolveCheck(check, 4, 2, limits, rng);
+      const result = resolveCheck({ ...check, modifier: 2 }, 4, limits, rng);
       expect(result).toEqual({
         raw: index + 1, attribute_value: 4, modifier_before: 2, modifier_after: 2,
         dc: 14, success: index >= 7, success_probability: 13 / 20,
@@ -141,25 +141,25 @@ describe('resolveCheck: explicit D20 resolution', () => {
   });
 
   it('makes natural 1 fail even when the numerical total would pass', () => {
-    expect(resolveCheck({ ...check, dc: -100 }, 10, 20, limits, new SequenceRandom([0])))
+    expect(resolveCheck({ ...check, dc: -100, modifier: 20 }, 10, limits, new SequenceRandom([0])))
       .toMatchObject({ raw: 1, success: false, success_probability: 19 / 20 });
   });
 
   it('makes natural 20 succeed even when the numerical total would fail', () => {
-    expect(resolveCheck({ ...check, dc: 100 }, 0, -20, limits, new SequenceRandom([19])))
+    expect(resolveCheck({ ...check, dc: 100, modifier: -20 }, 0, limits, new SequenceRandom([19])))
       .toMatchObject({ raw: 20, success: true, success_probability: 1 / 20 });
   });
 
-  it.each([[5, 4, 9, 3], [-5, -4, -9, -3], [1, -2, -1, -1]])(
-    'adds stage %i and trait %i modifiers before clamping', (stage, trait, before, after) => {
-      const result = resolveCheck({ ...check, modifier: stage }, 4, trait, limits, new SequenceRandom([9]));
+  it.each([[9, 3], [-9, -3], [-1, -1]])(
+    'clamps stage modifier %i to %i', (before, after) => {
+      const result = resolveCheck({ ...check, modifier: before }, 4, limits, new SequenceRandom([9]));
       expect(result).toMatchObject({ raw: 10, attribute_value: 4, modifier_before: before, modifier_after: after, dc: 14 });
     },
   );
 
   it('uses the unbiased integer sampler for D20 rather than a float or biased modulo', () => {
     const rng = new SequenceRandom([0xffffffff, 19]);
-    expect(resolveCheck(check, 4, 2, limits, rng).raw).toBe(20);
+    expect(resolveCheck({ ...check, modifier: 2 }, 4, limits, rng).raw).toBe(20);
     expect(rng.exportState().draws).toBe(2);
   });
 });
@@ -185,7 +185,7 @@ describe('evaluateCondition: restricted declarative operators', () => {
   const state: ConditionContext = {
     age: 9, calendar_year: 1640, physique: 2, intelligence: 4, wealth: 3, prestige: 1, luck: 5,
     region_id: 'R_JIANGNAN', caste_id: 'C_SOLDIER', identity_id: 'I_DEPENDENT', timeline: 'historical',
-    traits: ['T_DOCTOR_BOOK'], flags: ['dependent'], injuries: ['INJ_SEVERE'], completed_chains: ['CH_WORKSHOP'],
+    cards: ['CARD_COMMON'], flags: ['dependent'], injuries: ['INJ_SEVERE'], completed_chains: ['CH_WORKSHOP'],
   };
 
   it('treats an omitted condition as true and never changes the context', () => {
@@ -210,7 +210,7 @@ describe('evaluateCondition: restricted declarative operators', () => {
   });
 
   it.each([
-    ['traits', 'T_DOCTOR_BOOK'], ['flags', 'dependent'], ['injuries', 'INJ_SEVERE'], ['completed_chains', 'CH_WORKSHOP'],
+    ['cards', 'CARD_COMMON'], ['flags', 'dependent'], ['injuries', 'INJ_SEVERE'], ['completed_chains', 'CH_WORKSHOP'],
   ] as const)('checks membership in %s', (collection, id) => {
     expect(evaluateCondition({ op: 'has', collection, id }, state)).toBe(true);
     expect(evaluateCondition({ op: 'has', collection, id: 'missing' }, state)).toBe(false);

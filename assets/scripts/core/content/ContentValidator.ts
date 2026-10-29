@@ -30,7 +30,7 @@ class SemanticValidator {
 
   constructor(private readonly content: ContentBundle) {
     this.references = Object.create(null) as Record<string, Set<string>>;
-    for (const key of ['regions', 'castes', 'traits', 'cards', 'pools', 'events', 'chains', 'achievements', 'deaths'] as const) {
+    for (const key of ['regions', 'castes', 'cards', 'pools', 'events', 'chains', 'achievements', 'deaths'] as const) {
       this.references[key] = new Set(content[key].map((item) => item.id));
     }
     for (const key of ['backgrounds', 'identities', 'injuries'] as const) this.references[key] = new Set(content.era[key].map((item) => item.id));
@@ -237,8 +237,10 @@ class SemanticValidator {
     if (min >= max || base < min || base > max || !Number.isFinite(max - min)) this.issue('rules.json', '/attributes', 'INVALID_COMBINATION', '属性范围必须 min < max，base 在范围内且跨度有限。');
     if (rules.check.modifier_min > rules.check.modifier_max) this.issue('rules.json', '/check', 'INVALID_COMBINATION', '检定修正下界不能大于上界。');
     if (rules.luck.factor_min > rules.luck.factor_max) this.issue('rules.json', '/luck', 'INVALID_COMBINATION', '运气因子下界不能大于上界。');
-    if (rules.events.choice_budget_min > rules.events.choice_budget_max) this.issue('rules.json', '/events', 'INVALID_COMBINATION', '选择配额下界不能大于上界。');
-    this.uniform(rules.events.choice_budget_min, rules.events.choice_budget_max, 'rules.json', '/events');
+    this.reference('pools', rules.opening.pool_id, 'rules.json', '/opening/pool_id');
+    if (rules.opening.year_min > rules.opening.year_max) this.issue('rules.json', '/opening', 'INVALID_COMBINATION', '开局年份下界不能大于上界。');
+    this.uniform(rules.opening.year_min, rules.opening.year_max, 'rules.json', '/opening');
+    if (rules.opening.year_min < era.start_year || rules.opening.year_max > era.historical_end_year) this.issue('rules.json', '/opening', 'INVALID_COMBINATION', '开局年份必须在历史窗口内。');
     if (rules.lifespan.min > rules.lifespan.max) this.issue('rules.json', '/lifespan', 'INVALID_COMBINATION', '寿命下界不能大于上界。');
     if (era.start_year > era.historical_end_year) this.issue('era.json', '/historical_end_year', 'INVALID_COMBINATION', '历史窗口结束年份不能早于起始年份。');
     this.unique(rules.age_bands, 'rules.json', '/age_bands');
@@ -250,8 +252,6 @@ class SemanticValidator {
     });
     this.distribution(this.content.regions.map((region) => region.weight), 'regions.json', '');
     this.distribution(this.content.castes.map((caste) => caste.weight), 'castes.json', '');
-    this.distribution(this.content.traits.map((trait) => trait.weight), 'traits.json', '', rules.opening.trait_count > 0);
-    if (this.content.traits.filter((trait) => trait.weight > 0).length < rules.opening.trait_count) this.issue('rules.json', '/opening/trait_count', 'INVALID_DISTRIBUTION', '正权重词条数不足以无放回抽取开局词条。');
     for (const kind of ['opening', 'random'] as const) {
       const weights = this.content.events.flatMap((event) => {
         if (event.trigger.kind !== kind) return [];
@@ -268,15 +268,10 @@ class SemanticValidator {
     const context: ConditionContext = {
       age: 0, calendar_year: era.start_year, region_id: '', caste_id: '', identity_id: '', timeline: 'historical',
       physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
-      traits: [], flags: [], injuries: [], completed_chains: [],
+      cards: [], flags: [], injuries: [], completed_chains: [],
     };
     const breakpoints = new Set<number>();
     era.backgrounds.forEach((background) => ageBreakpoints(background.condition, breakpoints));
-    const traitCount = rules.opening.trait_count;
-    const traitExtremes = attributes.map((attribute) => {
-      const values = this.content.traits.filter((trait) => trait.weight > 0).map((trait) => trait.modifiers[attribute] ?? 0).sort((a, b) => a - b);
-      return [values.slice(0, traitCount).reduce((sum, value) => sum + value, 0), values.slice(Math.max(0, values.length - traitCount)).reduce((sum, value) => sum + value, 0)] as const;
-    });
     for (const band of rules.age_bands) {
       if (band.min > band.max) continue;
       // A compare predicate can change only around one of these integer boundaries.
@@ -289,7 +284,7 @@ class SemanticValidator {
           this.issue('rules.json', '/lifespan', 'INVALID_DISTRIBUTION', `起始年龄 ${age} 没有满足剩余年数的合法寿命。`);
         } else {
           this.uniform(low, rules.lifespan.max, 'rules.json', '/lifespan');
-          if (!Number.isSafeInteger(era.start_year + (rules.lifespan.max - age))) this.issue('era.json', '/start_year', 'INVALID_COMBINATION', '可达公历年份超出安全整数范围。');
+          if (!Number.isSafeInteger(rules.opening.year_max + (rules.lifespan.max - age))) this.issue('rules.json', '/opening/year_max', 'INVALID_COMBINATION', '可达公历年份超出安全整数范围。');
         }
         let pairTotal = 0;
         for (const region of regions) {
@@ -302,10 +297,10 @@ class SemanticValidator {
             if (backgrounds.length === 0) continue;
             this.distribution(backgrounds.map((background) => background.weight), 'era.json', '/backgrounds');
             pairTotal += region.weight * caste.weight;
-            for (const background of backgrounds) attributes.forEach((attribute, index) => {
+            for (const background of backgrounds) attributes.forEach((attribute) => {
               const base = rules.attributes.base + (band.modifiers[attribute] ?? 0) + (caste.modifiers[attribute] ?? 0)
                 + (region.modifiers[attribute] ?? 0) + (background.modifiers[attribute] ?? 0);
-              if (traitExtremes[index]!.some((modifier) => !Number.isFinite(base + modifier))) {
+              if (!Number.isFinite(base)) {
                 this.issue('rules.json', '/attributes', 'INVALID_COMBINATION', '合法开局的属性总修正会产生非有限数值。');
               }
             });
@@ -318,7 +313,7 @@ class SemanticValidator {
 
   validate(): ValidationResult {
     const content = this.content;
-    for (const key of ['regions', 'castes', 'traits', 'cards', 'pools', 'events', 'chains', 'achievements', 'deaths'] as const) this.unique(content[key], `${key}.json`, '');
+    for (const key of ['regions', 'castes', 'cards', 'pools', 'events', 'chains', 'achievements', 'deaths'] as const) this.unique(content[key], `${key}.json`, '');
     for (const key of ['backgrounds', 'identities', 'injuries'] as const) this.unique(content.era[key], 'era.json', `/${key}`);
     this.reference('deaths', content.era.old_age_death_id, 'era.json', '/old_age_death_id');
     content.era.backgrounds.forEach((background, index) => {

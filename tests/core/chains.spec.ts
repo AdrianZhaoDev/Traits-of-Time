@@ -38,8 +38,7 @@ async function chainContent(): Promise<ContentBundle> {
   const bundle = await loadTemplate();
   bundle.rules.age_bands = [{ id: 'fixed', min: 9, max: 9, weight: 1, modifiers: {} }];
   bundle.rules.lifespan = { min: 80, max: 80, min_remaining_years: 3 };
-  bundle.rules.opening.trait_count = 0;
-  bundle.rules.events = { per_year: 0, choice_budget_min: 0, choice_budget_max: 0 };
+  bundle.rules.events = { per_year: 0, automatic_ratio: 0.6 };
   for (const region of bundle.regions) {
     region.weight = region.id === 'R_JIANGNAN' ? 1 : 0;
     region.modifiers = {};

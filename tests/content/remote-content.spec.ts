@@ -31,7 +31,7 @@ async function issue(code: string, file: string, path = '') {
 }
 
 describe('complete HTTPS content packages', () => {
-  it('loads all eleven JSON categories with identical local fingerprint and deep freezing', async () => {
+  it('loads all manifest JSON categories with identical local fingerprint and deep freezing', async () => {
     const fixture = await remote();
     const local = await loadContent(fixture.directory);
     const loaded = await loadContent(base.slice(0, -1));

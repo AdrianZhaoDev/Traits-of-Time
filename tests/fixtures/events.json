@@ -145,21 +145,21 @@
         }
       },
       {
-        "id": "T_DOCTOR_BOOK",
-        "text": "运用赤脚医生手册",
+        "id": "USE_COMMON",
+        "text": "翻阅旧日笔记",
         "condition": {
           "op": "has",
-          "collection": "traits",
-          "id": "T_DOCTOR_BOOK"
+          "collection": "cards",
+          "id": "CARD_COMMON"
         },
         "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
         "risk": "normal",
         "outcome": {
-          "text": "运用赤脚医生手册：你承受了这一选择的结果。",
+          "text": "你翻阅笔记，找到了可用的旧经验。",
           "effects": [
             {
               "type": "flag_add",
-              "id": "used_T_DOCTOR_BOOK"
+              "id": "used_CARD_COMMON"
             },
             {
               "type": "attribute_add",
@@ -171,21 +171,21 @@
         }
       },
       {
-        "id": "T_FIREPOWDER",
-        "text": "运用土法黑火药",
+        "id": "USE_RARE",
+        "text": "参考匠作心得",
         "condition": {
           "op": "has",
-          "collection": "traits",
-          "id": "T_FIREPOWDER"
+          "collection": "cards",
+          "id": "CARD_RARE"
         },
         "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
         "risk": "normal",
         "outcome": {
-          "text": "运用土法黑火药：你承受了这一选择的结果。",
+          "text": "你参考匠作心得，尝试改善眼前的工作。",
           "effects": [
             {
               "type": "flag_add",
-              "id": "used_T_FIREPOWDER"
+              "id": "used_CARD_RARE"
             },
             {
               "type": "attribute_add",
@@ -197,21 +197,21 @@
         }
       },
       {
-        "id": "T_CORPORATE",
-        "text": "运用打工人思维",
+        "id": "USE_EPIC",
+        "text": "参考传世札记",
         "condition": {
           "op": "has",
-          "collection": "traits",
-          "id": "T_CORPORATE"
+          "collection": "cards",
+          "id": "CARD_EPIC"
         },
         "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
         "risk": "normal",
         "outcome": {
-          "text": "运用打工人思维：你承受了这一选择的结果。",
+          "text": "你依照札记整理了当前事务。",
           "effects": [
             {
               "type": "flag_add",
-              "id": "used_T_CORPORATE"
+              "id": "used_CARD_EPIC"
             },
             {
               "type": "attribute_add",
@@ -223,21 +223,21 @@
         }
       },
       {
-        "id": "T_REBEL",
-        "text": "运用破局之志",
+        "id": "SHARE_RARE",
+        "text": "分享匠作心得",
         "condition": {
           "op": "has",
-          "collection": "traits",
-          "id": "T_REBEL"
+          "collection": "cards",
+          "id": "CARD_RARE"
         },
         "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
         "risk": "normal",
         "outcome": {
-          "text": "运用破局之志：你承受了这一选择的结果。",
+          "text": "你把匠作心得讲给同伴，众人各有收获。",
           "effects": [
             {
               "type": "flag_add",
-              "id": "used_T_REBEL"
+              "id": "shared_CARD_RARE"
             },
             {
               "type": "attribute_add",

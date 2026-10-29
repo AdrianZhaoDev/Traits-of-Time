@@ -58,8 +58,7 @@ async function quietContent(): Promise<ContentBundle> {
   const bundle = await loadTemplate();
   bundle.rules.age_bands = [{ id: 'fixed', min: 9, max: 9, weight: 1, modifiers: {} }];
   bundle.rules.lifespan = { min: 80, max: 80, min_remaining_years: 3 };
-  bundle.rules.opening.trait_count = 0;
-  bundle.rules.events = { per_year: 0, choice_budget_min: 0, choice_budget_max: 0 };
+  bundle.rules.events = { per_year: 0, automatic_ratio: 0.6 };
   for (const region of bundle.regions) {
     region.weight = region.id === 'R_JIANGNAN' ? 1 : 0;
     region.modifiers = {};
@@ -108,7 +107,6 @@ function addTestChain(bundle: ContentBundle): void {
 describe('GameEngine: data-driven deterministic openings', () => {
   it.each([0, 1640, 0xffffffff])('has identical initialization and saved RNG for seed %i', async (seed) => {
     const bundle = await quietContent();
-    bundle.rules.opening.trait_count = 2;
     const first = engineFor(bundle);
     const second = engineFor(bundle);
     expect(first.initGame({ seed })).toEqual(second.initGame({ seed }));
@@ -135,8 +133,8 @@ describe('GameEngine: data-driven deterministic openings', () => {
     const player = result.state.player;
     const identity = age <= 10 ? 'I_DEPENDENT' : ({ C_REFUGEE: 'I_REFUGEE', C_SOLDIER: 'I_WORKER', C_GENTRY: 'I_HOUSEHOLD' } as const)[caste as 'C_REFUGEE' | 'C_SOLDIER' | 'C_GENTRY'];
     expect(player).toMatchObject({ start_age: age, age, start_year: 1640, calendar_year: 1640, region_id: region, caste_id: caste, identity_id: identity, highest_identity_id: identity });
-    expect(player.traits).toHaveLength(2);
-    expect(new Set(player.traits).size).toBe(2);
+    expect(player.cards).toHaveLength(1);
+    expect(bundle.pools.find((pool) => pool.id === bundle.rules.opening.pool_id)!.entries.map((entry) => entry.card_id)).toContain(player.cards[0]);
     expect(player.max_lifespan).toBeGreaterThanOrEqual(age + bundle.rules.lifespan.min_remaining_years);
     expect(player.max_lifespan).toBeGreaterThanOrEqual(bundle.rules.lifespan.min);
     expect(player.max_lifespan).toBeLessThanOrEqual(bundle.rules.lifespan.max);
@@ -159,21 +157,60 @@ describe('GameEngine: data-driven deterministic openings', () => {
       background.modifiers = { wealth: 1, intelligence: 1 };
       background.flags = ['shared', 'background'];
     }
-    bundle.rules.opening.trait_count = 1;
-    for (const trait of bundle.traits) trait.weight = 0;
-    Object.assign(bundle.traits[0]!, { weight: 1, modifiers: { wealth: -1, intelligence: -4, prestige: 99, luck: -99 }, flags: ['shared', 'trait'] });
     const result = success(engineFor(bundle).initGame({ seed: 0 }));
-    expect(result.state.player.attributes).toEqual({ physique: 3, intelligence: 4, wealth: 3, prestige: 10, luck: 0 });
-    expect([...result.state.player.flags].sort()).toEqual(['background', 'caste', 'region', 'shared', 'trait']);
-    expect(result.state.player.traits).toEqual([bundle.traits[0]!.id]);
+    expect(result.state.player.attributes).toEqual({ physique: 3, intelligence: 8, wealth: 4, prestige: 3, luck: 3 });
+    expect([...result.state.player.flags].sort()).toEqual(['background', 'caste', 'region', 'shared']);
   });
 
-  it('changes equipped trait count by configuration alone', async () => {
+  it('equips exactly one card from positive opening pool weights and records it', async () => {
     const bundle = await quietContent();
-    bundle.rules.opening.trait_count = 1;
-    expect(success(engineFor(bundle).initGame({ seed: 1640 })).state.player.traits).toHaveLength(1);
-    bundle.rules.opening.trait_count = 0;
-    expect(success(engineFor(bundle).initGame({ seed: 1640 })).state.player.traits).toEqual([]);
+    const pool = bundle.pools.find((item) => item.id === bundle.rules.opening.pool_id)!;
+    for (const selected of pool.entries) {
+      for (const entry of pool.entries) entry.weight = entry === selected ? 1 : 0;
+      for (const seed of [0, 1640, 0xffffffff]) {
+        const result = success(engineFor(bundle).initGame({ seed }));
+        expect(result.state.player.cards).toEqual([selected.card_id]);
+        expect(result.logs.find((entry) => entry.type === 'opening')?.data).toMatchObject({ card_id: selected.card_id });
+      }
+    }
+  });
+
+  it('uses the authored opening weights rather than uniform card sampling', async () => {
+    const bundle = await quietContent();
+    const pool = bundle.pools.find((item) => item.id === bundle.rules.opening.pool_id)!;
+    const entries = [...pool.entries].sort((left, right) => left.card_id < right.card_id ? -1 : 1);
+    const total = entries.reduce((sum, entry) => sum + entry.weight, 0);
+    for (let seed = 0; seed < 64; seed++) {
+      const preview = new Mulberry32(seed);
+      preview.nextUint32(); // Age band.
+      uniformInt(9, 9, preview);
+      uniformInt(bundle.rules.opening.year_min, bundle.rules.opening.year_max, preview);
+      preview.nextUint32(); // Legal region/caste pair.
+      preview.nextUint32(); // Biography.
+      let point = preview.nextUint32() / 0x100000000 * total;
+      const selected = entries.find((entry) => {
+        point -= entry.weight;
+        return point < 0;
+      })!;
+      expect(success(engineFor(bundle).initGame({ seed })).state.player.cards).toEqual([selected.card_id]);
+    }
+  });
+
+  it('samples a reproducible opening year inside the configured Ming-era bounds', async () => {
+    const bundle = await quietContent();
+    bundle.rules.opening.year_min = bundle.era.start_year;
+    bundle.rules.opening.year_max = bundle.era.historical_end_year;
+    const years = new Set<number>();
+    for (let seed = 0; seed < 64; seed++) {
+      const result = success(engineFor(bundle).initGame({ seed }));
+      const year = result.state.player.start_year;
+      expect(year).toBeGreaterThanOrEqual(bundle.rules.opening.year_min);
+      expect(year).toBeLessThanOrEqual(bundle.rules.opening.year_max);
+      expect(result.state.player.calendar_year).toBe(year);
+      expect(result).toEqual(success(engineFor(bundle).initGame({ seed })));
+      years.add(year);
+    }
+    expect(years.size).toBeGreaterThan(1);
   });
 
   it('restricts lifespan to the valid remaining-years intersection', async () => {
@@ -286,8 +323,8 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     const event = opening();
     if (event.interaction !== 'choice') throw new Error('Expected a choice fixture');
     event.options.push({
-      id: 'locked', text: 'Requires a trait', risk: 'high', unavailable_text: 'You lack the required trait.',
-      condition: { op: 'has', collection: 'traits', id: 'T_DOCTOR_BOOK' },
+      id: 'locked', text: 'Requires a flag', risk: 'high', unavailable_text: 'You lack the required flag.',
+      condition: { op: 'has', collection: 'flags', id: 'required_flag' },
       outcome: outcome([{ type: 'attribute_add', attribute: 'wealth', amount: 5 }]),
     });
     bundle.events = [event];
@@ -295,7 +332,7 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     const initial = success(engine.initGame({ seed: 0 }));
     const pending = initial.pending;
     if (pending?.kind !== 'option') throw new Error('Expected options');
-    expect(pending.options.find((item) => item.id === 'locked')).toMatchObject({ available: false, reason: 'You lack the required trait.' });
+    expect(pending.options.find((item) => item.id === 'locked')).toMatchObject({ available: false, reason: 'You lack the required flag.' });
     expect(pending.options.find((item) => item.id === 'start')).toMatchObject({ available: true });
     const before = structuredClone(engine.exportSave());
     error(engine.resolveOption('selection', pending.event_instance_id, 'locked'), 'OPTION_UNAVAILABLE');
@@ -359,55 +396,66 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     expect(engine.exportSave().payload.run.event_counts.E_COOL).toBe(3);
   });
 
-  it('deducts each random choice at selection, stops at budget, and still executes automatic events', async () => {
+  it('targets the actual automatic share including opening and historical encounters', async () => {
     const bundle = await quietContent();
-    bundle.rules.events = { per_year: 4, choice_budget_min: 2, choice_budget_max: 2 };
-    const choices = ['A', 'B', 'C'].map((id) => {
-      const event = opening([{ type: 'flag_add', id: `chosen_${id}` }]);
-      event.id = `E_CHOICE_${id}`;
+    bundle.rules.events = { per_year: 5, automatic_ratio: 0.6 };
+    const choices = Array.from({ length: 5 }, (_, index) => {
+      const event = opening();
+      event.id = `E_CHOICE_${index}`;
       event.trigger = { kind: 'random', weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: null, rare: false };
       return event;
     });
-    bundle.events = [...choices, random('E_AUTO', [{ type: 'attribute_add', attribute: 'prestige', amount: 1 }])];
+    bundle.events = [opening(), history('E_HISTORY', 1640, []), ...choices,
+      ...Array.from({ length: 5 }, (_, index) => random(`E_AUTO_${index}`, []))];
     const engine = engineFor(bundle);
     let result = success(engine.initGame({ seed: 1640 }));
-    const seen = new Set<string>();
-    for (let index = 0; index < 2; index++) {
-      if (result.pending?.kind !== 'option') throw new Error('Expected both budgeted choices');
-      seen.add(result.pending.event_id);
-      result = choose(engine, result, `choice-${index}`);
+    let command = 0;
+    for (let year = 0; year < 4; year++) {
+      if (year > 0) result = success(engine.nextYear(`year-${year}`));
+      while (result.pending) result = choose(engine, result, `choice-${command++}`);
+      const counts = engine.exportSave().payload.run.event_counts;
+      const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+      const automatic = bundle.events.filter((event) => event.interaction === 'automatic')
+        .reduce((sum, event) => sum + (counts[event.id] ?? 0), 0);
+      expect(total).toBe(2 + (year + 1) * 5);
+      expect(automatic).toBe(Math.round(total * 0.6));
     }
-    expect(seen.size).toBe(2);
-    expect(result.pending).toBeNull();
-    expect(result.state.status).toBe('READY');
-    expect(result.state.player.attributes.prestige).toBe(4);
-    expect(engine.exportSave().payload.run.remaining_choice_budget).toBe(0);
-    for (let year = 1; year <= 3; year++) {
-      result = success(engine.nextYear(`year-${year}`));
-      expect(result.pending).toBeNull();
-      expect(result.state.player.attributes.prestige).toBe(4 + year);
-    }
-    expect(result.state.player.flags.filter((flag) => flag.startsWith('chosen_'))).toHaveLength(2);
   });
 
-  it('does not spend random choice quota on an opening decision', async () => {
+  it('never suppresses historical choices even when all random encounters target automatic', async () => {
     const bundle = await quietContent();
-    bundle.rules.events = { per_year: 1, choice_budget_min: 0, choice_budget_max: 0 };
-    const randomChoice = opening([{ type: 'flag_add', id: 'random_choice' }]);
-    randomChoice.id = 'E_RANDOM_CHOICE';
-    randomChoice.trigger = { kind: 'random', weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: null, rare: false };
-    bundle.events = [opening(), randomChoice];
+    bundle.rules.events = { per_year: 1, automatic_ratio: 1 };
+    const historical = opening([{ type: 'flag_add', id: 'history_chosen' }]);
+    historical.id = 'E_HISTORY_CHOICE';
+    historical.trigger = { kind: 'historical', year: 1640, priority: 0 };
+    bundle.events = [opening(), historical, random('E_AUTO', [])];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
-    expect(initial.pending).toMatchObject({ event_id: 'E_TEST_OPEN' });
-    expect(choose(engine, initial).pending).toBeNull();
-    expect(engine.exportSave().payload.run.remaining_choice_budget).toBe(0);
-    expect(engine.exportSave().payload.player.flags).not.toContain('random_choice');
+    const pending = choose(engine, engine.initGame({ seed: 0 }));
+    expect(pending.pending).toMatchObject({ event_id: historical.id, kind: 'option' });
+    expect(pending.state.player.flags).not.toContain('history_chosen');
+    const complete = choose(engine, pending, 'historical-choice');
+    expect(complete.pending).toBeNull();
+    expect(complete.state.player.flags).toContain('history_chosen');
+    expect(engine.exportSave().payload.run.event_counts).toMatchObject({ E_TEST_OPEN: 1, E_HISTORY_CHOICE: 1, E_AUTO: 1 });
   });
 
-  it('does not deadlock or consume quota when every option is condition-locked', async () => {
+  it.each(['automatic', 'choice'] as const)('falls back to the only available %s type', async (interaction) => {
     const bundle = await quietContent();
-    bundle.rules.events = { per_year: 2, choice_budget_min: 2, choice_budget_max: 2 };
+    bundle.rules.events = { per_year: 1, automatic_ratio: interaction === 'automatic' ? 0 : 1 };
+    const event = interaction === 'automatic' ? random('E_ONLY', []) : opening();
+    event.id = 'E_ONLY';
+    event.trigger = { kind: 'random', weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: null, rare: false };
+    bundle.events = [event];
+    const engine = engineFor(bundle);
+    let result = success(engine.initGame({ seed: 0 }));
+    if (interaction === 'choice') result = choose(engine, result);
+    expect(result.pending).toBeNull();
+    expect(engine.exportSave().payload.run.event_counts.E_ONLY).toBe(1);
+  });
+
+  it('does not deadlock or count an encounter when every option is condition-locked', async () => {
+    const bundle = await quietContent();
+    bundle.rules.events = { per_year: 2, automatic_ratio: 0.6 };
     const locked = opening();
     locked.trigger = { kind: 'random', weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: null, rare: false };
     if (locked.interaction !== 'choice') throw new Error('Expected choice fixture');
@@ -416,32 +464,43 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     const engine = engineFor(bundle);
     const result = success(engine.initGame({ seed: 0 }));
     expect(result).toMatchObject({ state: { status: 'READY' }, pending: null });
-    expect(engine.exportSave().payload.run.remaining_choice_budget).toBe(2);
     expect(engine.exportSave().payload.run.event_counts[locked.id] ?? 0).toBe(0);
     expect(success(engine.nextYear('next')).state.player.calendar_year).toBe(1641);
   });
 
-  it('rechecks queued conditions without replacement draws, resource refunds or phantom executions', async () => {
+  it('rechecks queued conditions without replacement draws or phantom executions', async () => {
     const bundle = await quietContent();
-    bundle.rules.events = { per_year: 2, choice_budget_min: 2, choice_budget_max: 2 };
+    bundle.rules.events = { per_year: 2, automatic_ratio: 0.6 };
     for (const background of bundle.era.backgrounds) background.flags = ['eligible'];
     bundle.events = ['E_FIRST', 'E_SECOND'].map((id) => {
       const event = opening([{ type: 'flag_remove', id: 'eligible' }]);
       event.id = id;
       event.trigger = { kind: 'random', weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: null, rare: false };
-      event.condition = { op: 'has', collection: 'flags', id: 'eligible' };
+      event.condition = { op: 'any', conditions: [
+        { op: 'has', collection: 'flags', id: 'eligible' },
+        { op: 'compare', field: 'calendar_year', comparator: 'gte', value: 1641 },
+      ] };
       return event;
     });
+    for (const id of ['E_AUTO_A', 'E_AUTO_B']) {
+      const event = random(id, []);
+      event.condition = { op: 'compare', field: 'calendar_year', comparator: 'gte', value: 1641 };
+      bundle.events.push(event);
+    }
     const engine = engineFor(bundle);
     const initial = success(engine.initGame({ seed: 1640 }));
     const afterSelection = structuredClone(engine.exportSave().payload.run.prng);
     const completed = choose(engine, initial);
     expect(completed).toMatchObject({ state: { status: 'READY' }, pending: null });
     expect(completed.state.player.flags).not.toContain('eligible');
-    expect(engine.exportSave().payload.run.remaining_choice_budget).toBe(0);
     expect(engine.exportSave().payload.run.prng).toEqual(afterSelection);
     expect(Object.values(engine.exportSave().payload.run.event_counts).reduce((sum, count) => sum + count, 0)).toBe(1);
     expect(engine.exportSave().payload.logs.some((entry) => entry.type === 'skip')).toBe(true);
+    const next = success(engine.nextYear('next'));
+    expect(next.pending).toBeNull();
+    const counts = engine.exportSave().payload.run.event_counts;
+    expect((counts.E_AUTO_A ?? 0) + (counts.E_AUTO_B ?? 0)).toBe(2);
+    expect((counts.E_FIRST ?? 0) + (counts.E_SECOND ?? 0)).toBe(1);
   });
 
   it('lets luck modify rare weights only, using the configured attribute range', async () => {
@@ -552,7 +611,8 @@ describe('GameEngine: history boundaries, stable ordering and restoration', () =
 
   it('does not switch before the last historical decision and its stage finish', async () => {
     const bundle = await quietContent();
-    bundle.era.start_year = 1644;
+    bundle.rules.opening.year_min = 1644;
+    bundle.rules.opening.year_max = 1644;
     const event = opening([], 'S1');
     event.trigger = { kind: 'historical', year: 1644, priority: 0 };
     event.stages = [stage('S1')];
@@ -783,22 +843,11 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
 });
 
 describe('GameEngine: integrated dice and branch routing', () => {
-  it('combines equipped trait modifiers with the current stage only and logs the actual die', async () => {
+  it('clamps the current stage modifier and logs the actual die', async () => {
     const bundle = await quietContent();
-    bundle.rules.opening.trait_count = 2;
-    for (const trait of bundle.traits) {
-      trait.weight = 0;
-      trait.modifiers = {};
-      trait.check_modifiers = {};
-    }
-    bundle.traits[0]!.weight = 1;
-    bundle.traits[0]!.modifiers = { intelligence: 1 };
-    bundle.traits[0]!.check_modifiers = { intelligence: 4 };
-    bundle.traits[1]!.weight = 1;
-    bundle.traits[1]!.check_modifiers = { intelligence: 5 };
     const event = opening([], 'S1');
     event.stages = [{
-      id: 'S1', text: 'Trait-modified check', check: { attribute: 'intelligence', dc: 14, modifier: -2 },
+      id: 'S1', text: 'Stage-modified check', check: { attribute: 'intelligence', dc: 14, modifier: 7 },
       success: outcome([{ type: 'flag_add', id: 'passed' }]), failure: outcome([{ type: 'flag_add', id: 'failed' }]),
     }];
     bundle.events = [event];
@@ -807,12 +856,12 @@ describe('GameEngine: integrated dice and branch routing', () => {
     const before = engine.exportSave().payload.run.prng;
     const preview = Mulberry32.restore(before);
     const raw = uniformInt(1, 20, preview);
-    const passed = raw === 20 || (raw !== 1 && raw + 4 + 3 >= 14);
+    const passed = raw === 20 || (raw !== 1 && raw + 3 + 3 >= 14);
     const result = roll(engine, awaiting, 'check');
     expect(result.state.player.flags).toContain(passed ? 'passed' : 'failed');
     expect(result.state.player.flags).not.toContain(passed ? 'failed' : 'passed');
     expect(engine.exportSave().payload.run.dice_results).toEqual([expect.objectContaining({
-      raw, attribute_value: 4, modifier_before: 7, modifier_after: 3, dc: 14, success: passed, success_probability: 14 / 20,
+      raw, attribute_value: 3, modifier_before: 7, modifier_after: 3, dc: 14, success: passed, success_probability: 13 / 20,
     })]);
     expect(result.logs.filter((entry) => entry.type === 'dice')).toHaveLength(1);
     expect(engine.exportSave().payload.run.prng).toEqual(preview.exportState());
@@ -965,7 +1014,9 @@ describe('GameEngine: explainable candidates and declarative opening filtering',
     reversed.regions.reverse();
     reversed.castes.reverse();
     reversed.era.backgrounds.reverse();
-    reversed.traits.reverse();
+    reversed.cards.reverse();
+    reversed.pools.reverse();
+    for (const pool of reversed.pools) pool.entries.reverse();
     for (const seed of [0, 1, 1640, 0xffffffff]) {
       const left = engineFor(bundle);
       const right = engineFor(reversed);
@@ -991,6 +1042,7 @@ describe('GameEngine: weighted opening pairs and finite public snapshots', () =>
       const preview = new Mulberry32(seed);
       preview.nextUint32(); // A singleton weighted age band still consumes one sample.
       preview.nextUint32(); // The singleton inclusive age interval also consumes one sample.
+      uniformInt(bundle.rules.opening.year_min, bundle.rules.opening.year_max, preview);
       const point = preview.nextUint32() / 0x100000000 * 12;
       const expected = pairs.find((pair) => point < pair.end)!;
       const result = success(engineFor(bundle).initGame({ seed }));

@@ -94,31 +94,28 @@ export class GameEngine {
     const c = this.content;
     const band = sampleWeighted([...c.rules.age_bands].sort(byId), a => a.weight, rng);
     const age = uniformInt(band.min, band.max, rng);
-    const context: ConditionContext = { age, calendar_year: c.era.start_year, physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
-      region_id: '', caste_id: '', identity_id: '', timeline: 'historical', traits: [], flags: [], injuries: [], completed_chains: [] };
+    const year = uniformInt(c.rules.opening.year_min, c.rules.opening.year_max, rng);
+    const context: ConditionContext = { age, calendar_year: year, physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
+      region_id: '', caste_id: '', identity_id: '', timeline: 'historical', cards: [], flags: [], injuries: [], completed_chains: [] };
     const pairs = [...c.regions].sort(byId).flatMap(region => [...c.castes].sort(byId).map(caste => ({ region, caste, weight: region.weight * caste.weight })))
       .filter(pair => pair.weight > 0 && c.era.backgrounds.some(background => background.weight > 0 && evaluateCondition(background.condition, { ...context, region_id: pair.region.id, caste_id: pair.caste.id })));
     const pair = sampleWeighted(pairs, p => p.weight, rng);
     context.region_id = pair.region.id; context.caste_id = pair.caste.id;
     const background = sampleWeighted([...c.era.backgrounds].sort(byId).filter(b => evaluateCondition(b.condition, context)), b => b.weight, rng);
-    const remainingTraits = [...c.traits].sort(byId);
-    const traits: ContentBundle['traits'] = [];
-    for (let index = 0; index < c.rules.opening.trait_count; index++) {
-      const trait = sampleWeighted(remainingTraits, t => t.weight, rng); traits.push(trait); remainingTraits.splice(remainingTraits.indexOf(trait), 1);
-    }
+    const pool = this.registry.pools.get(c.rules.opening.pool_id)!;
+    const card = sampleWeighted([...pool.entries].sort((a, b) => a.card_id < b.card_id ? -1 : a.card_id > b.card_id ? 1 : 0), entry => entry.weight, rng).card_id;
     const max_lifespan = uniformInt(Math.max(c.rules.lifespan.min, age + c.rules.lifespan.min_remaining_years), c.rules.lifespan.max, rng);
-    const remaining_choice_budget = uniformInt(c.rules.events.choice_budget_min, c.rules.events.choice_budget_max, rng);
     const values = {} as Attributes;
-    const sources = [band, pair.caste, pair.region, background, ...traits];
+    const sources = [band, pair.caste, pair.region, background];
     for (const key of attributes) values[key] = Math.max(c.rules.attributes.min, Math.min(c.rules.attributes.max, c.rules.attributes.base + sources.reduce((sum, source) => sum + (source.modifiers[key] ?? 0), 0)));
-    const player: PlayerState = { era_id: c.era.id, start_age: age, age, max_lifespan, start_year: c.era.start_year, calendar_year: c.era.start_year,
+    const player: PlayerState = { era_id: c.era.id, start_age: age, age, max_lifespan, start_year: year, calendar_year: year,
       region_id: pair.region.id, caste_id: pair.caste.id, identity_id: background.identity_id, highest_identity_id: background.identity_id, attributes: values,
-      traits: traits.map(t => t.id), flags: [...new Set([pair.caste, pair.region, background, ...traits].flatMap(source => source.flags))], injuries: [], chains: [], achievements: [] };
+      cards: [card], flags: [...new Set([pair.caste, pair.region, background].flatMap(source => source.flags))], injuries: [], chains: [], achievements: [] };
     const run: RunState = { run_id: `life:${this.fingerprint}:${options.seed}`, seed: options.seed, prng: rng.exportState(), status: 'ADVANCING', timeline: 'historical', year_phase: 'opening', queue: [], queue_cursor: 0,
-      event_counter: 0, chain_counter: 0, active_event: null, processed_history: [], cooldowns: Object.create(null), event_counts: Object.create(null), remaining_choice_budget,
+      event_counter: 0, chain_counter: 0, active_event: null, processed_history: [], cooldowns: Object.create(null), event_counts: Object.create(null),
       dice_results: [], death: null, ending: null, processed_commands: Object.create(null), revision: 0 };
     const draft: Draft = { player, run, logs: [], rng };
-    this.log(draft, 'opening', background.id, background.text, { background_id: background.id, age_band_id: band.id, trait_ids: player.traits });
+    this.log(draft, 'opening', background.id, background.text, { background_id: background.id, age_band_id: band.id, card_id: card });
     evaluateAchievements(c, player, run);
     run.queue = this.weighted(draft, 'opening');
     this.resume(draft);
@@ -143,8 +140,7 @@ export class GameEngine {
       if (draft.run.status !== 'AWAITING_STAGE' || active?.instance_id !== eventInstanceId || active.stage_id !== stageId) throw new DomainError('STALE_DECISION');
       const event = this.registry.events.get(active.event_id)!;
       const stage = event.stages!.find(s => s.id === stageId)!;
-      const modifier = draft.player.traits.reduce((sum, id) => sum + (this.registry.traits.get(id)!.check_modifiers[stage.check.attribute] ?? 0), 0);
-      const dice = resolveCheck(stage.check, draft.player.attributes[stage.check.attribute], modifier, this.content.rules.check, draft.rng);
+      const dice = resolveCheck(stage.check, draft.player.attributes[stage.check.attribute], this.content.rules.check, draft.rng);
       draft.run.dice_results.push(dice);
       this.log(draft, 'dice', event.id, stage.text, { ...dice, event_instance_id: eventInstanceId, stage_id: stageId });
       const outcome = dice.success ? stage.success : stage.failure;

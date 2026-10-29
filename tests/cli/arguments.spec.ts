@@ -25,6 +25,30 @@ const invalidDrawCases = [
 ];
 
 describe('CLI argument errors: exit two before mutating state', () => {
+  it('persists an omitted play seed and reproduces it explicitly without regenerating on resume', async () => {
+    const context = await fixture((bundle) => fixedLife(bundle, 12));
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], 'quit\n'));
+    const initial = await savedLife(context.state);
+    const seed = initial.engine.payload.run.seed;
+    expect(Number.isInteger(seed)).toBe(true);
+    expect(seed).toBeGreaterThanOrEqual(0);
+    expect(seed).toBeLessThanOrEqual(0xffffffff);
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], 'quit\n'));
+    expect((await savedLife(context.state)).engine).toEqual(initial.engine);
+    const explicitState = join(context.root, 'explicit-seed');
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', explicitState, '--seed', String(seed)], 'quit\n'));
+    expect((await savedLife(explicitState)).engine).toEqual(initial.engine);
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state, '--seed', String(seed)], 'quit\n'));
+    expect((await savedLife(context.state)).engine).toEqual(initial.engine);
+  });
+
+  it('retains the deterministic default simulation seed when omitted', async () => {
+    const context = await fixture((bundle) => fixedLife(bundle, 12));
+    const output = join(context.root, 'default-simulation-seed');
+    expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '2', '--out', output]));
+    expect(await readJson(join(output, 'summary.json'))).toMatchObject({ seed: 1640, seed_end: 1641, runs: 2, success: 2, failed: 0 });
+  });
+
   it.each(invalidDrawCases)('draw rejects $name', async ({ pool, count, command, seed, extra }) => {
     const context = await fixture();
     const args = ['--content', context.content, '--state', context.state, '--json'];

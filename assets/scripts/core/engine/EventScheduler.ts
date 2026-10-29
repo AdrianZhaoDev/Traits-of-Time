@@ -23,7 +23,6 @@ export function scheduleWeightedEvents(content: ContentBundle, player: PlayerSta
     else if (!evaluateCondition(event.condition, context)) reason = 'CONDITION_NOT_MET';
     else if (trigger.kind === 'random' && trigger.max_occurrences !== null && (run.event_counts[event.id] ?? 0) >= trigger.max_occurrences) reason = 'MAX_OCCURRENCES';
     else if (trigger.kind === 'random' && run.cooldowns[event.id] !== undefined && player.calendar_year <= run.cooldowns[event.id]!) reason = 'COOLDOWN';
-    else if (kind === 'random' && event.interaction === 'choice' && run.remaining_choice_budget === 0) reason = 'CHOICE_BUDGET_EXHAUSTED';
     else if (!available(event)) reason = 'NO_AVAILABLE_OPTION';
     const eligible = reason === null;
     return { event, info: { event_id: event.id, eligible, reason, gate_passed: eligible ? probabilityPasses(trigger.trigger_probability, rng) : null,
@@ -31,21 +30,41 @@ export function scheduleWeightedEvents(content: ContentBundle, player: PlayerSta
   });
   const selected = new Set<string>();
   const queue: QueueEntry[] = [];
+  // History and chains count too. Project this batch, then resync from actual
+  // encounters next time; skipped queue entries never permanently spend a quota.
+  let encountered = 0;
+  let automatic = 0;
+  for (const event of content.events) {
+    const count = run.event_counts[event.id] ?? 0;
+    encountered += count;
+    if (event.interaction === 'automatic') automatic += count;
+  }
   for (let index = 0; index < limit; index++) {
     const current = candidates.map(({ event, info }) => {
       const copy = { ...info };
       if (selected.has(event.id)) { copy.eligible = false; copy.reason = 'ALREADY_SELECTED'; }
-      else if (kind === 'random' && event.interaction === 'choice' && run.remaining_choice_budget === 0) { copy.eligible = false; copy.reason = 'CHOICE_BUDGET_EXHAUSTED'; }
       return { event, info: copy };
     });
-    const eligible = current.filter(c => c.info.eligible && c.info.gate_passed);
+    const availableCandidates = current.filter(c => c.info.eligible && c.info.gate_passed);
+    const preferred = automatic < Math.round((encountered + 1) * content.rules.events.automatic_ratio) ? 'automatic' : 'choice';
+    const usePacing = kind === 'random' && availableCandidates.some(c => c.event.interaction === preferred);
+    if (usePacing) {
+      for (const candidate of availableCandidates) {
+        if (candidate.event.interaction !== preferred) {
+          candidate.info.eligible = false;
+          candidate.info.reason = 'PACING_TARGET';
+        }
+      }
+    }
+    const eligible = availableCandidates.filter(c => c.info.eligible);
     const total = eligible.reduce((sum, c) => sum + c.info.effective_weight, 0);
     for (const candidate of eligible) candidate.info.conditional_probability = candidate.info.effective_weight / total;
     if (!eligible.length) { log(current.map(c => c.info), null); break; }
     const choice = sampleWeighted(eligible, c => c.info.effective_weight, rng);
     log(current.map(c => c.info), choice.event.id);
     selected.add(choice.event.id); queue.push({ event_id: choice.event.id, chain_instance_id: null });
-    if (kind === 'random' && choice.event.interaction === 'choice') run.remaining_choice_budget--;
+    encountered++;
+    if (choice.event.interaction === 'automatic') automatic++;
   }
   return queue;
 }

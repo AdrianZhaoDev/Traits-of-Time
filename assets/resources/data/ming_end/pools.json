@@ -1,156 +1,55 @@
 [
   {
-    "id": "POOL_BASIC",
-    "name": "世途见闻录",
+    "id": "POOL_MODERN_RELICS",
+    "name": "随身旧物",
     "entries": [
       {
-        "card_id": "CARD_COMMON",
-        "weight": 90
-      },
-      {
-        "card_id": "CARD_RARE",
-        "weight": 9
-      },
-      {
-        "card_id": "CARD_EPIC",
-        "weight": 1
-      }
-    ],
-    "replacement": true,
-    "hard_pity": null
-  },
-  {
-    "id": "POOL_PITY",
-    "name": "安身立命匣",
-    "entries": [
-      {
-        "card_id": "CARD_COMMON",
-        "weight": 90
-      },
-      {
-        "card_id": "CARD_RARE",
-        "weight": 9
-      },
-      {
-        "card_id": "CARD_EPIC",
-        "weight": 1
-      }
-    ],
-    "replacement": true,
-    "hard_pity": {
-      "after": 10,
-      "target_card_ids": [
-        "CARD_EPIC"
-      ]
-    }
-  },
-  {
-    "id": "POOL_UNIQUE",
-    "name": "百工通宝柜",
-    "entries": [
-      {
-        "card_id": "CARD_COMMON",
-        "weight": 90
-      },
-      {
-        "card_id": "CARD_RARE",
-        "weight": 9
-      },
-      {
-        "card_id": "CARD_EPIC",
-        "weight": 1
-      }
-    ],
-    "replacement": false,
-    "hard_pity": null
-  },
-  {
-    "id": "POOL_ds_childhood",
-    "name": "神童结算处",
-    "entries": [
-      {
-        "card_id": "CARD_ds_grain",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_road",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_roll",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_drill",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_plaque",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_omen",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_well",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_ds_gate",
-        "weight": 1
-      }
-    ],
-    "replacement": true,
-    "hard_pity": null
-  },
-  {
-    "id": "POOL_gpt_survival",
-    "name": "明末谋生旧术",
-    "entries": [
-      {
-        "card_id": "CARD_gpt_office",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_gpt_civil",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_gpt_supply",
-        "weight": 1
-      }
-    ],
-    "replacement": true,
-    "hard_pity": null
-  },
-  {
-    "id": "POOL_MING_FOLK",
-    "name": "明末世情宝鉴池",
-    "entries": [
-      {
-        "card_id": "CARD_JN_EXAM_NOTE",
+        "card_id": "CARD_MOD_OIL",
         "weight": 20
       },
       {
-        "card_id": "CARD_JN_SILK_SAMPLE",
-        "weight": 15
-      },
-      {
-        "card_id": "CARD_HIST_RATION_TICKET",
+        "card_id": "CARD_MOD_BANDAGE",
         "weight": 20
       },
       {
-        "card_id": "CARD_LIFE_COPPER_COIN",
+        "card_id": "CARD_MOD_LIGHTER",
         "weight": 20
       },
       {
-        "card_id": "CARD_LIFE_MEDICINE_BAG",
-        "weight": 20
+        "card_id": "CARD_MOD_CHICKEN_ESSENCE",
+        "weight": 10
       },
       {
-        "card_id": "CARD_LIFE_SMUGGLE_MAP",
-        "weight": 5
+        "card_id": "CARD_MOD_GLUE_502",
+        "weight": 10
+      },
+      {
+        "card_id": "CARD_MOD_THERMOS",
+        "weight": 10
+      },
+      {
+        "card_id": "CARD_MOD_MEGAPHONE",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_LASER_POINTER",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_WATER_TABS",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_SWISS_ARMY",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_ANTIBIOTICS",
+        "weight": 1
+      },
+      {
+        "card_id": "CARD_MOD_HYBRID_SEEDS",
+        "weight": 1
       }
     ],
     "replacement": true,

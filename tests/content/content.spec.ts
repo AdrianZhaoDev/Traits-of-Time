@@ -207,14 +207,14 @@ describe('direct unknown-input schema contract', () => {
     ['unknown escaped field', (bundle) => { Object.assign(bundle.rules, { 'foreign/~field': true }); }, 'rules.json', '/foreign~1~0field'],
     ['empty string', (bundle) => { bundle.cards[0]!.id = ''; }, 'cards.json', '/0/id'],
     ['enum', (bundle) => { Object.assign(choice(bundle).options[0]!, { risk: 'impossible' }); }, 'events.json', '/0/options/0/risk'],
-    ['constant', (bundle) => { Object.assign(bundle.manifest, { schema_version: 2 }); }, 'manifest.json', '/schema_version'],
+    ['constant', (bundle) => { Object.assign(bundle.manifest, { schema_version: 1 }); }, 'manifest.json', '/schema_version'],
     ['number minimum', (bundle) => { bundle.pools[0]!.entries[0]!.weight = -1; }, 'pools.json', '/0/entries/0/weight'],
     ['integer maximum', (bundle) => { bundle.rules.events.per_year = Number.MAX_SAFE_INTEGER + 1; }, 'rules.json', '/events/per_year'],
     ['integer type', (bundle) => { bundle.rules.events.per_year = 0.5; }, 'rules.json', '/events/per_year'],
     ['boolean type', (bundle) => { Object.assign(bundle.pools[0]!, { replacement: 'yes' }); }, 'pools.json', '/0/replacement'],
     ['array type', (bundle) => { Object.assign(bundle, { cards: {} }); }, 'cards.json', ''],
     ['minimum items', (bundle) => { bundle.rules.age_bands = []; }, 'rules.json', '/age_bands'],
-    ['unique items', (bundle) => { bundle.traits[0]!.flags = ['same', 'same']; }, 'traits.json', '/0/flags/1'],
+    ['unique items', (bundle) => { bundle.cards[0]!.tags = ['same', 'same']; }, 'cards.json', '/0/tags/1'],
     ['nullable union', (bundle) => { Object.assign(pool(bundle), { hard_pity: 7 }); }, 'pools.json', '/1/hard_pity'],
     ['nonempty condition', (bundle) => { choice(bundle).condition = { op: 'all', conditions: [] }; }, 'events.json', '/0/condition/conditions'],
     ['exclusive event shape', (bundle) => { Object.assign(choice(bundle), { outcome: noEffects() }); }, 'events.json', '/0/outcome'],
@@ -272,7 +272,7 @@ describe('semantic references and effect consistency', () => {
       let condition: Condition = { op: 'compare', field: 'age', comparator: 'gte', value: 1 };
       for (let index = 0; index < 8; index++) condition = { op: 'not', condition };
       choice(value).condition = condition;
-      value.era.backgrounds[0]!.condition = { op: 'has', collection: 'traits', id: 'T_REBEL' };
+      value.era.backgrounds[0]!.condition = { op: 'has', collection: 'cards', id: 'CARD_RARE' };
     });
     const index = bundle.events.findIndex((event) => event.id === 'E_OPEN_SAFE');
     await expectIssue(directory, 'INVALID_COMBINATION', 'events.json', `/${index}/condition${'/condition'.repeat(8)}`);
@@ -400,22 +400,36 @@ describe('viable starting and sampling distributions', () => {
     await expectIssue(directory, 'INVALID_DISTRIBUTION', 'era.json', '/backgrounds');
   });
 
-  it('rejects insufficient positive traits and overflowing total weights', async () => {
+  it('rejects overflowing total pool weights', async () => {
     const { directory } = await fixture((bundle) => {
-      bundle.rules.opening.trait_count = bundle.traits.length + 1;
       bundle.pools[0]!.entries[0]!.weight = Number.MAX_VALUE;
       bundle.pools[0]!.entries[1]!.weight = Number.MAX_VALUE;
     });
-    await expectIssue(directory, 'INVALID_DISTRIBUTION', 'rules.json', '/opening/trait_count');
     await expectIssue(directory, 'INVALID_DISTRIBUTION', 'pools.json', '/0/entries');
   });
 
-  it('rejects uniform integer spans exceeding the uint32 random domain', async () => {
-    const { directory } = await fixture((bundle) => {
-      bundle.rules.events.choice_budget_min = 0;
-      bundle.rules.events.choice_budget_max = 2 ** 32;
+  it('rejects missing opening pools and inverted opening years', async () => {
+    const missing = await fixture((bundle) => { bundle.rules.opening.pool_id = 'NO_POOL'; });
+    await expectIssue(missing.directory, 'MISSING_REFERENCE', 'rules.json', '/opening/pool_id');
+    const inverted = await fixture((bundle) => {
+      bundle.rules.opening.year_min = 1641;
+      bundle.rules.opening.year_max = 1640;
     });
-    await expectIssue(directory, 'INVALID_DISTRIBUTION', 'rules.json', '/events');
+    await expectIssue(inverted.directory, 'INVALID_COMBINATION', 'rules.json', '/opening');
+  });
+
+  it.each(['before', 'after'] as const)('rejects opening years %s the historical era', async (side) => {
+    const { directory } = await fixture((bundle) => {
+      const year = side === 'before' ? bundle.era.start_year - 1 : bundle.era.historical_end_year + 1;
+      bundle.rules.opening.year_min = year;
+      bundle.rules.opening.year_max = year;
+    });
+    await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/opening');
+  });
+
+  it.each([-0.01, 1.01])('rejects automatic ratio outside [0, 1]: %s', async (ratio) => {
+    const { directory } = await fixture((bundle) => { bundle.rules.events.automatic_ratio = ratio; });
+    await expectIssue(directory, 'SCHEMA_INVALID', 'rules.json', '/events/automatic_ratio');
   });
 
   it('rejects invalid rule bounds and inverted historical windows', async () => {
@@ -423,14 +437,14 @@ describe('viable starting and sampling distributions', () => {
       bundle.rules.attributes = { min: 3, max: 3, base: 8 };
       bundle.rules.check = { modifier_min: 2, modifier_max: -2 };
       bundle.rules.luck = { factor_min: 2, factor_max: 1 };
-      bundle.rules.events.choice_budget_min = 20;
-      bundle.rules.events.choice_budget_max = 10;
+      bundle.rules.opening.year_min = 1642;
+      bundle.rules.opening.year_max = 1640;
       bundle.era.historical_end_year = bundle.era.start_year - 1;
     });
     await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/attributes');
     await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/check');
     await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/luck');
-    await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/events');
+    await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/opening');
     await expectIssue(directory, 'INVALID_COMBINATION', 'era.json', '/historical_end_year');
   });
 
@@ -466,22 +480,24 @@ describe('viable starting and sampling distributions', () => {
     const calendar = await fixture((bundle) => {
       bundle.era.start_year = Number.MAX_SAFE_INTEGER;
       bundle.era.historical_end_year = Number.MAX_SAFE_INTEGER;
+      bundle.rules.opening.year_min = Number.MAX_SAFE_INTEGER;
+      bundle.rules.opening.year_max = Number.MAX_SAFE_INTEGER;
       bundle.events = bundle.events.filter((event) => event.trigger.kind !== 'historical');
     });
-    await expectIssue(calendar.directory, 'INVALID_COMBINATION', 'era.json', '/start_year');
+    await expectIssue(calendar.directory, 'INVALID_COMBINATION', 'rules.json', '/opening/year_max');
   });
 
   it('rejects non-finite modifier sums before simulation can produce invalid attributes', async () => {
     const { directory } = await fixture((bundle) => {
-      bundle.traits.forEach((trait) => { trait.modifiers.wealth = Number.MAX_VALUE; });
+      bundle.regions.forEach((region) => { region.modifiers.wealth = Number.MAX_VALUE; });
+      bundle.castes.forEach((caste) => { caste.modifiers.wealth = Number.MAX_VALUE; });
     });
     await expectIssue(directory, 'INVALID_COMBINATION', 'rules.json', '/attributes');
   });
 
-  it('accepts zero traits, zero annual events, and zero choice budget', async () => {
+  it('accepts zero annual events with a valid opening card pool', async () => {
     const { directory } = await fixture((bundle) => {
-      bundle.rules.opening.trait_count = 0;
-      bundle.rules.events = { per_year: 0, choice_budget_min: 0, choice_budget_max: 0 };
+      bundle.rules.events = { per_year: 0, automatic_ratio: 0.6 };
     });
     await expect(loadContent(directory)).resolves.toHaveProperty('fingerprint');
   });

@@ -132,7 +132,7 @@ export async function slotBytes(directory: string): Promise<Record<string, strin
 
 export interface SavedLife {
   engine: {
-    save_version: 1;
+    save_version: 2;
     kind: 'life';
     content_id: string;
     content_version: string;
@@ -146,7 +146,7 @@ export interface SavedLife {
         identity_id: string;
         highest_identity_id: string;
         attributes: Record<string, number>;
-        traits: string[];
+        cards: string[];
         flags: string[];
         achievements: string[];
         chains: { instance_id: string; chain_id: string; status: string }[];
@@ -169,7 +169,7 @@ export async function savedLife(directory: string): Promise<SavedLife> {
   const save = await load<SavedLife>(directory);
   expect(save, 'play must persist a real SessionSave before displaying success').not.toBeNull();
   if (save === null) throw new Error('No persisted session');
-  expect(save.engine).toMatchObject({ save_version: 1, kind: 'life' });
+  expect(save.engine).toMatchObject({ save_version: 2, kind: 'life' });
   return save;
 }
 
@@ -201,9 +201,10 @@ export function fixedLife(bundle: ContentBundle, lifespan = 20): void {
   bundle.rules.attributes = { min: 0, max: 10, base: 3 };
   bundle.rules.age_bands = [{ id: 'child', min: 9, max: 9, weight: 1, modifiers: {} }];
   bundle.rules.lifespan = { min: lifespan, max: lifespan, min_remaining_years: 3 };
-  bundle.rules.events = { per_year: 0, choice_budget_min: 0, choice_budget_max: 0 };
+  bundle.rules.events = { per_year: 0, automatic_ratio: 0.6 };
+  bundle.rules.opening = { pool_id: 'POOL_BASIC', year_min: 1640, year_max: 1640 };
   bundle.era.start_year = 1640;
-  for (const entry of [...bundle.regions, ...bundle.castes, ...bundle.traits, ...bundle.era.backgrounds]) {
+  for (const entry of [...bundle.regions, ...bundle.castes, ...bundle.era.backgrounds]) {
     entry.modifiers = {};
   }
   for (const event of bundle.events) {

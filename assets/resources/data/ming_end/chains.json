@@ -40,7 +40,7 @@
   },
   {
     "id": "CH_gm_arms",
-    "name": "三眼铳改良与守城",
+    "name": "库房整顿",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -63,7 +63,7 @@
         }
       ]
     },
-    "interrupt_text": "旧铳出了大篓子，官府连夜叫停火器改良，你的防务计划彻底告吹。",
+    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
     "nodes": [
       {
         "after_years": 1,
@@ -79,7 +79,7 @@
       }
     ],
     "completion": {
-      "text": "城防三眼铳全部改良完毕，守军直呼内行，守城底气拉满！",
+      "text": "木箱和交接册整理妥当，老匠认可了这份细活，没人把工具刀当成守城奇物。",
       "effects": [
         {
           "type": "flag_add",
@@ -95,7 +95,7 @@
   },
   {
     "id": "CH_gm_water",
-    "name": "深井消杀与补液防疫",
+    "name": "井边轮值",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -118,7 +118,7 @@
         }
       ]
     },
-    "interrupt_text": "水井消杀惹来街坊非议，深井防疫计划半途而废，全靠各自扛了。",
+    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
     "nodes": [
       {
         "after_years": 1,
@@ -134,7 +134,7 @@
       }
     ],
     "completion": {
-      "text": "深井净水与消毒章程大成，大疫当前，硬是护住了一整条街的街坊！",
+      "text": "井户轮值终于接上，乡医继续提醒用品有限，管水不能代替求医和日常照应。",
       "effects": [
         {
           "type": "flag_add",
@@ -150,7 +150,7 @@
   },
   {
     "id": "CH_gm_fort",
-    "name": "乱世屯粮与坞堡乡勇",
+    "name": "合仓互助",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -173,7 +173,7 @@
         }
       ]
     },
-    "interrupt_text": "乱军杀到跟前，坞堡防线没拉起来就被冲散，屯粮计划功亏一篑。",
+    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
     "nodes": [
       {
         "after_years": 1,
@@ -189,7 +189,7 @@
       }
     ],
     "completion": {
-      "text": "深挖墙广积粮，乱世坞堡顺利立足，成为乱世中人人羡慕的避难桃源！",
+      "text": "合仓与轮值有了着落，扩音器帮忙传清安排，真正撑住日子的还是众人守约。",
       "effects": [
         {
           "type": "flag_add",
@@ -231,15 +231,15 @@
     "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
     "nodes": [
       {
-        "after_years": 1,
+        "after_years": 2,
         "event_id": "E_JN_EXAM_1"
       },
       {
-        "after_years": 2,
+        "after_years": 4,
         "event_id": "E_JN_EXAM_2"
       },
       {
-        "after_years": 3,
+        "after_years": 7,
         "event_id": "E_JN_EXAM_3"
       }
     ],

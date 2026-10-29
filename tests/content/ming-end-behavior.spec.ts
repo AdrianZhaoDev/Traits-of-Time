@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { loadContent } from '../../tools/lib/ContentLoader.js';
 import { GameEngine } from '../../assets/scripts/core/engine/GameEngine.js';
+import { conditionContext, evaluateCondition } from '../../assets/scripts/core/engine/ConditionEvaluator.js';
 import type { Chain, ChoiceEvent, Condition, ContentBundle, Effect, Event } from '../../assets/scripts/core/types/content.generated.js';
 import type { CommandResult } from '../../assets/scripts/core/types/commands.js';
 import { templateDirectory } from '../helpers/content.js';
@@ -11,7 +12,7 @@ function ok(result: CommandResult): Success {
   if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
   return result;
 }
-function has(condition: Condition | undefined, collection: 'traits' | 'flags', id?: string): boolean {
+function has(condition: Condition | undefined, collection: 'cards' | 'flags', id?: string): boolean {
   if (!condition) return false;
   if (condition.op === 'all' || condition.op === 'any') return condition.conditions.some(child => has(child, collection, id));
   return condition.op === 'has' && condition.collection === collection && (id === undefined || condition.id === id);
@@ -43,8 +44,9 @@ function controlled(source: ContentBundle, events: Event[], year = source.era.st
   bundle.era.start_year = year;
   bundle.rules.age_bands = [{ id: 'test-adult', min: 20, max: 20, weight: 1, modifiers: {} }];
   bundle.rules.lifespan = { min: 80, max: 80, min_remaining_years: 3 };
-  bundle.rules.opening.trait_count = 0;
-  bundle.rules.events = { per_year: 1, choice_budget_min: 20, choice_budget_max: 20 };
+  bundle.rules.opening.year_min = year;
+  bundle.rules.opening.year_max = year;
+  bundle.rules.events = { per_year: 1, automatic_ratio: 0.6 };
   for (const item of [...bundle.regions, ...bundle.castes, ...bundle.era.backgrounds]) {
     item.modifiers = {};
     item.flags = [];
@@ -63,17 +65,22 @@ function controlled(source: ContentBundle, events: Event[], year = source.era.st
   for (const event of events) prerequisites(event.condition);
   return bundle;
 }
-function atEvent(source: ContentBundle, event: Event, seed: number, requiredTrait?: Condition) {
+function atEvent(source: ContentBundle, event: Event, seed: number, requiredCard?: Condition, companions: Event[] = []) {
   const year = event.trigger.kind === 'historical' ? event.trigger.year : source.era.start_year;
-  const bundle = controlled(source, [event], year);
-  if (requiredTrait) {
-    if (requiredTrait.op !== 'has' || requiredTrait.collection !== 'traits') throw new Error('Expected authored trait gate');
-    bundle.rules.opening.trait_count = 1;
-    for (const trait of bundle.traits) trait.weight = trait.id === requiredTrait.id ? 1 : 0;
+  const bundle = controlled(source, [event, ...companions], year);
+  const cardGate = (condition: Condition | undefined): string | undefined => {
+    if (condition?.op === 'has' && condition.collection === 'cards') return condition.id;
+    if (condition?.op === 'all' || condition?.op === 'any') return condition.conditions.map(cardGate).find(Boolean);
+    return undefined;
+  };
+  const card = cardGate(requiredCard) ?? cardGate(event.condition);
+  if (card) {
+    const pool = bundle.pools.find(item => item.id === bundle.rules.opening.pool_id)!;
+    for (const entry of pool.entries) entry.weight = entry.card_id === card ? 1 : 0;
   }
   const engine = new GameEngine(bundle, 'b'.repeat(64));
   const result = ok(engine.initGame({ seed }));
-  return { engine, result };
+  return { engine, result, bundle };
 }
 async function production() {
   // Deliberately bypass loadTemplate: that helper owns the original mechanism fixture.
@@ -84,19 +91,22 @@ function choices(bundle: ContentBundle, owner: string): ChoiceEvent[] {
 }
 
 describe('production ming_end: GPT event consequences through GameEngine', () => {
-  it('disables every trait-only option without the trait, rejects it atomically, and executes its fallback', async () => {
-    const bundle = await production();
+  it('rejects unmet ordinary capability gates atomically and executes safe fallbacks', async () => {
+    const bundle = structuredClone(await production());
+    bundle.rules.attributes.base = 2;
     const events = choices(bundle, 'gpt');
     expect(events).toHaveLength(6);
-    const traitEvents = events.filter(event => event.options.some(option => has(option.condition, 'traits')));
-    expect(traitEvents).toHaveLength(6);
-    for (const event of traitEvents) {
+    const gatedEvents = events.filter(event => event.options.some(option => option.condition));
+    expect(gatedEvents).toHaveLength(6);
+    for (const event of gatedEvents) {
       let exercised = false;
       for (let seed = 0; seed < 512 && !exercised; seed++) {
         const { engine, result } = atEvent(bundle, event, seed);
         if (result.pending?.kind !== 'option' || result.pending.event_id !== event.id) continue;
-        expect(result.state.player.traits).toEqual([]);
-        for (const option of event.options.filter(item => has(item.condition, 'traits'))) {
+        expect(result.state.player.cards).toHaveLength(1);
+        const gated = event.options.filter(item => item.condition);
+        if (gated.some(option => result.pending?.kind === 'option' && result.pending.options.find(item => item.id === option.id)?.available)) continue;
+        for (const option of gated) {
           expect(result.pending.options.find(item => item.id === option.id)?.available).toBe(false);
           const before = engine.exportSave();
           expect(engine.resolveOption(`forbidden:${option.id}`, result.pending.event_instance_id, option.id))
@@ -111,7 +121,7 @@ describe('production ming_end: GPT event consequences through GameEngine', () =>
         expect(selected.state.status).not.toBe('ENDED');
         exercised = true;
       }
-      expect(exercised, `No scheduled trait event: ${event.id}`).toBe(true);
+      expect(exercised, `No scheduled capability-gated event: ${event.id}`).toBe(true);
     }
   });
 
@@ -297,6 +307,168 @@ describe('production ming_end: GM chains and historical consequences', () => {
         seen.add('success');
       }
       expect([...seen].sort(), chain.id).toEqual(['failure', 'success']);
+    }
+  });
+});
+
+describe('production ming_end: actual encounter mix and save continuation', () => {
+  it('encounters 50–70% automatic events across varied lives and always offers a legal continuation', async () => {
+    const bundle = await production();
+    const registry = new Map(bundle.events.map(event => [event.id, event]));
+    let automatic = 0;
+    let total = 0;
+    let choicesSeen = 0;
+    for (let seed = 0; seed < 64; seed++) {
+      const engine = new GameEngine(bundle, 'd'.repeat(64));
+      let result = ok(engine.initGame({ seed }));
+      expect(result.state.player.cards).toHaveLength(1);
+      let commands = 0;
+      while (result.state.status !== 'ENDED' && commands < 2048) {
+        commands++;
+        if (result.pending?.kind === 'option') {
+          choicesSeen++;
+          const available = result.pending.options.filter(option => option.available);
+          expect(available.length, result.pending.event_id).toBeGreaterThan(0);
+          const event = registry.get(result.pending.event_id);
+          if (event?.interaction !== 'choice') throw new Error('Missing production choice');
+          const safe = event.options.find(option => option.risk === 'safe' && available.some(item => item.id === option.id));
+          result = choose(engine, result, safe?.id ?? available[0]!.id);
+        } else if (result.pending?.kind === 'stage') {
+          result = roll(engine, result);
+        } else {
+          result = ok(engine.nextYear(`year:${result.state.revision}`));
+        }
+      }
+      expect(result.state.status, `Unfinished production seed ${seed}`).toBe('ENDED');
+      const save = engine.exportSave();
+      const encountered = save.payload.logs.filter(entry => entry.type === 'event');
+      expect(encountered.length).toBe(Object.values(save.payload.run.event_counts).reduce((sum, count) => sum + count, 0));
+      for (const entry of encountered) {
+        const event = registry.get(entry.source_id);
+        expect(event).toBeDefined();
+        total++;
+        if (event!.interaction === 'automatic') automatic++;
+      }
+    }
+    expect(choicesSeen).toBeGreaterThan(0);
+    expect(total).toBeGreaterThan(100);
+    expect(automatic / total).toBeGreaterThanOrEqual(0.5);
+    expect(automatic / total).toBeLessThanOrEqual(0.7);
+  });
+
+  it('restores real production decisions and stages with identical future dice and command receipts', async () => {
+    const bundle = await production();
+    const seen = new Set<string>();
+    for (let seed = 0; seed < 256 && seen.size < 2; seed++) {
+      const engine = new GameEngine(bundle, 'e'.repeat(64));
+      let result = ok(engine.initGame({ seed }));
+      for (let step = 0; step < 256 && result.state.status !== 'ENDED' && seen.size < 2; step++) {
+        if (!result.pending) {
+          result = ok(engine.nextYear(`year:${result.state.revision}`));
+          continue;
+        }
+        const pending = result.pending;
+        const restored = new GameEngine(bundle, 'e'.repeat(64));
+        restored.restoreSave(JSON.parse(JSON.stringify(engine.exportSave())));
+        expect(restored.current()).toEqual(engine.current());
+        const command = `resume:${result.state.revision}`;
+        if (pending.kind === 'option') {
+          const event = bundle.events.find(item => item.id === pending.event_id);
+          if (event?.interaction !== 'choice') throw new Error('Missing production choice');
+          const legal = event.options.filter(option => pending.options.some(item => item.id === option.id && item.available));
+          expect(legal.length).toBeGreaterThan(0);
+          const option = legal.find(item => item.outcome.next_stage_id !== null) ?? legal[0]!;
+          result = ok(engine.resolveOption(command, pending.event_instance_id, option.id));
+          expect(restored.resolveOption(command, pending.event_instance_id, option.id)).toEqual(result);
+          expect(restored.resolveOption(command, pending.event_instance_id, option.id)).toEqual(result);
+        } else {
+          result = ok(engine.resolveStage(command, pending.event_instance_id, pending.stage_id));
+          expect(restored.resolveStage(command, pending.event_instance_id, pending.stage_id)).toEqual(result);
+          expect(restored.resolveStage(command, pending.event_instance_id, pending.stage_id)).toEqual(result);
+          expect(result.logs.some(entry => entry.type === 'dice')).toBe(true);
+        }
+        expect(restored.exportSave()).toEqual(engine.exportSave());
+        seen.add(pending.kind);
+      }
+    }
+    expect([...seen].sort()).toEqual(['option', 'stage']);
+  });
+});
+
+describe('production ming_end: twelve modern physical cards', () => {
+  it('gates both reactions by the actual card, retains normal paths, and grants only one success or setback', async () => {
+    const source = await production();
+    const cards = source.cards.filter(card => card.id.startsWith('CARD_MOD_'));
+    expect(cards).toHaveLength(12);
+    for (const card of cards) {
+      const suffix = card.id.slice('CARD_MOD_'.length);
+      const reactions = ['HISTORY', 'LIFE'].map(kind => {
+        const event = source.events.find(item => item.id === `E_MOD_${suffix}_${kind}`);
+        if (event?.interaction !== 'choice') throw new Error(`Missing reaction for ${card.id}: ${kind}`);
+        return event;
+      });
+      const history = reactions[0]!;
+      const seen = new Set<string>();
+      for (let seed = 0; seed < 512 && seen.size < 2; seed++) {
+        const { engine, result, bundle } = atEvent(source, history, seed, undefined, [reactions[1]!]);
+        if (result.pending?.kind !== 'option' || result.pending.event_id !== history.id) continue;
+        expect(result.state.player.cards).toEqual([card.id]);
+        const initialContext = conditionContext(result.state.player, result.state.timeline);
+        for (const reaction of reactions) {
+          expect(has(reaction.condition, 'cards', card.id), reaction.id).toBe(true);
+          expect(evaluateCondition(reaction.condition, { ...initialContext, cards: [] })).toBe(false);
+          const normal = reaction.options.find(option => !option.condition && option.risk === 'safe');
+          expect(normal, reaction.id).toBeDefined();
+        }
+        const normal = history.options.find(option => !option.condition && option.risk === 'safe')!;
+        const safeEngine = new GameEngine(bundle, 'b'.repeat(64));
+        safeEngine.restoreSave(JSON.parse(JSON.stringify(engine.exportSave())));
+        const safe = choose(safeEngine, result, normal.id);
+        expect(safe.state.status).not.toBe('ENDED');
+        expect(safe.state.player.flags).not.toContain(`F_MOD_${suffix}_SUCCESS`);
+        expect(safe.state.player.flags).not.toContain(`F_MOD_${suffix}_SETBACK`);
+        expect(safe.pending).toMatchObject({ kind: 'option', event_id: reactions[1]!.id });
+        const companionSafe = reactions[1]!.options.find(option => !option.condition && option.risk === 'safe')!;
+        const safeFinished = choose(safeEngine, safe, companionSafe.id);
+        expect(safeFinished.state.status).toBe('READY');
+        expect(safeFinished.state.player.achievements.filter(id => id.startsWith(`A_MOD_${suffix}_`))).toEqual([]);
+        const item = history.options.find(option => option.outcome.next_stage_id !== null);
+        expect(item).toBeDefined();
+        expect(result.pending.options.find(option => option.id === item!.id)?.available).toBe(true);
+        let resolved = choose(engine, result, item!.id);
+        expect(resolved.pending?.kind).toBe('stage');
+        let rolls = 0;
+        while (resolved.pending?.kind === 'stage' && rolls < 8) {
+          resolved = roll(engine, resolved);
+          rolls++;
+        }
+        expect(resolved.pending?.kind).not.toBe('stage');
+        expect(rolls).toBeGreaterThan(0);
+        const outcomes = ['SUCCESS', 'SETBACK'].filter(outcome => resolved.state.player.flags.includes(`F_MOD_${suffix}_${outcome}`));
+        expect(outcomes).toHaveLength(1);
+        const outcome = outcomes[0]!;
+        expect(resolved.state.player.achievements).toContain(`A_MOD_${suffix}_${outcome}`);
+        expect(resolved.state.player.achievements.filter(id => id.startsWith(`A_MOD_${suffix}_`))).toHaveLength(1);
+        expect(resolved.state.player.cards).toEqual([card.id]);
+        const context = conditionContext(resolved.state.player, resolved.state.timeline);
+        for (const reaction of reactions) {
+          const attempt = reaction.options.find(option => option.outcome.next_stage_id !== null)!;
+          expect(evaluateCondition(attempt.condition, context), `${reaction.id}: ${outcome} must block a second reward`).toBe(false);
+          const fallback = reaction.options.find(option => !option.condition && option.risk === 'safe')!;
+          expect(evaluateCondition(fallback.condition, context)).toBe(true);
+        }
+        expect(resolved.state.status).toBe('READY');
+        expect(engine.exportSave().payload.run.event_counts[reactions[1]!.id] ?? 0).toBe(0);
+        const followingYear = ok(engine.nextYear(`after-reaction:${resolved.state.revision}`));
+        expect(followingYear.pending).toBeNull();
+        expect(engine.exportSave().payload.run.event_counts[reactions[1]!.id] ?? 0).toBe(0);
+        expect(followingYear.state.player.achievements.filter(id => id.startsWith(`A_MOD_${suffix}_`))).toEqual([`A_MOD_${suffix}_${outcome}`]);
+        expect(followingYear.state.status).toBe('READY');
+        ok(engine.retire(`retire:${resolved.state.revision}`));
+        expect(engine.generateEndingReport()).toMatchObject({ end_reason: 'retired', primary_achievement_id: `A_MOD_${suffix}_${outcome}` });
+        seen.add(outcome);
+      }
+      expect([...seen].sort(), card.id).toEqual(['SETBACK', 'SUCCESS']);
     }
   });
 });

@@ -34,7 +34,7 @@ async function peacefulContent(): Promise<ContentBundle> {
   const bundle = await loadTemplate();
   bundle.rules.age_bands = [{ id: 'fixed-nine', min: 9, max: 9, weight: 1, modifiers: {} }];
   bundle.rules.lifespan = { min: 17, max: 17, min_remaining_years: 3 };
-  bundle.rules.events = { per_year: 0, choice_budget_min: 0, choice_budget_max: 0 };
+  bundle.rules.events = { per_year: 0, automatic_ratio: 0.6 };
   bundle.regions = bundle.regions.map((region) => ({ ...region, weight: Number(region.id === 'R_SHANBEI') }));
   bundle.castes = bundle.castes.map((caste) => ({ ...caste, weight: Number(caste.id === 'C_SOLDIER') }));
   bundle.events = [];
@@ -136,7 +136,7 @@ function deterministicState(value: SessionSave) {
     queue: run.queue, queue_cursor: run.queue_cursor, active_event: run.active_event,
     event_counter: run.event_counter, chain_counter: run.chain_counter,
     processed_history: run.processed_history, cooldowns: run.cooldowns, event_counts: run.event_counts,
-    remaining_choice_budget: run.remaining_choice_budget, dice_results: run.dice_results,
+    dice_results: run.dice_results,
     death: run.death, ending: run.ending,
   };
 }

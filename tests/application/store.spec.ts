@@ -49,7 +49,7 @@ async function quietLife(): Promise<{ engine: GameEngine; bundle: ContentBundle;
   bundle.events = bundle.events.filter((event) => event.id === 'E_OPEN_SAFE');
   bundle.chains = [];
   bundle.achievements = [];
-  bundle.rules.events = { per_year: 0, choice_budget_min: 0, choice_budget_max: 0 };
+  bundle.rules.events = { per_year: 0, automatic_ratio: 0.6 };
   const fingerprint = sha256(bundle);
   const engine = new GameEngine(bundle, fingerprint);
   expect(engine.initGame({ seed: 1640 }).ok).toBe(true);
@@ -182,6 +182,7 @@ describe('FileStateStore: real checksummed double slots', () => {
     await save(root, original.exportSave());
     const loaded = await load<GachaSave>(root);
     expect(loaded).not.toBeNull();
+    expect(loaded).toMatchObject({ save_version: 1, kind: 'gacha' });
     const restored = new GachaEngine(bundle, fingerprint, 0);
     restored.restoreSave(loaded!);
     const before = restored.exportSave();
@@ -256,7 +257,8 @@ describe('SaveCodec through GameEngine.restoreSave', () => {
     const { engine, bundle, fingerprint } = await quietLife();
     const original = engine.exportSave();
     expect(original.kind).toBe('life');
-    expect(Array.isArray(original.payload.player.traits)).toBe(true);
+    expect(original.save_version).toBe(2);
+    expect(original.payload.player.cards).toHaveLength(1);
     expect(Array.isArray(original.payload.player.flags)).toBe(true);
     expect(Array.isArray(original.payload.player.injuries)).toBe(true);
     await save(root, JSON.parse(JSON.stringify(original)) as GameSave);
@@ -275,7 +277,8 @@ describe('SaveCodec through GameEngine.restoreSave', () => {
   });
 
   const invalid: Array<{ name: string; corrupt: (value: GameSave) => void }> = [
-    { name: 'unknown save version', corrupt: (value) => { Object.assign(value, { save_version: 2 }); } },
+    { name: 'legacy life save version', corrupt: (value) => { Object.assign(value, { save_version: 1 }); } },
+    { name: 'unknown save version', corrupt: (value) => { Object.assign(value, { save_version: 3 }); } },
     { name: 'wrong kind', corrupt: (value) => { Object.assign(value, { kind: 'gacha' }); } },
     { name: 'missing payload', corrupt: (value) => { Reflect.deleteProperty(value, 'payload'); } },
     { name: 'unknown envelope field', corrupt: (value) => { Object.assign(value, { unexpected: true }); } },
@@ -297,8 +300,10 @@ describe('SaveCodec through GameEngine.restoreSave', () => {
     { name: 'unknown region', corrupt: (value) => { Object.assign(value.payload.player, { region_id: 'NO_REGION' }); } },
     { name: 'unknown caste', corrupt: (value) => { Object.assign(value.payload.player, { caste_id: 'NO_CASTE' }); } },
     { name: 'unknown identity', corrupt: (value) => { Object.assign(value.payload.player, { identity_id: 'NO_IDENTITY' }); } },
-    { name: 'unknown equipped trait', corrupt: (value) => { Object.assign(value.payload.player, { traits: ['NO_TRAIT'] }); } },
-    { name: 'duplicate equipped trait', corrupt: (value) => { Object.assign(value.payload.player, { traits: ['T_REBEL', 'T_REBEL'] }); } },
+    { name: 'unknown equipped card', corrupt: (value) => { Object.assign(value.payload.player, { cards: ['NO_CARD'] }); } },
+    { name: 'zero equipped cards', corrupt: (value) => { value.payload.player.cards = []; } },
+    { name: 'multiple equipped cards', corrupt: (value) => { value.payload.player.cards = ['CARD_COMMON', 'CARD_RARE']; } },
+    { name: 'duplicate equipped card', corrupt: (value) => { value.payload.player.cards.push(value.payload.player.cards[0]!); } },
     { name: 'unknown injury', corrupt: (value) => { Object.assign(value.payload.player, { injuries: ['NO_INJURY'] }); } },
     { name: 'nonfinite attribute', corrupt: (value) => { Object.assign(value.payload.player.attributes, { wealth: Number.NaN }); } },
     { name: 'out-of-range attribute', corrupt: (value) => { Object.assign(value.payload.player.attributes, { wealth: 11 }); } },

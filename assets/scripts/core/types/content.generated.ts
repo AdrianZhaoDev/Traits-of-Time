@@ -47,7 +47,6 @@ export interface ContentBundle {
   era: Era;
   regions: Region[];
   castes: Caste[];
-  traits: Trait[];
   cards: Card[];
   pools: Pool[];
   events: Event[];
@@ -60,7 +59,7 @@ export interface ContentBundle {
  * via the `definition` "Manifest".
  */
 export interface Manifest {
-  schema_version: 1;
+  schema_version: 2;
   content_id: string;
   content_version: string;
   files: ContentFiles;
@@ -70,7 +69,6 @@ export interface ContentFiles {
   era: string;
   regions: string;
   castes: string;
-  traits: string;
   cards: string;
   pools: string;
   events: string;
@@ -136,12 +134,13 @@ export interface LuckRules {
   factor_max: number;
 }
 export interface OpeningRules {
-  trait_count: number;
+  pool_id: string;
+  year_min: number;
+  year_max: number;
 }
 export interface EventRules {
   per_year: number;
-  choice_budget_min: number;
-  choice_budget_max: number;
+  automatic_ratio: number;
 }
 export interface ChainRules {
   max_active: number;
@@ -193,7 +192,7 @@ export interface CompareCondition {
 }
 export interface HasCondition {
   op: 'has';
-  collection: 'traits' | 'flags' | 'injuries' | 'completed_chains';
+  collection: 'cards' | 'flags' | 'injuries' | 'completed_chains';
   id: string;
 }
 export interface IdentityCondition {
@@ -254,29 +253,6 @@ export interface Caste {
   weight: number;
   modifiers: AttributeModifiers;
   flags: string[];
-}
-/**
- * This interface was referenced by `ContentBundle`'s JSON-Schema
- * via the `definition` "Trait".
- */
-export interface Trait {
-  id: string;
-  name: string;
-  description: string;
-  weight: number;
-  modifiers: AttributeModifiers;
-  check_modifiers: CheckModifiers;
-  flags: string[];
-}
-/**
- * This interface was referenced by `ContentBundle`'s JSON-Schema
- * via the `definition` "CheckModifiers".
- */
-export interface CheckModifiers {
-  physique?: number;
-  intelligence?: number;
-  wealth?: number;
-  prestige?: number;
 }
 /**
  * This interface was referenced by `ContentBundle`'s JSON-Schema

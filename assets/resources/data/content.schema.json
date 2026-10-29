@@ -24,12 +24,6 @@
         "$ref": "#/definitions/Caste"
       }
     },
-    "traits": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Trait"
-      }
-    },
     "cards": {
       "type": "array",
       "items": {
@@ -73,7 +67,6 @@
     "era",
     "regions",
     "castes",
-    "traits",
     "cards",
     "pools",
     "events",
@@ -127,26 +120,6 @@
       "required": [],
       "additionalProperties": false
     },
-    "CheckModifiers": {
-      "title": "CheckModifiers",
-      "type": "object",
-      "properties": {
-        "physique": {
-          "type": "number"
-        },
-        "intelligence": {
-          "type": "number"
-        },
-        "wealth": {
-          "type": "number"
-        },
-        "prestige": {
-          "type": "number"
-        }
-      },
-      "required": [],
-      "additionalProperties": false
-    },
     "Attributes": {
       "title": "Attributes",
       "type": "object",
@@ -182,7 +155,7 @@
       "properties": {
         "schema_version": {
           "type": "number",
-          "const": 1
+          "const": 2
         },
         "content_id": {
           "type": "string",
@@ -209,10 +182,6 @@
               "minLength": 1
             },
             "castes": {
-              "type": "string",
-              "minLength": 1
-            },
-            "traits": {
               "type": "string",
               "minLength": 1
             },
@@ -246,7 +215,6 @@
             "era",
             "regions",
             "castes",
-            "traits",
             "cards",
             "pools",
             "events",
@@ -399,14 +367,25 @@
           "title": "OpeningRules",
           "type": "object",
           "properties": {
-            "trait_count": {
+            "pool_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "year_min": {
               "type": "integer",
-              "minimum": 0,
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "year_max": {
+              "type": "integer",
+              "minimum": -9007199254740991,
               "maximum": 9007199254740991
             }
           },
           "required": [
-            "trait_count"
+            "pool_id",
+            "year_min",
+            "year_max"
           ],
           "additionalProperties": false
         },
@@ -419,21 +398,15 @@
               "minimum": 0,
               "maximum": 9007199254740991
             },
-            "choice_budget_min": {
-              "type": "integer",
+            "automatic_ratio": {
+              "type": "number",
               "minimum": 0,
-              "maximum": 9007199254740991
-            },
-            "choice_budget_max": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 9007199254740991
+              "maximum": 1
             }
           },
           "required": [
             "per_year",
-            "choice_budget_min",
-            "choice_budget_max"
+            "automatic_ratio"
           ],
           "additionalProperties": false
         },
@@ -565,7 +538,7 @@
             "collection": {
               "type": "string",
               "enum": [
-                "traits",
+                "cards",
                 "flags",
                 "injuries",
                 "completed_chains"
@@ -1114,52 +1087,6 @@
         "name",
         "weight",
         "modifiers",
-        "flags"
-      ],
-      "additionalProperties": false
-    },
-    "Trait": {
-      "title": "Trait",
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "minLength": 1
-        },
-        "name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "description": {
-          "type": "string",
-          "minLength": 1
-        },
-        "weight": {
-          "type": "number",
-          "minimum": 0
-        },
-        "modifiers": {
-          "$ref": "#/definitions/AttributeModifiers"
-        },
-        "check_modifiers": {
-          "$ref": "#/definitions/CheckModifiers"
-        },
-        "flags": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          },
-          "uniqueItems": true
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "weight",
-        "modifiers",
-        "check_modifiers",
         "flags"
       ],
       "additionalProperties": false

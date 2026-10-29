@@ -8,7 +8,7 @@ describe('play --auto: unattended random choices', () => {
   it('finishes without stdin, confirms both stages, and resumes identically from a saved stage', async () => {
     const context = await fixture(bundle => {
       fixedLife(bundle, 12);
-      bundle.rules.events = { per_year: 1, choice_budget_min: 8, choice_budget_max: 8 };
+      bundle.rules.events = { per_year: 1, automatic_ratio: 0.6 };
       const opening = bundle.events.find(event => event.id === 'E_OPEN_SAFE');
       const work = bundle.events.find(event => event.id === 'E_WORK');
       if (opening?.interaction !== 'choice' || opening.trigger.kind !== 'opening' || work?.interaction !== 'choice' || work.trigger.kind !== 'random') throw new Error('Fixture events missing');

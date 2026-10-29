@@ -11,7 +11,7 @@ export interface ChainInstance {
 export interface PlayerState {
   era_id: string; start_age: number; age: number; max_lifespan: number; start_year: number; calendar_year: number;
   region_id: string; caste_id: string; identity_id: string; highest_identity_id: string; attributes: Attributes;
-  traits: string[]; flags: string[]; injuries: string[]; chains: ChainInstance[]; achievements: string[];
+  cards: string[]; flags: string[]; injuries: string[]; chains: ChainInstance[]; achievements: string[];
 }
 export interface DiceResult { raw: number; attribute_value: number; modifier_before: number; modifier_after: number; dc: number; success: boolean; success_probability: number }
 export interface QueueEntry { event_id: string; chain_instance_id: string | null }
@@ -21,7 +21,7 @@ export type PendingDecision =
   | { kind: 'stage'; event_instance_id: string; event_id: string; stage_id: string; text: string; check: Stage['check'] };
 export interface CandidateLog { event_id: string; eligible: boolean; reason: string | null; gate_passed: boolean | null; effective_weight: number; conditional_probability: number | null }
 export interface LogData {
-  opening: { background_id: string; age_band_id: string; trait_ids: string[] };
+  opening: { background_id: string; age_band_id: string; card_id: string };
   draw: { candidates: CandidateLog[]; selected_event_id: string | null };
   event: { event_instance_id: string };
   option: { event_instance_id: string; option_id: string };
@@ -47,12 +47,12 @@ export interface RunState {
   run_id: string; seed: number; prng: { algorithm: 'mulberry32-v1'; state: number; draws: number };
   status: GameStatus; timeline: Timeline; year_phase: YearPhase; queue: QueueEntry[]; queue_cursor: number;
   event_counter: number; chain_counter: number; active_event: ActiveEvent | null; processed_history: string[];
-  cooldowns: Record<string, number>; event_counts: Record<string, number>; remaining_choice_budget: number;
+  cooldowns: Record<string, number>; event_counts: Record<string, number>;
   dice_results: DiceResult[]; death: string | null; ending: EndingReport | null;
   processed_commands: Record<string, CommandReceipt>; revision: number;
 }
 export interface GameView { player: PlayerState; status: GameStatus; timeline: Timeline; year_phase: YearPhase; active_event: ActiveEvent | null; revision: number; pending: PendingDecision | null }
 export interface GameSave {
-  save_version: 1; kind: 'life'; content_id: string; content_version: string; content_fingerprint: string; revision: number;
+  save_version: 2; kind: 'life'; content_id: string; content_version: string; content_fingerprint: string; revision: number;
   payload: { player: PlayerState; run: RunState; logs: LogEntry[] };
 }

@@ -37,6 +37,14 @@ interface LifeRun {
   };
   blocking_inputs: number;
   estimated_input_seconds: number;
+  age_band_id: string;
+  path_category: string;
+  automatic_events: number;
+  choice_events: number;
+  auto_ratio: number | null;
+  card_id: string;
+  start_year: number;
+  origin_id: string;
 }
 
 interface Stratum {
@@ -56,6 +64,73 @@ interface Stratum {
 }
 
 describe('simulate: real life reports and replayable choices', () => {
+  it('prefers an available nested physical-card reaction over normal and negated gates', async () => {
+    const context = await fixture((bundle) => {
+      fixedLife(bundle, 12);
+      bundle.cards.push({ id: 'CARD_MOD_TEST', name: '随身物件', description: '用于确定性策略覆盖的随身物件。', rarity: 'N', tags: [] });
+      bundle.pools.find((pool) => pool.id === 'POOL_BASIC')!.entries = [{ card_id: 'CARD_MOD_TEST', weight: 1 }];
+      const opening = bundle.events.find((event) => event.id === 'E_OPEN_SAFE');
+      if (opening?.interaction !== 'choice' || opening.trigger.kind !== 'opening') throw new Error('Missing opening choice');
+      opening.trigger.trigger_probability = 1;
+      const outcome = { text: '完成选择', effects: [], next_stage_id: null };
+      opening.options = [
+        { id: 'normal', text: '普通路线', unavailable_text: '不可选', risk: 'normal', outcome },
+        { id: 'negated', text: '反向条件', unavailable_text: '不可选', risk: 'high', outcome,
+          condition: { op: 'not', condition: { op: 'has', collection: 'cards', id: 'CARD_RARE' } } },
+        { id: 'locked', text: '不可用物件路线', unavailable_text: '不可选', risk: 'high', outcome,
+          condition: { op: 'all', conditions: [{ op: 'has', collection: 'cards', id: 'CARD_MOD_TEST' },
+            { op: 'compare', field: 'age', comparator: 'lt', value: 0 }] } },
+        { id: 'reaction', text: '物件路线', unavailable_text: '不可选', risk: 'high', outcome,
+          condition: { op: 'all', conditions: [{ op: 'any', conditions: [{ op: 'has', collection: 'cards', id: 'CARD_MOD_TEST' }] }] } },
+      ];
+    });
+    const output = join(context.root, 'reaction-strategy');
+    expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '1', '--seed', '23', '--strategy', 'reaction', '--out', output]));
+    const trace = await expectReplay(context.content, join(output, 'traces', '0.json'));
+    expect(trace.commands.filter((command) => command.api === 'resolveOption')).toEqual([
+      expect.objectContaining({ args: expect.objectContaining({ optionId: 'reaction' }) }),
+    ]);
+  }, 90_000);
+
+  it.each([false, true])('counts encountered events without counting stages or audits (events=%s)', async (withEvents) => {
+    const context = await fixture((bundle) => {
+      fixedLife(bundle, 12);
+      if (!withEvents) return;
+      const opening = bundle.events.find((event) => event.id === 'E_OPEN_SAFE');
+      if (opening?.interaction !== 'choice' || opening.trigger.kind !== 'opening') throw new Error('Missing opening choice');
+      opening.trigger.trigger_probability = 1;
+      opening.options = [{ id: 'attempt', text: '开始', unavailable_text: '不可选', risk: 'normal',
+        outcome: { text: '进入阶段', effects: [], next_stage_id: 'S_STATS' } }];
+      opening.stages = [{ id: 'S_STATS', text: '确认阶段', check: { attribute: 'intelligence', dc: 14, modifier: 0 },
+        success: { text: '成功', effects: [], next_stage_id: null },
+        failure: { text: '失败', effects: [], next_stage_id: null } }];
+      bundle.events.push({ id: 'E_STATS_AUTO', text: '自动历史事件',
+        trigger: { kind: 'historical', year: 1641, priority: 0 }, interaction: 'automatic',
+        outcome: { text: '完成', effects: [], next_stage_id: null } });
+    });
+    const output = join(context.root, 'observed-statistics');
+    expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '2', '--seed', '1640', '--out', output]));
+    const records = await readJsonLines<LifeRun>(join(output, 'runs.jsonl'));
+    const cardCounts: Record<string, number> = {};
+    const originCounts: Record<string, number> = {};
+    expect(records).toHaveLength(2);
+    for (const record of records) {
+      expect(record).toMatchObject({ age_band_id: 'child', path_category: 'short', start_year: 1640,
+        automatic_events: Number(withEvents), choice_events: Number(withEvents), auto_ratio: withEvents ? 0.5 : null });
+      expect(context.bundle.cards.map((card) => card.id)).toContain(record.card_id);
+      expect(context.bundle.era.backgrounds.map((origin) => origin.id)).toContain(record.origin_id);
+      cardCounts[record.card_id] = (cardCounts[record.card_id] ?? 0) + 1;
+      originCounts[record.origin_id] = (originCounts[record.origin_id] ?? 0) + 1;
+      const trace = await expectReplay(context.content, join(output, 'traces', `${record.index}.json`));
+      expect(trace.commands.filter((command) => command.api === 'resolveStage')).toHaveLength(Number(withEvents));
+    }
+    const summary = await readJson<Summary & { life: { strata: Stratum[] } }>(join(output, 'summary.json'));
+    const expected = { automatic_events: withEvents ? 2 : 0, choice_events: withEvents ? 2 : 0,
+      auto_ratio: withEvents ? 0.5 : null, card_counts: cardCounts, origin_counts: originCounts, start_year_counts: { '1640': 2 } };
+    expect(summary.life).toMatchObject(expected);
+    expect(summary.life.strata).toEqual([expect.objectContaining({ ...expected, samples: 2 })]);
+  }, 90_000);
+
   it('reports every small life sample, completing the real chain and replaying every trace', async () => {
     const context = await fixture((bundle) => chainLife(bundle, 13));
     const output = join(context.root, 'life-report');
@@ -107,6 +182,7 @@ describe('simulate: real life reports and replayable choices', () => {
     { strategy: 'normal', optionId: 'first-normal' },
     { strategy: 'cautious', optionId: 'first-safe' },
     { strategy: 'risky', optionId: 'first-high' },
+    { strategy: 'reaction', optionId: 'first-normal' },
   ])('uses the $strategy option ordering without consuming strategy randomness', async ({ strategy, optionId }) => {
     const context = await fixture((bundle) => {
       fixedLife(bundle, 12);

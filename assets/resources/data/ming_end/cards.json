@@ -1,207 +1,110 @@
 [
   {
-    "id": "CARD_COMMON",
-    "name": "旧日笔记",
-    "description": "行商随笔记下的糊口门道。字迹粗糙，胜在实用。",
-    "rarity": "N",
-    "tags": []
-  },
-  {
-    "id": "CARD_RARE",
-    "name": "匠作心得",
-    "description": "老木匠私藏的修造窍门。天下将乱，多门手艺多条命。",
-    "rarity": "R",
-    "tags": []
-  },
-  {
-    "id": "CARD_EPIC",
-    "name": "传世札记",
-    "description": "几代人熬过灾荒的持家心得。字字带泪，页页是命。",
-    "rarity": "SSR",
-    "tags": []
-  },
-  {
-    "id": "CARD_ds_grain",
-    "name": "一粒账珠",
-    "description": "算盘打得再响，不如分粮官手抖。能算清几斗粮，算不清谁配吃饭。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_grain"
-    ]
-  },
-  {
-    "id": "CARD_ds_road",
-    "name": "无印路引",
-    "description": "画着捷径的白纸。地图只管两点之间最短，不管中间有没有山贼。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_road"
-    ]
-  },
-  {
-    "id": "CARD_ds_roll",
-    "name": "空额木牌",
-    "description": "册上有你，粮里有你，出操没你。名存实亡，但按月领饷。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_roll"
-    ]
-  },
-  {
-    "id": "CARD_ds_drill",
-    "name": "过长号衣",
-    "description": "大两号的破号衣。穿它不保命，但营里省了一道裁剪工钱。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_drill"
-    ]
-  },
-  {
-    "id": "CARD_ds_plaque",
-    "name": "无粥章程",
-    "description": "写满大公无私的废纸。字字大义，最后被拿去垫了施粥棚的歪桌脚。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_plaque"
-    ]
-  },
-  {
-    "id": "CARD_ds_omen",
-    "name": "漏底沙漏",
-    "description": "底座漏风的沙漏。算得清天下大势，算不准自己明天吃不吃得上饭。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_omen"
-    ]
-  },
-  {
-    "id": "CARD_ds_well",
-    "name": "迟来的围栏",
-    "description": "刚立在井边的短木栏。保护后来的小孩，遮掩先前的敷衍。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_well"
-    ]
-  },
-  {
-    "id": "CARD_ds_gate",
-    "name": "单向通行牌",
-    "description": "单向进城的竹牌。城头上的人立规矩，城门下的人拿命挤。",
-    "rarity": "R",
-    "tags": [
-      "幼年宿慧",
-      "成就主题",
-      "A_ds_gate"
-    ]
-  },
-  {
-    "id": "CARD_gpt_office",
-    "name": "职场老油条",
-    "description": "深谙摸鱼甩锅之道。会上从不表态，会后从不担责，安稳混到大结局。",
-    "rarity": "R",
-    "tags": [
-      "明末",
-      "T_gpt_office"
-    ]
-  },
-  {
-    "id": "CARD_gpt_civil",
-    "name": "土木工程老哥",
-    "description": "工期天天催，验收全靠推。只要地基没塌，天大的事明天再说。",
-    "rarity": "R",
-    "tags": [
-      "明末",
-      "T_gpt_civil"
-    ]
-  },
-  {
-    "id": "CARD_gpt_supply",
-    "name": "供应链奸商",
-    "description": "损耗全算路上，利润全进腰包。乱世买卖，全靠账本有玄机。",
-    "rarity": "R",
-    "tags": [
-      "明末",
-      "T_gpt_supply"
-    ]
-  },
-  {
-    "id": "CARD_JN_EXAM_NOTE",
-    "name": "夹带小抄",
-    "description": "密密麻麻抄了一袖子，进场才想起，夹带查得比文章细。",
+    "id": "CARD_MOD_OIL",
+    "name": "风油精",
+    "description": "小瓶清凉只管提神，不管升官；按说明外用，别往眼边凑。",
     "rarity": "N",
     "tags": [
-      "江南",
-      "科举",
-      "道具"
+      "modern"
     ]
   },
   {
-    "id": "CARD_JN_SILK_SAMPLE",
-    "name": "压箱残锦",
-    "description": "整匹卖不动的旧锦，剪成小样竟成了掌柜的招牌。",
+    "id": "CARD_MOD_BANDAGE",
+    "name": "防水创可贴",
+    "description": "小伤口也有自己的小被子；先清洁再看适用，严重的仍找大夫。",
+    "rarity": "N",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MOD_LIGHTER",
+    "name": "便携打火机",
+    "description": "点得着灶火，点不来官运；燃料总有尽头，孩子交给大人用。",
+    "rarity": "N",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MOD_CHICKEN_ESSENCE",
+    "name": "鲜味鸡精",
+    "description": "给清汤添点鲜，不会凭空添粮；一包用完，厨子的真本事还得在。",
     "rarity": "R",
     "tags": [
-      "江南",
-      "生意",
-      "道具"
+      "modern"
     ]
   },
   {
-    "id": "CARD_HIST_RATION_TICKET",
-    "name": "折损粮票",
-    "description": "纸上写着足额领粮，折来折去，最后只够包一把米。",
-    "rarity": "N",
+    "id": "CARD_MOD_GLUE_502",
+    "name": "502强力胶",
+    "description": "能粘小物件，粘不回人情账；避开皮肤食具，先让懂行人看看。",
+    "rarity": "R",
     "tags": [
-      "历史",
-      "口粮",
-      "道具"
+      "modern"
     ]
   },
   {
-    "id": "CARD_LIFE_COPPER_COIN",
-    "name": "老树铜钱",
-    "description": "树根捡来一枚铜钱，没啥神通，买半块饼倒是真香。",
-    "rarity": "N",
+    "id": "CARD_MOD_THERMOS",
+    "name": "保温杯",
+    "description": "热水能留一阵，太平留不住；杯盖拧紧些，倒水时别拿手试温。",
+    "rarity": "R",
     "tags": [
-      "生活",
-      "零钱",
-      "道具"
+      "modern"
     ]
   },
   {
-    "id": "CARD_LIFE_MEDICINE_BAG",
-    "name": "陈年药渣",
-    "description": "药渣放久了只剩霉味，郎中劝你扔掉，别拿身子省钱。",
-    "rarity": "N",
+    "id": "CARD_MOD_MEGAPHONE",
+    "name": "收废品大喇叭",
+    "description": "嗓门能借电放大，道理不能；别贴着耳朵喊，电池也要下班。",
+    "rarity": "SR",
     "tags": [
-      "生活",
-      "药包",
-      "道具"
+      "modern"
     ]
   },
   {
-    "id": "CARD_LIFE_SMUGGLE_MAP",
-    "name": "老船夫秘图",
-    "description": "老船夫把暗礁画得明白，唯独没写自己看图也会迷路。",
+    "id": "CARD_MOD_LASER_POINTER",
+    "name": "低功率指示笔",
+    "description": "小光点只给图纸指路，不给人生导航；避开人眼，别朝天乱照。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MOD_WATER_TABS",
+    "name": "便携净水片",
+    "description": "正规净水片也有适用范围；说明不清就别用，清水看着清不算数。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MOD_SWISS_ARMY",
+    "name": "多功能工具刀",
+    "description": "小剪小锯凑一把，能修小活不能包办大工程；孩子交给大人用。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MOD_ANTIBIOTICS",
+    "name": "密封药板",
+    "description": "密封药板不是万病通行证；适应症和保存都有限，不明用法别试。",
     "rarity": "SSR",
     "tags": [
-      "生活",
-      "水路",
-      "道具"
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MOD_HYBRID_SEEDS",
+    "name": "杂交种子",
+    "description": "好种也要水土肥，荒坡不会自动长饭；留种未必同样好，先种小块。",
+    "rarity": "SSR",
+    "tags": [
+      "modern"
     ]
   }
 ]

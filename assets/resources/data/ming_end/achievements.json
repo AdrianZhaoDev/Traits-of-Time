@@ -1,0 +1,402 @@
+[
+  {
+    "id": "A_PROJECT",
+    "name": "匠作有成",
+    "text": "三年匠作功成，在乱世挣得一技防身。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "workshop_complete"
+    },
+    "priority": 20,
+    "retirable": true
+  },
+  {
+    "id": "A_LONG_LIFE",
+    "name": "岁月长存",
+    "text": "在崇祯朝活过七十岁，你比大明能熬。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 70
+    },
+    "priority": 10,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_grain",
+    "name": "账平人不平",
+    "text": "账面平平整整，领粮的全饿跑了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_grain_paid"
+    },
+    "priority": 30,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_road",
+    "name": "近路直达结算",
+    "text": "抄了一条最快的路，直接快进到下一世。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_road_paid"
+    },
+    "priority": 31,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_roll",
+    "name": "编制比命长",
+    "text": "只要册上不除名，你就永远是大明的常备兵。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_roll_paid"
+    },
+    "priority": 32,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_drill",
+    "name": "试用期即终身",
+    "text": "入营即巅峰，试用期直接领抚恤。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_drill_paid"
+    },
+    "priority": 33,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_plaque",
+    "name": "章程不能泡饭",
+    "text": "章程写得滴水不漏，可惜不能当饭泡水喝。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_plaque_paid"
+    },
+    "priority": 34,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_omen",
+    "name": "剧透没有续费",
+    "text": "剧透一时爽，明天没赶上。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_omen_paid"
+    },
+    "priority": 35,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_well",
+    "name": "以身补齐设施",
+    "text": "井栏终于修好了，全靠你以身做质。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_well_paid"
+    },
+    "priority": 36,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_gate",
+    "name": "流程先于用户",
+    "text": "规矩定得很好，下次记得自己先跑。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_gate_paid"
+    },
+    "priority": 37,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_arms",
+    "name": "史诗·半城有备",
+    "text": "火器靠谱，城头有备，守城有方，来犯敌军看了都直摇头。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_arms_done"
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_water",
+    "name": "史诗·井边有人",
+    "text": "深井净水，大疫之下居然救下一整条街。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_water_done"
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_fort",
+    "name": "史诗·粮在人在",
+    "text": "粮在人在，乱世里真让你拉起了一支保命堡子。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_fort_done"
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_history",
+    "name": "史诗·留名在人间",
+    "text": "明清易代，天下大乱，你居然把半城百姓保了下来。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_history_saved"
+    },
+    "priority": 85,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_conscription",
+    "name": "名册之外",
+    "text": "硬生生在兵役名册上把自己划掉了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_conscription_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_tax",
+    "name": "饷册对得上",
+    "text": "把官府催缴的辽饷账本盘得比户部还清。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_tax_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_post",
+    "name": "旧道新收据",
+    "text": "把荒废驿路跑成了私家通商走廊。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_post_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_market",
+    "name": "市口有凭",
+    "text": "市霸收保护费收到了祖师爷头上。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_market_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_hunger",
+    "name": "数得清的粮",
+    "text": "乱民抢粮，你居然真把粮食一粒不少护住了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_hunger_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_watch",
+    "name": "街口答卷",
+    "text": "几句黑话把锦衣卫缇骑唬得一愣一愣。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_watch_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_JN_TOP_SCHOLAR",
+    "name": "榜上终于有名",
+    "text": "苦读多年中了举，亲戚突然全认识你了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_JUREN"
+    },
+    "priority": 50,
+    "retirable": true
+  },
+  {
+    "id": "A_JN_SILK_TYCOON",
+    "name": "机房翻身做主",
+    "text": "丝绸生意做成了，算盘总算没白挨累。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_TRADE_DONE"
+    },
+    "priority": 51,
+    "retirable": true
+  },
+  {
+    "id": "A_JN_POET_MASTER",
+    "name": "茶馆都在念你",
+    "text": "诗名传遍茶馆，赊账却还得看掌柜脸色。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_POET_FAMOUS"
+    },
+    "priority": 52,
+    "retirable": false
+  },
+  {
+    "id": "A_HIST_PASS_SURVIVOR",
+    "name": "关口捡回一命",
+    "text": "大场面没抢着露脸，倒是保住了吃饭的嘴。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_HIST_CAPITAL_FLED"
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1644
+        }
+      ]
+    },
+    "priority": 53,
+    "retirable": false
+  },
+  {
+    "id": "A_HIST_SOUTH_HERMIT",
+    "name": "山里不接差事",
+    "text": "山外换了几拨人，山里只管今天吃什么。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_HIST_HERMIT_SOUTH"
+    },
+    "priority": 54,
+    "retirable": true
+  },
+  {
+    "id": "A_HIST_TIMES_WITNESS",
+    "name": "换了天下还在",
+    "text": "天下换了招牌，你还在为下一顿操心。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_HIST_CAPITAL_FLED"
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1645
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        }
+      ]
+    },
+    "priority": 55,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_BIG_FAMILY",
+    "name": "一桌坐不下",
+    "text": "家里人丁越来越旺，你连夹菜都得排队。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_LIFE_CLAN_HEAD"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "priority": 56,
+    "retirable": true
+  },
+  {
+    "id": "A_LIFE_LUCKY_SLACKER",
+    "name": "少折腾多吃饭",
+    "text": "大事没抢着干，养老的饭钱倒是留下了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_LIFE_SAVED_SILVER"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "priority": 57,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_CENTURY_TURMOIL",
+    "name": "百岁还占一桌",
+    "text": "乱世熬到一百岁，蜡烛比寿面还费钱。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 100
+    },
+    "priority": 60,
+    "retirable": true
+  }
+]

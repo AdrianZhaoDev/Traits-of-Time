@@ -1,0 +1,137 @@
+[
+  {
+    "id": "T_DOCTOR_BOOK",
+    "name": "赤脚医生手册",
+    "description": "略通草药防疫。别的不管用，多喝开水总没错。",
+    "weight": 1,
+    "modifiers": {},
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_FIREPOWDER",
+    "name": "土法黑火药",
+    "description": "懂得一硝二磺三木炭，关键是知道别在密闭屋里抽旱烟。",
+    "weight": 1,
+    "modifiers": {},
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_CORPORATE",
+    "name": "打工人思维",
+    "description": "先分权责，后留字据。乱世求存，绝不当冤大头。",
+    "weight": 1,
+    "modifiers": {},
+    "check_modifiers": {
+      "wealth": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_REBEL",
+    "name": "破局之志",
+    "description": "大厦将倾，绝不坐以待毙，到处找机会抱团折腾。",
+    "weight": 1,
+    "modifiers": {},
+    "check_modifiers": {
+      "prestige": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_gpt_office",
+    "name": "职场老油条",
+    "description": "精通推诿扯皮，会上从不带头，会后全身而退。",
+    "weight": 3,
+    "modifiers": {
+      "intelligence": 1
+    },
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_gpt_civil",
+    "name": "土木工程老哥",
+    "description": "擅看土木地势，深谙赶工期与糊弄验收的精髓。",
+    "weight": 3,
+    "modifiers": {
+      "intelligence": 1
+    },
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_gpt_supply",
+    "name": "供应链奸商",
+    "description": "眼尖心黑，极会盘算仓储损耗与居奇囤积。",
+    "weight": 3,
+    "modifiers": {
+      "intelligence": 1
+    },
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_JN_INK_IN_BELLY",
+    "name": "半吊子墨水",
+    "description": "肚里有点墨水，背书偶尔卡壳，替人写借条倒是够用。",
+    "weight": 3,
+    "modifiers": {
+      "intelligence": 1
+    },
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_SLACKER_SURVIVOR",
+    "name": "摸鱼保命法",
+    "description": "抢功时慢半拍，避祸时快半步，饭碗端得比谁都稳。",
+    "weight": 3,
+    "modifiers": {
+      "luck": 1
+    },
+    "check_modifiers": {
+      "intelligence": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_MARKET_BARGAIN",
+    "name": "讨价还价精",
+    "description": "一文钱能谈半天，掌柜见你进门，先把茶水藏起来。",
+    "weight": 3,
+    "modifiers": {
+      "wealth": 1
+    },
+    "check_modifiers": {
+      "wealth": 1
+    },
+    "flags": []
+  },
+  {
+    "id": "T_QUICK_RUN",
+    "name": "跑路带风",
+    "description": "别的本事先不提，腿脚倒是勤快，撤离从不等人催。",
+    "weight": 3,
+    "modifiers": {
+      "physique": 1
+    },
+    "check_modifiers": {
+      "physique": 1
+    },
+    "flags": []
+  }
+]

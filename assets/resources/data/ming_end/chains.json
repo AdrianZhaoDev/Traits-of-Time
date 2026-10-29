@@ -1,0 +1,298 @@
+[
+  {
+    "id": "CH_WORKSHOP",
+    "name": "三年匠作",
+    "priority": 0,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "injuries",
+      "id": "INJ_SEVERE"
+    },
+    "interrupt_text": "伤筋动骨一百天，三年匠作计划被迫泡汤，先前的学费全打水漂了。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_3"
+      }
+    ],
+    "completion": {
+      "text": "三年苦练出师，成功拿到顶级匠人编制，以后吃喝不愁了。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_ARTISAN"
+        },
+        {
+          "type": "flag_add",
+          "id": "workshop_complete"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_arms",
+    "name": "三眼铳改良与守城",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_abort"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        }
+      ]
+    },
+    "interrupt_text": "旧铳出了大篓子，官府连夜叫停火器改良，你的防务计划彻底告吹。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_arms_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_arms_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_arms_3"
+      }
+    ],
+    "completion": {
+      "text": "城防三眼铳全部改良完毕，守军直呼内行，守城底气拉满！",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_arms_done"
+        },
+        {
+          "type": "ending_unlock",
+          "id": "A_gm_arms"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_water",
+    "name": "深井消杀与补液防疫",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_abort"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        }
+      ]
+    },
+    "interrupt_text": "水井消杀惹来街坊非议，深井防疫计划半途而废，全靠各自扛了。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_water_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_water_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_water_3"
+      }
+    ],
+    "completion": {
+      "text": "深井净水与消毒章程大成，大疫当前，硬是护住了一整条街的街坊！",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_water_done"
+        },
+        {
+          "type": "ending_unlock",
+          "id": "A_gm_water"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_fort",
+    "name": "乱世屯粮与坞堡乡勇",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_fort_abort"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        }
+      ]
+    },
+    "interrupt_text": "乱军杀到跟前，坞堡防线没拉起来就被冲散，屯粮计划功亏一篑。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_fort_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_fort_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_fort_3"
+      }
+    ],
+    "completion": {
+      "text": "深挖墙广积粮，乱世坞堡顺利立足，成为乱世中人人羡慕的避难桃源！",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_fort_done"
+        },
+        {
+          "type": "ending_unlock",
+          "id": "A_gm_fort"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_JN_EXAM",
+    "name": "科举之路",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "not",
+          "condition": {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          }
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_JN_STUDENT"
+          }
+        }
+      ]
+    },
+    "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_JN_EXAM_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_JN_EXAM_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_JN_EXAM_3"
+      }
+    ],
+    "completion": {
+      "text": "赶考这条路走过了，你把书箱放稳，接下来还得认真过日子。",
+      "effects": [],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_JN_TRADE",
+    "name": "机房商贸",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "not",
+          "condition": {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          }
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_JN_LOOM_BUY"
+          }
+        }
+      ]
+    },
+    "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_JN_TRADE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_JN_TRADE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_JN_TRADE_3"
+      }
+    ],
+    "completion": {
+      "text": "这轮生意收了尾，你把账本合上，才发现饭已经凉了。",
+      "effects": [],
+      "next_stage_id": null
+    }
+  }
+]

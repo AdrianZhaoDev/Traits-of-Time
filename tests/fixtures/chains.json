@@ -1,0 +1,41 @@
+[
+  {
+    "id": "CH_WORKSHOP",
+    "name": "三年匠作",
+    "priority": 0,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "injuries",
+      "id": "INJ_SEVERE"
+    },
+    "interrupt_text": "重伤打断了匠作计划；已经付出的资源不返还。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_3"
+      }
+    ],
+    "completion": {
+      "text": "三年的协作使你成为匠作能手。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_ARTISAN"
+        },
+        {
+          "type": "flag_add",
+          "id": "workshop_complete"
+        }
+      ],
+      "next_stage_id": null
+    }
+  }
+]

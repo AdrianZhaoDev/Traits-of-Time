@@ -1,0 +1,1345 @@
+{
+  "events": [
+    {
+      "id": "E_JN_OPEN_STUDY",
+      "title": "书塾点名",
+      "text": "家里把你送进书塾，先生刚翻开书，你就盯上窗外的小船。今天是装墨水，还是装肚子疼？",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_GENTRY"
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "opening",
+        "weight": 12,
+        "trigger_probability": 1
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "study",
+          "text": "坐稳读书",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把书拿正了，先生很欣慰，家里开始攒赶考钱。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              },
+              {
+                "type": "flag_add",
+                "id": "F_JN_STUDENT"
+              },
+              {
+                "type": "chain_start",
+                "id": "CH_JN_EXAM"
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "slack",
+          "text": "下课就去摸鱼",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你没摸到鱼，倒把水边的路认全了，回家还能按时吃饭。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_OPEN_SILK",
+      "title": "丝摊算盘",
+      "text": "家里在丝绸集市摆小摊，你踮着脚看人砍价。大人说先学算账，免得往后赔得一脸无辜。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "opening",
+        "weight": 12,
+        "trigger_probability": 1
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "account",
+          "text": "学账顺便认丝",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你算清了第一笔账，家里合钱买下旧织机，往后就指望它响。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              },
+              {
+                "type": "flag_add",
+                "id": "F_JN_LOOM_BUY"
+              },
+              {
+                "type": "chain_start",
+                "id": "CH_JN_TRADE"
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "sell",
+          "text": "帮忙招呼客人",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你嗓门不大，笑脸管够，卖出的碎布换来一锅热饭。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_OPEN_BOAT",
+      "title": "码头长大",
+      "text": "你跟着家人在水运码头讨生活，货包比你还高。船老大叫你认绳结，可别只记住饭点。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "opening",
+        "weight": 12,
+        "trigger_probability": 1
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "rope",
+          "text": "跟着大人学绳结",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把绳结打得结实，饭碗也端得结实，都是保命的手艺。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "count",
+          "text": "蹲在岸上数货包",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你数出了多记的一包货，账房夸你眼尖，分了点辛苦钱。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_EXAM_1",
+      "title": "书越念越厚",
+      "text": "几年书念下来，家里问你何时出头。先生说先过眼前这关，你看着书堆，觉得头已经够大了。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "chain"
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "prepare",
+          "text": "按先生的法子温书",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把易错的句子重新理了一遍，饭和觉也没落下。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 2
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "quit",
+          "text": "先找活养家",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你收好书本去记账，功名先放放，饭钱不能放假。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_STUDENT"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_EXAM_2",
+      "title": "榜上找名",
+      "text": "院试放榜那天，你挤在人堆里找名字。别人念榜像唱曲，你听得心跳比隔壁敲锣还响。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "chain"
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "exam",
+          "text": "交卷等榜",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "normal",
+          "outcome": {
+            "text": "卷子已经交了，接下来只能看真本事。",
+            "effects": [],
+            "next_stage_id": "result"
+          }
+        },
+        {
+          "id": "leave",
+          "text": "不考了，回家教字",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你没拿功名，教街坊认账单倒也有用，至少不怕他们算错钱。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_STUDENT"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "result",
+          "text": "先把题意看明白，别让满肚子的墨水跑错地方。",
+          "check": {
+            "attribute": "intelligence",
+            "dc": 12,
+            "modifier": 0
+          },
+          "success": {
+            "text": "榜上真有你！秀才到手，家里的鸡都像叫得更响了。",
+            "effects": [
+              {
+                "type": "flag_add",
+                "id": "F_JN_XIUCAI"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "名字没找着，你决定先靠识字吃饭，不再让家里陪着熬。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_STUDENT"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_EXAM_3",
+      "title": "秋闱赶考",
+      "text": "乡试快到了，同窗都说再熬几晚准能中。你摸摸眼下的黑圈，怀疑先中的会是郎中的药方。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "chain"
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "steady",
+          "text": "睡够吃饱再进场",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "normal",
+          "outcome": {
+            "text": "你带齐干粮和笔墨，决定不拿身子跟书本较劲。",
+            "effects": [],
+            "next_stage_id": "exam"
+          }
+        },
+        {
+          "id": "cram",
+          "text": "硬熬复习再赶路",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "high",
+          "outcome": {
+            "text": "你赶了一夜路，先得撑住身子，才能谈下笔。",
+            "effects": [],
+            "next_stage_id": "stamina"
+          }
+        },
+        {
+          "id": "quit",
+          "text": "留乡教书",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把赶考钱省下来开课，学生不多，饭点倒很准。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_STUDENT"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "stamina",
+          "text": "眼皮直打架，赶考路却还没走完。",
+          "check": {
+            "attribute": "physique",
+            "dc": 13,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你总算赶到，先喝口热水，再把答卷摊开。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": -1
+              }
+            ],
+            "next_stage_id": "exam"
+          },
+          "failure": {
+            "text": "连日劳累又赶路，你倒在途中，书箱替你到了终点。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_JN_EXAM_CRAM"
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "exam",
+          "text": "题目绕了几道弯，还得靠平日积下的学问。",
+          "check": {
+            "attribute": "intelligence",
+            "dc": 15,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你中了举人，邻居连借酱油都客气起来，倒让你不习惯了。",
+            "effects": [
+              {
+                "type": "flag_add",
+                "id": "F_JN_JUREN"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 3
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "这回榜上没你。秀才招牌还在，回乡教书也能把日子过稳。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_TRADE_1",
+      "title": "旧机开张",
+      "text": "你终于能独自管家里的旧织机，木架一响，邻居以为要拆房。师傅说别急，它只是嗓门大。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "chain"
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "repair",
+          "text": "请师傅修机学手艺",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "钱花在轴上，布终于织得齐整，你也学会听声音找毛病。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "sell",
+          "text": "卖掉织机换口饭",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把旧机转给熟人，机房的梦先收起来，锅里先热起来。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_LOOM_BUY"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_TRADE_2",
+      "title": "布商压价",
+      "text": "布商摸着新布连连摇头，嘴上全是毛病，手却舍不得松。你算是看懂了，这人只嫌价格不够低。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "chain"
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "bargain",
+          "text": "拿账本和样布谈价",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "normal",
+          "outcome": {
+            "text": "你把工钱和用料一项项摆出来，看谁先绷不住。",
+            "effects": [],
+            "next_stage_id": "deal"
+          }
+        },
+        {
+          "id": "small",
+          "text": "先接小单守住本钱",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你没接大单，先给街坊织布，赚得慢些，好在没人拖账。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "deal",
+          "text": "别光听布商喊穷，得算清自己每匹布花了多少。",
+          "check": {
+            "attribute": "intelligence",
+            "dc": 12,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你守住了价，布商也肯收货，双方都笑得挺节省。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 3
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "账是算清了，嘴没跟上，你少赚一笔，买了个砍价教训。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_TRADE_3",
+      "title": "运布交货",
+      "text": "最后一批布要走水路，货主只认交货日期。有人说绕开关卡更快，你看那条小船，快散架倒是真的。",
+      "condition": {
+        "op": "is",
+        "field": "region_id",
+        "value": "R_JIANGNAN"
+      },
+      "trigger": {
+        "kind": "chain"
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "regular",
+          "text": "走正路交齐货",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把货单核齐，宁肯少赚，也不拿整船布赌近路。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": 1
+              },
+              {
+                "type": "flag_add",
+                "id": "F_JN_TRADE_DONE"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "smuggle",
+          "text": "听信熟客偷偷绕关",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "high",
+          "outcome": {
+            "text": "船一离岸你就后悔了，这省下的不是钱，是安心。",
+            "effects": [
+              {
+                "type": "flag_add",
+                "id": "F_JN_SMUGGLE"
+              }
+            ],
+            "next_stage_id": "cargo"
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "cargo",
+          "text": "风浪把小船晃个不停，先稳住货，别惦记省钱了。",
+          "check": {
+            "attribute": "physique",
+            "dc": 13,
+            "modifier": 0
+          },
+          "success": {
+            "text": "货虽保住，岸上查验还是补了税费，绕路绕出一笔学费。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_SMUGGLE"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -2
+              },
+              {
+                "type": "flag_add",
+                "id": "F_JN_TRADE_DONE"
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "船漏水丢了货，幸亏船家把你拉上岸，这趟生意白忙。",
+            "effects": [
+              {
+                "type": "flag_remove",
+                "id": "F_JN_SMUGGLE"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -3
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": -1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_R_POETRY",
+      "title": "文会斗诗",
+      "text": "复社文会上，旁人一开口就是花月春风。轮到你时肚子正好响了，倒像替大家打了个拍子。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "calendar_year",
+            "comparator": "gte",
+            "value": 1629
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "trigger_probability": 1,
+        "cooldown_years": 3,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "poem",
+          "text": "把街坊日子写进诗",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "normal",
+          "outcome": {
+            "text": "你不绕远路，就写米价和小船，能不能服众还得看笔头。",
+            "effects": [],
+            "next_stage_id": "verse"
+          }
+        },
+        {
+          "id": "listen",
+          "text": "坐下喝茶听人念",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你听懂了几句，也吃饱了点心，这趟总算没白来。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "verse",
+          "text": "诗得让人听懂，也得有点真滋味，不能只报菜名。",
+          "check": {
+            "attribute": "intelligence",
+            "dc": 14,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你写得明白又有趣，茶馆争着传抄，连卖饼的都能背两句。",
+            "effects": [
+              {
+                "type": "flag_add",
+                "id": "F_JN_POET_FAMOUS"
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 2
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "大家说挺好懂，就是更像账单。你认了，至少没写错米价。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_R_TAX",
+      "title": "白粮催缴",
+      "text": "官府催交白粮，差役把账单拍得啪啪响。你发现粮还没装船，运费倒先长出了好几条腿。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "trigger_probability": 1,
+        "cooldown_years": 3,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "receipts",
+          "text": "带旧收据一起核账",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你拉上邻里逐笔核对，催粮的人终于肯把重复的一项划掉。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "resist",
+          "text": "当面拒交乱加的钱",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "high",
+          "outcome": {
+            "text": "你指出多收的名目，围观的人越来越多，场面也越来越挤。",
+            "effects": [
+              {
+                "type": "flag_add",
+                "id": "F_JN_RESIST_TAX"
+              }
+            ],
+            "next_stage_id": "crowd"
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "crowd",
+          "text": "人群挤到门边，你得站稳脚，别被争执卷进去。",
+          "check": {
+            "attribute": "physique",
+            "dc": 12,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你退到人群外，留好账单等着再讨说法，衣服倒先扯坏了。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "催缴争执变成推搡，你意外倒下，家人等来的只是一张旧账单。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_JN_TAX_BEAT"
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_R_PIRATE",
+      "title": "太湖拦船",
+      "text": "太湖水盗拦住商船，说交钱就保平安。船家小声嘀咕，湖上最大的麻烦，不就是收钱这几位？",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "trigger_probability": 1,
+        "cooldown_years": 3,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "pay",
+          "text": "舍点钱让船过去",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你护住同行的人，钱袋瘦了一圈，好在人都平安上岸。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -2
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "escape",
+          "text": "趁雾让船家绕开",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "high",
+          "outcome": {
+            "text": "船家把船转进雾里，能不能稳住这趟，只能看眼下配合。",
+            "effects": [],
+            "next_stage_id": "water"
+          }
+        }
+      ],
+      "stages": [
+        {
+          "id": "water",
+          "text": "浪打上船头，你得帮着稳船，别让船家一个人忙乱。",
+          "check": {
+            "attribute": "physique",
+            "dc": 13,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你帮忙压稳船身，绕到岸边才敢喘气，腿软得像新煮的面。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "luck",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "雾里一阵急浪掀翻小船，你没能等来岸上的救援。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_JN_WATER_DROWN"
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_R_LAND",
+      "title": "田界吵架",
+      "text": "你刚买下的小田，邻居就说田埂往他家挪了。两人拿尺子越量越气，牛倒在旁边吃得很平静。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 5
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "trigger_probability": 1,
+        "cooldown_years": 3,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "measure",
+          "text": "请人对地契量田界",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "旧契一摊，界线总算讲清。你请大家喝茶，比继续吵省钱。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "share",
+          "text": "让出小角修共用水沟",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "少了点地，多了条水沟。两家不用天天对骂，连牛都清静了。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "luck",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_R_THEATER",
+      "title": "勾栏听戏",
+      "text": "勾栏里新戏开锣，台上穷书生刚要转运，你的钱袋却先叹气。是买个座，还是站门口听半出？",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 12
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "trigger_probability": 1,
+        "cooldown_years": 3,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "seat",
+          "text": "买个便宜座安心听",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "戏里的人绕了半天弯才团圆，你只花小钱就松快了一下午。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "wealth",
+                "amount": -1
+              },
+              {
+                "type": "attribute_add",
+                "attribute": "physique",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          },
+          "condition": {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 1
+          }
+        },
+        {
+          "id": "door",
+          "text": "在门口听够就走",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你没看清主角的脸，却记住了曲子，回家一路哼得挺起劲。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_JN_R_TEA",
+      "title": "茶馆闲话",
+      "text": "茶馆里都在议论朝廷又缺钱，隔壁桌说得像亲眼看过账本。你看看自己那壶淡茶，决定先醒醒脑。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          }
+        ]
+      },
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "trigger_probability": 1,
+        "cooldown_years": 3,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "ask",
+          "text": "追问消息从哪来",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "问了三圈才知道消息来自隔壁茶摊。你没跟着传，茶倒续了三回。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "intelligence",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "help",
+          "text": "少聊传闻，帮邻里记账",
+          "unavailable_text": "眼下条件不够，先选别的办法。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你替几户人家核对开支，比起猜朝廷的账，眼前这笔更有用。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": 1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    }
+  ],
+  "chains": [
+    {
+      "id": "CH_JN_EXAM",
+      "name": "科举之路",
+      "priority": 20,
+      "interrupt_condition": {
+        "op": "any",
+        "conditions": [
+          {
+            "op": "not",
+            "condition": {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_JIANGNAN"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_JN_STUDENT"
+            }
+          }
+        ]
+      },
+      "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+      "nodes": [
+        {
+          "after_years": 10,
+          "event_id": "E_JN_EXAM_1"
+        },
+        {
+          "after_years": 3,
+          "event_id": "E_JN_EXAM_2"
+        },
+        {
+          "after_years": 3,
+          "event_id": "E_JN_EXAM_3"
+        }
+      ],
+      "completion": {
+        "text": "赶考这条路走过了，你把书箱放稳，接下来还得认真过日子。",
+        "effects": [],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "CH_JN_TRADE",
+      "name": "机房商贸",
+      "priority": 20,
+      "interrupt_condition": {
+        "op": "any",
+        "conditions": [
+          {
+            "op": "not",
+            "condition": {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_JIANGNAN"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_JN_LOOM_BUY"
+            }
+          }
+        ]
+      },
+      "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+      "nodes": [
+        {
+          "after_years": 12,
+          "event_id": "E_JN_TRADE_1"
+        },
+        {
+          "after_years": 1,
+          "event_id": "E_JN_TRADE_2"
+        },
+        {
+          "after_years": 1,
+          "event_id": "E_JN_TRADE_3"
+        }
+      ],
+      "completion": {
+        "text": "这轮生意收了尾，你把账本合上，才发现饭已经凉了。",
+        "effects": [],
+        "next_stage_id": null
+      }
+    }
+  ]
+}

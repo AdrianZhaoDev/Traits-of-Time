@@ -1,0 +1,67 @@
+[
+  {
+    "id": "POOL_BASIC",
+    "name": "普通样例池",
+    "entries": [
+      {
+        "card_id": "CARD_COMMON",
+        "weight": 90
+      },
+      {
+        "card_id": "CARD_RARE",
+        "weight": 9
+      },
+      {
+        "card_id": "CARD_EPIC",
+        "weight": 1
+      }
+    ],
+    "replacement": true,
+    "hard_pity": null
+  },
+  {
+    "id": "POOL_PITY",
+    "name": "十抽保底样例池",
+    "entries": [
+      {
+        "card_id": "CARD_COMMON",
+        "weight": 90
+      },
+      {
+        "card_id": "CARD_RARE",
+        "weight": 9
+      },
+      {
+        "card_id": "CARD_EPIC",
+        "weight": 1
+      }
+    ],
+    "replacement": true,
+    "hard_pity": {
+      "after": 10,
+      "target_card_ids": [
+        "CARD_EPIC"
+      ]
+    }
+  },
+  {
+    "id": "POOL_UNIQUE",
+    "name": "批内无放回样例池",
+    "entries": [
+      {
+        "card_id": "CARD_COMMON",
+        "weight": 90
+      },
+      {
+        "card_id": "CARD_RARE",
+        "weight": 9
+      },
+      {
+        "card_id": "CARD_EPIC",
+        "weight": 1
+      }
+    ],
+    "replacement": false,
+    "hard_pity": null
+  }
+]

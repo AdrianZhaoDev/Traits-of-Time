@@ -1,0 +1,27 @@
+[
+  {
+    "id": "A_PROJECT",
+    "name": "匠作有成",
+    "text": "你完成了三年的匠作计划。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "workshop_complete"
+    },
+    "priority": 20,
+    "retirable": true
+  },
+  {
+    "id": "A_LONG_LIFE",
+    "name": "岁月长存",
+    "text": "你走过了七十年人生。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 70
+    },
+    "priority": 10,
+    "retirable": false
+  }
+]

@@ -1,0 +1,578 @@
+[
+  {
+    "id": "E_OPEN_SAFE",
+    "text": "本地开发样例：初到此地，先选一件能安顿生活的事。",
+    "trigger": {
+      "kind": "opening",
+      "weight": 99,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "work",
+        "text": "踏实做工",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "踏实做工：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "learn",
+        "text": "用心学习",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "用心学习：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_OPEN_END",
+    "text": "本地开发样例：命运未曾给予你准备的余地。",
+    "trigger": {
+      "kind": "opening",
+      "weight": 1,
+      "trigger_probability": 1
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "一场意外让这段人生止于开端。",
+      "effects": [
+        {
+          "type": "death",
+          "id": "D_OPENING"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_WORK",
+    "text": "邻里需要人手，你也可以把时间用于学习。",
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 0,
+      "max_occurrences": null,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "work",
+        "text": "踏实做工",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "踏实做工：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "learn",
+        "text": "用心学习",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "用心学习：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_TRAIT",
+    "text": "熟悉的见识涌上心头，你愿意怎样帮助邻里？",
+    "trigger": {
+      "kind": "random",
+      "weight": 2,
+      "trigger_probability": 1,
+      "cooldown_years": 2,
+      "max_occurrences": 2,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "ordinary",
+        "text": "尽一份寻常心力",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "尽一份寻常心力：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_DOCTOR_BOOK",
+        "text": "运用赤脚医生手册",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_DOCTOR_BOOK"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "运用赤脚医生手册：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_DOCTOR_BOOK"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_FIREPOWDER",
+        "text": "运用土法黑火药",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_FIREPOWDER"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "运用土法黑火药：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_FIREPOWDER"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_CORPORATE",
+        "text": "运用打工人思维",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_CORPORATE"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "运用打工人思维：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_CORPORATE"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_REBEL",
+        "text": "运用破局之志",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_REBEL"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "运用破局之志：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_REBEL"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_PROJECT",
+    "text": "一项匠作计划需要三年协作与一份起步资源。",
+    "trigger": {
+      "kind": "random",
+      "weight": 2,
+      "trigger_probability": 1,
+      "cooldown_years": 0,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "start",
+        "text": "投入资源开始协作",
+        "condition": {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "wealth",
+              "comparator": "gte",
+              "value": 1
+            },
+            {
+              "op": "compare",
+              "field": "age",
+              "comparator": "gte",
+              "value": 8
+            }
+          ]
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "投入资源开始协作：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_WORKSHOP"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "prepare",
+        "text": "暂作准备不投入",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "暂作准备不投入：你承受了这一选择的结果。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_CRISIS",
+    "text": "前路出现险阻：撤离要付出资源，尝试通过则有生命风险。",
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 0.25,
+      "cooldown_years": 2,
+      "max_occurrences": 2,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "leave",
+        "text": "付出资源撤离",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "付出资源撤离：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "attempt",
+        "text": "冒险尝试通过",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "high",
+        "outcome": {
+          "text": "冒险尝试通过：你承受了这一选择的结果。",
+          "effects": [],
+          "next_stage_id": "S1"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S1",
+        "text": "先判断能否找到通过险地的路线。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 14,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你找到了路线，仍需体力走完。",
+          "effects": [],
+          "next_stage_id": "S2"
+        },
+        "failure": {
+          "text": "你没能找到路线，消耗资源后返回。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S2",
+        "text": "接下来必须亲自通过险地，失败可能致命。",
+        "check": {
+          "attribute": "physique",
+          "dc": 14,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你平安归来，赢得了邻里的敬重。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你未能平安归来。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_CRISIS"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_FICTIONAL",
+    "text": "架空推演：熟悉的街巷又添了几段关于你的故事。",
+    "condition": {
+      "op": "is",
+      "field": "timeline",
+      "value": "fictional"
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 1,
+      "max_occurrences": null,
+      "rare": false
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "邻里记得你的付出。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_HISTORY_1642",
+    "text": "本地开发样例：京师生活日渐艰难，留下或迁居都需要抉择。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    },
+    "trigger": {
+      "kind": "historical",
+      "year": 1642,
+      "priority": 0
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "stay",
+        "text": "留下应付眼前生活",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "留下应付眼前生活：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "move",
+        "text": "迁往江南重新安顿",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "迁往江南重新安顿：你承受了这一选择的结果。",
+          "effects": [
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HISTORY_1644",
+    "text": "本地开发样例：京师的生活翻过一页，此后转入架空推演。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    },
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 0
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你记住了这一年的变动。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "window_seen"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_CHAIN_1",
+    "text": "匠作计划进入准备环节，伙伴们各尽所长。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你完成了本年的准备任务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "intelligence",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_CHAIN_2",
+    "text": "匠作计划进入试作环节，伙伴们各尽所长。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你完成了本年的试作任务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_CHAIN_3",
+    "text": "匠作计划进入完成环节，伙伴们各尽所长。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你完成了本年的完成任务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  }
+]

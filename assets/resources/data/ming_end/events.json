@@ -1,0 +1,7695 @@
+[
+  {
+    "id": "E_OPEN_SAFE",
+    "text": "刚进大明副本，兜比脸干净。不想第一天就领盒饭，得先找个糊口的差事。",
+    "trigger": {
+      "kind": "opening",
+      "weight": 99,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "work",
+        "text": "老实打工",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "老老实实搬砖，虽然累成狗，好歹混上了两碗热汤面。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "learn",
+        "text": "啃书求学",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "挑灯夜读圣贤书，虽然肚子咕咕叫，脑子倒是灵光不少。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_OPEN_END",
+    "text": "落地成盒！乱世开局手气太背，阎王爷直接催你去地府报到。",
+    "trigger": {
+      "kind": "opening",
+      "weight": 1,
+      "trigger_probability": 1
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "开局不利，出门踩坑，这辈子直接提前杀青。",
+      "effects": [
+        {
+          "type": "death",
+          "id": "D_OPENING"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_WORK",
+    "text": "今年街坊到处找短工，你是打算卖力气赚铜钱，还是留在家学点手艺？",
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 0,
+      "max_occurrences": null,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "work",
+        "text": "接单干活",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "卖力气赚辛苦钱，荷包鼓了一点，腰酸背痛是跑不掉了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "learn",
+        "text": "闭门读书",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "沉下心琢磨门道，虽然没进账，但长了点真本事。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_TRAIT",
+    "text": "脑海里的现代知识突然动了！面对这群朴实的街坊，你打算亮出什么绝活？",
+    "trigger": {
+      "kind": "random",
+      "weight": 2,
+      "trigger_probability": 1,
+      "cooldown_years": 2,
+      "max_occurrences": 2,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "ordinary",
+        "text": "低调摸鱼",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "假装什么都不会，默默跟大家一起搬砖，安全第一。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_DOCTOR_BOOK",
+        "text": "掏出赤脚医术",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_DOCTOR_BOOK"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "教大家多喝热水、饭前洗手，真救下几个拉肚子的邻居。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_DOCTOR_BOOK"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_FIREPOWDER",
+        "text": "科普土法火药",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_FIREPOWDER"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "稍微指点了一下配料，工房老铁匠直呼内行。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_FIREPOWDER"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_CORPORATE",
+        "text": "施展职场话术",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_CORPORATE"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "一套权责划分下来，成功把最累的杂活甩给了别人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_CORPORATE"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "T_REBEL",
+        "text": "号召抱团求变",
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_REBEL"
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "振臂一呼拉起自保小队，邻里声望瞬间拉满。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "used_T_REBEL"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_PROJECT",
+    "text": "老师傅拉你合伙搞三年工坊项目，只要咬牙投点本钱，出师就是顶梁柱。",
+    "trigger": {
+      "kind": "random",
+      "weight": 2,
+      "trigger_probability": 1,
+      "cooldown_years": 0,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "start",
+        "text": "掏钱入伙",
+        "condition": {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "wealth",
+              "comparator": "gte",
+              "value": 1
+            },
+            {
+              "op": "compare",
+              "field": "age",
+              "comparator": "gte",
+              "value": 8
+            }
+          ]
+        },
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "砸锅卖铁交学费，三年工坊计划正式开工！",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_WORKSHOP"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "prepare",
+        "text": "婉言谢绝",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "守着微薄家底摇头拒绝，虽然没长进，至少没破财。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_CRISIS",
+    "text": "出门撞见溃兵封路！要么破财消灾绕道走，要么硬着头皮赌一把冲过去。",
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 0.25,
+      "cooldown_years": 2,
+      "max_occurrences": 2,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "leave",
+        "text": "破财绕道",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "掏出碎银孝敬大爷，肉疼是真肉疼，命保住了也是真。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "attempt",
+        "text": "抄近道硬闯",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "high",
+        "outcome": {
+          "text": "深吸一口气钻进草丛，全看这一把骰子硬不硬！",
+          "effects": [],
+          "next_stage_id": "S1"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S1",
+        "text": "先判断能否找到通过险地的路线。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 14,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你找到了路线，仍需体力走完。",
+          "effects": [],
+          "next_stage_id": "S2"
+        },
+        "failure": {
+          "text": "你没能找到路线，消耗资源后返回。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S2",
+        "text": "接下来必须亲自通过险地，失败可能致命。",
+        "check": {
+          "attribute": "physique",
+          "dc": 14,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你平安归来，赢得了邻里的敬重。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你未能平安归来。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_CRISIS"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_FICTIONAL",
+    "text": "天下局势彻底魔幻推演，大明剧本走偏，市井茶馆里全是你的离谱传说。",
+    "condition": {
+      "op": "is",
+      "field": "timeline",
+      "value": "fictional"
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 1,
+      "max_occurrences": null,
+      "rare": false
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "邻里记得你的付出。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_HISTORY_1642",
+    "text": "崇祯十五年，京师物价飞涨。是咬牙留在天子脚下硬苟，还是润去江南水乡？",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    },
+    "trigger": {
+      "kind": "historical",
+      "year": 1642,
+      "priority": 0
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "stay",
+        "text": "留在京师硬苟",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "safe",
+        "outcome": {
+          "text": "勒紧裤腰带继续在京城硬撑，天天看百官扯皮。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "move",
+        "text": "南下江南避难",
+        "unavailable_text": "当前条件不符或任务容量不足，无法选择。",
+        "risk": "normal",
+        "outcome": {
+          "text": "打起包袱润去江南，虽然风尘仆仆，好歹能吃口热米饭。",
+          "effects": [
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HISTORY_1644",
+    "text": "崇祯十七年三月，煤山风紧，帝京变天！大明正史剧终，后面全靠自己浪了。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    },
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 0
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你记住了这一年的变动。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "window_seen"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_CHAIN_1",
+    "text": "工坊第一年：老铁匠带你打下手，天天抡大锤，手上磨出两层厚茧。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你完成了本年的准备任务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "intelligence",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_CHAIN_2",
+    "text": "工坊第二年：开始试做成品，图纸废了十几张，总算摸到了匠作门道。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你完成了本年的试作任务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_CHAIN_3",
+    "text": "工坊第三年：三年期满大功告成！你成了远近闻名的大师傅。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你完成了本年的完成任务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 1
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_ds_shan_grain",
+    "text": "投胎陕北流民家，刚学会吃奶，分粮簿上就记了你一口。脑子里算盘打得飞起，老妈却求你装傻充愣。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 10
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_SHANBEI"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "opening",
+      "weight": 120,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_ds_shan_grain_quiet",
+        "text": "装傻认生，攥紧家人衣角",
+        "unavailable_text": "此时无法依靠家人。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你故意把一二数成三四，躲进母亲怀里只喊饿。管事笑你连账也不懂，照旧给家中拨粮；装糊涂第一次有了实在的回报。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_shan_grain_quiet"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_ds_grain_boast",
+        "text": "算盘比饭硬：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你盯住粮簿里忽然变小的数目，当众报出应领的份额。管事停下拨珠，问这孩子还知道多少，围观者却默默退开半步。",
+          "effects": [],
+          "next_stage_id": "S_ds_grain"
+        }
+      },
+      {
+        "id": "O_ds_road_boast",
+        "text": "地图不包接送：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你在地上画出记忆中的山路，许诺能早些走到下一处粮棚。家人看向灰白的山口，领队却已催你亲自走在最前头。",
+          "effects": [],
+          "next_stage_id": "S_ds_road"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_ds_grain",
+        "text": "你凭宿慧点破赈粮账上的缺口，管事不问算式，只问谁教的。围观者忽然低头，仿佛聪明也是一种欠税。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你察觉管事并非不会算，立刻改口说自己少数了一户。算盘重新响起，母亲拿到原有口粮，回去教你先数清身边有几个人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_grain_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你坚持让管事重算，连账上空着的粮数也逐项念出。笔尖随即划过你家的姓名，母亲捧着空袋站到日暮，仍等不到答复。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_grain_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_grain"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_ds_road",
+        "text": "你夸口记得近路，替流民队指向山口。众人把宿慧当路引，风雪却不认印信，正等一个小身板来讲道理。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你望见山口积雪遮住脚印，终于承认记忆未必抵得上这场寒风。你擦掉地上的近路，拉家人回到官道，宁可晚到半日。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_road_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你不肯承认山路已被雪封，仍循记忆独自向前。身后的呼喊渐渐听不清，等领队折回寻找，只剩一行被风抹平的脚印。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_road_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_road"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_ds_shan_roll",
+    "text": "降生陕北军户，号衣大得能当被子盖，军册上倒早给你占了坑。家里都盼着你长大吃皇粮，没人敢提粮库早空了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 10
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_SHANBEI"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_SOLDIER"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "opening",
+      "weight": 120,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_ds_shan_roll_quiet",
+        "text": "装傻认生，攥紧家人衣角",
+        "unavailable_text": "此时无法依靠家人。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把军册当作不认识的花纸，低头摆弄号衣上的旧绳。书吏嫌你年幼无知，让家人带回照看，今日终于不必证明有用。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_shan_roll_quiet"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_ds_roll_boast",
+        "text": "童子查空额：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你发现军册上几个人名年年领粮，村里却从无人见过。宿慧催你当众核对，书吏收起笑容，先问你父亲在哪一队当差。",
+          "effects": [],
+          "next_stage_id": "S_ds_roll"
+        }
+      },
+      {
+        "id": "O_ds_drill_boast",
+        "text": "神童请校阵：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你在泥地上摆出记得的阵图，说队伍照此便能少走冤枉路。队官夸你早慧，转身叫人拿来号衣，要看小先生如何亲自示范。",
+          "effects": [],
+          "next_stage_id": "S_ds_drill"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_ds_roll",
+        "text": "你凭宿慧算出军册里多领的口粮，还向书吏解释人人核账的好处。书吏点头，让你先解释自己的名字在哪。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你看到父亲在门边摇头，便把空额说成认错了同姓人。书吏合上军册，命你回家认字；这回错字没有扣掉一家人的口粮。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_roll_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你把不存在的人名逐个念完，还催书吏当面销账。当天家里的领粮牌便被收走，父亲奔走求情，所得答复都是再候几日。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_roll_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_roll"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_ds_drill",
+        "text": "你把记得的阵图讲成制胜妙法，队官便让你站到操场证明。夸奖来得很快，照看幼童的人手却始终没有批下。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你看出队官真要按成人操练，连忙推说阵图只是玩泥的花样。你打乱泥块，抱着过长的号衣哭，终于被当作孩子送回家。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_drill_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你怕哭出声便失了神童体面，硬撑着跟上操练的长队。暮色落下仍没人让你歇息，家人领回的只有一场迟迟不退的寒病。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_drill_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_drill"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_ds_capital_bowl",
+    "text": "出生在京师城外棚户区，先学会听敲粥勺，再学会看官爷脸色。一堆现代大道理在脑子里转，奈何肚皮咕咕叫。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 10
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_CAPITAL"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "opening",
+      "weight": 120,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_ds_capital_bowl_quiet",
+        "text": "装傻认生，攥紧家人衣角",
+        "unavailable_text": "此时无法依靠家人。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你指着空碗只说肚子饿，把施粥章程全咽回心里。棚头嫌你只会讨吃，却没有赶你离队，一勺稀粥比满纸道理更肯落地。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_capital_bowl_quiet"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_ds_plaque_boast",
+        "text": "天才讨签字：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你将施粥的先后次序写得清楚，请棚头照章签名负责。几位领粥人连连称好，到了需要作证的时候，却都忙着低头找碗。",
+          "effects": [],
+          "next_stage_id": "S_ds_plaque"
+        }
+      },
+      {
+        "id": "O_ds_omen_boast",
+        "text": "报时兼报命：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你把记忆中的京师变局讲给棚头听，连将来的年份也说得清楚。周围忽然挤满听客，棚头望着门外，脸色比粥汤还淡。",
+          "effects": [],
+          "next_stage_id": "S_ds_omen"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_ds_plaque",
+        "text": "你用宿慧替京师施粥棚拟出整齐章程，还要求管事当众签押。旁人劝你先端稳碗，你却急着替众人设计明天。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你瞧见棚头把木碗移出队列，赶紧说纸上不过练字，并不算章程。你收纸重新排队，挨了几句训斥，终于仍领到那勺粥。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_plaque_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你坚持要棚头签押，还请听客留下姓名作证。众人散去后，木碗也被撤走；新章尚未生效，旧册却已经不再收留这个孩子。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_plaque_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_plaque"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_ds_omen",
+        "text": "你据宿慧预言京师将有大变，把年代讲得比更夫还准。棚头不懂史书，却懂得先把惹人围观的小孩送出门外。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你听见棚头要人清场，立刻说年份是听更夫闲谈时记错的。听客失望散开，你缩回家人身边，今夜仍有棚顶替你挡风。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_omen_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你越见棚头不信，越要把未来说得分毫不差。有人怕惹来盘问，将你赶出寄居处，家人抱着铺盖追来时，夜风已灌满街口。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_omen_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_omen"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_ds_shan_well",
+    "text": "陕北村口老井围满讨水人，你个小屁孩脑子一热想大显身手，老妈一把拽住你衣角：祖宗别出头！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 10
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_SHANBEI"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "is",
+              "field": "caste_id",
+              "value": "C_REFUGEE"
+            },
+            {
+              "op": "is",
+              "field": "caste_id",
+              "value": "C_SOLDIER"
+            }
+          ]
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 18,
+      "trigger_probability": 1,
+      "cooldown_years": 0,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_ds_shan_well_quiet",
+        "text": "装傻认生，攥紧家人衣角",
+        "unavailable_text": "此时无法依靠家人。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把井深的算法换成几句含糊童谣，退到母亲身后等水。旁人笑你胆小，你便再退两步，让那圈松动的井沿独自承受夸奖。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_shan_well_quiet"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_ds_well_boast",
+        "text": "算到井边去：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你告诉讨水人，不必垂绳也能算出井有多深。众人让出井口等你开讲，你踮脚走近，忽然发现书里的道理没有画上护栏。",
+          "effects": [],
+          "next_stage_id": "S_ds_well"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_ds_well",
+        "text": "你在陕北村口夸耀宿慧，说连井深也能凭声算出。众人把让路当作相信，你的小脚却要替整套学问承担分量。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你看清井沿碎土正在往下掉，立即收脚退回母亲身边，承认今日算不了。听客嫌你扫兴，你却庆幸他们只损失了一点兴致。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_well_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你为了听清回声又向前探了一步，松动的井沿没给你第二次验算的机会。水桶还在原处摇晃，讨水的人终于停下了说笑。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_well_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_well"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_ds_capital_gate",
+    "text": "京师城门排起百米长队，军属流民挤成沙丁鱼。你个幼童非要给大伙讲排队秩序，大人们全看傻了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 10
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_CAPITAL"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "is",
+              "field": "caste_id",
+              "value": "C_REFUGEE"
+            },
+            {
+              "op": "is",
+              "field": "caste_id",
+              "value": "C_SOLDIER"
+            }
+          ]
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 18,
+      "trigger_probability": 1,
+      "cooldown_years": 0,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_ds_capital_gate_quiet",
+        "text": "装傻认生，攥紧家人衣角",
+        "unavailable_text": "此时无法依靠家人。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你佯装听不懂守门人的问话，抓着家人衣角退到队尾。有人笑你连路也不会指，你便顺势低头，把开路的功劳留给成年人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_capital_gate_quiet"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_ds_gate_boast",
+        "text": "神童替人排队：炫耀宿慧",
+        "unavailable_text": "此刻无法出头。",
+        "risk": "high",
+        "outcome": {
+          "text": "你向守门人夸口，凭自己记得的法子就能让长队走得更快。他指向最拥挤的门洞，请小先生下去指挥，自己仍站在高处。",
+          "effects": [],
+          "next_stage_id": "S_ds_gate"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_ds_gate",
+        "text": "你向京师城门的流民夸耀宿慧，声称懂得更快入城的办法。守门人叫你亲自领队，队尾却没有人听得到停下。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 19,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你发现门洞容不下迎面的人流，立刻放弃领队，沿空处退回家人身旁。守门人嘲你只会空谈，你宁可留下这句差评再等一轮。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_gate_retreated"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你站到门洞前高声安排先后，后面的人却只见前头在动。呼喊被脚步声盖住，家人再也挤不到你身边，门楼上仍在催行。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_ds_gate_paid"
+            },
+            {
+              "type": "death",
+              "id": "D_ds_gate"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_arms_start",
+    "text": "崇祯十三年，库房旧三眼铳锈得像出土文物。你想搞军工改良，官府画大饼容易，找个靠谱铁匠比登天还难。",
+    "trigger": {
+      "kind": "opening",
+      "weight": 90,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_arms_begin",
+        "text": "出资开办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你拿积蓄请来老匠，约定只议检验与协作，不以人命催工。账房把三年计划写下，旁边仍留着催缴的空栏。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_gm_arms"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 3
+        }
+      },
+      {
+        "id": "O_gm_arms_decline",
+        "text": "暂且养家",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你将计划收回箱底，先顾眼前衣食。乡人各自散去，并未有人追究宏图为何搁置；乱世里，活着也算按时交差。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "eq",
+          "value": 1640
+        },
+        {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_FIREPOWDER"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 3
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "injuries",
+            "id": "INJ_SEVERE"
+          }
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_CAPITAL"
+        }
+      ]
+    }
+  },
+  {
+    "id": "E_gm_water_start",
+    "text": "崇祯十三年，村口又有人喝生水拉倒。你拿着开水消毒法找乡医，乡约先斜眼瞅你：这玩意儿能赚钱不？",
+    "trigger": {
+      "kind": "opening",
+      "weight": 90,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_water_begin",
+        "text": "出资开办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你出资请乡医与井户合议，把饮水整治和病人照护分开立账。有人索求包治百病的字据，你将那一栏划去。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_gm_water"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 2
+        }
+      },
+      {
+        "id": "O_gm_water_decline",
+        "text": "暂且养家",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你将计划收回箱底，先顾眼前衣食。乡人各自散去，并未有人追究宏图为何搁置；乱世里，活着也算按时交差。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "eq",
+          "value": 1640
+        },
+        {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_DOCTOR_BOOK"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 2
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "injuries",
+            "id": "INJ_SEVERE"
+          }
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_CAPITAL"
+        }
+      ]
+    }
+  },
+  {
+    "id": "E_gm_fort_start",
+    "text": "崇祯十三年，粮商怕被劫，乡民怕挨刀。你跳出来提议合伙筑土堡屯粮，大伙一听要轮流值夜班，全沉默了。",
+    "trigger": {
+      "kind": "opening",
+      "weight": 90,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_fort_begin",
+        "text": "出资开办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你拿本钱立合仓账，与粮商议互保，同乡人议轮值。契上不许侵占口粮，负责誊写的人倒先替自己留了假条。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_gm_fort"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 3
+        }
+      },
+      {
+        "id": "O_gm_fort_decline",
+        "text": "暂且养家",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你将计划收回箱底，先顾眼前衣食。乡人各自散去，并未有人追究宏图为何搁置；乱世里，活着也算按时交差。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "eq",
+          "value": 1640
+        },
+        {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_CORPORATE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 3
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "injuries",
+            "id": "INJ_SEVERE"
+          }
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_CAPITAL"
+        }
+      ]
+    }
+  },
+  {
+    "id": "E_gm_arms_1",
+    "text": "工房开门清点，全是一堆炸膛神铳。你主张该报废的赶紧报废，千户大人却只关心账面上看着齐不齐。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_arms_1_work",
+        "text": "旧库登记",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你让库吏取来旧册，请老匠逐件辨认来源与停用缘由。谁也不许先填合格二字，这让一向熟练的笔吏忽然慢了下来。",
+          "effects": [],
+          "next_stage_id": "S_gm_arms_1"
+        }
+      },
+      {
+        "id": "O_gm_arms_1_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你将疑物留在库中，撤回自己的主持名帖，免得仓促开工。库吏追问今年如何结项，你请他如实写下尚未开办。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_arms_1",
+        "text": "旧册与实物逐项核对，有的来历不明，有的早被报废。你须辨清哪些记录可信，不能让一枚旧印替所有疑点作答。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你请匠户逐项复核旧账，停下逞强的试用。军官嫌你误事，却找不出可信的反证，只好把威风暂存纸上。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "账目与实物对不上，匠户不愿继续担责。你决定撤案而非掩盖疑点，旧库重新落锁，验收宴自然也未能开成。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_arms_2",
+    "text": "改良旧铳靶场试射，远方轰的一声异响，铁匠吓得当场扔锤。是咬牙死磕品控，还是应付交差？",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_arms_2_work",
+        "text": "炸膛险情",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你请老匠接管现场，先核查停用记录，再听各人的见闻。催工者仍想讨一句无碍，你却知道这句话不能提前写好。",
+          "effects": [],
+          "next_stage_id": "S_gm_arms_2"
+        }
+      },
+      {
+        "id": "O_gm_arms_2_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你宣布停场，不再以年度期限催逼匠户，将现场交还负责查验的人。军官嫌你胆小，你宁愿让这句评语留在自己名下。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gm_arms_peril",
+        "text": "带病闯入险场",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "high",
+        "outcome": {
+          "text": "你不愿再等查验结果，径自留在已经停用的场地。老匠劝你退出，你却还想亲眼证明无碍，催工的话终于催到了自己。",
+          "effects": [],
+          "next_stage_id": "S_gm_arms_peril"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_arms_2",
+        "text": "匠户各述异响发生前后的情况，记录之间尚有矛盾。你需要判断是否还有遗漏的危险，而不是挑一个最省事的解释。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 13,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你听从老匠停场复核，没有把险情说成好事。缺陷被列入退修清册，今年进度虽慢，明年的值守仍有人来。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你误判了险情，现场事故使你落下重伤，工房随即封存。催办文书仍照常送来，只是再也无人替它安排验收。",
+          "effects": [
+            {
+              "type": "injury_add",
+              "id": "INJ_SEVERE"
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gm_arms_peril",
+        "text": "场地的隐患尚未查明，匠户已退到远处，你却仍来不及离开。此刻身体承受的是实际危险，不是催办文书上的期限。",
+        "check": {
+          "attribute": "physique",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你撑到援手赶来，仍能自行离开险处，却已无心继续主持旧事。名册交给旁人以后，你终于肯把性命排在进度之前。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你终究没能等到局面转好，同行者收起未完的名册，替你划去往后的轮值。官文照例写得简短，仿佛只是少来一人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            },
+            {
+              "type": "death",
+              "id": "D_gm_blast"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_arms_3",
+    "text": "城头火急火燎催着接收旧铳，工匠坚决要求守军先看说明书。你在军爷和手艺人中间疯狂拉架。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_arms_3_work",
+        "text": "守城列装",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你把接收名册与轮值名单并排摊开，请军官和匠户到场议定责任。谁都想先盖对方的印，仿佛印泥能够挡住追责。",
+          "effects": [],
+          "next_stage_id": "S_gm_arms_3"
+        }
+      },
+      {
+        "id": "O_gm_arms_3_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你收回尚未签押的移交册，拒绝用齐整件数替代可靠守备。城门仍照旧换班，只是你的改良计划不再列入军报。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_arms_3",
+        "text": "军官只肯领器物，匠户却要求落实停用与交接责任。你必须说服双方共同签押，否则整齐名册仍是一摞无人认领的纸。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你让军官与匠户共同签押，列装不再只看件数。轮值名册终于有人认领，城门上的旧规矩也肯给常识挪个位。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "军官拒绝承担停用责任，匠户也不肯替他签名。你撤回列装请求，保住了底线，却未能把三年计划写成捷报。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_arms_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_water_1",
+    "text": "大伙为了谁负责淘井天天对骂，里正只给挂了个写满好人好事的破木牌。你决定动真格排班消杀。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_water_1_work",
+        "text": "深井管护",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你请井户当面推举值守者，再请乡医辨明各项职责，拒绝代填姓名。里正提笔等候许久，终于发现空格不是墨少。",
+          "effects": [],
+          "next_stage_id": "S_gm_water_1"
+        }
+      },
+      {
+        "id": "O_gm_water_1_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你收起还未生效的井务名册，告诉乡人此事暂不能办。劝善木牌留给里正保管，至少它不会再替缺席的人领功。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_water_1",
+        "text": "值守者要求说清分工与接替办法，乡医也不肯独揽所有责任。你须让每项事务有人答应，而非把众人的沉默算作赞同。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "井户与乡医议定分工，水源管护终于有人查问。里正将新牌挂得很高，好在这回牌下也确实站着值守的人。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "值守名单迟迟无人认领，你拒绝凭空填报太平。井务计划只得停下，劝善木牌倒还挂着，风吹起来颇像掌声。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_water_2",
+    "text": "乡医配出口服补液盐，专治腹泻脱水。旁边大聪明起哄问能不能包治百病，你赶紧把这神仙言论按下去。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_water_2_work",
+        "text": "补液照护",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你请乡医公开说明补液照护的边界，再让病户复述自己听懂的意思。若连用途都没讲清，传得再广也不是功劳。",
+          "effects": [],
+          "next_stage_id": "S_gm_water_2"
+        }
+      },
+      {
+        "id": "O_gm_water_2_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你撤回推广告示，把尚存用品交乡医保管，停止以个人名义招揽病户。有人失望而去，你不愿再用许诺挽留他们。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_water_2",
+        "text": "病户把不同病症混为一谈，还有人将补液误认作治疫良方。你要辨清这些误解并交乡医解释，不能拿热心替代分辨。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你与乡医讲清补液的用途和局限，病重者另寻诊治。乡人虽嫌告示不够好听，终于不再拿一张纸当包治百病的凭据。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "传言盖过解释，病户误把补液当成万病通方。你叫停推广并交乡医重新评议，宁可丢掉进度，也不拿误会报功。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_water_3",
+    "text": "大疫流言四起，管井的值班人员想连夜跑路，大夫也快顶不住了。你必须稳住阵脚，把消毒坚持到底。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_water_3_work",
+        "text": "疫期值守",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你先问乡医还能接下多少照护，再请井户重新认领值守时日。疲惫的人不愿多说，你得听见他们没有说出的限度。",
+          "effects": [],
+          "next_stage_id": "S_gm_water_3"
+        }
+      },
+      {
+        "id": "O_gm_water_3_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你告知邻里不再主持井务，把仍能承担的事务逐项转交，不报完工。乡医点头收下名册，没让客套话耽误下一位病人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gm_water_peril",
+        "text": "留守病舍",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "high",
+        "outcome": {
+          "text": "病舍仍缺照护的人，你明知自己已疲惫，还是把歇息的机会让给旁人。乡医没有赞你壮举，只叮嘱你别再逞强。",
+          "effects": [],
+          "next_stage_id": "S_gm_water_peril"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_water_3",
+        "text": "值守名单上已有多人缺席，留下的人也未必能撑过来年。你需要谈成可接续的分工，不能拿旧日签名替疲惫者答应。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 13,
+          "modifier": 0
+        },
+        "success": {
+          "text": "乡医与井户愿按约接续值守，照护不再全压在一人肩上。你撤下夸大的平安告示，换成求助名录，字少而事多。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "值守终于散去，乡医只够照看眼前病户。你撤销完工呈文，留用品供人自取，承认失约总比让空名继续值夜强。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gm_water_peril",
+        "text": "病舍的轮换迟迟未到，你的疲惫却已难以遮掩。乡医催你休息，此时能否支撑下去，终究不是一份值守名册能决定。",
+        "check": {
+          "attribute": "physique",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你撑到援手赶来，仍能自行离开险处，却已无心继续主持旧事。名册交给旁人以后，你终于肯把性命排在进度之前。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你终究没能等到局面转好，同行者收起未完的名册，替你划去往后的轮值。官文照例写得简短，仿佛只是少来一人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_water_abort"
+            },
+            {
+              "type": "death",
+              "id": "D_gm_epidemic"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_fort_1",
+    "text": "粮商非要先见银子，乡民非要先见粮食，都怕对方搞杀猪盘。你夹在中间做中介，头皮发麻。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_fort_1_work",
+        "text": "商路合仓",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你请粮商出示来货承诺，让乡人核对共同托付的本钱，凡有疑处当面说明。契纸尚未写满，争论倒先把屋子坐满了。",
+          "effects": [],
+          "next_stage_id": "S_gm_fort_1"
+        }
+      },
+      {
+        "id": "O_gm_fort_1_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你当众停下合仓筹办，将尚未落实的交易逐项注销，不留含混担保。商民虽觉扫兴，总比来年各持一张欠据相见好。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_fort_1",
+        "text": "商人与乡人对交货和担保各有顾虑，账上还有几笔说不清的托付。你须辨明实际能承担的责任，才有资格让众人签契。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你把账目摊给商民共同核对，仓中终于有了可查的存粮。大家仍未相亲相爱，不过已经愿意在同一张契纸上签名。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "商路中断，担保又迟迟无法兑现。你退还尚未入账的托付，关闭合仓计划，免得一张漂亮契纸成为新的催债凭据。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_fort_2",
+    "text": "土堡围墙刚砌好，巡逻队又因为谁排夜班吵翻天。家家有本难念的经，你得拿出端水大师的本事。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_fort_2_work",
+        "text": "坞堡轮值",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你让商户和住户依次陈述能守的时段，再议共同认可的轮值办法。富户刚要提祖上功名，你将话头拉回今晚谁来。",
+          "effects": [],
+          "next_stage_id": "S_gm_fort_2"
+        }
+      },
+      {
+        "id": "O_gm_fort_2_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你停止主持营建，把仓钥与轮值草册交回乡约，不再替空缺班次署名。墙外风声依旧很紧，墙内却不能靠签名添人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_fort_2",
+        "text": "值守名单看似齐备，却有人只肯守白日，有人坚持全家免役。你须说服各方接受共同规矩，否则夜里仍然只有墙在。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你按共同议定的规矩分派轮值，没有把富户姓名另抄一册。埋怨声仍在，夜间却有人应门，这已经胜过许多豪言。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "富户要求免值，乡勇遂纷纷离席。你不肯拿空名充数，只得暂停营建，半成的坞墙照旧站着，却不能算作守备。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_fort_3",
+    "text": "流贼兵马隔三岔五从山头路过，堡外有人跪求收留，堡内有人死守粮仓。全堡上下大眼瞪小眼等你拿主意。",
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_fort_3_work",
+        "text": "各路义军攻堡",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "normal",
+        "outcome": {
+          "text": "你召集仍在堡中的乡勇，核实接应者与仓中存粮，照共同约定分派事务。此时夸口最容易，肯留在位置上的人最难。",
+          "effects": [],
+          "next_stage_id": "S_gm_fort_3"
+        }
+      },
+      {
+        "id": "O_gm_fort_3_abort",
+        "text": "主动停办",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你宣布停止合仓守堡，交代乡人分散转运尚存粮物，不再许诺固守。有人仍恋着新墙，你提醒他家人不该陪墙等候。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gm_fort_peril",
+        "text": "独守危堡",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "high",
+        "outcome": {
+          "text": "你让乡人先走，独自留在已难守住的堡中，仍想等回最后一队搬粮者。空仓没有回答，远处来犯的脚步却越来越近。",
+          "effects": [],
+          "next_stage_id": "S_gm_fort_peril"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_fort_3",
+        "text": "求援者陆续来到堡外，乡勇中却有人想先运走自家粮食。你须稳住共同守约的意愿，才能让仓里的粮真正留给众人。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 14,
+          "modifier": 0
+        },
+        "success": {
+          "text": "乡勇按约接应乡人，粮仓没有被私自搬空，来犯者也未能久留。众人仍怕下一场风雨，却肯承认合力并非一句空话。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "乡勇各自散去，各路义军逼到堡下，存粮只能分散转运。你宣布停办合仓，带人撤走；残墙留在原地，不再冒充安居。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gm_fort_peril",
+        "text": "堡中应声的人越来越少，退路也渐被来犯兵马逼近。你需要及时离开这处危地，昨日筑好的墙已不能替今日的孤身作保。",
+        "check": {
+          "attribute": "physique",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你撑到援手赶来，仍能自行离开险处，却已无心继续主持旧事。名册交给旁人以后，你终于肯把性命排在进度之前。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你终究没能等到局面转好，同行者收起未完的名册，替你划去往后的轮值。官文照例写得简短，仿佛只是少来一人。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_gm_fort_abort"
+            },
+            {
+              "type": "death",
+              "id": "D_gm_siege"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gm_history_plague",
+    "text": "崇祯十七年京师大疫未散，药铺紧闭。你当年的净水防疫档案突然被官差翻出来当成了救命稻草。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 330
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_history_plague_special",
+        "text": "联络旧日井户",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你凭三年井务联络乡医与井户，替一处街坊续上饮水管护和照护。余疫没有因此消失，只是求助的人少走了几扇空门。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_done"
+        }
+      },
+      {
+        "id": "O_gm_history_plague_ordinary",
+        "text": "随邻避险",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你避开拥挤街巷，随邻人互通求医消息，不敢将传闻当作药方。京师大局仍在远处翻涌，眼前先要有人照看病者。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    }
+  },
+  {
+    "id": "E_gm_history_rebels",
+    "text": "各路大军直逼京师外围，城外客商连夜跑路。你当年的老相识发来飞鸽传书，求你给留个地窖躲一躲。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 320
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_history_rebels_special",
+        "text": "开放坞堡接应",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你凭合仓与轮值旧约接应商民，让粮食与住处按共同名册分配。闯军进退不由你定，这一处坞堡却未先被自己人搬空。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_fort_done"
+        }
+      },
+      {
+        "id": "O_gm_history_rebels_ordinary",
+        "text": "随邻避险",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你将随身财物收作小包，随邻人寻找能避乱的亲友，不听街头的必胜传言。去路仍未安稳，至少没有再拿家人押注。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    }
+  },
+  {
+    "id": "E_gm_history_pass",
+    "text": "山海关烽烟骤起，边关各方兵马调动频繁。你守着残破城头，深知改朝换代就在眼前，先保命要紧！",
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 310
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gm_history_pass_special",
+        "text": "依旧制护送撤离",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你沿用三年列装与轮值旧制，守住撤离的时辰，让一队乡人离开险处。山海关的胜负未改，小城名册却少了几行失踪。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gm_history_saved"
+            },
+            {
+              "type": "ending_unlock",
+              "id": "A_gm_history"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_done"
+        }
+      },
+      {
+        "id": "O_gm_history_pass_ordinary",
+        "text": "随邻避险",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "safe",
+        "outcome": {
+          "text": "你随守军交出值守名帖，转往较远的村落投亲。关外劲旅的军报很快传遍驿路，你只盼下次点名时家人仍能答到。",
+          "effects": [],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gm_history_pass_stay",
+        "text": "独留驿路等候",
+        "unavailable_text": "尚未具备所需条件",
+        "risk": "high",
+        "outcome": {
+          "text": "你不肯随众离开，仍在驿路等候失散亲友。来往的人劝你先避锋头，你却怕一旦转身，此后所有家书都要写成寻人。",
+          "effects": [],
+          "next_stage_id": "S_gm_history_pass_peril"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gm_history_pass_peril",
+        "text": "驿路上的队伍越来越急，人人都说前方安全，却无人肯把话说满。你仍在辨认陌生面孔，远处的喧声已盖过问路之声。",
+        "check": {
+          "attribute": "physique",
+          "dc": 16,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你被路过乡人拉离驿路，终于在别处留下寻亲口信。此后仍没有确切消息，但你至少活着，能够继续辨认每一封来信。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "兵马与人群塞满驿路，你未能离开混乱之处，此后再无音讯。有人替你留下一封寻亲口信，收信人却再也不必回话。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gm_road"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_CAPITAL"
+    }
+  },
+  {
+    "id": "E_gpt_conscription",
+    "text": "差役进村挨家抓壮丁，名册翻得比饥肠还响。乡约催你赶紧出列，你脑瓜子飞转，琢磨怎么合法摸鱼。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_SHANBEI"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 3,
+      "trigger_probability": 0.65,
+      "cooldown_years": 1,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gpt_conscription_fallback",
+        "text": "暂按规矩应付",
+        "unavailable_text": "尚无对应词条",
+        "risk": "safe",
+        "outcome": {
+          "text": "你随队搬运营中杂物，按点卯册熬完当日差事。买干粮的钱从腰间少了一串，名字却没有再被另列，今夜尚能回村歇脚。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gpt_conscription_micro",
+        "text": "核对雇役旧票",
+        "unavailable_text": "尚无对应词条",
+        "risk": "normal",
+        "outcome": {
+          "text": "你把旧日雇役票据摊开，只求查清重复的名目。差役肯接纸，却不肯替你认字，旁边等候的人已开始向前挤来。",
+          "effects": [],
+          "next_stage_id": "S_gpt_conscription_micro_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_office"
+        }
+      },
+      {
+        "id": "O_gpt_conscription_trap1",
+        "text": "以营造监工身份拒征",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你自称熟识营造，要求只管工期而不随队。押队的人让你当场解释凭据，众人忽然安静下来，像在等一份新任命。",
+          "effects": [],
+          "next_stage_id": "S_gpt_conscription_trap1_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_civil"
+        }
+      },
+      {
+        "id": "O_gpt_conscription_trap2",
+        "text": "包揽军粮换取免征",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你说可包揽沿途粮运，愿以商约换下军籍。押队的人先问保人是谁，后问仓粮何在，原先顺口的买卖忽然变得沉重。",
+          "effects": [],
+          "next_stage_id": "S_gpt_conscription_trap2_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_supply"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gpt_conscription_micro_1",
+        "text": "两张票各写着差役名目，墨色深浅不同，姓名却十分相近。你须先辨清究竟是重复登载还是同名异人，不能只挑有利的字念。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "册上两处姓名果然重叠，差役暂缓押你入队。你仍得找到当日经手的乡约，纸上的缺口尚不能当作村口的通行凭据。",
+          "effects": [],
+          "next_stage_id": "S_gpt_conscription_micro_2"
+        },
+        "failure": {
+          "text": "旧票上的年月已被汗水浸花，你把两笔不同的差役误作重列。差役收回名册，你仍须随队出工，路上还得自买干粮。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_conscription_micro_2",
+        "text": "乡约来到队前，却只肯承认见过这张旧票。你得让他当着押队人的面说清经手日期，这一句话，比先前十张纸都重。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "乡约终于认下旧票，重复的差役被勾去一项。你仍须服完原来的杂役，却留下了凭据，至少这次不是凭嗓门算账。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gpt_conscription_mastered"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你未能找齐经手的人，旧票被退回袖中。差役仍照原册派工，你只得扛起行李，先前那番核对没有替你换来轻省。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_conscription_trap1_1",
+        "text": "押队的人指着空白的任职栏，问谁肯担保你确能监工。你须当众让他信服这项自荐足以暂缓征发，身后已经有人催着开队。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "一位老匠认出你曾帮看工地，押队的人才肯暂缓追究。你另付银钱请保人具结，监工的职位没有着落，应服的差役仍未免去。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你向押队的人讲清分工，又坚持自己不在应征范围。军法最终替双方结束争论，册上添了结案二字，往后不必再点名。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_conscription"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_conscription_trap2_1",
+        "text": "粮运的日程与人手写在桌上，只有你声称的仓粮尚无着落。你须说服押队人先准查验再行编队，否则商约便会被当作推脱。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "粮户替你说明只是接洽未成，押队的人才准撤回包揽之言。你赔了跑腿与具结的费用，军粮生意归了别人，自己的军籍仍在。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你向押队的人讲清分工，又坚持自己不在应征范围。军法最终替双方结束争论，册上添了结案二字，往后不必再点名。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_conscription"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gpt_tax",
+    "text": "夺命连环催缴辽饷！旧账还没结，新税单又糊脸上了。差役拍桌子瞪眼：今天不交银子，就把锅砸了！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_GENTRY"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 3,
+      "trigger_probability": 0.65,
+      "cooldown_years": 1,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gpt_tax_fallback",
+        "text": "暂按规矩应付",
+        "unavailable_text": "尚无对应词条",
+        "risk": "safe",
+        "outcome": {
+          "text": "你请管事先凑足票上银数，交割之后索回收条。家中箱底明显空了些，差役倒不再催门，田里的难处留待明日再议。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gpt_tax_micro",
+        "text": "逐笔核对完纳凭照",
+        "unavailable_text": "尚无对应词条",
+        "risk": "normal",
+        "outcome": {
+          "text": "你取出往年的完纳凭照，先把本户已交的款项逐笔排开。差役嫌你动作太慢，管事却终于停下只会叹气的嘴。",
+          "effects": [],
+          "next_stage_id": "S_gpt_tax_micro_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_supply"
+        }
+      },
+      {
+        "id": "O_gpt_tax_trap1",
+        "text": "召开乡绅会议联名拒缴",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你要召集乡绅统一口径，以集体拖延争取减额。催征的人没有等会议散场，先来索取发起人的姓名与各家门牌。",
+          "effects": [],
+          "next_stage_id": "S_gpt_tax_trap1_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_office"
+        }
+      },
+      {
+        "id": "O_gpt_tax_trap2",
+        "text": "以修堤预算抵销辽饷",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你将尚未核准的修堤预算列作抵项，觉得两边都是公事。差役却把两册分开放好，请你解释谁准许这样调换银钱。",
+          "effects": [],
+          "next_stage_id": "S_gpt_tax_trap2_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_civil"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gpt_tax_micro_1",
+        "text": "管事将家中底账与凭照并排摆下，一笔银数在两年中各出现一次。你必须先分清续缴还是重记，不能把相同数目都算作多征。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "一笔重列的银数已经找出，差役答应再看总册。你还须查明解送日期，单有家中留底，并不能让衙门当场认账。",
+          "effects": [],
+          "next_stage_id": "S_gpt_tax_micro_2"
+        },
+        "failure": {
+          "text": "几张凭照的银数倒算得清，缴纳的年分却对不上。差役不肯据此停催，你另付脚钱请人取旧册，此番核账只能作罢。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_tax_micro_2",
+        "text": "总册送来后，书吏指着解送日期向你发问。你须让管事与经手人把前后交割说在一处，否则家中的留底仍只算一家之言。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "总册与凭照终于对上，重列的银数获准扣除。你照旧交纳应缴之项，并无凭空横财，只少替一个抄写错误垫钱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gpt_tax_mastered"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "解送日期未能核实，差役不肯据此改册。你只得先垫一笔银钱再候查问，算盘依然响亮，却没能替钱袋挡风。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_tax_trap1_1",
+        "text": "乡绅们面对差役纷纷只称赴席，联名的纸上剩下你的笔迹。你须解释这不是领头抗缴，还得让在场的人肯替这番解释出声。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "席间一位长者将聚议说成误传，催征的人才收起追问名单。你先补缴又赔席面，减额毫无音信，乡绅们倒都记得今日饭菜。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你把拒缴说成账期协商，催征的人却只认逾限。案牍几番转送，你终未活着回家，家中仍收到下一张催缴的票帖。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_tax"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_tax_trap2_1",
+        "text": "差役拿出催缴期限，要求你说明修堤银为何可以先扣。你须劝他将此事只作误报退回，而不是把擅改饷额的名目写入呈文。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "差役准你撤去抵项，另立认缴文书，不再往上转呈。你补齐银数还添了具结费用，堤工照旧无款，两册终于都与你算清。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你把拒缴说成账期协商，催征的人却只认逾限。案牍几番转送，你终未活着回家，家中仍收到下一张催缴的票帖。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_tax"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gpt_post",
+    "text": "朝廷裁撤驿站后，失业驿卒全在旧道上蹲活。里正要你带队运货，路烂坑深，全凭一身胆量硬闯。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_SHANBEI"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 3,
+      "trigger_probability": 0.65,
+      "cooldown_years": 1,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gpt_post_fallback",
+        "text": "暂按规矩应付",
+        "unavailable_text": "尚无对应词条",
+        "risk": "safe",
+        "outcome": {
+          "text": "你只接近处的零散搬运，不碰废驿全线的差事。来回脚钱抵去一半报酬，旧站仍在漏雨，你总算没有替那屋顶作保。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gpt_post_micro",
+        "text": "勘看旧道并划清搬运范围",
+        "unavailable_text": "尚无对应词条",
+        "risk": "normal",
+        "outcome": {
+          "text": "你先沿旧道看过积水与断坡，只答应搬运可通行的一段。里正催你签名，驿卒却拉住纸角，请你把路段写得清楚。",
+          "effects": [],
+          "next_stage_id": "S_gpt_post_micro_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_civil"
+        }
+      },
+      {
+        "id": "O_gpt_post_trap1",
+        "text": "凭管理章程承包荒废驿路",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你以为只需统一分工便能盘活废驿，揽下整条旧道的搬运。驿卒提起缺桥少马，你说章程写细便好，随即自领头队出发。",
+          "effects": [],
+          "next_stage_id": "S_gpt_post_trap1_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_office"
+        }
+      },
+      {
+        "id": "O_gpt_post_trap2",
+        "text": "空口担保全线按期到货",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你套用现代直达运输的时限承诺，认定省去转仓就能获利。沿线既无车队也无可靠路讯，你仍包下全程，亲自催着驮队出发。",
+          "effects": [],
+          "next_stage_id": "S_gpt_post_trap2_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_supply"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gpt_post_micro_1",
+        "text": "旧路草图只标里程，不标近年冲坏的沟坎。你必须将脚下地势与货担负重合看，找出可走的止处，不能照图上直线许诺。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "断坡的位置已被认下，里正暂时收起全程的字样。你还须同货主核对交接处，否则少走的路仍会算作少干的活。",
+          "effects": [],
+          "next_stage_id": "S_gpt_post_micro_2"
+        },
+        "failure": {
+          "text": "你看漏了岔道上的一处积水，所报路段无法连成通途。里正退回草图，半日勘看的饭钱只好自付，搬运仍按旧法安排。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_post_micro_2",
+        "text": "货主赶到岔口，仍以为货件会送到原来的废站。你须当面讲明两段脚程的分界，让他肯在这里点货，而非继续催人上路。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "货主在交接处点清货件，双方把路段写进收据。你保住工钱，也没有替废驿背上新账，断坡仍在，至少不再算你头上。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gpt_post_mastered"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "货主不认约定的交接处，争论拖到天色发暗。你只得少领工钱收场，断坡没有修好，纸上的界线也未替你挡住责问。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_post_trap1_1",
+        "text": "头队走到断坡前，空有分工单却没有架桥的人手与材料。你须劝货主准许整队回撤，先前那句按章办事已无人愿意再听。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "货主终于准你带队折返，沿途雇脚与误期的钱却一笔不少。你赔款解约，分工单收回袖中，断桥没有因为写明责任便接起来。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你把荒废的驿路当作能承包的生意，亲自领人赶路。险段终将队伍困住，救援来时只余旧账，里正仍在询问误期由谁担。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_post"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_post_trap2_1",
+        "text": "驮队到了险段才知前路已断，下一站也没有备用牲口。你须说服货主立即停运回撤，纸上的周转速度无法替疲马多走一步。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "货主忍痛准许停运，你领队折返并赔清误期的损失。预想的直达生意没有做成，账本上少算的车马与路讯，终于都算在你身上。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你把荒废的驿路当作能承包的生意，亲自领人赶路。险段终将队伍困住，救援来时只余旧账，里正仍在询问误期由谁担。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_post"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gpt_market",
+    "text": "菜市口地痞流氓收保护费，借来的摊子还没开张，先被拍了一块欠费竹牌。你打算怎么给他们上一课？",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 3,
+      "trigger_probability": 0.65,
+      "cooldown_years": 1,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gpt_market_fallback",
+        "text": "暂按规矩应付",
+        "unavailable_text": "尚无对应词条",
+        "risk": "safe",
+        "outcome": {
+          "text": "你付清眼前摊钱，抱着货担退到街尾另找位置。少掉的铜钱换不来公道，却换来一段清静，至少无人再拍你的竹牌。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gpt_market_micro",
+        "text": "请邻摊作证并留缴费凭单",
+        "unavailable_text": "尚无对应词条",
+        "risk": "normal",
+        "outcome": {
+          "text": "你不争谁的嗓门大，只请邻摊指认原有缴费的日子。收钱的人伸手来夺旧单，你将纸留在桌心，等众人看清再开口。",
+          "effects": [],
+          "next_stage_id": "S_gpt_market_micro_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_office"
+        }
+      },
+      {
+        "id": "O_gpt_market_trap1",
+        "text": "宣布低价抢行压倒恶霸",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你声称只要薄利多销，市口自然归愿做生意的人。强人不跟你比价，只请你留下货担，众人低头看货，没有一个报价。",
+          "effects": [],
+          "next_stage_id": "S_gpt_market_trap1_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_supply"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gpt_market_micro_1",
+        "text": "旧单上的摊位号与眼前竹牌不完全相同，日期也夹着俗写。你须先把两处称呼理清，若连自家凭单都解释不明，旁人更难作证。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "邻摊肯认旧单，重复收钱的说法一时站不住脚。你仍须请行中管账的人出面，围观者散去以后，竹牌还会留在原处。",
+          "effects": [],
+          "next_stage_id": "S_gpt_market_micro_2"
+        },
+        "failure": {
+          "text": "旧单缺了经手人的记号，邻摊也说不准是哪日缴的钱。收钱的人仍按竹牌索款，你付钱收起旧纸，纸薄的坏处今日才显。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_market_micro_2",
+        "text": "管账的人隔着人群问谁肯担保旧单确属本摊。你须让邻摊愿意当面复述缴款经过，而不是只在强人转身之后低声附和。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "管账的人当众销去重项，给你另写一张缴清凭单。摊钱并未从此消失，只是这回不必交两遍，市口的风也轻了几分。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gpt_market_mastered"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "管账的人迟迟不来，围观的邻摊陆续收声。你付钱换回竹牌，损失没有换来公道，至少还能收拾摊子另寻一个角落。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_market_trap1_1",
+        "text": "强人把你的货担扣在脚边，围观客人却不肯替低价作保。你须让他接受撤回抢行之言以换取放人，这里没有愿替你守约的柜台。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你当众撤回低价抢行的许诺，又赔下一笔钱才得拿回货担。强人未失半分威风，客人也早已散去，薄利尚未开张便先成了厚亏。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你拿商约要求强人退让，还当众许下从此免缴的诺言。争执之后你再未归摊，竹牌照旧挂着，欠款却被写得分外工整。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_market"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gpt_hunger",
+    "text": "赈灾粮棚挤成早高峰地铁！不知谁喊了一句粮要运走，全场瞬间炸锅，人浪汹涌，你被挤在暴风眼中央。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_SHANBEI"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 3,
+      "trigger_probability": 0.65,
+      "cooldown_years": 1,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gpt_hunger_fallback",
+        "text": "暂按规矩应付",
+        "unavailable_text": "尚无对应词条",
+        "risk": "safe",
+        "outcome": {
+          "text": "你松开车板，绕到空地等人潮稍歇再另寻吃食。最后花钱买下一碗薄粥，未领到赈粮，却也没有继续挤在车轮旁边。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gpt_hunger_micro",
+        "text": "请粮主分批点数发放",
+        "unavailable_text": "尚无对应词条",
+        "risk": "normal",
+        "outcome": {
+          "text": "你先请粮主将袋数说清，再请前排的人报出各户人数。谁都怕自己落在后头，你只能把已经点过的名字反复念给大家听。",
+          "effects": [],
+          "next_stage_id": "S_gpt_hunger_micro_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_supply"
+        }
+      },
+      {
+        "id": "O_gpt_hunger_trap1",
+        "text": "登车指挥人群强行分流",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你把人群当作可重新排布的工地，登车高喊各路让行。前排听见命令却无处退步，车身摇晃起来，你仍想把话说完。",
+          "effects": [],
+          "next_stage_id": "S_gpt_hunger_trap1_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_civil"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gpt_hunger_micro_1",
+        "text": "粮袋的大小不一，前排报出的户口又有重复。你须先将袋数与待领人数分开记清，不把叫喊最响的人误当成最多的一家。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "袋数与户数暂且排定，最前头的人放松了车板。你还须让后排看见发放次序，纸上排好的人，并不会自动站成一列。",
+          "effects": [],
+          "next_stage_id": "S_gpt_hunger_micro_2"
+        },
+        "failure": {
+          "text": "报户的人七嘴八舌，几家名字重了几回，你始终理不清数目。人群再度前挤，你退出时丢了零碎钱，空口清点就此收场。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_hunger_micro_2",
+        "text": "后排只见前排开始挪动，却看不清纸上的名次。你须请两边各有人复述顺序，让等待变得可信，否则一点空隙也会被挤满。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "前后两排终于看清发放次序，粮主按点数分出第一批。你只领自己的一份，却免去推挤之苦，账目难得比叫喊管用。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gpt_hunger_mastered"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "后排听不清点数，队伍再次挤成一团。你退到空地才发现衣袋已破，粮未领到，还丢了盘缠，今日只好另寻粥棚。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_hunger_trap1_1",
+        "text": "前排已贴紧车轮，后排却听不见你的分流吩咐。你须让近处几人相信侧边还有退路，才能随他们离开摇晃的车身，嗓门不算护栏。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "近处几人听清退路，你趁空隙离开粮车，转到棚外才站稳。包袱和钱袋都留在人潮里，赈粮也未领到，今日的指挥只救回自己。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你宣布由自己掌管粮车，却未能使饥急的人群停下。混乱过去，你已倒在车旁不再应声，粮主清点袋数时，特地绕开那里。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_hunger"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_gpt_watch",
+    "text": "京城十字路口突然戒严大盘查！锦衣卫挨个查验户籍。轮到你时，差爷眯着眼打量你怀里的可疑包裹。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_CAPITAL"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 3,
+      "trigger_probability": 0.65,
+      "cooldown_years": 1,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_gpt_watch_fallback",
+        "text": "暂按规矩应付",
+        "unavailable_text": "尚无对应词条",
+        "risk": "safe",
+        "outcome": {
+          "text": "你照问话次序交代住处，站在街边等到例行核验结束。今日的活计已经错过，饭钱仍须照付，好在包袱最后原样领回。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_gpt_watch_micro",
+        "text": "逐项说明来历并请店家核认",
+        "unavailable_text": "尚无对应词条",
+        "risk": "normal",
+        "outcome": {
+          "text": "你只按旧纸上的日期说明去处，不替旁人猜测，更不争论盘查的道理。问话的人记下店名，让你站到一旁等候查证。",
+          "effects": [],
+          "next_stage_id": "S_gpt_watch_micro_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_office"
+        }
+      },
+      {
+        "id": "O_gpt_watch_trap1",
+        "text": "夸称认识采买内官求通融",
+        "unavailable_text": "尚无对应词条",
+        "risk": "high",
+        "outcome": {
+          "text": "你顺口报出采买门路，想把盘查变成一场熟人生意。问话的人反倒坐直了身子，让你将姓名逐个写下，不准遗漏一笔。",
+          "effects": [],
+          "next_stage_id": "S_gpt_watch_trap1_1"
+        },
+        "condition": {
+          "op": "has",
+          "collection": "traits",
+          "id": "T_gpt_supply"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "S_gpt_watch_micro_1",
+        "text": "几张旧纸分别记着工期、房钱与过城日期，称呼并不一样。你须将它们排成能互相核对的来历，而不是挑最体面的那段说。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "前后日期已经对上，问话的人将几张纸重新叠好。你还得等店家辨认，街口渐冷，答得顺畅终究不能代替旁人的一句实话。",
+          "effects": [],
+          "next_stage_id": "S_gpt_watch_micro_2"
+        },
+        "failure": {
+          "text": "你把两次投宿的先后记混，旧纸上的日期又无法替你圆说。差役留你等候重新查问，耽搁的工钱没有人赔，只能另日再挣。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_watch_micro_2",
+        "text": "店家赶来时尚未认清你的脸，只盯着欠房钱的旧簿。你须请他按日子核认住客，不让一场来历查验变成另一桩欠款争吵。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "店家前来认清人和旧纸，盘查终于在册上画了勾。你领回包袱离开街口，没有显出机巧，只把每句话都放在能查到的地方。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_gpt_watch_mastered"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "店家一时找不到旧簿，问话的人便不肯放行。你赔上盘缠与几日工钱才得脱身，从此记住，来历清楚也未必省得下时间。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "S_gpt_watch_trap1_1",
+        "text": "问话的人把你写下的姓名逐一圈出，要你说明何时何地相识。你须赶在口供落定前澄清只是听闻门路，熟人的招牌已经越挂越重。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 17,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你及时承认只是听人说过门路，店家也替你证明确在此做工。几番传问耗尽盘缠才获放行，所谓熟人一面未见，花销倒十分真实。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你想用熟练的话术替来历添几分体面，却让口供前后不合。身陷诏狱之后终未归来，街口仍旧盘查，问句也没有换过几个。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_gpt_watch"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_OPEN_STUDY",
+    "title": "书塾点名",
+    "text": "家里把你送进书塾，先生刚翻开书，你就盯上窗外的小船。今天是装墨水，还是装肚子疼？",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_GENTRY"
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "opening",
+      "weight": 12,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "study",
+        "text": "坐稳读书",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把书拿正了，先生很欣慰，家里开始攒赶考钱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_JN_STUDENT"
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_JN_EXAM"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "slack",
+        "text": "下课就去摸鱼",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你没摸到鱼，倒把水边的路认全了，回家还能按时吃饭。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_OPEN_SILK",
+    "title": "丝摊算盘",
+    "text": "家里在丝绸集市摆小摊，你踮着脚看人砍价。大人说先学算账，免得往后赔得一脸无辜。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "opening",
+      "weight": 12,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "account",
+        "text": "学账顺便认丝",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你算清了第一笔账，家里合钱买下旧织机，往后就指望它响。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_JN_LOOM_BUY"
+            },
+            {
+              "type": "chain_start",
+              "id": "CH_JN_TRADE"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "sell",
+        "text": "帮忙招呼客人",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你嗓门不大，笑脸管够，卖出的碎布换来一锅热饭。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_OPEN_BOAT",
+    "title": "码头长大",
+    "text": "你跟着家人在水运码头讨生活，货包比你还高。船老大叫你认绳结，可别只记住饭点。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "opening",
+      "weight": 12,
+      "trigger_probability": 1
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "rope",
+        "text": "跟着大人学绳结",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把绳结打得结实，饭碗也端得结实，都是保命的手艺。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "count",
+        "text": "蹲在岸上数货包",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你数出了多记的一包货，账房夸你眼尖，分了点辛苦钱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_EXAM_1",
+    "title": "书越念越厚",
+    "text": "几年书念下来，家里问你何时出头。先生说先过眼前这关，你看着书堆，觉得头已经够大了。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "prepare",
+        "text": "按先生的法子温书",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把易错的句子重新理了一遍，饭和觉也没落下。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 2
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "quit",
+        "text": "先找活养家",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你收好书本去记账，功名先放放，饭钱不能放假。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_STUDENT"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_EXAM_2",
+    "title": "榜上找名",
+    "text": "院试放榜那天，你挤在人堆里找名字。别人念榜像唱曲，你听得心跳比隔壁敲锣还响。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "exam",
+        "text": "交卷等榜",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "normal",
+        "outcome": {
+          "text": "卷子已经交了，接下来只能看真本事。",
+          "effects": [],
+          "next_stage_id": "result"
+        }
+      },
+      {
+        "id": "leave",
+        "text": "不考了，回家教字",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你没拿功名，教街坊认账单倒也有用，至少不怕他们算错钱。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_STUDENT"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "result",
+        "text": "先把题意看明白，别让满肚子的墨水跑错地方。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "榜上真有你！秀才到手，家里的鸡都像叫得更响了。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_JN_XIUCAI"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "名字没找着，你决定先靠识字吃饭，不再让家里陪着熬。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_STUDENT"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_EXAM_3",
+    "title": "秋闱赶考",
+    "text": "乡试快到了，同窗都说再熬几晚准能中。你摸摸眼下的黑圈，怀疑先中的会是郎中的药方。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "steady",
+        "text": "睡够吃饱再进场",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你带齐干粮和笔墨，决定不拿身子跟书本较劲。",
+          "effects": [],
+          "next_stage_id": "exam"
+        }
+      },
+      {
+        "id": "cram",
+        "text": "硬熬复习再赶路",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "high",
+        "outcome": {
+          "text": "你赶了一夜路，先得撑住身子，才能谈下笔。",
+          "effects": [],
+          "next_stage_id": "stamina"
+        }
+      },
+      {
+        "id": "quit",
+        "text": "留乡教书",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把赶考钱省下来开课，学生不多，饭点倒很准。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_STUDENT"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "stamina",
+        "text": "眼皮直打架，赶考路却还没走完。",
+        "check": {
+          "attribute": "physique",
+          "dc": 13,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你总算赶到，先喝口热水，再把答卷摊开。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": "exam"
+        },
+        "failure": {
+          "text": "连日劳累又赶路，你倒在途中，书箱替你到了终点。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_JN_EXAM_CRAM"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "exam",
+        "text": "题目绕了几道弯，还得靠平日积下的学问。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 15,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你中了举人，邻居连借酱油都客气起来，倒让你不习惯了。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_JN_JUREN"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 3
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "这回榜上没你。秀才招牌还在，回乡教书也能把日子过稳。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_TRADE_1",
+    "title": "旧机开张",
+    "text": "你终于能独自管家里的旧织机，木架一响，邻居以为要拆房。师傅说别急，它只是嗓门大。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "repair",
+        "text": "请师傅修机学手艺",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "钱花在轴上，布终于织得齐整，你也学会听声音找毛病。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "sell",
+        "text": "卖掉织机换口饭",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把旧机转给熟人，机房的梦先收起来，锅里先热起来。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_LOOM_BUY"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_TRADE_2",
+    "title": "布商压价",
+    "text": "布商摸着新布连连摇头，嘴上全是毛病，手却舍不得松。你算是看懂了，这人只嫌价格不够低。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "bargain",
+        "text": "拿账本和样布谈价",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你把工钱和用料一项项摆出来，看谁先绷不住。",
+          "effects": [],
+          "next_stage_id": "deal"
+        }
+      },
+      {
+        "id": "small",
+        "text": "先接小单守住本钱",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你没接大单，先给街坊织布，赚得慢些，好在没人拖账。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "deal",
+        "text": "别光听布商喊穷，得算清自己每匹布花了多少。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你守住了价，布商也肯收货，双方都笑得挺节省。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 3
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "账是算清了，嘴没跟上，你少赚一笔，买了个砍价教训。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_TRADE_3",
+    "title": "运布交货",
+    "text": "最后一批布要走水路，货主只认交货日期。有人说绕开关卡更快，你看那条小船，快散架倒是真的。",
+    "condition": {
+      "op": "is",
+      "field": "region_id",
+      "value": "R_JIANGNAN"
+    },
+    "trigger": {
+      "kind": "chain"
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "regular",
+        "text": "走正路交齐货",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把货单核齐，宁肯少赚，也不拿整船布赌近路。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_JN_TRADE_DONE"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "smuggle",
+        "text": "听信熟客偷偷绕关",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "high",
+        "outcome": {
+          "text": "船一离岸你就后悔了，这省下的不是钱，是安心。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_JN_SMUGGLE"
+            }
+          ],
+          "next_stage_id": "cargo"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "cargo",
+        "text": "风浪把小船晃个不停，先稳住货，别惦记省钱了。",
+        "check": {
+          "attribute": "physique",
+          "dc": 13,
+          "modifier": 0
+        },
+        "success": {
+          "text": "货虽保住，岸上查验还是补了税费，绕路绕出一笔学费。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_SMUGGLE"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_JN_TRADE_DONE"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "船漏水丢了货，幸亏船家把你拉上岸，这趟生意白忙。",
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_JN_SMUGGLE"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -3
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_R_POETRY",
+    "title": "文会斗诗",
+    "text": "复社文会上，旁人一开口就是花月春风。轮到你时肚子正好响了，倒像替大家打了个拍子。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1629
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 3,
+      "max_occurrences": 3,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "poem",
+        "text": "把街坊日子写进诗",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你不绕远路，就写米价和小船，能不能服众还得看笔头。",
+          "effects": [],
+          "next_stage_id": "verse"
+        }
+      },
+      {
+        "id": "listen",
+        "text": "坐下喝茶听人念",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你听懂了几句，也吃饱了点心，这趟总算没白来。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "verse",
+        "text": "诗得让人听懂，也得有点真滋味，不能只报菜名。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 14,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你写得明白又有趣，茶馆争着传抄，连卖饼的都能背两句。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_JN_POET_FAMOUS"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "大家说挺好懂，就是更像账单。你认了，至少没写错米价。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_R_TAX",
+    "title": "白粮催缴",
+    "text": "官府催交白粮，差役把账单拍得啪啪响。你发现粮还没装船，运费倒先长出了好几条腿。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 3,
+      "max_occurrences": 3,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "receipts",
+        "text": "带旧收据一起核账",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你拉上邻里逐笔核对，催粮的人终于肯把重复的一项划掉。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "resist",
+        "text": "当面拒交乱加的钱",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "high",
+        "outcome": {
+          "text": "你指出多收的名目，围观的人越来越多，场面也越来越挤。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_JN_RESIST_TAX"
+            }
+          ],
+          "next_stage_id": "crowd"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "crowd",
+        "text": "人群挤到门边，你得站稳脚，别被争执卷进去。",
+        "check": {
+          "attribute": "physique",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你退到人群外，留好账单等着再讨说法，衣服倒先扯坏了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "催缴争执变成推搡，你意外倒下，家人等来的只是一张旧账单。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_JN_TAX_BEAT"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_R_PIRATE",
+    "title": "太湖拦船",
+    "text": "太湖水盗拦住商船，说交钱就保平安。船家小声嘀咕，湖上最大的麻烦，不就是收钱这几位？",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 3,
+      "max_occurrences": 3,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "pay",
+        "text": "舍点钱让船过去",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你护住同行的人，钱袋瘦了一圈，好在人都平安上岸。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "escape",
+        "text": "趁雾让船家绕开",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "high",
+        "outcome": {
+          "text": "船家把船转进雾里，能不能稳住这趟，只能看眼下配合。",
+          "effects": [],
+          "next_stage_id": "water"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "water",
+        "text": "浪打上船头，你得帮着稳船，别让船家一个人忙乱。",
+        "check": {
+          "attribute": "physique",
+          "dc": 13,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你帮忙压稳船身，绕到岸边才敢喘气，腿软得像新煮的面。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "luck",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "雾里一阵急浪掀翻小船，你没能等来岸上的救援。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_JN_WATER_DROWN"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_R_LAND",
+    "title": "田界吵架",
+    "text": "你刚买下的小田，邻居就说田埂往他家挪了。两人拿尺子越量越气，牛倒在旁边吃得很平静。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 18
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 5
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 3,
+      "max_occurrences": 3,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "measure",
+        "text": "请人对地契量田界",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "旧契一摊，界线总算讲清。你请大家喝茶，比继续吵省钱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "share",
+        "text": "让出小角修共用水沟",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "少了点地，多了条水沟。两家不用天天对骂，连牛都清静了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "luck",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_R_THEATER",
+    "title": "勾栏听戏",
+    "text": "勾栏里新戏开锣，台上穷书生刚要转运，你的钱袋却先叹气。是买个座，还是站门口听半出？",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 12
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 3,
+      "max_occurrences": 3,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "seat",
+        "text": "买个便宜座安心听",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "戏里的人绕了半天弯才团圆，你只花小钱就松快了一下午。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 1
+        }
+      },
+      {
+        "id": "door",
+        "text": "在门口听够就走",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你没看清主角的脸，却记住了曲子，回家一路哼得挺起劲。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_JN_R_TEA",
+    "title": "茶馆闲话",
+    "text": "茶馆里都在议论朝廷又缺钱，隔壁桌说得像亲眼看过账本。你看看自己那壶淡茶，决定先醒醒脑。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "region_id",
+          "value": "R_JIANGNAN"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 5,
+      "trigger_probability": 1,
+      "cooldown_years": 3,
+      "max_occurrences": 3,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "ask",
+        "text": "追问消息从哪来",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "问了三圈才知道消息来自隔壁茶摊。你没跟着传，茶倒续了三回。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "help",
+        "text": "少聊传闻，帮邻里记账",
+        "unavailable_text": "眼下条件不够，先选别的办法。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你替几户人家核对开支，比起猜朝廷的账，眼前这笔更有用。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1641_LUOYANG",
+    "title": "王府开仓",
+    "text": "洛阳城破，福王身亡，王府存粮分给饥民。你赶到粮场，肚子先替你排起了队。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1641,
+      "priority": 100
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "queue",
+        "text": "排队领粮，先顾肚子",
+        "unavailable_text": "粮场已经停止分粮。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你领到一小袋粮，回去熬成稀粥。碗里能照见人影，好歹不是空碗照镜子。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "carry",
+        "text": "帮忙搬粮，分给街坊",
+        "unavailable_text": "粮袋已经搬完，无需帮手。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你扛粮扛得肩膀发酸，替街坊多跑了几趟。大家记住了你，腰也记住了今天。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "climb",
+        "text": "翻墙抢粮，小心跌落丧命",
+        "unavailable_text": "粮仓墙边已经封住。",
+        "risk": "high",
+        "outcome": {
+          "text": "你想翻墙抄近路抢粮，旧砖却先散了架。粮袋还没摸到，人已跌落，再没起来。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_HIST_GRAIN_ROBBED"
+            },
+            {
+              "type": "death",
+              "id": "D_HIST_LOOT_FALL"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1642_FLOOD",
+    "title": "水退找路",
+    "text": "开封围城期间，黄河决堤，城里城外都遭了灾。水退之后，你得给下一顿找个落脚处。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1642,
+      "priority": 100
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "high_ground",
+        "text": "上高地搭棚，烧水等粮",
+        "unavailable_text": "附近已无可用的落脚高地。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你拿破门板搭了棚，先烧水再找吃的。家当缩水得厉害，好在人没有跟着缩水。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_FLOOD_SURVIVE"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "clear_road",
+        "text": "帮人清路，换点干粮",
+        "unavailable_text": "清路队已经收工。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你挖开淤泥，帮邻居找回几件家什。挣来的干粮硬得硌牙，但总算轮到牙齿干活。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_FLOOD_SURVIVE"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1643_PLAGUE_NORTH",
+    "title": "求药避疫",
+    "text": "京师和北地疫病蔓延，药铺门口排起长队。你摸摸钱袋，发现药钱比自己的底气还足。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1643,
+      "priority": 100
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "seek_doctor",
+        "text": "拿两份积蓄请郎中",
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 2
+        },
+        "unavailable_text": "财力不足两份，付不起诊费药钱。",
+        "risk": "safe",
+        "outcome": {
+          "text": "郎中看过病，让你服药休息。几日后人缓了过来，钱袋倒还病着，暂时不想见人。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_PLAGUE_RECOVER"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "keep_distance",
+        "text": "少去人堆，烧水换洗",
+        "unavailable_text": "眼下没有安顿休息的地方。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你少出门，勤换洗，把水烧开再喝。躲过这阵风波，饭碗却因少做几天工而见了底。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "share_medicine",
+        "text": "拿三份积蓄凑药照应邻居",
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 3
+        },
+        "unavailable_text": "财力不足三份，无法替邻居垫药钱。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你帮邻居请医送药，送到门边就走。大家欠下一笔人情，只有药铺掌柜坚持当场结账。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -3
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 3
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1644_JASHEN_FALL",
+    "title": "京城换旗",
+    "text": "甲申三月，京师陷落，李自成进京后追赃助饷。街坊忙着藏账本，你也得想想往哪站。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 200
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "keep_accounts",
+        "text": "去当书办，只管登记账目",
+        "unavailable_text": "登记账目的差事已经满员。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你领了书办差事，整天登记钱粮。别人问前程，你看看越堆越高的账本，决定先闭嘴。",
+          "effects": [
+            {
+              "type": "flag_add",
+              "id": "F_HIST_REBELS_OFFICIAL"
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "outskirts",
+        "text": "收拾铺盖，暂住城郊",
+        "unavailable_text": "城郊的落脚处暂时进不去。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把值钱家当换成干粮，搬到城郊借住。没赶上新差事，倒是赶上了房东催房钱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "settle_accounts",
+        "text": "拿出旧账，按要求交粮",
+        "unavailable_text": "登记钱粮的窗口已经关闭。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你把账本摊开，该交的粮照数交了。手续办完心里松快些，灶台却开始认真考虑歇业。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1644_SHANHAI_PASS",
+    "title": "关口变天",
+    "text": "四月山海关战局突变，吴三桂与清军合兵，随后清军入关。北边道路更乱，你的行李又得打包。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1644,
+      "priority": 100
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "leave_north",
+        "text": "避开大路，随难民南下",
+        "unavailable_text": "南下的同行人已经动身。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你绕过兵马来往的大路，终于走到江南。鞋底先撑不住了，好在人还能继续讨生活。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_CAPITAL_FLED"
+            },
+            {
+              "type": "flag_remove",
+              "id": "F_HIST_REBELS_OFFICIAL"
+            },
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "escort_neighbors",
+        "text": "带上街坊，一起绕道南下",
+        "unavailable_text": "街坊已经另找了同行队伍。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你领着街坊走小路，到江南时腿都抬不动。大家夸你认路，你只想先认一张能睡的床。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_CAPITAL_FLED"
+            },
+            {
+              "type": "flag_remove",
+              "id": "F_HIST_REBELS_OFFICIAL"
+            },
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1645_NANJING_COURT",
+    "title": "朝堂抢位",
+    "text": "南京弘光朝里，拥立旧账和立储议论搅成一团，各派忙着争权。你递张求粮条子，还得先认门。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1645,
+      "priority": 300
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "support_relief",
+        "text": "支持朝廷，拿两份积蓄赈粮",
+        "condition": {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 2
+        },
+        "unavailable_text": "财力不足两份，凑不起这批粮。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你出钱帮忙赈粮，盼朝廷少吵两句。粮送到了百姓手里，衙门里的嗓门却没见省。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_NANMING_LOYAL"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "petition",
+        "text": "替街坊递求粮条子",
+        "unavailable_text": "衙门今日已经不再收条子。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你替街坊跑了几处衙门，终于递上求粮条子。答复还得等，倒是门房认全了你的脸。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "earn_living",
+        "text": "不掺和争位，码头找活",
+        "unavailable_text": "码头今天已经不再招工。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你绕开说客，去码头帮人扛包。谁坐哪把椅子还没定，你晚饭坐哪张凳子倒是有了着落。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1645_YANGZHOU_FATE",
+    "title": "城下去留",
+    "text": "四月，清军逼近扬州，史可法组织守城。去留摆在眼前，你的行李不重，心里的算盘却拨不动。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1645,
+      "priority": 200
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "leave_early",
+        "text": "趁道路尚通，去乡下落脚",
+        "unavailable_text": "通往乡下的道路已经封闭。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你趁道路还通离开城边，借住乡下旧屋。屋顶漏雨总能补，比等着粮缸自己长米靠谱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_HERMIT_SOUTH"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "help_departures",
+        "text": "帮老幼搬行李，再一起走",
+        "unavailable_text": "撤离的队伍已经离开。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你帮老幼扛着包袱赶路，离开时已满脚水泡。大家平安落脚，你决定暂时不跟鞋子说话。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -2
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 3
+            },
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_NANMING_LOYAL"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "stay_without_food",
+        "text": "缺粮仍守旧屋，可能饿死",
+        "unavailable_text": "旧屋已经无法居住。",
+        "risk": "high",
+        "outcome": {
+          "text": "你舍不得旧屋，等到围困加紧才想走。家中早已断粮，身体撑不住，没能等来救济。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_HIST_SIEGE_STARVE"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_HIST_1645_HAIRCUT",
+    "title": "发令到村",
+    "text": "六月，剃发令传到江南，各地有人照办，有人抗拒，也有人躲避。街口议论不断，你得考虑安身。",
+    "trigger": {
+      "kind": "historical",
+      "year": 1645,
+      "priority": 100
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "comply",
+        "text": "按令剃发，先安顿家人",
+        "unavailable_text": "街口理发摊已经收起工具。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你按要求剃了发，带家人回去关门做饭。街上的议论没停，家里的日子还得一顿顿过。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "hide_south",
+        "text": "暂避乡间，不进城凑热闹",
+        "unavailable_text": "乡间借住的人家已经搬走。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你躲到偏远村里，靠帮人种菜换饭。眼下避开了盘查，往后怎么过，还得留意外头消息。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_HIST_HERMIT_SOUTH"
+            },
+            {
+              "type": "region_set",
+              "id": "R_JIANGNAN"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "argue_at_gate",
+        "text": "滞留街口抗拒，可能丧命",
+        "unavailable_text": "街口已经禁止行人停留。",
+        "risk": "high",
+        "outcome": {
+          "text": "你留在街口争辩，被带走拘押。连日缺少照料，旧病加重，最终没能再回到家中。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_HIST_HAIR_RESIST"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_C_TRUANT",
+    "title": "逃课半天",
+    "text": "识字课刚开讲，窗外的小伙伴就招手。书上的字还没认全，溜出去的路线倒背熟了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 6
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 15
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_C_TRUANT_1",
+        "text": "坐稳，先把名字写对",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你认全了自己的名字，往后借条至少不会签错人。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_TRUANT_2",
+        "text": "出去跑一圈，回来补课",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你跑得满头汗，补课时腿没歇，耳朵也没歇。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_C_STALL_HELP",
+    "title": "小小摊主",
+    "text": "大人让你帮忙看摊，还说卖完就有饼吃。你盯着剩下的货，第一次觉得饼离自己这么远。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 5
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 15
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_C_STALL_HELP_1",
+        "text": "把价钱喊清楚，慢慢卖",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你喊到嗓子发干，总算挣来几个钱，饼也没赖账。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_STALL_HELP_2",
+        "text": "先数清货，别忙着吆喝",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "少找的钱被你算了回来，大人夸你比算盘省饭。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_STALL_HELP_3",
+        "text": "狼吞虎咽吃奖赏，可能噎住",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "high",
+        "outcome": {
+          "text": "你捧起硬饼就往嘴里塞，旁人赶紧劝你慢一点。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_C_BREAD"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_C_BREAD",
+        "text": "硬饼卡在喉头，你赶紧停下，向身边的大人求助。",
+        "check": {
+          "attribute": "physique",
+          "dc": 6,
+          "modifier": 0
+        },
+        "success": {
+          "text": "大人及时帮你缓过气，饼没吃完，教训倒吃饱了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "一口硬饼出了意外，旁人赶来帮忙也没能救回你。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_LIFE_CHOKE_BREAD"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_C_RIVER_FISH",
+    "title": "鱼比人精",
+    "text": "河边有人捞鱼，你看了半天，鱼没见几条，鞋倒湿了好几双。小伙伴偏说你肯定行。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 7
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 15
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_C_RIVER_FISH_1",
+        "text": "站岸上递篓子，稳当分鱼",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你守住鞋子也分到小鱼，原来帮忙不必下水。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_RIVER_FISH_2",
+        "text": "踩湿石头去捞，有落水危险",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "high",
+        "outcome": {
+          "text": "你踩上湿石头，鱼还没靠近，脚底先开始打滑。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_C_FISH"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_C_FISH",
+        "text": "岸边石头太滑，你得及时抓住伸来的竹竿。",
+        "check": {
+          "attribute": "physique",
+          "dc": 9,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你抓住竹竿被拉回岸，鱼没捞着，人还在。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你脚滑落水，岸边的人没能及时把你拉回来。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_LIFE_RIVER_SLIP"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_C_WEED_SOUP",
+    "title": "野菜开会",
+    "text": "家里锅底快能照见人，大人带你去认野菜。你觉得它们长得都像草，偏偏吃错还不行。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 4
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 15
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_C_WEED_SOUP_1",
+        "text": "跟着大人认，不认识的别碰",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你只摘认得的菜，汤虽清淡，至少不用全家猜谜。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_WEED_SOUP_2",
+        "text": "留下烧水，把菜交给行家",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把火照看得稳稳当当，大人夸你这回没帮倒忙。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_C_STREET_BRAWL",
+    "title": "抢地盘",
+    "text": "巷口孩子为了玩耍的空地吵起来，谁也不肯让。你抱着小板凳路过，莫名被请来主持公道。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 6
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 15
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_C_STREET_BRAWL_1",
+        "text": "轮流玩，谁插队谁等着",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你拿树枝画好轮次，大家终于把嘴上的力气用去玩。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_STREET_BRAWL_2",
+        "text": "板凳搬走，我去别处玩",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你换个地方跑了一下午，省下的口水够喝半碗粥。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_C_FORTUNE_KID",
+    "title": "嘴甜有饼",
+    "text": "街头先生说你天生富贵，转头就向大人要钱。你摸摸空口袋，觉得他可能认错了富贵。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 15
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_C_FORTUNE_KID_1",
+        "text": "大人抱你走，富贵先欠着",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "大人没掏钱，你也少听一通瞎话，零钱保住了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_C_FORTUNE_KID_2",
+        "text": "冲卖饼的笑，真香就在眼前",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "摊主逗你开心，分了点饼屑。没什么神通，纯粹嘴甜。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_MATCHMAKER",
+    "title": "媒婆上门",
+    "text": "媒婆把对方夸得天上有地下无，连院里的鸡都说会下双黄蛋。你越听越想先看一眼鸡。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_MATCHMAKER_1",
+        "text": "先见面，把日子怎么过聊明白",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你们聊完家底和打算，鸡没那么神，人倒挺实在。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_MATCHMAKER_2",
+        "text": "备点茶水，客气说暂时不急",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "茶钱花了，耳根清净了，媒婆下次终于换了开场白。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_BORROW_GRAIN",
+    "title": "借粮绕口",
+    "text": "邻居来借粮，说秋后连本带谢一起还。你看看自家米缸，发现本和谢都不能提前下锅。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_BORROW_GRAIN_1",
+        "text": "分一点，写清数量和还期",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你留足自家口粮，只借了能腾出的部分，情分也算明白。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_BORROW_GRAIN_2",
+        "text": "不许空头愿，帮他找短工",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你陪他问了几家铺子，粮没借成，活计总算有了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_FAKE_PASS",
+    "title": "路引打折",
+    "text": "路边人兜售便宜路引，拍胸口说包过关。你看那印章歪得离谱，倒像刚从萝卜上切下来。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_FAKE_PASS_1",
+        "text": "不买假纸，照规矩补办",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你多跑了两趟，费些钱脚力，换来一张不用藏的纸。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_FAKE_PASS_2",
+        "text": "提醒同行，别交这份糊涂钱",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "几个人听完收起钱袋，卖纸的胸口也不拍了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_NIGHT_TEMPLE",
+    "title": "借宿漏雨",
+    "text": "赶路遇上大雨，你在破庙借宿。屋顶漏得很有章法，正好绕开空地，专挑你的铺盖下。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_NIGHT_TEMPLE_1",
+        "text": "找干处坐着，天亮再走",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你抱膝熬过一夜，没睡踏实，好歹没顶着雷雨赶路。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_NIGHT_TEMPLE_2",
+        "text": "搭块旧板挡雨，试试手艺",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你找来松板和旧绳，准备给漏雨的屋顶补个小帽子。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_Y_ROOF"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_Y_ROOF",
+        "text": "不用爬高，先把挡雨板稳稳架在铺盖上方。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 10,
+          "modifier": 0
+        },
+        "success": {
+          "text": "雨水顺着板边流走，你和同行都睡上了一会儿。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "板子没架稳，水全倒进鞋里，你只好坐着等天亮。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_CORVEE_ESCAPE",
+    "title": "差役点名",
+    "text": "差役拿着名单来点人，你的名字居然出现两回。旁人说能躲就躲，你觉得先把这笔账算清。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_CORVEE_ESCAPE_1",
+        "text": "找保人核对，别让我干双份",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你捏着旧凭据去说明，想把多出来的那个自己划掉。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_Y_ROLL"
+        }
+      },
+      {
+        "id": "O_LIFE_Y_CORVEE_ESCAPE_2",
+        "text": "先去报到，当面申请更正",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你跑完一趟流程，少干一份差事，多磨一层鞋底。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_Y_ROLL",
+        "text": "名单和凭据摊在一处，你得把重名的地方讲清楚。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "保人证明记重了，你免去重复差事，还保住了路费。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你说得太急没讲明白，只能再跑一趟补齐证明。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_GUILD_FEE",
+    "title": "进门先交钱",
+    "text": "做工刚挣到几个钱，行会就来收会费。管事说入会有人照应，你想问照应能不能抵饭钱。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_GUILD_FEE_1",
+        "text": "先看章程，再交明白钱",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你看清了能借工具、能找活，才把会费掏出来。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_GUILD_FEE_2",
+        "text": "暂不入会，自己跑腿找活",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你多走几条街找主顾，省了会费，也费了些鞋底。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_GAMBLE_TRAP",
+    "title": "白送的坑",
+    "text": "熟人拉你进屋，说有白捡钱的好事。门边的人个个笑得亲热，你的钱袋却莫名有点发凉。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_GAMBLE_TRAP_1",
+        "text": "不信白捡，转身离开",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你连门槛都没跨，钱一文没赢，也一文没丢。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_GAMBLE_TRAP_2",
+        "text": "提醒后面的人，这是个圈套",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把前后矛盾的说辞讲给众人听，拉客的笑不出来了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_Y_CARAVAN_GUARD",
+    "title": "押货兼跑腿",
+    "text": "商队招人看货，说路上包饭。你刚点头，就被塞了三捆行李，看来这饭得先靠肩膀挣。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 30
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_Y_CARAVAN_GUARD_1",
+        "text": "只接清点看货，先谈好工钱",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你一路核对货数，挣得不多，好处是不用逞英雄。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_Y_CARAVAN_GUARD_2",
+        "text": "多扛一捆，多算一份钱",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你把包袱系紧，打算靠力气挣下这趟路费。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_Y_LOAD"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_Y_LOAD",
+        "text": "山路越来越陡，你得撑到前面的歇脚处。",
+        "check": {
+          "attribute": "physique",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你稳稳送到货，工钱到手，肩膀也终于放了假。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 3
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你中途撑不住，只能少拿工钱请同行分担。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_M_CLAN_FEUD",
+    "title": "一家两张嘴",
+    "text": "族里为一条田埂吵了三天，谁都说祖上有理。你被拉来评理，发现祖上比活人还忙。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 31
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 50
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_M_CLAN_FEUD_1",
+        "text": "请双方量地，别让祖上加班",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你拿绳尺和旧契来对照，准备把口水账换成明白账。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_M_CLAN"
+        }
+      },
+      {
+        "id": "O_LIFE_M_CLAN_FEUD_2",
+        "text": "帮着找旧契，主持就算了",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你翻出旧契交给两边，活干了，吵架的席位让出去了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_M_CLAN",
+        "text": "两家都等着占理，你得让他们肯认同一把尺子。",
+        "check": {
+          "attribute": "prestige",
+          "dc": 12,
+          "modifier": 0
+        },
+        "success": {
+          "text": "两边照着旧契分清了地界，族里推你往后帮着管事。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_CLAN_HEAD"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "两边连绳尺都嫌偏心，你白跑一天，只好另请见证。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_M_SICK_BACK",
+    "title": "腰先罢工",
+    "text": "你弯腰搬个筐，腰却先宣布不干了。年轻时能一口气扛三袋，如今一口气只够叹三声。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 31
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 50
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_M_SICK_BACK_1",
+        "text": "歇两天，活分几趟慢慢做",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你不再一口气逞强，腰缓过来了，进账却少了一点。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_M_SICK_BACK_2",
+        "text": "找正经郎中看看，别硬扛",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "郎中叮嘱你少搬重物，你终于学会跟自己的腰商量。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_M_GUEST_PARASITE",
+    "title": "远亲长住",
+    "text": "远亲说借住三天，第三个三天都快过完了。他对你家米缸的位置，比对回家的路还熟。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 31
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 50
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_M_GUEST_PARASITE_1",
+        "text": "把饭钱和住期摊开讲",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把账讲清，亲戚收拾行李时，动作比吃饭还快。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_M_GUEST_PARASITE_2",
+        "text": "带他去找工，白饭改成搭伙",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "他找到活后开始分担伙食，你家的米缸终于有了喘气声。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_M_PAWN_SHOP",
+    "title": "旧物有身价",
+    "text": "家中周转不开，你抱着旧物走进当铺。掌柜看啥都说不值钱，唯独算盘拨得特别有精神。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 31
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 50
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_M_PAWN_SHOP_1",
+        "text": "问清利钱和赎期，只当一件",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你没被高价幌子绕进去，拿到周转钱，也记牢了赎期。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_M_PAWN_SHOP_2",
+        "text": "多问两家，挑个明白价",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你抱着东西又跑两条街，想看看谁的算盘没那么狠。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_M_PAWN"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_M_PAWN",
+        "text": "每家说的价和费用都不同，你得算清最后到手多少。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 11,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你算出最合适的一家，少付冤枉利钱，旧物也有望赎回。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你听得头大，最后只当了一件，白多跑两条街。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_M_GRAIN_HOARD",
+    "title": "米缸保卫战",
+    "text": "米价一天一个样，街坊都催你多囤点。你刚掀开米缸，先发现几只小虫已经提前住下了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 31
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 50
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_M_GRAIN_HOARD_1",
+        "text": "先晒粮补缸，别先养肥虫",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把存粮收拾妥当，少些损耗，比追着涨价跑踏实。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_M_GRAIN_HOARD_2",
+        "text": "只买够用的，余粮平价分邻居",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你留足自家吃用，帮邻居缓口气，没有跟着哄抬价。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_M_OFFICIAL_BLACKMAIL",
+    "title": "名目又加一",
+    "text": "小吏拿着新写的单子收钱，连门口的石头都算占地。你看看石头，觉得它比你还冤。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 31
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "lte",
+          "value": 50
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_M_OFFICIAL_BLACKMAIL_1",
+        "text": "要正式凭据，找保人一起核对",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "normal",
+        "outcome": {
+          "text": "你不在街上硬吵，把旧收据和保人一并请来。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_M_FEE"
+        }
+      },
+      {
+        "id": "O_LIFE_M_OFFICIAL_BLACKMAIL_2",
+        "text": "请街坊一起查旧账",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "大家凑齐旧账去问，跑腿费不少，乱收的名目总算撤了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_M_FEE",
+        "text": "单上的说法前后打架，你得当着见证把漏洞指出来。",
+        "check": {
+          "attribute": "intelligence",
+          "dc": 13,
+          "modifier": 0
+        },
+        "success": {
+          "text": "小吏解释不清，只好撤回单子。石头不用交钱，你也不用。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "材料没凑齐，你只好继续跑腿，暂时还没把事情说清。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_S_GRANDCHILD",
+    "title": "一屋小喇叭",
+    "text": "晚辈带着孩子们来串门，还没进屋就喊开了。你刚想眯一会儿，家里先开起了比嗓门大会。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_S_GRANDCHILD_1",
+        "text": "安排座位分点心，我来管场",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把孩子安顿好，晚辈夸你能镇场，家里的事也愿找你商量。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 2
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_CLAN_HEAD"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_S_GRANDCHILD_2",
+        "text": "带孩子慢慢走一圈，放过耳朵",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你领着孩子认路认树，走得不快，回家倒吃得挺香。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_S_CHESS_ANGER",
+    "title": "悔棋没完",
+    "text": "老伙伴下棋连悔三步，还说这是给你机会。你盯着那只来回搬棋的手，血压比棋路先上来了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_S_CHESS_ANGER_1",
+        "text": "收棋喝水，今天算你会搬",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把棋盘一盖，少争一口气，多留半天清闲。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_S_CHESS_ANGER_2",
+        "text": "气得拍桌硬争，有发病危险",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "high",
+        "outcome": {
+          "text": "你越说越急，胸口也开始发闷，旁人劝你赶紧停下。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_S_CHESS"
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_S_CHESS",
+        "text": "你得先缓口气，让旁人扶你坐下休息。",
+        "check": {
+          "attribute": "physique",
+          "dc": 8,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你及时歇下来，难受慢慢过去，这局再也不值得争了。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -1
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "争执中你突发急病，棋还没分胜负，人先没能撑住。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_LIFE_CHESS_RAGE"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_S_DEEP_MOUNTAIN",
+    "title": "山里图清静",
+    "text": "你想到山里住几天，躲开催账和闲话。熟人提醒山里确实没人催账，就是买盐得走半天。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_S_DEEP_MOUNTAIN_1",
+        "text": "找有人照应的山村住下",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你住进山村，菜自己种，盐托人带，清静也得好好张罗。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_OLD_HERMIT"
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_S_DEEP_MOUNTAIN_2",
+        "text": "不搬家了，院门一关也清静",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你少接几场闲聊，省下折腾的力气，午觉睡得更香。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_S_OLD_MEMORY",
+    "title": "当年我可行",
+    "text": "孩子们请你讲年轻时的事，你刚说当年跑得快，他们就问能不能现场跑一趟。台阶突然不好下。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_S_OLD_MEMORY_1",
+        "text": "不跑了，把当年的教训讲明白",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你坦白年轻时也摔过跟头，孩子们听得比听吹牛认真。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_S_OLD_MEMORY_2",
+        "text": "拿树枝画路线，嘴跑腿不跑",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你画出旧时走过的路，把逞强改成讲见闻，场面终于稳住。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_S_HEALTH_POTION",
+    "title": "神药包百岁",
+    "text": "游医夸一瓶药能让人活到百岁，自己却咳得停不下来。你看看药瓶，再看看他，心里直打鼓。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_S_HEALTH_POTION_1",
+        "text": "不碰来路不明的药，找正经郎中",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "郎中让你按病情用药，不信包百岁的空话。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_S_HEALTH_POTION_2",
+        "text": "偏信包百岁，乱服药可能送命",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "high",
+        "outcome": {
+          "text": "你没问清成分就喝下去，很快身体不适，家人急忙找郎中。",
+          "effects": [],
+          "next_stage_id": "ST_LIFE_S_DRUG"
+        }
+      },
+      {
+        "id": "O_LIFE_S_HEALTH_POTION_3",
+        "text": "提醒街坊，别让空话掏钱袋",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你把游医说辞的漏洞讲清，围观的人纷纷收起钱。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LIFE_SAVED_SILVER"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ],
+    "stages": [
+      {
+        "id": "ST_LIFE_S_DRUG",
+        "text": "郎中赶到后设法救治，你能否撑过这场意外？",
+        "check": {
+          "attribute": "physique",
+          "dc": 10,
+          "modifier": 0
+        },
+        "success": {
+          "text": "你总算缓了过来，花了救治钱，再也不敢乱吃药。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -2
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": -2
+            }
+          ],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "不明药物引发重病，郎中尽力救治仍没能留住你。",
+          "effects": [
+            {
+              "type": "death",
+              "id": "D_LIFE_FAKE_DRUG"
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_LIFE_S_PEACE_DREAM",
+    "title": "安稳一觉",
+    "text": "你梦见街上只喊卖饼，不喊征粮，醒来还舍不得睁眼。若能天天如此，谁还稀罕当什么英雄。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "trigger": {
+      "kind": "random",
+      "weight": 1,
+      "trigger_probability": 1,
+      "cooldown_years": 5,
+      "max_occurrences": 1,
+      "rare": false
+    },
+    "interaction": "choice",
+    "options": [
+      {
+        "id": "O_LIFE_S_PEACE_DREAM_1",
+        "text": "把梦讲给孩子，安稳日子要珍惜",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "你没吹嘘自己多能熬，只盼孩子往后的故事少些惊险。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "prestige",
+              "amount": 1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "intelligence",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      },
+      {
+        "id": "O_LIFE_S_PEACE_DREAM_2",
+        "text": "起床煮粥，先把今天过暖和",
+        "unavailable_text": "眼下还办不了这件事。",
+        "risk": "safe",
+        "outcome": {
+          "text": "锅里慢慢冒起热气，你坐着等粥，觉得这一会儿就很好。",
+          "effects": [
+            {
+              "type": "attribute_add",
+              "attribute": "wealth",
+              "amount": -1
+            },
+            {
+              "type": "attribute_add",
+              "attribute": "physique",
+              "amount": 1
+            }
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  }
+]

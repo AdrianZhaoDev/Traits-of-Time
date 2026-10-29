@@ -1,0 +1,1722 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ContentBundle",
+  "type": "object",
+  "properties": {
+    "manifest": {
+      "$ref": "#/definitions/Manifest"
+    },
+    "rules": {
+      "$ref": "#/definitions/Rules"
+    },
+    "era": {
+      "$ref": "#/definitions/Era"
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Region"
+      }
+    },
+    "castes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Caste"
+      }
+    },
+    "traits": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Trait"
+      }
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Card"
+      }
+    },
+    "pools": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Pool"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Event"
+      }
+    },
+    "chains": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Chain"
+      }
+    },
+    "achievements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Achievement"
+      }
+    },
+    "deaths": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Death"
+      }
+    }
+  },
+  "required": [
+    "manifest",
+    "rules",
+    "era",
+    "regions",
+    "castes",
+    "traits",
+    "cards",
+    "pools",
+    "events",
+    "chains",
+    "achievements",
+    "deaths"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "Attribute": {
+      "title": "Attribute",
+      "type": "string",
+      "enum": [
+        "physique",
+        "intelligence",
+        "wealth",
+        "prestige",
+        "luck"
+      ]
+    },
+    "VisibleAttribute": {
+      "title": "VisibleAttribute",
+      "type": "string",
+      "enum": [
+        "physique",
+        "intelligence",
+        "wealth",
+        "prestige"
+      ]
+    },
+    "AttributeModifiers": {
+      "title": "AttributeModifiers",
+      "type": "object",
+      "properties": {
+        "physique": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "wealth": {
+          "type": "number"
+        },
+        "prestige": {
+          "type": "number"
+        },
+        "luck": {
+          "type": "number"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "CheckModifiers": {
+      "title": "CheckModifiers",
+      "type": "object",
+      "properties": {
+        "physique": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "wealth": {
+          "type": "number"
+        },
+        "prestige": {
+          "type": "number"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Attributes": {
+      "title": "Attributes",
+      "type": "object",
+      "properties": {
+        "physique": {
+          "type": "number"
+        },
+        "intelligence": {
+          "type": "number"
+        },
+        "wealth": {
+          "type": "number"
+        },
+        "prestige": {
+          "type": "number"
+        },
+        "luck": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "physique",
+        "intelligence",
+        "wealth",
+        "prestige",
+        "luck"
+      ],
+      "additionalProperties": false
+    },
+    "Manifest": {
+      "title": "Manifest",
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "number",
+          "const": 1
+        },
+        "content_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "files": {
+          "title": "ContentFiles",
+          "type": "object",
+          "properties": {
+            "rules": {
+              "type": "string",
+              "minLength": 1
+            },
+            "era": {
+              "type": "string",
+              "minLength": 1
+            },
+            "regions": {
+              "type": "string",
+              "minLength": 1
+            },
+            "castes": {
+              "type": "string",
+              "minLength": 1
+            },
+            "traits": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cards": {
+              "type": "string",
+              "minLength": 1
+            },
+            "pools": {
+              "type": "string",
+              "minLength": 1
+            },
+            "events": {
+              "type": "string",
+              "minLength": 1
+            },
+            "chains": {
+              "type": "string",
+              "minLength": 1
+            },
+            "achievements": {
+              "type": "string",
+              "minLength": 1
+            },
+            "deaths": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "rules",
+            "era",
+            "regions",
+            "castes",
+            "traits",
+            "cards",
+            "pools",
+            "events",
+            "chains",
+            "achievements",
+            "deaths"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema_version",
+        "content_id",
+        "content_version",
+        "files"
+      ],
+      "additionalProperties": false
+    },
+    "AgeBand": {
+      "title": "AgeBand",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modifiers": {
+          "$ref": "#/definitions/AttributeModifiers"
+        }
+      },
+      "required": [
+        "id",
+        "min",
+        "max",
+        "weight",
+        "modifiers"
+      ],
+      "additionalProperties": false
+    },
+    "Rules": {
+      "title": "Rules",
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "title": "AttributeRules",
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "base": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "min",
+            "max",
+            "base"
+          ],
+          "additionalProperties": false
+        },
+        "age_bands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AgeBand"
+          },
+          "minItems": 1
+        },
+        "lifespan": {
+          "title": "LifespanRules",
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "min_remaining_years": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "min",
+            "max",
+            "min_remaining_years"
+          ],
+          "additionalProperties": false
+        },
+        "check": {
+          "title": "CheckRules",
+          "type": "object",
+          "properties": {
+            "modifier_min": {
+              "type": "number"
+            },
+            "modifier_max": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "modifier_min",
+            "modifier_max"
+          ],
+          "additionalProperties": false
+        },
+        "luck": {
+          "title": "LuckRules",
+          "type": "object",
+          "properties": {
+            "factor_min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "factor_max": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "factor_min",
+            "factor_max"
+          ],
+          "additionalProperties": false
+        },
+        "opening": {
+          "title": "OpeningRules",
+          "type": "object",
+          "properties": {
+            "trait_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "trait_count"
+          ],
+          "additionalProperties": false
+        },
+        "events": {
+          "title": "EventRules",
+          "type": "object",
+          "properties": {
+            "per_year": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "choice_budget_min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "choice_budget_max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "per_year",
+            "choice_budget_min",
+            "choice_budget_max"
+          ],
+          "additionalProperties": false
+        },
+        "chains": {
+          "title": "ChainRules",
+          "type": "object",
+          "properties": {
+            "max_active": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "max_active"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "attributes",
+        "age_bands",
+        "lifespan",
+        "check",
+        "luck",
+        "opening",
+        "events",
+        "chains"
+      ],
+      "additionalProperties": false
+    },
+    "Condition": {
+      "title": "Condition",
+      "oneOf": [
+        {
+          "title": "LogicalCondition",
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "all",
+                "any"
+              ]
+            },
+            "conditions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Condition"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "op",
+            "conditions"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "NotCondition",
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "not"
+            },
+            "condition": {
+              "$ref": "#/definitions/Condition"
+            }
+          },
+          "required": [
+            "op",
+            "condition"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "CompareCondition",
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "compare"
+            },
+            "field": {
+              "type": "string",
+              "enum": [
+                "age",
+                "calendar_year",
+                "physique",
+                "intelligence",
+                "wealth",
+                "prestige",
+                "luck"
+              ]
+            },
+            "comparator": {
+              "type": "string",
+              "enum": [
+                "eq",
+                "ne",
+                "lt",
+                "lte",
+                "gt",
+                "gte"
+              ]
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "op",
+            "field",
+            "comparator",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "HasCondition",
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "has"
+            },
+            "collection": {
+              "type": "string",
+              "enum": [
+                "traits",
+                "flags",
+                "injuries",
+                "completed_chains"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "op",
+            "collection",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "IdentityCondition",
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "is"
+            },
+            "field": {
+              "type": "string",
+              "enum": [
+                "region_id",
+                "caste_id",
+                "identity_id"
+              ]
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "op",
+            "field",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "TimelineCondition",
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "const": "is"
+            },
+            "field": {
+              "type": "string",
+              "const": "timeline"
+            },
+            "value": {
+              "type": "string",
+              "enum": [
+                "historical",
+                "fictional"
+              ]
+            }
+          },
+          "required": [
+            "op",
+            "field",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Effect": {
+      "title": "Effect",
+      "oneOf": [
+        {
+          "title": "AttributeAddEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "attribute_add"
+            },
+            "attribute": {
+              "$ref": "#/definitions/Attribute"
+            },
+            "amount": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "type",
+            "attribute",
+            "amount"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "FlagEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "flag_add",
+                "flag_remove"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "InjuryEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "injury_add",
+                "injury_remove"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "RegionEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "region_set"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "IdentityEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "identity_set"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "ChainEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "chain_start"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "EndingEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ending_unlock"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "DeathEffect",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "death"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Outcome": {
+      "title": "Outcome",
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Effect"
+          }
+        },
+        "next_stage_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "text",
+        "effects",
+        "next_stage_id"
+      ],
+      "additionalProperties": false
+    },
+    "Background": {
+      "title": "Background",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "$ref": "#/definitions/Condition"
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "identity_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modifiers": {
+          "$ref": "#/definitions/AttributeModifiers"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "weight",
+        "identity_id",
+        "modifiers",
+        "flags"
+      ],
+      "additionalProperties": false
+    },
+    "Identity": {
+      "title": "Identity",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rank": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "rank"
+      ],
+      "additionalProperties": false
+    },
+    "Injury": {
+      "title": "Injury",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "annual_effects": {
+          "type": "array",
+          "items": {
+            "title": "AnnualEffect",
+            "oneOf": [
+              {
+                "title": "AnnualAttributeEffect",
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "attribute_add"
+                  },
+                  "attribute": {
+                    "$ref": "#/definitions/Attribute"
+                  },
+                  "amount": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "attribute",
+                  "amount"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "title": "AnnualDeathEffect",
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "death"
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "id"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "annual_effects"
+      ],
+      "additionalProperties": false
+    },
+    "Era": {
+      "title": "Era",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start_year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "historical_end_year": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        "backgrounds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Background"
+          }
+        },
+        "identities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Identity"
+          }
+        },
+        "injuries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Injury"
+          }
+        },
+        "fallback_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "old_age_death_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "start_year",
+        "historical_end_year",
+        "backgrounds",
+        "identities",
+        "injuries",
+        "fallback_text",
+        "old_age_death_id"
+      ],
+      "additionalProperties": false
+    },
+    "Region": {
+      "title": "Region",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modifiers": {
+          "$ref": "#/definitions/AttributeModifiers"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "weight",
+        "modifiers",
+        "flags"
+      ],
+      "additionalProperties": false
+    },
+    "Caste": {
+      "title": "Caste",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modifiers": {
+          "$ref": "#/definitions/AttributeModifiers"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "weight",
+        "modifiers",
+        "flags"
+      ],
+      "additionalProperties": false
+    },
+    "Trait": {
+      "title": "Trait",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "modifiers": {
+          "$ref": "#/definitions/AttributeModifiers"
+        },
+        "check_modifiers": {
+          "$ref": "#/definitions/CheckModifiers"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "weight",
+        "modifiers",
+        "check_modifiers",
+        "flags"
+      ],
+      "additionalProperties": false
+    },
+    "Card": {
+      "title": "Card",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rarity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "rarity",
+        "tags"
+      ],
+      "additionalProperties": false
+    },
+    "PoolEntry": {
+      "title": "PoolEntry",
+      "type": "object",
+      "properties": {
+        "card_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "card_id",
+        "weight"
+      ],
+      "additionalProperties": false
+    },
+    "HardPity": {
+      "title": "HardPity",
+      "type": "object",
+      "properties": {
+        "after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "target_card_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "after",
+        "target_card_ids"
+      ],
+      "additionalProperties": false
+    },
+    "Pool": {
+      "title": "Pool",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PoolEntry"
+          },
+          "minItems": 1
+        },
+        "replacement": {
+          "type": "boolean"
+        },
+        "hard_pity": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HardPity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "entries",
+        "replacement",
+        "hard_pity"
+      ],
+      "additionalProperties": false
+    },
+    "Trigger": {
+      "title": "Trigger",
+      "oneOf": [
+        {
+          "title": "OpeningTrigger",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "opening"
+            },
+            "weight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trigger_probability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "kind",
+            "weight",
+            "trigger_probability"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "RandomTrigger",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "random"
+            },
+            "weight": {
+              "type": "number",
+              "minimum": 0
+            },
+            "trigger_probability": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "cooldown_years": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "max_occurrences": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "rare": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "weight",
+            "trigger_probability",
+            "cooldown_years",
+            "max_occurrences",
+            "rare"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "HistoricalTrigger",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "historical"
+            },
+            "year": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "priority": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "kind",
+            "year",
+            "priority"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "ChainTrigger",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "chain"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Check": {
+      "title": "Check",
+      "type": "object",
+      "properties": {
+        "attribute": {
+          "$ref": "#/definitions/VisibleAttribute"
+        },
+        "dc": {
+          "type": "number"
+        },
+        "modifier": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "attribute",
+        "dc",
+        "modifier"
+      ],
+      "additionalProperties": false
+    },
+    "Stage": {
+      "title": "Stage",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "check": {
+          "$ref": "#/definitions/Check"
+        },
+        "success": {
+          "$ref": "#/definitions/Outcome"
+        },
+        "failure": {
+          "$ref": "#/definitions/Outcome"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "check",
+        "success",
+        "failure"
+      ],
+      "additionalProperties": false
+    },
+    "Option": {
+      "title": "Option",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "$ref": "#/definitions/Condition"
+        },
+        "unavailable_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk": {
+          "type": "string",
+          "enum": [
+            "safe",
+            "normal",
+            "high"
+          ]
+        },
+        "outcome": {
+          "$ref": "#/definitions/Outcome"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "unavailable_text",
+        "risk",
+        "outcome"
+      ],
+      "additionalProperties": false
+    },
+    "Event": {
+      "title": "Event",
+      "oneOf": [
+        {
+          "title": "ChoiceEvent",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "condition": {
+              "$ref": "#/definitions/Condition"
+            },
+            "trigger": {
+              "$ref": "#/definitions/Trigger"
+            },
+            "stages": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Stage"
+              },
+              "minItems": 1
+            },
+            "interaction": {
+              "type": "string",
+              "const": "choice"
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Option"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "trigger",
+            "interaction",
+            "options"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "title": "AutomaticEvent",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "condition": {
+              "$ref": "#/definitions/Condition"
+            },
+            "trigger": {
+              "$ref": "#/definitions/Trigger"
+            },
+            "stages": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Stage"
+              },
+              "minItems": 1
+            },
+            "interaction": {
+              "type": "string",
+              "const": "automatic"
+            },
+            "outcome": {
+              "$ref": "#/definitions/Outcome"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "trigger",
+            "interaction",
+            "outcome"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ChainNode": {
+      "title": "ChainNode",
+      "type": "object",
+      "properties": {
+        "after_years": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "after_years",
+        "event_id"
+      ],
+      "additionalProperties": false
+    },
+    "Chain": {
+      "title": "Chain",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "number"
+        },
+        "interrupt_condition": {
+          "$ref": "#/definitions/Condition"
+        },
+        "interrupt_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChainNode"
+          },
+          "minItems": 1
+        },
+        "completion": {
+          "$ref": "#/definitions/Outcome"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "priority",
+        "interrupt_text",
+        "nodes",
+        "completion"
+      ],
+      "additionalProperties": false
+    },
+    "Achievement": {
+      "title": "Achievement",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "$ref": "#/definitions/Condition"
+        },
+        "priority": {
+          "type": "number"
+        },
+        "retirable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "text",
+        "condition",
+        "priority",
+        "retirable"
+      ],
+      "additionalProperties": false
+    },
+    "Death": {
+      "title": "Death",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "text"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "deaths": [
+    {"id": "D_JN_EXAM_CRAM", "name": "人比灯先熄", "text": "连熬几夜背书，题还没押中，人先熬没了。"},
+    {"id": "D_JN_WATER_DROWN", "name": "小船先散伙", "text": "躲过水盗没躲过浪，小船翻了，你没能上岸。"},
+    {"id": "D_JN_TAX_BEAT", "name": "账没吵明白", "text": "税账越吵越乱，你在推搡中倒下，再没起来。"},
+    {"id": "D_HIST_LOOT_FALL", "name": "粮袋没接住", "text": "抢粮时踩空跌落，口粮没到手，人先退了场。"},
+    {"id": "D_HIST_SIEGE_STARVE", "name": "空锅等开饭", "text": "围城断了粮，锅底擦得再亮，也没等来下一顿。"},
+    {"id": "D_HIST_HAIR_RESIST", "name": "争执误归途", "text": "为剃发令争执被拘，病倒后再没能回家。"},
+    {"id": "D_LIFE_CHOKE_BREAD", "name": "饼比命还硬", "text": "饿急了硬吞干饼，一口没咽下，饭局就散了。"},
+    {"id": "D_LIFE_RIVER_SLIP", "name": "鱼没上人下了", "text": "伸手捞鱼脚底打滑，鱼跑了，你没能游回来。"},
+    {"id": "D_LIFE_CHESS_RAGE", "name": "输了棋又上火", "text": "输棋急得旧病发作，棋盘还在，人先离了席。"},
+    {"id": "D_LIFE_FAKE_DRUG", "name": "长寿药太短命", "text": "信了假药能延年，药钱花完，人也没救回来。"}
+  ],
+  "achievements": [
+    {
+      "id": "A_JN_TOP_SCHOLAR", "name": "榜上终于有名", "text": "苦读多年中了举，亲戚突然全认识你了。",
+      "condition": {"op": "has", "collection": "flags", "id": "F_JN_JUREN"},
+      "priority": 50, "retirable": true
+    },
+    {
+      "id": "A_JN_SILK_TYCOON", "name": "机房翻身做主", "text": "丝绸生意做成了，算盘总算没白挨累。",
+      "condition": {"op": "has", "collection": "flags", "id": "F_JN_TRADE_DONE"},
+      "priority": 51, "retirable": true
+    },
+    {
+      "id": "A_JN_POET_MASTER", "name": "茶馆都在念你", "text": "诗名传遍茶馆，赊账却还得看掌柜脸色。",
+      "condition": {"op": "has", "collection": "flags", "id": "F_JN_POET_FAMOUS"},
+      "priority": 52, "retirable": false
+    },
+    {
+      "id": "A_HIST_PASS_SURVIVOR", "name": "关口捡回一命", "text": "大场面没抢着露脸，倒是保住了吃饭的嘴。",
+      "condition": {"op": "all", "conditions": [
+        {"op": "has", "collection": "flags", "id": "F_HIST_CAPITAL_FLED"},
+        {"op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1644}
+      ]},
+      "priority": 53, "retirable": false
+    },
+    {
+      "id": "A_HIST_SOUTH_HERMIT", "name": "山里不接差事", "text": "山外换了几拨人，山里只管今天吃什么。",
+      "condition": {"op": "has", "collection": "flags", "id": "F_HIST_HERMIT_SOUTH"},
+      "priority": 54, "retirable": true
+    },
+    {
+      "id": "A_HIST_TIMES_WITNESS", "name": "换了天下还在", "text": "天下换了招牌，你还在为下一顿操心。",
+      "condition": {"op": "all", "conditions": [
+        {"op": "has", "collection": "flags", "id": "F_HIST_CAPITAL_FLED"},
+        {"op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1645},
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 16}
+      ]},
+      "priority": 55, "retirable": false
+    },
+    {
+      "id": "A_LIFE_BIG_FAMILY", "name": "一桌坐不下", "text": "家里人丁越来越旺，你连夹菜都得排队。",
+      "condition": {"op": "all", "conditions": [
+        {"op": "has", "collection": "flags", "id": "F_LIFE_CLAN_HEAD"},
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 51}
+      ]},
+      "priority": 56, "retirable": true
+    },
+    {
+      "id": "A_LIFE_LUCKY_SLACKER", "name": "少折腾多吃饭", "text": "大事没抢着干，养老的饭钱倒是留下了。",
+      "condition": {"op": "all", "conditions": [
+        {"op": "has", "collection": "flags", "id": "F_LIFE_SAVED_SILVER"},
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 51}
+      ]},
+      "priority": 57, "retirable": false
+    },
+    {
+      "id": "A_LIFE_CENTURY_TURMOIL", "name": "百岁还占一桌", "text": "乱世熬到一百岁，蜡烛比寿面还费钱。",
+      "condition": {"op": "compare", "field": "age", "comparator": "gte", "value": 100},
+      "priority": 60, "retirable": true
+    }
+  ],
+  "traits": [
+    {
+      "id": "T_JN_INK_IN_BELLY", "name": "半吊子墨水",
+      "description": "肚里有点墨水，背书偶尔卡壳，替人写借条倒是够用。",
+      "weight": 3, "modifiers": {"intelligence": 1}, "check_modifiers": {"intelligence": 1}, "flags": []
+    },
+    {
+      "id": "T_SLACKER_SURVIVOR", "name": "摸鱼保命法",
+      "description": "抢功时慢半拍，避祸时快半步，饭碗端得比谁都稳。",
+      "weight": 3, "modifiers": {"luck": 1}, "check_modifiers": {"intelligence": 1}, "flags": []
+    },
+    {
+      "id": "T_MARKET_BARGAIN", "name": "讨价还价精",
+      "description": "一文钱能谈半天，掌柜见你进门，先把茶水藏起来。",
+      "weight": 3, "modifiers": {"wealth": 1}, "check_modifiers": {"wealth": 1}, "flags": []
+    },
+    {
+      "id": "T_QUICK_RUN", "name": "跑路带风",
+      "description": "别的本事先不提，腿脚倒是勤快，撤离从不等人催。",
+      "weight": 3, "modifiers": {"physique": 1}, "check_modifiers": {"physique": 1}, "flags": []
+    }
+  ],
+  "cards": [
+    {
+      "id": "CARD_JN_EXAM_NOTE", "name": "夹带小抄",
+      "description": "密密麻麻抄了一袖子，进场才想起，夹带查得比文章细。",
+      "rarity": "N", "tags": ["江南", "科举", "道具"]
+    },
+    {
+      "id": "CARD_JN_SILK_SAMPLE", "name": "压箱残锦",
+      "description": "整匹卖不动的旧锦，剪成小样竟成了掌柜的招牌。",
+      "rarity": "R", "tags": ["江南", "生意", "道具"]
+    },
+    {
+      "id": "CARD_HIST_RATION_TICKET", "name": "折损粮票",
+      "description": "纸上写着足额领粮，折来折去，最后只够包一把米。",
+      "rarity": "N", "tags": ["历史", "口粮", "道具"]
+    },
+    {
+      "id": "CARD_LIFE_COPPER_COIN", "name": "老树铜钱",
+      "description": "树根捡来一枚铜钱，没啥神通，买半块饼倒是真香。",
+      "rarity": "N", "tags": ["生活", "零钱", "道具"]
+    },
+    {
+      "id": "CARD_LIFE_MEDICINE_BAG", "name": "陈年药渣",
+      "description": "药渣放久了只剩霉味，郎中劝你扔掉，别拿身子省钱。",
+      "rarity": "N", "tags": ["生活", "药包", "道具"]
+    },
+    {
+      "id": "CARD_LIFE_SMUGGLE_MAP", "name": "老船夫秘图",
+      "description": "老船夫把暗礁画得明白，唯独没写自己看图也会迷路。",
+      "rarity": "SSR", "tags": ["生活", "水路", "道具"]
+    }
+  ],
+  "pools": [
+    {
+      "id": "POOL_MING_FOLK", "name": "明末世情宝鉴池",
+      "entries": [
+        {"card_id": "CARD_JN_EXAM_NOTE", "weight": 20},
+        {"card_id": "CARD_JN_SILK_SAMPLE", "weight": 15},
+        {"card_id": "CARD_HIST_RATION_TICKET", "weight": 20},
+        {"card_id": "CARD_LIFE_COPPER_COIN", "weight": 20},
+        {"card_id": "CARD_LIFE_MEDICINE_BAG", "weight": 20},
+        {"card_id": "CARD_LIFE_SMUGGLE_MAP", "weight": 5}
+      ],
+      "replacement": true, "hard_pity": null
+    }
+  ],
+  "background_names": {
+    "B_CHILD_REFUGEE": "流亡幼雏",
+    "B_CHILD_SOLDIER": "卫所童子",
+    "B_CHILD_GENTRY": "书香幼子",
+    "B_ADULT_REFUGEE": "漂泊荒年",
+    "B_ADULT_SOLDIER": "披甲当差",
+    "B_ADULT_GENTRY": "世家冠裳"
+  }
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "CARD_COMMON",
+    "name": "旧日笔记",
+    "description": "本地开发样例收藏卡，不附带人生效果。",
+    "rarity": "N",
+    "tags": []
+  },
+  {
+    "id": "CARD_RARE",
+    "name": "匠作心得",
+    "description": "本地开发样例收藏卡，不附带人生效果。",
+    "rarity": "R",
+    "tags": []
+  },
+  {
+    "id": "CARD_EPIC",
+    "name": "传世札记",
+    "description": "本地开发样例收藏卡，不附带人生效果。",
+    "rarity": "SSR",
+    "tags": []
+  }
+]

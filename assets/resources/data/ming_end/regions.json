@@ -1,0 +1,23 @@
+[
+  {
+    "id": "R_SHANBEI",
+    "name": "陕北灾区",
+    "weight": 1,
+    "modifiers": {},
+    "flags": []
+  },
+  {
+    "id": "R_CAPITAL",
+    "name": "京师直隶",
+    "weight": 1,
+    "modifiers": {},
+    "flags": []
+  },
+  {
+    "id": "R_JIANGNAN",
+    "name": "江南水乡",
+    "weight": 1,
+    "modifiers": {},
+    "flags": []
+  }
+]

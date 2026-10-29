@@ -1,0 +1,202 @@
+{
+  "id": "ERA_MING_END",
+  "name": "明末生活·本地开发样例",
+  "start_year": 1640,
+  "historical_end_year": 1644,
+  "backgrounds": [
+    {
+      "id": "B_CHILD_REFUGEE",
+      "text": "你随家人辗转暂居，衣食尚需依靠长辈，没有可支配家产。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_REFUGEE"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_DEPENDENT",
+      "modifiers": {},
+      "flags": [
+        "dependent"
+      ]
+    },
+    {
+      "id": "B_ADULT_REFUGEE",
+      "text": "你靠零工度日，背着旧债谋求安稳，没有士绅家产。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 11
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_REFUGEE"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_REFUGEE",
+      "modifiers": {},
+      "flags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "B_CHILD_SOLDIER",
+      "text": "你生于军户，仍由长辈照料，尚未承担成年人的职分。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_SOLDIER"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_DEPENDENT",
+      "modifiers": {},
+      "flags": [
+        "dependent"
+      ]
+    },
+    {
+      "id": "B_ADULT_SOLDIER",
+      "text": "你作为军户成年户员承担劳作，靠积累手艺维持生活。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 11
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_SOLDIER"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_WORKER",
+      "modifiers": {},
+      "flags": []
+    },
+    {
+      "id": "B_CHILD_GENTRY",
+      "text": "你生于士绅之家，生活依靠家庭，并不能自由支配家产。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_GENTRY"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_DEPENDENT",
+      "modifiers": {},
+      "flags": [
+        "dependent"
+      ]
+    },
+    {
+      "id": "B_ADULT_GENTRY",
+      "text": "你是士绅家庭的成年户员，能支配部分资源，但并无官职。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 11
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_GENTRY"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_HOUSEHOLD",
+      "modifiers": {},
+      "flags": []
+    }
+  ],
+  "identities": [
+    {
+      "id": "I_DEPENDENT",
+      "name": "依亲幼者",
+      "rank": 0
+    },
+    {
+      "id": "I_REFUGEE",
+      "name": "流寓之人",
+      "rank": 0
+    },
+    {
+      "id": "I_WORKER",
+      "name": "劳作户员",
+      "rank": 1
+    },
+    {
+      "id": "I_HOUSEHOLD",
+      "name": "成年户员",
+      "rank": 2
+    },
+    {
+      "id": "I_ARTISAN",
+      "name": "匠作能手",
+      "rank": 3
+    }
+  ],
+  "injuries": [
+    {
+      "id": "INJ_SEVERE",
+      "name": "重伤",
+      "annual_effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "physique",
+          "amount": -1
+        }
+      ]
+    }
+  ],
+  "fallback_text": "本地开发样例：这一年没有新的波澜，你在日常中度过。",
+  "old_age_death_id": "D_OLD_AGE"
+}

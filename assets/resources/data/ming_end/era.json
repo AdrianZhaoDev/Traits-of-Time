@@ -1,7 +1,7 @@
 {
   "id": "ERA_MING_END",
   "name": "崇祯末年·世途百态",
-  "start_year": 1640,
+  "start_year": 1628,
   "historical_end_year": 1645,
   "backgrounds": [
     {
@@ -182,6 +182,66 @@
       "id": "I_ARTISAN",
       "name": "匠作能手",
       "rank": 3
+    },
+    {
+      "id": "I_FIRE_OFFICER",
+      "name": "神机火使",
+      "rank": 4
+    },
+    {
+      "id": "I_FIRE_MASTER",
+      "name": "火德护国法师",
+      "rank": 5
+    },
+    {
+      "id": "I_FIRE_MERCHANT",
+      "name": "天珍洋行掌柜",
+      "rank": 3
+    },
+    {
+      "id": "I_STREET_MAGICIAN",
+      "name": "江湖杂耍手",
+      "rank": 1
+    },
+    {
+      "id": "I_JUREN",
+      "name": "秋闱举人",
+      "rank": 3
+    },
+    {
+      "id": "I_SILK_MERCHANT",
+      "name": "江南织造商",
+      "rank": 3
+    },
+    {
+      "id": "I_MILITARY_OFFICER",
+      "name": "防务把总",
+      "rank": 3
+    },
+    {
+      "id": "I_DEFENSE_COMMISSIONER",
+      "name": "巡按御史",
+      "rank": 5
+    },
+    {
+      "id": "I_CLAN_ELDER",
+      "name": "乡贤族长",
+      "rank": 4
+    },
+    {
+      "id": "I_POETRY_CELEBRITY",
+      "name": "两京文宗",
+      "rank": 4
+    },
+    {
+      "id": "I_WAREHOUSE_OVERSEER",
+      "name": "军资协理官",
+      "rank": 2
+    },
+    {
+      "id": "I_COMMUNITY_LEADER",
+      "name": "坊里甲首",
+      "rank": 2
     }
   ],
   "injuries": [

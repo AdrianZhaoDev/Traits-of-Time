@@ -24,21 +24,45 @@ await runCli(async () => {
   if (exportFile !== undefined) await assertDestinationOutsideContent(contentDirectory, exportFile);
   let lines: Interface | undefined;
   await withStateLock(directory, async interrupted => {
-    const engine = new GameEngine(bundle, fingerprint);
-    const session = new GameSession(engine, { persist: value => save(directory, value), load: () => load<SessionSave>(directory), hash: sha256 });
+    let engine = new GameEngine(bundle, fingerprint);
+    let session = new GameSession(engine, { persist: value => save(directory, value), load: () => load<SessionSave>(directory), hash: sha256 });
+    let initialized = false;
     const stored = await load<SessionSave>(directory);
     if (stored) {
-      session.restoreSave(stored);
-      if (seed !== undefined) checkSeed(true, seed, stored.engine.payload.run.seed);
-    } else {
+      try {
+        session.restoreSave(stored);
+        if (seed !== undefined) checkSeed(true, seed, stored.engine.payload.run.seed);
+        // Auto-restart only in default interactive development state when explicitly requested or ended
+        const isDefaultDevState = directory === '.local-state/life';
+        if (session.current().state.status === 'ENDED' && isDefaultDevState) {
+          console.log(styleText('yellow', '【提示】上一局人生已落幕，已自动为您重开全新一世人生！'));
+          initialized = false;
+        } else {
+          initialized = true;
+        }
+      } catch (err: unknown) {
+        const code = err && typeof err === 'object' && 'code' in err && typeof err.code === 'string' ? err.code : undefined;
+        const isDefaultDevState = directory === '.local-state/life';
+        if (isDefaultDevState && (code === 'CONTENT_MISMATCH' || code === 'SAVE_INVALID' || code === 'SEED_MISMATCH')) {
+          console.log(styleText('yellow', `[提示] 检测到旧存档内容指纹或配置发生变化（${code}），已自动为您开启新一局游戏。`));
+        } else {
+          throw err;
+        }
+      }
+    }
+    if (!initialized) {
+      engine = new GameEngine(bundle, fingerprint);
+      session = new GameSession(engine, { persist: value => save(directory, value), load: () => load<SessionSave>(directory), hash: sha256 });
       const result = await session.initialize(seed ?? randomInt(0, 2 ** 32));
       if (!result.ok) throw Object.assign(new Error(result.error.message), { code: result.error.code });
     }
     let shownLog = 0;
+    let currentYearShown: number | null = null;
     const narrative = (text: string) => styleText('cyan', text, { stream: process.stdout });
+    const header = (text: string) => styleText('bold', styleText('yellow', text, { stream: process.stdout }), { stream: process.stdout });
     const showCard = (id: string) => {
       const card = bundle.cards.find(item => item.id === id)!;
-      console.log(`随身物品：${card.name} [${card.rarity}]（${card.id}）\n${card.description}`);
+      console.log(styleText('green', `【随身神物】${card.name} [${card.rarity}]（${card.description}）`));
     };
     const show = () => {
       const snapshot = session.exportSave();
@@ -47,32 +71,60 @@ await runCli(async () => {
       for (const entry of snapshot.engine.payload.logs) {
         if (entry.seq <= shownLog) continue;
         shownLog = entry.seq;
-        // Selection audits share event text but do not mean the event has executed.
-        if (entry.type === 'draw' && entry.data.selected_event_id !== null) continue;
-        console.log(`[${entry.calendar_year}年 / ${entry.age}岁] ${narrative(entry.message)}`);
-        if (entry.type === 'opening') showCard(entry.data.card_id);
-        if (entry.type === 'event' && entry.data.event_instance_id === pending?.event_instance_id) pendingEventShown = true;
-        if (entry.type === 'dice') console.log(`D20=${entry.data.raw}；属性=${entry.data.attribute_value}；修正=${entry.data.modifier_before}→${entry.data.modifier_after}；DC=${entry.data.dc}；${entry.data.success ? '成功' : '失败'}；本阶段成功率=${entry.data.success_probability * 100}%`);
-        if (entry.type === 'effects') for (const effect of entry.data.effects) if (effect.type === 'attribute_add') console.log(`属性变化 ${effect.attribute}: ${effect.amount >= 0 ? '+' : ''}${effect.amount}（按配置边界截断）`);
+        // Filter out draw audits, audit summaries, and internal condition checks
+        if (entry.type === 'draw') continue;
+        if (entry.message.startsWith('CONDITION_NOT_MET') || entry.message.includes('×')) continue;
+        
+        if (currentYearShown !== entry.calendar_year) {
+          currentYearShown = entry.calendar_year;
+          console.log(`\n━━━━━━━━━━━━━━━━【${entry.calendar_year}年 · ${entry.age}岁】━━━━━━━━━━━━━━━━`);
+        }
+        if (entry.type === 'opening') {
+          console.log(`【出身启程】${narrative(entry.message)}`);
+          showCard(entry.data.card_id);
+        } else if (entry.type === 'event') {
+          if (entry.data.event_instance_id === pending?.event_instance_id) pendingEventShown = true;
+          console.log(`【发生事件】${narrative(entry.message)}`);
+        } else if (entry.type === 'dice') {
+          console.log(styleText('magenta', `  🎲 掷骰检定：D20=${entry.data.raw} + 属性=${entry.data.attribute_value} (修正${entry.data.modifier_after}) vs DC=${entry.data.dc} → ${entry.data.success ? '成功' : '失败'}`));
+        } else if (entry.type === 'effects') {
+          for (const effect of entry.data.effects) {
+            if (effect.type === 'attribute_add') {
+              console.log(styleText('gray', `  ✦ 属性变动：${effect.attribute} ${effect.amount >= 0 ? '+' : ''}${effect.amount}`));
+            }
+          }
+        } else if (entry.type === 'death') {
+          console.log(styleText('red', `【走向终局】${entry.message}`));
+        } else if (entry.type === 'achievement') {
+          console.log(styleText('yellow', `★ 达成成就：${entry.message}`));
+        } else {
+          console.log(`  ${entry.message}`);
+        }
       }
       const p = state.player;
       const fictional = p.calendar_year - bundle.era.historical_end_year;
-      console.log(`\n${p.calendar_year}年 / ${p.age}岁 ${state.timeline === 'historical' ? '历史窗口' : fictional > 0 ? `架空延续第 ${fictional} 年` : '架空推演'}；状态 ${state.status}`);
-      console.log(`身份：${bundle.era.identities.find(item => item.id === p.identity_id)?.name}；地区：${bundle.regions.find(item => item.id === p.region_id)?.name}；门第：${bundle.castes.find(item => item.id === p.caste_id)?.name}`);
-      for (const id of p.cards) showCard(id);
-      console.log(`属性：${Object.entries(p.attributes).map(([key, value]) => `${key}=${value}`).join(' / ')}`);
-      for (const chain of p.chains) console.log(`任务：${bundle.chains.find(item => item.id === chain.chain_id)?.name} ${chain.status}，节点 ${chain.node_index}，到期年 ${chain.next_due_year ?? '无'}${chain.interruption_reason ? `，原因 ${chain.interruption_reason}` : ''}`);
-      for (const id of p.achievements) console.log(`成就：${bundle.achievements.find(item => item.id === id)?.name}`);
+      const statusStr = state.timeline === 'historical' ? '历史推进' : fictional > 0 ? `架空延续第 ${fictional} 年` : '架空推演';
+      console.log(styleText('gray', `[${p.calendar_year}年·${p.age}岁 | ${bundle.era.identities.find(item => item.id === p.identity_id)?.name} | 属性: 体${p.attributes.physique} 智${p.attributes.intelligence} 富${p.attributes.wealth} 声${p.attributes.prestige} 运${p.attributes.luck} | 状态: ${statusStr}]`));
       if (pending) {
-        if (!pendingEventShown) console.log(narrative(bundle.events.find(event => event.id === pending.event_id)!.text));
-        if (pending.kind === 'option') for (const option of pending.options) console.log(`choose ${option.id} — ${option.text} [${option.available ? '可选' : `不可选：${option.reason}`} ]`);
-        else console.log(`${narrative(pending.text)}\n阶段 ${pending.stage_id}：${pending.check.attribute} / DC ${pending.check.dc}；${args.auto ? '全自动模式将自动确认掷骰。' : '输入 stage 明确确认掷骰。'}`);
+        if (!pendingEventShown) console.log(`【事件抉择】${narrative(bundle.events.find(event => event.id === pending.event_id)!.text)}`);
+        if (pending.kind === 'option') {
+          console.log(header('【你的决策】'));
+          pending.options.forEach((option, idx) => {
+            const num = styleText('bold', styleText('yellow', `[${idx + 1}]`));
+            const hint = option.available ? styleText('green', '可选') : styleText('red', `不可选(${option.reason})`);
+            console.log(`  👉 输入 ${num} 或 choose ${option.id}  ——  ${option.text} [${hint}]`);
+          });
+        } else {
+          console.log(`${narrative(pending.text)}\n阶段 ${pending.stage_id}：${pending.check.attribute} / DC ${pending.check.dc}；${args.auto ? '全自动模式将自动确认掷骰。' : '输入 stage 确认掷骰。'}`);
+        }
       }
       if (state.status === 'ENDED') {
         const report = engine.generateEndingReport();
-        console.log(`结局：${report.primary_achievement_id === null ? '普通人生' : bundle.achievements.find(item => item.id === report.primary_achievement_id)?.name}；${report.death_id === null ? '主动谢幕' : bundle.deaths.find(item => item.id === report.death_id)?.name}`);
-        console.log(`游玩年数：${report.years_played}；终止年龄：${report.end_age}；最高身份：${bundle.era.identities.find(item => item.id === report.highest_identity_id)?.name}`);
-        console.log('本局已结束。使用新的 --state 目录可免费重开；原存档不会删除。');
+        console.log(styleText('red', '\n════════════════════ 人生谢幕 ════════════════════'));
+        console.log(`【主线结局】${report.primary_achievement_id === null ? '普通人生' : bundle.achievements.find(item => item.id === report.primary_achievement_id)?.name}；${report.death_id === null ? '主动谢幕' : bundle.deaths.find(item => item.id === report.death_id)?.name}`);
+        console.log(`【享年寿命】终止年龄：${report.end_age} 岁（历经 ${report.years_played} 载风雨）`);
+        console.log(`【最终身份】${bundle.era.identities.find(item => item.id === report.highest_identity_id)?.name}`);
+        console.log(styleText('yellow', '本局已结束。输入 npm run play 即可开启新人生！\n'));
       }
     };
     console.log(`种子：${session.exportSave().engine.payload.run.seed}\n内容指纹：${fingerprint}\n存档：${resolve(directory)}`);
@@ -102,7 +154,7 @@ await runCli(async () => {
         show();
       }
     } else if (session.current().state.status !== 'ENDED' && !interrupted()) {
-      console.log('命令：status / next / auto / choose <optionId> / stage / retire / save / quit');
+      console.log('命令：输入序号 1/2/3 快速选择 / next (推进) / auto / stage / status / quit');
       lines = createInterface({ input: process.stdin, output: process.stdout, terminal: Boolean(process.stdin.isTTY && process.stdout.isTTY) });
       try {
         for await (const input of lines) {
@@ -124,12 +176,21 @@ await runCli(async () => {
             continue;
           }
           if (session.current().state.status === 'ENDED') { show(); continue; }
-          if ((text === 'next' || text === 'auto') && session.current().pending) { console.log('请先选择当前选项或输入 stage 确认阶段。'); continue; }
+          if (text === 'next' && session.current().pending) { console.log('请先输入序号选择当前选项，或输入 stage 确认阶段。'); continue; }
           let result: CommandResult;
-          if (text === 'auto') result = await session.advanceToDecision(`life-auto:${session.exportSave().engine.revision}:${session.exportSave().cursor.input_sequence}`);
+          const currentPending = session.current().pending;
+          if (/^\d+$/.test(text) && currentPending?.kind === 'option') {
+            const index = Number(text) - 1;
+            const option = currentPending.options[index];
+            if (!option) {
+              console.log(`无效序号。请输入 1 到 ${currentPending.options.length} 之间的数字。`);
+              continue;
+            }
+            result = await session.command({ type: 'choose', optionId: option.id });
+          } else if (text === 'auto') result = await session.advanceToDecision(`life-auto:${session.exportSave().engine.revision}:${session.exportSave().cursor.input_sequence}`);
           else if (text === 'next' || text === 'stage' || text === 'retire') result = await session.command({ type: text });
           else if (text.startsWith('choose ') && text.slice(7).length > 0) result = await session.command({ type: 'choose', optionId: text.slice(7) });
-          else { console.log('未知命令。使用 status / next / auto / choose <optionId> / stage / retire / save / quit。'); continue; }
+          else { console.log('未知命令。直接输入数字 1/2/3 进行抉择，或输入 next / auto / stage / status / quit。'); continue; }
           if (!result.ok) process.stderr.write(`错误 [${result.error.code}] ${result.error.message}\n`);
           show();
         }

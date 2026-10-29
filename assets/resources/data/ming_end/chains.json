@@ -1,5 +1,157 @@
 [
   {
+    "id": "CH_LIGHTER_LEGEND",
+    "name": "神机革新",
+    "priority": 40,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_EMPTY"
+    },
+    "interrupt_text": "打火机彻底哑火，弹簧机巧未及参透，神机革新功亏一篑。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_LEGEND_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_LG_LEGEND_2"
+      }
+    ],
+    "completion": {
+      "text": "大明自生火枪批量列装神机营，火器不需火绳，三军士气大振！",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_FIRE_OFFICER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_LEGEND_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 5
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_ABSURD",
+    "name": "火德掌教",
+    "priority": 38,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_EXPOSED"
+    },
+    "interrupt_text": "仙火在文武百官面前当场熄灭，国师谎言被戳穿。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_ABSURD_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_LG_ABSURD_2"
+      }
+    ],
+    "completion": {
+      "text": "崇祯帝亲赐紫袍玉带，敕封火德护国法师，掌管天下道观。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_FIRE_MASTER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_ABSURD_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 6
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_PEACE",
+    "name": "奇货脱手",
+    "priority": 35,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_EMPTY"
+    },
+    "interrupt_text": "神火熄灭前未能及时脱手，成了无人问津的塑料废壳。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_PEACE_1"
+      }
+    ],
+    "completion": {
+      "text": "神火卖与富商巨贾，换得良田百亩深宅一座，提早富贵退隐。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_FIRE_MERCHANT"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_PEACEFUL_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 8
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_COMEDY",
+    "name": "街头杂耍",
+    "priority": 30,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_EMPTY"
+    },
+    "interrupt_text": "塑料打火机当场打不出火，看热闹的起哄喝倒彩。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_COMEDY_1"
+      }
+    ],
+    "completion": {
+      "text": "按灭了最后一星火花，赚得几枚铜钱，收摊当个正经江湖杂耍人。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_STREET_MAGICIAN"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_COMEDY_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "luck",
+          "amount": 2
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
     "id": "CH_WORKSHOP",
     "name": "三年匠作",
     "priority": 0,
@@ -81,6 +233,10 @@
     "completion": {
       "text": "木箱和交接册整理妥当，老匠认可了这份细活，没人把工具刀当成守城奇物。",
       "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_WAREHOUSE_OVERSEER"
+        },
         {
           "type": "flag_add",
           "id": "F_gm_arms_done"
@@ -192,6 +348,10 @@
       "text": "合仓与轮值有了着落，扩音器帮忙传清安排，真正撑住日子的还是众人守约。",
       "effects": [
         {
+          "type": "identity_set",
+          "id": "I_COMMUNITY_LEADER"
+        },
+        {
           "type": "flag_add",
           "id": "F_gm_fort_done"
         },
@@ -291,7 +451,12 @@
     ],
     "completion": {
       "text": "这轮生意收了尾，你把账本合上，才发现饭已经凉了。",
-      "effects": [],
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_SILK_MERCHANT"
+        }
+      ],
       "next_stage_id": null
     }
   }

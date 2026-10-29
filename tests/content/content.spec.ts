@@ -112,11 +112,19 @@ describe('trusted complete content packages', () => {
     await expectIssue(directory, 'CONTENT_PATH_INVALID', 'manifest.json', '/files/cards');
   });
 
-  it('rejects symlink escapes without reading outside package data', async () => {
+  it('rejects symlink escapes without reading outside package data', async (ctx) => {
     const inside = await fixture();
     const outside = await fixture();
     await rm(join(inside.directory, 'cards.json'));
-    await symlink(join(outside.directory, 'cards.json'), join(inside.directory, 'cards.json'));
+    try {
+      await symlink(join(outside.directory, 'cards.json'), join(inside.directory, 'cards.json'));
+    } catch (error: unknown) {
+      if (process.platform === 'win32' && typeof error === 'object' && error !== null && 'code' in error && error.code === 'EPERM') {
+        ctx.skip();
+        return;
+      }
+      throw error;
+    }
     await expectIssue(inside.directory, 'CONTENT_PATH_INVALID', 'manifest.json', '/files/cards');
   });
 

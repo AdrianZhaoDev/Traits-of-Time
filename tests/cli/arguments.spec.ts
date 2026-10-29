@@ -131,10 +131,18 @@ describe('CLI output boundaries: content remains read-only', () => {
     expect(await readFile(join(context.content, 'manifest.json'), 'utf8')).toBe(manifest);
   });
 
-  it('resolves symlink parents before allowing a state directory outside the apparent package path', async () => {
+  it('resolves symlink parents before allowing a state directory outside the apparent package path', async (ctx) => {
     const context = await fixture();
     const alias = join(context.root, 'content-alias');
-    await symlink(context.content, alias, 'dir');
+    try {
+      await symlink(context.content, alias, 'dir');
+    } catch (error: unknown) {
+      if (process.platform === 'win32' && typeof error === 'object' && error !== null && 'code' in error && error.code === 'EPERM') {
+        ctx.skip();
+        return;
+      }
+      throw error;
+    }
     const before = (await readdir(context.content)).sort();
     expectJsonError(await runCli('draw', [
       '--content', context.content, '--state', join(alias, 'forbidden-state'),

@@ -23,6 +23,8 @@ export function scheduleWeightedEvents(content: ContentBundle, player: PlayerSta
     else if (!evaluateCondition(event.condition, context)) reason = 'CONDITION_NOT_MET';
     else if (trigger.kind === 'random' && trigger.max_occurrences !== null && (run.event_counts[event.id] ?? 0) >= trigger.max_occurrences) reason = 'MAX_OCCURRENCES';
     else if (trigger.kind === 'random' && run.cooldowns[event.id] !== undefined && player.calendar_year <= run.cooldowns[event.id]!) reason = 'COOLDOWN';
+    else if (player.attributes.physique <= 1 && (event.id.includes('_PHYS_HARD_') || event.id.includes('_HEAVY_LABOR_'))) reason = 'PHYSIQUE_TOO_LOW';
+    else if (player.attributes.wealth <= 1 && (event.id.includes('_RICH_') || event.id.includes('_LUXURY_'))) reason = 'WEALTH_TOO_LOW';
     else if (!available(event)) reason = 'NO_AVAILABLE_OPTION';
     const eligible = reason === null;
     return { event, info: { event_id: event.id, eligible, reason, gate_passed: eligible ? probabilityPasses(trigger.trigger_probability, rng) : null,

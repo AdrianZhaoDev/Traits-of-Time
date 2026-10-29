@@ -73,11 +73,11 @@
   },
   "opening": {
     "pool_id": "POOL_MODERN_RELICS",
-    "year_min": 1640,
+    "year_min": 1628,
     "year_max": 1645
   },
   "events": {
-    "per_year": 3,
+    "per_year": 1,
     "automatic_ratio": 0.6
   },
   "chains": {

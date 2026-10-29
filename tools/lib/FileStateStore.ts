@@ -85,8 +85,10 @@ export async function save<T>(directory: string, value: T): Promise<void> {
     finally { await handle.close(); }
     await rename(temporary, join(directory, name));
     temporary = undefined;
-    const directoryHandle = await open(directory, 'r');
-    try { await directoryHandle.sync(); } finally { await directoryHandle.close(); }
+    if (process.platform !== 'win32') {
+      const directoryHandle = await open(directory, 'r');
+      try { await directoryHandle.sync(); } finally { await directoryHandle.close(); }
+    }
   } catch (error) {
     if (error instanceof StateStoreError) throw error;
     throw new StateStoreError('SAVE_FAILED', `Cannot save state in ${directory}: ${String(error)}`);

@@ -2,7 +2,7 @@
   {
     "id": "A_PROJECT",
     "name": "匠作有成",
-    "text": "三年认真学手艺，总算给日子添了一份底气。",
+    "text": "学满三年手艺，总算有了糊口真本事。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -12,9 +12,93 @@
     "retirable": true
   },
   {
+    "id": "A_LIGHTER_LEGEND",
+    "name": "自生神机",
+    "text": "参透打火机玄机，大明火器横扫关外。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_LEGEND_DONE"
+    },
+    "priority": 50,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_ABSURD",
+    "name": "火德掌教",
+    "text": "靠打火机当上国师，忽悠了全京城。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_ABSURD_DONE"
+    },
+    "priority": 45,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_PEACEFUL",
+    "name": "人间清醒",
+    "text": "神火换良田三顷，提前退休当富绅。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_PEACEFUL_DONE"
+    },
+    "priority": 40,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_COMEDY",
+    "name": "两文钱大把式",
+    "text": "街头卖艺按冒烟，才挣了八文赏钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_COMEDY_DONE"
+    },
+    "priority": 35,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_BEACON",
+    "name": "暴雨红光",
+    "text": "大雨天点亮烽火，敌军看了都怀疑人生。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LG_BEACON_HERO"
+    },
+    "priority": 30,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_CANNON",
+    "name": "巨炮点火官",
+    "text": "狂风撕不灭蓝火，一炮把来犯敌军轰懵。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LG_CANNON_HERO"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_OLD_SAGE",
+    "name": "槐荫神机叟",
+    "text": "没气也能转砂轮，全村娃儿眼里的老神仙。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LG_OLD_SAGE"
+    },
+    "priority": 28,
+    "retirable": true
+  },
+  {
     "id": "A_LONG_LIFE",
     "name": "岁月长存",
-    "text": "走过七十载风雨，平常饭菜也值得慢慢吃。",
+    "text": "在崇祯年间苟到七十，阎王都佩服你。",
     "condition": {
       "op": "compare",
       "field": "age",
@@ -27,7 +111,7 @@
   {
     "id": "A_ds_grain",
     "name": "账平人不平",
-    "text": "粮簿核清不算完，街坊更盼份额真正落袋。",
+    "text": "账本算得分毫不差，可惜粮食全进官仓。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -39,7 +123,7 @@
   {
     "id": "A_ds_road",
     "name": "近路直达结算",
-    "text": "近路听来很省事，认清路况才算真有见识。",
+    "text": "抄近道遇山贼，送货直接送到贼窝里。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -51,7 +135,7 @@
   {
     "id": "A_ds_roll",
     "name": "编制比命长",
-    "text": "册上名字对清楚，家里的牵挂才有了着落。",
+    "text": "只要名字不销户，到哪都能领大明公粮。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -63,7 +147,7 @@
   {
     "id": "A_ds_drill",
     "name": "试用期即终身",
-    "text": "安排不能只看纸，年纪和力气也得算进去。",
+    "text": "第一天当差被砸倒，工龄短得破了大明纪录。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -75,7 +159,7 @@
   {
     "id": "A_ds_plaque",
     "name": "章程不能泡饭",
-    "text": "章程写得再漂亮，也得有人认真照着办。",
+    "text": "方案写得贼漂亮，可惜不能当饭吃。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -87,7 +171,7 @@
   {
     "id": "A_ds_omen",
     "name": "剧透没有续费",
-    "text": "传言讲得再热闹，不如把眼前日子安排好。",
+    "text": "剧透一时爽，明天就喝西北风冻倒街头。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -99,7 +183,7 @@
   {
     "id": "A_ds_well",
     "name": "以身补齐设施",
-    "text": "井边多留一分心，比满口聪明更让人放心。",
+    "text": "井边激情科普水利，脚底抹油当了井盖。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -111,7 +195,7 @@
   {
     "id": "A_ds_gate",
     "name": "流程先于用户",
-    "text": "队伍不是纸上字，先留安全余地再谈规矩。",
+    "text": "教大家讲排队秩序，被挤成肉饼当场抬走。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -123,7 +207,7 @@
   {
     "id": "A_gm_arms",
     "name": "库房有序",
-    "text": "木箱账册都理顺，小工具也有踏实的用处。",
+    "text": "库房盘得明明白白，箱子修得贼结实。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -135,7 +219,7 @@
   {
     "id": "A_gm_water",
     "name": "井边有伴",
-    "text": "井边有人接着守，用品有限，照应不能少。",
+    "text": "带头搞深井排班，街坊终于有干净水喝。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -147,7 +231,7 @@
   {
     "id": "A_gm_fort",
     "name": "合仓守约",
-    "text": "合仓轮值商量妥，声音传得远还要有人应。",
+    "text": "说服粮商街坊合仓，乱世抱团取暖保平安。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -159,7 +243,7 @@
   {
     "id": "A_gm_history",
     "name": "史诗·留名在人间",
-    "text": "明清易代，天下大乱，你居然把半城百姓保了下来。",
+    "text": "乱世改朝换代，你硬把半城百姓保住了。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -171,7 +255,7 @@
   {
     "id": "A_gpt_conscription",
     "name": "名册之外",
-    "text": "硬生生在兵役名册上把自己划掉了。",
+    "text": "核对雇役旧票，在兵役名册上合法摸鱼。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -183,7 +267,7 @@
   {
     "id": "A_gpt_tax",
     "name": "饷册对得上",
-    "text": "把官府催缴的辽饷账本盘得比户部还清。",
+    "text": "账本盘得滴水不漏，差役没能多捞一文钱。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -195,7 +279,7 @@
   {
     "id": "A_gpt_post",
     "name": "旧道新收据",
-    "text": "把荒废驿路跑成了私家通商走廊。",
+    "text": "废弃驿站跑成私商线，走镖从不误期。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -207,7 +291,7 @@
   {
     "id": "A_gpt_market",
     "name": "市口有凭",
-    "text": "市霸收保护费收到了祖师爷头上。",
+    "text": "地痞收保护费，被你反上一堂大明律法课。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -219,7 +303,7 @@
   {
     "id": "A_gpt_hunger",
     "name": "数得清的粮",
-    "text": "乱民抢粮，你居然真把粮食一粒不少护住了。",
+    "text": "荒年粮棚人浪汹涌，粮食一粒不少护住。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -231,7 +315,7 @@
   {
     "id": "A_gpt_watch",
     "name": "街口答卷",
-    "text": "几句黑话把锦衣卫缇骑唬得一愣一愣。",
+    "text": "锦衣卫当街盘查，被你用切口行话唬住。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -243,7 +327,7 @@
   {
     "id": "A_JN_TOP_SCHOLAR",
     "name": "榜上终于有名",
-    "text": "苦读多年中了举，亲戚突然全认识你了。",
+    "text": "十年苦读一朝中举，远房亲戚挤破了门。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -255,7 +339,7 @@
   {
     "id": "A_JN_SILK_TYCOON",
     "name": "机房翻身做主",
-    "text": "丝绸生意做成了，算盘总算没白挨累。",
+    "text": "丝绸小摊做成大商号，当老板就是舒坦。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -267,7 +351,7 @@
   {
     "id": "A_JN_POET_MASTER",
     "name": "茶馆都在念你",
-    "text": "诗名传遍茶馆，赊账却还得看掌柜脸色。",
+    "text": "江南文会名声大噪，但吃茶仍得按碗结账。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -279,7 +363,7 @@
   {
     "id": "A_HIST_PASS_SURVIVOR",
     "name": "关口捡回一命",
-    "text": "大场面没抢着露脸，倒是保住了吃饭的嘴。",
+    "text": "各路大军混战，你毫发无损捡回一条小命。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -302,7 +386,7 @@
   {
     "id": "A_HIST_SOUTH_HERMIT",
     "name": "山里不接差事",
-    "text": "山外换了几拨人，山里只管今天吃什么。",
+    "text": "深山老林躲清静，外头换皇帝关我屁事。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -314,7 +398,7 @@
   {
     "id": "A_HIST_TIMES_WITNESS",
     "name": "换了天下还在",
-    "text": "天下换了招牌，你还在为下一顿操心。",
+    "text": "眼看王朝翻覆，你照样安稳吃自家的饭。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -343,7 +427,7 @@
   {
     "id": "A_LIFE_BIG_FAMILY",
     "name": "一桌坐不下",
-    "text": "家里人丁越来越旺，你连夹菜都得排队。",
+    "text": "四世同堂人丁兴旺，逢年过节摆满三大桌。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -366,7 +450,7 @@
   {
     "id": "A_LIFE_LUCKY_SLACKER",
     "name": "少折腾多吃饭",
-    "text": "大事没抢着干，养老的饭钱倒是留下了。",
+    "text": "一生不折腾不出头，平平安安活到养老。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -389,7 +473,7 @@
   {
     "id": "A_LIFE_CENTURY_TURMOIL",
     "name": "百岁还占一桌",
-    "text": "乱世熬到一百岁，蜡烛比寿面还费钱。",
+    "text": "大明乱世活到百岁，熬走一茬又一茬人。",
     "condition": {
       "op": "compare",
       "field": "age",
@@ -402,7 +486,7 @@
   {
     "id": "A_MOD_OIL_SUCCESS",
     "name": "清醒下班",
-    "text": "小瓶帮你熬过核账，却没替衙门多长出半枚铜钱。",
+    "text": "靠风油精熬夜核账，一文钱差错都没出。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -414,7 +498,7 @@
   {
     "id": "A_MOD_OIL_SETBACK",
     "name": "香过头了",
-    "text": "瓶盖比账目先失守，清洗钱倒算得格外清楚。",
+    "text": "风油精擦进眼睛，账没核完先哭湿衣裳。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -426,7 +510,7 @@
   {
     "id": "A_MOD_BANDAGE_SUCCESS",
     "name": "小贴稳妥",
-    "text": "创可贴只管一处小伤，管事终于肯准半天假。",
+    "text": "创可贴一贴止血，工伤秒好没耽误工钱。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -438,7 +522,7 @@
   {
     "id": "A_MOD_BANDAGE_SETBACK",
     "name": "贴不住了",
-    "text": "贴片没撑住场面，你及时请大夫接过了活。",
+    "text": "伤口太大贴不住，老老实实掏钱请郎中。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -450,7 +534,7 @@
   {
     "id": "A_MOD_LIGHTER_SUCCESS",
     "name": "热饭准点",
-    "text": "火苗赶上开饭时辰，管事的催促总算停了一回。",
+    "text": "打火机瞬间点火，救了全棚等饭的饥民。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -462,7 +546,7 @@
   {
     "id": "A_MOD_LIGHTER_SETBACK",
     "name": "空响一声",
-    "text": "打火机先下了工，最后还是老灶工接住场面。",
+    "text": "关键时刻火机没气，还是钻木取火靠谱。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -474,7 +558,7 @@
   {
     "id": "A_MOD_CHICKEN_ESSENCE_SUCCESS",
     "name": "清汤有味",
-    "text": "清汤多了几分鲜味，空账本可没跟着长出粮。",
+    "text": "清水寡汤添勺鸡精，引来半条街食客争抢。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -486,7 +570,7 @@
   {
     "id": "A_MOD_CHICKEN_ESSENCE_SETBACK",
     "name": "众口难调",
-    "text": "一包鲜味没说服众口，你付钱买下这堂厨艺课。",
+    "text": "鸡精放得太猛，街坊全以为喝了迷魂汤。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -498,7 +582,7 @@
   {
     "id": "A_MOD_GLUE_502_SUCCESS",
     "name": "旧盒续用",
-    "text": "小瓶修好了旧盒子，修不掉管事拖工钱的习惯。",
+    "text": "502粘好破账盒，硬是多用了整整三年。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -510,7 +594,7 @@
   {
     "id": "A_MOD_GLUE_502_SETBACK",
     "name": "粘了个空",
-    "text": "旧木没给强力胶面子，老师傅倒肯给你补课。",
+    "text": "强力胶把手指粘牢，旧盒子依然碎了一地。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -522,7 +606,7 @@
   {
     "id": "A_MOD_THERMOS_SUCCESS",
     "name": "留住温热",
-    "text": "杯里留下一点温热，驿站总算肯让人歇会儿。",
+    "text": "大冷天喝上滚烫开水，驿道上暖心又保命。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -534,7 +618,7 @@
   {
     "id": "A_MOD_THERMOS_SETBACK",
     "name": "杯盖失守",
-    "text": "热水没能留在杯里，洗晒账单倒留得很牢。",
+    "text": "保温杯盖没拧紧，滚水全浇在棉裤上。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -546,7 +630,7 @@
   {
     "id": "A_MOD_MEGAPHONE_SUCCESS",
     "name": "叫号有序",
-    "text": "大家听清了领号次序，管事终于不用空喊安静。",
+    "text": "大喇叭一喊，上千人老老实实排队领粮。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -558,7 +642,7 @@
   {
     "id": "A_MOD_MEGAPHONE_SETBACK",
     "name": "电池下班",
-    "text": "电池先替你请了假，传话的工钱一文也没省。",
+    "text": "喇叭突然没电，只剩管事扯着破锣嗓干嚎。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -570,7 +654,7 @@
   {
     "id": "A_MOD_LASER_POINTER_SUCCESS",
     "name": "一图说清",
-    "text": "光点只帮图纸说话，没替管事变出半点本领。",
+    "text": "红光往图上一指，工匠立马心领神会。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -582,7 +666,7 @@
   {
     "id": "A_MOD_LASER_POINTER_SETBACK",
     "name": "光点隐身",
-    "text": "白日里光点躲了懒，你用纸笔把场面接回来。",
+    "text": "大太阳底下光斑隐形，还得靠木棍敲地。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -594,7 +678,7 @@
   {
     "id": "A_MOD_WATER_TABS_SUCCESS",
     "name": "用水有据",
-    "text": "净水片不是担保书，你把适用条件问在前头。",
+    "text": "投净水片杀菌，救了一路逃难街坊老小。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -606,7 +690,7 @@
   {
     "id": "A_MOD_WATER_TABS_SETBACK",
     "name": "另寻清水",
-    "text": "没拿不明水源冒险，这笔买水钱花得明白。",
+    "text": "泥浆水扔净水片也白搭，踏实找山泉水。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -618,7 +702,7 @@
   {
     "id": "A_MOD_SWISS_ARMY_SUCCESS",
     "name": "小修省钱",
-    "text": "小工具办成一件小事，顺手挤掉账上几分水。",
+    "text": "工具刀拧紧螺栓，省下一大笔修车冤枉钱。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -630,7 +714,7 @@
   {
     "id": "A_MOD_SWISS_ARMY_SETBACK",
     "name": "尺寸不合",
-    "text": "工具不合就换办法，修理摊没赚到整箱的钱。",
+    "text": "小刀拧不动铁大铆，差点把刀片给掰折了。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -642,7 +726,7 @@
   {
     "id": "A_MOD_ANTIBIOTICS_SUCCESS",
     "name": "先问再用",
-    "text": "药板没变成万灵药，你却帮药铺少许一场空愿。",
+    "text": "抗生素只救危急重症，绝不当万灵药滥卖。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -654,7 +738,7 @@
   {
     "id": "A_MOD_ANTIBIOTICS_SETBACK",
     "name": "封板停用",
-    "text": "不明药板暂且不用，比随口包治更值得记账。",
+    "text": "药名对不上绝不乱吃，保命第一绝不碰运气。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -666,7 +750,7 @@
   {
     "id": "A_MOD_HYBRID_SEEDS_SUCCESS",
     "name": "小田有收",
-    "text": "试田多收了一点粮，水肥工钱也老老实实入账。",
+    "text": "杂交种试种成功，亩产翻番乐坏了老农。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -678,7 +762,7 @@
   {
     "id": "A_MOD_HYBRID_SEEDS_SETBACK",
     "name": "水土不服",
-    "text": "新种不合这片水土，小田替大田先交了学费。",
+    "text": "良种碰上干旱盐碱地，交了一整季学费。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -686,5 +770,42 @@
     },
     "priority": 90,
     "retirable": true
+  },
+  {
+    "id": "A_OLD_FOSSIL",
+    "name": "岁月活化石",
+    "text": "硬是苟过了八十大关，崇祯户口本早烂了你还在。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 80
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_PEACEFUL_ERA_END",
+    "name": "盛世平安翁",
+    "text": "从甲申风云活到康乾承平，大风大浪全看成小菜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1684
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 60
+        }
+      ]
+    },
+    "priority": 25,
+    "retirable": false
   }
 ]

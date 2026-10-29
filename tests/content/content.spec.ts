@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { loadContent, ContentLoadError } from '../../tools/lib/ContentLoader.js';
+import { loadContent } from '../../tools/lib/ContentLoader.js';
+import { ContentLoadError } from '../../assets/scripts/application/ContentPackage.js';
 import { canonicalJson, sha256 } from '../../tools/lib/canonical.js';
 import { validateContent } from '../../assets/scripts/core/content/ContentValidator.js';
 import { createContentRegistry } from '../../assets/scripts/core/content/ContentRegistry.js';

@@ -2,6 +2,7 @@ import { parseArgs } from 'node:util';
 import { realpath, lstat } from 'node:fs/promises';
 import { resolve, dirname, basename, relative, isAbsolute } from 'node:path';
 import { acquireStateLock } from './FileStateStore.js';
+import { httpsContentRoot } from './ContentLoader.js';
 
 export const DEFAULT_CONTENT = 'assets/resources/data/ming_end';
 export const DEFAULT_SEED = 1640;
@@ -44,6 +45,8 @@ async function resolvedDestination(path: string): Promise<string> {
   }
 }
 export async function assertDestinationOutsideContent(contentDirectory: string, destination: string): Promise<void> {
+  // Remote packages have no local directory that a state or replay file could overwrite.
+  if (/^https?:/i.test(contentDirectory)) { httpsContentRoot(contentDirectory); return; }
   const root = await realpath(contentDirectory);
   const target = await resolvedDestination(destination);
   const rel = relative(root, target);

@@ -155,7 +155,7 @@
       "properties": {
         "schema_version": {
           "type": "number",
-          "const": 2
+          "const": 3
         },
         "content_id": {
           "type": "string",
@@ -541,7 +541,8 @@
                 "cards",
                 "flags",
                 "injuries",
-                "completed_chains"
+                "completed_chains",
+                "active_chains"
               ]
             },
             "id": {
@@ -955,6 +956,48 @@
       ],
       "additionalProperties": false
     },
+    "AgeTransition": {
+      "title": "AgeTransition",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "condition": {
+          "$ref": "#/definitions/Condition"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["identity_set", "flag_add", "flag_remove"]
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["type", "id"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["id", "age", "text", "effects"],
+      "additionalProperties": false
+    },
     "Era": {
       "title": "Era",
       "type": "object",
@@ -993,6 +1036,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Injury"
+          }
+        },
+        "age_transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AgeTransition"
           }
         },
         "fallback_text": {
@@ -1554,6 +1603,10 @@
           "type": "string",
           "minLength": 1
         },
+        "commitment": {
+          "type": "string",
+          "minLength": 1
+        },
         "priority": {
           "type": "number"
         },
@@ -1607,8 +1660,8 @@
         "priority": {
           "type": "number"
         },
-        "retirable": {
-          "type": "boolean"
+        "category": {
+          "enum": ["life", "milestone", "anecdote"]
         }
       },
       "required": [
@@ -1616,8 +1669,7 @@
         "name",
         "text",
         "condition",
-        "priority",
-        "retirable"
+        "priority"
       ],
       "additionalProperties": false
     },

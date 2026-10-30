@@ -14,7 +14,11 @@ export interface SessionPorts {
   load(): Promise<SessionSave | null>;
   hash(value: unknown): string;
 }
-export type SessionAction = { type: 'next' } | { type: 'choose'; optionId: string } | { type: 'stage' } | { type: 'retire' };
+export type SessionAction = { type: 'next' } | { type: 'choose'; optionId: string } | { type: 'stage' } | { type: 'abandon'; chainInstanceId: string };
+export interface AdvanceOptions {
+  shouldStop?: () => boolean;
+  onResult?: (result: CommandResult) => void | Promise<void>;
+}
 const failure = (code: string, message: string): Error => Object.assign(new Error(message), { code });
 
 /** Session authorization is transient; only committed commands advance a durable cursor. */
@@ -108,7 +112,7 @@ export class GameSession {
       let actual: ReplayAction;
       switch (action.type) {
         case 'next': actual = { api: 'nextYear', commandId, args: {} }; break;
-        case 'retire': actual = { api: 'retire', commandId, args: {} }; break;
+        case 'abandon': actual = { api: 'abandonChain', commandId, args: { chainInstanceId: action.chainInstanceId } }; break;
         case 'choose': actual = { api: 'resolveOption', commandId, args: { eventInstanceId: pending?.event_instance_id ?? '', optionId: action.optionId } }; break;
         case 'stage': actual = { api: 'resolveStage', commandId, args: { eventInstanceId: pending?.event_instance_id ?? '', stageId: pending?.kind === 'stage' ? pending.stage_id : '' } }; break;
       }
@@ -119,11 +123,15 @@ export class GameSession {
       return result;
     });
   }
-  async advanceToDecision(commandId: string): Promise<CommandResult> {
+  async advanceToDecision(commandId: string, options: AdvanceOptions = {}): Promise<CommandResult> {
     return this.exclusive(async () => {
       if (typeof commandId !== 'string' || commandId.length === 0) throw failure('INVALID_COMMAND_ID', 'Automatic advancement requires a command ID');
-      let years = 0;
       for (;;) {
+        const current = this.engine.current();
+        if (current.pending?.kind === 'option' || current.state.status === 'ENDED' || options.shouldStop?.()) {
+          this.cursor.authorized = false;
+          return { ok: true, ...current, logs: [] };
+        }
         const before = this.exportSave();
         if (this.cursor.parent_command_id !== commandId) {
           this.cursor.parent_command_id = commandId;
@@ -133,20 +141,20 @@ export class GameSession {
         }
         if (!Number.isSafeInteger(this.cursor.next_child_index) || this.cursor.next_child_index === Number.MAX_SAFE_INTEGER) throw failure('INVALID_COMMAND_ID', 'Child sequence exhausted');
         const childId = `${commandId}:${this.cursor.next_child_index++}`;
-        const result = this.execute({ api: 'nextYear', commandId: childId, args: {} });
-        const previous = before.engine.payload.player;
+        const pending = current.pending;
+        const result = this.execute(pending?.kind === 'stage'
+          ? { api: 'resolveStage', commandId: childId, args: { eventInstanceId: pending.event_instance_id, stageId: pending.stage_id } }
+          : { api: 'nextYear', commandId: childId, args: {} });
         let reason: string | null = null;
         if (!result.ok) reason = 'error';
-        else if (result.pending !== null) reason = result.pending.kind;
+        else if (result.pending?.kind === 'option') reason = 'option';
         else if (result.state.status === 'ENDED') reason = 'ended';
-        else if (result.state.player.identity_id !== previous.identity_id) reason = 'identity';
-        else if (result.state.player.achievements.some(id => !previous.achievements.includes(id))) reason = 'achievement';
         this.cursor.authorized = reason === null;
         this.cursor.pause_reason = reason;
         await this.persist(before);
+        await options.onResult?.(result);
         if (reason !== null) return result;
-        years++;
-        if (years % 4 === 0) await nextTurn();
+        await nextTurn();
       }
     });
   }

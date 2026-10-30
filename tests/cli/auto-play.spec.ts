@@ -35,7 +35,7 @@ describe('play --auto: unattended random choices', () => {
     expect(trace.commands.filter(command => command.api === 'resolveOption').map(command => command.args.optionId)).not.toContain('locked');
 
     const resumedState = join(context.root, 'resumed');
-    expectSuccess(await runCli('play', ['--content', context.content, '--seed', '1640', '--state', resumedState], 'choose attempt\nstage\nquit\n'));
+    expectSuccess(await runCli('play', ['--content', context.content, '--seed', '1640', '--state', resumedState], 'pause\nchoose attempt\nquit\n'));
     expect((await savedLife(resumedState)).engine.payload.run.status).toBe('AWAITING_STAGE');
     expectSuccess(await runCli('play', ['--content', context.content, '--state', resumedState, '--auto']));
     expect((await savedLife(resumedState)).engine).toEqual(full.engine);

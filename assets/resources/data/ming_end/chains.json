@@ -1,151 +1,309 @@
 [
   {
-    "id": "CH_LIGHTER_LEGEND",
-    "name": "神机革新",
-    "priority": 40,
+    "id": "CHAIN_IMPERIAL_EXAM",
+    "name": "崇祯科举大考",
+    "commitment": "四年备考，起步花费财富1。借书抄卷自动推进，第二年借旧卷，不再加收钱；末年掷D20评卷，符合资格时由你决定是否争取举人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，道路受阻或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "priority": 25,
     "interrupt_condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_EMPTY"
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_IMPERIAL_EXAM_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
     },
-    "interrupt_text": "打火机彻底哑火，弹簧机巧未及参透，神机革新功亏一篑。",
+    "interrupt_text": "书卷先收起来，备考停在了半途。",
     "nodes": [
       {
         "after_years": 1,
-        "event_id": "E_LG_LEGEND_1"
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_1"
       },
       {
         "after_years": 2,
-        "event_id": "E_LG_LEGEND_2"
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_3"
+      },
+      {
+        "after_years": 4,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_4"
       }
     ],
     "completion": {
-      "text": "大明自生火枪批量列装神机营，火器不需火绳，三军士气大振！",
+      "text": "几年的文章磨出了章法，这趟读书有了结果。",
       "effects": [
         {
-          "type": "identity_set",
-          "id": "I_FIRE_OFFICER"
-        },
-        {
           "type": "flag_add",
-          "id": "F_LIGHTER_LEGEND_DONE"
-        },
-        {
-          "type": "attribute_add",
-          "attribute": "prestige",
-          "amount": 5
+          "id": "F_CHAIN_IMPERIAL_EXAM_DONE"
         }
       ],
       "next_stage_id": null
     }
   },
   {
-    "id": "CH_LIGHTER_ABSURD",
-    "name": "火德掌教",
-    "priority": 38,
+    "id": "CHAIN_MILITARY_MERIT",
+    "name": "九边行伍从戎",
+    "commitment": "三年随营历练，起步免费。常规操练与留营轮值自动推进，不另收费；末年掷D20评定功簿，符合资格时由你决定是否争取武官身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，道路受阻或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "priority": 25,
     "interrupt_condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_EXPOSED"
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_MILITARY_MERIT_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
     },
-    "interrupt_text": "仙火在文武百官面前当场熄灭，国师谎言被戳穿。",
+    "interrupt_text": "你交还军中差事，随营历练暂且停下。",
     "nodes": [
       {
         "after_years": 1,
-        "event_id": "E_LG_ABSURD_1"
+        "event_id": "E_CHAIN_MILITARY_MERIT_1"
       },
       {
         "after_years": 2,
-        "event_id": "E_LG_ABSURD_2"
+        "event_id": "E_CHAIN_MILITARY_MERIT_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_MILITARY_MERIT_3"
       }
     ],
     "completion": {
-      "text": "崇祯帝亲赐紫袍玉带，敕封火德护国法师，掌管天下道观。",
+      "text": "操练和轮值记进功簿，这段军中差事办完了。",
       "effects": [
         {
-          "type": "identity_set",
-          "id": "I_FIRE_MASTER"
-        },
-        {
           "type": "flag_add",
-          "id": "F_LIGHTER_ABSURD_DONE"
-        },
-        {
-          "type": "attribute_add",
-          "attribute": "wealth",
-          "amount": 6
+          "id": "F_CHAIN_MILITARY_MERIT_DONE"
         }
       ],
       "next_stage_id": null
     }
   },
   {
-    "id": "CH_LIGHTER_PEACE",
-    "name": "奇货脱手",
-    "priority": 35,
+    "id": "CHAIN_FIREARMS_RESEARCH",
+    "name": "神机营火器督造",
+    "commitment": "三年学修火器，起步花费财富1。常规匠活自动推进，第二年借旧料，不再加收钱；在作坊期间可能遇火药意外，先辨退路、失手再由工友救援，两次检定都失败才会丧命，不是让你主动试爆。末年掷D20验收，符合资格时由你决定是否争取匠人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，工坊毁坏或重伤也会打断安排。推进前可暂停或退出这条事业，退出后不再遭遇这条事业的作坊事故；已花费用不退，已学本事保留。",
+    "priority": 25,
     "interrupt_condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_EMPTY"
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_FIREARMS_RESEARCH_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_WORKSHOP_LOST"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
     },
-    "interrupt_text": "神火熄灭前未能及时脱手，成了无人问津的塑料废壳。",
+    "interrupt_text": "图稿先收好，匠作停在了半途。",
     "nodes": [
       {
         "after_years": 1,
-        "event_id": "E_LG_PEACE_1"
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_3"
       }
     ],
     "completion": {
-      "text": "神火卖与富商巨贾，换得良田百亩深宅一座，提早富贵退隐。",
+      "text": "图稿和器件通过核验，匠作有了实在成果。",
       "effects": [
         {
-          "type": "identity_set",
-          "id": "I_FIRE_MERCHANT"
-        },
-        {
           "type": "flag_add",
-          "id": "F_LIGHTER_PEACEFUL_DONE"
-        },
-        {
-          "type": "attribute_add",
-          "attribute": "wealth",
-          "amount": 8
+          "id": "F_CHAIN_FIREARMS_RESEARCH_DONE"
         }
       ],
       "next_stage_id": null
     }
   },
   {
-    "id": "CH_LIGHTER_COMEDY",
-    "name": "街头杂耍",
-    "priority": 30,
+    "id": "CHAIN_EPIDEMIC_HEALING",
+    "name": "崇祯大疫悬壶录",
+    "commitment": "三年跟诊练就活人神技！起步免费，辨药尝草与救治病患自动推进；末年掷D20复核医案冲刺名医赛华佗，亦可整理药账养家或传授防疫土方。失败中断，手艺保留。",
+    "priority": 25,
     "interrupt_condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_EMPTY"
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_EPIDEMIC_HEALING_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
     },
-    "interrupt_text": "塑料打火机当场打不出火，看热闹的起哄喝倒彩。",
+    "interrupt_text": "药材交回乡医，跟诊暂且停下。",
     "nodes": [
       {
         "after_years": 1,
-        "event_id": "E_LG_COMEDY_1"
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_3"
       }
     ],
     "completion": {
-      "text": "按灭了最后一星火花，赚得几枚铜钱，收摊当个正经江湖杂耍人。",
+      "text": "【神医出山】手搓针灸妙手回春，连救百号重症病患，万人争送‘大明第一神针’金匾！",
       "effects": [
         {
-          "type": "identity_set",
-          "id": "I_STREET_MAGICIAN"
+          "type": "flag_add",
+          "id": "F_CHAIN_EPIDEMIC_HEALING_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_FORTRESS_DEFENSE",
+    "name": "筑堡屯粮抗乱",
+    "commitment": "三年深挖洞广积粮！起步合仓管粮，自动推进清点；末年掷D20议定冲刺坊里甲首/族老，亦可稳当顾家或传授苟命避险宝典。天下大乱，我自稳如泰山！",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_FORTRESS_DEFENSE_ABORT"
         },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "修墙和管仓暂且停下，账目交给乡邻。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_3"
+      }
+    ],
+    "completion": {
+      "text": "【苟道大成】粮满仓堡筑成，任凭外界风吹雨打，堡内歌舞升平米肉飘香！",
+      "effects": [
         {
           "type": "flag_add",
-          "id": "F_LIGHTER_COMEDY_DONE"
+          "id": "F_CHAIN_FORTRESS_DEFENSE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MARITIME_TRADE",
+    "name": "大明福船出洋",
+    "commitment": "三年合伙下南洋搞暴富！起步须财富3一次付清包办候风。第二年自动掷D20迎战风浪；末年可冒风浪风险冲刺海商大亨名分分大钱，或稳妥做账房，亦可退伙当祖师爷传授秘诀。失败或退出均不退预付款，本事永久保留！",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_MARITIME_TRADE_ABORT"
         },
         {
-          "type": "attribute_add",
-          "attribute": "luck",
-          "amount": 2
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "合伙运货暂且停下，船账先交给船东。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MARITIME_TRADE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MARITIME_TRADE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_MARITIME_TRADE_3"
+      }
+    ],
+    "completion": {
+      "text": "【商海暴富】货船满载南洋香料象牙回港，金银进账堆满仓库，全港商贾夹道欢呼！",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_MARITIME_TRADE_DONE"
         }
       ],
       "next_stage_id": null
@@ -153,14 +311,30 @@
   },
   {
     "id": "CH_WORKSHOP",
-    "name": "三年匠作",
-    "priority": 0,
+    "name": "工部百工学艺",
+    "commitment": "三年工坊学艺，起步免费。认工具与试做器件自动推进，不另收费；末年掷D20验活，符合资格时由你决定是否争取匠人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，工坊毁坏或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "priority": 20,
     "interrupt_condition": {
-      "op": "has",
-      "collection": "injuries",
-      "id": "INJ_SEVERE"
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_WORKSHOP_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_WORKSHOP_LOST"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
     },
-    "interrupt_text": "伤筋动骨一百天，三年匠作计划被迫泡汤，先前的学费全打水漂了。",
+    "interrupt_text": "你收起工具，工坊学艺暂且停下。",
     "nodes": [
       {
         "after_years": 1,
@@ -176,12 +350,8 @@
       }
     ],
     "completion": {
-      "text": "三年苦练出师，成功拿到顶级匠人编制，以后吃喝不愁了。",
+      "text": "学徒活计做完，师傅认可了你的手艺。",
       "effects": [
-        {
-          "type": "identity_set",
-          "id": "I_ARTISAN"
-        },
         {
           "type": "flag_add",
           "id": "workshop_complete"
@@ -191,250 +361,82 @@
     }
   },
   {
-    "id": "CH_gm_arms",
-    "name": "库房整顿",
-    "priority": 20,
-    "interrupt_condition": {
-      "op": "any",
-      "conditions": [
-        {
-          "op": "has",
-          "collection": "flags",
-          "id": "F_gm_arms_abort"
-        },
-        {
-          "op": "has",
-          "collection": "injuries",
-          "id": "INJ_SEVERE"
-        },
-        {
-          "op": "compare",
-          "field": "wealth",
-          "comparator": "lte",
-          "value": 0
-        }
-      ]
-    },
-    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
-    "nodes": [
-      {
-        "after_years": 1,
-        "event_id": "E_gm_arms_1"
-      },
-      {
-        "after_years": 2,
-        "event_id": "E_gm_arms_2"
-      },
-      {
-        "after_years": 3,
-        "event_id": "E_gm_arms_3"
-      }
-    ],
-    "completion": {
-      "text": "木箱和交接册整理妥当，老匠认可了这份细活，没人把工具刀当成守城奇物。",
-      "effects": [
-        {
-          "type": "identity_set",
-          "id": "I_WAREHOUSE_OVERSEER"
-        },
-        {
-          "type": "flag_add",
-          "id": "F_gm_arms_done"
-        },
-        {
-          "type": "ending_unlock",
-          "id": "A_gm_arms"
-        }
-      ],
-      "next_stage_id": null
-    }
-  },
-  {
-    "id": "CH_gm_water",
-    "name": "井边轮值",
-    "priority": 20,
-    "interrupt_condition": {
-      "op": "any",
-      "conditions": [
-        {
-          "op": "has",
-          "collection": "flags",
-          "id": "F_gm_water_abort"
-        },
-        {
-          "op": "has",
-          "collection": "injuries",
-          "id": "INJ_SEVERE"
-        },
-        {
-          "op": "compare",
-          "field": "wealth",
-          "comparator": "lte",
-          "value": 0
-        }
-      ]
-    },
-    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
-    "nodes": [
-      {
-        "after_years": 1,
-        "event_id": "E_gm_water_1"
-      },
-      {
-        "after_years": 2,
-        "event_id": "E_gm_water_2"
-      },
-      {
-        "after_years": 3,
-        "event_id": "E_gm_water_3"
-      }
-    ],
-    "completion": {
-      "text": "井户轮值终于接上，乡医继续提醒用品有限，管水不能代替求医和日常照应。",
-      "effects": [
-        {
-          "type": "flag_add",
-          "id": "F_gm_water_done"
-        },
-        {
-          "type": "ending_unlock",
-          "id": "A_gm_water"
-        }
-      ],
-      "next_stage_id": null
-    }
-  },
-  {
-    "id": "CH_gm_fort",
-    "name": "合仓互助",
-    "priority": 20,
-    "interrupt_condition": {
-      "op": "any",
-      "conditions": [
-        {
-          "op": "has",
-          "collection": "flags",
-          "id": "F_gm_fort_abort"
-        },
-        {
-          "op": "has",
-          "collection": "injuries",
-          "id": "INJ_SEVERE"
-        },
-        {
-          "op": "compare",
-          "field": "wealth",
-          "comparator": "lte",
-          "value": 0
-        }
-      ]
-    },
-    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
-    "nodes": [
-      {
-        "after_years": 1,
-        "event_id": "E_gm_fort_1"
-      },
-      {
-        "after_years": 2,
-        "event_id": "E_gm_fort_2"
-      },
-      {
-        "after_years": 3,
-        "event_id": "E_gm_fort_3"
-      }
-    ],
-    "completion": {
-      "text": "合仓与轮值有了着落，扩音器帮忙传清安排，真正撑住日子的还是众人守约。",
-      "effects": [
-        {
-          "type": "identity_set",
-          "id": "I_COMMUNITY_LEADER"
-        },
-        {
-          "type": "flag_add",
-          "id": "F_gm_fort_done"
-        },
-        {
-          "type": "ending_unlock",
-          "id": "A_gm_fort"
-        }
-      ],
-      "next_stage_id": null
-    }
-  },
-  {
     "id": "CH_JN_EXAM",
-    "name": "科举之路",
+    "name": "复社制艺赴考",
+    "commitment": "三年江南读书，起步免费。借卷温习自动推进，不另收费；第二年院试会自动掷D20，失败便停学。末年乡试再掷D20，符合资格时由你决定是否争取举人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，道路受阻或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
       "conditions": [
         {
-          "op": "not",
-          "condition": {
-            "op": "is",
-            "field": "region_id",
-            "value": "R_JIANGNAN"
-          }
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_EXAM_ABORT"
         },
         {
-          "op": "not",
-          "condition": {
-            "op": "has",
-            "collection": "flags",
-            "id": "F_JN_STUDENT"
-          }
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
         }
       ]
     },
-    "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+    "interrupt_text": "书卷先收好，这趟赶考停在了半途。",
     "nodes": [
       {
-        "after_years": 2,
+        "after_years": 1,
         "event_id": "E_JN_EXAM_1"
       },
       {
-        "after_years": 4,
+        "after_years": 2,
         "event_id": "E_JN_EXAM_2"
       },
       {
-        "after_years": 7,
+        "after_years": 3,
         "event_id": "E_JN_EXAM_3"
       }
     ],
     "completion": {
-      "text": "赶考这条路走过了，你把书箱放稳，接下来还得认真过日子。",
-      "effects": [],
+      "text": "江南这段读书赶考的日子，终于有了结果。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_JN_JUREN"
+        }
+      ],
       "next_stage_id": null
     }
   },
   {
     "id": "CH_JN_TRADE",
-    "name": "机房商贸",
+    "name": "苏杭织造商海",
+    "commitment": "三年玩转织造商战！起步免费，学经纬与工料自动推进；末年掷D20验货冲刺江南织造商大亨，或留机接活稳妥养家，亦可退居幕后传艺。失败中断，本事保留。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
       "conditions": [
         {
-          "op": "not",
-          "condition": {
-            "op": "is",
-            "field": "region_id",
-            "value": "R_JIANGNAN"
-          }
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_TRADE_ABORT"
         },
         {
-          "op": "not",
-          "condition": {
-            "op": "has",
-            "collection": "flags",
-            "id": "F_JN_LOOM_BUY"
-          }
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
         }
       ]
     },
-    "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+    "interrupt_text": "织布和交货暂且停下，货账先收起来。",
     "nodes": [
       {
         "after_years": 1,
@@ -450,11 +452,253 @@
       }
     ],
     "completion": {
-      "text": "这轮生意收了尾，你把账本合上，才发现饭已经凉了。",
+      "text": "【机房崛起】丝锦光润惊艳四方，订货单排到秦淮河对岸，江南丝界新巨头诞生！",
       "effects": [
         {
-          "type": "identity_set",
-          "id": "I_SILK_MERCHANT"
+          "type": "flag_add",
+          "id": "F_JN_TRADE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_arms",
+    "name": "卫所军械清核",
+    "commitment": "三年库房整修，起步免费。清点旧账与修架自动推进，不另收费；军械作坊就在近旁，期间可能遇火药意外，先辨退路、失手再由工友救援，两次检定都失败才会丧命，不要求你点火试器。末年掷D20交接，符合资格时由你决定是否争取军资协理官身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，工坊毁坏或重伤也会打断安排。推进前可暂停或退出这条事业，退出后不再遭遇这条事业的作坊事故；已花费用不退，已学本事保留。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_abort"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_WORKSHOP_LOST"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "库房清点暂且停下，账册先收起来。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_arms_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_arms_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_arms_3"
+      }
+    ],
+    "completion": {
+      "text": "旧账和库物交接清楚，钥匙也有了去处。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_arms_done"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_water",
+    "name": "小冰期凿井抗旱",
+    "commitment": "三年钻研甘泉排班！深井轮值自动推进，末年掷D20交接班，解决全街饮水大计。旱情虽重，我井水长清！",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_abort"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "你退出井边轮值，名单交给乡邻。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_water_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_water_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_water_3"
+      }
+    ],
+    "completion": {
+      "text": "【甘泉活人】井水清冽甘甜如蜜，全街男女老少红润健康，奉你为活水仙人！",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_water_done"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_fort",
+    "name": "合仓深垒守望",
+    "commitment": "三年深挖洞广积粮！起步合仓管粮，自动推进清点；末年掷D20议定冲刺坊里甲首/族老，亦可稳当顾家或传授苟命避险宝典。天下大乱，我自稳如泰山！",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_fort_abort"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "合仓的活暂且停下，仓账交给街坊。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_fort_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_fort_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_fort_3"
+      }
+    ],
+    "completion": {
+      "text": "【苟道大成】粮满仓堡筑成，任凭外界风吹雨打，堡内歌舞升平米肉飘香！",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_fort_done"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_MENTOR",
+    "name": "传授百工秘技",
+    "commitment": "两年传授手艺，起步免费。示范教活自动推进，不另收费；末年自动掷D20看后辈接活，成功办完差事，不改变身份。末关不另收费，末关检定失败会中断，流离失所或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MENTOR_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "传授手艺暂且停下，后辈先自行练习。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MENTOR_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MENTOR_2"
+      }
+    ],
+    "completion": {
+      "text": "后辈能独自接活，你的经验也有人接着用。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MENTOR_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_STUDY",
+    "name": "研读经世奇书",
+    "commitment": "两年借书识字，起步免费。以扫院换借书，常规读写自动推进，不另收费；末年自动掷D20考记账，成功读完功课，不改变身份。末关不另收费，末关检定失败会中断，流离失所也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_STUDY_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        }
+      ]
+    },
+    "interrupt_text": "识字暂且停下，借来的书先收起来。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_STUDY_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_STUDY_2"
+      }
+    ],
+    "completion": {
+      "text": "你学会认字记账，往后还可以继续读。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_STUDY_DONE"
         }
       ],
       "next_stage_id": null

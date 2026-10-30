@@ -8,7 +8,7 @@ import { validateReplayCommands } from '../../assets/scripts/application/ReplayC
 export class StateStoreError extends Error {
   constructor(public readonly code: 'SAVE_CORRUPT' | 'STATE_CONFLICT' | 'SAVE_FAILED' | 'STATE_LOCKED', message: string) { super(message); this.name = 'StateStoreError'; }
 }
-interface Slot { revision: number; payload: unknown; checksum: string; name: string }
+interface Slot { revision: number; payload: unknown; checksum: string; name: string; legacyLife: boolean }
 const names = ['slot-a.json', 'slot-b.json'] as const;
 const hasCode = (error: unknown, code: string): boolean => record(error) && error.code === code;
 
@@ -50,8 +50,11 @@ async function latest(directory: string): Promise<Slot | null> {
     try {
       const value: unknown = JSON.parse(bytes);
       if (!record(value) || !keys(value, ['revision', 'payload', 'checksum']) || !Number.isSafeInteger(value.revision) || (value.revision as number) < 1 || typeof value.checksum !== 'string' || value.checksum !== sha256(value.payload)) continue;
-      validatePayload(value.payload);
-      slots.push({ revision: value.revision as number, payload: value.payload, checksum: value.checksum, name });
+      const payload = value.payload;
+      const engine = record(payload) && record(payload.engine) ? payload.engine : payload;
+      const legacyLife = record(engine) && engine.kind === 'life' && engine.save_version === 2;
+      if (!legacyLife) validatePayload(payload);
+      slots.push({ revision: value.revision as number, payload, checksum: value.checksum, name, legacyLife });
     } catch { /* Keep invalid files intact; only a valid peer can recover them. */ }
   }
   if (!slots.length) {
@@ -60,6 +63,7 @@ async function latest(directory: string): Promise<Slot | null> {
   }
   slots.sort((a, b) => b.revision - a.revision);
   if (slots.length === 2 && slots[0].revision === slots[1].revision && canonicalJson(slots[0].payload) !== canonicalJson(slots[1].payload)) throw new StateStoreError('STATE_CONFLICT', `Conflicting state revision ${slots[0].revision} in ${directory}`);
+  if (slots[0].legacyLife) throw new StateStoreError('SAVE_CORRUPT', `Unsupported life save version 2 in ${directory}; files retained`);
   return slots[0];
 }
 export async function load<T>(directory: string): Promise<T | null> {

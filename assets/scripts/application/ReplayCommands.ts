@@ -3,9 +3,10 @@ import { GachaEngine, type DrawResult } from '../core/engine/GachaEngine.js';
 import type { CommandResult } from '../core/types/commands.js';
 export type ReplayAction =
   | { api: 'initGame'; commandId: string; args: { seed: number } }
-  | { api: 'nextYear' | 'retire'; commandId: string; args: Record<string, never> }
+  | { api: 'nextYear'; commandId: string; args: Record<string, never> }
   | { api: 'resolveOption'; commandId: string; args: { eventInstanceId: string; optionId: string } }
   | { api: 'resolveStage'; commandId: string; args: { eventInstanceId: string; stageId: string } }
+  | { api: 'abandonChain'; commandId: string; args: { chainInstanceId: string } }
   | { api: 'draw'; commandId: string; args: { poolId: string; count: number } };
 export type ReplayCommand = ReplayAction & { expected_result_hash: string; error_code?: string };
 export type ReplayResult = CommandResult | DrawResult | { ok: false; error: { code: string; message: string } };
@@ -27,9 +28,10 @@ export function validateReplayCommands(value: unknown, kind: 'life' | 'gacha'): 
     let valid = false;
     switch (command.api) {
       case 'initGame': valid = kind === 'life' && exact(args, ['seed']) && Number.isInteger(args.seed) && Number(args.seed) >= 0 && Number(args.seed) <= 0xffffffff; break;
-      case 'nextYear': case 'retire': valid = kind === 'life' && exact(args, []); break;
+      case 'nextYear': valid = kind === 'life' && exact(args, []); break;
       case 'resolveOption': valid = kind === 'life' && exact(args, ['eventInstanceId', 'optionId']) && typeof args.eventInstanceId === 'string' && typeof args.optionId === 'string'; break;
       case 'resolveStage': valid = kind === 'life' && exact(args, ['eventInstanceId', 'stageId']) && typeof args.eventInstanceId === 'string' && typeof args.stageId === 'string'; break;
+      case 'abandonChain': valid = kind === 'life' && exact(args, ['chainInstanceId']) && typeof args.chainInstanceId === 'string'; break;
       case 'draw': valid = kind === 'gacha' && exact(args, ['poolId', 'count']) && typeof args.poolId === 'string' && typeof args.count === 'number' && Number.isFinite(args.count); break;
     }
     if (!valid) throw failure('REPLAY_INVALID', 'Invalid replay API or arguments');
@@ -43,9 +45,9 @@ export function executeCommand(engine: Engine, action: ReplayAction): ReplayResu
     if (engine instanceof GameEngine) switch (action.api) {
       case 'initGame': return engine.initGame({ seed: action.args.seed });
       case 'nextYear': return engine.nextYear(action.commandId);
-      case 'retire': return engine.retire(action.commandId);
       case 'resolveOption': return engine.resolveOption(action.commandId, action.args.eventInstanceId, action.args.optionId);
       case 'resolveStage': return engine.resolveStage(action.commandId, action.args.eventInstanceId, action.args.stageId);
+      case 'abandonChain': return engine.abandonChain(action.commandId, action.args.chainInstanceId);
     }
     throw failure('REPLAY_INVALID', 'API does not match engine kind');
   } catch (error) {

@@ -94,6 +94,27 @@ describe('FileStateStore: real checksummed double slots', () => {
     expect(await load(root)).toEqual({ command: 'newest' });
   });
 
+  it.each([false, true])('rejects a newer life v2 slot without rolling back (session=%s)', async (session) => {
+    const root = await directory();
+    const { engine } = await quietLife();
+    const current = engine.exportSave();
+    const legacy = { ...current, save_version: 2 };
+    await writeSlot(root, slotNames[0], 1, current);
+    await writeSlot(root, slotNames[1], 2, session ? { engine: legacy, cursor: {}, replay_commands: [] } : legacy);
+    const before = await slotBytes(root);
+    await expect(load(root)).rejects.toMatchObject({ code: 'SAVE_CORRUPT' });
+    expect(await slotBytes(root)).toEqual(before);
+  });
+
+  it('loads a current slot newer than an incompatible life v2 slot', async () => {
+    const root = await directory();
+    const { engine } = await quietLife();
+    const current = engine.exportSave();
+    await writeSlot(root, slotNames[0], 1, { ...current, save_version: 2 });
+    await writeSlot(root, slotNames[1], 2, current);
+    expect(await load(root)).toEqual(current);
+  });
+
   it('does not rewrite or increment revisions for canonically identical data', async () => {
     const root = await directory();
     await save(root, { b: { z: 2, a: 1 }, a: [{ y: 2, x: 1 }] });
@@ -257,7 +278,7 @@ describe('SaveCodec through GameEngine.restoreSave', () => {
     const { engine, bundle, fingerprint } = await quietLife();
     const original = engine.exportSave();
     expect(original.kind).toBe('life');
-    expect(original.save_version).toBe(2);
+    expect(original.save_version).toBe(3);
     expect(original.payload.player.cards).toHaveLength(1);
     expect(Array.isArray(original.payload.player.flags)).toBe(true);
     expect(Array.isArray(original.payload.player.injuries)).toBe(true);
@@ -278,7 +299,8 @@ describe('SaveCodec through GameEngine.restoreSave', () => {
 
   const invalid: Array<{ name: string; corrupt: (value: GameSave) => void }> = [
     { name: 'legacy life save version', corrupt: (value) => { Object.assign(value, { save_version: 1 }); } },
-    { name: 'unknown save version', corrupt: (value) => { Object.assign(value, { save_version: 3 }); } },
+    { name: 'previous life save version', corrupt: (value) => { Object.assign(value, { save_version: 2 }); } },
+    { name: 'unknown save version', corrupt: (value) => { Object.assign(value, { save_version: 4 }); } },
     { name: 'wrong kind', corrupt: (value) => { Object.assign(value, { kind: 'gacha' }); } },
     { name: 'missing payload', corrupt: (value) => { Reflect.deleteProperty(value, 'payload'); } },
     { name: 'unknown envelope field', corrupt: (value) => { Object.assign(value, { unexpected: true }); } },

@@ -77,7 +77,8 @@ await runCli(async () => {
             if (!('ok' in result)) throw new Error('人生返回了抽卡结果');
             if (!result.ok) throw Object.assign(new Error(result.error.message), { code: result.error.code });
             initialized = true;
-            if (action.api === 'resolveOption' || action.api === 'resolveStage') blockingInputs++;
+            // Opening plus explicit choices; authorized D20 resolution is not a user input.
+            if (action.api === 'resolveOption') blockingInputs++;
             if (result.state.status === 'ENDED') break;
             if (commands.length >= 100_000) throw Object.assign(new Error('单局达到 100000 条命令，未结束'), { code: 'SIMULATION_COMMAND_LIMIT' });
             const commandId = `simulate:${commands.length}`;
@@ -106,8 +107,10 @@ await runCli(async () => {
         success++;
       } catch (error) {
         failed++;
-        record = { index, seed: runSeed, status: 'failed', error: errorDetails(error), save: initialized ? engine.exportSave() : null,
-          ...(mode === 'life' ? { blocking_inputs: blockingInputs, estimated_input_seconds: blockingInputs * 5 } : {}) };
+        const save = initialized ? engine.exportSave() : null;
+        record = { index, seed: runSeed, status: 'failed', error: errorDetails(error), save,
+          ...(mode === 'life' ? { blocking_inputs: blockingInputs, estimated_input_seconds: blockingInputs * 5,
+            player_decisions: save?.kind === 'life' ? save.payload.logs.reduce((count, log) => count + Number(log.type === 'option'), 0) : 0 } : {}) };
       }
       const trace = initialized ? buildReplay(engine, commands)
         : buildInitializationFailureReplay(bundle, fingerprint, runSeed, commands[0]!);

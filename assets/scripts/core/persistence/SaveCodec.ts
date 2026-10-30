@@ -40,7 +40,7 @@ export function validateJson(value: unknown): void {
 }
 function envelope(value: unknown, kind: 'life' | 'gacha', content?: ContentBundle, fingerprint?: string): Record<string, unknown> {
   requireSave(record(value) && keys(value, ['save_version', 'kind', 'content_id', 'content_version', 'content_fingerprint', 'revision', 'payload']));
-  if (value.save_version !== (kind === 'life' ? 2 : 1)) {
+  if (value.save_version !== (kind === 'life' ? 3 : 1)) {
     throw new DomainError('SAVE_INVALID', 'Unsupported save version; start a new state directory. Existing saves are not migrated or overwritten.');
   }
   requireSave(value.kind === kind && text(value.content_id) && text(value.content_version) && text(value.content_fingerprint) && integer(value.revision));
@@ -97,17 +97,25 @@ export function decodeGameSave(value: unknown, content?: ContentBundle, fingerpr
   requireSave(run.active_event === null || (record(run.active_event) && keys(run.active_event, ['event_id', 'chain_instance_id', 'instance_id', 'stage_id']) && text(run.active_event.event_id) && text(run.active_event.instance_id) && (run.active_event.stage_id === null || text(run.active_event.stage_id)) && (run.active_event.chain_instance_id === null || text(run.active_event.chain_instance_id))));
   for (const key of ['cooldowns', 'event_counts']) { requireSave(record(run[key])); for (const [id, count] of Object.entries(run[key])) requireSave(text(id) && Number.isSafeInteger(count) && (key === 'cooldowns' || integer(count))); }
   requireSave((run.death === null || text(run.death)) && (run.ending === null || record(run.ending)) && record(run.processed_commands) && Object.keys(run.processed_commands).length === save.revision - 1);
+  requireSave(run.status === 'ENDED' ? text(run.death) && record(run.ending) : run.death === null && run.ending === null);
+  if (content && run.death !== null) requireSave(content.deaths.some(death => death.id === run.death));
+  if (run.ending !== null) {
+    const ending = run.ending as Record<string, unknown>;
+    requireSave(keys(ending, ['content_id', 'content_version', 'content_fingerprint', 'seed', 'start_age', 'end_age', 'start_year', 'end_year', 'years_played', 'end_reason', 'death_id', 'primary_achievement_id', 'milestone_achievement_ids', 'anecdote_achievement_ids', 'achievements', 'highest_identity_id', 'chains_completed', 'chains_interrupted', 'key_decisions', 'final_attributes']));
+    requireSave(ending.end_reason === 'death' && ending.death_id === run.death);
+    requireSave(strings(ending.milestone_achievement_ids) && strings(ending.anecdote_achievement_ids));
+  }
   for (const [id, receipt] of Object.entries(run.processed_commands)) {
     requireSave(text(id) && record(receipt) && keys(receipt, ['parameters', 'result']) && record(receipt.parameters) && record(receipt.result));
     const a = receipt.parameters, r = receipt.result;
-    requireSave(keys(a, ['api', 'args']) && ['nextYear', 'retire', 'resolveOption', 'resolveStage'].includes(a.api as string) && Array.isArray(a.args) && a.args.every(text) && a.args.length === (a.api === 'nextYear' || a.api === 'retire' ? 0 : 2));
+    requireSave(keys(a, ['api', 'args']) && ['nextYear', 'resolveOption', 'resolveStage', 'abandonChain'].includes(a.api as string) && Array.isArray(a.args) && a.args.every(text) && a.args.length === (a.api === 'nextYear' ? 0 : a.api === 'abandonChain' ? 1 : 2));
     requireSave(r.ok === true && record(r.state) && integer(r.state.revision, 2) && r.state.revision <= save.revision && Array.isArray(r.logs));
   }
   for (let i = 0; i < p.logs.length; i++) { const log = p.logs[i]; requireSave(record(log) && keys(log, ['seq', 'age', 'calendar_year', 'type', 'source_id', 'message', 'data']) && log.seq === i + 1 && integer(log.age) && Number.isSafeInteger(log.calendar_year) && text(log.type) && typeof log.source_id === 'string' && typeof log.message === 'string' && record(log.data)); }
   return save;
 }
 export function encodeGameSave(content: ContentBundle, fingerprint: string, payload: GameSave['payload']): GameSave {
-  return { save_version: 2, kind: 'life', content_id: content.manifest.content_id, content_version: content.manifest.content_version, content_fingerprint: fingerprint, revision: payload.run.revision, payload: cloneData(payload) };
+  return { save_version: 3, kind: 'life', content_id: content.manifest.content_id, content_version: content.manifest.content_version, content_fingerprint: fingerprint, revision: payload.run.revision, payload: cloneData(payload) };
 }
 export function encodeGachaSave(content: ContentBundle, fingerprint: string, revision: number, payload: GachaSave['payload']): GachaSave {
   return { save_version: 1, kind: 'gacha', content_id: content.manifest.content_id, content_version: content.manifest.content_version, content_fingerprint: fingerprint, revision, payload: cloneData(payload) };

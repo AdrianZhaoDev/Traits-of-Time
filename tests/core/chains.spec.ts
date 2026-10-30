@@ -97,6 +97,7 @@ function automaticOutcome(bundle: ContentBundle, id: string): Outcome {
 describe('chains: real years, saved cursors and exactly-once completion', () => {
   it('starts at 1640/9 and advances one node at 1641/10, 1642/11 and 1643/12', async () => {
     const bundle = await chainContent();
+    bundle.rules.lifespan = { min: 14, max: 14, min_remaining_years: 3 };
     const engine = engineFor(bundle);
     const started = choose(engine, engine.initGame({ seed: 1640 }));
     expect(started.state.player).toMatchObject({ age: 9, calendar_year: 1640, attributes: { intelligence: 3, wealth: 2, prestige: 3 } });
@@ -120,8 +121,8 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
     const next = success(engine.nextYear('1644'));
     expect(next.state.player.attributes).toEqual(final.state.player.attributes);
     expect(next.state.player.flags.filter((flag) => flag === 'workshop_complete')).toHaveLength(1);
-    expect(success(engine.retire('retire')).state.status).toBe('ENDED');
-    expect(engine.generateEndingReport()).toMatchObject({ end_reason: 'retired', primary_achievement_id: 'A_PROJECT', years_played: 4 });
+    expect(success(engine.nextYear('1645')).state.status).toBe('ENDED');
+    expect(engine.generateEndingReport()).toMatchObject({ end_reason: 'death', death_id: 'D_OLD_AGE', primary_achievement_id: 'A_PROJECT', years_played: 5 });
   });
 
   it('restores the unfinished chain and its exact receipts without rescheduling or rewarding twice', async () => {
@@ -173,6 +174,83 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
     expect(complete.state.player).toMatchObject({ age: 10, calendar_year: 1641, attributes: { intelligence: 5 } });
     expect(complete.state.player.chains[0]).toMatchObject({ status: 'completed' });
     expect(complete.state.player.flags).toContain('workshop_complete');
+  });
+
+  it('abandons one instance exactly once without refund, completion rewards or changing its sibling, then permits a fresh start', async () => {
+    const bundle = await chainContent();
+    configureOpening(bundle, [{ type: 'attribute_add', attribute: 'wealth', amount: -1 },
+      { type: 'chain_start', id: 'CH_WORKSHOP' }, { type: 'chain_start', id: 'CH_WORKSHOP' }]);
+    bundle.events.push(choice('E_RESTART', [{ type: 'chain_start', id: 'CH_WORKSHOP' }],
+      { kind: 'historical', year: 1642, priority: 0 }));
+    const engine = engineFor(bundle);
+    choose(engine, engine.initGame({ seed: 1640 }));
+    const grown = success(engine.nextYear('grow'));
+    const [target, sibling] = grown.state.player.chains;
+    const abandoned = success(engine.abandonChain('leave', target!.instance_id));
+    expect(abandoned.state.player.chains[0]).toMatchObject({ status: 'interrupted', next_due_year: null });
+    expect(abandoned.state.player.chains[1]).toEqual(sibling);
+    expect(abandoned.state.player.attributes).toEqual(grown.state.player.attributes);
+    expect(abandoned.state.player.flags).not.toContain('workshop_complete');
+    expect(abandoned.state.player.flags.some(flag => flag.includes('ABORT'))).toBe(false);
+    const saved = structuredClone(engine.exportSave());
+    expect(engine.abandonChain('leave', target!.instance_id)).toEqual(abandoned);
+    expect(engine.exportSave()).toEqual(saved);
+    error(engine.abandonChain('leave', sibling!.instance_id), 'COMMAND_ID_CONFLICT');
+    error(engine.abandonChain('leave-again', target!.instance_id), 'STALE_DECISION');
+    expect(engine.exportSave()).toEqual(saved);
+    const restored = engineFor(bundle);
+    restored.restoreSave(saved);
+    expect(restored.abandonChain('leave', target!.instance_id)).toEqual(abandoned);
+    expect(restored.exportSave()).toEqual(saved);
+    const restarted = choose(restored, restored.nextYear('restart-year'), 'restart');
+    expect(restarted.state.player.chains).toHaveLength(3);
+    expect(restarted.state.player.chains[2]).toMatchObject({ status: 'active', node_index: 0 });
+    expect(new Set(restarted.state.player.chains.map(chain => chain.instance_id)).size).toBe(3);
+  });
+
+  it.each([true, false])('cancels only a pending option owned by the abandoned instance (owned=%s)', async (owned) => {
+    const bundle = await chainContent();
+    if (owned) bundle.events = bundle.events.map(event => event.id === 'E_CHAIN_1'
+      ? choice(event.id, [], { kind: 'chain' }) : event);
+    else bundle.events.push(choice('E_UNRELATED', [], { kind: 'historical', year: 1641, priority: 0 }));
+    const engine = engineFor(bundle);
+    choose(engine, engine.initGame({ seed: 1640 }));
+    const before = success(engine.nextYear('decision'));
+    expect(before.pending?.kind).toBe('option');
+    const result = success(engine.abandonChain('leave', before.state.player.chains[0]!.instance_id));
+    expect(result.state.player.chains[0]).toMatchObject({ status: 'interrupted', next_due_year: null });
+    expect(result.state.player.chains[0]!.interruption_reason).toEqual(expect.any(String));
+    expect(result.state.player.chains[0]!.interruption_reason).not.toBe(bundle.chains[0]!.interrupt_text);
+    const restored = engineFor(bundle);
+    restored.restoreSave(engine.exportSave());
+    expect(restored.current()).toEqual(engine.current());
+    if (owned) expect(result.pending).toBeNull();
+    else expect(result.pending).toEqual(before.pending);
+    expect(result.state.player.attributes).toEqual(before.state.player.attributes);
+    expect(result.state.player.flags).not.toContain('workshop_complete');
+  });
+
+  it('rejects abandonment during an authorized stage and after ending without mutating the save', async () => {
+    const bundle = await chainContent();
+    bundle.rules.lifespan = { min: 13, max: 13, min_remaining_years: 3 };
+    const node = choice('E_CHAIN_1', [], { kind: 'chain' }, 'S1');
+    node.stages = [{ id: 'S1', text: 'Roll', check: { attribute: 'intelligence', dc: 14, modifier: 0 },
+      success: outcome(), failure: outcome() }];
+    bundle.events = bundle.events.map(event => event.id === node.id ? node : event);
+    const engine = engineFor(bundle);
+    choose(engine, engine.initGame({ seed: 1640 }));
+    const stage = choose(engine, engine.nextYear('year'), 'authorize');
+    const id = stage.state.player.chains[0]!.instance_id;
+    const saved = structuredClone(engine.exportSave());
+    error(engine.abandonChain('too-late', id), 'INVALID_STATE');
+    expect(engine.exportSave()).toEqual(saved);
+    roll(engine, stage, 'roll');
+    success(engine.nextYear('year2'));
+    success(engine.nextYear('year3'));
+    success(engine.nextYear('year4'));
+    const ended = structuredClone(engine.exportSave());
+    error(engine.abandonChain('ended', id), 'INVALID_STATE');
+    expect(engine.exportSave()).toEqual(ended);
   });
 });
 

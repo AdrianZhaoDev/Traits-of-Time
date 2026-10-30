@@ -1,0 +1,58 @@
+[
+  {
+    "id": "POOL_MODERN_RELICS",
+    "name": "随身旧物",
+    "entries": [
+      {
+        "card_id": "CARD_MOD_OIL",
+        "weight": 20
+      },
+      {
+        "card_id": "CARD_MOD_BANDAGE",
+        "weight": 20
+      },
+      {
+        "card_id": "CARD_MOD_LIGHTER",
+        "weight": 20
+      },
+      {
+        "card_id": "CARD_MOD_CHICKEN_ESSENCE",
+        "weight": 10
+      },
+      {
+        "card_id": "CARD_MOD_GLUE_502",
+        "weight": 10
+      },
+      {
+        "card_id": "CARD_MOD_THERMOS",
+        "weight": 10
+      },
+      {
+        "card_id": "CARD_MOD_MEGAPHONE",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_LASER_POINTER",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_WATER_TABS",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_SWISS_ARMY",
+        "weight": 4
+      },
+      {
+        "card_id": "CARD_MOD_ANTIBIOTICS",
+        "weight": 1
+      },
+      {
+        "card_id": "CARD_MOD_HYBRID_SEEDS",
+        "weight": 1
+      }
+    ],
+    "replacement": true,
+    "hard_pity": null
+  }
+]

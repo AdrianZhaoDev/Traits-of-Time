@@ -104,6 +104,89 @@ function addTestChain(bundle: ContentBundle): void {
   });
 }
 
+describe('GameEngine: lifecycle notifications and transitions', () => {
+  it('includes achievements earned by an automatic fatal opening in the immediate report', async () => {
+    const bundle = await quietContent();
+    bundle.achievements = [{ id: 'A_FINAL', name: 'Final', text: 'Final', priority: 1,
+      condition: { op: 'compare', field: 'wealth', comparator: 'eq', value: 2 } }];
+    bundle.events = [{ id: 'E_FATAL_OPEN', text: 'Accident', trigger: { kind: 'opening', weight: 1, trigger_probability: 1 },
+      interaction: 'automatic', outcome: outcome([{ type: 'attribute_add', attribute: 'wealth', amount: -1 }, { type: 'death', id: 'D_OPENING' }]) }];
+    const engine = engineFor(bundle);
+    const result = success(engine.initGame({ seed: 0 }));
+    expect(result.state.status).toBe('ENDED');
+    expect(result.logs.filter(log => log.type === 'achievement').map(log => log.data.achievement_id)).toEqual(['A_FINAL']);
+    expect(result.logs.findIndex(log => log.type === 'effects')).toBeLessThan(result.logs.findIndex(log => log.type === 'death'));
+    expect(engine.generateEndingReport().achievements).toEqual(['A_FINAL']);
+  });
+
+  it('notifies initial, explicit and terminal achievements once in narrative order', async () => {
+    const bundle = await quietContent();
+    bundle.achievements = [
+      { id: 'A_INITIAL', name: 'Initial', text: 'Initial', priority: 0, condition: { op: 'compare', field: 'age', comparator: 'eq', value: 9 } },
+      { id: 'A_EXPLICIT', name: 'Explicit', text: 'Explicit', priority: 1, condition: { op: 'compare', field: 'age', comparator: 'gt', value: 100 } },
+      { id: 'A_FINAL', name: 'Final', text: 'Final', priority: 2, condition: { op: 'compare', field: 'wealth', comparator: 'eq', value: 2 } },
+    ];
+    bundle.events = [opening([{ type: 'ending_unlock', id: 'A_EXPLICIT' }, { type: 'ending_unlock', id: 'A_EXPLICIT' }]),
+      history('E_FATAL', 1641, [{ type: 'attribute_add', attribute: 'wealth', amount: -1 }, { type: 'death', id: 'D_CRISIS' }])];
+    const engine = engineFor(bundle);
+    const initial = success(engine.initGame({ seed: 0 }));
+    expect(initial.logs.filter(log => log.type === 'achievement').map(log => log.data.achievement_id)).toEqual(['A_INITIAL']);
+    const explicit = choose(engine, initial);
+    expect(explicit.logs.filter(log => log.type === 'achievement').map(log => log.data.achievement_id)).toEqual(['A_EXPLICIT']);
+    const final = success(engine.nextYear('fatal'));
+    expect(final.logs.filter(log => ['effects', 'achievement', 'death', 'ending'].includes(log.type)).map(log => log.type)).toEqual(['effects', 'achievement', 'death', 'ending']);
+    expect(engine.generateEndingReport().achievements).toEqual(['A_INITIAL', 'A_EXPLICIT', 'A_FINAL']);
+    const saved = engine.exportSave();
+    expect(engine.nextYear('fatal')).toEqual(final);
+    expect(engine.exportSave()).toEqual(saved);
+    const restored = engineFor(bundle);
+    restored.restoreSave(saved);
+    expect(restored.generateEndingReport()).toEqual(engine.generateEndingReport());
+  });
+
+  it('applies configured age boundaries once and replays them without changing promoted identities', async () => {
+    const bundle = await quietContent();
+    bundle.rules.age_bands[0] = { id: 'fixed', min: 10, max: 10, weight: 1, modifiers: {} };
+    for (const background of bundle.era.backgrounds) background.flags = ['dependent'];
+    bundle.era.age_transitions = [
+      { id: 'grow', age: 11, condition: { op: 'is', field: 'identity_id', value: 'I_DEPENDENT' }, text: 'Growing', effects: [{ type: 'identity_set', id: 'I_WORKER' }] },
+      { id: 'adult', age: 18, condition: { op: 'is', field: 'identity_id', value: 'I_WORKER' }, text: 'Adult', effects: [{ type: 'identity_set', id: 'I_HOUSEHOLD' }] },
+      { id: 'independent', age: 18, text: 'Independent', effects: [{ type: 'flag_remove', id: 'dependent' }] },
+    ];
+    const engine = engineFor(bundle);
+    expect(success(engine.initGame({ seed: 0 })).state.player.identity_id).toBe('I_DEPENDENT');
+    expect(success(engine.nextYear('11')).state.player.identity_id).toBe('I_WORKER');
+    for (let age = 12; age < 18; age++) success(engine.nextYear(String(age)));
+    const restored = engineFor(bundle);
+    restored.restoreSave(engine.exportSave());
+    const adult = success(engine.nextYear('18'));
+    expect(restored.nextYear('18')).toEqual(adult);
+    expect(adult.state.player.identity_id).toBe('I_HOUSEHOLD');
+    expect(adult.state.player.flags).not.toContain('dependent');
+    expect(success(engine.nextYear('19')).logs.some(log => log.source_id === 'adult')).toBe(false);
+    bundle.events = [history('E_PROMOTE', 1641, [{ type: 'identity_set', id: 'I_ARTISAN' }])];
+    const promoted = engineFor(bundle);
+    success(promoted.initGame({ seed: 0 }));
+    for (let age = 11; age <= 18; age++) success(promoted.nextYear(String(age)));
+    expect(promoted.current().state.player.identity_id).toBe('I_ARTISAN');
+    expect(promoted.current().state.player.flags).not.toContain('dependent');
+  });
+
+  it('keeps packages without transitions unchanged and announces old-age milestones before the report', async () => {
+    const bundle = await quietContent();
+    bundle.rules.age_bands[0] = { id: 'fixed', min: 79, max: 79, weight: 1, modifiers: {} };
+    bundle.rules.lifespan = { min: 80, max: 80, min_remaining_years: 1 };
+    bundle.achievements = [{ id: 'A_LONG', name: 'Long life', text: 'Long life', priority: 1, condition: { op: 'compare', field: 'age', comparator: 'gte', value: 80 } }];
+    const engine = engineFor(bundle);
+    const initial = success(engine.initGame({ seed: 0 }));
+    expect(initial.state.player.achievements).toEqual([]);
+    const ended = success(engine.nextYear('80'));
+    expect(ended.state.player.identity_id).toBe(initial.state.player.identity_id);
+    expect(ended.logs.map(log => log.type)).toEqual(['achievement', 'death', 'ending']);
+    expect(engine.generateEndingReport().achievements).toEqual(['A_LONG']);
+  });
+});
+
 describe('GameEngine: data-driven deterministic openings', () => {
   it.each([0, 1640, 0xffffffff])('has identical initialization and saved RNG for seed %i', async (seed) => {
     const bundle = await quietContent();
@@ -679,17 +762,17 @@ describe('GameEngine: effects, achievements and highest identity', () => {
     const bundle = await quietContent();
     bundle.era.identities.push({ id: 'I_EQUAL', name: 'Equal rank', rank: 3 });
     bundle.achievements = [
-      { id: 'A_INITIAL', name: 'Initial', text: 'Present on initialization', priority: 0, retirable: false,
+      { id: 'A_INITIAL', name: 'Initial', text: 'Present on initialization', priority: 0,
         condition: { op: 'compare', field: 'age', comparator: 'eq', value: 9 } },
-      { id: 'A_PROMOTED', name: 'Promotion', text: 'Earned as an artisan', priority: 2, retirable: true,
+      { id: 'A_PROMOTED', name: 'Promotion', text: 'Earned as an artisan', priority: 2,
         condition: { op: 'is', field: 'identity_id', value: 'I_ARTISAN' } },
-      { id: 'A_UNLOCKED', name: 'Explicit', text: 'Explicit ending unlock', priority: 1, retirable: false,
+      { id: 'A_UNLOCKED', name: 'Explicit', text: 'Explicit ending unlock', priority: 1,
         condition: { op: 'compare', field: 'wealth', comparator: 'gt', value: 10 } },
     ];
     bundle.events = [
       opening([{ type: 'identity_set', id: 'I_ARTISAN' }, { type: 'ending_unlock', id: 'A_UNLOCKED' }]),
       history('E_EQUAL', 1641, [{ type: 'identity_set', id: 'I_EQUAL' }]),
-      history('E_LOWER', 1642, [{ type: 'identity_set', id: 'I_REFUGEE' }]),
+      history('E_LOWER', 1642, [{ type: 'identity_set', id: 'I_REFUGEE' }, { type: 'death', id: 'D_CRISIS' }]),
     ];
     const engine = engineFor(bundle);
     const initial = success(engine.initGame({ seed: 0 }));
@@ -702,47 +785,28 @@ describe('GameEngine: effects, achievements and highest identity', () => {
     const lower = success(engine.nextYear('1642'));
     expect(lower.state.player).toMatchObject({ identity_id: 'I_REFUGEE', highest_identity_id: 'I_ARTISAN' });
     expect([...lower.state.player.achievements].sort()).toEqual(['A_INITIAL', 'A_PROMOTED', 'A_UNLOCKED']);
-    expect(success(engine.retire('retire')).state.status).toBe('ENDED');
+    expect(lower.state.status).toBe('ENDED');
     expect(engine.generateEndingReport()).toMatchObject({
-      end_reason: 'retired', death_id: null, primary_achievement_id: 'A_PROMOTED', highest_identity_id: 'I_ARTISAN', years_played: 2,
+      end_reason: 'death', death_id: 'D_CRISIS', primary_achievement_id: 'A_PROMOTED', highest_identity_id: 'I_ARTISAN', years_played: 2,
     });
-  });
-
-  it('refuses retirement without an attained retirable achievement and while awaiting input', async () => {
-    const bundle = await quietContent();
-    bundle.achievements = [{
-      id: 'A_NOT_RETIRABLE', name: 'Reached', text: 'Not a retirement route', priority: 1, retirable: false,
-      condition: { op: 'compare', field: 'age', comparator: 'gte', value: 0 },
-    }];
-    const engine = engineFor(bundle);
-    success(engine.initGame({ seed: 0 }));
-    const before = structuredClone(engine.exportSave());
-    error(engine.retire('retire'), 'RETIRE_UNAVAILABLE');
-    expect(engine.exportSave()).toEqual(before);
-    bundle.achievements[0]!.retirable = true;
-    bundle.events = [opening()];
-    const pendingEngine = engineFor(bundle);
-    success(pendingEngine.initGame({ seed: 0 }));
-    const beforePending = structuredClone(pendingEngine.exportSave());
-    error(pendingEngine.retire('pending-retire'), 'RETIRE_UNAVAILABLE');
-    expect(pendingEngine.exportSave()).toEqual(beforePending);
   });
 
   it('selects the highest-priority ending, breaking ties by code-unit ID instead of array order', async () => {
     const bundle = await quietContent();
+    bundle.events = [history('E_FATAL', 1641, [{ type: 'death', id: 'D_CRISIS' }])];
     bundle.achievements = [
       ['A_z', 10], ['A_LOW', 1], ['A_a', 10], ['A_B', 10],
     ].map(([id, priority]) => ({
-      id: String(id), name: String(id), text: 'Achieved at initialization', priority: Number(priority), retirable: true,
+      id: String(id), name: String(id), text: 'Achieved at initialization', priority: Number(priority),
       condition: { op: 'compare' as const, field: 'age' as const, comparator: 'gte' as const, value: 0 },
     }));
     const engine = engineFor(bundle);
     success(engine.initGame({ seed: 0 }));
-    const result = success(engine.retire('finish'));
+    const result = success(engine.nextYear('finish'));
     expect(result.state.status).toBe('ENDED');
     expect(engine.generateEndingReport().primary_achievement_id).toBe('A_B');
     const before = structuredClone(engine.exportSave());
-    expect(engine.retire('finish')).toEqual(result);
+    expect(engine.nextYear('finish')).toEqual(result);
     expect(engine.exportSave()).toEqual(before);
   });
 });
@@ -828,6 +892,10 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     expect(engine.generateEndingReport().death_id).toBe('D_OLD_AGE');
     error(engine.nextYear('after-end'), 'INVALID_STATE');
     expect(engine.exportSave()).toEqual(before);
+    const restored = engineFor(bundle);
+    restored.restoreSave(before);
+    expect(restored.exportSave()).toEqual(before);
+    expect(restored.generateEndingReport()).toEqual(engine.generateEndingReport());
   });
 
   it('rejects restored saves for different content without changing the current run', async () => {
@@ -839,6 +907,39 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     const before = structuredClone(other.exportSave());
     expect(() => other.restoreSave(engine.exportSave())).toThrowError(expect.objectContaining({ code: 'CONTENT_MISMATCH' }));
     expect(other.exportSave()).toEqual(before);
+  });
+
+  it('rejects old versions, living endings and removed commands atomically', async () => {
+    const bundle = await quietContent();
+    bundle.rules.lifespan = { min: 12, max: 12, min_remaining_years: 3 };
+    const engine = engineFor(bundle);
+    success(engine.initGame({ seed: 0 }));
+    const living = engine.exportSave();
+    for (const year of [1641, 1642, 1643]) success(engine.nextYear(String(year)));
+    const ended = engine.exportSave();
+    expect(ended.save_version).toBe(3);
+    const invalid = [
+      ...[1, 2].map(version => { const save = structuredClone(ended); Reflect.set(save, 'save_version', version); return save; }),
+      ...[
+        (save: typeof ended) => { save.payload.run.death = null; },
+        (save: typeof ended) => { save.payload.run.death = 'D_UNKNOWN'; },
+        (save: typeof ended) => { save.payload.run.ending = null; },
+        (save: typeof ended) => { save.payload.run.status = 'READY'; },
+        (save: typeof ended) => { Reflect.set(save.payload.run.ending!, 'end_reason', 'retired'); },
+        (save: typeof ended) => { Reflect.set(save.payload.run.ending!, 'death_id', null); },
+        (save: typeof ended) => { save.payload.run.ending!.death_id = 'D_OPENING'; },
+        (save: typeof ended) => { Reflect.set(save.payload.run.processed_commands['1641']!.parameters, 'api', 'retire'); },
+      ].map(mutate => { const save = structuredClone(ended); mutate(save); return save; }),
+    ];
+    const livingEnded = structuredClone(living);
+    livingEnded.payload.run.status = 'ENDED';
+    invalid.push(livingEnded);
+    const restored = engineFor(bundle);
+    restored.restoreSave(living);
+    for (const save of invalid) {
+      expect(() => restored.restoreSave(save)).toThrowError(expect.objectContaining({ code: 'SAVE_INVALID' }));
+      expect(restored.exportSave()).toEqual(living);
+    }
   });
 });
 

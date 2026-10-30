@@ -27,19 +27,28 @@ const invalidDrawCases = [
 describe('CLI argument errors: exit two before mutating state', () => {
   it('persists an omitted play seed and reproduces it explicitly without regenerating on resume', async () => {
     const context = await fixture((bundle) => fixedLife(bundle, 12));
-    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], 'quit\n'));
+    const openingInput = 'pause\nnext\nquit\n';
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], openingInput));
     const initial = await savedLife(context.state);
     const seed = initial.engine.payload.run.seed;
     expect(Number.isInteger(seed)).toBe(true);
     expect(seed).toBeGreaterThanOrEqual(0);
     expect(seed).toBeLessThanOrEqual(0xffffffff);
-    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], 'quit\n'));
-    expect((await savedLife(context.state)).engine).toEqual(initial.engine);
     const explicitState = join(context.root, 'explicit-seed');
-    expectSuccess(await runCli('play', ['--content', context.content, '--state', explicitState, '--seed', String(seed)], 'quit\n'));
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', explicitState, '--seed', String(seed)], openingInput));
     expect((await savedLife(explicitState)).engine).toEqual(initial.engine);
-    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state, '--seed', String(seed)], 'quit\n'));
-    expect((await savedLife(context.state)).engine).toEqual(initial.engine);
+
+    for (const seedArgs of [[], ['--seed', String(seed)]]) {
+      const resumeInput = 'continue\nquit\n';
+      expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state, ...seedArgs], resumeInput));
+      expectSuccess(await runCli('play', ['--content', context.content, '--state', explicitState, ...seedArgs], resumeInput));
+      const resumed = await savedLife(context.state);
+      const reproduced = await savedLife(explicitState);
+      expect(resumed.engine.payload.run.seed).toBe(seed);
+      expect(reproduced.engine.payload.run.seed).toBe(seed);
+      expect(reproduced.engine).toEqual(resumed.engine);
+      expect(resumed.engine.revision).toBeGreaterThan(initial.engine.revision);
+    }
   });
 
   it('retains the deterministic default simulation seed when omitted', async () => {

@@ -8,8 +8,7 @@
       "collection": "flags",
       "id": "workshop_complete"
     },
-    "priority": 20,
-    "retirable": true
+    "priority": 20
   },
   {
     "id": "A_LONG_LIFE",
@@ -21,7 +20,6 @@
       "comparator": "gte",
       "value": 70
     },
-    "priority": 10,
-    "retirable": false
+    "priority": 10
   }
 ]

@@ -1,0 +1,1171 @@
+[
+  {
+    "id": "A_PROJECT",
+    "name": "匠作有成",
+    "text": "学满三年手艺，总算有了糊口真本事。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "workshop_complete"
+    },
+    "priority": 20,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_LEGEND",
+    "name": "自生神机",
+    "text": "参透打火机玄机，大明火器横扫关外。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_LEGEND_DONE"
+    },
+    "priority": 40,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_ABSURD",
+    "name": "火德掌教",
+    "text": "靠打火机当上国师，忽悠了全京城。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_ABSURD_DONE"
+    },
+    "priority": 45,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_PEACEFUL",
+    "name": "人间清醒",
+    "text": "神火换良田三顷，提前退休当富绅。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_PEACEFUL_DONE"
+    },
+    "priority": 40,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_COMEDY",
+    "name": "两文钱大把式",
+    "text": "街头卖艺按冒烟，才挣了八文赏钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIGHTER_COMEDY_DONE"
+    },
+    "priority": 35,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_BEACON",
+    "name": "暴雨红光",
+    "text": "大雨天点亮烽火，敌军看了都怀疑人生。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LG_BEACON_HERO"
+    },
+    "priority": 30,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_CANNON",
+    "name": "巨炮点火官",
+    "text": "狂风撕不灭蓝火，一炮把来犯敌军轰懵。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LG_CANNON_HERO"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_LIGHTER_OLD_SAGE",
+    "name": "槐荫神机叟",
+    "text": "没气也能转砂轮，全村娃儿眼里的老神仙。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LG_OLD_SAGE"
+    },
+    "priority": 28,
+    "retirable": true
+  },
+  {
+    "id": "A_LONG_LIFE",
+    "name": "岁月长存",
+    "text": "乱世走到七十，平安就是福气。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 70
+    },
+    "priority": 86,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_grain",
+    "name": "账平人不平",
+    "text": "账本算得分毫不差，可惜粮食全进官仓。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_grain_paid"
+    },
+    "priority": 30,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_road",
+    "name": "近路直达结算",
+    "text": "抄近道遇山贼，送货直接送到贼窝里。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_road_paid"
+    },
+    "priority": 31,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_roll",
+    "name": "编制比命长",
+    "text": "只要名字不销户，到哪都能领大明公粮。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_roll_paid"
+    },
+    "priority": 32,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_drill",
+    "name": "试用期即终身",
+    "text": "第一天当差被砸倒，工龄短得破了大明纪录。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_drill_paid"
+    },
+    "priority": 33,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_plaque",
+    "name": "章程不能泡饭",
+    "text": "方案写得贼漂亮，可惜不能当饭吃。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_plaque_paid"
+    },
+    "priority": 34,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_omen",
+    "name": "剧透没有续费",
+    "text": "剧透一时爽，明天就喝西北风冻倒街头。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_omen_paid"
+    },
+    "priority": 35,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_well",
+    "name": "井沿失足",
+    "text": "井边逞能没站稳，归途只剩家人。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_well_paid"
+    },
+    "priority": 36,
+    "retirable": false
+  },
+  {
+    "id": "A_ds_gate",
+    "name": "流程先于用户",
+    "text": "想替人群领路，没能走出拥挤门洞。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_ds_gate_paid"
+    },
+    "priority": 37,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_arms",
+    "name": "库房有序",
+    "text": "库房盘得明明白白，箱子修得贼结实。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_arms_done"
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_water",
+    "name": "井边有伴",
+    "text": "带头搞深井排班，街坊终于有干净水喝。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_water_done"
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_fort",
+    "name": "合仓守约",
+    "text": "说服粮商街坊合仓，乱世抱团取暖保平安。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_fort_done"
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_gm_history",
+    "name": "史诗·留名在人间",
+    "text": "照旧册备好行囊，帮乡人准备撤离。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_history_saved"
+    },
+    "priority": 78,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_conscription",
+    "name": "名册之外",
+    "text": "核对雇役旧票，在兵役名册上合法摸鱼。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_conscription_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_tax",
+    "name": "饷册对得上",
+    "text": "账本盘得滴水不漏，差役没能多捞一文钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_tax_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_post",
+    "name": "旧道新收据",
+    "text": "废弃驿站跑成私商线，走镖从不误期。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_post_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_market",
+    "name": "市口有凭",
+    "text": "地痞收保护费，被你反上一堂大明律法课。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_market_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_hunger",
+    "name": "数得清的粮",
+    "text": "荒年粮棚人浪汹涌，粮食一粒不少护住。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_hunger_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_gpt_watch",
+    "name": "街口答卷",
+    "text": "锦衣卫当街盘查，被你用切口行话唬住。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_watch_mastered"
+    },
+    "priority": 15,
+    "retirable": false
+  },
+  {
+    "id": "A_JN_TOP_SCHOLAR",
+    "name": "榜上终于有名",
+    "text": "十年苦读一朝中举，远房亲戚挤破了门。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_JUREN"
+    },
+    "priority": 65,
+    "retirable": true
+  },
+  {
+    "id": "A_JN_SILK_TYCOON",
+    "name": "机房翻身做主",
+    "text": "丝绸小摊做成大商号，当老板就是舒坦。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_TRADE_DONE"
+    },
+    "priority": 66,
+    "retirable": true
+  },
+  {
+    "id": "A_JN_POET_MASTER",
+    "name": "茶馆都在念你",
+    "text": "江南文会名声大噪，但吃茶仍得按碗结账。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_POET_FAMOUS"
+    },
+    "priority": 67,
+    "retirable": false
+  },
+  {
+    "id": "A_HIST_PASS_SURVIVOR",
+    "name": "关口捡回一命",
+    "text": "各路大军混战，你毫发无损捡回一条小命。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_HIST_CAPITAL_FLED"
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1644
+        }
+      ]
+    },
+    "priority": 62,
+    "retirable": false
+  },
+  {
+    "id": "A_HIST_SOUTH_HERMIT",
+    "name": "山里不接差事",
+    "text": "深山老林躲清静，外头换皇帝关我屁事。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_HIST_HERMIT_SOUTH"
+    },
+    "priority": 88,
+    "retirable": true
+  },
+  {
+    "id": "A_HIST_TIMES_WITNESS",
+    "name": "换了天下还在",
+    "text": "眼看王朝翻覆，你照样安稳吃自家的饭。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_HIST_CAPITAL_FLED"
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1645
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 16
+        }
+      ]
+    },
+    "priority": 63,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_BIG_FAMILY",
+    "name": "一桌坐不下",
+    "text": "四世同堂人丁兴旺，逢年过节摆满三大桌。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_LIFE_CLAN_HEAD"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "priority": 89,
+    "retirable": true
+  },
+  {
+    "id": "A_LIFE_LUCKY_SLACKER",
+    "name": "少折腾多吃饭",
+    "text": "一生不折腾不出头，平平安安活到养老。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_LIFE_SAVED_SILVER"
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 51
+        }
+      ]
+    },
+    "priority": 87,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_CENTURY_TURMOIL",
+    "name": "八十仍有席",
+    "text": "乱世活到八十，家中仍有你一席。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 80
+    },
+    "priority": 90,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_OIL_SUCCESS",
+    "name": "清醒下班",
+    "text": "靠风油精熬夜核账，一文钱差错都没出。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_OIL_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_OIL_SETBACK",
+    "name": "香过头了",
+    "text": "瓶盖漏油香满屋，核账变成赔清洗钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_OIL_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_BANDAGE_SUCCESS",
+    "name": "小贴稳妥",
+    "text": "大夫处理小伤，贴稳之后安心歇息。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_BANDAGE_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_BANDAGE_SETBACK",
+    "name": "贴不住了",
+    "text": "汗水弄松贴片，另请大夫妥善处理。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_BANDAGE_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LIGHTER_SUCCESS",
+    "name": "热饭准点",
+    "text": "打火机瞬间点火，救了全棚等饭的饥民。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LIGHTER_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LIGHTER_SETBACK",
+    "name": "空响一声",
+    "text": "关键时刻火机没气，还是钻木取火靠谱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LIGHTER_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_CHICKEN_ESSENCE_SUCCESS",
+    "name": "清汤有味",
+    "text": "清水寡汤添勺鸡精，引来半条街食客争抢。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_CHICKEN_ESSENCE_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_CHICKEN_ESSENCE_SETBACK",
+    "name": "众口难调",
+    "text": "鸡精放得太猛，街坊全以为喝了迷魂汤。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_CHICKEN_ESSENCE_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_GLUE_502_SUCCESS",
+    "name": "旧盒续用",
+    "text": "502粘好破账盒，硬是多用了整整三年。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_GLUE_502_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_GLUE_502_SETBACK",
+    "name": "粘了个空",
+    "text": "旧木受潮粘不牢，还得花钱请木匠。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_GLUE_502_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_THERMOS_SUCCESS",
+    "name": "留住温热",
+    "text": "大冷天喝上滚烫开水，驿道上暖心又保命。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_THERMOS_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_THERMOS_SETBACK",
+    "name": "杯盖失守",
+    "text": "保温杯盖没拧紧，滚水全浇在棉裤上。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_THERMOS_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_MEGAPHONE_SUCCESS",
+    "name": "叫号有序",
+    "text": "大喇叭一喊，上千人老老实实排队领粮。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_MEGAPHONE_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_MEGAPHONE_SETBACK",
+    "name": "电池下班",
+    "text": "喇叭突然没电，只剩管事扯着破锣嗓干嚎。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_MEGAPHONE_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LASER_POINTER_SUCCESS",
+    "name": "一图说清",
+    "text": "红光往图上一指，工匠立马心领神会。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LASER_POINTER_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_LASER_POINTER_SETBACK",
+    "name": "光点隐身",
+    "text": "大太阳底下光斑隐形，还得靠木棍敲地。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_LASER_POINTER_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_WATER_TABS_SUCCESS",
+    "name": "用水有据",
+    "text": "投净水片杀菌，救了一路逃难街坊老小。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_WATER_TABS_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_WATER_TABS_SETBACK",
+    "name": "另寻清水",
+    "text": "泥浆水扔净水片也白搭，踏实找山泉水。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_WATER_TABS_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_SWISS_ARMY_SUCCESS",
+    "name": "小修省钱",
+    "text": "工具刀拧紧螺栓，省下一大笔修车冤枉钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_SWISS_ARMY_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_SWISS_ARMY_SETBACK",
+    "name": "尺寸不合",
+    "text": "小刀拧不动铁大铆，差点把刀片给掰折了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_SWISS_ARMY_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_ANTIBIOTICS_SUCCESS",
+    "name": "先问再用",
+    "text": "抗生素只救危急重症，绝不当万灵药滥卖。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_ANTIBIOTICS_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_ANTIBIOTICS_SETBACK",
+    "name": "封板停用",
+    "text": "药名对不上绝不乱吃，保命第一绝不碰运气。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_ANTIBIOTICS_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_HYBRID_SEEDS_SUCCESS",
+    "name": "小田有收",
+    "text": "杂交种试种成功，亩产翻番乐坏了老农。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_HYBRID_SEEDS_SUCCESS"
+    },
+    "priority": 38,
+    "retirable": true
+  },
+  {
+    "id": "A_MOD_HYBRID_SEEDS_SETBACK",
+    "name": "水土不服",
+    "text": "良种碰上干旱盐碱地，交了一整季学费。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_MOD_HYBRID_SEEDS_SETBACK"
+    },
+    "priority": 32,
+    "retirable": true
+  },
+  {
+    "id": "A_OLD_FOSSIL",
+    "name": "岁月活化石",
+    "text": "硬是苟过了八十大关，崇祯户口本早烂了你还在。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 80
+    },
+    "priority": 85,
+    "retirable": false
+  },
+  {
+    "id": "A_PEACEFUL_ERA_END",
+    "name": "盛世平安翁",
+    "text": "从甲申风云活到康乾承平，大风大浪全看成小菜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1684
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 60
+        }
+      ]
+    },
+    "priority": 91,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_EXAM_OFFICIAL",
+    "name": "金榜仕途",
+    "text": "苦读登科入仕，终于能为百姓办事。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_IMPERIAL_EXAM_DONE"
+    },
+    "priority": 75,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_MILITARY_MERIT",
+    "name": "戎马功成",
+    "text": "守御关隘积下功劳，升任军中把总。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_MILITARY_MERIT_DONE"
+    },
+    "priority": 76,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_FIREARMS",
+    "name": "火器督造",
+    "text": "多年钻研火器，新式器械终于派上用场。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_FIREARMS_RESEARCH_DONE"
+    },
+    "priority": 76,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_HEALER",
+    "name": "悬壶济世",
+    "text": "多年施药救人，还把经验写进了书。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_EPIDEMIC_HEALING_DONE"
+    },
+    "priority": 76,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_FORTRESS",
+    "name": "筑堡护民",
+    "text": "带街坊修堡备粮，乱世有了落脚处。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_FORTRESS_DEFENSE_DONE"
+    },
+    "priority": 76,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_MARITIME",
+    "name": "远洋海商",
+    "text": "船队出洋归来，海上生意越做越远。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_MARITIME_TRADE_DONE"
+    },
+    "priority": 76,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_WORKSHOP",
+    "name": "匠心传业",
+    "text": "学成手艺又攒下家底，作坊有了盼头。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "workshop_complete"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 7
+        }
+      ]
+    },
+    "priority": 62,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_WATER_KEEPER",
+    "name": "清水长流",
+    "text": "多年照管水井，街坊用水有了着落。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_done"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 6
+        }
+      ]
+    },
+    "priority": 68,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_STORES",
+    "name": "库务能手",
+    "text": "多年打理库房，交接账册清清楚楚。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_done"
+        },
+        {
+          "op": "compare",
+          "field": "intelligence",
+          "comparator": "gte",
+          "value": 6
+        }
+      ]
+    },
+    "priority": 68,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_SILK",
+    "name": "丝行兴业",
+    "text": "丝绸生意做起来，商号积下了家底。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_TRADE_DONE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 70,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_SCHOLAR",
+    "name": "读书有成",
+    "text": "科场中举又广受敬重，苦读没白费。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_JUREN"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 71,
+    "retirable": false
+  },
+  {
+    "id": "A_CAREER_POET",
+    "name": "文会名家",
+    "text": "诗文传遍江南，文会上总有人请教。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_POET_FAMOUS"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 71,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_WEALTHY",
+    "name": "富甲一方",
+    "text": "多年积攒下丰厚家业，晚年衣食不愁。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 9
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 50
+        }
+      ]
+    },
+    "priority": 92,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_REFUGEE",
+    "name": "流民悲歌",
+    "text": "乱世辗转多年，始终没能安定下来。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 30
+        }
+      ]
+    },
+    "priority": 85,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_SCHOLAR",
+    "name": "江南文名",
+    "text": "凭诗文赢得名声，晚年仍有人来请教。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_POETRY_CELEBRITY"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 94,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_MILITARY",
+    "name": "军旅一生",
+    "text": "身担军职又有声望，军中记得你的名字。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_MILITARY_OFFICER"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 94,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_MERCHANT",
+    "name": "商号当家",
+    "text": "从丝行做到当家，积下了一份家业。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_SILK_MERCHANT"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 93,
+    "retirable": false
+  },
+  {
+    "id": "A_LIFE_OFFICIAL",
+    "name": "巡视有声",
+    "text": "登科入仕巡视防务，官声传到地方。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_DEFENSE_COMMISSIONER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_IMPERIAL_EXAM_DONE"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 95,
+    "retirable": false
+  }
+]

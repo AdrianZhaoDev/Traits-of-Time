@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import type { ContentBundle } from '../../assets/scripts/core/types/content.generated.js';
 
 export const templateDirectory = fileURLToPath(new URL('../../assets/resources/data/ming_end/', import.meta.url));
+export const mixedArchiveDirectory = fileURLToPath(new URL('../../content-archive/ming_end_0.3.1_mixed/', import.meta.url));
 const fixtureDirectory = fileURLToPath(new URL('../fixtures/', import.meta.url));
 
 /** Read the test-owned original sample; production-package tests use loadContent directly. */

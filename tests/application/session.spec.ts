@@ -227,7 +227,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     expect(await load<SessionSave>(value.directory)).toEqual(after);
   });
 
-  it('requires a separate command for each stage and restores the next real roll exactly', async () => {
+  it('retains the low-level single-stage command and restores its next real roll exactly', async () => {
     const bundle = await storyContent();
     const continuous = await harness(bundle);
     await reachFirstStage(continuous);
@@ -252,7 +252,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     expect(actual.pending).toBeNull();
   });
 
-  it.each(['identity', 'achievement'] as const)('stops at the first new %s in READY rather than advancing to death', async (important) => {
+  it.each(['identity', 'achievement'] as const)('continues after gaining an %s until death', async (important) => {
     const bundle = await peacefulContent();
     bundle.events = [{
       id: 'E_IMPORTANT', text: 'An important automatic change.',
@@ -263,22 +263,143 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     }];
     if (important === 'achievement') bundle.achievements = [{
       id: 'A_MILESTONE', name: 'Milestone', text: 'An attained milestone.',
-      condition: { op: 'has', collection: 'flags', id: 'milestone' }, priority: 1, retirable: true,
+      condition: { op: 'has', collection: 'flags', id: 'milestone' }, priority: 1,
     }];
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
     const result = await value.session.advanceToDecision('important');
     requireSuccess(result);
-    expect(result.state).toMatchObject({ status: 'READY', player: { age: 11, calendar_year: 1642 } });
+    expect(result.state).toMatchObject({ status: 'ENDED', player: { age: 17, calendar_year: 1648 } });
     expect(result.pending).toBeNull();
     if (important === 'identity') expect(result.state.player.identity_id).toBe('I_ARTISAN');
     else expect(result.state.player.achievements).toContain('A_MILESTONE');
     expect(value.session.exportSave().cursor.authorized).toBe(false);
     const children = value.session.exportSave().replay_commands.slice(1).map((command) => command.commandId);
-    expect(children).toEqual(['important:0', 'important:1']);
+    expect(children).toEqual(Array.from({ length: 8 }, (_, index) => `important:${index}`));
     const distinctYears = [...new Set(value.io.attempts.map((attempt) => attempt.engine.payload.player.calendar_year))];
-    expect(distinctYears).toEqual([1640, 1641, 1642]);
+    expect(distinctYears).toEqual(Array.from({ length: 9 }, (_, index) => 1640 + index));
     expect(await load<SessionSave>(value.directory)).toEqual(value.session.exportSave());
+  });
+
+  it('automatically saves both authorized rolls and stops at the next choice without selecting it', async () => {
+    const bundle = await storyContent();
+    bundle.events.push({ id: 'E_NEXT_CHOICE', text: 'Another decision', interaction: 'choice',
+      trigger: { kind: 'historical', year: 1641, priority: -1 },
+      options: [{ id: 'wait', text: 'Wait', risk: 'safe', unavailable_text: 'Unavailable', outcome: outcome() }] });
+    const value = await harness(bundle);
+    await reachFirstStage(value);
+    const before = value.session.exportSave();
+    const seen: CommandResult[] = [];
+    const result = await value.session.advanceToDecision('authorized-rolls', { onResult: child => { seen.push(child); } });
+    requireSuccess(result);
+    expect(result.pending).toMatchObject({ kind: 'option', event_id: 'E_NEXT_CHOICE' });
+    expect(value.engine.exportSave().payload.run.dice_results).toHaveLength(2);
+    expect(value.session.exportSave().replay_commands.slice(before.replay_commands.length).map(command => command.api))
+      .toEqual(['resolveStage', 'resolveStage']);
+    expect(seen).toHaveLength(2);
+    expect(await load<SessionSave>(value.directory)).toEqual(value.session.exportSave());
+  });
+
+  it('continues past an achievement to automatic death without another authorization', async () => {
+    const bundle = await peacefulContent();
+    bundle.achievements = [{ id: 'A_READY', name: 'Ready', text: 'Milestone', priority: 1,
+      condition: { op: 'compare', field: 'age', comparator: 'gte', value: 11 } }];
+    const value = await harness(bundle);
+    requireSuccess(await value.session.initialize(1640));
+    const result = await value.session.advanceToDecision('achievement');
+    requireSuccess(result);
+    expect(result.state).toMatchObject({ status: 'ENDED', player: { age: 17, achievements: ['A_READY'] } });
+    expect(value.session.exportSave().cursor).toMatchObject({ authorized: false, pause_reason: 'ended' });
+    expect(value.engine.generateEndingReport()).toMatchObject({ end_reason: 'death', death_id: 'D_OLD_AGE', years_played: 8 });
+  });
+
+  it('stops at a real choice after an achievement and resumes saved stages through death', async () => {
+    const bundle = await storyContent();
+    bundle.achievements = [{ id: 'A_READY', name: 'Ready', text: 'Milestone', priority: 1,
+      condition: { op: 'compare', field: 'age', comparator: 'gte', value: 10 } }];
+    const value = await harness(bundle);
+    requireSuccess(await value.session.initialize(1640));
+    requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
+    const decision = await value.session.advanceToDecision('first-achievement');
+    requireSuccess(decision);
+    expect(decision.pending).toMatchObject({ kind: 'option', event_id: 'E_SESSION_STAGES' });
+    expect(decision.state.player.achievements).toContain('A_READY');
+    const before = value.engine.exportSave();
+    const rejected = await value.session.command({ type: 'choose', optionId: 'missing-option' });
+    expect(rejected.ok).toBe(false);
+    expect(value.engine.exportSave()).toEqual(before);
+    const stored = (await load<SessionSave>(value.directory))!;
+    expect(stored.replay_commands.at(-1)).toMatchObject({ expected_result_hash: sha256(rejected) });
+    const restored = await harness(bundle, value.directory);
+    restored.session.restoreSave(stored);
+    requireSuccess(await restored.session.command({ type: 'choose', optionId: 'attempt' }));
+    const ended = await restored.session.advanceToDecision('finish-authorized-rolls');
+    requireSuccess(ended);
+    expect(ended.state).toMatchObject({ status: 'ENDED', player: { age: 17 } });
+    expect(restored.engine.exportSave().payload.run.dice_results).toHaveLength(2);
+    expect(restored.engine.generateEndingReport()).toMatchObject({ end_reason: 'death', years_played: 8 });
+  });
+
+  it.each(['before', 'after'] as const)('recovers an automatic stage at its %s-commit boundary without selecting an option', async (phase) => {
+    const bundle = await storyContent();
+    const value = await harness(bundle);
+    await reachFirstStage(value);
+    const before = value.session.exportSave();
+    value.io.failure = { at: value.io.attempts.length + 1, phase };
+    await expect(value.session.advanceToDecision('rolls')).rejects.toMatchObject({ code: 'SAVE_FAILED' });
+    expect(value.engine.exportSave().payload.run.dice_results).toHaveLength(phase === 'after' ? 1 : 0);
+    expect(value.session.current().pending).toMatchObject({ kind: 'stage', stage_id: phase === 'after' ? 'S2' : 'S1' });
+    const restored = await harness(bundle, value.directory);
+    restored.session.restoreSave((await load<SessionSave>(value.directory))!);
+    const control = await harness(bundle);
+    control.session.restoreSave(before);
+    requireSuccess(await control.session.advanceToDecision('rolls'));
+    requireSuccess(await restored.session.advanceToDecision('rolls'));
+    expect(restored.engine.exportSave()).toEqual(control.engine.exportSave());
+    expect(restored.session.exportSave().replay_commands).toEqual(control.session.exportSave().replay_commands);
+  });
+
+  it('persists explicit instance abandonment and restores it without restarting the project', async () => {
+    const bundle = await storyContent();
+    const value = await harness(bundle);
+    requireSuccess(await value.session.initialize(1640));
+    requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
+    const before = value.session.exportSave();
+    const chainInstanceId = before.engine.payload.player.chains[0]!.instance_id;
+    const result = await value.session.command({ type: 'abandon', chainInstanceId });
+    requireSuccess(result);
+    expect(result.state.player.chains[0]).toMatchObject({ status: 'interrupted', next_due_year: null });
+    expect(result.state.player.attributes).toEqual(before.engine.payload.player.attributes);
+    const stored = (await load<SessionSave>(value.directory))!;
+    expect(stored.replay_commands.at(-1)).toMatchObject({ api: 'abandonChain', args: { chainInstanceId }, expected_result_hash: sha256(result) });
+    const restored = await harness(bundle, value.directory);
+    restored.session.restoreSave(stored);
+    expect(restored.session.current()).toEqual(value.session.current());
+    expect(restored.io.attempts).toHaveLength(0);
+  });
+
+  it('pauses after a committed automatic child and can abandon before another year runs', async () => {
+    const bundle = await storyContent();
+    bundle.events = bundle.events.filter(event => event.id !== 'E_SESSION_STAGES');
+    const value = await harness(bundle);
+    requireSuccess(await value.session.initialize(1640));
+    requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
+    let stop = false;
+    const result = await value.session.advanceToDecision('pause-boundary', {
+      shouldStop: () => stop,
+      onResult: async () => {
+        expect(await load<SessionSave>(value.directory)).toEqual(value.session.exportSave());
+        stop = true;
+      },
+    });
+    requireSuccess(result);
+    expect(result.state.player).toMatchObject({ age: 10, calendar_year: 1641 });
+    const chainInstanceId = result.state.player.chains[0]!.instance_id;
+    const abandoned = await value.session.command({ type: 'abandon', chainInstanceId });
+    requireSuccess(abandoned);
+    expect(abandoned.pending).toEqual(result.pending);
+    expect(abandoned.state.player.chains[0]!.status).toBe('interrupted');
+    expect(value.session.exportSave().replay_commands.filter(command => command.commandId.startsWith('pause-boundary:'))).toHaveLength(1);
   });
 
   it('does not execute next or auto through a pending choice and persists rejected manual commands for replay', async () => {
@@ -292,7 +413,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     expect(latest).toMatchObject({ error_code: 'INVALID_STATE', expected_result_hash: sha256(rejected) });
     expect(await load<SessionSave>(value.directory)).toEqual(value.session.exportSave());
     const auto = await value.session.advanceToDecision('pending-auto');
-    expect(auto).toMatchObject({ ok: false, error: { code: 'INVALID_STATE' } });
+    expect(auto).toMatchObject({ ok: true, pending: { kind: 'option', event_id: 'E_SESSION_OPEN' } });
     expect(value.engine.exportSave()).toEqual(before);
     expect(value.session.current().pending).toMatchObject({ kind: 'option', event_id: 'E_SESSION_OPEN' });
   });
@@ -324,18 +445,14 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     expect(after.engine.payload.player.chains).toHaveLength(1);
   });
 
-  it('persists a successful retirement and leaves an ended save ended on restart', async () => {
+  it('persists death and leaves an ended save ended on restart', async () => {
     const bundle = await peacefulContent();
-    bundle.achievements = [{
-      id: 'A_READY', name: 'Ready', text: 'Already eligible to retire.',
-      condition: { op: 'compare', field: 'age', comparator: 'gte', value: 9 }, priority: 1, retirable: true,
-    }];
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
-    const result = await value.session.command({ type: 'retire' });
+    const result = await value.session.advanceToDecision('finish-life');
     requireSuccess(result);
     expect(result.state.status).toBe('ENDED');
-    expect(value.engine.generateEndingReport()).toMatchObject({ end_reason: 'retired', death_id: null, years_played: 0 });
+    expect(value.engine.generateEndingReport()).toMatchObject({ end_reason: 'death', death_id: 'D_OLD_AGE', years_played: 8 });
     const restored = await harness(bundle, value.directory);
     restored.session.restoreSave((await load<SessionSave>(value.directory))!);
     expect(restored.session.current()).toEqual(value.session.current());

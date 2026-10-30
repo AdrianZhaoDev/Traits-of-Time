@@ -4,7 +4,7 @@ import type { PlayerState, Timeline } from '../types/schema.js';
 export interface ConditionContext {
   age: number; calendar_year: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;
   region_id: string; caste_id: string; identity_id: string; timeline: Timeline;
-  cards: readonly string[]; flags: readonly string[]; injuries: readonly string[]; completed_chains: readonly string[];
+  cards: readonly string[]; flags: readonly string[]; injuries: readonly string[]; completed_chains: readonly string[]; active_chains: readonly string[];
 }
 export function conditionContext(player: PlayerState, timeline: Timeline): ConditionContext {
   const dynamicFlags = new Set(player.flags);
@@ -33,6 +33,7 @@ export function conditionContext(player: PlayerState, timeline: Timeline): Condi
     flags: Array.from(dynamicFlags),
     injuries: player.injuries,
     completed_chains: player.chains.filter(c => c.status === 'completed').map(c => c.chain_id),
+    active_chains: player.chains.filter(c => c.status === 'active').map(c => c.chain_id),
   };
 }
 export function evaluateCondition(condition: Condition | undefined, state: ConditionContext): boolean {

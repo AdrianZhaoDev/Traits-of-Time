@@ -8,10 +8,15 @@ function quantiles(values: number[]): { p50: number; p90: number } {
   values.sort((a, b) => a - b);
   return { p50: values[Math.ceil(values.length * 0.5) - 1]!, p90: values[Math.ceil(values.length * 0.9) - 1]! };
 }
+function decisionRange(values: number[]) {
+  if (values.length === 0) return null;
+  const percentiles = quantiles(values);
+  return { min: values[0]!, ...percentiles, max: values[values.length - 1]! };
+}
 const autoRatio = (automatic: number, choice: number): number | null => automatic + choice === 0 ? null : automatic / (automatic + choice);
 interface Stratum {
   age_band_id: string; path_category: string; samples: number;
-  ages: number[]; years: number[]; inputs: number[]; early: number;
+  ages: number[]; years: number[]; inputs: number[]; decisions: number[]; early: number;
   death_counts: Record<string, number>; ending_counts: Record<string, number>;
   chain_started: number; chain_completed: number; chain_interrupted: number;
   automatic_events: number; choice_events: number;
@@ -20,45 +25,45 @@ interface Stratum {
 /** Retains numeric quantile samples, never engines, saves, command receipts or logs. */
 export class LifeStatistics {
   private readonly strata = new Map<string, Stratum>();
-  private readonly retirable: Set<string>;
   private readonly interactions: Map<string, 'automatic' | 'choice'>;
   private automaticEvents = 0;
   private choiceEvents = 0;
+  private readonly decisions: number[] = [];
   private readonly cardCounts = counts();
   private readonly startYearCounts = counts();
   private readonly originCounts = counts();
   constructor(private readonly content: ContentBundle) {
-    this.retirable = new Set(content.achievements.filter(item => item.retirable).map(item => item.id));
     this.interactions = new Map(content.events.map(event => [event.id, event.interaction]));
   }
   add(report: EndingReport, save: GameSave, blockingInputs: number) {
     const age_band_id = this.content.rules.age_bands.find(band => report.start_age >= band.min && report.start_age <= band.max)!.id;
-    const path_category = report.end_reason === 'death' && report.years_played === 0 ? 'opening_death'
-      : report.achievements.some(id => this.retirable.has(id)) || blockingInputs >= 30 ? 'long_or_major'
+    const path_category = report.years_played === 0 ? 'opening_death'
+      : report.milestone_achievement_ids.length > 0 || (report.primary_achievement_id !== null && this.content.achievements.some(item => item.id === report.primary_achievement_id && item.category === undefined)) || blockingInputs >= 30 ? 'long_or_major'
       : blockingInputs <= 9 ? 'short' : 'regular';
     const key = JSON.stringify([age_band_id, path_category]);
     let group = this.strata.get(key);
     if (!group) {
-      group = { age_band_id, path_category, samples: 0, ages: [], years: [], inputs: [], early: 0,
+      group = { age_band_id, path_category, samples: 0, ages: [], years: [], inputs: [], decisions: [], early: 0,
         death_counts: counts(), ending_counts: counts(), chain_started: 0, chain_completed: 0, chain_interrupted: 0,
         automatic_events: 0, choice_events: 0, card_counts: counts(), start_year_counts: counts(), origin_counts: counts() };
       this.strata.set(key, group);
     }
     group.samples++;
     group.ages.push(report.end_age); group.years.push(report.years_played); group.inputs.push(blockingInputs);
-    if (report.end_reason === 'death') {
-      if (report.years_played <= 3) group.early++;
-      if (report.death_id !== null) increment(group.death_counts, report.death_id);
-    }
+    if (report.years_played <= 3) group.early++;
+    increment(group.death_counts, report.death_id);
     increment(group.ending_counts, report.primary_achievement_id ?? '普通人生');
     let automatic_events = 0;
     let choice_events = 0;
+    let player_decisions = 0;
     let card_id: string | null = null;
     let origin_id: string | null = null;
     for (const log of save.payload.logs) {
       if (log.type === 'opening') {
         card_id = log.data.card_id;
         origin_id = log.data.background_id;
+      } else if (log.type === 'option') {
+        player_decisions++;
       } else if (log.type === 'event') {
         const interaction = this.interactions.get(log.source_id);
         if (interaction === 'automatic') automatic_events++;
@@ -69,6 +74,8 @@ export class LifeStatistics {
         else if (log.data.action === 'interrupted') group.chain_interrupted++;
       }
     }
+    group.decisions.push(player_decisions);
+    this.decisions.push(player_decisions);
     group.automatic_events += automatic_events;
     group.choice_events += choice_events;
     this.automaticEvents += automatic_events;
@@ -77,15 +84,17 @@ export class LifeStatistics {
     if (origin_id !== null) { increment(group.origin_counts, origin_id); increment(this.originCounts, origin_id); }
     increment(group.start_year_counts, String(report.start_year));
     increment(this.startYearCounts, String(report.start_year));
-    return { age_band_id, path_category, automatic_events, choice_events,
+    return { age_band_id, path_category, automatic_events, choice_events, player_decisions,
       auto_ratio: autoRatio(automatic_events, choice_events), card_id, start_year: report.start_year, origin_id };
   }
   summary() {
     return { automatic_events: this.automaticEvents, choice_events: this.choiceEvents,
+      player_decisions: decisionRange(this.decisions),
       auto_ratio: autoRatio(this.automaticEvents, this.choiceEvents), card_counts: this.cardCounts,
       start_year_counts: this.startYearCounts, origin_counts: this.originCounts,
-      strata: [...this.strata.values()].map(({ ages, years, inputs, early, ...group }) => ({
+      strata: [...this.strata.values()].map(({ ages, years, inputs, decisions, early, ...group }) => ({
       ...group, final_age: quantiles(ages), years_played: quantiles(years), blocking_inputs: quantiles(inputs),
+      player_decisions: decisionRange(decisions),
       auto_ratio: autoRatio(group.automatic_events, group.choice_events),
       early_death_rate: early / group.samples,
       chain_completion_rate: group.chain_started === 0 ? null : group.chain_completed / group.chain_started,

@@ -1,0 +1,343 @@
+{
+  "id": "ERA_MING_END",
+  "name": "崇祯末年·世途百态",
+  "start_year": 1628,
+  "historical_end_year": 1645,
+  "backgrounds": [
+    {
+      "id": "B_YOUTH_REFUGEE",
+      "text": "你跟家人四处落脚，已经能帮着跑腿，还得靠大人撑家。",
+      "condition": { "op": "all", "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 11 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 17 },
+        { "op": "is", "field": "caste_id", "value": "C_REFUGEE" }
+      ] },
+      "weight": 1, "identity_id": "I_YOUTH", "modifiers": {}, "flags": ["dependent"]
+    },
+    {
+      "id": "B_YOUTH_SOLDIER",
+      "text": "你在军户家里长大，帮着干活学手艺，还没到独自当家的年纪。",
+      "condition": { "op": "all", "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 11 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 17 },
+        { "op": "is", "field": "caste_id", "value": "C_SOLDIER" }
+      ] },
+      "weight": 1, "identity_id": "I_YOUTH", "modifiers": {}, "flags": ["dependent"]
+    },
+    {
+      "id": "B_YOUTH_GENTRY",
+      "text": "你在家里读书学规矩，偶尔帮忙跑腿，家里的钱还轮不到你管。",
+      "condition": { "op": "all", "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 11 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 17 },
+        { "op": "is", "field": "caste_id", "value": "C_GENTRY" }
+      ] },
+      "weight": 1, "identity_id": "I_YOUTH", "modifiers": {}, "flags": ["dependent"]
+    },
+    {
+      "id": "B_CHILD_REFUGEE",
+      "text": "你随家人辗转暂居，衣食尚需依靠长辈，没有可支配家产。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_REFUGEE"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_DEPENDENT",
+      "modifiers": {},
+      "flags": [
+        "dependent"
+      ]
+    },
+    {
+      "id": "B_ADULT_REFUGEE",
+      "text": "你靠零工度日，背着旧债谋求安稳，没有士绅家产。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_REFUGEE"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_REFUGEE",
+      "modifiers": {},
+      "flags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "B_CHILD_SOLDIER",
+      "text": "你生于军户，仍由长辈照料，尚未承担成年人的职分。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_SOLDIER"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_DEPENDENT",
+      "modifiers": {},
+      "flags": [
+        "dependent"
+      ]
+    },
+    {
+      "id": "B_ADULT_SOLDIER",
+      "text": "你作为军户成年户员承担劳作，靠积累手艺维持生活。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_SOLDIER"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_WORKER",
+      "modifiers": {},
+      "flags": []
+    },
+    {
+      "id": "B_CHILD_GENTRY",
+      "text": "你生于士绅之家，生活依靠家庭，并不能自由支配家产。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_GENTRY"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_DEPENDENT",
+      "modifiers": {},
+      "flags": [
+        "dependent"
+      ]
+    },
+    {
+      "id": "B_ADULT_GENTRY",
+      "text": "你是士绅家庭的成年户员，能支配部分资源，但并无官职。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "is",
+            "field": "caste_id",
+            "value": "C_GENTRY"
+          }
+        ]
+      },
+      "weight": 1,
+      "identity_id": "I_HOUSEHOLD",
+      "modifiers": {},
+      "flags": []
+    }
+  ],
+  "age_transitions": [
+    {
+      "id": "GROW_YOUTH", "age": 11,
+      "condition": { "op": "is", "field": "identity_id", "value": "I_DEPENDENT" },
+      "text": "你长成了少年，家里开始让你帮着跑腿干活。",
+      "effects": [{ "type": "identity_set", "id": "I_YOUTH" }]
+    },
+    {
+      "id": "GROW_REFUGEE", "age": 18,
+      "condition": { "op": "all", "conditions": [
+        { "op": "any", "conditions": [
+          { "op": "is", "field": "identity_id", "value": "I_DEPENDENT" },
+          { "op": "is", "field": "identity_id", "value": "I_YOUTH" }
+        ] },
+        { "op": "is", "field": "caste_id", "value": "C_REFUGEE" }
+      ] },
+      "text": "你已经成年，开始自己找活干，给家里添一份口粮。",
+      "effects": [{ "type": "identity_set", "id": "I_REFUGEE" }]
+    },
+    {
+      "id": "GROW_SOLDIER", "age": 18,
+      "condition": { "op": "all", "conditions": [
+        { "op": "any", "conditions": [
+          { "op": "is", "field": "identity_id", "value": "I_DEPENDENT" },
+          { "op": "is", "field": "identity_id", "value": "I_YOUTH" }
+        ] },
+        { "op": "is", "field": "caste_id", "value": "C_SOLDIER" }
+      ] },
+      "text": "你成年了，军户家里的活计也有了你独当一面的份。",
+      "effects": [{ "type": "identity_set", "id": "I_WORKER" }]
+    },
+    {
+      "id": "GROW_GENTRY", "age": 18,
+      "condition": { "op": "all", "conditions": [
+        { "op": "any", "conditions": [
+          { "op": "is", "field": "identity_id", "value": "I_DEPENDENT" },
+          { "op": "is", "field": "identity_id", "value": "I_YOUTH" }
+        ] },
+        { "op": "is", "field": "caste_id", "value": "C_GENTRY" }
+      ] },
+      "text": "你成年了，家里让你分管些日用钱粮，出了岔子也得自己担。",
+      "effects": [{ "type": "identity_set", "id": "I_HOUSEHOLD" }]
+    },
+    {
+      "id": "GROW_INDEPENDENT", "age": 18,
+      "condition": { "op": "has", "collection": "flags", "id": "dependent" },
+      "text": "你满了十八岁，不再按依靠长辈的孩子算了。",
+      "effects": [{ "type": "flag_remove", "id": "dependent" }]
+    }
+  ],
+  "identities": [
+    { "id": "I_YOUTH", "name": "少年", "rank": 0 },
+    {
+      "id": "I_DEPENDENT",
+      "name": "年幼孩子",
+      "rank": 0
+    },
+    {
+      "id": "I_REFUGEE",
+      "name": "流民",
+      "rank": 0
+    },
+    {
+      "id": "I_WORKER",
+      "name": "做工人",
+      "rank": 1
+    },
+    {
+      "id": "I_HOUSEHOLD",
+      "name": "当家子弟",
+      "rank": 2
+    },
+    {
+      "id": "I_ARTISAN",
+      "name": "匠作能手",
+      "rank": 3
+    },
+    {
+      "id": "I_FIRE_OFFICER",
+      "name": "神机火使",
+      "rank": 4
+    },
+    {
+      "id": "I_FIRE_MASTER",
+      "name": "火德护国法师",
+      "rank": 5
+    },
+    {
+      "id": "I_FIRE_MERCHANT",
+      "name": "天珍洋行掌柜",
+      "rank": 3
+    },
+    {
+      "id": "I_STREET_MAGICIAN",
+      "name": "江湖杂耍手",
+      "rank": 1
+    },
+    {
+      "id": "I_JUREN",
+      "name": "秋闱举人",
+      "rank": 3
+    },
+    {
+      "id": "I_SILK_MERCHANT",
+      "name": "江南织造商",
+      "rank": 3
+    },
+    {
+      "id": "I_MILITARY_OFFICER",
+      "name": "防务把总",
+      "rank": 3
+    },
+    {
+      "id": "I_DEFENSE_COMMISSIONER",
+      "name": "巡按御史",
+      "rank": 5
+    },
+    {
+      "id": "I_CLAN_ELDER",
+      "name": "乡贤族长",
+      "rank": 4
+    },
+    {
+      "id": "I_POETRY_CELEBRITY",
+      "name": "两京文宗",
+      "rank": 4
+    },
+    {
+      "id": "I_WAREHOUSE_OVERSEER",
+      "name": "军资协理官",
+      "rank": 2
+    },
+    {
+      "id": "I_COMMUNITY_LEADER",
+      "name": "坊里甲首",
+      "rank": 2
+    }
+  ],
+  "injuries": [
+    {
+      "id": "INJ_SEVERE",
+      "name": "重伤",
+      "annual_effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "physique",
+          "amount": -1
+        }
+      ]
+    }
+  ],
+  "fallback_text": "这一年世事如常流转，街巷偶有流言，你在岁月中平稳度过。",
+  "old_age_death_id": "D_OLD_AGE"
+}

@@ -185,7 +185,7 @@ describe('evaluateCondition: restricted declarative operators', () => {
   const state: ConditionContext = {
     age: 9, calendar_year: 1640, physique: 2, intelligence: 4, wealth: 3, prestige: 1, luck: 5,
     region_id: 'R_JIANGNAN', caste_id: 'C_SOLDIER', identity_id: 'I_DEPENDENT', timeline: 'historical',
-    cards: ['CARD_COMMON'], flags: ['dependent'], injuries: ['INJ_SEVERE'], completed_chains: ['CH_WORKSHOP'],
+    cards: ['CARD_COMMON'], flags: ['dependent'], injuries: ['INJ_SEVERE'], completed_chains: ['CH_WORKSHOP'], active_chains: ['CH_ACTIVE'],
   };
 
   it('treats an omitted condition as true and never changes the context', () => {
@@ -210,7 +210,7 @@ describe('evaluateCondition: restricted declarative operators', () => {
   });
 
   it.each([
-    ['cards', 'CARD_COMMON'], ['flags', 'dependent'], ['injuries', 'INJ_SEVERE'], ['completed_chains', 'CH_WORKSHOP'],
+    ['cards', 'CARD_COMMON'], ['flags', 'dependent'], ['injuries', 'INJ_SEVERE'], ['completed_chains', 'CH_WORKSHOP'], ['active_chains', 'CH_ACTIVE'],
   ] as const)('checks membership in %s', (collection, id) => {
     expect(evaluateCondition({ op: 'has', collection, id }, state)).toBe(true);
     expect(evaluateCondition({ op: 'has', collection, id: 'missing' }, state)).toBe(false);

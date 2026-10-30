@@ -1,0 +1,29 @@
+[
+  {
+    "id": "C_REFUGEE",
+    "name": "赤贫流民",
+    "weight": 1,
+    "modifiers": {
+      "wealth": -2
+    },
+    "flags": []
+  },
+  {
+    "id": "C_SOLDIER",
+    "name": "卫所军户",
+    "weight": 1,
+    "modifiers": {
+      "wealth": 0
+    },
+    "flags": []
+  },
+  {
+    "id": "C_GENTRY",
+    "name": "江南士绅",
+    "weight": 1,
+    "modifiers": {
+      "wealth": 2
+    },
+    "flags": []
+  }
+]

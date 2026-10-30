@@ -59,7 +59,7 @@ export interface ContentBundle {
  * via the `definition` "Manifest".
  */
 export interface Manifest {
-  schema_version: 2;
+  schema_version: 3;
   content_id: string;
   content_version: string;
   files: ContentFiles;
@@ -157,6 +157,7 @@ export interface Era {
   backgrounds: Background[];
   identities: Identity[];
   injuries: Injury[];
+  age_transitions?: AgeTransition[];
   fallback_text: string;
   old_age_death_id: string;
 }
@@ -192,7 +193,7 @@ export interface CompareCondition {
 }
 export interface HasCondition {
   op: 'has';
-  collection: 'cards' | 'flags' | 'injuries' | 'completed_chains';
+  collection: 'cards' | 'flags' | 'injuries' | 'completed_chains' | 'active_chains';
   id: string;
 }
 export interface IdentityCondition {
@@ -231,6 +232,20 @@ export interface AnnualAttributeEffect {
 export interface AnnualDeathEffect {
   type: 'death';
   id: string;
+}
+/**
+ * This interface was referenced by `ContentBundle`'s JSON-Schema
+ * via the `definition` "AgeTransition".
+ */
+export interface AgeTransition {
+  id: string;
+  age: number;
+  condition?: Condition;
+  text: string;
+  effects: {
+    type: 'identity_set' | 'flag_add' | 'flag_remove';
+    id: string;
+  }[];
 }
 /**
  * This interface was referenced by `ContentBundle`'s JSON-Schema
@@ -429,6 +444,7 @@ export interface AutomaticEvent {
 export interface Chain {
   id: string;
   name: string;
+  commitment?: string;
   priority: number;
   interrupt_condition?: Condition;
   interrupt_text: string;
@@ -456,7 +472,7 @@ export interface Achievement {
   text: string;
   condition: Condition;
   priority: number;
-  retirable: boolean;
+  category?: 'life' | 'milestone' | 'anecdote';
 }
 /**
  * This interface was referenced by `ContentBundle`'s JSON-Schema

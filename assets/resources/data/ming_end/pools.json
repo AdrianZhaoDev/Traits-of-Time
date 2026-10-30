@@ -1,55 +1,39 @@
 [
   {
-    "id": "POOL_MODERN_RELICS",
-    "name": "随身旧物",
+    "id": "POOL_NATIVE_LIFE",
+    "name": "寻常家当",
     "entries": [
       {
-        "card_id": "CARD_MOD_OIL",
+        "card_id": "CARD_NATIVE_NEEDLE",
         "weight": 20
       },
       {
-        "card_id": "CARD_MOD_BANDAGE",
+        "card_id": "CARD_NATIVE_BOWL",
         "weight": 20
       },
       {
-        "card_id": "CARD_MOD_LIGHTER",
+        "card_id": "CARD_NATIVE_ROPE",
         "weight": 20
       },
       {
-        "card_id": "CARD_MOD_CHICKEN_ESSENCE",
+        "card_id": "CARD_NATIVE_ACCOUNT",
         "weight": 10
       },
       {
-        "card_id": "CARD_MOD_GLUE_502",
+        "card_id": "CARD_NATIVE_HERBS",
         "weight": 10
       },
       {
-        "card_id": "CARD_MOD_THERMOS",
+        "card_id": "CARD_NATIVE_TOOLS",
         "weight": 10
       },
       {
-        "card_id": "CARD_MOD_MEGAPHONE",
+        "card_id": "CARD_NATIVE_BOOK",
         "weight": 4
       },
       {
-        "card_id": "CARD_MOD_LASER_POINTER",
+        "card_id": "CARD_NATIVE_SCALES",
         "weight": 4
-      },
-      {
-        "card_id": "CARD_MOD_WATER_TABS",
-        "weight": 4
-      },
-      {
-        "card_id": "CARD_MOD_SWISS_ARMY",
-        "weight": 4
-      },
-      {
-        "card_id": "CARD_MOD_ANTIBIOTICS",
-        "weight": 1
-      },
-      {
-        "card_id": "CARD_MOD_HYBRID_SEEDS",
-        "weight": 1
       }
     ],
     "replacement": true,

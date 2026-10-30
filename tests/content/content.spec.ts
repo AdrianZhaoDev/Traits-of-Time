@@ -53,6 +53,21 @@ describe('trusted complete content packages', () => {
     expect(() => loaded.bundle.cards.push(bundle.cards[0]!)).toThrow();
   });
 
+  it('accepts optional chain authorization and fingerprints its pre-start terms', async () => {
+    const { directory } = await fixture();
+    const initial = await loadContent(directory);
+    const path = join(directory, 'chains.json');
+    const chains = JSON.parse(await readFile(path, 'utf8'));
+    chains[0].commitment = '选定后逐年推进，终考掷骰；可主动退出，已付费用不退。';
+    await writeFile(path, JSON.stringify(chains));
+    const authorized = await loadContent(directory);
+    expect(authorized.bundle.chains[0]!.commitment).toBe(chains[0].commitment);
+    expect(authorized.fingerprint).not.toBe(initial.fingerprint);
+    chains[0].commitment = 123;
+    await writeFile(path, JSON.stringify(chains));
+    await expectIssue(directory, 'SCHEMA_INVALID', 'chains.json', '/0/commitment');
+  });
+
   it('builds read-only ID maps without prototype-key collisions', async () => {
     const { directory } = await fixture((bundle) => {
       bundle.cards.push({ ...bundle.cards[0]!, id: '__proto__' });
@@ -147,6 +162,80 @@ describe('trusted complete content packages', () => {
   });
 });
 
+describe('age transition validation', () => {
+  async function transitionBundle(transitions: unknown[]) {
+    const bundle = await loadTemplate();
+    return { ...bundle, era: { ...bundle.era, age_transitions: transitions } };
+  }
+
+  const transition = () => ({ id: 'AGE_ADULT', age: 18, text: '成年。', effects: [{ type: 'flag_add', id: 'adult' }] });
+
+  it('accepts omitted, empty, and valid conditional transitions with boundary ages', async () => {
+    const bundle = await loadTemplate();
+    expect(validateContent(bundle).ok).toBe(true);
+    expect(validateContent(await transitionBundle([])).ok).toBe(true);
+    expect(validateContent(await transitionBundle([
+      { ...transition(), age: 1, condition: { op: 'is', field: 'identity_id', value: bundle.era.identities[0]!.id },
+        effects: [{ type: 'identity_set', id: bundle.era.identities[0]!.id }, { type: 'flag_add', id: 'adult' }, { type: 'flag_remove', id: 'child' }] },
+      { ...transition(), id: 'AGE_LAST', age: 120, effects: [] },
+    ]))).toEqual({ ok: true, issues: [] });
+  });
+
+  it.each([0, -1, 1.5, 121, '18', null])('rejects invalid transition age %j', async (age) => {
+    expect(validateContent(await transitionBundle([{ ...transition(), age }])).issues).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: 'SCHEMA_INVALID', file: 'era.json', path: '/age_transitions/0/age' }),
+    ]));
+  });
+
+  it.each([
+    { type: 'attribute_add', attribute: 'wealth', amount: 1 },
+    { type: 'death', id: 'DEATH_OLD' },
+    { type: 'region_set', id: 'region' },
+    { type: 'chain_start', id: 'chain' },
+    { type: 'ending_unlock', id: 'ending' },
+    { type: 'injury_add', id: 'injury' },
+    { type: 'injury_remove', id: 'injury' },
+    { type: 'flag_add', id: '' },
+    { type: 'flag_remove', id: '' },
+  ])('rejects unsupported or malformed transition effect %j', async (effect) => {
+    expect(validateContent(await transitionBundle([{ ...transition(), effects: [effect] }])).issues).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: 'SCHEMA_INVALID', file: 'era.json' }),
+    ]));
+  });
+
+  it.each(['id', 'age', 'text', 'effects'])('requires transition %s', async (key) => {
+    const value: Record<string, unknown> = transition();
+    delete value[key];
+    expect(validateContent(await transitionBundle([value])).ok).toBe(false);
+  });
+
+  it('rejects duplicate transition IDs', async () => {
+    expect(validateContent(await transitionBundle([transition(), transition()])).issues).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: 'DUPLICATE_ID', file: 'era.json', path: '/age_transitions/1/id' }),
+    ]));
+  });
+
+  it('validates nested condition and identity effect references', async () => {
+    const value = { ...transition(), condition: { op: 'not', condition: { op: 'is', field: 'identity_id', value: 'missing' } },
+      effects: [{ type: 'identity_set', id: 'missing' }] };
+    expect(validateContent(await transitionBundle([value])).issues).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: 'MISSING_REFERENCE', file: 'era.json', path: '/age_transitions/0/condition/condition/value' }),
+      expect.objectContaining({ code: 'MISSING_REFERENCE', file: 'era.json', path: '/age_transitions/0/effects/0/id' }),
+    ]));
+  });
+
+  it('rejects conflicting flag changes and identity assignments', async () => {
+    const bundle = await loadTemplate();
+    expect(validateContent(await transitionBundle([{ ...transition(), effects: [
+      { type: 'flag_add', id: 'adult' }, { type: 'flag_remove', id: 'adult' },
+      { type: 'identity_set', id: bundle.era.identities[0]!.id }, { type: 'identity_set', id: 'missing' },
+    ] }])).issues).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: 'INVALID_COMBINATION', path: '/age_transitions/0/effects/1' }),
+      expect.objectContaining({ code: 'INVALID_COMBINATION', path: '/age_transitions/0/effects/3' }),
+    ]));
+  });
+});
+
 describe('structural validation', () => {
   it.each([null, undefined, [], {}, 42, 'not a bundle'])('safely rejects unknown input %j', (value) => {
     expect(validateContent(value)).toMatchObject({ ok: false, issues: expect.arrayContaining([expect.objectContaining({ code: 'SCHEMA_INVALID' })]) });
@@ -216,6 +305,8 @@ describe('direct unknown-input schema contract', () => {
     ['empty string', (bundle) => { bundle.cards[0]!.id = ''; }, 'cards.json', '/0/id'],
     ['enum', (bundle) => { Object.assign(choice(bundle).options[0]!, { risk: 'impossible' }); }, 'events.json', '/0/options/0/risk'],
     ['constant', (bundle) => { Object.assign(bundle.manifest, { schema_version: 1 }); }, 'manifest.json', '/schema_version'],
+    ['previous schema version', (bundle) => { Object.assign(bundle.manifest, { schema_version: 2 }); }, 'manifest.json', '/schema_version'],
+    ['removed achievement capability', (bundle) => { Object.assign(bundle.achievements[0]!, { retirable: true }); }, 'achievements.json', '/0/retirable'],
     ['number minimum', (bundle) => { bundle.pools[0]!.entries[0]!.weight = -1; }, 'pools.json', '/0/entries/0/weight'],
     ['integer maximum', (bundle) => { bundle.rules.events.per_year = Number.MAX_SAFE_INTEGER + 1; }, 'rules.json', '/events/per_year'],
     ['integer type', (bundle) => { bundle.rules.events.per_year = 0.5; }, 'rules.json', '/events/per_year'],

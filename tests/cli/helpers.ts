@@ -3,7 +3,8 @@ import { once } from 'node:events';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { afterEach, expect } from 'vitest';
 import type { ContentBundle } from '../../assets/scripts/core/types/content.generated.js';
 import { load } from '../../tools/lib/FileStateStore.js';
@@ -11,6 +12,7 @@ import { sha256 } from '../../tools/lib/canonical.js';
 import { createContentFixture } from '../helpers/content.js';
 
 export const repositoryDirectory = fileURLToPath(new URL('../../', import.meta.url));
+const tsxImport = pathToFileURL(createRequire(import.meta.url).resolve('tsx')).href;
 export type CliName = 'validate-content' | 'draw' | 'play' | 'simulate' | 'replay';
 
 export interface CliResult {
@@ -21,9 +23,9 @@ export interface CliResult {
 }
 
 /** A real process, with output-driven readiness rather than timing-dependent sleeps. */
-export function startCli(name: CliName, args: readonly string[]) {
-  const child = spawn(process.execPath, ['--import', 'tsx', `tools/${name}.ts`, ...args], {
-    cwd: repositoryDirectory,
+export function startCli(name: CliName, args: readonly string[], cwd = repositoryDirectory) {
+  const child = spawn(process.execPath, ['--import', tsxImport, join(repositoryDirectory, `tools/${name}.ts`), ...args], {
+    cwd,
     env: { ...process.env, FORCE_COLOR: '0', TERM: 'dumb' },
     stdio: ['pipe', 'pipe', 'pipe'],
   });
@@ -68,8 +70,8 @@ export function startCli(name: CliName, args: readonly string[]) {
   };
 }
 
-export async function runCli(name: CliName, args: readonly string[], input = ''): Promise<CliResult> {
-  return startCli(name, args).finish(input);
+export async function runCli(name: CliName, args: readonly string[], input = '', cwd = repositoryDirectory): Promise<CliResult> {
+  return startCli(name, args, cwd).finish(input);
 }
 
 export function expectSuccess(result: CliResult): void {
@@ -132,7 +134,7 @@ export async function slotBytes(directory: string): Promise<Record<string, strin
 
 export interface SavedLife {
   engine: {
-    save_version: 2;
+    save_version: 3;
     kind: 'life';
     content_id: string;
     content_version: string;
@@ -169,7 +171,7 @@ export async function savedLife(directory: string): Promise<SavedLife> {
   const save = await load<SavedLife>(directory);
   expect(save, 'play must persist a real SessionSave before displaying success').not.toBeNull();
   if (save === null) throw new Error('No persisted session');
-  expect(save.engine).toMatchObject({ save_version: 2, kind: 'life' });
+  expect(save.engine).toMatchObject({ save_version: 3, kind: 'life' });
   return save;
 }
 

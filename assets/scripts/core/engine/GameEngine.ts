@@ -47,7 +47,18 @@ export class GameEngine {
     return { kind: 'option', event_instance_id: active.instance_id, event_id: event.id, options: event.options.map(option => {
       const condition = evaluateCondition(option.condition, context);
       const available = condition && previewOutcome(option.outcome, player, run, this.content, this.registry);
-      return { id: option.id, text: option.text, available, reason: available ? null : condition ? 'OUTCOME_NOT_APPLICABLE' : option.unavailable_text };
+      const checks: Extract<PendingDecision, { kind: 'option' }>['options'][number]['checks'] = [];
+      const visited = new Set<string>();
+      const visit = (stageId: string | null): void => {
+        if (stageId === null || visited.has(stageId)) return;
+        visited.add(stageId);
+        const stage = event.stages!.find(candidate => candidate.id === stageId)!;
+        checks.push(cloneData(stage.check));
+        visit(stage.success.next_stage_id);
+        visit(stage.failure.next_stage_id);
+      };
+      visit(option.outcome.next_stage_id);
+      return { id: option.id, text: option.text, risk: option.risk, checks, available, reason: available ? null : condition ? 'OUTCOME_NOT_APPLICABLE' : option.unavailable_text };
     }) };
   }
   private available(event: Event, draft: Draft): boolean {
@@ -81,7 +92,8 @@ export class GameEngine {
     }
     try {
       if (!commandId) throw new DomainError('INVALID_COMMAND_ID');
-      const draft = this.draft(); apply(draft); evaluateAchievements(this.content, draft.player, draft.run);
+      const draft = this.draft(); apply(draft);
+      if (draft.run.status !== 'ENDED') this.evaluateAchievements(draft);
       return this.commit(draft, commandId, parameters);
     } catch (error) {
       if (!(error instanceof DomainError)) throw error;
@@ -96,7 +108,7 @@ export class GameEngine {
     const age = uniformInt(band.min, band.max, rng);
     const year = uniformInt(c.rules.opening.year_min, c.rules.opening.year_max, rng);
     const context: ConditionContext = { age, calendar_year: year, physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
-      region_id: '', caste_id: '', identity_id: '', timeline: 'historical', cards: [], flags: [], injuries: [], completed_chains: [] };
+      region_id: '', caste_id: '', identity_id: '', timeline: 'historical', cards: [], flags: [], injuries: [], completed_chains: [], active_chains: [] };
     const pairs = [...c.regions].sort(byId).flatMap(region => [...c.castes].sort(byId).map(caste => ({ region, caste, weight: region.weight * caste.weight })))
       .filter(pair => pair.weight > 0 && c.era.backgrounds.some(background => background.weight > 0 && evaluateCondition(background.condition, { ...context, region_id: pair.region.id, caste_id: pair.caste.id })));
     const pair = sampleWeighted(pairs, p => p.weight, rng);
@@ -116,7 +128,7 @@ export class GameEngine {
       dice_results: [], death: null, ending: null, processed_commands: Object.create(null), revision: 0 };
     const draft: Draft = { player, run, logs: [], rng };
     this.log(draft, 'opening', background.id, background.text, { background_id: background.id, age_band_id: band.id, card_id: card });
-    evaluateAchievements(c, player, run);
+    this.evaluateAchievements(draft);
     run.queue = this.weighted(draft, 'opening');
     this.resume(draft);
     return this.commit(draft);
@@ -147,16 +159,45 @@ export class GameEngine {
       this.applyOutcome(draft, outcome, event.id); this.route(draft, outcome, active); this.resume(draft);
     });
   }
+  abandonChain(commandId: string, chainInstanceId: string): CommandResult {
+    return this.command(commandId, { api: 'abandonChain', args: [chainInstanceId] }, draft => {
+      if (draft.run.status !== 'READY' && draft.run.status !== 'AWAITING_OPTION') throw new DomainError('INVALID_STATE');
+      const chain = draft.player.chains.find(candidate => candidate.instance_id === chainInstanceId);
+      if (!chain || chain.status !== 'active') throw new DomainError('STALE_DECISION');
+      chain.status = 'interrupted';
+      chain.next_due_year = null;
+      chain.interruption_reason = `主动退出：${this.registry.chains.get(chain.chain_id)!.name}`;
+      const active = draft.run.active_event;
+      if (active && active.chain_instance_id !== chainInstanceId) {
+        const pending = this.pending(draft.player, draft.run);
+        // Keep the current choice intact; never strand it or silently choose a new route.
+        if (pending?.kind === 'option' && !pending.options.some(option => option.available)) throw new DomainError('OPTION_UNAVAILABLE');
+      }
+      this.chainLog(draft, chain, 'interrupted');
+      if (active?.chain_instance_id === chainInstanceId) {
+        draft.run.active_event = null;
+        draft.run.status = 'ADVANCING';
+        this.resume(draft);
+      }
+    });
+  }
   private chainLog(draft: Draft, chain: ChainInstance, action: 'started' | 'interrupted' | 'completed'): void {
     this.log(draft, 'chain', chain.chain_id, action === 'interrupted' ? chain.interruption_reason! : this.registry.chains.get(chain.chain_id)!.name,
       { instance_id: chain.instance_id, chain_id: chain.chain_id, action, reason: chain.interruption_reason });
   }
+  private achievementLog(draft: Draft, id: string): void {
+    this.log(draft, 'achievement', id, this.registry.achievements.get(id)!.text, { achievement_id: id });
+  }
+  private evaluateAchievements(draft: Draft): void {
+    evaluateAchievements(this.content, draft.player, draft.run, id => this.achievementLog(draft, id));
+  }
   private applyOutcome(draft: Draft, outcome: Outcome, source: string): void {
+    this.log(draft, 'effects', source, outcome.text, { effects: outcome.effects });
     executeEffects(outcome.effects, draft.player, draft.run, this.content, this.registry, {
       chain: (chain, action) => this.chainLog(draft, chain, action), death: id => this.end(draft, id),
+      achievement: id => this.achievementLog(draft, id),
     });
-    this.log(draft, 'effects', source, outcome.text, { effects: outcome.effects });
-    evaluateAchievements(this.content, draft.player, draft.run);
+    if (draft.run.status !== 'ENDED') this.evaluateAchievements(draft);
   }
   private route(draft: Draft, outcome: Outcome, active: ActiveEvent): void {
     if (draft.run.status === 'ENDED') return;
@@ -221,13 +262,14 @@ export class GameEngine {
       }
     }
   }
-  private end(draft: Draft, death: string | null): void {
+  private end(draft: Draft, death: string): void {
+    if (!this.registry.deaths.has(death)) throw new DomainError('INVALID_STATE', 'Ending requires a valid death');
     draft.run.death = death; draft.run.status = 'ENDED'; draft.run.active_event = null; draft.run.queue = []; draft.run.queue_cursor = 0;
-    evaluateAchievements(this.content, draft.player, draft.run);
-    if (death !== null) this.log(draft, 'death', death, this.registry.deaths.get(death)!.text, { death_id: death });
+    this.evaluateAchievements(draft);
+    this.log(draft, 'death', death, this.registry.deaths.get(death)!.text, { death_id: death });
     draft.run.ending = endingReport(this.content, this.fingerprint, draft.player, draft.run, [...(this.saved?.logs ?? []), ...draft.logs]);
     this.log(draft, 'ending', draft.run.ending.primary_achievement_id ?? '', draft.run.ending.primary_achievement_id ? this.registry.achievements.get(draft.run.ending.primary_achievement_id)!.text : '普通人生',
-      { end_reason: death === null ? 'retired' : 'death', primary_achievement_id: draft.run.ending.primary_achievement_id });
+      { end_reason: 'death', primary_achievement_id: draft.run.ending.primary_achievement_id });
   }
   nextYear(commandId: string): CommandResult {
     return this.command(commandId, { api: 'nextYear', args: [] }, draft => {
@@ -235,6 +277,11 @@ export class GameEngine {
       draft.player.age++; draft.player.calendar_year++;
       draft.run.status = 'ADVANCING'; draft.run.year_phase = 'vital';
       if (draft.player.age >= draft.player.max_lifespan) { this.end(draft, this.content.era.old_age_death_id); return; }
+      for (const transition of this.content.era.age_transitions ?? []) {
+        if (transition.age === draft.player.age && evaluateCondition(transition.condition, conditionContext(draft.player, draft.run.timeline))) {
+          this.applyOutcome(draft, { text: transition.text, effects: transition.effects, next_stage_id: null }, transition.id);
+        }
+      }
       interruptChains(draft.player, draft.run, this.registry, chain => this.chainLog(draft, chain, 'interrupted'));
       for (const id of [...draft.player.injuries].sort()) {
         const injury = this.registry.injuries.get(id)!;
@@ -243,12 +290,6 @@ export class GameEngine {
       }
       draft.run.year_phase = 'chains'; draft.run.queue = dueChains(draft.player, this.registry); draft.run.queue_cursor = 0;
       this.resume(draft);
-    });
-  }
-  retire(commandId: string): CommandResult {
-    return this.command(commandId, { api: 'retire', args: [] }, draft => {
-      if (draft.run.status !== 'READY' || !draft.player.achievements.some(id => this.registry.achievements.get(id)!.retirable)) throw new DomainError('RETIRE_UNAVAILABLE');
-      this.end(draft, null);
     });
   }
   generateEndingReport(): EndingReport {
@@ -278,9 +319,9 @@ export class GameEngine {
         let result: CommandResult;
         switch (api) {
           case 'nextYear': if (args.length !== 0) invalid(); result = replay.nextYear(id); break;
-          case 'retire': if (args.length !== 0) invalid(); result = replay.retire(id); break;
           case 'resolveOption': if (args.length !== 2) invalid(); result = replay.resolveOption(id, args[0]!, args[1]!); break;
           case 'resolveStage': if (args.length !== 2) invalid(); result = replay.resolveStage(id, args[0]!, args[1]!); break;
+          case 'abandonChain': if (args.length !== 1) invalid(); result = replay.abandonChain(id, args[0]!); break;
           default: return invalid();
         }
         if (!result.ok) invalid();

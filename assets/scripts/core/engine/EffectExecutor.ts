@@ -4,7 +4,7 @@ import type { ChainInstance, PlayerState, RunState } from '../types/schema.js';
 import { DomainError } from './DomainError.js';
 import { interruptChains } from './ChainRunner.js';
 
-export interface EffectPorts { chain: (chain: ChainInstance, action: 'started' | 'interrupted') => void; death: (id: string) => void }
+export interface EffectPorts { chain: (chain: ChainInstance, action: 'started' | 'interrupted') => void; death: (id: string) => void; achievement: (id: string) => void }
 /** Mutates a transaction draft only. Callers commit the complete outcome or discard the draft. */
 export function executeEffects(effects: readonly Effect[], player: PlayerState, run: RunState, content: ContentBundle, registry: ContentRegistry, ports: EffectPorts): void {
   for (const effect of effects) {
@@ -20,7 +20,9 @@ export function executeEffects(effects: readonly Effect[], player: PlayerState, 
         player.identity_id = effect.id;
         if (registry.identities.get(effect.id)!.rank > registry.identities.get(player.highest_identity_id)!.rank) player.highest_identity_id = effect.id;
         break;
-      case 'ending_unlock': if (!player.achievements.includes(effect.id)) player.achievements.push(effect.id); break;
+      case 'ending_unlock':
+        if (!player.achievements.includes(effect.id)) { player.achievements.push(effect.id); ports.achievement(effect.id); }
+        break;
       case 'chain_start': {
         if (player.chains.filter(c => c.status === 'active').length >= content.rules.chains.max_active) throw new DomainError('OUTCOME_NOT_APPLICABLE', 'Active chain capacity is exhausted');
         const definition = registry.chains.get(effect.id)!;
@@ -37,7 +39,7 @@ export function previewOutcome(outcome: Outcome, player: PlayerState, run: RunSt
   const draftPlayer: PlayerState = { ...player, attributes: { ...player.attributes }, flags: [...player.flags], injuries: [...player.injuries], achievements: [...player.achievements], chains: player.chains.map(c => ({ ...c })) };
   const draftRun = { ...run };
   try {
-    executeEffects(outcome.effects, draftPlayer, draftRun, content, registry, { chain: () => {}, death: () => { draftRun.status = 'ENDED'; } });
+    executeEffects(outcome.effects, draftPlayer, draftRun, content, registry, { chain: () => {}, achievement: () => {}, death: () => { draftRun.status = 'ENDED'; } });
     return true;
   } catch (error) {
     if (error instanceof DomainError && error.code === 'OUTCOME_NOT_APPLICABLE') return false;

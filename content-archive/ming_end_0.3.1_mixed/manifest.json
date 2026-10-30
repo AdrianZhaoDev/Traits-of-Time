@@ -1,0 +1,17 @@
+{
+  "schema_version": 2,
+  "content_id": "ming_end",
+  "content_version": "0.3.1",
+  "files": {
+    "rules": "rules.json",
+    "era": "era.json",
+    "regions": "regions.json",
+    "castes": "castes.json",
+    "cards": "cards.json",
+    "pools": "pools.json",
+    "events": "events.json",
+    "chains": "chains.json",
+    "achievements": "achievements.json",
+    "deaths": "deaths.json"
+  }
+}

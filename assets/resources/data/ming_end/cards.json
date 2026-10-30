@@ -1,110 +1,74 @@
 [
   {
-    "id": "CARD_MOD_OIL",
-    "name": "风油精",
-    "description": "小瓶清凉只管提神，不管升官；按说明外用，别往眼边凑。",
+    "id": "CARD_NATIVE_NEEDLE",
+    "name": "针线包",
+    "description": "针细线短，补好衣裳还能省下一笔。",
     "rarity": "N",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_BANDAGE",
-    "name": "防水创可贴",
-    "description": "小伤口也有自己的小被子；先清洁再看适用，严重的仍找大夫。",
+    "id": "CARD_NATIVE_BOWL",
+    "name": "粗陶饭碗",
+    "description": "碗沿磕了个口，盛饭倒是一点不耽误。",
     "rarity": "N",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_LIGHTER",
-    "name": "便携打火机",
-    "description": "点得着灶火，点不来官运；燃料总有尽头，孩子交给大人用。",
+    "id": "CARD_NATIVE_ROPE",
+    "name": "麻绳",
+    "description": "捆柴系包都靠它，出门多带一截不吃亏。",
     "rarity": "N",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_CHICKEN_ESSENCE",
-    "name": "鲜味鸡精",
-    "description": "给清汤添点鲜，不会凭空添粮；一包用完，厨子的真本事还得在。",
+    "id": "CARD_NATIVE_ACCOUNT",
+    "name": "旧账册",
+    "description": "纸角磨得发毛，记清收支总比靠脑子强。",
     "rarity": "R",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_GLUE_502",
-    "name": "502强力胶",
-    "description": "能粘小物件，粘不回人情账；避开皮肤食具，先让懂行人看看。",
+    "id": "CARD_NATIVE_HERBS",
+    "name": "晒干的草药",
+    "description": "长辈认过的几味草药，病重还得请大夫。",
     "rarity": "R",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_THERMOS",
-    "name": "保温杯",
-    "description": "热水能留一阵，太平留不住；杯盖拧紧些，倒水时别拿手试温。",
+    "id": "CARD_NATIVE_TOOLS",
+    "name": "木工小工具",
+    "description": "尺子凿子各有用处，修个木凳正好趁手。",
     "rarity": "R",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_MEGAPHONE",
-    "name": "收废品大喇叭",
-    "description": "嗓门能借电放大，道理不能；别贴着耳朵喊，电池也要下班。",
+    "id": "CARD_NATIVE_BOOK",
+    "name": "旧蒙书",
+    "description": "书页已有折角，认字的人还能借着温习。",
     "rarity": "SR",
     "tags": [
-      "modern"
+      "native"
     ]
   },
   {
-    "id": "CARD_MOD_LASER_POINTER",
-    "name": "低功率指示笔",
-    "description": "小光点只给图纸指路，不给人生导航；避开人眼，别朝天乱照。",
+    "id": "CARD_NATIVE_SCALES",
+    "name": "小杆秤",
+    "description": "秤杆握稳，买卖双方都好把分量说清。",
     "rarity": "SR",
     "tags": [
-      "modern"
-    ]
-  },
-  {
-    "id": "CARD_MOD_WATER_TABS",
-    "name": "便携净水片",
-    "description": "正规净水片也有适用范围；说明不清就别用，清水看着清不算数。",
-    "rarity": "SR",
-    "tags": [
-      "modern"
-    ]
-  },
-  {
-    "id": "CARD_MOD_SWISS_ARMY",
-    "name": "多功能工具刀",
-    "description": "小剪小锯凑一把，能修小活不能包办大工程；孩子交给大人用。",
-    "rarity": "SR",
-    "tags": [
-      "modern"
-    ]
-  },
-  {
-    "id": "CARD_MOD_ANTIBIOTICS",
-    "name": "密封药板",
-    "description": "密封药板不是万病通行证；适应症和保存都有限，不明用法别试。",
-    "rarity": "SSR",
-    "tags": [
-      "modern"
-    ]
-  },
-  {
-    "id": "CARD_MOD_HYBRID_SEEDS",
-    "name": "杂交种子",
-    "description": "好种也要水土肥，荒坡不会自动长饭；留种未必同样好，先种小块。",
-    "rarity": "SSR",
-    "tags": [
-      "modern"
+      "native"
     ]
   }
 ]

@@ -1,0 +1,86 @@
+{
+  "attributes": {
+    "min": 0,
+    "max": 10,
+    "base": 3
+  },
+  "age_bands": [
+    {
+      "id": "child",
+      "min": 3,
+      "max": 10,
+      "weight": 25,
+      "modifiers": {
+        "physique": -2,
+        "intelligence": 0,
+        "wealth": -2,
+        "prestige": -2,
+        "luck": 0
+      }
+    },
+    {
+      "id": "youth",
+      "min": 11,
+      "max": 20,
+      "weight": 30,
+      "modifiers": {
+        "physique": 0,
+        "intelligence": 0,
+        "wealth": -1,
+        "prestige": -1,
+        "luck": 0
+      }
+    },
+    {
+      "id": "adult",
+      "min": 21,
+      "max": 45,
+      "weight": 30,
+      "modifiers": {
+        "physique": 1,
+        "intelligence": 1,
+        "wealth": 1,
+        "prestige": 1,
+        "luck": 0
+      }
+    },
+    {
+      "id": "senior",
+      "min": 46,
+      "max": 65,
+      "weight": 15,
+      "modifiers": {
+        "physique": -1,
+        "intelligence": 2,
+        "wealth": 0,
+        "prestige": 2,
+        "luck": 0
+      }
+    }
+  ],
+  "lifespan": {
+    "min": 65,
+    "max": 85,
+    "min_remaining_years": 3
+  },
+  "check": {
+    "modifier_min": -3,
+    "modifier_max": 3
+  },
+  "luck": {
+    "factor_min": 0.8,
+    "factor_max": 1.2
+  },
+  "opening": {
+    "pool_id": "POOL_MODERN_RELICS",
+    "year_min": 1628,
+    "year_max": 1645
+  },
+  "events": {
+    "per_year": 1,
+    "automatic_ratio": 0.6
+  },
+  "chains": {
+    "max_active": 2
+  }
+}

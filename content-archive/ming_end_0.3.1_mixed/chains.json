@@ -1,0 +1,1076 @@
+[
+  {
+    "id": "CHAIN_IMPERIAL_EXAM",
+    "name": "科举仕途",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1641
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_SHANBEI"
+            }
+          ]
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1644
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_CAPITAL"
+            }
+          ]
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1645
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_JIANGNAN"
+            }
+          ]
+        }
+      ]
+    },
+    "interrupt_text": "兵火逼近，书院停讲、贡院闭门，备考只得中断。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_3"
+      }
+    ],
+    "completion": {
+      "text": "苦读三载终登进士，朝廷授你巡按御史之职，巡视地方防务。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "intelligence",
+          "amount": 3
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 4
+        },
+        {
+          "type": "identity_set",
+          "id": "I_DEFENSE_COMMISSIONER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_IMPERIAL_EXAM_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MILITARY_MERIT",
+    "name": "兵家戎马",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1642
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_CAPITAL"
+            }
+          ]
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "松锦败讯传来，关外军伍溃散；或你伤势过重，已无法继续随军。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MILITARY_MERIT_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MILITARY_MERIT_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_MILITARY_MERIT_3"
+      }
+    ],
+    "completion": {
+      "text": "凭军功升任把总，麾下有了自己的兵额与守备差遣。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "physique",
+          "amount": 2
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 4
+        },
+        {
+          "type": "identity_set",
+          "id": "I_MILITARY_OFFICER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_MILITARY_MERIT_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_FIREARMS_RESEARCH",
+    "name": "兵仗营缮",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1644
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_CAPITAL"
+            }
+          ]
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "厂局遭战火冲散、工料银两无以为继，试制被迫停工。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_3"
+      }
+    ],
+    "completion": {
+      "text": "试制火器正式列入军械，你因工获任匠作主事，技术由师徒传习。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "intelligence",
+          "amount": 3
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 3
+        },
+        {
+          "type": "identity_set",
+          "id": "I_ARTISAN"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_FIREARMS_RESEARCH_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_EPIDEMIC_HEALING",
+    "name": "悬壶济世",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1644
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_CAPITAL"
+            }
+          ]
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1641
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_SHANBEI"
+            }
+          ]
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1645
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_JIANGNAN"
+            }
+          ]
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_HEALING_INFECTION"
+        }
+      ]
+    },
+    "interrupt_text": "自身染疫或兵乱迫使乡人迁徙，药棚与医案只得暂时收起。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_3"
+      }
+    ],
+    "completion": {
+      "text": "施药与医案传至邻县，乡人筹资续办药棚，你的医书亦有了传人。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "intelligence",
+          "amount": 2
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 4
+        },
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_EPIDEMIC_HEALING_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_FORTRESS_DEFENSE",
+    "name": "乡梓结堡",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1641
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_SHANBEI"
+            }
+          ]
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1644
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_CAPITAL"
+            }
+          ]
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1645
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_JIANGNAN"
+            }
+          ]
+        }
+      ]
+    },
+    "interrupt_text": "大军逼境，坞堡被迫放弃，仓中粮食与团练名册无法保全。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_3"
+      }
+    ],
+    "completion": {
+      "text": "联堡与义仓成了乡里共同依靠，你被推举主持防务与粮账。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 3
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 4
+        },
+        {
+          "type": "identity_set",
+          "id": "I_CLAN_ELDER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_FORTRESS_DEFENSE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MARITIME_TRADE",
+    "name": "海商出洋",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "calendar_year",
+              "comparator": "gte",
+              "value": 1645
+            },
+            {
+              "op": "is",
+              "field": "region_id",
+              "value": "R_JIANGNAN"
+            }
+          ]
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_MARITIME_AMBUSH"
+        }
+      ]
+    },
+    "interrupt_text": "航路遭伏击或海禁骤严，船货受阻，出洋买卖只得中止。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MARITIME_TRADE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MARITIME_TRADE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_MARITIME_TRADE_3"
+      }
+    ],
+    "completion": {
+      "text": "一趟远洋货殖使商号声名鹊起，你按约分给船工与伙伴，自己也积下厚实家底。",
+      "effects": [
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 6
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 3
+        },
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_MARITIME_TRADE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_LEGEND",
+    "name": "神机革新",
+    "priority": 40,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_SOLD"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_LOST"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_EMPTY"
+            }
+          ]
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1644
+        }
+      ]
+    },
+    "interrupt_text": "打火机已不在手中、燃料耗尽，或朝廷时局已变，先前的安排只得停下。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_LEGEND_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_LG_LEGEND_2"
+      }
+    ],
+    "completion": {
+      "text": "试制火器交给营中继续操练，你领到差事，打火机也交入内库保管。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_FIRE_OFFICER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_LEGEND_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "prestige",
+          "amount": 5
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_LOST"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_ABSURD",
+    "name": "火德掌教",
+    "priority": 38,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_SOLD"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_LOST"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_EMPTY"
+            }
+          ]
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_LIGHTER_EXPOSED"
+        },
+        {
+          "op": "compare",
+          "field": "calendar_year",
+          "comparator": "gte",
+          "value": 1644
+        }
+      ]
+    },
+    "interrupt_text": "打火机已不在手中、燃料耗尽，或朝廷时局已变，先前的安排只得停下。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_ABSURD_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_LG_ABSURD_2"
+      }
+    ],
+    "completion": {
+      "text": "崇祯帝亲赐紫袍玉带，敕封火德护国法师，掌管天下道观。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_FIRE_MASTER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_ABSURD_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 6
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_PEACE",
+    "name": "奇货脱手",
+    "priority": 35,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_SOLD"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_LOST"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_EMPTY"
+            }
+          ]
+        }
+      ]
+    },
+    "interrupt_text": "打火机已不在手中或燃料耗尽，原先的安排只得停下。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_PEACE_1"
+      }
+    ],
+    "completion": {
+      "text": "神火卖与富商巨贾，换得良田百亩深宅一座，提早富贵退隐。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_FIRE_MERCHANT"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_PEACEFUL_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "wealth",
+          "amount": 8
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_SOLD"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_LIGHTER_COMEDY",
+    "name": "街头杂耍",
+    "priority": 30,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_SOLD"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_LOST"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIGHTER_EMPTY"
+            }
+          ]
+        }
+      ]
+    },
+    "interrupt_text": "打火机已不在手中或燃料耗尽，原先的安排只得停下。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_LG_COMEDY_1"
+      }
+    ],
+    "completion": {
+      "text": "收摊前最后一点气用尽，你收好空壳和铜钱，往后改练不用火的杂耍。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_STREET_MAGICIAN"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_COMEDY_DONE"
+        },
+        {
+          "type": "attribute_add",
+          "attribute": "luck",
+          "amount": 2
+        },
+        {
+          "type": "flag_add",
+          "id": "F_LIGHTER_EMPTY"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_WORKSHOP",
+    "name": "三年匠作",
+    "priority": 0,
+    "interrupt_condition": {
+      "op": "has",
+      "collection": "injuries",
+      "id": "INJ_SEVERE"
+    },
+    "interrupt_text": "伤筋动骨一百天，三年匠作计划被迫泡汤，先前的学费全打水漂了。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_3"
+      }
+    ],
+    "completion": {
+      "text": "三年苦练出师，成功拿到顶级匠人编制，以后吃喝不愁了。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_ARTISAN"
+        },
+        {
+          "type": "flag_add",
+          "id": "workshop_complete"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_arms",
+    "name": "库房整顿",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_abort"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        }
+      ]
+    },
+    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_arms_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_arms_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_arms_3"
+      }
+    ],
+    "completion": {
+      "text": "木箱和交接册整理妥当，老匠认可了这份细活，没人把工具刀当成守城奇物。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_WAREHOUSE_OVERSEER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_gm_arms_done"
+        },
+        {
+          "type": "ending_unlock",
+          "id": "A_gm_arms"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_water",
+    "name": "井边轮值",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_abort"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        }
+      ]
+    },
+    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_water_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_water_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_water_3"
+      }
+    ],
+    "completion": {
+      "text": "井户轮值终于接上，乡医继续提醒用品有限，管水不能代替求医和日常照应。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_water_done"
+        },
+        {
+          "type": "ending_unlock",
+          "id": "A_gm_water"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_fort",
+    "name": "合仓互助",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_fort_abort"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 0
+        }
+      ]
+    },
+    "interrupt_text": "人手与安排没能凑齐，大家先停下项目，把手头事务交代清楚。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_fort_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_fort_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_fort_3"
+      }
+    ],
+    "completion": {
+      "text": "合仓与轮值有了着落，扩音器帮忙传清安排，真正撑住日子的还是众人守约。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_COMMUNITY_LEADER"
+        },
+        {
+          "type": "flag_add",
+          "id": "F_gm_fort_done"
+        },
+        {
+          "type": "ending_unlock",
+          "id": "A_gm_fort"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_JN_EXAM",
+    "name": "科举之路",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "not",
+          "condition": {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          }
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_JN_STUDENT"
+          }
+        }
+      ]
+    },
+    "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+    "nodes": [
+      {
+        "after_years": 2,
+        "event_id": "E_JN_EXAM_1"
+      },
+      {
+        "after_years": 4,
+        "event_id": "E_JN_EXAM_2"
+      },
+      {
+        "after_years": 7,
+        "event_id": "E_JN_EXAM_3"
+      }
+    ],
+    "completion": {
+      "text": "赶考这条路走过了，你把书箱放稳，接下来还得认真过日子。",
+      "effects": [],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_JN_TRADE",
+    "name": "机房商贸",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "not",
+          "condition": {
+            "op": "is",
+            "field": "region_id",
+            "value": "R_JIANGNAN"
+          }
+        },
+        {
+          "op": "not",
+          "condition": {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_JN_LOOM_BUY"
+          }
+        }
+      ]
+    },
+    "interrupt_text": "人换了打算，原先这条路先停下来，日子还得接着过。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_JN_TRADE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_JN_TRADE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_JN_TRADE_3"
+      }
+    ],
+    "completion": {
+      "text": "这轮生意收了尾，你把账本合上，才发现饭已经凉了。",
+      "effects": [
+        {
+          "type": "identity_set",
+          "id": "I_SILK_MERCHANT"
+        }
+      ],
+      "next_stage_id": null
+    }
+  }
+]

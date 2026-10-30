@@ -5,9 +5,9 @@ import { chooseAutomaticOption } from '../../tools/lib/AutoPlay.js';
 const decision = (instance: string): Extract<PendingDecision, { kind: 'option' }> => ({
   kind: 'option', event_instance_id: instance, event_id: 'event',
   options: [
-    { id: 'locked', text: '不可用', available: false, reason: '条件不符' },
-    { id: 'left', text: '左路', available: true, reason: null },
-    { id: 'right', text: '右路', available: true, reason: null },
+    { id: 'locked', text: '不可用', risk: 'high', checks: [], available: false, reason: '条件不符' },
+    { id: 'left', text: '左路', risk: 'safe', checks: [], available: true, reason: null },
+    { id: 'right', text: '右路', risk: 'normal', checks: [], available: true, reason: null },
   ],
 });
 

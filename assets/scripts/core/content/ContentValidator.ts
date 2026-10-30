@@ -92,7 +92,7 @@ class SemanticValidator {
       case 'not': this.condition(condition.condition, file, `${path}/condition`, background, depth + 1); break;
       case 'has':
         if (condition.collection !== 'flags') {
-          this.reference(condition.collection === 'completed_chains' ? 'chains' : condition.collection, condition.id, file, `${path}/id`);
+          this.reference(condition.collection === 'completed_chains' || condition.collection === 'active_chains' ? 'chains' : condition.collection, condition.id, file, `${path}/id`);
         }
         break;
       case 'is':
@@ -268,7 +268,7 @@ class SemanticValidator {
     const context: ConditionContext = {
       age: 0, calendar_year: era.start_year, region_id: '', caste_id: '', identity_id: '', timeline: 'historical',
       physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
-      cards: [], flags: [], injuries: [], completed_chains: [],
+      cards: [], flags: [], injuries: [], completed_chains: [], active_chains: [],
     };
     const breakpoints = new Set<number>();
     era.backgrounds.forEach((background) => ageBreakpoints(background.condition, breakpoints));
@@ -319,6 +319,13 @@ class SemanticValidator {
     content.era.backgrounds.forEach((background, index) => {
       this.reference('identities', background.identity_id, 'era.json', `/backgrounds/${index}/identity_id`);
       this.condition(background.condition, 'era.json', `/backgrounds/${index}/condition`, true);
+    });
+    const transitions = content.era.age_transitions ?? [];
+    this.unique(transitions, 'era.json', '/age_transitions');
+    transitions.forEach((transition, index) => {
+      const path = `/age_transitions/${index}`;
+      this.condition(transition.condition, 'era.json', `${path}/condition`);
+      this.effects(transition.effects, 'era.json', `${path}/effects`);
     });
     content.era.injuries.forEach((injury, index) => {
       this.effects(injury.annual_effects, 'era.json', `/injuries/${index}/annual_effects`);

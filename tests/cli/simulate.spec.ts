@@ -30,12 +30,13 @@ interface LifeRun {
     seed: number;
     content_fingerprint: string;
     years_played: number;
-    end_reason: string;
-    death_id: string | null;
+    end_reason: 'death';
+    death_id: string;
     primary_achievement_id: string | null;
     highest_identity_id: string;
   };
   blocking_inputs: number;
+  player_decisions: number;
   estimated_input_seconds: number;
   age_band_id: string;
   path_category: string;
@@ -54,6 +55,7 @@ interface Stratum {
   final_age: { p50: number; p90: number };
   years_played: { p50: number; p90: number };
   blocking_inputs: { p50: number; p90: number };
+  player_decisions: { min: number; p50: number; p90: number; max: number };
   early_death_rate: number;
   death_counts: Record<string, number>;
   ending_counts: Record<string, number>;
@@ -117,18 +119,45 @@ describe('simulate: real life reports and replayable choices', () => {
     for (const record of records) {
       expect(record).toMatchObject({ age_band_id: 'child', path_category: 'short', start_year: 1640,
         automatic_events: Number(withEvents), choice_events: Number(withEvents), auto_ratio: withEvents ? 0.5 : null });
+      expect(record).toMatchObject({ blocking_inputs: 1 + Number(withEvents), estimated_input_seconds: 5 * (1 + Number(withEvents)) });
+      expect(record.player_decisions).toBe(Number(withEvents));
       expect(context.bundle.cards.map((card) => card.id)).toContain(record.card_id);
       expect(context.bundle.era.backgrounds.map((origin) => origin.id)).toContain(record.origin_id);
       cardCounts[record.card_id] = (cardCounts[record.card_id] ?? 0) + 1;
       originCounts[record.origin_id] = (originCounts[record.origin_id] ?? 0) + 1;
       const trace = await expectReplay(context.content, join(output, 'traces', `${record.index}.json`));
       expect(trace.commands.filter((command) => command.api === 'resolveStage')).toHaveLength(Number(withEvents));
+      expect(trace.commands.filter((command) => command.api === 'resolveOption')).toHaveLength(record.player_decisions);
     }
     const summary = await readJson<Summary & { life: { strata: Stratum[] } }>(join(output, 'summary.json'));
     const expected = { automatic_events: withEvents ? 2 : 0, choice_events: withEvents ? 2 : 0,
+      player_decisions: { min: Number(withEvents), p50: Number(withEvents), p90: Number(withEvents), max: Number(withEvents) },
       auto_ratio: withEvents ? 0.5 : null, card_counts: cardCounts, origin_counts: originCounts, start_year_counts: { '1640': 2 } };
     expect(summary.life).toMatchObject(expected);
     expect(summary.life.strata).toEqual([expect.objectContaining({ ...expected, samples: 2 })]);
+  }, 90_000);
+
+  it('reports the actual maximum without imposing production choice limits on generic packages', async () => {
+    const context = await fixture(bundle => {
+      fixedLife(bundle, 17);
+      bundle.era.historical_end_year = 1646;
+      for (let year = 1640; year < 1647; year++) {
+        bundle.events.push({ id: `E_DECISION_${year}`, text: '决定下一步', interaction: 'choice',
+          trigger: { kind: 'historical', year, priority: 0 },
+          options: [{ id: 'continue', text: '继续', risk: 'safe', unavailable_text: '不可用',
+            outcome: { text: '已决定', effects: [], next_stage_id: null } }] });
+      }
+    });
+    const output = join(context.root, 'uncapped-decisions');
+    expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '1', '--seed', '14', '--out', output]));
+    const [record] = await readJsonLines<LifeRun>(join(output, 'runs.jsonl'));
+    expect(record).toMatchObject({ player_decisions: 7, blocking_inputs: 8 });
+    const summary = await readJson<Summary & { life: { strata: Stratum[] } }>(join(output, 'summary.json'));
+    const distribution = { min: 7, p50: 7, p90: 7, max: 7 };
+    expect(summary.life).toMatchObject({ player_decisions: distribution });
+    expect(summary.life.strata).toEqual([expect.objectContaining({ player_decisions: distribution })]);
+    const trace = await expectReplay(context.content, join(output, 'traces', '0.json'));
+    expect(trace.commands.filter(command => command.api === 'resolveOption')).toHaveLength(record!.player_decisions);
   }, 90_000);
 
   it('reports every small life sample, completing the real chain and replaying every trace', async () => {
@@ -216,6 +245,21 @@ describe('simulate: real life reports and replayable choices', () => {
     expect(trace.commands.some((command) => command.api === 'retire')).toBe(false);
   }, 90_000);
 
+  it.each(['life', 'milestone'] as const)('classifies %s achievements without treating every life as major', async (category) => {
+    const context = await fixture(bundle => {
+      fixedLife(bundle, 12);
+      bundle.achievements = [{ id: 'A_CLASSIFY', name: 'A result', text: 'A result', category, priority: 1,
+        condition: { op: 'compare', field: 'age', comparator: 'gte', value: 9 } }];
+    });
+    const output = join(context.root, 'classified-life');
+    expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '1', '--seed', '90', '--out', output]));
+    const summary = await readJson<Summary & { life: { strata: Stratum[] } }>(join(output, 'summary.json'));
+    expect(summary.life.strata).toEqual([expect.objectContaining({
+      path_category: category === 'milestone' ? 'long_or_major' : 'short', samples: 1,
+      death_counts: { D_OLD_AGE: 1 },
+    })]);
+  }, 90_000);
+
   it('classifies opening death first, retains zero-year samples, and uses null for no chain denominator', async () => {
     const context = await fixture((bundle) => {
       fixedLife(bundle, 12);
@@ -264,8 +308,9 @@ describe('simulate: real life reports and replayable choices', () => {
     expect(run.code).toBe(1);
     const summary = await readJson<Summary>(join(output, 'summary.json'));
     expect(summary).toMatchObject({ mode: 'life', seed: 14, runs: 2, success: 0, failed: 2 });
+    expect(summary).toMatchObject({ life: { player_decisions: null, strata: [] } });
     const failures = await readJsonLines<{
-      index: number; seed: number; status: string;
+      index: number; seed: number; status: string; player_decisions: number;
       error: { code: string }; save: SavedLife['engine'];
     }>(join(output, 'runs.jsonl'));
     expect(failures.map(({ index, seed, status, error }) => ({ index, seed, status, code: error.code }))).toEqual([
@@ -273,6 +318,8 @@ describe('simulate: real life reports and replayable choices', () => {
       { index: 1, seed: 15, status: 'failed', code: 'OUTCOME_NOT_APPLICABLE' },
     ]);
     for (const failure of failures) {
+      expect(failure.player_decisions).toBe(failure.save.payload.logs.filter(log => log.type === 'option').length);
+      expect(failure.player_decisions).toBe(1);
       expect(failure.save.payload.run.status).toBe('READY');
       expect(failure.save.payload.player).toMatchObject({ age: 9, calendar_year: 1640 });
       expect(failure.save.payload.player.flags).not.toContain('workshop_complete');

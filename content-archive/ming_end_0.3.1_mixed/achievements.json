@@ -12,90 +12,6 @@
     "retirable": true
   },
   {
-    "id": "A_LIGHTER_LEGEND",
-    "name": "自生神机",
-    "text": "参透打火机玄机，大明火器横扫关外。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_LEGEND_DONE"
-    },
-    "priority": 40,
-    "retirable": true
-  },
-  {
-    "id": "A_LIGHTER_ABSURD",
-    "name": "火德掌教",
-    "text": "靠打火机当上国师，忽悠了全京城。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_ABSURD_DONE"
-    },
-    "priority": 45,
-    "retirable": true
-  },
-  {
-    "id": "A_LIGHTER_PEACEFUL",
-    "name": "人间清醒",
-    "text": "神火换良田三顷，提前退休当富绅。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_PEACEFUL_DONE"
-    },
-    "priority": 40,
-    "retirable": true
-  },
-  {
-    "id": "A_LIGHTER_COMEDY",
-    "name": "两文钱大把式",
-    "text": "街头卖艺按冒烟，才挣了八文赏钱。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LIGHTER_COMEDY_DONE"
-    },
-    "priority": 35,
-    "retirable": true
-  },
-  {
-    "id": "A_LIGHTER_BEACON",
-    "name": "暴雨红光",
-    "text": "大雨天点亮烽火，敌军看了都怀疑人生。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LG_BEACON_HERO"
-    },
-    "priority": 30,
-    "retirable": true
-  },
-  {
-    "id": "A_LIGHTER_CANNON",
-    "name": "巨炮点火官",
-    "text": "狂风撕不灭蓝火，一炮把来犯敌军轰懵。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LG_CANNON_HERO"
-    },
-    "priority": 32,
-    "retirable": true
-  },
-  {
-    "id": "A_LIGHTER_OLD_SAGE",
-    "name": "槐荫神机叟",
-    "text": "没气也能转砂轮，全村娃儿眼里的老神仙。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_LG_OLD_SAGE"
-    },
-    "priority": 28,
-    "retirable": true
-  },
-  {
     "id": "A_LONG_LIFE",
     "name": "岁月长存",
     "text": "乱世走到七十，平安就是福气。",
@@ -527,30 +443,6 @@
       "op": "has",
       "collection": "flags",
       "id": "F_MOD_BANDAGE_SETBACK"
-    },
-    "priority": 32,
-    "retirable": true
-  },
-  {
-    "id": "A_MOD_LIGHTER_SUCCESS",
-    "name": "热饭准点",
-    "text": "打火机瞬间点火，救了全棚等饭的饥民。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_MOD_LIGHTER_SUCCESS"
-    },
-    "priority": 38,
-    "retirable": true
-  },
-  {
-    "id": "A_MOD_LIGHTER_SETBACK",
-    "name": "空响一声",
-    "text": "关键时刻火机没气，还是钻木取火靠谱。",
-    "condition": {
-      "op": "has",
-      "collection": "flags",
-      "id": "F_MOD_LIGHTER_SETBACK"
     },
     "priority": 32,
     "retirable": true

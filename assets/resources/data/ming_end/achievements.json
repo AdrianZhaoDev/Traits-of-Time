@@ -682,5 +682,3098 @@
     },
     "priority": 30,
     "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_SMART_KID",
+    "name": "通窍神童",
+    "text": "【N·幽默】一口绿油吸入肺腑辣得哇哇叫，全家老小围着惊呼此子七窍通神生来不凡！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_SMART_KID"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_MOSQUITO",
+    "name": "大明蚊见愁",
+    "text": "【N·搞笑】浑身散发让吸血母蚊怀疑虫生的清凉霸气，破庙过客排队掏钱只求蹭抹一滴！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_MOSQUITO_SHIELD"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_TEARS",
+    "name": "公堂第一孝子",
+    "text": "【N·荒诞】油膏辣眼嚎啕大哭两斤眼泪，青天大老爷感念纯孝当堂拍板判你无罪倒贴盘缠！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_TEARS"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_EXAM",
+    "name": "两窍生光",
+    "text": "【R·实用】暑热考棚众人中暑昏厥，你太阳穴绿光闪烁文思如尿崩，主考官惊呼文曲下凡！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_EXAM_HIT"
+        }
+      ]
+    },
+    "priority": 32,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_GENERAL",
+    "name": "回魂救总兵",
+    "text": "【R·救急】行军暴晒总兵翻白眼当场挺尸，你一滴抹人中让大将打个喷嚏鲤鱼打挺原地复活！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_RESCUE_GENERAL"
+        }
+      ]
+    },
+    "priority": 38,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_BOTTLE",
+    "name": "祖传帝王绿",
+    "text": "【R·生财】仙膏抹尽空留小瓶，江南古董富商当成通灵祖母绿净瓶，硬砸千两白银求购传家！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_BOTTLE_HEIRLOOM"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_OIL_DOCTOR",
+    "name": "妙手醒脑菩萨",
+    "text": "【SR·实力】街头施药救活无数贫民差役，地方医官登门赠匾，九宝仙膏之名永载县志！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_OIL_COMPLETE"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_OIL_LEGEND",
+    "name": "大疫辟秽生佛",
+    "text": "【SR·名望】崇祯十六年京师大疫鼠虱遍地，你涂抹绿油独善全家护佑四邻，万民敬若真仙！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_PLAGUE_SAVIOR"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_OIL_MEDIC_GRANDMASTER",
+    "name": "杏林清凉宗师",
+    "text": "【SR·传奇】施药万户且大疫救难，兼得乡梓万家生佛之颂，天下郎中无不奉你为清凉祖师！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_OIL_COMPLETE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_PLAGUE_SAVIOR"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_OIL_IMMORTAL_LEGEND",
+    "name": "回天冰魄圣手",
+    "text": "【SSR·传世】不仅大疫救孤、医道通神，更以仙油之息活人无数福延百岁，人间再无薄荷神话！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_COOLING_OIL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_OIL_COMPLETE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_OIL_PLAGUE_SAVIOR"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 7
+        }
+      ]
+    },
+    "priority": 88,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_FINGER_BOND",
+    "name": "十指连心焊",
+    "text": "【N·搞笑】好奇摸胶失手将两手掌焊在一起，拜寿时被全族夸赞礼数周全整整拜了三天三夜！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_FINGER_BOND"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_MAGISTRATE_BOOTS",
+    "name": "公堂生根",
+    "text": "【N·荒诞】失手将知县官靴牢牢粘在公堂地面，太爷升堂抬不起脚，只能光着脚板当众断案！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_MAGISTRATE_BOOTS"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_GOLDEN_CICADA",
+    "name": "活捉金蝉",
+    "text": "【N·幽默】树干抹胶沾住整窝鸣蝉与麻雀，村中小童奉你为通天捕鸟圣手，天天排队进贡野果！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_BIRD_TRAP"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_PORCELAIN_MASTER",
+    "name": "补瓷宗师",
+    "text": "【R·实用】打碎巡抚宋代青瓷碗，三秒粘合滴水不漏无痕如初，全省达官显贵踏破门槛求修古董！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_PORCELAIN_MASTER"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_SIEGE_DEFENSE",
+    "name": "城防焊石手",
+    "text": "【R·救急】战时城破在即，你倾倒天衣胶紧急焊死碎裂擂石与铁闸，敌军撞城木撞碎三根硬是没能破门！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_SIEGE_DEFENSE"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_AMBER_PILL",
+    "name": "千年琥珀丹",
+    "text": "【R·奇物】残胶干透结成晶莹硬块，武当道士如获至宝奉为万年琥珀仙露，重金求购研粉入药！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_AMBER_PILL"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_WAR_SHIP_SEAL",
+    "name": "潜水封漏",
+    "text": "【SR·实力】战船底舱触礁漏水，你潜入激流以神胶瞬间封死裂缝，救回整支水师荣升水军备倭把总！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_SHIP_RESCUED"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_CRAFT_CHIEF",
+    "name": "天工续金师",
+    "text": "【SR·名望】工部督造鸟铳裂膛危机，你传授点胶封隙秘法解了九边军饷大难，特旨恩准留名天工录！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_GLUE_COMPLETE"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_DEFENSE_HERO",
+    "name": "金汤天衣",
+    "text": "【SR·传奇】从补巡抚青瓷到焊九边关防城楼，所粘器具无一走样，天下工匠皆尊你为补天造化宗师！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_PORCELAIN_MASTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_GLUE_COMPLETE"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_REPAIR_DYNASTY",
+    "name": "巧手补青天",
+    "text": "【SSR·传世】以寸胶固万物，既补奇珍亦镇关山，乱世之中竟借一己机巧挽救生民无数，造化通神！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SUPER_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_PORCELAIN_MASTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_GLUE_COMPLETE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_SIEGE_DEFENSE"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_CHILD_GHOST",
+    "name": "捉影神童",
+    "text": "【N·幽默】幼年黑夜拿手电照墙扮神扮鬼，影子顶天立地，吓得全村恶犬闭嘴、邻居连夜烧香辟邪！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_CHILD_GHOST"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_CRANK_MANTRA",
+    "name": "嘎吱道祖",
+    "text": "【N·荒诞】每次摇柄充能嘎吱作响，全城香客奉为道家掌心雷念咒秘音，纷纷跪伏高呼仙长息怒！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_CRANK_MANTRA"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_TEMPLE_DEMON",
+    "name": "破庙照妖镜",
+    "text": "【N·搞笑】风雨破庙遇响马拦路，你按开爆闪光柱直射面门，贼寇当场被晃成瞎子，哭喊撞树磕头求饶！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_TEMPLE_DEMON"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_SALT_RAID",
+    "name": "踏雪无阴鬼见愁",
+    "text": "【R·实用】深夜摸黑带官差查抄私盐水舵，一道白昼神光贯穿暗道密室，满窝私盐贩子抱头就擒！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_SALT_RAID"
+        }
+      ]
+    },
+    "priority": 34,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_CAMP_AMBUSH",
+    "name": "夜战日曜破敌",
+    "text": "【R·救急】敌军趁黑夜袭营寨，你手摇蓄满极光爆闪瞬盲前锋敌将，关宁铁骑顺势反扑大获全胜！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_CAMP_AMBUSH"
+        }
+      ]
+    },
+    "priority": 42,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_COPPER_COMPASS",
+    "name": "司南第二春",
+    "text": "【R·机巧】灯泡虽毁机心不灭，抽出发电机内部千尺赤铜细丝精制绝品罗盘，航海踏波永不迷途！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_COPPER_COMPASS"
+        }
+      ]
+    },
+    "priority": 48,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_CITY_DEFENSE",
+    "name": "九边极光守将",
+    "text": "【SR·实力】开封与九边夜战中登城掌灯，光柱照彻三里壕堑如青天白日，敌军夜袭云梯尽皆暴露无遗！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_CITY_DEFENSE"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_BROCADE_SPY",
+    "name": "智斗北镇抚司",
+    "text": "【SR·智谋】面对锦衣卫与各派高手的环伺觊觎，你虚晃一枪以雷光遁形周旋脱身，名动两京十三省！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_BROCADE_SPY"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_MILITARY_TACTIC",
+    "name": "掌中天雷总戎",
+    "text": "【SR·传奇】手摇极光结合神机营火器大阵，开创明末夜战火器战术体系，朝廷特敕挂印总兵官！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_MILITARY_TACTIC"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_SUN_SAVIOR",
+    "name": "曜灵照千秋",
+    "text": "【SSR·传世】以方寸日曜破尽幽夜暗流，从御敌关塞到航海拓殖，手握不灭光明改写乱世国祚！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CRANK_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_CAMP_AMBUSH"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_CITY_DEFENSE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_COPPER_COMPASS"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_TASTE_SLAP",
+    "name": "仙丹卡嗓子",
+    "text": "【N·幽默】把胶囊当糖豆嚼碎吞下，苦得连灌三缸井水，全家老小齐跪直呼仙家苦修果然厉害！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_TASTE_SLAP"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_MISDIAGNOSE",
+    "name": "凉水压神仙",
+    "text": "【N·荒诞】偶感风寒就抠开一粒吞服，感冒好没好不知道，只因药效太猛窜稀三天瘦了五斤。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_MISDIAGNOSE"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_BEGGAR_GRAIN",
+    "name": "铝箔照破头",
+    "text": "【N·搞笑】路遇恶犬狂吠，情急下掏出空药板对准狗眼反光，狗子吓得当场认主翻肚皮求饶。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_BEGGAR_GRAIN"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_SAVE_VILLAGE",
+    "name": "阎王退签票",
+    "text": "【R·实用】村中耆老金创高热眼看断气，化水喂下一粒竟退热生肌，全族磕头立誓世代奉你为祖宗！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_SAVE_VILLAGE"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_EXCHANGE_MANSION",
+    "name": "换取万贯宅",
+    "text": "【R·惊艳】江南巨贾独子热病垂危，你开价良田千亩豪宅一座，对方含泪跪谢生怕仙长反悔！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_EXCHANGE_MANSION"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_BLISTER_TREASURE",
+    "name": "祖传铝箔壳",
+    "text": "【R·惊艳】吃空的十二孔银光铝板被当成大秦古银镜，当铺掌柜颤巍巍抵出整箱黄金奉为传家宝。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_BLISTER_TREASURE"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_SAVE_GENERAL",
+    "name": "孤胆续国柱",
+    "text": "【SR·实力】督师孙传庭潼关中箭毒发弥留，你夜奔军营化胶囊灌救，救活一代名将逆转陕西战局！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_SAVE_GENERAL"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_PALACE_PHYSICIAN",
+    "name": "御前活神仙",
+    "text": "【SR·名望】皇室贵胄患高热恶疾太医束手，你进献半粒圣药立起沉疴，天子大悦特擢内阁参知政事！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_PALACE_PHYSICIAN"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_CLAN_DEFENSE",
+    "name": "退尽十方贼",
+    "text": "【SR·实力】匹夫怀璧引各路军阀夜袭，你假称仙丹遇水自爆，巧施空城计将乱兵吓得弃械狂逃！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_CLAN_DEFENSE"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_ANTIBIOTIC_TEMPLE_MIRACLE",
+    "name": "太庙镇国丹",
+    "text": "【SSR·传世】十二神丹逆转国祚，空铝箔被朱明皇室供入太庙奉为镇国金卷，改写乱世三百年乾坤！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_SAVE_GENERAL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_PALACE_PHYSICIAN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_ANTIBIOTIC_TEMPLE_MIRACLE"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 10
+        }
+      ]
+    },
+    "priority": 92,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SEEDS_POPCORN_SCARE",
+    "name": "仙粟炸天雷",
+    "text": "【N·搞笑】围炉烤火失手掉落几粒玉粟，瞬间金花怒绽爆响连连，全家以为引来五雷轰顶磕头求饶。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_POPCORN_SCARE"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SEEDS_PIG_OVERFEED",
+    "name": "神豕滚如球",
+    "text": "【N·荒诞】家猪偷啃半捧甜青嫩苗，一夜之间肚大如鼓瘫地哼唧，屠夫直呼此乃吞了真龙灵草的天蓬元帅。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_PIG_OVERFEED"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SEEDS_COB_TOILET",
+    "name": "刮骨黄金棒",
+    "text": "【N·反差】剥光玉米粒的硬芯被老汉顺手拿去如厕，刺痛酸爽直冲天灵盖，逢人便夸仙家竹筹名不虚传！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_COB_TOILET"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SEEDS_FAMINE_SAVIOR",
+    "name": "救活半村人",
+    "text": "【R·实用】陕北大旱赤地千里，你偷偷试种沙梁一角，几捧金粒磨面煮糊，硬是让全村老小挺过酷冬！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_FAMINE_SAVIOR"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SEEDS_EXCHANGE_GRAIN",
+    "name": "一穗换十金",
+    "text": "【R·惊艳】荒年粮价飞涨，你携一穗沉甸甸的金黄长生玉粟进城，商贾震撼当场奉上白银千两连呼神迹。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_EXCHANGE_GRAIN"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SEEDS_PACKING_BAG",
+    "name": "仙符聚宝袋",
+    "text": "【R·惊艳】倒空种子的铝箔真空彩印包装袋被士绅求得，装裱悬于中堂奉为仙界九天降粮神符，夜夜焚香。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_PACKING_BAG"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SEEDS_GENTRY_TRIAL",
+    "name": "破妖草毒计",
+    "text": "【SR·实力】劣绅诬告玉粟为吸干地脉妖草聚众欲焚，你公堂当面烹煮金浆，甘甜饱腹当场打烂伪君子嘴脸！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_GENTRY_TRIAL"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SEEDS_PACIFY_REBELS",
+    "name": "粒米散万军",
+    "text": "【SR·实力】数万闯营饥民围城就食，你开仓煮出黄澄玉粟粥，香飘数里流民哭号扔刀纳降，大乱立解！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_PACIFY_REBELS"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SEEDS_IMPERIAL_GUARD",
+    "name": "御林护仙苗",
+    "text": "【SR·名望】巡抚惊悉黄土高原亩收数百斤，八百里急报朝廷，天子严旨敕派神机营重兵围护三千亩良苗！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_IMPERIAL_GUARD"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SEEDS_EMPIRE_BARN",
+    "name": "神农安国祚",
+    "text": "【SSR·传世】长生玉粟席卷九边诸省，荒漠沙梁皆成塞上粮仓，明末大饥荒自此终结，天下共尊九穗仙圣！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_HYBRID_SEEDS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_PACIFY_REBELS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_IMPERIAL_GUARD"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SEEDS_EMPIRE_BARN"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 10
+        }
+      ]
+    },
+    "priority": 92,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_BEARD_SINGE",
+    "name": "胡子火化师",
+    "text": "【N·日常】玩火失手燎了二叔半拉美髯，全村老少以为二叔渡劫遭了天谴，排队前来慰问。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_BEARD_SINGE"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_SMOKE_SPELL",
+    "name": "当堂喷云仙",
+    "text": "【N·日常】当着巡按御史的面咔哒引燃旱烟，青烟骤起，吓得御史当场以为撞见火德妖道！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_SMOKE_SPELL"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_WILD_BEAST",
+    "name": "荒庙掌中雷",
+    "text": "【N·日常】破庙夜宿遇群狼伏击，一簇防风蓝火呼啸喷出，群贼哭喊火神显圣磕头奔逃。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_WILD_BEAST"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_RAIN_BEACON",
+    "name": "暴雨燃狼烟",
+    "text": "【R·惊艳】暴雨如注烽燧湿透，你单手点燃湿透引信升起狼烟，保全三镇边军立下首功！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_RAIN_BEACON"
+        }
+      ]
+    },
+    "priority": 36,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_CANNON_FUSE",
+    "name": "风雪发大将",
+    "text": "【R·惊艳】边关风雪交加火绳尽湿，你一簇烈焰连点十尊红夷大炮，惊退关外八旗精骑！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_CANNON_FUSE"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_STEEL_WHEEL",
+    "name": "传世火镰机",
+    "text": "【R·惊艳】气尽油竭空留精钢轮，被铁匠铺奉为兜率宫神仙火镰，世代供奉顶礼膜拜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_STEEL_WHEEL"
+        }
+      ]
+    },
+    "priority": 44,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_NIGHT_AMBUSH",
+    "name": "天火镇边关",
+    "text": "【SR·实力】督率夜不收袭敌，凭防风神火夜点敌营数百粮垛，功封辽东塞外游击将军！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_NIGHT_AMBUSH"
+        }
+      ]
+    },
+    "priority": 66,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_ROYAL_ALCHEMY",
+    "name": "禁中引火客",
+    "text": "【SR·名望】向司礼监密献不灭真火神符，大珰以为太清长生火种，争相结为金兰之契！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_ROYAL_ALCHEMY"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_CHIEF_FLINT",
+    "name": "火德总戎使",
+    "text": "【SR·实力】从九边引火破局到神机营全面改制，以方寸之火重整大明军威，威震天下！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_CHIEF_FLINT"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_REWRITE_DYNASTY",
+    "name": "赤精定天命",
+    "text": "【SSR·传世】以方寸不灭神火镇守九边烽燧，驱散国变阴霾，力挽狂澜延朱明三百年气运！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_REWRITE_DYNASTY"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 86,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_BANDAGE_STREET_BRAWL",
+    "name": "肉色生肌符",
+    "text": "【N·日常】市井斗殴见血随手一贴，混混地痞惊呼刀枪不入，当场磕头纳头便拜！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_STREET_BRAWL"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_BANDAGE_HAIR_TEAR",
+    "name": "撕皮连心痛",
+    "text": "【N·日常】金疮初愈揭贴撕下大片汗毛，嗷嗷哭声响彻小巷，比挨了衙门杀威棒还疼。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_HAIR_TEAR"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_BANDAGE_BEGGAR_KING",
+    "name": "叫花铜皮身",
+    "text": "【N·日常】浑身贴满肉色神贴游街讨饭，全城乞丐惊为罗汉转世，公推为丐帮九袋长老。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_BEGGAR_KING"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_BANDAGE_TETANUS_SAVIOR",
+    "name": "克破伤风仙",
+    "text": "【R·惊艳】同袍锈铁擦伤险些送命，你手起仙贴护住血口，全营竟无一人因溃烂而亡！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_TETANUS_SAVIOR"
+        }
+      ]
+    },
+    "priority": 38,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_BANDAGE_MAGISTRATE_BOIL",
+    "name": "知县解脱膏",
+    "text": "【R·惊艳】老知县坐堂痈疽发作难熬，一记肉色神膏贴下痛止身轻，批文永免本户丁银！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_MAGISTRATE_BOIL"
+        }
+      ]
+    },
+    "priority": 42,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_BANDAGE_STRIP_CHARM",
+    "name": "绝密贴身符",
+    "text": "【R·惊艳】撕下的透气胶布被士卒当成真武护身符，缝在征袍内衬，视若家传免死金牌。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_STRIP_CHARM"
+        }
+      ]
+    },
+    "priority": 46,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_BANDAGE_BATTLE_SURGEON",
+    "name": "金疮定边医",
+    "text": "【SR·实力】血战残局建立战地急救队，以贴身生肌神技活人无算，军中尊称金疮肉佛！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_BATTLE_SURGEON"
+        }
+      ]
+    },
+    "priority": 66,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_BANDAGE_SECRET_SERVICE",
+    "name": "锦衣保命恩",
+    "text": "【SR·名望】锦衣千户负重伤潜逃，你以隐形神膏遮掩创疤助其脱险，换得厂卫过命交情！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_SECRET_SERVICE"
+        }
+      ]
+    },
+    "priority": 71,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_BANDAGE_MEDICAL_REFORM",
+    "name": "神符回生使",
+    "text": "【SR·实力】以肉色神膏与包扎止血法革新九边军医军制，受兵部嘉奖，名载太医院志！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_MEDICAL_REFORM"
+        }
+      ]
+    },
+    "priority": 77,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_BANDAGE_SAVE_FOUNDATION",
+    "name": "肉身活国殇",
+    "text": "【SSR·传世】一贴止血万家还生，在明末滔天杀伐中护持三军元气，铸就乱世不灭医圣神话！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_BANDAGE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_BANDAGE_SAVE_FOUNDATION"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 86,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CLIPPER_BROCADE_BROTHER",
+    "name": "锦衣认亲哥",
+    "text": "【N·日常】替锦衣卫千户咔嚓修去倒刺顽疾，免除剜肉之苦，阎罗千户当场认作亲兄弟！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_BROCADE_BROTHER"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CLIPPER_TOENAIL_FLY",
+    "name": "飞甲暗器师",
+    "text": "【N·日常】剪试厚甲失手崩飞三尺，正中隔壁老秀才面门，老秀才惊呼暗器抱头逃窜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_TOENAIL_FLY"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CLIPPER_BARBER_RIVAL",
+    "name": "剃头匠公敌",
+    "text": "【N·日常】市集摆摊修甲断肉如泥，全城剃头修脚匠集体砸了祖传刮刀转行卖烧饼。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_BARBER_RIVAL"
+        }
+      ]
+    },
+    "priority": 27,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CLIPPER_SCHOLAR_CURE",
+    "name": "士林断金修",
+    "text": "【R·惊艳】江南大儒蓄甲开裂痛不欲生，你以仙剪修出方圆弧线，名士惊为天工赋诗相赠！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_SCHOLAR_CURE"
+        }
+      ]
+    },
+    "priority": 37,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CLIPPER_WIRE_CUT",
+    "name": "微型削铁铡",
+    "text": "【R·惊艳】大狱脱困以钢剪暗刃咬断细铁锁链，神不知鬼不觉金蝉脱壳，狱卒百思不解！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_WIRE_CUT"
+        }
+      ]
+    },
+    "priority": 41,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CLIPPER_BUTCHER_BONE",
+    "name": "祖传剔骨仙",
+    "text": "【R·惊艳】刃口磨平后传给杀猪子孙，后代奉为削铁如泥的玄铁剔骨宝刀，世代相承。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_BUTCHER_BONE"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CLIPPER_ROYAL_MANICURIST",
+    "name": "内廷玉指修",
+    "text": "【SR·名望】奉召入紫禁城修整龙爪，分毫不伤帝体，深得信重，被文武誉为金手侍读！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_ROYAL_MANICURIST"
+        }
+      ]
+    },
+    "priority": 67,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CLIPPER_STEEL_METALLURGY",
+    "name": "天工淬钢启",
+    "text": "【SR·实力】将不锈淬钢与杠杆切咬之理授与兵仗局，开明代冷锻白铁甲胄改制之先河！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_STEEL_METALLURGY"
+        }
+      ]
+    },
+    "priority": 73,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CLIPPER_GENTLEMAN_CHIEF",
+    "name": "金铰大宗师",
+    "text": "【SR·名望】手持方寸银剪游走公卿门下，化凡铁为至巧，满朝朱紫无不尊称一声仙师！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_GENTLEMAN_CHIEF"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CLIPPER_LEVER_REVOLUTION",
+    "name": "金铰镇万工",
+    "text": "【SSR·传世】以方寸不锈钢铡启迪格物热潮，杠杆精钢之制遍及军工，开创东方工业先河！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_NAIL_CLIPPER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CLIPPER_LEVER_REVOLUTION"
+        },
+        {
+          "op": "compare",
+          "field": "intelligence",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 86,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_TAPE_SHUT_ACCOUNTANT",
+    "name": "封口镇煞符",
+    "text": "【N·日常】老账房算账唠叨不休，你撕下一道透明仙贴封住大嘴，全场顿时清净安详！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_SHUT_ACCOUNTANT"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_TAPE_BEARD_PULL",
+    "name": "贪玩拔须手",
+    "text": "【N·日常】顽童将透明仙膜贴在老夫子腮帮，揭下扯落半嘴胡须，被罚跪书斋抄书三日。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_BEARD_PULL"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_TAPE_BANGLE_SWAGGER",
+    "name": "极品琉璃镯",
+    "text": "【N·日常】胶带用尽后的透明胶卷套上手腕，冒充西域极品琉璃翠玉镯，引得路人争睹。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_BANGLE_SWAGGER"
+        }
+      ]
+    },
+    "priority": 27,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_TAPE_WINTER_WINDOW",
+    "name": "天蚕固窗寒",
+    "text": "【R·惊艳】严冬朔风撕裂全村窗纸，你以透明韧带密封滴风不漏，街坊排队重金求仙膜！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_WINTER_WINDOW"
+        }
+      ]
+    },
+    "priority": 37,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_TAPE_MUSKET_STOCK",
+    "name": "火铳缠丝命",
+    "text": "【R·惊艳】战阵鸟铳木托崩裂，以无影仙丝紧急缠固，连发二十弹不炸膛反杀重围！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_MUSKET_STOCK"
+        }
+      ]
+    },
+    "priority": 41,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_TAPE_MAP_SEAL",
+    "name": "水火不浸图",
+    "text": "【R·惊艳】以透明胶带护封兵部边防密图，涉水渡江滴水不进，全军机密得以安然送达！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_MAP_SEAL"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_TAPE_FLOOD_LEAK",
+    "name": "封漏定河督",
+    "text": "【SR·实力】黄河决堤危船告急，以无影强粘膜封固舟楫裂罅，受工部都水司立碑旌表！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_FLOOD_LEAK"
+        }
+      ]
+    },
+    "priority": 67,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_TAPE_CITY_SIEGELOCK",
+    "name": "金丝镇城垣",
+    "text": "【SR·实力】守城危局以此仙丝包扎破损药包与城门闸栓，硬撑三昼夜等来勤王援师！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_CITY_SIEGELOCK"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_TAPE_CRAFT_LEGEND",
+    "name": "天蚕造化师",
+    "text": "【SR·名望】将透明粘固奇术用于古画修补与丝织大制，大江南北匠作行会尽奉为师祖！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_CRAFT_LEGEND"
+        }
+      ]
+    },
+    "priority": 77,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_TAPE_SEAL_REALM",
+    "name": "补天镇乾坤",
+    "text": "【SSR·传世】以方寸韧丝连结残破山河，边防铳械与民生水利处处化险，千秋留名金汤天衣！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SCOTCH_TAPE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_TAPE_SEAL_REALM"
+        },
+        {
+          "op": "compare",
+          "field": "intelligence",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 86,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLASSES_DIZZY_YOUTH",
+    "name": "摄魂宝镜劫",
+    "text": "【N·日常】后生抢戴宝镜顿感天旋地转跌坐于地，惊恐哭喊眼珠被宝镜摄走了三魂七魄！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_DIZZY_YOUTH"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLASSES_SUN_FIRE",
+    "name": "聚阳神宝镜",
+    "text": "【N·日常】镜架碎裂后单片被童子聚日光引燃枯草，全村乡民扑通下跪叩拜火神宝镜！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_SUN_FIRE"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLASSES_NOSE_PINCH",
+    "name": "夹鼻大仙客",
+    "text": "【N·日常】常戴老花镜招摇过市，鼻梁压出两道青紫红印，街坊以为开天眼见了阎罗王。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_NOSE_PINCH"
+        }
+      ]
+    },
+    "priority": 27,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLASSES_AUDIT_ACCOUNTS",
+    "name": "辨奸老师爷",
+    "text": "【R·惊艳】老迈知县戴上秒辨暗账蝇头伪字，老泪纵横拉住你的手，当场破格辟为主簿！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_AUDIT_ACCOUNTS"
+        }
+      ]
+    },
+    "priority": 38,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLASSES_FORGERY_DETECT",
+    "name": "火眼破假银",
+    "text": "【R·惊艳】戴宝镜查验私铸官银与伪造田契，毫厘立现戳破十桩江南大案，名震商帮！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_FORGERY_DETECT"
+        }
+      ]
+    },
+    "priority": 42,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLASSES_MICROSCOPE_LENS",
+    "name": "传世照火宝",
+    "text": "【R·惊艳】镜腿折损后单片镜流落老药铺，被老医修奉为察验药毒不传至宝，重金珍藏。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_MICROSCOPE_LENS"
+        }
+      ]
+    },
+    "priority": 46,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLASSES_CABINET_ELDER",
+    "name": "帝师还童瞳",
+    "text": "【SR·名望】呈献内阁老首辅，耆宿重见蝇头奏章笔迹如神，保荐你直入通政司为股肱！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_CABINET_ELDER"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLASSES_ASTRONOMY_MAP",
+    "name": "钦天格物臣",
+    "text": "【SR·实力】将透镜之制引入西洋历局，襄助测绘崇祯历书与日月薄蚀，留名大明日历！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_ASTRONOMY_MAP"
+        }
+      ]
+    },
+    "priority": 74,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLASSES_MASTER_MAKER",
+    "name": "磨镜大宗师",
+    "text": "【SR·名望】参透双凸透镜琢磨之道，在姑苏开创大明磨镜行会，海内士人奉为文曲救星！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_MASTER_MAKER"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLASSES_SEE_THROUGH_ERA",
+    "name": "千秋照微明",
+    "text": "【SSR·传世】双瞳重开洞照世情奸佞，以格物明理之眼洗涤内阁军机，改写晚明沉疴终见青天！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_READING_GLASSES"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLASSES_SEE_THROUGH_ERA"
+        },
+        {
+          "op": "compare",
+          "field": "intelligence",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 86,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_THERMOS_BURN_TONGUE",
+    "name": "一口烫秃噜皮",
+    "text": "【N·幽默】以为银壶装的是甘洌凉泉，仰头猛灌被滚开热水烫得舌头起泡，全家惊呼仙壶喷火吐煞！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_BURN_TONGUE"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_THERMOS_MAGISTRATE_WORSHIP",
+    "name": "县令早晚焚香",
+    "text": "【N·荒诞】县太爷误将保温杯当成太上老君炼丹法宝，每日升堂前率全衙差役三跪九叩早晚敬香。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_MAGISTRATE_WORSHIP"
+        }
+      ]
+    },
+    "priority": 26,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_THERMOS_ICE_FISHING",
+    "name": "冰钓暖脚仙壶",
+    "text": "【N·搞笑】严冬在冰面上抱着保温杯贴肚皮暖脚，引来整条河上的渔夫眼红围观，以为你自带小火炉。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_ICE_FISHING"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_THERMOS_LIAODONG_RESCUE",
+    "name": "雪原救醒守备",
+    "text": "【R·实用】辽东风雪中给冻僵的守备官喂下一口冒白烟的滚烫开水，长官还魂大喜，当场提拔你为把总！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_LIAODONG_RESCUE"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_THERMOS_CHEST_ARMOR",
+    "name": "残壳当护心镜",
+    "text": "【R·惊艳】杯身磕瘪后塞入前胸充当护心镜，乱军伏击中硬生生挡下迎面冷箭，捡回一条小命！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_CHEST_ARMOR"
+        }
+      ]
+    },
+    "priority": 42,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_THERMOS_RENT_WARMTH",
+    "name": "千两租借仙汤",
+    "text": "【R·生财】寒冬腊月按口倒卖恒温热汤给行脚商贾，一杯换一两雪花银，一季赚得良田数十亩。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_RENT_WARMTH"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_THERMOS_MARCH_WARMTH",
+    "name": "冰原行军活万卒",
+    "text": "【SR·实力】督率后勤以仙壶温水配药调汤，挽救九边雪夜扎营千余冻伤将士，兵部特旨立碑纪功！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_MARCH_WARMTH"
+        }
+      ]
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_THERMOS_ROYAL_ELIXIR",
+    "name": "御前献鼎温御药",
+    "text": "【SR·名望】以不熄地火鼎为信王府长久温存御药，免受风寒凝滞之苦，深得青睐恩封五品内阁侍读！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_ROYAL_ELIXIR"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_THERMOS_NORTH_GENERAL",
+    "name": "辽东不冻总戎",
+    "text": "【SR·传奇】手握聚温神壶破尽极寒战局，冰天雪地中千里奔袭关外敌营斩将夺旗，威震辽东塞北！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_NORTH_GENERAL"
+        }
+      ]
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_THERMOS_WARM_ERA",
+    "name": "乾坤定温定九边",
+    "text": "【SSR·传世】以方寸温壶驱散小冰河期极寒死局，三军得暖士气如虹，力挫外患改写朱明风雪国祚！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_THERMOS"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_THERMOS_WARM_ERA"
+        }
+      ]
+    },
+    "priority": 88,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SWISS_PINCH_FINGER",
+    "name": "夹手千机匣",
+    "text": "【N·幽默】摆弄折叠机关时失手被弹簧夹中手指，当场嗷嗷乱蹦，被同袍嘲笑被小铁匣咬了手。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_PINCH_FINGER"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SWISS_OPEN_SALT_CRATE",
+    "name": "无损开私盐箱",
+    "text": "【N·荒诞】抄查私盐时用开罐微刃秒撬坚硬木箱且封条完好，盐枭跪在地上连连磕头求传开锁绝技。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_OPEN_SALT_CRATE"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SWISS_SCRIBE_PEN",
+    "name": "公堂修鹅毛笔",
+    "text": "【N·搞笑】升堂时掏出折叠小剪为知县修整鹅毛笔与胡须，行云流水一气呵成，全堂差役看傻了眼。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_SCRIBE_PEN"
+        }
+      ]
+    },
+    "priority": 27,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SWISS_REPAIR_MUSKET",
+    "name": "阵前急修火绳枪",
+    "text": "【R·实用】战阵之中鸟铳弹簧卡死，你拔出微型螺刀与细锉三下修好，连发数枪反杀敌前锋！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_REPAIR_MUSKET"
+        }
+      ]
+    },
+    "priority": 36,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SWISS_ARSENAL_CHIEF",
+    "name": "兵仗局破格首匠",
+    "text": "【R·惊艳】在总兵面前演示一刀十用削铁如泥，满堂大匠惊呼鲁班再世，当场破格招为兵仗局首席工匠！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_ARSENAL_CHIEF"
+        }
+      ]
+    },
+    "priority": 41,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SWISS_RED_CORAL",
+    "name": "绝代纯血红珊瑚",
+    "text": "【R·奇物】钢刃尽磨平后，鲜红塑料柄壳被当作南海万年红珊瑚至宝，后世子孙奉为镇宅仙石世代相传。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_RED_CORAL"
+        }
+      ]
+    },
+    "priority": 46,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_SWISS_GUNSMITH_REFORM",
+    "name": "火器营神机改制",
+    "text": "【SR·实力】以瑞士军刀精密组合结构改良神机营燧发机簧，火器击发率暴增三倍，功受兵部右侍郎赏识！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_GUNSMITH_REFORM"
+        }
+      ]
+    },
+    "priority": 66,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SWISS_TUNNEL_SIEGE",
+    "name": "地道破城神工客",
+    "text": "【SR·智谋】围城危局以小锯微凿暗挖地道起开千斤地锁，神兵天降奇袭敌营，一战收复失地名扬天下！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_TUNNEL_SIEGE"
+        }
+      ]
+    },
+    "priority": 71,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SWISS_MASTER_CRAFTSMAN",
+    "name": "天工百宝大宗师",
+    "text": "【SR·名望】绘制《公输百宝机巧图说》刊行天下，集齐天下巧匠推陈出新，四海之内尊奉你为开物神手！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_MASTER_CRAFTSMAN"
+        }
+      ]
+    },
+    "priority": 77,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_SWISS_REWRITE_ERA",
+    "name": "巧匠玲珑铸乾坤",
+    "text": "【SSR·传世】以方寸机巧革新火器阵列与全军工备，巧破死局威慑四夷，凭一己机巧逆转晚明危亡天命！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SWISS_ARMY_KNIFE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_SWISS_REWRITE_ERA"
+        }
+      ]
+    },
+    "priority": 89,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_CLOUDY_PAUSE",
+    "name": "神仙闭关",
+    "text": "【N·搞笑】阴天无日光液晶骤然熄屏，百官慌忙伏地敬畏高呼：今天机不可泄露，神仙闭关！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_CLOUDY_PAUSE"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_DIVINE_FORTUNE",
+    "name": "按键算命客",
+    "text": "【N·反差】市井豪商求卜前程，你随手乱按出一串乘方大数，对方竟奉若神数灵签涕零散财！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_DIVINE_FORTUNE"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_UPSIDE_DOWN",
+    "name": "颠倒鬼神符",
+    "text": "【N·作死】倒拿计算器显现07734古怪绿符，被萨满巫师惊为九幽鬼画符，围着你跳了三天大神。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_UPSIDE_DOWN"
+        }
+      ]
+    },
+    "priority": 27,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_CORRUPT_CLERK",
+    "name": "账房阎罗王",
+    "text": "【R·惊艳】半柱香算尽州县三年折色烂账，几下按键当场揪出三十名假账胥吏，吓跪一堂猾吏！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_CORRUPT_CLERK"
+        }
+      ]
+    },
+    "priority": 38,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_BORDER_SUPPLY",
+    "name": "九边饷银平",
+    "text": "【R·惊艳】总兵营前三万大军粮饷分发，八位显数分厘不差无一克扣，辽东哗变大溃化为乌有！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_BORDER_SUPPLY"
+        }
+      ]
+    },
+    "priority": 42,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_PUZZLE_BOX",
+    "name": "天工玄机锁",
+    "text": "【R·残壳】液晶屏老化黑屏后，工部大匠惊叹外壳九宫按键神机，拆解改制为大明绝密防盗玄机匣！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_PUZZLE_BOX"
+        }
+      ]
+    },
+    "priority": 46,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_TAX_REFORM",
+    "name": "一条鞭神算",
+    "text": "【SR·实力】以秒算神功厘清全省田亩赋役，数日重定一条鞭法黄册，巡抚惊为张江陵转世股肱！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_TAX_REFORM"
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_MINISTRY_HUB",
+    "name": "户部活财神",
+    "text": "【SR·名望】坐镇户部清吏司，弹指总核大明十三省钱粮漕运，百官拜服封号掌中天机圣算！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_MINISTRY_HUB"
+        }
+      ]
+    },
+    "priority": 74,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_SIEGE_LOGISTICS",
+    "name": "围城粮台柱",
+    "text": "【SR·实力】重兵围城绝境中精准配给千万斤火药铅子与粮秣，算无遗漏硬生生熬退十万铁骑！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_SIEGE_LOGISTICS"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_PERFECT_TREASURY",
+    "name": "乾坤定天算",
+    "text": "【SSR·传世】日光普照掌驭天下财赋，以八位方寸秒算整肃崇祯国帑，改写晚明败亡国祚重定乾坤！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_SOLAR_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_PERFECT_TREASURY"
+        },
+        {
+          "op": "compare",
+          "field": "intelligence",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NATIVE_NEEDLE_MEND",
+    "name": "天衣密密缝",
+    "text": "【N·日常】一包顶针粗线缝好乱世破棉袄，抵住朔风严寒，被街坊赞为巧手小裁缝！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_NEEDLE" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_NEEDLE_USED" }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_BOWL_CONGEE",
+    "name": "海碗定乾坤",
+    "text": "【N·幽默】一口缺角粗陶大碗排头占位，喝完官府厚粥还保住口粮，全家挺过荒年！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_BOWL" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_BOWL_SAVED" }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_ROPE_ESCAPE",
+    "name": "飞缒脱身客",
+    "text": "【N·荒诞】城破在即一根麻绳缒城而下，不仅潇洒脱身，还顺带拉起同乡跑路！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_ROPE" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_ROPE_SAVED" }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_ACCOUNT_AUDIT",
+    "name": "神算破追索",
+    "text": "【R·实用】一本旧账摊公堂，字字如铁驳倒催饷胥吏，满街邻舍请你掌管契据！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_ACCOUNT" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_ACCOUNT_SAVED" }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_HERBS_TEA",
+    "name": "草庐辟疫翁",
+    "text": "【R·救急】干草药煎成神清气爽汤，隔断街巷大疫，救活一院老少成为杏林佳话！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_HERBS" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_HERBS_SAVED" }
+      ]
+    },
+    "priority": 38,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_TOOLS_GATE",
+    "name": "巧卯锁惊涛",
+    "text": "【R·实用】木工凿刨连夜加固门栓，震碎乱兵刀柄保住家宅，被誉为门神鲁班！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_TOOLS" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_TOOLS_SAVED" }
+      ]
+    },
+    "priority": 36,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_BOOK_PETITION",
+    "name": "经世小秀才",
+    "text": "【SR·名望】手持旧蒙书写成百字公道状，按察司立案惩劣绅，全县乡邻送万民伞！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_BOOK" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_BOOK_SAVED" }
+      ]
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NATIVE_SCALES_CUNNING",
+    "name": "悬秤平四方",
+    "text": "【SR·实力】毫厘小杆秤当街称破奸商克扣斗，满城信服，尊为集市平准铁面判官！",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_NATIVE_SCALES" },
+        { "op": "has", "collection": "flags", "id": "F_NATIVE_SCALES_SAVED" }
+      ]
+    },
+    "priority": 66,
+    "category": "milestone"
   }
 ]

@@ -2,3 +2,4 @@ node_modules/
 .local-state/
 coverage/
 *.tsbuildinfo
+tmp/

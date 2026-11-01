@@ -18,15 +18,6 @@
     ]
   },
   {
-    "id": "CARD_MOD_LIGHTER",
-    "name": "便携打火机",
-    "description": "点得着灶火，点不来官运；燃料总有尽头，孩子交给大人用。",
-    "rarity": "N",
-    "tags": [
-      "modern"
-    ]
-  },
-  {
     "id": "CARD_MOD_CHICKEN_ESSENCE",
     "name": "鲜味鸡精",
     "description": "给清汤添点鲜，不会凭空添粮；一包用完，厨子的真本事还得在。",

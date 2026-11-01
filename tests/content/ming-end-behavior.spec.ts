@@ -429,11 +429,11 @@ describe('production ming_end: actual encounter mix and save continuation', () =
   });
 });
 
-describe('archived mixed ming_end: twelve modern physical cards', () => {
+describe('archived mixed ming_end: modern physical cards', () => {
   it('gates both reactions by the actual card, retains normal paths, and grants only one success or setback', async () => {
     const source = await archivedMixed();
     const cards = source.cards.filter(card => card.id.startsWith('CARD_MOD_'));
-    expect(cards).toHaveLength(12);
+    expect(cards).toHaveLength(11);
     for (const card of cards) {
       const suffix = card.id.slice('CARD_MOD_'.length);
       const reactions = ['HISTORY', 'LIFE'].map(kind => {
@@ -481,9 +481,6 @@ describe('archived mixed ming_end: twelve modern physical cards', () => {
         const outcomes = ['SUCCESS', 'SETBACK'].filter(outcome => resolved.state.player.flags.includes(`F_MOD_${suffix}_${outcome}`));
         expect(outcomes).toHaveLength(1);
         const outcome = outcomes[0]!;
-        if (suffix === 'LIGHTER' && outcome === 'SETBACK') {
-          expect(resolved.state.player.flags).toContain('F_LIGHTER_EMPTY');
-        }
         expect(resolved.state.player.achievements).toContain(`A_MOD_${suffix}_${outcome}`);
         expect(resolved.state.player.achievements.filter(id => id.startsWith(`A_MOD_${suffix}_`))).toHaveLength(1);
         expect(resolved.state.player.cards).toEqual([card.id]);
@@ -514,38 +511,7 @@ describe('archived mixed ming_end: twelve modern physical cards', () => {
     }
   });
 });
-
 describe('production ming_end: age, possessions and court chronology', () => {
-  it('in the archive resolves the long-flame gamble before interrupting its active court chain', async () => {
-    const source = await archivedMixed();
-    const chain = source.chains.find(item => item.id === 'CH_LIGHTER_ABSURD')!;
-    const opening = source.events.find(item => item.id === 'E_LG_CROSSROAD')!;
-    const nodes = chain.nodes.map(node => source.events.find(item => item.id === node.event_id)!);
-    const seen = new Set<boolean>();
-    for (let seed = 0; seed < 256 && seen.size < 2; seed++) {
-      const { engine, result } = atEvent(source, opening, seed, undefined, nodes);
-      if (result.pending?.kind !== 'option' || result.pending.event_id !== opening.id) continue;
-      let next = choose(engine, result, 'opt_lg_absurd');
-      next = ok(engine.nextYear(`court:${next.state.revision}`));
-      expect(next.pending).toMatchObject({ kind: 'option', event_id: 'E_LG_ABSURD_1' });
-      next = choose(engine, next, 'opt_burn_long');
-      expect(next.pending).toMatchObject({ kind: 'stage', stage_id: 'S_LG_EXPOSED' });
-      expect(next.state.player.flags).not.toContain('F_LIGHTER_EXPOSED');
-      next = roll(engine, next);
-      const success = passed(next);
-      seen.add(success);
-      if (success) {
-        expect(next.state.status).not.toBe('ENDED');
-        next = ok(engine.nextYear(`coronation:${next.state.revision}`));
-        expect(next.state.player.flags).toContain('F_LIGHTER_ABSURD_DONE');
-      } else {
-        expect(next.state.player.flags).toContain('F_LIGHTER_EXPOSED');
-        expect(engine.generateEndingReport()).toMatchObject({ death_id: 'D_LIGHTER_EXPOSED' });
-      }
-    }
-    expect(seen.size).toBe(2);
-  });
-
   it('never schedules childhood life events for elders or adult life events for children', async () => {
     const source = await production();
     for (const age of [5, 70]) {
@@ -563,60 +529,9 @@ describe('production ming_end: age, possessions and court chronology', () => {
     }
   });
 
-  it('in the archive blocks court starts after 1641 while retaining ordinary lighter livelihoods', async () => {
-    const source = await archivedMixed();
-    const event = source.events.find(item => item.id === 'E_LG_CROSSROAD')!;
-    for (const year of [1642, 1644, 1650]) {
-      const bundle = structuredClone(source);
-      bundle.era.start_year = year;
-      let encountered = false;
-      for (let seed = 0; seed < 64 && !encountered; seed++) {
-        const { result } = atEvent(bundle, event, seed);
-        if (result.pending?.kind !== 'option') continue;
-        for (const id of ['opt_lg_legend', 'opt_lg_absurd']) expect(result.pending.options.find(option => option.id === id)?.available).toBe(false);
-        for (const id of ['opt_lg_peace', 'opt_lg_comedy']) expect(result.pending.options.find(option => option.id === id)?.available).toBe(true);
-        encountered = true;
-      }
-      expect(encountered).toBe(true);
-    }
-  });
 });
 
 describe('production ming_end: possession and historical access', () => {
-  it('in the archive finishes sale and final performance rewards before disabling further lighter use', async () => {
-    const source = await archivedMixed();
-    const crossroad = source.events.find(event => event.id === 'E_LG_CROSSROAD')!;
-    for (const [option, chainId, flag, done] of [
-      ['opt_lg_peace', 'CH_LIGHTER_PEACE', 'F_LIGHTER_SOLD', 'F_LIGHTER_PEACEFUL_DONE'],
-      ['opt_lg_comedy', 'CH_LIGHTER_COMEDY', 'F_LIGHTER_EMPTY', 'F_LIGHTER_COMEDY_DONE'],
-      ['opt_lg_gang', '', 'F_LIGHTER_LOST', ''],
-    ]) {
-      const chain = source.chains.find(item => item.id === chainId);
-      const nodes = chain?.nodes.map(node => source.events.find(event => event.id === node.event_id)!) ?? [];
-      let exercised = false;
-      for (let seed = 0; seed < 256 && !exercised; seed++) {
-        const { engine, result } = atEvent(source, crossroad, seed, undefined, nodes);
-        if (result.pending?.kind !== 'option') continue;
-        let next = choose(engine, result, option!);
-        if (next.pending?.kind === 'stage') {
-          next = roll(engine, next);
-          if (!passed(next)) continue;
-        } else next = ok(engine.nextYear(`finish:${next.state.revision}`));
-        expect(next.state.player.flags).toContain(flag);
-        if (done) expect(next.state.player.flags).toContain(done);
-        expect(next.state.player.cards).toContain('CARD_MOD_LIGHTER');
-        const context = conditionContext(next.state.player, next.state.timeline);
-        for (const event of source.events) {
-          if (has(event.condition, 'cards', 'CARD_MOD_LIGHTER')) expect(evaluateCondition(event.condition, context), event.id).toBe(false);
-          if (event.interaction === 'choice') for (const action of event.options) {
-            if (has(action.condition, 'cards', 'CARD_MOD_LIGHTER')) expect(evaluateCondition(action.condition, context), `${event.id}/${action.id}`).toBe(false);
-          }
-        }
-        exercised = true;
-      }
-      expect(exercised, option).toBe(true);
-    }
-  });
 
   it('lets children evacuate but never take a military command', async () => {
     const source = await production();
@@ -720,26 +635,6 @@ it('awards the reachable longevity milestone at eighty, including the final life
   });
 });
 
-it('in the archive suppresses queued and future lighter encounters after a real modern fuel setback', async () => {
-  const source = await archivedMixed();
-  const history = source.events.find(event => event.id === 'E_MOD_LIGHTER_HISTORY')!;
-  const companions = source.events.filter(event => ['E_LG_CROSSROAD', 'E_LG_TEMPLE_NIGHT', 'E_MOD_LIGHTER_LIFE'].includes(event.id));
-  let depleted = false;
-  for (let seed = 0; seed < 256 && !depleted; seed++) {
-    const { engine, result } = atEvent(source, history, seed, undefined, companions);
-    if (result.pending?.kind !== 'option' || result.pending.event_id !== history.id) continue;
-    const next = roll(engine, choose(engine, result, 'use_relic'));
-    if (passed(next)) continue;
-    expect(next.state.player.flags).toContain('F_MOD_LIGHTER_SETBACK');
-    expect(next.state.player.flags).toContain('F_LIGHTER_EMPTY');
-    expect(next.pending).toBeNull();
-    const following = ok(engine.nextYear('after-empty'));
-    expect(following.pending).toBeNull();
-    for (const event of companions) expect(engine.exportSave().payload.run.event_counts[event.id] ?? 0).toBe(0);
-    depleted = true;
-  }
-  expect(depleted).toBe(true);
-});
 
 it('consumes the historical turn on both Yangzhou routes and unlocks distinct later livelihoods', async () => {
   const source = await production();

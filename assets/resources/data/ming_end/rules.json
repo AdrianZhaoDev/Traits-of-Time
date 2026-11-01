@@ -59,8 +59,8 @@
     }
   ],
   "lifespan": {
-    "min": 65,
-    "max": 85,
+    "min": 70,
+    "max": 105,
     "min_remaining_years": 3
   },
   "check": {

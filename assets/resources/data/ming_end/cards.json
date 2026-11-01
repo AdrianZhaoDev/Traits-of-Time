@@ -70,5 +70,122 @@
     "tags": [
       "native"
     ]
+  },
+  {
+    "id": "CARD_MODERN_COOLING_OIL",
+    "name": "风油精",
+    "description": "清凉刺鼻通七窍，抹一滴神清气爽；切记不可入眼，更别当成仙家甘露一口闷。",
+    "rarity": "N",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_SUPER_GLUE",
+    "name": "502强力胶",
+    "description": "滴胶成石三秒封喉，断瓷续木滴水不漏；切勿抹在手心，更别手贱拿去抿嘴唇。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_CRANK_FLASHLIGHT",
+    "name": "手摇发电强光手电",
+    "description": "手摇自充永不断电，强光直射如白昼，更具爆闪致盲神威；嘎吱摇柄声被古人奉为道门念咒，慎防锦衣卫红眼觊觎。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_ANTIBIOTIC",
+    "name": "真空密封抗生素板",
+    "description": "十二粒红白胶囊封在坚韧铝箔之中，专克金创恶疽与高热化脓；被世人奉为太上老君九转还魂金丹，引得各方枭雄权贵抢破了头。",
+    "rarity": "SSR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_HYBRID_SEEDS",
+    "name": "高产耐旱玉米良种(500g)",
+    "description": "五百克密封一代杂交良种，耐旱耐瘠遇沙土即生；古人惊为神农嘉禾与长生玉粟，既能终结饥荒逆天改命，亦招致妖草诬告与烈火焚苗之劫。",
+    "rarity": "SSR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_LIGHTER",
+    "name": "防风打火机",
+    "description": "单手按压瞬燃防风蓝焰，透明塑料机身内封淡蓝仙灵之气；九边风雪中引火如神，被军民敬若掌中霹雳火德仙符。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_BANDAGE",
+    "name": "云南白药创可贴",
+    "description": "肉色隐形自粘弹力透气贴，内置神药护垫专克破皮金疮；揭开时酸爽入骨，被市井江湖敬为肉色生肌护体灵符。",
+    "rarity": "N",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_NAIL_CLIPPER",
+    "name": "不锈钢指甲剪",
+    "description": "方寸银剪咬合如铡，省力杠杆咔嚓断甲不崩口，暗藏防飞溅壳与精钢细锉；被士绅与匠人奉为削铁如泥的掌中斩蛟仙器。",
+    "rarity": "N",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_SCOTCH_TAPE",
+    "name": "强力透明胶带",
+    "description": "撕拉即用透明无痕，遇水不化抗拉极强；无论破损账本、震裂铳托还是决口木舟，一贴即固，被誉为天蚕无影仙丝。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_READING_GLASSES",
+    "name": "老花镜(+200度)",
+    "description": "双凸通透水晶镜片，令老眼昏花者瞬间能辨蝇头小楷与暗账微瑕；被内阁耆老与知县师爷奉为辨奸查伪、返老还童的重瞳宝鉴。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_THERMOS",
+    "name": "便携真空保温杯",
+    "description": "双层真空银光不锈，冰天雪地半日水温不凉；九边严寒中能斟出冒烟滚水，被官民敬奉为锁阳聚温仙壶与不熄地火鼎。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_SWISS_ARMY_KNIFE",
+    "name": "多功能折叠军刀",
+    "description": "掌中折叠十余种精钢刃具，开罐微剪锯木挫铁无所不精；在总兵与工部大匠面前一刀多用，被惊奉为公输班百宝机巧匣。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ]
+  },
+  {
+    "id": "CARD_MODERN_SOLAR_CALCULATOR",
+    "name": "太阳能简易计算器",
+    "description": "见光即亮加减乘除秒算，八位液晶显数；户部核饷秒揪巨贪，阴天熄屏被奉为天机神仙闭关，残机更成工部玄机密码盒。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ]
   }
 ]

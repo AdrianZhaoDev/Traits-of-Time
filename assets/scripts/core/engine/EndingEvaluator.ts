@@ -1,7 +1,7 @@
-import type { ContentBundle } from '../types/content.generated.js';
-import type { EndingReport, LogEntry, PlayerState, RunState } from '../types/schema.js';
-import { conditionContext, evaluateCondition } from './ConditionEvaluator.js';
-import { DomainError } from './DomainError.js';
+import type { ContentBundle } from '../types/content.generated';
+import type { EndingReport, LogEntry, PlayerState, RunState } from '../types/schema';
+import { conditionContext, evaluateCondition } from './ConditionEvaluator';
+import { DomainError } from './DomainError';
 export function evaluateAchievements(content: ContentBundle, player: PlayerState, run: RunState, notify: (id: string) => void): void {
   const context = conditionContext(player, run.timeline);
   for (const achievement of [...content.achievements].sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0)) {

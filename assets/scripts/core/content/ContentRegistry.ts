@@ -1,4 +1,4 @@
-import type { ContentBundle } from '../types/content.generated.js';
+import type { ContentBundle } from '../types/content.generated';
 
 /** A read-only view deliberately omits Map mutation methods at runtime, not only in its type. */
 class IdMap<T extends { id: string }> implements ReadonlyMap<string, T> {

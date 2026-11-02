@@ -1,6 +1,6 @@
-import { GameEngine } from '../core/engine/GameEngine.js';
-import { GachaEngine, type DrawResult } from '../core/engine/GachaEngine.js';
-import type { CommandResult } from '../core/types/commands.js';
+import { GameEngine } from '../core/engine/GameEngine';
+import { GachaEngine, type DrawResult } from '../core/engine/GachaEngine';
+import type { CommandResult } from '../core/types/commands';
 export type ReplayAction =
   | { api: 'initGame'; commandId: string; args: { seed: number } }
   | { api: 'nextYear'; commandId: string; args: Record<string, never> }

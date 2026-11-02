@@ -31,5 +31,9 @@
     "tsx": "4.23.15",
     "typescript": "5.9.3",
     "vitest": "3.2.4"
-  }
+  },
+  "creator": {
+    "version": "3.8.8"
+  },
+  "uuid": "bd01d5d4-b6a2-4231-83c2-3fea21f8e3fb"
 }

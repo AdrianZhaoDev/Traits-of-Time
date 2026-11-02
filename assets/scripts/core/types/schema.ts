@@ -1,5 +1,5 @@
-import type { Effect, Option as EventOption, Stage } from './content.generated.js';
-import type { CommandResult } from './commands.js';
+import type { Effect, Option as EventOption, Stage } from './content.generated';
+import type { CommandResult } from './commands';
 export type Timeline = 'historical' | 'fictional';
 export type GameStatus = 'READY' | 'ADVANCING' | 'AWAITING_OPTION' | 'AWAITING_STAGE' | 'ENDED';
 export type YearPhase = 'opening' | 'vital' | 'chains' | 'history' | 'random' | 'complete';

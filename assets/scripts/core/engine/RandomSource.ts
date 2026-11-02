@@ -1,4 +1,4 @@
-import { DomainError } from './DomainError.js';
+import { DomainError } from './DomainError';
 
 export interface RandomState { algorithm: 'mulberry32-v1'; state: number; draws: number }
 export interface RandomSource { nextUint32(): number; exportState(): RandomState }

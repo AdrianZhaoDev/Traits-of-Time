@@ -1,8 +1,8 @@
-import type { ContentBundle } from '../types/content.generated.js';
-import type { GameSave } from '../types/schema.js';
-import type { GachaSave } from '../engine/GachaEngine.js';
-import { DomainError } from '../engine/DomainError.js';
-import { cloneData } from '../engine/cloneData.js';
+import type { ContentBundle } from '../types/content.generated';
+import type { GameSave } from '../types/schema';
+import type { GachaSave } from '../engine/GachaEngine';
+import { DomainError } from '../engine/DomainError';
+import { cloneData } from '../engine/cloneData';
 
 export function record(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);

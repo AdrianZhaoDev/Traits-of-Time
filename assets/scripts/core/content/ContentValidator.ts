@@ -1,8 +1,8 @@
-import type { Condition, ContentBundle, Effect, Event, Outcome } from '../types/content.generated.js';
-import { evaluateCondition, type ConditionContext } from '../engine/ConditionEvaluator.js';
-import { validateStructure } from './SchemaValidator.js';
-import { type ContentIssueCode, type ValidationIssue, type ValidationResult } from './Validation.js';
-export type { ContentIssueCode, ValidationIssue, ValidationResult } from './Validation.js';
+import type { Condition, ContentBundle, Effect, Event, Outcome } from '../types/content.generated';
+import { evaluateCondition, type ConditionContext } from '../engine/ConditionEvaluator';
+import { validateStructure } from './SchemaValidator';
+import { type ContentIssueCode, type ValidationIssue, type ValidationResult } from './Validation';
+export type { ContentIssueCode, ValidationIssue, ValidationResult } from './Validation';
 
 const UINT32_RANGE = 2 ** 32;
 const attributes = ['physique', 'intelligence', 'wealth', 'prestige', 'luck'] as const;

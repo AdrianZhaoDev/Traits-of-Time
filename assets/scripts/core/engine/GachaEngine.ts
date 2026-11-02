@@ -1,10 +1,10 @@
-import type { ContentBundle, Pool } from '../types/content.generated.js';
-import { createContentRegistry, type ContentRegistry } from '../content/ContentRegistry.js';
-import { DomainError } from './DomainError.js';
-import { cloneData } from './cloneData.js';
-import { Mulberry32, type RandomSource, type RandomState } from './RandomSource.js';
-import { sampleWeighted } from './WeightedSampler.js';
-import { decodeGachaSave, encodeGachaSave, equalData } from '../persistence/SaveCodec.js';
+import type { ContentBundle, Pool } from '../types/content.generated';
+import { createContentRegistry, type ContentRegistry } from '../content/ContentRegistry';
+import { DomainError } from './DomainError';
+import { cloneData } from './cloneData';
+import { Mulberry32, type RandomSource, type RandomState } from './RandomSource';
+import { sampleWeighted } from './WeightedSampler';
+import { decodeGachaSave, encodeGachaSave, equalData } from '../persistence/SaveCodec';
 
 export interface DrawItem {
   card_id: string;

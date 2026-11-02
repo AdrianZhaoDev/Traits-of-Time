@@ -1,5 +1,5 @@
 import sourceSchema from '../../../resources/data/content.schema.json';
-import { bundleLocation, pointerToken, type ValidationIssue } from './Validation.js';
+import { bundleLocation, pointerToken, type ValidationIssue } from './Validation';
 
 interface Schema {
   $ref?: string;

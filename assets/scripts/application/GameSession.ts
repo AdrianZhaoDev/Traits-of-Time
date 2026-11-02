@@ -1,8 +1,8 @@
-import { setImmediate as nextTurn } from 'node:timers/promises';
-import type { GameEngine } from '../core/engine/GameEngine.js';
-import type { CommandResult } from '../core/types/commands.js';
-import type { GameSave, GameView, PendingDecision } from '../core/types/schema.js';
-import { recordCommand, validateReplayCommands, type ReplayAction, type ReplayCommand } from './ReplayCommands.js';
+const nextTurn = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+import type { GameEngine } from '../core/engine/GameEngine';
+import type { CommandResult } from '../core/types/commands';
+import type { GameSave, GameView, PendingDecision } from '../core/types/schema';
+import { recordCommand, validateReplayCommands, type ReplayAction, type ReplayCommand } from './ReplayCommands';
 
 export interface SessionSave {
   engine: GameSave;

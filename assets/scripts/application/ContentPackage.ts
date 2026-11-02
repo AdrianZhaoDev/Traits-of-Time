@@ -1,6 +1,6 @@
-import type { ContentBundle, Manifest } from '../core/types/content.generated.js';
-import { validateContent, type ValidationIssue } from '../core/content/ContentValidator.js';
-import { freezeContent } from '../core/content/ContentRegistry.js';
+import type { ContentBundle, Manifest } from '../core/types/content.generated';
+import { validateContent, type ValidationIssue } from '../core/content/ContentValidator';
+import { freezeContent } from '../core/content/ContentRegistry';
 
 const CONTENT_FILE_KEYS = ['rules', 'era', 'regions', 'castes', 'cards', 'pools', 'events', 'chains', 'achievements', 'deaths'] as const;
 

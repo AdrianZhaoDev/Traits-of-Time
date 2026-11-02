@@ -1,5 +1,5 @@
-import type { Condition } from '../types/content.generated.js';
-import type { PlayerState, Timeline } from '../types/schema.js';
+import type { Condition } from '../types/content.generated';
+import type { PlayerState, Timeline } from '../types/schema';
 
 export interface ConditionContext {
   age: number; calendar_year: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;

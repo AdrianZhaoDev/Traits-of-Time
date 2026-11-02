@@ -1,8 +1,8 @@
-import type { ContentBundle, Effect, Outcome } from '../types/content.generated.js';
-import type { ContentRegistry } from '../content/ContentRegistry.js';
-import type { ChainInstance, PlayerState, RunState } from '../types/schema.js';
-import { DomainError } from './DomainError.js';
-import { interruptChains } from './ChainRunner.js';
+import type { ContentBundle, Effect, Outcome } from '../types/content.generated';
+import type { ContentRegistry } from '../content/ContentRegistry';
+import type { ChainInstance, PlayerState, RunState } from '../types/schema';
+import { DomainError } from './DomainError';
+import { interruptChains } from './ChainRunner';
 
 export interface EffectPorts { chain: (chain: ChainInstance, action: 'started' | 'interrupted') => void; death: (id: string) => void; achievement: (id: string) => void }
 /** Mutates a transaction draft only. Callers commit the complete outcome or discard the draft. */

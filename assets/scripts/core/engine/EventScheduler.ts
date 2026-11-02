@@ -1,8 +1,8 @@
-import type { ContentBundle, Event } from '../types/content.generated.js';
-import type { CandidateLog, PlayerState, QueueEntry, RunState } from '../types/schema.js';
-import type { RandomSource } from './RandomSource.js';
-import { probabilityPasses, sampleWeighted } from './WeightedSampler.js';
-import { conditionContext, evaluateCondition } from './ConditionEvaluator.js';
+import type { ContentBundle, Event } from '../types/content.generated';
+import type { CandidateLog, PlayerState, QueueEntry, RunState } from '../types/schema';
+import type { RandomSource } from './RandomSource';
+import { probabilityPasses, sampleWeighted } from './WeightedSampler';
+import { conditionContext, evaluateCondition } from './ConditionEvaluator';
 
 export function scheduleWeightedEvents(content: ContentBundle, player: PlayerState, run: RunState, kind: 'opening' | 'random', rng: RandomSource,
   available: (event: Event) => boolean, log: (candidates: CandidateLog[], selected: string | null) => void): QueueEntry[] {

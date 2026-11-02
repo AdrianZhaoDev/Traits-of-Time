@@ -6,7 +6,8 @@
     ]
   },
   "include": [
-    "assets/scripts/**/*.ts",
+    "assets/scripts/core/**/*.ts",
+    "assets/scripts/application/**/*.ts",
     "tools/**/*.ts",
     "tests/**/*.ts",
     "vitest.config.ts"

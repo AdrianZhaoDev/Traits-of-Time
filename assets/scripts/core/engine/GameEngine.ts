@@ -1,18 +1,18 @@
-import type { ContentBundle, Event, Outcome } from '../types/content.generated.js';
-import type { ActiveEvent, Attributes, ChainInstance, CommandParameters, EndingReport, GameSave, GameView, LogData, LogEntry, PendingDecision, PlayerState, RunState } from '../types/schema.js';
-import type { CommandResult } from '../types/commands.js';
-import { createContentRegistry, type ContentRegistry } from '../content/ContentRegistry.js';
-import { cloneData } from './cloneData.js';
-import { DomainError } from './DomainError.js';
-import { Mulberry32, uniformInt } from './RandomSource.js';
-import { sampleWeighted } from './WeightedSampler.js';
-import { conditionContext, evaluateCondition, type ConditionContext } from './ConditionEvaluator.js';
-import { resolveCheck } from './DiceResolver.js';
-import { executeEffects, previewOutcome } from './EffectExecutor.js';
-import { evaluateAchievements, endingReport } from './EndingEvaluator.js';
-import { scheduleHistory, scheduleWeightedEvents } from './EventScheduler.js';
-import { dueChains, interruptChains } from './ChainRunner.js';
-import { decodeGameSave, encodeGameSave, equalData } from '../persistence/SaveCodec.js';
+import type { ContentBundle, Event, Outcome } from '../types/content.generated';
+import type { ActiveEvent, Attributes, ChainInstance, CommandParameters, EndingReport, GameSave, GameView, LogData, LogEntry, PendingDecision, PlayerState, RunState } from '../types/schema';
+import type { CommandResult } from '../types/commands';
+import { createContentRegistry, type ContentRegistry } from '../content/ContentRegistry';
+import { cloneData } from './cloneData';
+import { DomainError } from './DomainError';
+import { Mulberry32, uniformInt } from './RandomSource';
+import { sampleWeighted } from './WeightedSampler';
+import { conditionContext, evaluateCondition, type ConditionContext } from './ConditionEvaluator';
+import { resolveCheck } from './DiceResolver';
+import { executeEffects, previewOutcome } from './EffectExecutor';
+import { evaluateAchievements, endingReport } from './EndingEvaluator';
+import { scheduleHistory, scheduleWeightedEvents } from './EventScheduler';
+import { dueChains, interruptChains } from './ChainRunner';
+import { decodeGameSave, encodeGameSave, equalData } from '../persistence/SaveCodec';
 
 interface Draft { player: PlayerState; run: RunState; logs: LogEntry[]; rng: Mulberry32 }
 const attributes = ['physique', 'intelligence', 'wealth', 'prestige', 'luck'] as const;

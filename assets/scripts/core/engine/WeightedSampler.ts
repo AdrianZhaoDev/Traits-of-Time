@@ -1,5 +1,5 @@
-import { DomainError } from './DomainError.js';
-import type { RandomSource } from './RandomSource.js';
+import { DomainError } from './DomainError';
+import type { RandomSource } from './RandomSource';
 
 export function sampleWeighted<T>(items: readonly T[], weight: (item: T) => number, rng: RandomSource): T {
   let total = 0;

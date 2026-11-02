@@ -3,3 +3,9 @@ node_modules/
 coverage/
 *.tsbuildinfo
 tmp/
+library/
+temp/
+profiles/
+local/
+.mcp.json
+extensions/

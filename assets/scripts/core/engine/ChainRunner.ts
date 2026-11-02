@@ -1,6 +1,6 @@
-import type { ContentRegistry } from '../content/ContentRegistry.js';
-import type { ChainInstance, PlayerState, QueueEntry, RunState } from '../types/schema.js';
-import { conditionContext, evaluateCondition } from './ConditionEvaluator.js';
+import type { ContentRegistry } from '../content/ContentRegistry';
+import type { ChainInstance, PlayerState, QueueEntry, RunState } from '../types/schema';
+import { conditionContext, evaluateCondition } from './ConditionEvaluator';
 
 export function interruptChains(player: PlayerState, run: RunState, registry: ContentRegistry, interrupted: (chain: ChainInstance) => void): void {
   const context = conditionContext(player, run.timeline);

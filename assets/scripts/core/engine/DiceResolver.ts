@@ -1,6 +1,6 @@
-import type { Stage } from '../types/content.generated.js';
-import type { DiceResult } from '../types/schema.js';
-import { uniformInt, type RandomSource } from './RandomSource.js';
+import type { Stage } from '../types/content.generated';
+import type { DiceResult } from '../types/schema';
+import { uniformInt, type RandomSource } from './RandomSource';
 export function resolveCheck(check: Stage['check'], attributeValue: number,
   limits: { modifier_min: number; modifier_max: number }, rng: RandomSource): DiceResult {
   const modifier_before = check.modifier;

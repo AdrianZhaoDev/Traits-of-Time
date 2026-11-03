@@ -132,11 +132,6 @@ export class LifeStatistics {
     return { age_band_id, path_category, automatic_events, choice_events, player_decisions,
       auto_ratio: autoRatio(automatic_events, choice_events), card_id, start_year: report.start_year, origin_id };
   }
-  private numericSummary(aggregate: NumericAggregate) {
-    const quantile = quantiles(aggregate.values);
-    return { mean: aggregate.values.length === 0 ? null : aggregate.values.reduce((sum, value) => sum + value, 0) / aggregate.values.length,
-      p50: quantile.p50, capped_rate: proportion(aggregate.capped, aggregate.values.length) };
-  }
   private numericSummary(values: NumericAggregate, includeCap = true) {
     const quantile = quantiles(values.values);
     const result: { mean: number | null; p50: number | null; capped_rate?: number | null } = {

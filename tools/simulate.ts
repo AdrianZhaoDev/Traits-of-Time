@@ -10,10 +10,15 @@ import { sha256 } from './lib/canonical.js';
 import { DrawStatistics, LifeStatistics } from './lib/SimulationReport.js';
 import { ArgumentError, DEFAULT_CONTENT, DEFAULT_SEED, assertDestinationOutsideContent, errorDetails, integerArg, parseCli, requiredString, runCli } from './lib/cli.js';
 
-function hasModernCardGate(condition: Condition | undefined): boolean {
+function hasModernCardGate(condition: Condition | undefined, cards: ReadonlyArray<{ id: string; tags: readonly string[] }>): boolean {
   if (!condition) return false;
-  if (condition.op === 'has') return condition.collection === 'cards' && condition.id.startsWith('CARD_MOD_');
-  if (condition.op === 'all' || condition.op === 'any') return condition.conditions.some(hasModernCardGate);
+  if (condition.op === 'has') {
+    return condition.collection === 'cards'
+      && cards.some(card => card.id === condition.id && card.tags.includes('modern'));
+  }
+  if (condition.op === 'all' || condition.op === 'any') return condition.conditions.some(child => hasModernCardGate(child, cards));
+  // A negated condition is not a positive modern-card gate. In particular,
+  // `not(has modern card)` must not make reaction strategy select the option.
   return false;
 }
 
@@ -91,7 +96,7 @@ await runCli(async () => {
               const available = new Set(pending.options.filter(option => option.available).map(option => option.id));
               const eligible = event.options.filter(option => available.has(option.id));
               const risks = strategy === 'cautious' ? ['safe', 'normal', 'high'] : ['high', 'normal', 'safe'];
-              const option = strategy === 'reaction' ? eligible.find(item => hasModernCardGate(item.condition)) ?? eligible[0]
+              const option = strategy === 'reaction' ? eligible.find(item => hasModernCardGate(item.condition, bundle.cards)) ?? eligible[0]
                 : strategy === 'normal' ? eligible[0] : risks.flatMap(risk => eligible.filter(item => item.risk === risk))[0];
               if (!option) throw Object.assign(new Error('当前事件没有合法选项'), { code: 'SIMULATION_NO_PROGRESS' });
               action = { api: 'resolveOption', commandId, args: { eventInstanceId: pending.event_instance_id, optionId: option.id } };

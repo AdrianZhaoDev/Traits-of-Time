@@ -10,7 +10,7 @@
     "generate:content-types": "tsx tools/generate-content-types.ts",
     "typecheck:core": "npm run generate:content-types && tsc -p tsconfig.core.json && tsc -p tsconfig.tools.json",
     "validate:content": "tsx tools/validate-content.ts",
-    "draw": "tsx tools/draw.ts",
+    "audit:content": "tsx tools/audit-content.ts",
     "play": "tsx tools/play.ts",
     "simulate": "tsx tools/simulate.ts",
     "replay": "tsx tools/replay.ts",

@@ -1,6 +1,13 @@
 import { defineConfig } from 'vitest/config';
 
+import path from 'node:path';
+
 export default defineConfig({
+  resolve: {
+    alias: {
+      cc: path.resolve(__dirname, 'tests/mocks/cc-mock.ts'),
+    },
+  },
   test: {
     include: ['tests/**/*.spec.ts'],
     testTimeout: 30000,

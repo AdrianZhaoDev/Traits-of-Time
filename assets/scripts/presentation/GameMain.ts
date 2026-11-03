@@ -9,45 +9,81 @@ import {
   Button,
   Layers,
   Mask,
+  Graphics,
+  EventTouch,
+  v3,
+  UIOpacity,
   BlockInputEvents,
 } from 'cc';
 import { GameEngine } from '../core/engine/GameEngine';
-import { GameSession } from '../application/GameSession';
+import { GameSession, type SessionSave } from '../application/GameSession';
 import { getNativeMingEndContent } from '../application/NativeContentLoader';
 import type { GameView, PendingDecision, LogEntry } from '../core/types/schema';
+import { EnumMapper } from './EnumMapper';
+import { LogParser, FoldItemData } from './LogParser';
+import { EventFoldItem } from './EventFoldItem';
+import { UIAnimController } from './UIAnimController';
+import { MemorialCard } from './MemorialCard';
+import { RelicBarController } from './RelicBarController';
 
 const { ccclass } = _decorator;
 
 /**
- * GameMain: 正式版竖屏水墨界面 (Step 06 - 阶段一)
- * 纯真实数据流：接入真实明末 0.7.1 ContentBundle 与 GameSession
+ * GameMain: 竖屏水墨沉浸式界面主控
+ * 尺寸：750 x 1334
+ * 模块：顶栏 HUD (汉化+五维铜钱)、折页日志视口、右侧博古架、奏折批红遮罩、青铜官印长按推进
  */
 @ccclass('GameMain')
 export class GameMain extends Component {
   private session: GameSession | null = null;
   private currentView: GameView | null = null;
 
-  // UI 核心节点引用
+  // 节点引用
   private eraYearLabel: Label | null = null;
   private identityLabel: Label | null = null;
-  private attrLabel: Label | null = null;
+  private identityPlaqueNode: Node | null = null;
+  private statCoinNodes: Map<string, Node> = new Map();
+  private prevStatValues: Map<string, number> = new Map();
+
+  private candleVignetteNode: Node | null = null;
   private logContentNode: Node | null = null;
   private scrollView: ScrollView | null = null;
+  private relicBar: RelicBarController | null = null;
 
-  // 控制与交互面板
-  private actionPanel: Node | null = null;
-  private advanceBtn: Node | null = null;
-  private optionDrawerNode: Node | null = null;
-  // 历史日志条目缓存
-  private renderedLogsCount: number = 0;
+  // 抉择与遮罩
+  private decisionOverlay: Node | null = null;
+  private memorialCardComp: MemorialCard | null = null;
+
+  // 底部推进官印交互
+  private sealAdvanceBtn: Node | null = null;
+  private isSealHolding: boolean = false;
+  private holdTimer: number = 0;
+  private autoAdvanceInterval: number = 0;
+
+  // 统计已渲染折页
+  private renderedItemsCount: number = 0;
 
   onLoad(): void {
     this.buildBaseView();
     this.startNewLife();
   }
 
+  update(dt: number): void {
+    // 监听长按快进
+    if (this.isSealHolding) {
+      this.holdTimer += dt;
+      if (this.holdTimer >= 0.35) {
+        this.autoAdvanceInterval += dt;
+        if (this.autoAdvanceInterval >= 0.22) {
+          this.autoAdvanceInterval = 0;
+          this.onAdvance();
+        }
+      }
+    }
+  }
+
   /**
-   * 1. 纯代码构建 750x1334 暗色水墨主界面
+   * 纯代码构建 750x1334 沉浸式竖屏水墨节点树
    */
   private buildBaseView(): void {
     const root = this.node;
@@ -55,169 +91,338 @@ export class GameMain extends Component {
     const rootTransform = root.getComponent(UITransform) || root.addComponent(UITransform);
     rootTransform.setContentSize(750, 1334);
 
-    // 1.1 顶部水墨档案 HUD (710 x 140)
-    const headerBox = new Node('HeaderHUD');
-    headerBox.layer = Layers.Enum.UI_2D;
-    headerBox.parent = root;
-    headerBox.setPosition(0, 560);
-    const headerTransform = headerBox.addComponent(UITransform);
-    headerTransform.setContentSize(710, 140);
+    // 0. 背景层：宣纸暗底与烛火暗角
+    this.buildBackground(root);
 
-    const eraYearNode = new Node('EraYearLabel');
-    eraYearNode.layer = Layers.Enum.UI_2D;
-    eraYearNode.parent = headerBox;
-    eraYearNode.setPosition(0, 40);
-    const eraLabel = eraYearNode.addComponent(Label);
-    eraLabel.string = '大明崇祯纪事 · 正在启幕...';
-    eraLabel.fontSize = 26;
-    eraLabel.lineHeight = 32;
-    eraLabel.color = new Color(223, 204, 163, 255); // 水墨金
-    this.eraYearLabel = eraLabel;
+    // 1. 顶部水墨档案 HUD (710 x 160)
+    this.buildTopHUD(root);
 
-    const identityNode = new Node('IdentityLabel');
-    identityNode.layer = Layers.Enum.UI_2D;
-    identityNode.parent = headerBox;
-    identityNode.setPosition(0, 5);
-    const idLabel = identityNode.addComponent(Label);
-    idLabel.string = '出身: 测算命中... | 地区: 关陕';
-    idLabel.fontSize = 18;
-    idLabel.lineHeight = 24;
-    idLabel.color = new Color(185, 185, 190, 255);
-    this.identityLabel = idLabel;
+    // 2. 中部核心区：左侧历史流折页 + 右侧博古架
+    this.buildCenterArea(root);
 
-    const attrNode = new Node('AttrLabel');
-    attrNode.layer = Layers.Enum.UI_2D;
-    attrNode.parent = headerBox;
-    attrNode.setPosition(0, -32);
-    const aLabel = attrNode.addComponent(Label);
-    aLabel.string = '体魄: 0 | 见识: 0 | 财资: 0 | 声望: 0 | 气运: 0';
-    aLabel.fontSize = 17;
-    aLabel.lineHeight = 22;
-    aLabel.color = new Color(210, 210, 215, 255);
-    this.attrLabel = aLabel;
+    // 3. 底部青铜官印与辅助控制区
+    this.buildBottomControlBar(root);
 
-    // 1.2 中部史书流视窗 (ScrollView, 710 x 840)
-    const logScrollNode = new Node('LogScrollView');
-    logScrollNode.layer = Layers.Enum.UI_2D;
-    logScrollNode.parent = root;
-    logScrollNode.setPosition(0, 30);
-    const scrollTransform = logScrollNode.addComponent(UITransform);
-    scrollTransform.setContentSize(710, 840);
+    // 4. 奏折抉择弹层 (必须处于最顶层以响应交互并遮罩底层)
+    this.buildDecisionOverlay(root);
+  }
 
-    // 1. 添加视口裁剪遮罩 (Mask)：超出 840 高度的文字自动精准裁切，严禁溢出到按钮区
-    logScrollNode.addComponent(Mask);
+  private buildBackground(root: Node): void {
+    const bgNode = new Node('BgLayer');
+    bgNode.layer = Layers.Enum.UI_2D;
+    const bgTrans = bgNode.addComponent(UITransform);
+    bgTrans.setContentSize(750, 1334);
+    const bgGfx = bgNode.addComponent(Graphics);
+    bgGfx.fillColor = new Color(30, 27, 24, 255); // #1E1B18 宣纸炭黑底
+    bgGfx.rect(-375, -667, 750, 1334);
+    bgGfx.fill();
+    root.addChild(bgNode);
 
-    const scrollView = logScrollNode.addComponent(ScrollView);
+    // 烛火暗角
+    const candleNode = new Node('CandleVignette');
+    candleNode.layer = Layers.Enum.UI_2D;
+    const candleTrans = candleNode.addComponent(UITransform);
+    candleTrans.setContentSize(750, 1334);
+    const cGfx = candleNode.addComponent(Graphics);
+    cGfx.fillColor = new Color(0, 0, 0, 120);
+    cGfx.rect(-375, -667, 750, 1334);
+    cGfx.fill();
+    candleNode.addComponent(UIOpacity);
+    root.addChild(candleNode);
+    this.candleVignetteNode = candleNode;
+  }
+
+  private buildTopHUD(root: Node): void {
+    const hudNode = new Node('TopHUD');
+    hudNode.layer = Layers.Enum.UI_2D;
+    hudNode.setPosition(0, 567, 0);
+    const hudTrans = hudNode.addComponent(UITransform);
+    hudTrans.setContentSize(750, 200);
+    root.addChild(hudNode);
+
+    // 纪年与岁数 (EraAndAgeLabel)
+    const eraNode = new Node('EraAndAgeLabel');
+    eraNode.layer = Layers.Enum.UI_2D;
+    eraNode.setPosition(0, 55, 0);
+    const eraTrans = eraNode.addComponent(UITransform);
+    eraTrans.setContentSize(750, 36);
+    this.eraYearLabel = eraNode.addComponent(Label);
+    this.eraYearLabel.string = '大明崇祯纪事 · 正在启幕...';
+    this.eraYearLabel.fontSize = 24;
+    this.eraYearLabel.color = new Color(223, 204, 163, 255);
+    hudNode.addChild(eraNode);
+
+    // 身份腰牌容器 (IdentityPlaque)
+    this.identityPlaqueNode = new Node('IdentityPlaque');
+    this.identityPlaqueNode.layer = Layers.Enum.UI_2D;
+    this.identityPlaqueNode.setPosition(0, 15, 0);
+    const idTrans = this.identityPlaqueNode.addComponent(UITransform);
+    idTrans.setContentSize(640, 34);
+    this.identityLabel = this.identityPlaqueNode.addComponent(Label);
+    this.identityLabel.string = '身份: 测算命中... | 地区: 关陕 | 阶层: 平民';
+    this.identityLabel.fontSize = 18;
+    this.identityLabel.color = new Color(190, 180, 165, 255);
+    hudNode.addChild(this.identityPlaqueNode);
+
+    // 五维属性铜钱栏 (StatsCoinBar)
+    const coinBarNode = new Node('StatsCoinBar');
+    coinBarNode.layer = Layers.Enum.UI_2D;
+    coinBarNode.setPosition(0, -32, 0);
+    const barTrans = coinBarNode.addComponent(UITransform);
+    barTrans.setContentSize(700, 40);
+    hudNode.addChild(coinBarNode);
+
+    const stats = ['physique', 'wealth', 'intelligence', 'prestige', 'luck'];
+    const startX = -260;
+    const spacingX = 130;
+
+    stats.forEach((stKey, index) => {
+      const info = EnumMapper.translateStat(stKey);
+      const coinNode = new Node(`Coin_${stKey}`);
+      coinNode.layer = Layers.Enum.UI_2D;
+      coinNode.setPosition(startX + index * spacingX, 0, 0);
+      const cTrans = coinNode.addComponent(UITransform);
+      cTrans.setContentSize(120, 36);
+
+      const label = coinNode.addComponent(Label);
+      label.string = `${info.name}: 0`;
+      label.fontSize = 17;
+      label.color = new Color(210, 200, 180, 255);
+
+      coinBarNode.addChild(coinNode);
+      this.statCoinNodes.set(stKey, coinNode);
+    });
+  }
+
+  private buildCenterArea(root: Node): void {
+    const centerNode = new Node('CenterScrollArea');
+    centerNode.layer = Layers.Enum.UI_2D;
+    centerNode.setPosition(0, 20, 0);
+    const centerTrans = centerNode.addComponent(UITransform);
+    centerTrans.setContentSize(750, 880);
+    root.addChild(centerNode);
+
+    // 左侧历史流视窗 (ScrollView, 680 x 880, X: -30)
+    const scrollNode = new Node('EventScrollView');
+    scrollNode.layer = Layers.Enum.UI_2D;
+    scrollNode.setPosition(-30, 0, 0);
+    const scrollTrans = scrollNode.addComponent(UITransform);
+    scrollTrans.setContentSize(680, 880);
+
+    // Viewport (Mask) - 居中且 AnchorX = 0.5, x = 0
+    const viewportNode = new Node('Viewport');
+    viewportNode.layer = Layers.Enum.UI_2D;
+    viewportNode.setPosition(0, 0, 0);
+    const vpTrans = viewportNode.addComponent(UITransform);
+    vpTrans.setAnchorPoint(0.5, 0.5);
+    vpTrans.setContentSize(680, 880);
+    viewportNode.addComponent(Mask);
+    scrollNode.addChild(viewportNode);
+
+    const scrollView = scrollNode.addComponent(ScrollView);
     scrollView.horizontal = false;
     scrollView.vertical = true;
     this.scrollView = scrollView;
 
-    const contentNode = new Node('LogContent');
+    const contentNode = new Node('Content');
     contentNode.layer = Layers.Enum.UI_2D;
-    contentNode.parent = logScrollNode;
-    const contentTransform = contentNode.addComponent(UITransform);
-    contentTransform.setContentSize(690, 800);
-    contentTransform.setAnchorPoint(0.5, 1); // 顶部对齐
-    contentNode.setPosition(0, 420);
+    const contentTrans = contentNode.addComponent(UITransform);
+    contentTrans.setContentSize(680, 880);
+    contentTrans.setAnchorPoint(0.5, 1);
+    contentNode.setPosition(0, 440, 0);
+    viewportNode.addChild(contentNode);
     scrollView.content = contentNode;
     this.logContentNode = contentNode;
+    centerNode.addChild(scrollNode);
 
-    // 1.3 底部交互与推进操作区 (710 x 260)
-    const actionPanel = new Node('ActionPanel');
-    actionPanel.layer = Layers.Enum.UI_2D;
-    actionPanel.parent = root;
-    actionPanel.setPosition(0, -490);
-    const panelTransform = actionPanel.addComponent(UITransform);
-    panelTransform.setContentSize(710, 260);
-    this.actionPanel = actionPanel;
+    // 监听滚动实现历史折页岁月风化褪色
+    scrollNode.on('scrolling', () => {
+      if (this.scrollView) {
+        UIAnimController.updateScrollWeathering(this.scrollView);
+      }
+    });
 
-    // 选项抽屉挂载节点 (用于动态排版 1-4 个选项按钮)
-    const drawerNode = new Node('OptionDrawer');
-    drawerNode.layer = Layers.Enum.UI_2D;
-    drawerNode.parent = actionPanel;
-    drawerNode.setPosition(0, 45);
-    const drawerTransform = drawerNode.addComponent(UITransform);
-    drawerTransform.setContentSize(710, 160);
-    this.optionDrawerNode = drawerNode;
-    // 推进一年主按钮
-    const btnAdvance = this.createButton(actionPanel, '顺遂流转 · 推进一年', 0, 40, 420, 64, () => {
-      this.onAdvance();
-    });
-    this.advanceBtn = btnAdvance;
-
-    // 辅助控制栏
-    this.createButton(actionPanel, '重启人生', -220, -45, 180, 50, () => {
-      this.startNewLife();
-    });
-    this.createButton(actionPanel, '存档状态', 0, -45, 180, 50, () => {
-      this.showSaveTip();
-    });
-    this.createButton(actionPanel, '滚至底部', 220, -45, 180, 50, () => {
-      if (this.scrollView) this.scrollView.scrollToBottom(0.3);
-    });
+    // 右侧博古架 (60 x 880, X: 335)
+    const relicNode = new Node('RightRelicBar');
+    relicNode.layer = Layers.Enum.UI_2D;
+    relicNode.setPosition(335, 0, 0);
+    const relicTrans = relicNode.addComponent(UITransform);
+    relicTrans.setContentSize(60, 880);
+    this.relicBar = relicNode.addComponent(RelicBarController);
+    centerNode.addChild(relicNode);
   }
 
-  /**
-   * 2. 真实启动新人生 (接入 ming_end 0.7.1 ContentBundle)
-   */
-  private startNewLife(): void {
-    if (this.logContentNode) {
-      this.logContentNode.removeAllChildren();
-    }
-    this.renderedLogsCount = 0;
+  private buildDecisionOverlay(root: Node): void {
+    const overlayNode = new Node('DecisionOverlay');
+    overlayNode.layer = Layers.Enum.UI_2D;
+    overlayNode.setPosition(0, 0, 0);
+    const trans = overlayNode.addComponent(UITransform);
+    trans.setContentSize(750, 1334);
 
-    try {
-      const content = getNativeMingEndContent();
-      const engine = new GameEngine(content.bundle, content.fingerprint);
+    // 半透明遮罩 (MaskBg)
+    const maskBg = new Node('MaskBg');
+    maskBg.layer = Layers.Enum.UI_2D;
+    const mTrans = maskBg.addComponent(UITransform);
+    mTrans.setContentSize(750, 1334);
+    maskBg.addComponent(BlockInputEvents);
+    const gfx = maskBg.addComponent(Graphics);
+    gfx.fillColor = new Color(0, 0, 0, 180);
+    gfx.rect(-375, -667, 750, 1334);
+    gfx.fill();
+    overlayNode.addChild(maskBg);
 
-      // 初始化人生 (使用随机种子)
-      const seed = Math.floor(Math.random() * 4294967295);
-      const initResult = engine.initGame({ seed });
-      if (!initResult.ok) {
-        this.appendSystemLog(`开局失败：${initResult.error.message}`);
+    // 奏折卡片 (MemorialCard)
+    const cardNode = new Node('MemorialCard');
+    cardNode.layer = Layers.Enum.UI_2D;
+    this.memorialCardComp = cardNode.addComponent(MemorialCard);
+    overlayNode.addChild(cardNode);
+
+    overlayNode.active = false;
+    root.addChild(overlayNode);
+    this.decisionOverlay = overlayNode;
+  }
+
+  private buildBottomControlBar(root: Node): void {
+    const barNode = new Node('BottomControlBar');
+    barNode.layer = Layers.Enum.UI_2D;
+    barNode.setPosition(0, -547, 0);
+    const barTrans = barNode.addComponent(UITransform);
+    barTrans.setContentSize(750, 240);
+    root.addChild(barNode);
+
+    // 青铜官印大按钮 (推进流转)
+    const sealBtnNode = new Node('SealAdvanceBtn');
+    sealBtnNode.layer = Layers.Enum.UI_2D;
+    sealBtnNode.setPosition(0, 48, 0);
+    const sealTrans = sealBtnNode.addComponent(UITransform);
+    sealTrans.setContentSize(380, 72);
+
+    const btnGfx = sealBtnNode.addComponent(Graphics);
+    btnGfx.fillColor = new Color(45, 75, 60, 255); // 青铜官印墨绿底
+    btnGfx.roundRect(-190, -36, 380, 72, 10);
+    btnGfx.fill();
+    btnGfx.lineWidth = 2.5;
+    btnGfx.strokeColor = new Color(180, 140, 60, 255);
+    btnGfx.roundRect(-190, -36, 380, 72, 10);
+    btnGfx.stroke();
+
+    const labelNode = new Node('BtnLabel');
+    labelNode.layer = Layers.Enum.UI_2D;
+    const lTrans = labelNode.addComponent(UITransform);
+    lTrans.setContentSize(380, 72);
+    const label = labelNode.addComponent(Label);
+    label.string = '钤印流转 · 推进流年';
+    label.fontSize = 22;
+    label.color = new Color(235, 225, 205, 255);
+    sealBtnNode.addChild(labelNode);
+
+    this.bindSealEvents(sealBtnNode);
+    barNode.addChild(sealBtnNode);
+    this.sealAdvanceBtn = sealBtnNode;
+
+    // 辅助控制栏容器 (SubBtnLayout)
+    const subLayoutNode = new Node('SubBtnLayout');
+    subLayoutNode.layer = Layers.Enum.UI_2D;
+    subLayoutNode.setPosition(0, -42, 0);
+    const subTrans = subLayoutNode.addComponent(UITransform);
+    subTrans.setContentSize(700, 50);
+    barNode.addChild(subLayoutNode);
+
+    this.createButton(subLayoutNode, '重启人生', -220, 0, 180, 48, () => this.startNewLife());
+    this.createButton(subLayoutNode, '存档状态', 0, 0, 180, 48, () => this.showSaveTip());
+    this.createButton(subLayoutNode, '滚至最新', 220, 0, 180, 48, () => {
+      if (this.scrollView) this.scrollView.scrollToBottom(0.2);
+    });
+  }
+  private bindSealEvents(btnNode: Node): void {
+    btnNode.on(Node.EventType.TOUCH_START, () => {
+      this.isSealHolding = true;
+      this.holdTimer = 0;
+      this.autoAdvanceInterval = 0;
+      btnNode.setScale(0.95, 0.95, 1);
+    });
+
+    btnNode.on(Node.EventType.TOUCH_END, () => {
+      btnNode.setScale(1, 1, 1);
+      if (this.currentView && this.currentView.status === 'ENDED') {
+        // 死亡状态直接触发重启人生
+        this.startNewLife();
         return;
       }
-
-      // 创建 GameSession
-      this.session = new GameSession(engine, {
-        persist: async () => {},
-        load: async () => null,
-        hash: (v) => String(v),
-      });
-
-      this.currentView = initResult.state;
-      this.updateHUD(this.currentView);
-
-      // 输出生平首段史书与开局日志
-      if (initResult.logs && initResult.logs.length > 0) {
-        for (const log of initResult.logs) {
-          this.appendLogEntry(log.message, log.type);
-        }
+      if (this.holdTimer < 0.35) {
+        // 短按推进单步
+        this.onAdvance();
       }
-      this.appendSystemLog(`【生平既定】人生种子 ${seed} · 天命已启。`);
-
-      // 检查开局是否直接面临重大抉择 (方向选择)
-      this.renderPending(initResult.pending);
-    } catch (e) {
-      this.appendSystemLog(`加载原生明末内容包异常: ${String(e)}`);
-    }
+      this.isSealHolding = false;
+    });
+    btnNode.on(Node.EventType.TOUCH_CANCEL, () => {
+      btnNode.setScale(1, 1, 1);
+      this.isSealHolding = false;
+    });
   }
 
-  /**
-   * 3. 推进年轮 (推进一年或继续流转)
-   */
+  private startNewLife(): void {
+    this.isSealHolding = false;
+    if (this.logContentNode) {
+      this.logContentNode.removeAllChildren();
+      const trans = this.logContentNode.getComponent(UITransform);
+      if (trans) trans.setContentSize(630, 800);
+    }
+    this.renderedItemsCount = 0;
+
+    const pkg = getNativeMingEndContent();
+    const engine = new GameEngine(pkg.bundle, pkg.fingerprint);
+    let saveSlot: unknown = null;
+    this.session = new GameSession(engine, {
+      hash: (val: unknown) => String(val),
+      persist: async (save) => { saveSlot = structuredClone(save); },
+      load: async () => saveSlot as SessionSave | null,
+    });
+
+    this.session.initialize(1628).then((initResult) => {
+      if (!initResult.ok) {
+        this.appendSystemLog(`启动遇阻: ${initResult.error.message}`);
+        return;
+      }
+      this.currentView = initResult.state;
+      this.updateHUD(this.currentView);
+      this.updateSealButtonState(false);
+
+      this.appendSystemLog('【天启末造】大明崇祯元年，天象动荡，世事如棋。');
+      if (this.identityPlaqueNode) {
+        UIAnimController.playPlaqueSway(this.identityPlaqueNode);
+      }
+
+      this.renderPending(initResult.pending);
+    }).catch((e) => {
+      this.appendSystemLog(`启动异常: ${String(e)}`);
+    });
+  }
+
   private async onAdvance(): Promise<void> {
     if (!this.session) return;
-
     if (this.currentView && this.currentView.status === 'ENDED') {
+      this.isSealHolding = false;
       this.appendSystemLog('【生平盖棺】尘埃落定，不可复进。请点击“重启人生”。');
+      return;
+    }
+    // 如果当前有尚未完成的玩家选择，阻止盲目推进并弹出提示
+    if (this.currentView && this.currentView.status === 'AWAITING_OPTION') {
+      this.isSealHolding = false;
+      if (this.decisionOverlay) this.decisionOverlay.active = true;
+      this.appendSystemLog('【时局待定】当前有机缘抉择尚未定夺，请先批红呈阅。');
+      return;
+    }
+    // 如果当前有自动阶段检定，自动继续执行检定而不阻断
+    if (this.currentView && this.currentView.status === 'AWAITING_STAGE') {
+      await this.chooseStage();
       return;
     }
 
     try {
-      // 提交 next 命令给 Session
       const res = await this.session.command({ type: 'next' });
       if (!res.ok) {
+        this.isSealHolding = false;
         this.appendSystemLog(`推进遇阻: ${res.error.message}`);
         return;
       }
@@ -227,283 +432,254 @@ export class GameMain extends Component {
         this.updateHUD(this.currentView);
       }
 
-      // 实时追加本年发生的所有历史大势与人生际遇日志
+      // 聚合解析引擎日志并追加折页卡片
       if (res.logs && res.logs.length > 0) {
-        for (const log of res.logs) {
-          this.appendLogEntry(log.message, log.type);
+        const foldItems = LogParser.parseBatch(this.extractRawLogs(res.logs));
+        for (const item of foldItems) {
+          this.appendFoldCard(item);
         }
       }
-
-      // 刷新待处理决断（选项抽屉或阶段检定）
+      // 刷新待处理决断
       this.renderPending(res.pending);
 
       if (this.currentView && this.currentView.status === 'ENDED') {
+        this.isSealHolding = false;
+        this.updateSealButtonState(true);
         this.appendEndingHint();
       }
-      // 自动滚到最新日志
+
       if (this.scrollView) {
-        this.scrollToLatest();
+        this.scrollView.scrollToBottom(0.2);
+        UIAnimController.updateScrollWeathering(this.scrollView);
       }
     } catch (e) {
+      this.isSealHolding = false;
       this.appendSystemLog(`推进异常: ${String(e)}`);
     }
   }
 
-  /**
-   * 4. 实时刷新顶部 HUD 档案与五维属性
-   */
   private updateHUD(view: GameView): void {
     const p = view.player;
     if (this.eraYearLabel) {
       const reignYear = p.calendar_year - 1627;
-      this.eraYearLabel.string = `崇祯 ${reignYear} 年 (${p.calendar_year}) · ${p.age} 岁`;
+      this.eraYearLabel.string = `大明崇祯 ${reignYear} 年 (${p.calendar_year}) · ${p.age} 岁`;
     }
 
     if (this.identityLabel) {
-      this.identityLabel.string = `身份: ${p.identity_id} | 地区: ${p.region_id} | 阶层: ${p.caste_id}`;
+      const idName = EnumMapper.translateIdentity(p.identity_id);
+      const regName = EnumMapper.translateRegion(p.region_id);
+      const casteName = EnumMapper.translateCaste(p.caste_id);
+      this.identityLabel.string = `身份: ${idName} | 地区: ${regName} | 阶层: ${casteName}`;
     }
 
-    if (this.attrLabel) {
-      const a = p.attributes;
-      this.attrLabel.string = `体魄: ${a.physique} | 见识: ${a.intelligence} | 财资: ${a.wealth} | 声望: ${a.prestige} | 气运: ${a.luck}`;
+    // 五维属性与铜钱翻转动效
+    const stats: Record<string, number> = {
+      physique: p.attributes.physique,
+      wealth: p.attributes.wealth,
+      intelligence: p.attributes.intelligence,
+      prestige: p.attributes.prestige,
+      luck: p.attributes.luck,
+    };
+
+    for (const [k, val] of Object.entries(stats)) {
+      const node = this.statCoinNodes.get(k);
+      if (node) {
+        const lbl = node.getComponent(Label);
+        const prev = this.prevStatValues.get(k) ?? val;
+        const info = EnumMapper.translateStat(k);
+        if (lbl) lbl.string = `${info.name}: ${val}`;
+
+        if (prev !== val) {
+          UIAnimController.playStatChangeEffect(node, val - prev);
+          this.prevStatValues.set(k, val);
+        }
+      }
+    }
+
+    // 烛火暗角更新
+    if (this.candleVignetteNode) {
+      UIAnimController.updateCandleVignette(
+        this.candleVignetteNode,
+        p.age,
+        p.attributes.luck,
+      );
     }
   }
 
-  /**
-   * 5. 渲染单条史书日志 (富文本换行与水墨配色)
-   */
-  private appendLogEntry(message: string, type: string): void {
-    // 严格过滤引擎内部调度与条件审计日志（这些是底层用来判断事件是否触发的，不属于面向玩家的剧情）
-    if (
-      !this.logContentNode ||
-      !message ||
-      type === 'skip' ||
-      type === 'draw' ||
-      message.startsWith('CONDITION_') ||
-      message.startsWith('ZERO_WEIGHT') ||
-      message.startsWith('MAX_OCCURRENCES') ||
-      message.startsWith('COOLDOWN') ||
-      message.startsWith('PHYSIQUE_TOO_LOW')
-    ) {
-      return;
-    }
-    this.renderedLogsCount += 1;
-    const textNode = new Node(`Log_${this.renderedLogsCount}`);
-    textNode.layer = Layers.Enum.UI_2D;
-    textNode.parent = this.logContentNode;
+  private appendFoldCard(data: FoldItemData): void {
+    if (!this.logContentNode) return;
+    this.renderedItemsCount += 1;
 
-    const transform = textNode.addComponent(UITransform);
-    transform.setContentSize(670, 36);
-    transform.setAnchorPoint(0.5, 1);
+    const itemNode = new Node(`FoldCard_${this.renderedItemsCount}`);
+    itemNode.layer = Layers.Enum.UI_2D;
+    itemNode.setPosition(0, -this.renderedItemsCount * 90, 0);
+    const itemTrans = itemNode.addComponent(UITransform);
+    itemTrans.setAnchorPoint(0.5, 0.5);
+    this.logContentNode.addChild(itemNode);
 
-    const label = textNode.addComponent(Label);
-    label.string = message;
-    label.fontSize = 17;
-    label.lineHeight = 24;
-    label.overflow = Label.Overflow.RESIZE_HEIGHT;
-
-    // 水墨分级染色
-    if (type === 'option' || message.includes('【抉择】') || message.includes('【重大抉择】')) {
-      label.color = new Color(223, 160, 75, 255); // 琥珀金
-    } else if (type === 'death' || message.includes('【危机】') || message.includes('【伤病】') || message.includes('【死亡】')) {
-      label.color = new Color(225, 75, 75, 255); // 朱砂红
-    } else if (type === 'effects' || message.includes('【结果】')) {
-      label.color = new Color(130, 195, 150, 255); // 青竹色
-    } else if (type === 'achievement') {
-      label.color = new Color(245, 215, 110, 255); // 耀金色
-    } else {
-      label.color = new Color(220, 220, 210, 255); // 宣纸白
+    const comp = itemNode.addComponent(EventFoldItem);
+    comp.init(data);
+    // 朱砂印章盖印动效与震屏
+    const stampBadge = comp.getStampNode();
+    if (stampBadge) {
+      UIAnimController.playStampEffect(stampBadge, this.node);
+      // 如果是传家宝或珍贵词条，飞入右侧博古架
+      if (this.relicBar && this.isRareRelicTag(data.stampTag)) {
+        const relicInfo = this.resolveRelicItem(data);
+        this.relicBar.addRelic(relicInfo, stampBadge);
+      }
     }
 
     this.updateLogContentLayout();
   }
 
-  private appendSystemLog(msg: string): void {
-    this.appendLogEntry(msg, 'system');
+  /**
+   * 识别传家宝与珍贵词条（如“传家之宝”锁子甲、“万家生佛”、“点石成金”、“绝世古董”等）
+   */
+  private isRareRelicTag(tag?: string): boolean {
+    if (!tag) return false;
+    const rareKeywords = [
+      '传家之宝',
+      '万家生佛',
+      '点石成金',
+      '绝世古董',
+      '民间鲁班',
+      '大明货王',
+      '泰山北斗',
+      '赛华佗在世',
+    ];
+    return rareKeywords.includes(tag) || tag.includes('传家') || tag.includes('古董') || tag.includes('至宝');
   }
 
-  private appendChoiceHint(pending: Extract<PendingDecision, { kind: 'option' }>): void {
-    this.appendLogEntry(`【重大抉择降临】面前有 ${pending.options.length} 条生路待你定夺。`, 'option');
+  private resolveRelicItem(data: FoldItemData) {
+    const name = data.stampTag || '传家珍宝';
+    return {
+      id: data.id ?? `relic_${Date.now()}_${Math.random()}`,
+      name: name === '传家之宝' ? '铁扎战甲' : name,
+      desc: data.outcomeText || '明末遗珍，岁月见证。',
+    };
+  }
+  private updateLogContentLayout(): void {
+    if (!this.logContentNode) return;
+    let totalHeight = 16;
+    const spacing = 16;
+    for (const child of this.logContentNode.children) {
+      const trans = child.getComponent(UITransform);
+      if (trans) {
+        child.setPosition(0, -totalHeight - trans.height / 2, 0);
+        totalHeight += trans.height + spacing;
+      }
+    }
+    const contentTrans = this.logContentNode.getComponent(UITransform);
+    if (contentTrans) {
+      contentTrans.setContentSize(680, Math.max(880, totalHeight + 20));
+    }
+  }
+
+  private renderPending(pending: PendingDecision | null): void {
+    if (!pending) {
+      if (this.decisionOverlay) this.decisionOverlay.active = false;
+      return;
+    }
+
+    // 打断官印长按
+    this.isSealHolding = false;
+
+    if (pending.kind === 'option' && this.memorialCardComp && this.decisionOverlay) {
+      this.decisionOverlay.active = true;
+      this.memorialCardComp.init(pending, (optId) => {
+        this.chooseOption(optId);
+      });
+    } else {
+      if (this.decisionOverlay) this.decisionOverlay.active = false;
+      if (pending.kind === 'stage') {
+        this.chooseStage();
+      }
+    }
+  }
+
+  private async chooseOption(optId: string): Promise<void> {
+    if (!this.session) return;
+    if (this.decisionOverlay) this.decisionOverlay.active = false;
+
+    const res = await this.session.command({ type: 'choose', optionId: optId });
+    if (!res.ok) {
+      this.appendSystemLog(`抉择遇阻: ${res.error.message}`);
+      return;
+    }
+
+    this.currentView = res.state;
+    if (this.currentView) this.updateHUD(this.currentView);
+
+    if (res.logs && res.logs.length > 0) {
+      const items = LogParser.parseBatch(this.extractRawLogs(res.logs));
+      for (const it of items) this.appendFoldCard(it);
+    }
+    if (this.currentView && this.currentView.status === 'ENDED') {
+      this.isSealHolding = false;
+      this.updateSealButtonState(true);
+      this.appendEndingHint();
+    }
+    this.renderPending(res.pending);
+    if (this.scrollView) this.scrollView.scrollToBottom(0.2);
+  }
+
+  private async chooseStage(): Promise<void> {
+    if (!this.session) return;
+    const res = await this.session.command({ type: 'stage' });
+    if (!res.ok) return;
+
+    this.currentView = res.state;
+    if (this.currentView) this.updateHUD(this.currentView);
+    if (res.logs && res.logs.length > 0) {
+      const items = LogParser.parseBatch(this.extractRawLogs(res.logs));
+      for (const it of items) this.appendFoldCard(it);
+    }
+    if (this.currentView && this.currentView.status === 'ENDED') {
+      this.isSealHolding = false;
+      this.updateSealButtonState(true);
+      this.appendEndingHint();
+    }
+    this.renderPending(res.pending);
+    if (this.scrollView) this.scrollView.scrollToBottom(0.2);
+  }
+
+  private appendSystemLog(msg: string): void {
+    this.appendFoldCard({
+      id: `sys_${Date.now()}_${Math.random()}`,
+      introText: msg,
+      type: 'system',
+    });
+  }
+  private extractRawLogs(logs: readonly LogEntry[]) {
+    return logs.map((l) => {
+      let metadata: Record<string, unknown> | undefined = undefined;
+      if ('data' in l && l.data && typeof l.data === 'object') {
+        metadata = l.data as Record<string, unknown>;
+      }
+      return {
+        type: l.type,
+        message: l.message,
+        metadata,
+      };
+    });
   }
 
   private appendEndingHint(): void {
-    this.appendLogEntry(`【寿终正寝 · 纪事结卷】大明此生已尽，可点击“重启人生”再入轮回。`, 'death');
+    this.appendFoldCard({
+      id: `end_${Date.now()}`,
+      introText: '【大明终章】一代沧桑过往俱成青史微尘。',
+      outcomeText: '盖棺定论，岁月寂然。',
+      type: 'death',
+    });
   }
 
-  /**
-   * 6. 动态重算长日志高度，保证顺畅滚动
-   */
-  private updateLogContentLayout(): void {
-    if (!this.logContentNode) return;
-
-    const children = this.logContentNode.children;
-    let accumulatedY = 0;
-    const spacing = 12;
-
-    for (let i = 0; i < children.length; i++) {
-      const child = children[i];
-      const transform = child.getComponent(UITransform);
-      const h = transform ? transform.height : 28;
-      child.setPosition(0, -accumulatedY);
-      accumulatedY += h + spacing;
-    }
-
-    const contentTransform = this.logContentNode.getComponent(UITransform);
-    if (contentTransform) {
-      contentTransform.setContentSize(690, Math.max(820, accumulatedY + 40));
-    }
-  }
-  private scrollToLatest(): void {
-    setTimeout(() => {
-      if (this.scrollView) {
-        this.scrollView.scrollToBottom(0.3, true);
-      }
-    }, 50);
-  }
   private showSaveTip(): void {
-    this.appendSystemLog('【存档检测】当前人生状态已在 GameSession 中实时保持，支持无缝推进。');
-  }
-  /**
-   * 7. 渲染待处理决断（重大抉择选项抽屉 / D20 骰子检定阶段）
-   */
-  private renderPending(pending: PendingDecision | null): void {
-    if (!this.optionDrawerNode) return;
-    this.optionDrawerNode.removeAllChildren();
-
-    if (!pending) {
-      // 无待决断：展示“推进一年”按钮
-      if (this.advanceBtn) this.advanceBtn.active = true;
-      return;
-    }
-
-    // 有待决断：隐藏常规推进按钮，展示专属决断交互
-    if (this.advanceBtn) this.advanceBtn.active = false;
-
-    if (pending.kind === 'option') {
-      const options = pending.options;
-      const count = options.length;
-      const btnHeight = 48;
-      const spacing = 8;
-      const totalHeight = count * (btnHeight + spacing);
-      let startY = totalHeight / 2 - btnHeight / 2;
-
-      for (let i = 0; i < count; i++) {
-        const opt = options[i];
-        const riskLabel = opt.risk === 'high' ? '[高风险] ' : opt.risk === 'safe' ? '[安全] ' : '[普通] ';
-        const title = `${riskLabel}${opt.text}`;
-        const yPos = startY - i * (btnHeight + spacing);
-
-        const btn = this.createButton(
-          this.optionDrawerNode,
-          title,
-          0,
-          yPos,
-          640,
-          btnHeight,
-          () => {
-            this.onChooseOption(opt.id, opt.available, opt.reason);
-          }
-        );
-
-        // 如果条件不足不可选，置灰并标注原因
-        if (!opt.available) {
-          const btnComp = btn.getComponent(Button);
-          if (btnComp) btnComp.interactable = false;
-          const label = btn.getChildByName('Label')?.getComponent(Label);
-          if (label) {
-            label.color = new Color(140, 140, 145, 255);
-            label.string = `${title} (${opt.reason || '门槛不足'})`;
-          }
-        }
-      }
-    } else if (pending.kind === 'stage') {
-      // 骰子阶段检定
-      const check = pending.check;
-      const stageTitle = `【投掷 D20 检定】DC ${check.dc} · 判定天命`;
-      this.createButton(this.optionDrawerNode, stageTitle, 0, 0, 560, 60, () => {
-        this.onResolveStage();
-      });
-    }
-  }
-
-  /**
-   * 选择生路选项
-   */
-  private async onChooseOption(optionId: string, available: boolean, reason: string | null): Promise<void> {
     if (!this.session) return;
-    if (!available) {
-      this.appendSystemLog(`【天命受阻】该生路不可行：${reason || '条件不符'}`);
-      return;
-    }
-
-    try {
-      const res = await this.session.command({ type: 'choose', optionId });
-      if (!res.ok) {
-        this.appendSystemLog(`抉择失败: ${res.error.message}`);
-        return;
-      }
-
-      this.currentView = res.state;
-      if (this.currentView) {
-        this.updateHUD(this.currentView);
-      }
-
-      if (res.logs && res.logs.length > 0) {
-        for (const log of res.logs) {
-          this.appendLogEntry(log.message, log.type);
-        }
-      }
-
-      this.renderPending(res.pending);
-
-      if (this.currentView && this.currentView.status === 'ENDED') {
-        this.appendEndingHint();
-      }
-
-      this.scrollToLatest();
-    } catch (e) {
-      this.appendSystemLog(`抉择异常: ${String(e)}`);
-    }
+    const saveObj = this.session.exportSave();
+    this.appendSystemLog(`【文书存档】存档版本: ${saveObj.engine.save_version}`);
   }
 
-  /**
-   * 提交阶段骰子结算
-   */
-  private async onResolveStage(): Promise<void> {
-    if (!this.session) return;
-
-    try {
-      const res = await this.session.command({ type: 'stage' });
-      if (!res.ok) {
-        this.appendSystemLog(`阶段检定失败: ${res.error.message}`);
-        return;
-      }
-
-      this.currentView = res.state;
-      if (this.currentView) {
-        this.updateHUD(this.currentView);
-      }
-
-      if (res.logs && res.logs.length > 0) {
-        for (const log of res.logs) {
-          this.appendLogEntry(log.message, log.type);
-        }
-      }
-
-      this.renderPending(res.pending);
-
-      if (this.currentView && this.currentView.status === 'ENDED') {
-        this.appendEndingHint();
-      }
-
-      this.scrollToLatest();
-    } catch (e) {
-      this.appendSystemLog(`阶段检定异常: ${String(e)}`);
-    }
-  }
-  /**
-   * 7. 通用水墨按钮工厂
-   */
   private createButton(
     parent: Node,
     title: string,
@@ -511,26 +687,116 @@ export class GameMain extends Component {
     y: number,
     w: number,
     h: number,
-    onClick: () => void
+    cb: () => void,
   ): Node {
     const btnNode = new Node(`Btn_${title}`);
     btnNode.layer = Layers.Enum.UI_2D;
-    btnNode.parent = parent;
-    btnNode.setPosition(x, y);
-    const transform = btnNode.addComponent(UITransform);
-    transform.setContentSize(w, h);
+    btnNode.setPosition(x, y, 0);
+    const trans = btnNode.addComponent(UITransform);
+    trans.setContentSize(w, h);
 
-    const labelNode = new Node('Label');
-    labelNode.layer = Layers.Enum.UI_2D;
-    labelNode.parent = btnNode;
-    const label = labelNode.addComponent(Label);
-    label.string = title;
-    label.fontSize = 19;
-    label.lineHeight = 24;
-    label.color = new Color(240, 240, 240, 255);
+    const gfx = btnNode.addComponent(Graphics);
+    gfx.fillColor = new Color(50, 45, 40, 220);
+    gfx.roundRect(-w / 2, -h / 2, w, h, 6);
+    gfx.fill();
+    gfx.lineWidth = 1.5;
+    gfx.strokeColor = new Color(130, 110, 80, 200);
+    gfx.roundRect(-w / 2, -h / 2, w, h, 6);
+    gfx.stroke();
 
-    btnNode.addComponent(Button);
-    btnNode.on(Node.EventType.TOUCH_END, onClick, this);
+    const lblNode = new Node('Title');
+    lblNode.layer = Layers.Enum.UI_2D;
+    const lTrans = lblNode.addComponent(UITransform);
+    lTrans.setContentSize(w, h);
+    const lbl = lblNode.addComponent(Label);
+    lbl.string = title;
+    lbl.fontSize = 18;
+    lbl.color = new Color(220, 210, 190, 255);
+    btnNode.addChild(lblNode);
+
+    btnNode.on(Node.EventType.TOUCH_END, cb);
+    parent.addChild(btnNode);
     return btnNode;
+  }
+
+  // --- 公共检查与交互接口 (供测试、调试与自动化验收) ---
+  public getEraYearLabel(): Label | null {
+    return this.eraYearLabel;
+  }
+
+  public getIdentityLabel(): Label | null {
+    return this.identityLabel;
+  }
+
+  public getStatCoinNode(statKey: string): Node | null {
+    return this.statCoinNodes.get(statKey) ?? null;
+  }
+
+  public getRelicBar(): RelicBarController | null {
+    return this.relicBar;
+  }
+
+  public getDecisionOverlay(): Node | null {
+    return this.decisionOverlay;
+  }
+
+  public getMemorialCard(): MemorialCard | null {
+    return this.memorialCardComp;
+  }
+
+  public getSealAdvanceBtn(): Node | null {
+    return this.sealAdvanceBtn;
+  }
+
+  public getLogContentNode(): Node | null {
+    return this.logContentNode;
+  }
+
+  public getSession(): GameSession | null {
+    return this.session;
+  }
+
+  public getCurrentView(): GameView | null {
+    return this.currentView;
+  }
+
+  public isHoldingSeal(): boolean {
+    return this.isSealHolding;
+  }
+
+  public triggerAdvance(): Promise<void> {
+    return this.onAdvance();
+  }
+
+  private updateSealButtonState(isEnded: boolean): void {
+    if (!this.sealAdvanceBtn) return;
+    const labelNode = this.sealAdvanceBtn.children.find((c) => c.name === 'BtnLabel');
+    const label = labelNode?.getComponent(Label);
+    const gfx = this.sealAdvanceBtn.getComponent(Graphics);
+    if (isEnded) {
+      if (label) label.string = '尘埃落定 · 重启人生';
+      if (gfx) {
+        gfx.clear();
+        gfx.fillColor = new Color(55, 50, 50, 255); // 置灰深色
+        gfx.roundRect(-190, -36, 380, 72, 10);
+        gfx.fill();
+        gfx.lineWidth = 2.5;
+        gfx.strokeColor = new Color(130, 110, 90, 255);
+        gfx.roundRect(-190, -36, 380, 72, 10);
+        gfx.stroke();
+      }
+    } else {
+      if (label) label.string = '钤印流转 · 推进流年';
+      if (gfx) {
+        gfx.clear();
+        gfx.fillColor = new Color(45, 75, 60, 255); // 青铜墨绿底
+        gfx.roundRect(-190, -36, 380, 72, 10);
+        gfx.fill();
+        gfx.lineWidth = 2.5;
+        gfx.strokeColor = new Color(180, 140, 60, 255);
+        gfx.roundRect(-190, -36, 380, 72, 10);
+        gfx.stroke();
+      }
+    }
   }
 }

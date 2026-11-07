@@ -53,7 +53,8 @@ function scenario(build: Build, year = 1632, age = 21, extra: string[] = []) {
   bundle.rules.opening.year_min = year;
   bundle.rules.opening.year_max = year;
   const pool = bundle.pools.find(item => item.id === bundle.rules.opening.pool_id)!;
-  for (const entry of pool.entries) entry.weight = entry.card_id === build.card ? 1 : 0;
+  // Native relics are no longer production offers; route coverage uses an explicit fixture.
+  pool.entries = [{ card_id: build.card, weight: 1 }];
   const keep = new Set([...build.opening, ...build.main, ...build.fast, ...extra]);
   bundle.events = bundle.events.filter(event => event.trigger.kind === 'chain' || keep.has(event.id));
   return bundle;

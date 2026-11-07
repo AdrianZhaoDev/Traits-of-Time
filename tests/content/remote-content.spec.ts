@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
-import { ReadableStream } from 'node:stream/web';
 import { join } from 'node:path';
 import { loadContent } from '../../tools/lib/ContentLoader.js';
 import { ContentLoadError } from '../../assets/scripts/application/ContentPackage.js';

@@ -56,6 +56,12 @@ export class Component {
   addComponent<T extends Component>(type: new () => T): T {
     return this.node.addComponent(type);
   }
+  destroy(): boolean {
+    const index = this.node.components.indexOf(this);
+    if (index >= 0) this.node.components.splice(index, 1);
+    this.enabled = false;
+    return index >= 0;
+  }
 }
 
 export function isValid(value: { isValid?: boolean } | null | undefined, _strictMode = false): boolean {
@@ -81,8 +87,8 @@ export class UITransform extends Component {
     return new Vec3(pos.x, pos.y, pos.z);
   }
 
-  convertToNodeSpaceAR(pos: Vec3): Vec3 {
-    return new Vec3(pos.x, pos.y, pos.z);
+  convertToNodeSpaceAR(pos: Vec3, out = new Vec3()): Vec3 {
+    return out.set(pos.x, pos.y, pos.z);
   }
 }
 
@@ -127,6 +133,9 @@ export class SpriteFrame {
   isValid = true;
   texture: Texture2D | null = null;
   packable = true;
+  originalSize = { width: 256, height: 256 };
+  addRef(): this { return this; }
+  decRef(): this { return this; }
 }
 
 export class SpriteAtlas {
@@ -136,9 +145,28 @@ export class SpriteAtlas {
   decRef(): void {}
 }
 
+export class AudioClip {
+  isValid = true;
+  addRef(): this { return this; }
+  decRef(): this { return this; }
+}
+
+export class AudioSource extends Component {
+  static EventType = { STARTED: 'started', ENDED: 'ended' };
+  clip: AudioClip | null = null;
+  playing = false;
+  loop = false;
+  playOnAwake = false;
+  volume = 1;
+  play(): void { this.playing = true; this.node.emit(AudioSource.EventType.STARTED); }
+  pause(): void { this.playing = false; }
+  stop(): void { this.playing = false; }
+}
+
 export const resources = {
-  load(_path: string, _type: typeof SpriteAtlas, callback: (error: Error | null, asset: SpriteAtlas | null) => void): void {
-    callback(new Error('Resource loading is not available in the Cocos test double'), null);
+  load<T extends SpriteAtlas | SpriteFrame | AudioClip>(_path: string, type: new () => T, callback: (error: Error | null, asset: T | null) => void): void {
+    if (type === SpriteAtlas) callback(new Error('Resource loading is not available in the Cocos test double'), null);
+    else callback(null, new type());
   },
 };
 
@@ -168,6 +196,10 @@ export class Graphics extends Component {
   rect(_x: number, _y: number, _w: number, _h: number): void {}
   roundRect(_x: number, _y: number, _w: number, _h: number, _radius?: number): void {}
   circle(_cx: number, _cy: number, _r: number): void {}
+  moveTo(_x: number, _y: number): void {}
+  lineTo(_x: number, _y: number): void {}
+  close(): void {}
+  arc(_cx: number, _cy: number, _r: number, _start: number, _end: number, _counterclockwise?: boolean): void {}
   fill(): void {}
   stroke(): void {}
   clear(): void {}
@@ -182,6 +214,7 @@ export class ScrollView extends Component {
   stopAutoScroll(): void {}
   getScrollOffset(): { x: number; y: number } { return { x: 0, y: 0 }; }
   scrollToOffset(_offset: { x: number; y: number }, _duration?: number): void {}
+  scrollToPercentVertical(_percent: number, _duration?: number): void {}
 }
 
 export class Button extends Component {
@@ -219,10 +252,14 @@ export class Layout extends Component {
 export interface EventTouch {
   propagationStopped: boolean;
   getUILocation(): { x: number; y: number };
+  getID(): number;
 }
+
+let mockNodeSequence = 0;
 
 export class Node {
   name: string = '';
+  readonly uuid = `mock-node-${++mockNodeSequence}`;
   isValid: boolean = true;
   layer: number = 0;
   active: boolean = true;
@@ -280,6 +317,17 @@ export class Node {
     if (child.parent === this) child.parent = null;
   }
 
+  removeFromParent(): void { this.parent = null; }
+
+  setSiblingIndex(index: number): void {
+    if (!this.parent) return;
+    const siblings = this.parent.children;
+    const current = siblings.indexOf(this);
+    if (current < 0) return;
+    siblings.splice(current, 1);
+    siblings.splice(Math.max(0, Math.min(index, siblings.length)), 0, this);
+  }
+
   removeAllChildren(): void {
     for (const child of this.children) child._parent = null;
     this.children.length = 0;
@@ -333,7 +381,7 @@ export class Node {
   emit(type: string, ...args: unknown[]): void {
     const arr = this.eventListeners.get(type);
     if (arr) {
-      const eventArgs = args.length || !type.startsWith('touch-') ? args : [{ propagationStopped: false, getUILocation: () => ({ x: 0, y: 0 }) }];
+      const eventArgs = args.length || !type.startsWith('touch-') ? args : [{ propagationStopped: false, getUILocation: () => ({ x: 0, y: 0 }), getID: () => 0 }];
       for (const cb of arr) cb(...eventArgs);
     }
   }
@@ -342,9 +390,15 @@ export class Node {
     TOUCH_START: 'touch-start',
     TOUCH_MOVE: 'touch-move',
     TOUCH_END: 'touch-end',
+    SIZE_CHANGED: 'size-changed',
     TOUCH_CANCEL: 'touch-cancel',
   };
 }
+
+export const input = new Node('Input');
+export const Input = { EventType: { TOUCH_END: 'touch-end', MOUSE_UP: 'mouse-up', KEY_DOWN: 'key-down' } };
+export const game = new Node('Game');
+export const Game = { EVENT_HIDE: 'hide', EVENT_SHOW: 'show' };
 
 export const Layers = {
   Enum: {
@@ -362,6 +416,13 @@ export const view = {
   setDesignResolutionSize(_width: number, _height: number, _policy: number): void {},
 };
 export const ResolutionPolicy = { FIXED_WIDTH: 3 };
+
+const localValues = new Map<string, string>();
+export const sys = { localStorage: {
+  getItem: (key: string): string | null => localValues.get(key) ?? null,
+  setItem: (key: string, value: string): void => { localValues.set(key, value); },
+  clear: (): void => localValues.clear(),
+} };
 
 export class Tween {
   static stopAllByTarget(_target: unknown): void {}

@@ -19,11 +19,13 @@ describe('UI Refactor Phase 3 - Motion Matrix & Interactive Controller', () => {
       const card = new MemorialCard();
       const selected: string[] = [];
       card.init(decision, id => selected.push(id), '人生转向', { workshop: ['事业说明：起步花费财富1，失败可能中断。'] });
-      const scroll = card.node.children.find(node => node.name === 'OptionScrollView')!;
+      const surface = card.node.children.find(node => node.name === 'DecisionPanelSurface')!;
+      const scroll = surface.children.find(node => node.name === 'OptionScrollView')!;
       const content = scroll.children.find(node => node.name === 'Viewport')!.children.find(node => node.name === 'Content')!;
       const row = (id: string) => content.children.find(node => node.name === `Option_${id}`)!;
       const detail = (id: string) => row(id).children.find(node => node.name === 'OptionDetail')!.getComponent(Label)!.string;
-      expect(detail('study')).toContain('DC 12');
+      expect(detail('study')).toMatch(/\b12\b/);
+      expect(detail('study')).toContain('65%');
       expect(detail('household')).toContain('不可选：条件不足');
       expect(detail('workshop')).toContain('起步花费财富1，失败可能中断。');
       row('household').emit(Node.EventType.TOUCH_END);

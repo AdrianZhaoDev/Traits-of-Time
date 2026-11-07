@@ -1,11 +1,16 @@
-import { _decorator, Component, Node, Label, Color, Graphics, UITransform } from 'cc';
+import { _decorator, Component, Node, Label, Color, Graphics, UITransform, tween, v3 } from 'cc';
+import achievementsJson from '../../resources/data/ming_end/achievements.json';
 import type { FoldItemData } from './LogParser';
+import { createArt } from './ArtAssets';
+import { GameAudio } from './GameAudio';
+import { createNarrativeArtSection, prefersReducedNarrativeMotion } from './NarrativePanelArt';
 
 const { ccclass } = _decorator;
 const CARD_WIDTH = 590;
 const CONTENT_WIDTH = 542;
 const PADDING_Y = 18;
 const SECTION_GAP = 12;
+const ACHIEVEMENTS_BY_ID = Object.fromEntries(achievementsJson.map(achievement => [achievement.id, achievement]));
 const palette = {
   panel: new Color(26, 29, 38, 255),
   border: new Color(53, 59, 73, 255),
@@ -20,14 +25,27 @@ const palette = {
 /** 固定宽度的历史折页；每段正文与每条真实属性变动独立参与高度计算。 */
 @ccclass('EventFoldItem')
 export class EventFoldItem extends Component {
+  private static readonly achievementReceipts = new WeakMap<Node, Set<string>>();
+  public reducedMotion = false;
+  private stampAnimation: { stop(): void } | null = null;
+
+  /** Call only when this log surface starts a genuinely new life, never on a view refresh. */
+  public static resetAchievementFeedback(logParent: Node): void {
+    this.achievementReceipts.delete(logParent);
+  }
+
   private stampNode: Node | null = null;
 
-  public init(data: FoldItemData): void {
+  public init(data: FoldItemData, celebrateAchievement = true): void {
+    this.stopStampFeedback();
     for (const child of [...this.node.children]) child.destroy();
     this.node.removeAllChildren();
     this.stampNode = null;
+    const achievement = data.type === 'achievement' && data.eventId
+      && Object.prototype.hasOwnProperty.call(ACHIEVEMENTS_BY_ID, data.eventId) ? ACHIEVEMENTS_BY_ID[data.eventId] : undefined;
+    const stampTag = data.stampTag || achievement?.name;
 
-    const transform = this.getComponent(UITransform) || this.addComponent(UITransform);
+    const transform = this.getComponent(UITransform) || this.addComponent(UITransform)!;
     transform.setAnchorPoint(0.5, 0.5);
     const effects = data.effectsSummary ?? data.effectsText ?? [];
     const death = data.type === 'death' || /盖棺|终章/.test(data.stampTag ?? '');
@@ -40,6 +58,10 @@ export class EventFoldItem extends Component {
       || effects.some(effect => /^(家资|财富).*\+\s*\d/.test(effect));
     const accent = death ? palette.red : special ? palette.cyan : gain ? palette.gold : palette.border;
     const sections: Node[] = [];
+    if (data.type !== 'achievement' && data.type !== 'card_selected'
+      && (data.eventId?.startsWith('E_') || data.type === 'event' || data.type === 'effects')) {
+      sections.push(createNarrativeArtSection(this.node, data.eventId, CONTENT_WIDTH));
+    }
 
     if (data.introText) {
       const intro = this.addText(this.node, 'IntroLabel', data.introText, CONTENT_WIDTH, 23,
@@ -50,7 +72,7 @@ export class EventFoldItem extends Component {
       sections.push(this.addText(this.node, 'ActionLabel', data.actionText, CONTENT_WIDTH, 23, palette.text).node);
     }
 
-    if (data.outcomeText || data.stampTag) {
+    if (data.outcomeText || stampTag) {
       const outcome = new Node('OutcomeNode');
       outcome.layer = this.node.layer;
       const outcomeTransform = outcome.addComponent(UITransform);
@@ -58,18 +80,29 @@ export class EventFoldItem extends Component {
       this.node.addChild(outcome);
       let height = 0;
 
-      if (data.stampTag) {
+      if (stampTag) {
         const stamp = new Node('StampBadge');
         stamp.layer = this.node.layer;
         const stampTransform = stamp.addComponent(UITransform);
         stampTransform.setAnchorPoint(0.5, 1);
         outcome.addChild(stamp);
-        const stampWidth = Math.min(CONTENT_WIDTH, Math.max(128, (data.stampTag.length + 2) * 20 + 20));
+        const textWidth = Math.min(CONTENT_WIDTH, Math.max(128, (stampTag.length + 2) * 20 + 20));
+        const inlineIcon = Boolean(achievement) && textWidth + 44 <= CONTENT_WIDTH;
+        const stampWidth = textWidth + (inlineIcon ? 44 : 0);
+        const iconHeader = achievement && !inlineIcon ? 44 : 0;
         const stampColor = death || special || gain ? accent : palette.secondary;
-        const text = this.addText(stamp, 'StampText', `【${data.stampTag}】`, stampWidth - 16, 20, stampColor);
+        const text = this.addText(stamp, 'StampText', `【${stampTag}】`, textWidth - 16, 20, stampColor);
         text.horizontalAlign = Label.HorizontalAlign.CENTER;
-        height = text.node.getComponent(UITransform)!.height + 12;
-        text.node.setPosition(0, -6, 0);
+        height = text.node.getComponent(UITransform)!.height + 12 + iconHeader;
+        text.node.setPosition(inlineIcon ? 22 : 0, -6 - iconHeader, 0);
+        if (achievement) {
+          const category = achievement.category;
+          const icon = achievement.id.startsWith('A_CAREER_') ? 'career'
+            : category === 'life' || category === 'milestone' || category === 'anecdote'
+              ? category : 'event-generic';
+          createArt(stamp, `AchievementIcon_${achievement.id}`, `icons/${icon}`, 32, 32,
+            -stampWidth / 2 + 22, inlineIcon ? -height / 2 : -20);
+        }
         stampTransform.setContentSize(stampWidth, height);
         stamp.setPosition(-CONTENT_WIDTH / 2 + stampWidth / 2, 0, 0);
         const graphics = stamp.addComponent(Graphics);
@@ -145,7 +178,7 @@ export class EventFoldItem extends Component {
       top -= section.getComponent(UITransform)!.height + SECTION_GAP;
     }
 
-    const graphics = this.getComponent(Graphics) || this.addComponent(Graphics);
+    const graphics = this.getComponent(Graphics) || this.addComponent(Graphics)!;
     graphics.clear();
     graphics.fillColor = palette.panel;
     graphics.strokeColor = palette.border;
@@ -156,11 +189,52 @@ export class EventFoldItem extends Component {
     graphics.fillColor = accent;
     graphics.rect(-CARD_WIDTH / 2 + 1, -height / 2 + 6, 6, height - 12);
     graphics.fill();
+    if (achievement) this.playAchievementFeedback(achievement.id, data.feedbackKey, celebrateAchievement);
   }
 
   public getStampNode(): Node | null {
     return this.stampNode;
   }
+  private playAchievementFeedback(achievementId: string, feedbackKey: string | undefined, celebrateAchievement: boolean): void {
+    const scope = this.node.parent ?? this.node;
+    let receipts = EventFoldItem.achievementReceipts.get(scope);
+    if (!receipts) {
+      receipts = new Set<string>();
+      EventFoldItem.achievementReceipts.set(scope, receipts);
+    }
+    // Stable raw-log sequence survives view reconstruction. Legacy callers without
+    // a receipt key still get one celebration per actual achievement ID per life.
+    const receiptKey = feedbackKey ?? achievementId;
+    if (receipts.has(receiptKey)) return;
+    receipts.add(receiptKey);
+    // A muted terminal receipt is still consumed, so a later redraw cannot
+    // retroactively celebrate an award that arrived in the death/ending batch.
+    if (!celebrateAchievement) return;
+    GameAudio.instance?.playCue('achievement');
+    const stamp = this.stampNode;
+    if (!stamp || prefersReducedNarrativeMotion(this.reducedMotion)) return;
+    stamp.setScale(1.08, 1.08, 1);
+    const feedback = tween(stamp).to(0.18, { scale: v3(1, 1, 1) }, { easing: 'cubicOut' });
+    this.stampAnimation = feedback;
+    feedback.call(() => {
+      if (this.stampAnimation === feedback) this.stampAnimation = null;
+    }).start();
+  }
+
+  private stopStampFeedback(): void {
+    this.stampAnimation?.stop();
+    this.stampAnimation = null;
+    if (this.stampNode?.isValid) this.stampNode.setScale(1, 1, 1);
+  }
+
+  onDisable(): void {
+    this.stopStampFeedback();
+  }
+
+  onDestroy(): void {
+    this.stopStampFeedback();
+  }
+
 
   private addText(parent: Node, name: string, text: string, width: number, size: number, color: Color): Label {
     const node = new Node(name);

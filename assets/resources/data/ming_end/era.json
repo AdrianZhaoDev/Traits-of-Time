@@ -6,7 +6,7 @@
   "backgrounds": [
     {
       "id": "B_YOUTH_REFUGEE",
-      "text": "随家人换了几处门牌，跑腿已熟家底还得靠大人。",
+      "text": "你随家人辗转借住，跑腿已很熟练，吃穿还得靠大人。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -38,7 +38,7 @@
     },
     {
       "id": "B_YOUTH_SOLDIER",
-      "text": "在军户家帮忙学手艺，能抬工具还不能独自当家。",
+      "text": "你在军户家帮忙做活、学手艺，还没到独自当家的时候。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -70,7 +70,7 @@
     },
     {
       "id": "B_YOUTH_GENTRY",
-      "text": "家里肯借书却不借钱袋，少年先练认字不练支银。",
+      "text": "家里让你读书认字，钱粮还由长辈管着。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -102,7 +102,7 @@
     },
     {
       "id": "B_CHILD_REFUGEE",
-      "text": "跟家人借宿换了几回门，衣食还轮不到小孩拍板。",
+      "text": "你跟着家人四处借住，吃穿都由大人安排。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -128,7 +128,7 @@
     },
     {
       "id": "B_ADULT_REFUGEE",
-      "text": "靠零工给旧债添还款，米缸比士绅家的门槛还高。",
+      "text": "你靠打零工还旧债，家里常常缺米。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -154,7 +154,7 @@
     },
     {
       "id": "B_CHILD_SOLDIER",
-      "text": "军户家里多了小跑腿，成年差事仍由长辈先扛着。",
+      "text": "你在军户家里帮忙跑腿，差事还由长辈承担。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -180,7 +180,7 @@
     },
     {
       "id": "B_ADULT_SOLDIER",
-      "text": "军户户员照旧要做活，家里米缸不认祖传的功劳。",
+      "text": "你在军户家做活，靠劳动维持一家人的吃穿。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -204,7 +204,7 @@
     },
     {
       "id": "B_CHILD_GENTRY",
-      "text": "家里书多钱袋却够不着，小孩先管课文不管家产。",
+      "text": "家里有不少书，但还轮不到你管钱。你先学着认字读书。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -230,7 +230,7 @@
     },
     {
       "id": "B_ADULT_GENTRY",
-      "text": "分管家中一份日用钱粮，钱袋有份官印可没送来。",
+      "text": "你分管家里的日用钱粮，家境虽好，却没有官职。",
       "condition": {
         "op": "all",
         "conditions": [
@@ -262,7 +262,7 @@
         "field": "identity_id",
         "value": "I_DEPENDENT"
       },
-      "text": "长成少年多跑几趟腿，家里先把扫帚交到手边。",
+      "text": "你长成了少年，开始多帮家里跑腿做活。",
       "effects": [
         {
           "type": "identity_set",
@@ -298,7 +298,7 @@
           }
         ]
       },
-      "text": "成年开始自己找零工，旧饭碗终于添了一份工钱。",
+      "text": "你成年了，开始自己找零工，挣钱养活自己。",
       "effects": [
         {
           "type": "identity_set",
@@ -334,7 +334,7 @@
           }
         ]
       },
-      "text": "成年接过军户家活计，工具不大米缸却等着回音。",
+      "text": "你成年了，接手军户家里的活计，开始帮着养家。",
       "effects": [
         {
           "type": "identity_set",
@@ -370,7 +370,7 @@
           }
         ]
       },
-      "text": "成年分管日用钱粮，钱袋点头也得自己认账。",
+      "text": "你成年了，开始分管家里的日用钱粮。",
       "effects": [
         {
           "type": "identity_set",
@@ -386,7 +386,7 @@
         "collection": "flags",
         "id": "dependent"
       },
-      "text": "满了十八不再记作依亲，家里开始等你带回工钱。",
+      "text": "你满十八岁，不再事事依靠家人。",
       "effects": [
         {
           "type": "flag_remove",
@@ -403,7 +403,7 @@
     },
     {
       "id": "I_DEPENDENT",
-      "name": "年幼孩子",
+      "name": "孩子",
       "rank": 0
     },
     {
@@ -413,7 +413,7 @@
     },
     {
       "id": "I_WORKER",
-      "name": "做工人",
+      "name": "工人",
       "rank": 1
     },
     {
@@ -423,12 +423,12 @@
     },
     {
       "id": "I_ARTISAN",
-      "name": "匠作能手",
+      "name": "熟练工匠",
       "rank": 3
     },
     {
       "id": "I_JUREN",
-      "name": "秋闱举人",
+      "name": "举人",
       "rank": 3
     },
     {
@@ -485,6 +485,6 @@
       ]
     }
   ],
-  "fallback_text": "这一年没撞上大风浪，街坊先替平常日子留了座。",
+  "fallback_text": "这一年没发生什么大事，日子照常过。",
   "old_age_death_id": "D_OLD_AGE"
 }

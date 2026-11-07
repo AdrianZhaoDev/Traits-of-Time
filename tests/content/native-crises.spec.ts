@@ -173,7 +173,8 @@ describe('production native crises', () => {
     for (const card of source.cards.filter(card => card.tags.includes('native'))) {
       const bundle = structuredClone(source);
       const pool = bundle.pools.find(pool => pool.id === bundle.rules.opening.pool_id)!;
-      for (const entry of pool.entries) entry.weight = entry.card_id === card.id ? 1 : 0;
+      // Native routes remain authored content, reached here through a test-owned pool.
+      pool.entries = [{ card_id: card.id, weight: 1 }];
       for (let seed = 0; seed < 64; seed++) {
         const engine = new GameEngine(bundle, fingerprint);
         const result = startWithCard(engine, { seed });

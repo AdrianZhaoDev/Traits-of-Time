@@ -134,7 +134,8 @@ export class UIAnimController {
     tween(stampNode)
       .to(0.18, { scale: baseScale }, {
         easing: 'quadIn',
-        onUpdate: (target: Node, ratio: number) => {
+        onUpdate: (target?: Node, ratio?: number) => {
+          if (!target || ratio === undefined) return;
           target.setRotationFromEuler(baseRotation.x, baseRotation.y, baseRotation.z + targetRotZ * (2 - ratio));
         },
       })
@@ -323,7 +324,8 @@ export class UIAnimController {
     tween(plaqueNode)
       .to(0.12, { scale: v3(baseScale.x * 1.05, baseScale.y * 1.05, baseScale.z) })
       .to(0.15, {}, {
-        onUpdate: (target: Node, ratio: number) => {
+        onUpdate: (target?: Node, ratio?: number) => {
+          if (!target || ratio === undefined) return;
           target.setRotationFromEuler(baseRotation.x, baseRotation.y, baseRotation.z + Math.sin(ratio * Math.PI * 2) * 5);
         },
       })

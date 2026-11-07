@@ -85,7 +85,7 @@ function atEvent(source: ContentBundle, event: Event, seed: number, requiredCard
   const card = cardGate(requiredCard) ?? cardGate(event.condition);
   if (card) {
     const pool = bundle.pools.find(item => item.id === bundle.rules.opening.pool_id)!;
-    for (const entry of pool.entries) entry.weight = entry.card_id === card ? 1 : 0;
+    pool.entries = [{ card_id: card, weight: 1 }];
   }
   const engine = new GameEngine(bundle, 'b'.repeat(64));
   const result = startWithCard(engine, { seed });
@@ -113,19 +113,37 @@ async function archivedMixed() {
   }
 }
 
-it('loads and initializes the native package without modern references or an archive pool', async () => {
-  const source = await production();
+it('offers exactly three distinct modern cards from the production pool and accepts each offered choice', async () => {
+  const { bundle: source, fingerprint } = await loadContent(templateDirectory);
   expect(JSON.stringify(source)).not.toMatch(/CARD_MOD_|POOL_MODERN_|CH_LIGHTER_|E_LG_|A_LIGHTER_|I_FIRE_OFFICER|I_STREET_MAGICIAN/);
   const pool = source.pools.find(item => item.id === source.rules.opening.pool_id);
-  expect(pool).toBeDefined();
-  expect(pool!.entries.length).toBeGreaterThan(0);
-  expect(pool!.entries.reduce((sum, entry) => sum + entry.weight, 0)).toBeGreaterThan(0);
+  expect(pool?.entries).toEqual([
+    { card_id: 'CARD_MODERN_CORN', weight: 5 },
+    { card_id: 'CARD_MODERN_ANTIBIOTIC', weight: 5 },
+    { card_id: 'CARD_MODERN_FLASHLIGHT', weight: 15 },
+    { card_id: 'CARD_MODERN_CALCULATOR', weight: 15 },
+    { card_id: 'CARD_MODERN_GLUE', weight: 30 },
+    { card_id: 'CARD_MODERN_LIGHTER', weight: 30 },
+  ]);
   for (let seed = 0; seed < 16; seed++) {
-    const engine = new GameEngine(source, '1'.repeat(64));
-    const result = startWithCard(engine, { seed });
-    expect(result.state.player.cards).toHaveLength(1);
-    expect(source.cards.some(card => card.id === result.state.player.cards[0])).toBe(true);
-    expect(pool!.entries.some(entry => entry.card_id === result.state.player.cards[0] && entry.weight > 0)).toBe(true);
+    const engine = new GameEngine(source, fingerprint);
+    const initial = ok(engine.initGame({ seed }));
+    expect(initial).toMatchObject({ logs: [], state: { status: 'AWAITING_CARD', active_event: null, player: { cards: [] } } });
+    if (initial.pending?.kind !== 'card') throw new Error('Missing production card offer');
+    expect(initial.pending.cards).toHaveLength(3);
+    expect(new Set(initial.pending.cards).size).toBe(3);
+    for (const card of initial.pending.cards) {
+      expect(source.cards.find(item => item.id === card)?.tags).toContain('modern');
+      expect(pool!.entries.some(entry => entry.card_id === card && entry.weight > 0)).toBe(true);
+      const branch = new GameEngine(source, fingerprint);
+      branch.restoreSave(structuredClone(engine.exportSave()));
+      const selected = ok(branch.selectCard('production:select-card', card));
+      expect(selected.state.player.cards).toEqual([card]);
+      expect(selected.state.status).not.toBe('AWAITING_CARD');
+      expect(selected.logs.filter(log => log.type === 'card_selected')).toMatchObject([{ source_id: card, data: { card_id: card } }]);
+      expect(selected.logs.find(log => log.type === 'opening')?.data).toMatchObject({ card_id: card });
+      expect(branch.exportSave().payload.run.card_offers).toEqual([]);
+    }
   }
 });
 

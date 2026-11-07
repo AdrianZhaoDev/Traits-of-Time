@@ -10,9 +10,15 @@ import {
   Mask,
   Layers,
   EventTouch,
+  UIOpacity,
+  tween,
+  v3,
 } from 'cc';
 import type { PendingDecision } from '../core/types/schema';
 import { EnumMapper } from './EnumMapper';
+import { createArt } from './ArtAssets';
+import { GameAudio } from './GameAudio';
+import { createNarrativeArtSection, prefersReducedNarrativeMotion } from './NarrativePanelArt';
 
 export type OptionPending = Extract<PendingDecision, { kind: 'option' }>;
 
@@ -50,6 +56,10 @@ interface DecisionRow {
 /** 金色标题栏固定；事件正文与全部真实选项共用一个滚动区，不截断长分支。 */
 @ccclass('MemorialCard')
 export class MemorialCard extends Component {
+  public reducedMotion = false;
+  private presentedDecisionId: string | null = null;
+  private surfaceNode: Node | null = null;
+  private readonly entranceAnimations = new Set<{ stop(): void }>();
   private submitting = false;
   private selectedOptionId: string | null = null;
   private noticeLabel: Label | null = null;
@@ -62,6 +72,9 @@ export class MemorialCard extends Component {
     optionDetails: Record<string, string[]> = {},
     onManageCareers?: () => void,
   ): void {
+    const isNewDecision = this.presentedDecisionId !== decision.event_instance_id;
+    this.presentedDecisionId = decision.event_instance_id;
+    this.stopEntrance();
     this.submitting = false;
     this.selectedOptionId = null;
     this.noticeLabel = null;
@@ -71,9 +84,17 @@ export class MemorialCard extends Component {
     this.node.layer = Layers.Enum.UI_2D;
     this.node.setPosition(0, 0, 0);
 
-    const transform = this.getComponent(UITransform) || this.addComponent(UITransform);
+    const transform = this.getComponent(UITransform) || this.addComponent(UITransform)!;
     transform.setAnchorPoint(0.5, 0.5);
     transform.setContentSize(PANEL_WIDTH, PANEL_HEIGHT);
+    // Fit/scale stays on the modal node; only this inner surface moves, so layout
+    // and touch availability never wait for a presentation tween.
+    const surface = new Node('DecisionPanelSurface');
+    surface.layer = Layers.Enum.UI_2D;
+    surface.addComponent(UITransform).setContentSize(PANEL_WIDTH, PANEL_HEIGHT);
+    surface.addComponent(UIOpacity);
+    this.node.addChild(surface);
+    this.surfaceNode = surface;
 
     const background = new Node('MemorialPaperBg');
     background.layer = Layers.Enum.UI_2D;
@@ -88,16 +109,15 @@ export class MemorialCard extends Component {
     panel.fillColor = palette.gold;
     panel.rect(-353, 512, 706, 76);
     panel.fill();
-    this.node.addChild(background);
+    surface.addChild(background);
 
-    this.addLabel(this.node, 'Title', '重大抉择', -180, 550, 280, 48, 32, palette.background);
-    this.addLabel(this.node, 'DecisionCount', `${decision.options.length} 条选择`, 205, 550, 230, 42, 24, palette.background, true);
-    this.addLabel(this.node, 'OptionsHeading', '上滑阅读全部选项 · 点击可选项定夺', 0, 482, 646, 34, 23, palette.secondary);
+    this.addLabel(surface, 'Title', '你的选择', -180, 550, 280, 48, 32, palette.background);
+    this.addLabel(surface, 'DecisionCount', `${decision.options.length} 个选项`, 205, 550, 230, 42, 24, palette.background, true);
 
     const scrollNode = new Node('OptionScrollView');
     scrollNode.layer = Layers.Enum.UI_2D;
     scrollNode.addComponent(UITransform).setContentSize(SCROLL_WIDTH, SCROLL_HEIGHT);
-    this.node.addChild(scrollNode);
+    surface.addChild(scrollNode);
 
     const viewport = new Node('Viewport');
     viewport.layer = Layers.Enum.UI_2D;
@@ -117,10 +137,13 @@ export class MemorialCard extends Component {
     scroll.cancelInnerEvents = true;
     scroll.content = content;
 
-    const description = this.addLabel(content, 'Desc', eventText || '事件信息不可用。', 0, -8, 630, 38, 27, palette.text);
+    const eventArt = createNarrativeArtSection(content, decision.event_id, 630);
+    eventArt.setPosition(0, -8, 0);
+    const descriptionTop = eventArt.getComponent(UITransform)!.height + 28;
+    const description = this.addLabel(content, 'Desc', eventText || '未能读取事件详情。', 0, -descriptionTop, 630, 38, 27, palette.text);
     description.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
     const descriptionHeight = this.measureLabel(description, 630);
-    let offset = descriptionHeight + 36;
+    let offset = descriptionTop + descriptionHeight + 28;
 
     decision.options.forEach((option, index) => {
       const rowNode = new Node(`Option_${option.id}`);
@@ -130,27 +153,35 @@ export class MemorialCard extends Component {
       rowNode.setPosition(0, -offset, 0);
       content.addChild(rowNode);
 
-      const title = this.addLabel(rowNode, 'OptionTitle', `${index + 1}. ${option.text}`, 0, -20,
+      // Risk has its own 40px row. The original 598px title/detail measure and
+      // their 28px/24px fonts remain untouched, including long unavailable reasons.
+      createArt(rowNode, `RiskIcon_${option.risk}`, `icons/risk-${option.risk}`,
+        32, 32, -TEXT_WIDTH / 2 + 16, -28);
+      const riskColor = !option.available ? palette.secondary
+        : option.risk === 'high' ? palette.red : option.risk === 'safe' ? palette.green : palette.secondary;
+      this.addLabel(rowNode, 'RiskLabel', riskNames[option.risk], -151, -28, 200, 34, 24, riskColor);
+      const title = this.addLabel(rowNode, 'OptionTitle', `${index + 1}. ${option.text}`, 0, -60,
         TEXT_WIDTH, 40, 28, option.available ? palette.text : palette.secondary);
       title.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
       const titleHeight = this.measureLabel(title, TEXT_WIDTH);
-      const checks = option.checks.length === 0 ? '无检定' : `可能检定（按分支触发）：\n${option.checks.map(check => {
+      const checks = option.checks.length === 0 ? '无检定' : `接下来检定：\n${option.checks.map(check => {
         const modifier = check.modifier_after ?? check.modifier;
         const value = Number.isFinite(check.attribute_value) ? ` ${check.attribute_value}` : '';
         const capped = check.modifier_before !== undefined && check.modifier_after !== undefined
-          && check.modifier_before !== check.modifier_after ? '（已封顶）' : '';
-        const minimum = check.raw_minimum === undefined ? '' : `，原骰至少 ${check.raw_minimum}`;
+          && check.modifier_before !== check.modifier_after ? '（已按上下限计算）' : '';
+        const minimum = check.raw_minimum === undefined ? '' : `，骰子至少掷出 ${check.raw_minimum}`;
         const probability = Number.isFinite(check.success_probability)
           ? `${Math.round(check.success_probability * 100)}%` : '未提供';
-        return `${EnumMapper.translateStat(check.attribute).name}${value} / DC ${check.dc}，修正 ${modifier >= 0 ? '+' : ''}${modifier}${capped}${minimum}，成功率 ${probability}`;
+        return `${EnumMapper.translateStat(check.attribute).name}${value} / 难度 ${check.dc}，修正 ${modifier >= 0 ? '+' : ''}${modifier}${capped}${minimum}，成功率 ${probability}`;
       }).join('\n')}`;
-      const availability = option.available ? '可选' : `不可选：${option.reason || '眼下条件不符。'}`;
-      const text = [`${riskNames[option.risk]} · ${availability}`, checks, ...(optionDetails[option.id] ?? [])].join('\n');
-      const detail = this.addLabel(rowNode, 'OptionDetail', text, 0, -32 - titleHeight,
+      const reason = option.reason === 'OUTCOME_NOT_APPLICABLE' ? EnumMapper.playerError(option.reason) : option.reason;
+      const availability = option.available ? '可选' : `不可选：${reason || '尚未满足条件。'}`;
+      const text = [availability, checks, ...(optionDetails[option.id] ?? [])].join('\n');
+      const detail = this.addLabel(rowNode, 'OptionDetail', text, 0, -72 - titleHeight,
         TEXT_WIDTH, 34, 24, palette.secondary);
       detail.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
       const detailHeight = this.measureLabel(detail, TEXT_WIDTH);
-      const height = 52 + titleHeight + detailHeight;
+      const height = 92 + titleHeight + detailHeight;
       rowTransform.setContentSize(ROW_WIDTH, height);
       const row: DecisionRow = {
         id: option.id,
@@ -194,9 +225,10 @@ export class MemorialCard extends Component {
           this.selectedOptionId = option.id;
           for (const other of this.rows) this.drawOption(other);
           if (this.noticeLabel) {
-            this.noticeLabel.string = '正在定夺…\n请勿重复提交。';
+            this.noticeLabel.string = '正在处理，请稍等。';
             this.noticeLabel.color = palette.gold;
           }
+          // GameMain plays the choice cue only after the engine accepts this submission.
           onSelect(option.id);
         });
       }
@@ -204,7 +236,7 @@ export class MemorialCard extends Component {
     });
     contentTransform.setContentSize(SCROLL_WIDTH, Math.max(SCROLL_HEIGHT, offset + 8));
 
-    this.noticeLabel = this.addLabel(this.node, 'Notice', '点击可选项定夺；\n滑动可阅读完整说明。',
+    this.noticeLabel = this.addLabel(surface, 'Notice', '上下滑动查看选项，点击即可选择。',
       onManageCareers ? -106 : 0, -524, onManageCareers ? 410 : 646, 92, 22, palette.secondary);
     if (onManageCareers) {
       const manage = new Node('ManageCareers');
@@ -227,18 +259,23 @@ export class MemorialCard extends Component {
       manage.on(Node.EventType.TOUCH_CANCEL, () => drawManage(false));
       manage.on(Node.EventType.TOUCH_END, () => {
         drawManage(false);
-        if (!this.submitting) onManageCareers();
+        if (!this.submitting) {
+          GameAudio.instance?.playCue('tap');
+          onManageCareers();
+        }
       });
-      this.node.addChild(manage);
+      surface.addChild(manage);
     }
+    if (isNewDecision) this.playEntrance(surface);
   }
 
   public showError(message: string): void {
     this.submitting = false;
     this.selectedOptionId = null;
+    GameAudio.instance?.playCue('error');
     for (const row of this.rows) this.drawOption(row);
     if (this.noticeLabel) {
-      this.noticeLabel.string = `未能定夺：${message}`;
+      this.noticeLabel.string = `选择未完成：${message}`;
       this.noticeLabel.color = palette.red;
     }
   }
@@ -258,6 +295,35 @@ export class MemorialCard extends Component {
     graphics.rect(-ROW_WIDTH / 2 + 1, -row.height + 8, 4, row.height - 16);
     graphics.fill();
   }
+  private playEntrance(surface: Node): void {
+    if (prefersReducedNarrativeMotion(this.reducedMotion)) return;
+    surface.setPosition(0, -10, 0);
+    const opacity = surface.getComponent(UIOpacity)!;
+    opacity.opacity = 224;
+    const movement = tween(surface).to(0.20, { position: v3(0, 0, 0) }, { easing: 'cubicOut' });
+    const appearance = tween(opacity).to(0.20, { opacity: 255 }, { easing: 'quadOut' });
+    this.entranceAnimations.add(movement);
+    this.entranceAnimations.add(appearance);
+    movement.call(() => this.entranceAnimations.delete(movement)).start();
+    appearance.call(() => this.entranceAnimations.delete(appearance)).start();
+  }
+
+  private stopEntrance(): void {
+    for (const animation of this.entranceAnimations) animation.stop();
+    this.entranceAnimations.clear();
+    if (!this.surfaceNode?.isValid) return;
+    this.surfaceNode.setPosition(0, 0, 0);
+    this.surfaceNode.getComponent(UIOpacity)!.opacity = 255;
+  }
+
+  onDisable(): void {
+    this.stopEntrance();
+  }
+
+  onDestroy(): void {
+    this.stopEntrance();
+  }
+
 
   private measureLabel(label: Label, width: number): number {
     label.overflow = Label.Overflow.RESIZE_HEIGHT;

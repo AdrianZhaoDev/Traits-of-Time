@@ -117,16 +117,16 @@ describe('play: real stdin, durable decisions and replay', () => {
     const lines = preview.stdout.split('\n');
     const attemptLine = lines.find(line => line.includes('确认进入两个阶段'));
     expect(attemptLine).toContain('[高风险]');
-    expect(attemptLine).toMatch(/(?:intelligence|智力|智谋)\s*\/\s*DC\s*14/);
-    expect(attemptLine).toMatch(/(?:physique|体魄|体质)\s*\/\s*DC\s*14/);
+    expect(attemptLine).toMatch(/才干\s*\/\s*难度\s*14/);
+    expect(attemptLine).toMatch(/体魄\s*\/\s*难度\s*14/);
     expect(attemptLine).toContain('按分支触发');
     // Both branches reach S2: show its check once, not twice or as a combined probability.
-    expect(attemptLine?.match(/DC\s*14/g)).toHaveLength(2);
+    expect(attemptLine?.match(/难度\s*14/g)).toHaveLength(2);
     expect(lines.find(line => line.includes('留在家中'))).toContain('[安全]');
     const lockedLine = lines.find(line => line.includes('付钱找向导'));
     expect(lockedLine).toContain('[普通]');
     expect(lockedLine).toContain('钱不够请向导');
-    expect(lockedLine).toMatch(/(?:physique|体魄|体质)\s*\/\s*DC\s*14/);
+    expect(lockedLine).toMatch(/体魄\s*\/\s*难度\s*14/);
     expect(lockedLine).toContain('按分支触发');
     const beforeChoice = await savedLife(context.state);
     expect(beforeChoice.engine.payload.run.status).toBe('AWAITING_OPTION');

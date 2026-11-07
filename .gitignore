@@ -8,4 +8,6 @@ temp/
 profiles/
 local/
 .mcp.json
+/.forge/
+__pycache__/
 extensions/

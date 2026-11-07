@@ -79,6 +79,9 @@ describe('Presentation - LogParser', () => {
     const result = LogParser.parseBatch(rawLogs);
     expect(result).toHaveLength(2);
 
+    // The instance identifies this occurrence; the configured source identifies its illustration.
+    expect(result[0].id).toBe('inst_test');
+    expect(result[0].eventId).toBe('E_TEST_EVENT');
     expect(result[0].introText).toBe('山洪忽至。');
     expect(result[0].stampTag).toBe('脱险');
     expect(result[0].outcomeText).toBe('涉险登高，全身而退。');
@@ -160,7 +163,7 @@ describe('Presentation - LogParser', () => {
     expect(result[0].outcomeText).toBe('酸爽刺痛让老汉一嗓子吼穿院墙！ (体魄 +1)');
   });
 
-  it('merges event intro and death log outcome into same fold item with 生平盖棺 stamp', () => {
+  it('merges an event intro and death cause into one terminal fold', () => {
     const rawLogs = [
       {
         type: 'event',
@@ -177,7 +180,6 @@ describe('Presentation - LogParser', () => {
     const result = LogParser.parseBatch(rawLogs);
     expect(result).toHaveLength(1);
     expect(result[0].introText).toBe('天寒地冻饥肠辘辘，你偷摸把整包玉米种子倒进滚烫炭盆想吃爆米花...');
-    expect(result[0].stampTag).toBe('生平盖棺');
     expect(result[0].outcomeText).toBe('被飞溅的火炭精准引燃了破草屋顶，轰然大火中光荣升天。');
     expect(result[0].type).toBe('death');
   });

@@ -5,11 +5,16 @@ import { conditionContext, evaluateCondition } from '../../assets/scripts/core/e
 import type { ContentBundle } from '../../assets/scripts/core/types/content.generated.js';
 import type { CommandResult } from '../../assets/scripts/core/types/commands.js';
 import type { LogEntry } from '../../assets/scripts/core/types/schema.js';
+import { useLegacyRelicPool } from '../helpers/content.js';
 
 type Success = Extract<CommandResult, { ok: true }>;
 const fingerprint = 'a'.repeat(64);
-let production: ContentBundle;
-beforeAll(async () => { production = (await loadContent('assets/resources/data/ming_end')).bundle; });
+let routeContent: ContentBundle;
+beforeAll(async () => {
+  routeContent = structuredClone((await loadContent('assets/resources/data/ming_end')).bundle);
+  // Keep the established real-D20 route seeds independent of the production offer pool.
+  useLegacyRelicPool(routeContent);
+});
 
 const choices: Record<string, string> = {
   E_MOD_CORN_TRIAL: 'corn_invest', E_MOD_CORN_STORE: 'corn_invest', E_MOD_CORN_RELIEF: 'corn_invest',
@@ -78,10 +83,10 @@ const builds = [
   { card: 'CARD_MODERN_FLASHLIGHT', chain: 'CHAIN_MOD_FLASHLIGHT_DETECTIVE', prefix: 'E_MOD_FLASHLIGHT_OPEN_', fast: ['E_MOD_FLASHLIGHT_FAST_FRAUD', 'E_MOD_FLASHLIGHT_FAST_ROTA', 'E_MOD_FLASHLIGHT_FAST_EXIT'], seeds: [5, 20, 17, 27] },
 ] as const;
 
-describe('production relic stories', () => {
+describe('production relic stories with an explicit route-selection fixture', () => {
   it.each(builds)('starts exactly one age-appropriate story for $card at each boundary', ({ card, chain, prefix }) => {
     for (const [age, suffix] of [[3, 'CHILD'], [10, 'CHILD'], [11, 'YOUTH'], [20, 'YOUTH'], [21, 'ADULT'], [45, 'ADULT'], [46, 'ELDER'], [65, 'ELDER']] as const) {
-      const bundle = structuredClone(production);
+      const bundle = structuredClone(routeContent);
       bundle.rules.age_bands = [{ id: 'boundary', min: age, max: age, weight: 1, modifiers: {} }];
       bundle.rules.lifespan = { min: 90, max: 90, min_remaining_years: 3 };
       bundle.rules.opening.year_min = 1630;
@@ -102,7 +107,7 @@ describe('production relic stories', () => {
     ['CARD_MODERN_ANTIBIOTIC', 214, ['E_MOD_HEALER_NODE_1', 'E_MOD_HEALER_NODE_2', 'E_MOD_HEALER_NODE_3']],
     ['CARD_MODERN_FLASHLIGHT', 234, ['E_MOD_FLASHLIGHT_EVIDENCE', 'E_MOD_FLASHLIGHT_PATROL', 'E_MOD_FLASHLIGHT_ESCORT']],
   ])('runs the %s chain in relative years 1, 3 and 6 from 1628', (card, seed, nodes) => {
-    const run = play(production, seed, card, 1635);
+    const run = play(routeContent, seed, card, 1635);
     const startYear = run.result.state.player.start_year;
     expect(startYear).toBe(1628);
     const events = run.logs.filter(log => log.type === 'event' && nodes.includes(log.source_id));
@@ -112,7 +117,7 @@ describe('production relic stories', () => {
 
   it.each(builds)('runs only the appropriate late-start sequence for $card', ({ card, fast, seeds }) => {
     [1642, 1643, 1644, 1645].forEach((year, index) => {
-      const run = play(production, seeds[index]!, card, 1645);
+      const run = play(routeContent, seeds[index]!, card, 1645);
       expect(run.result.state.player.start_year).toBe(year);
       const events = run.logs.filter(log => log.type === 'event' && fast.includes(log.source_id as never)).map(log => log.source_id);
       expect(events).toEqual(year === 1643 || year === 1644 ? [...fast] : []);
@@ -124,7 +129,7 @@ describe('production relic stories', () => {
     ['CARD_MODERN_ANTIBIOTIC', 13, 'E_MOD_HEALER_NODE_1', 'delay', 'D_MOD_HEALER_DELAY', 'A_MOD_HEALER_DEATH_DELAY'],
     ['CARD_MODERN_FLASHLIGHT', 5, 'E_MOD_FLASHLIGHT_EVIDENCE', 'flashlight_robbery', 'D_MOD_FLASHLIGHT_ROBBERY', 'A_MOD_FLASHLIGHT_DEATH_ROBBERY'],
   ])('unlocks the earned death achievement for %s', (card, seed, event, option, death, achievement) => {
-    const run = play(production, seed, card, 1655, { [event]: option }, event);
+    const run = play(routeContent, seed, card, 1655, { [event]: option }, event);
     const dice = run.logs.find(log => log.type === 'dice' && log.source_id === event);
     expect(dice?.type === 'dice' && dice.data.success).toBe(false);
     expect(run.result.state.status).toBe('ENDED');
@@ -137,7 +142,7 @@ describe('production relic stories', () => {
     ['CARD_MODERN_ANTIBIOTIC', 99, 'E_MOD_HEALER_BREAKTHROUGH', 'A_MOD_HEALER_LEGACY'],
     ['CARD_MODERN_FLASHLIGHT', 63, 'E_MOD_FLASHLIGHT_BREAKTHROUGH', 'A_MOD_FLASHLIGHT_BREAK_CRITICAL'],
   ])('awards the natural-20 breakthrough for %s', (card, seed, event, achievement) => {
-    const run = play(production, seed, card, 1655, {}, event);
+    const run = play(routeContent, seed, card, 1655, {}, event);
     const dice = run.logs.find(log => log.type === 'dice' && log.source_id === event);
     expect(dice?.type === 'dice' && dice.data).toMatchObject({ raw: 20, success: true });
     expect(run.result.state.player.achievements).toContain(achievement);
@@ -146,11 +151,11 @@ describe('production relic stories', () => {
   it('uses the flashlight bonus in both preview and roll, without leaking across tags, and replays the roll', () => {
     const card = 'CARD_MODERN_FLASHLIGHT';
     const event = 'E_MOD_FLASHLIGHT_EVIDENCE';
-    const withoutBonus = structuredClone(production);
+    const withoutBonus = structuredClone(routeContent);
     delete withoutBonus.cards.find(item => item.id === card)!.check_bonus;
-    const wrongTag = structuredClone(production);
+    const wrongTag = structuredClone(routeContent);
     wrongTag.cards.find(item => item.id === card)!.check_bonus!.tag = 'farming';
-    const withPassive = seek(production, 7, card, event);
+    const withPassive = seek(routeContent, 7, card, event);
     const without = seek(withoutBonus, 7, card, event);
     const other = seek(wrongTag, 7, card, event);
     const preview = (result: Success) => {
@@ -166,7 +171,7 @@ describe('production relic stories', () => {
     if (pending.kind !== 'option') throw new Error('Expected option');
     const chosen = ok(withPassive.engine.resolveOption('choose:passive', pending.event_instance_id, 'flashlight_check'));
     if (chosen.pending?.kind !== 'stage') throw new Error('Expected stage');
-    const restored = new GameEngine(production, fingerprint);
+    const restored = new GameEngine(routeContent, fingerprint);
     restored.restoreSave(JSON.parse(JSON.stringify(withPassive.engine.exportSave())));
     const result = ok(withPassive.engine.resolveStage('roll:passive', chosen.pending.event_instance_id, chosen.pending.stage_id));
     expect(restored.resolveStage('roll:passive', chosen.pending.event_instance_id, chosen.pending.stage_id)).toEqual(result);
@@ -175,7 +180,7 @@ describe('production relic stories', () => {
   });
 
   it('previews the check after the selected option changes intelligence', () => {
-    const { engine, result } = seek(production, 12, 'CARD_MODERN_ANTIBIOTIC', 'E_MOD_HEALER_NODE_2');
+    const { engine, result } = seek(routeContent, 12, 'CARD_MODERN_ANTIBIOTIC', 'E_MOD_HEALER_NODE_2');
     const pending = result.pending;
     if (pending?.kind !== 'option') throw new Error('Expected option');
     const check = pending.options.find(item => item.id === 'train')?.checks[0];
@@ -189,7 +194,7 @@ describe('production relic stories', () => {
   });
 
   it('enforces the authored 11/12 ability boundary and retains a safe fallback', () => {
-    const { result } = start(production, 208, 'CARD_MODERN_CORN');
+    const { result } = start(routeContent, 208, 'CARD_MODERN_CORN');
     const base = conditionContext(result.state.player, 'historical');
     const cases = [
       ['E_MOD_CORN_BREAKTHROUGH', 'corn_promote', 'F_MOD_CORN_PRACTICE', 'intelligence'],
@@ -197,7 +202,7 @@ describe('production relic stories', () => {
       ['E_MOD_FLASHLIGHT_BREAKTHROUGH', 'flashlight_break_body', 'F_MOD_FLASHLIGHT_READY', 'physique'],
     ] as const;
     for (const [eventId, optionId, flag, attribute] of cases) {
-      const event = production.events.find(item => item.id === eventId)!;
+      const event = routeContent.events.find(item => item.id === eventId)!;
       if (event.interaction !== 'choice') throw new Error('Expected breakthrough choice');
       const option = event.options.find(item => item.id === optionId)!;
       const card = builds.find(item => eventId.includes(item.prefix.split('_OPEN_')[0]!))?.card

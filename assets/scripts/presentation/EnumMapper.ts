@@ -1,8 +1,10 @@
 /**
  * 明末人生模拟器 - 汉化与字典映射器
- * 负责将引擎核心层数据 ID 映射为明末古风文案，严禁英文 ID 暴露给玩家
+ * 负责读取生产配置中的显示名称，避免把内部ID直接展示给玩家。
  */
 import eraJson from '../../resources/data/ming_end/era.json';
+import regionsJson from '../../resources/data/ming_end/regions.json';
+import castesJson from '../../resources/data/ming_end/castes.json';
 import type { Achievement, Condition, ContentBundle } from '../core/types/content.generated';
 
 export interface StatInfo {
@@ -12,53 +14,41 @@ export interface StatInfo {
   shortName: string;
 }
 
-const REGION_MAP: Record<string, string> = {
-  R_SHANBEI: '陕北·延安府',
-  R_CAPITAL: '京师·顺天府',
-  R_JIANGNAN: '江南·苏州府',
-  R_LIAODONG: '辽东·关外卫',
-};
-
-const CASTE_MAP: Record<string, string> = {
-  C_REFUGEE: '流民',
-  C_SOLDIER: '军户',
-  C_GENTRY: '士绅',
-  C_MILITARY: '卫所武官',
-  C_OUTLAW: '义军',
-};
+const REGION_MAP: Record<string, string> = Object.fromEntries(regionsJson.map(region => [region.id, region.name]));
+const CASTE_MAP: Record<string, string> = Object.fromEntries(castesJson.map(caste => [caste.id, caste.name]));
 
 const IDENTITY_MAP: Record<string, string> = Object.fromEntries(eraJson.identities.map(identity => [identity.id, identity.name]));
 
 const FLAG_NAMES: Record<string, string> = {
   F_MOD_CORN_PRACTICE: '完成农桑试种',
-  F_MOD_HEALER_READY: '备妥防疫规程',
-  F_MOD_FLASHLIGHT_READY: '备妥夜巡章程',
-  F_MOD_FLASHLIGHT_MAIN_DONE: '完成夜巡主链',
-  F_MOD_FLASHLIGHT_FAST_DONE: '完成甲申夜巡',
+  F_MOD_HEALER_READY: '已学会防疫办法',
+  F_MOD_FLASHLIGHT_READY: '已安排好巡夜',
+  F_MOD_FLASHLIGHT_MAIN_DONE: '已完成夜巡事业',
+  F_MOD_FLASHLIGHT_FAST_DONE: '已完成甲申夜巡',
   F_MOD_CALCULATOR_ROUTE: '取得查账资历',
   F_MOD_CALCULATOR_STEP_1: '完成账房盘点',
-  F_MOD_CALCULATOR_DONE: '完成清账主链',
+  F_MOD_CALCULATOR_DONE: '已完成清账事业',
   F_MOD_CALCULATOR_FAST_DONE: '完成甲申清账',
   F_MOD_GLUE_ARTISAN_PROOF: '取得工匠资历',
   F_MOD_GLUE_STEP_1: '完成样件安全试制',
-  F_MOD_GLUE_DONE: '完成修造主链',
+  F_MOD_GLUE_DONE: '已完成修造事业',
   F_MOD_GLUE_FAST_DONE: '完成甲申修造',
   F_MOD_LIGHTER_FUEL_EMPTY: '燃料耗尽',
   F_MOD_LIGHTER_MILITARY_RELAY: '取得行伍接力资历',
   F_MOD_LIGHTER_FIRE_TENDED: '完成火种维护',
   F_MOD_LIGHTER_STEP_1: '完成行军路线准备',
-  F_MOD_LIGHTER_DONE: '完成行伍主链',
+  F_MOD_LIGHTER_DONE: '已完成行伍事业',
   F_MOD_LIGHTER_FAST_DONE: '完成甲申护粮',
   F_NAT_BOWL_HONEST: '保持诚信经营',
   F_NAT_BOWL_NEIGHBOR_RELIEF: '救助街坊',
   F_NAT_BOWL_STEP_1: '完成摊市起步',
-  F_NAT_BOWL_DONE: '完成市井主链',
+  F_NAT_BOWL_DONE: '已完成市井事业',
   F_NAT_BOWL_FAST_DONE: '完成甲申安摊',
-  F_NAT_BOOK_IMPLEMENTED: '落实经世实务',
+  F_NAT_BOOK_IMPLEMENTED: '已把书中办法用于实事',
   F_CHAIN_IMPERIAL_EXAM_DONE: '完成科举事业',
   F_JN_JUREN: '取得乡试功名',
   F_NAT_BOOK_STEP_1: '完成读书起步',
-  F_NAT_BOOK_DONE: '完成经世主链',
+  F_NAT_BOOK_DONE: '已完成经世事业',
   F_NAT_BOOK_FAST_DONE: '完成甲申文案',
 };
 
@@ -74,7 +64,27 @@ const STAT_MAP: Record<string, StatInfo> = {
   qi_yun: { key: 'luck', name: '气数', icon: '气', shortName: '气' },
 };
 
+const PLAYER_ERRORS: Record<string, string> = {
+  NOT_INITIALIZED: '还没开局，请先重启人生。',
+  ALREADY_INITIALIZED: '本局已经开始。想换一局，请点击“重启人生”。',
+  CARD_UNAVAILABLE: '这件家当不在本次候选里，请重新选择。',
+  OPTION_UNAVAILABLE: '现在不能这样选，请查看选项下的条件。',
+  OUTCOME_NOT_APPLICABLE: '当前无法执行这项选择，请换一项。',
+  STALE_DECISION: '这一步已经结束，请按当前画面继续。',
+  INVALID_STATE: '现在不能执行这项操作，请先完成当前选择。',
+  SESSION_BUSY: '上一项操作还没完成，请稍等。',
+  SAVE_FAILED: '未能确认进度，已停止推进。重启人生会开始新的一局。',
+  SAVE_INVALID: '进度数据无法读取。重启人生会开始新的一局。',
+  CONTENT_MISMATCH: '游戏资料已更新，旧进度不能继续。请新开一局。',
+  INVALID_DISTRIBUTION: '开局资料有误，暂时无法开始。',
+};
+
 export class EnumMapper {
+  public static playerError(error: unknown): string {
+    const code = typeof error === 'string' ? error : error !== null && typeof error === 'object' && 'code' in error ? String(error.code) : '';
+    return PLAYER_ERRORS[code] ?? '操作未完成，请稍后重试。';
+  }
+
   public static achievementRarity(priority: number): string {
     if (priority >= 20 && priority <= 29) return 'N';
     if (priority >= 30 && priority <= 49) return 'R';
@@ -97,7 +107,7 @@ export class EnumMapper {
       case 'any':
         return `（${condition.conditions.map(item => this.describeCondition(item, bundle)).join(condition.op === 'all' ? ' 且 ' : ' 或 ')}）`;
       case 'not':
-        return `非（${this.describeCondition(condition.condition, bundle)}）`;
+        return `不满足（${this.describeCondition(condition.condition, bundle)}）`;
       case 'compare': {
         const field = condition.field === 'age' ? '年龄' : condition.field === 'calendar_year' ? '年份'
           : condition.field === 'start_year' ? '开局年份' : this.translateStat(condition.field).name;
@@ -115,28 +125,22 @@ export class EnumMapper {
     }
   }
 
-  /**
-   * 将地区 ID 转换为古风地名
-   */
+  /** 读取生产地区名。 */
   public static translateRegion(id: string | null | undefined): string {
-    if (!id) return '未知地域';
-    return REGION_MAP[id] ?? id;
+    if (!id) return '地区不详';
+    return REGION_MAP[id] ?? '地区不详';
   }
 
-  /**
-   * 将阶层 ID 转换为古风阶层
-   */
+  /** 读取生产门第名。 */
   public static translateCaste(id: string | null | undefined): string {
-    if (!id) return '平民';
-    return CASTE_MAP[id] ?? id;
+    if (!id) return '门第不详';
+    return CASTE_MAP[id] ?? '门第不详';
   }
 
-  /**
-   * 将身份职业 ID 转换为古风名号
-   */
+  /** 读取生产身份名。 */
   public static translateIdentity(id: string | null | undefined): string {
-    if (!id) return '白丁布衣';
-    return IDENTITY_MAP[id] ?? id;
+    if (!id) return '身份不详';
+    return IDENTITY_MAP[id] ?? '身份不详';
   }
 
   /**

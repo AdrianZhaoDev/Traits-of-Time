@@ -13,6 +13,9 @@ import {
   UIOpacity,
 } from 'cc';
 import cardsJson from '../../resources/data/ming_end/cards.json';
+import { createArt } from './ArtAssets';
+import { GameAudio } from './GameAudio';
+import { prefersReducedNarrativeMotion } from './NarrativePanelArt';
 
 const { ccclass } = _decorator;
 const SHELF_WIDTH = 120;
@@ -33,33 +36,84 @@ const palette = {
 };
 
 interface RelicIdentity {
-  stamp: string;
+  art: string;
   flagPrefix?: string;
-  effect?: 'grain' | 'clean' | 'beam';
+  effect?: 'grain' | 'clean' | 'beam' | 'digits' | 'bond' | 'flame';
 }
 
 // ID 只决定表现，不授予物品、属性或被动；名称和说明始终来自实际入架数据。
 const RELIC_IDENTITIES: Record<string, RelicIdentity> = {
-  CARD_MODERN_CORN: { stamp: '玉米', flagPrefix: 'F_MOD_CORN_', effect: 'grain' },
-  CARD_MODERN_ANTIBIOTIC: { stamp: '医册', flagPrefix: 'F_MOD_HEALER_', effect: 'clean' },
-  CARD_MODERN_FLASHLIGHT: { stamp: '手电', flagPrefix: 'F_MOD_FLASHLIGHT_', effect: 'beam' },
-  CARD_MODERN_CALCULATOR: { stamp: '算器' },
-  CARD_MODERN_GLUE: { stamp: '胶刀' },
-  CARD_MODERN_LIGHTER: { stamp: '火机' },
-  CARD_NATIVE_BOWL: { stamp: '陶碗' },
-  CARD_NATIVE_BOOK: { stamp: '书秤' },
+  CARD_MODERN_CORN: { art: 'items/corn', flagPrefix: 'F_MOD_CORN_', effect: 'grain' },
+  CARD_MODERN_ANTIBIOTIC: { art: 'items/antibiotic', flagPrefix: 'F_MOD_HEALER_', effect: 'clean' },
+  CARD_MODERN_FLASHLIGHT: { art: 'items/flashlight', flagPrefix: 'F_MOD_FLASHLIGHT_', effect: 'beam' },
+  CARD_MODERN_CALCULATOR: { art: 'items/calculator', effect: 'digits' },
+  CARD_MODERN_GLUE: { art: 'items/glue', effect: 'bond' },
+  CARD_MODERN_LIGHTER: { art: 'items/lighter', effect: 'flame' },
+  CARD_NATIVE_BOWL: { art: 'items/bowl' },
+  CARD_NATIVE_BOOK: { art: 'items/book' },
 };
 
-const CHECK_NAMES: Record<string, string> = {
-  farming: '农桑',
-  medicine: '防疫',
-  night_patrol: '夜巡',
-  accounting: '清账',
-  practical_learning: '经世',
-  crafting: '工艺',
-  marching: '行军',
-  street_trade: '市井',
+// Actual flag_add receipts in events.json / the three matching chains.json
+// completion outcomes. No generic prefix for these three: abort/death, empty
+// fuel, oil-only rescue and a failed check must not look like a tool succeeding.
+const ITEM_REACTION_FLAGS: Record<string, 'digits' | 'bond' | 'flame'> = {
+  F_MOD_CALCULATOR_ROUTE: 'digits',
+  F_MOD_CALCULATOR_STEP_1: 'digits',
+  F_MOD_CALCULATOR_STEP_2: 'digits',
+  F_MOD_CALCULATOR_STEP_3: 'digits',
+  F_MOD_CALCULATOR_STEP_4: 'digits',
+  F_MOD_CALCULATOR_DONE: 'digits',
+  F_MOD_CALCULATOR_FAST_1: 'digits',
+  F_MOD_CALCULATOR_FAST_2: 'digits',
+  F_MOD_CALCULATOR_FAST_3: 'digits',
+  F_MOD_CALCULATOR_FAST_DONE: 'digits',
+  F_MOD_CALCULATOR_CORRUPT_CLERK: 'digits',
+  F_MOD_CALCULATOR_BORDER_SUPPLY: 'digits',
+  F_MOD_CALCULATOR_TAX_REFORM: 'digits',
+  F_MOD_CALCULATOR_MINISTRY_HUB: 'digits',
+  F_MOD_CALCULATOR_SIEGE_LOGISTICS: 'digits',
+  F_MOD_CALCULATOR_PERFECT_TREASURY: 'digits',
+  F_MOD_CALCULATOR_BREAK_SUCCESS: 'digits',
+  F_MOD_CALCULATOR_CRITICAL: 'digits',
+  F_MOD_GLUE_ARTISAN_PROOF: 'bond',
+  F_MOD_GLUE_STEP_1: 'bond',
+  F_MOD_GLUE_STEP_2: 'bond',
+  F_MOD_GLUE_STEP_3: 'bond',
+  F_MOD_GLUE_STEP_4: 'bond',
+  F_MOD_GLUE_DONE: 'bond',
+  F_MOD_GLUE_FAST_1: 'bond',
+  F_MOD_GLUE_FAST_2: 'bond',
+  F_MOD_GLUE_FAST_3: 'bond',
+  F_MOD_GLUE_FAST_DONE: 'bond',
+  F_MOD_GLUE_PORCELAIN_MASTER: 'bond',
+  F_MOD_GLUE_SIEGE_DEFENSE: 'bond',
+  F_MOD_GLUE_SHIP_RESCUED: 'bond',
+  F_MOD_GLUE_BREAK_SUCCESS: 'bond',
+  F_MOD_GLUE_CRITICAL: 'bond',
+  F_MOD_SWISS_REPAIR_MUSKET: 'bond',
+  F_MOD_SWISS_ARSENAL_CHIEF: 'bond',
+  F_MOD_SWISS_GUNSMITH_REFORM: 'bond',
+  F_MOD_SWISS_TUNNEL_SIEGE: 'bond',
+  F_MOD_SWISS_MASTER_CRAFTSMAN: 'bond',
+  F_MOD_LIGHTER_FIRE_TENDED: 'flame',
+  F_MOD_LIGHTER_STEP_1: 'flame',
+  F_MOD_LIGHTER_STEP_2: 'flame',
+  F_MOD_LIGHTER_STEP_3: 'flame',
+  F_MOD_LIGHTER_STEP_4: 'flame',
+  F_MOD_LIGHTER_DONE: 'flame',
+  F_MOD_LIGHTER_FAST_1: 'flame',
+  F_MOD_LIGHTER_FAST_2: 'flame',
+  F_MOD_LIGHTER_FAST_3: 'flame',
+  F_MOD_LIGHTER_FAST_DONE: 'flame',
+  F_MOD_LIGHTER_RAIN_BEACON: 'flame',
+  F_MOD_LIGHTER_CANNON_FUSE: 'flame',
+  F_MOD_LIGHTER_NIGHT_AMBUSH: 'flame',
+  F_MOD_LIGHTER_CHIEF_FLINT: 'flame',
+  F_MOD_LIGHTER_REWRITE_DYNASTY: 'flame',
+  F_MOD_LIGHTER_BREAK_SUCCESS: 'flame',
+  F_MOD_LIGHTER_CRITICAL: 'flame',
 };
+
 
 export interface RelicItemData {
   id: string;
@@ -73,6 +127,7 @@ export interface RelicItemData {
 /** 五个真实空槽；仅 addRelic 收到的物品入架，成就反馈不会生成额外物品。 */
 @ccclass('RelicBarController')
 export class RelicBarController extends Component {
+  public reducedMotion = false;
   private relics: RelicItemData[] = [];
   private slotNodes: Node[] = [];
   private detailPanel: Node | null = null;
@@ -84,8 +139,7 @@ export class RelicBarController extends Component {
   private readonly earnedFlags = new Set<string>();
 
   private reduceMotion(): boolean {
-    const host = globalThis as typeof globalThis & { matchMedia?: (query: string) => { matches: boolean } };
-    return host.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    return prefersReducedNarrativeMotion(this.reducedMotion);
   }
 
   public reset(): void {
@@ -117,7 +171,6 @@ export class RelicBarController extends Component {
     background.rect(-SHELF_WIDTH / 2, -height / 2, 1.5, height);
     background.fill();
     this.node.getChildByName('ShelfTitle')?.setPosition(0, height / 2 - 35, 0);
-    this.node.getChildByName('ShelfSubtitle')?.setPosition(0, height / 2 - 63, 0);
     this.node.getChildByName('ShelfHint')?.setPosition(0, -height / 2 + 48, 0);
     const size = Math.min(SLOT_SIZE, (height - 220) / 5);
     for (const [index, slot] of this.slotNodes.entries()) {
@@ -153,8 +206,7 @@ export class RelicBarController extends Component {
   private traitFor(data: RelicItemData): string {
     const bonus = cardsJson.find(card => card.id === data.id)?.check_bonus;
     if (bonus) {
-      const sign = bonus.amount >= 0 ? '+' : '';
-      return `专属特质：${CHECK_NAMES[bonus.tag] ?? bonus.tag}检定 ${sign}${bonus.amount}，仍受修正上限约束`;
+      return '这项加成也受检定修正上限限制。';
     }
     return data.perk ?? data.passive ?? '';
   }
@@ -197,6 +249,7 @@ export class RelicBarController extends Component {
 
   private handleSlotTap(index: number, event?: EventTouch): void {
     if (event) event.propagationStopped = true;
+    GameAudio.instance?.playCue('tap');
     this.highlightSlot(index);
     const item = this.relics[index];
     if (item) this.showDetail(item);
@@ -206,32 +259,36 @@ export class RelicBarController extends Component {
   private showLockedDetail(): void {
     this.renderDetail({
       id: `LOCKED_RELIC_SLOT_${this.activeSlotIndex}`,
-      name: '未解锁奇物槽',
-      desc: '此槽尚未收录奇物；只有真实获得的家当会显示在架上。',
+      name: '空位',
+      desc: '这里还没有家当。本局选中的家当会显示在架上。',
       rarity: 'N',
-      perk: '状态：未解锁',
-    }, true);
+      perk: '',
+    });
   }
 
   public playFeedback(cardId: string, flags: readonly string[], key?: string): void {
     const identity = RELIC_IDENTITIES[cardId];
     const index = this.relics.findIndex(relic => relic.id === cardId);
     const slot = this.slotNodes[index];
-    if (!identity?.flagPrefix || !slot || (key && this.feedbackKeys.has(key))) return;
-    if (key) this.feedbackKeys.add(key);
+    if (!identity?.effect || !slot || (key && this.feedbackKeys.has(key))) return;
     let fresh = false;
     for (const flag of flags) {
-      if (!flag.startsWith(identity.flagPrefix) || this.earnedFlags.has(flag)) continue;
+      const matches = identity.flagPrefix ? flag.startsWith(identity.flagPrefix)
+        : ITEM_REACTION_FLAGS[flag] === identity.effect;
+      if (!matches || this.earnedFlags.has(flag)) continue;
       this.earnedFlags.add(flag);
       fresh = true;
     }
-    if (!fresh || this.reduceMotion()) return;
+    if (!fresh) return;
+    if (key) this.feedbackKeys.add(key);
+    GameAudio.instance?.playCue('item');
+    if (this.reduceMotion()) return;
 
     // 像素只沿卡槽两侧短暂浮动，不覆盖名字、品质或日志正文。
     const pixels = new Node('RelicFeedback');
     pixels.layer = this.node.layer;
     const graphics = pixels.addComponent(Graphics);
-    graphics.fillColor = this.relicColor(cardId);
+    graphics.fillColor = identity.effect === 'flame' ? palette.gold : this.relicColor(cardId);
     if (identity.effect === 'grain') {
       for (let i = 0; i < 5; i++) graphics.rect(52, -22 + i * 10, 4, i % 2 === 0 ? 6 : 4);
     } else if (identity.effect === 'clean') {
@@ -239,14 +296,41 @@ export class RelicBarController extends Component {
         graphics.rect(x, -8, 4, 16);
         graphics.rect(x - 4, -2, 12, 4);
       }
+    } else if (identity.effect === 'digits') {
+      // Three tiny display segments tally locally; no invented sum or wealth number.
+      for (const y of [-18, -2, 14]) {
+        graphics.rect(51, y, 7, 2);
+        graphics.rect(51, y - 6, 2, 6);
+        graphics.rect(56, y + 2, 2, 6);
+      }
+    } else if (identity.effect === 'bond') {
+      // Opposing clamps close by a few pixels, without implying a repaired load-bearing part.
+      for (const x of [-52, 48]) {
+        graphics.rect(x, -10, 4, 20);
+        graphics.rect(x < 0 ? x : x - 3, -10, 7, 3);
+        graphics.rect(x < 0 ? x : x - 3, 7, 7, 3);
+      }
+    } else if (identity.effect === 'flame') {
+      // One finite flame at the shelf rim, never a persistent unlimited-fuel effect.
+      graphics.moveTo(54, -12);
+      graphics.lineTo(50, -5);
+      graphics.lineTo(53, 1);
+      graphics.lineTo(54, 7);
+      graphics.lineTo(59, -2);
+      graphics.lineTo(58, -9);
+      graphics.close();
     } else {
       for (let i = 0; i < 4; i++) graphics.rect(52, -22 + i * 12, 4, 8);
     }
     graphics.fill();
     slot.addChild(pixels);
     const opacity = pixels.addComponent(UIOpacity);
-    const movement = tween(pixels).to(0.22, { position: v3(0, 8, 0) }, { easing: 'quadOut' });
-    const fade = tween(opacity).to(0.26, { opacity: 0 });
+    const toolReaction = identity.effect === 'digits' || identity.effect === 'bond' || identity.effect === 'flame';
+    if (identity.effect === 'bond') pixels.setScale(1.12, 1, 1);
+    const movement = identity.effect === 'bond'
+      ? tween(pixels).to(0.20, { scale: v3(1, 1, 1) }, { easing: 'quadOut' })
+      : tween(pixels).to(toolReaction ? 0.20 : 0.22, { position: v3(0, toolReaction ? 4 : 8, 0) }, { easing: 'quadOut' });
+    const fade = tween(opacity).to(toolReaction ? 0.20 : 0.26, { opacity: 0 });
     this.animations.add(movement);
     this.animations.add(fade);
     movement.start();
@@ -273,12 +357,11 @@ export class RelicBarController extends Component {
 
   private setupSlots(): void {
     if (this.slotNodes.length > 0) return;
-    const transform = this.getComponent(UITransform) || this.addComponent(UITransform);
+    const transform = this.getComponent(UITransform) || this.addComponent(UITransform)!;
     transform.setAnchorPoint(0.5, 0.5);
     transform.setContentSize(SHELF_WIDTH, this.shelfHeight);
     if (!this.getComponent(Graphics)) this.addComponent(Graphics);
-    this.addLabel(this.node, 'ShelfTitle', '博古架', 0, 432, 112, 32, 22, palette.secondary);
-    this.addLabel(this.node, 'ShelfSubtitle', '（奇物槽）', 0, 404, 112, 26, 16, palette.secondary);
+    this.addLabel(this.node, 'ShelfTitle', '随身家当', 0, 432, 112, 32, 22, palette.secondary);
 
     for (let i = 0; i < 5; i++) {
       const slot = new Node(`RelicSlot_${i}`);
@@ -287,11 +370,11 @@ export class RelicBarController extends Component {
       slot.setPosition(0, 328 - i * 116, 0);
       this.node.addChild(slot);
       this.drawSlot(slot);
-      this.addLabel(slot, 'EmptySlot', '空置', 0, 0, 88, 32, 20, palette.secondary);
+      this.addLabel(slot, 'EmptySlot', '空位', 0, 0, 88, 32, 20, palette.secondary);
       slot.on(Node.EventType.TOUCH_END, (event?: EventTouch) => this.handleSlotTap(i, event));
       this.slotNodes.push(slot);
     }
-    this.addLabel(this.node, 'ShelfHint', '点击奇物\n查看详情', 0, -406, 112, 60, 17, palette.secondary);
+    this.addLabel(this.node, 'ShelfHint', '点击家当\n查看详情', 0, -406, 112, 60, 17, palette.secondary);
     this.setHeight(this.shelfHeight);
   }
 
@@ -348,8 +431,9 @@ export class RelicBarController extends Component {
     const identity = RELIC_IDENTITIES[data.id];
     const rarity = this.rarityFor(data);
     const color = this.relicColor(data.id, rarity);
-    const icon = this.addLabel(targetSlot, 'RelicIcon', identity?.stamp ?? data.name.slice(0, 2),
-      0, 1, 88, 48, 28, color).node;
+    const icon = identity
+      ? createArt(targetSlot, 'RelicIcon', identity.art, 48, 48, 0, 7)
+      : this.addLabel(targetSlot, 'RelicIcon', data.name.slice(0, 2), 0, 1, 88, 48, 28, color).node;
     this.addLabel(targetSlot, 'SlotTag', openingRarity ? '开局' : '奇物', 0, 48, 72, 28, 16,
       data.id.startsWith('CARD_MODERN_') ? palette.cyan : color);
     this.addLabel(targetSlot, 'RelicRarity', rarity, 0, -31, 88, 24, 17, color);
@@ -397,7 +481,8 @@ export class RelicBarController extends Component {
     const controlY = Math.max(start.y, end.y) + 48;
     const flight = tween(flyer).to(0.24, { scale: v3(0.9, 0.9, 1) }, {
       easing: 'quadOut',
-      onUpdate: (target: Node, ratio: number) => {
+      onUpdate: (target?: Node, ratio?: number) => {
+        if (!target || ratio === undefined) return;
         const inverse = 1 - ratio;
         target.setPosition(
           inverse * inverse * start.x + 2 * inverse * ratio * controlX + ratio * ratio * end.x,
@@ -418,22 +503,22 @@ export class RelicBarController extends Component {
   public showDetail(data: RelicItemData): void {
     const index = this.relics.findIndex(relic => relic.id === data.id);
     if (index < 0) {
-      const locked = data.id === 'empty' || data.name === '未解锁奇物槽';
+      const locked = data.id === 'empty' || data.id.startsWith('LOCKED_RELIC_SLOT_');
       if (!locked) return;
       this.renderDetail({
         ...data,
-        name: '未解锁奇物槽',
+        name: '空位',
         rarity: 'N',
-        perk: data.perk ?? '状态：未解锁',
-      }, true);
+        perk: data.perk ?? '',
+      });
       return;
     }
     const item = this.relics[index]!;
     this.highlightSlot(index);
-    this.renderDetail(item, false);
+    this.renderDetail(item);
   }
 
-  private renderDetail(item: RelicItemData, locked: boolean): void {
+  private renderDetail(item: RelicItemData): void {
     this.stopDetailAnimations();
     if (!this.detailPanel) {
       this.detailPanel = new Node('RelicDetailTip');
@@ -451,9 +536,7 @@ export class RelicBarController extends Component {
     const color = this.rarityColor(rarity);
     this.addLabel(detail, 'DetailName', `【${item.name}】`, 0, 98, 328, 40, 23, palette.text);
     this.addLabel(detail, 'RarityBadge', rarity, 0, 63, 120, 28, 19, color);
-    const description = this.addLabel(detail, 'DetailDesc', locked
-      ? `【未解锁奇物槽】${item.desc}`
-      : item.desc, 0, 12, 328, 96, 19, palette.text);
+    const description = this.addLabel(detail, 'DetailDesc', item.desc, 0, 12, 328, 96, 19, palette.text);
     description.horizontalAlign = Label.HorizontalAlign.LEFT;
     description.verticalAlign = Label.VerticalAlign.TOP;
     description.overflow = Label.Overflow.SHRINK;

@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "content_id": "ming_end",
-  "content_version": "0.7.1",
+  "content_version": "0.7.2",
   "files": {
     "rules": "rules.json",
     "era": "era.json",

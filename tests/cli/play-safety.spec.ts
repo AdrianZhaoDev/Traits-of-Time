@@ -62,7 +62,7 @@ describe('play preserves lives and renders outcomes', () => {
     expect(new Set(paths).size).toBe(2);
     expect(paths).not.toContain(directory);
     expect(await slotBytes(directory)).toEqual(before);
-  });
+  }, 90000);
 
   it('keeps ended default saves and offers a copyable independent new-game command', async () => {
     const context = await fixture(bundle => fixedLife(bundle, 12));

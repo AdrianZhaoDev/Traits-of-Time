@@ -16,6 +16,22 @@ export async function loadTemplate(): Promise<ContentBundle> {
   return { manifest, ...Object.fromEntries(parts) } as ContentBundle;
 }
 
+/** Pin pre-0.7.2 route/D20 seeds without putting native relics back in production. */
+export function useLegacyRelicPool(bundle: ContentBundle): void {
+  const pool = bundle.pools.find(item => item.id === bundle.rules.opening.pool_id);
+  if (!pool) throw new Error('Missing opening pool for relic route fixture');
+  pool.entries = [
+    { card_id: 'CARD_MODERN_CORN', weight: 5 },
+    { card_id: 'CARD_MODERN_ANTIBIOTIC', weight: 5 },
+    { card_id: 'CARD_MODERN_FLASHLIGHT', weight: 15 },
+    { card_id: 'CARD_MODERN_CALCULATOR', weight: 15 },
+    { card_id: 'CARD_NATIVE_BOOK', weight: 15 },
+    { card_id: 'CARD_MODERN_GLUE', weight: 30 },
+    { card_id: 'CARD_MODERN_LIGHTER', weight: 30 },
+    { card_id: 'CARD_NATIVE_BOWL', weight: 50 },
+  ];
+}
+
 /** Write all manifest-listed files, including nested fixture file paths. */
 export async function writeContent(directory: string, bundle: ContentBundle): Promise<void> {
   await mkdir(directory, { recursive: true });

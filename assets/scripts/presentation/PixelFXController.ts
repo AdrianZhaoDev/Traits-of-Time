@@ -14,7 +14,7 @@ import {
 
 const { ccclass, property } = _decorator;
 
-type EffectKind = 'gain' | 'death' | 'ending';
+type EffectKind = 'gain' | 'death';
 type EffectName = 'candle' | EffectKind;
 
 interface EffectSpec {
@@ -72,20 +72,8 @@ const EFFECTS: Readonly<Record<EffectName, EffectSpec>> = {
     width: 112,
     height: 92,
   },
-  ending: {
-    path: 'pixel/ming_end/fx/ui/confetti/confetti',
-    prefix: 'confetti',
-    frameCount: 52,
-    fps: 15,
-    duration: 3.4,
-    loop: false,
-    x: 315,
-    y: -220,
-    width: 112,
-    height: 78,
-  },
 };
-const EFFECT_NAMES: readonly EffectName[] = ['candle', 'gain', 'death', 'ending'];
+const EFFECT_NAMES: readonly EffectName[] = ['candle', 'gain', 'death'];
 
 interface LoadedEffect {
   readonly spec: EffectSpec;

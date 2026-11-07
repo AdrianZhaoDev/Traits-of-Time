@@ -4,9 +4,13 @@ import { RelicBarController, type RelicItemData } from '../../assets/scripts/pre
 import { GameMain } from '../../assets/scripts/presentation/GameMain';
 import type { SessionSave } from '../../assets/scripts/application/GameSession';
 import { getNativeMingEndContent } from '../../assets/scripts/application/NativeContentLoader';
+import * as NativeContentLoader from '../../assets/scripts/application/NativeContentLoader';
+import { sha256Json } from '../../assets/scripts/core/persistence/JsonDigest';
+import { useLegacyRelicPool } from '../helpers/content';
 import { EnumMapper } from '../../assets/scripts/presentation/EnumMapper';
 import { LogParser } from '../../assets/scripts/presentation/LogParser';
 import { EventFoldItem } from '../../assets/scripts/presentation/EventFoldItem';
+import { OpeningFlow } from '../../assets/scripts/presentation/OpeningFlow';
 
 beforeEach(() => { vi.spyOn(Math, 'random').mockReturnValue(1628 / 0x1_0000_0000); });
 afterEach(() => { vi.restoreAllMocks(); });
@@ -20,23 +24,44 @@ function displayedText(node: Node): string {
 }
 
 async function selectOpeningCard(gameMain: GameMain, preferredCard?: string): Promise<string> {
+  const opening = descendants(gameMain.node).find(node => node.name === 'OpeningFlow')!.getComponent(OpeningFlow)!;
+  const home = descendants(opening.node).find(node => node.name === 'OpeningPage_home')!;
+  const homeItems = descendants(home).find(node => node.name === 'OpeningItems')!;
+  descendants(homeItems).find(node => node.getComponent(Button))!.emit(Node.EventType.TOUCH_END);
   await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD'));
   const pending = gameMain.getCurrentView()!.pending;
   if (pending?.kind !== 'card') throw new Error('Expected card offers');
   expect(gameMain.getCurrentView()!.player.cards).toEqual([]);
-  const paper = gameMain.getDecisionOverlay()!.children.find(node => node.name === 'CardChoice')!;
-  const confirm = paper.children.find(node => node.name === 'Btn_确认家当 · 进入人生')!;
+  await vi.waitFor(() => expect(descendants(opening.node).some(node => node.name === 'OpeningPage_identity')).toBe(true));
+  opening.update(3);
+  const identity = descendants(opening.node).find(node => node.name === 'OpeningPage_identity')!;
+  const identityFooter = descendants(identity).find(node => node.name === 'OpeningFooter')!;
+  descendants(identityFooter).find(node => node.getComponent(Button))!.emit(Node.EventType.TOUCH_END);
+  opening.update(3);
+  const paper = descendants(opening.node).find(node => node.name === 'OpeningPage_cards')!;
+  const cardsFooter = descendants(paper).find(node => node.name === 'OpeningFooter')!;
+  const confirm = descendants(cardsFooter).find(node => node.getComponent(Button))!;
   confirm.emit(Node.EventType.TOUCH_END);
   expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD');
   await gameMain.triggerAdvance();
   expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD');
   const cardId = preferredCard ?? pending.cards[pending.cards.length - 1]!;
-  paper.children.find(node => node.name === `CardOffer_${cardId}`)!.emit(Node.EventType.TOUCH_END);
+  descendants(paper).find(node => node.name === `CardOffer_${cardId}`)!.emit(Node.EventType.TOUCH_END);
   confirm.emit(Node.EventType.TOUCH_END);
   await vi.waitFor(() => expect(gameMain.getCurrentView()!.player.cards).toEqual([cardId]));
   expect(gameMain.getCurrentView()?.status).toBe('AWAITING_OPTION');
   expect(gameMain.getMemorialCard()!.node.active).toBe(true);
   return cardId;
+}
+
+function useWorkshopOpeningFixture(): void {
+  const bundle = structuredClone(getNativeMingEndContent().bundle);
+  // Retain the native-book workshop route and its seed independently of production offers.
+  useLegacyRelicPool(bundle);
+  vi.spyOn(NativeContentLoader, 'getNativeMingEndContent').mockReturnValue({
+    bundle,
+    fingerprint: sha256Json(bundle),
+  });
 }
 
 async function enterWorkshopFromRelic(gameMain: GameMain): Promise<void> {
@@ -126,10 +151,24 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
   });
 
   describe('GameMain full orchestration & UI tree integration', () => {
+    it('keeps gameplay uninitialized at home and commits only the selected revealed offer', async () => {
+      const root = new Node('OpeningJourney');
+      const game = root.addComponent(GameMain);
+      game.onLoad();
+      expect(game.getSession()).toBeNull();
+      await game.triggerAdvance();
+      expect(game.getSession()).toBeNull();
+      const chosen = await selectOpeningCard(game);
+      const card = getNativeMingEndContent().bundle.cards.find(item => item.id === chosen)!;
+      expect(card.tags).toContain('modern');
+      expect(game.getCurrentView()!.player.cards).toEqual([chosen]);
+      expect(root.getChildByName('OpeningFlow')!.active).toBe(false);
+    });
 
 
 
     it('waits for an in-flight automatic stage when advance is pressed again', async () => {
+      useWorkshopOpeningFixture();
       const root = new Node('GameMainRoot');
       const gameMain = root.addComponent(GameMain);
       gameMain.onLoad();
@@ -169,6 +208,7 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
     });
 
     it('lets a player cancel or confirm exit while a career decision is pending', async () => {
+      useWorkshopOpeningFixture();
       const mainNode = new Node('GameMainRoot');
       const gameMain = mainNode.addComponent(GameMain);
       gameMain.onLoad();
@@ -185,13 +225,13 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
       await vi.waitFor(() => expect(pendingEventId()).toBe('E_CHAIN_3'));
 
       const overlay = gameMain.getDecisionOverlay()!;
-      card.children.find(node => node.name === 'ManageCareers')!.emit(Node.EventType.TOUCH_END);
+      descendants(card).find(node => node.name === 'ManageCareers')!.emit(Node.EventType.TOUCH_END);
       let panel = overlay.children.find(node => node.name === 'CareerPanel')!;
       panel.children.find(node => node.name === 'Btn_返回')!.emit(Node.EventType.TOUCH_END);
       expect(pendingEventId()).toBe('E_CHAIN_3');
       expect(gameMain.getCurrentView()!.player.chains.find(chain => chain.chain_id === 'CH_WORKSHOP')!.status).toBe('active');
 
-      card.children.find(node => node.name === 'ManageCareers')!.emit(Node.EventType.TOUCH_END);
+      descendants(card).find(node => node.name === 'ManageCareers')!.emit(Node.EventType.TOUCH_END);
       panel = overlay.children.find(node => node.name === 'CareerPanel')!;
       const careerContent = panel.children.find(node => node.name === 'CareerScrollView')!
         .children.find(node => node.name === 'Viewport')!.children.find(node => node.name === 'Content')!;
@@ -237,6 +277,7 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
 
     it('starts repeating at 0.35 seconds and preserves death until a new gesture', async () => {
       vi.mocked(Math.random).mockReturnValue(3 / 0x1_0000_0000);
+      useWorkshopOpeningFixture();
       const root = new Node('NaturalDeath');
       const game = root.addComponent(GameMain);
       game.onLoad();
@@ -280,14 +321,12 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
     });
 
     it('shows the real death report and permits restarting a completed life', async () => {
+      useWorkshopOpeningFixture();
       const root = new Node('GameMainRoot');
       const gameMain = root.addComponent(GameMain);
       gameMain.onLoad();
-      await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD'));
+      await selectOpeningCard(gameMain, 'CARD_MODERN_FLASHLIGHT');
       const overlay = gameMain.getDecisionOverlay()!;
-      const choice = overlay.children.find(node => node.name === 'CardChoice')!;
-      choice.children.find(node => node.name === 'CardOffer_CARD_MODERN_FLASHLIGHT')!.emit(Node.EventType.TOUCH_END);
-      choice.children.find(node => node.name === 'Btn_确认家当 · 进入人生')!.emit(Node.EventType.TOUCH_END);
       await vi.waitFor(() => expect(gameMain.getCurrentView()?.pending?.kind).toBe('option'));
       const clickOption = (id: string) => descendants(gameMain.getMemorialCard()!.node)
         .find(node => node.name === `Option_${id}`)!.emit(Node.EventType.TOUCH_END);
@@ -298,6 +337,9 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
         const pending = gameMain.getCurrentView()?.pending;
         expect(pending?.kind === 'option' && pending.event_id).toBe('E_MOD_FLASHLIGHT_EVIDENCE');
       });
+      const decisionRows = descendants(gameMain.getMemorialCard()!.node);
+      expect(displayedText(decisionRows.find(node => node.name === 'Option_flashlight_robbery')!)).toMatch(/丧命|死亡/);
+      expect(displayedText(decisionRows.find(node => node.name === 'Option_flashlight_study')!)).not.toMatch(/丧命|死亡/);
       clickOption('flashlight_robbery');
       await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('ENDED'));
       const report = gameMain.getSession()!.exportSave().engine.payload.run.ending!;
@@ -311,7 +353,8 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
       expect(displayedText(panel)).toContain(achievement.name);
       const firstSeed = gameMain.getSession()!.exportSave().engine.payload.run.seed;
       vi.mocked(Math.random).mockReturnValue(2000 / 0x1_0000_0000);
-      panel.children.find(node => node.name === 'Btn_重启人生')!.emit(Node.EventType.TOUCH_END);
+      panel.children.find(node => node.name === 'Btn_返回首页')!.emit(Node.EventType.TOUCH_END);
+      descendants(root).find(node => node.name === 'Btn_我要穿越')!.emit(Node.EventType.TOUCH_END);
       await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD'));
       expect(gameMain.getCurrentView()!.player.cards).toEqual([]);
       const restarted = gameMain.getSession()!.exportSave();

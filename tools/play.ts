@@ -14,7 +14,7 @@ import { chooseAutomaticCard, chooseAutomaticOption } from './lib/AutoPlay.js';
 import { buildReplay, writeReplay } from './lib/Replay.js';
 import { DEFAULT_CONTENT, parseCli, requiredString, integerArg, assertDestinationOutsideContent, checkSeed, withStateLock, runCli } from './lib/cli.js';
 
-const attributeNames = { physique: '体魄', intelligence: '智力', wealth: '财富', prestige: '声望', luck: '运气' };
+const attributeNames = { physique: '体魄', intelligence: '才干', wealth: '家资', prestige: '人脉', luck: '气数' };
 const riskNames = { safe: '安全', normal: '普通', high: '高风险' };
 
 await runCli(async () => {
@@ -67,7 +67,7 @@ await runCli(async () => {
     const header = (text: string) => styleText('bold', styleText('yellow', text, { stream: process.stdout }), { stream: process.stdout });
     const showCard = (id: string, restored = false) => {
       const card = bundle.cards.find(item => item.id === id)!;
-      console.log(styleText('green', `【${restored ? '开局携带（不代表当前可用）' : '随身物品'}】${card.name} [${card.rarity}]（${card.description}）`));
+      console.log(styleText('green', `【${restored ? '开局家当（不代表当前可用）' : '随身家当'}】${card.name} [${card.rarity}]（${card.description}）`));
     };
     const show = () => {
       const snapshot = session.exportSave();
@@ -77,20 +77,20 @@ await runCli(async () => {
         if (entry.seq <= shownLog) continue;
         shownLog = entry.seq;
         // Audit records are internal; narrative text never determines visibility.
-        if (entry.type === 'draw' || entry.type === 'skip') continue;
+        if (entry.type === 'draw' || entry.type === 'skip' || entry.type === 'card_selected' || entry.type === 'ending') continue;
         
         if (currentYearShown !== entry.calendar_year) {
           currentYearShown = entry.calendar_year;
           console.log(`\n━━━━━━━━━━━━━━━━【${entry.calendar_year}年 · ${entry.age}岁】━━━━━━━━━━━━━━━━`);
         }
         if (entry.type === 'opening') {
-          console.log(`【出身启程】${narrative(entry.message)}`);
+          console.log(`【开局】${narrative(entry.message)}`);
           showCard(entry.data.card_id);
         } else if (entry.type === 'event') {
           if (pending && pending.kind !== 'card' && entry.data.event_instance_id === pending.event_instance_id) pendingEventShown = true;
           console.log(`${narrative(entry.message)}`);
         } else if (entry.type === 'dice') {
-          console.log(styleText('magenta', `  🎲 掷骰检定：D20=${entry.data.raw} + 属性=${entry.data.attribute_value} (修正${entry.data.modifier_after}) vs DC=${entry.data.dc} → ${entry.data.success ? '成功' : '失败'}`));
+          console.log(styleText('magenta', `  🎲 掷骰：D20 ${entry.data.raw} + 属性 ${entry.data.attribute_value} + 修正 (${entry.data.modifier_after}) / 难度 ${entry.data.dc} → ${entry.data.success ? '成功' : '失败'}`));
         } else if (entry.type === 'effects') {
           if (entry.message) console.log(`↳ ${narrative(entry.message)}`);
           for (const effect of entry.data.effects) {
@@ -105,7 +105,7 @@ await runCli(async () => {
             }
           }
         } else if (entry.type === 'death') {
-          console.log(styleText('red', `【走向终局】${entry.message}`));
+          console.log(styleText('red', `【人生结束】${entry.message}`));
         } else if (entry.type === 'achievement') {
           console.log(styleText('yellow', `达成成就：${bundle.achievements.find(item => item.id === entry.data.achievement_id)?.name} — ${entry.message}`));
         } else {
@@ -114,28 +114,33 @@ await runCli(async () => {
       }
       const p = state.player;
       const fictional = p.calendar_year - bundle.era.historical_end_year;
-      const statusStr = state.timeline === 'historical' ? '历史推进' : fictional > 0 ? `架空延续第 ${fictional} 年` : '架空推演';
-      console.log(styleText('gray', `[${p.calendar_year}年·${p.age}岁 | ${bundle.era.identities.find(item => item.id === p.identity_id)?.name} | 属性: 体${p.attributes.physique} 智${p.attributes.intelligence} 富${p.attributes.wealth} 声${p.attributes.prestige} 运${p.attributes.luck} | 状态: ${statusStr}]`));
-      p.chains.filter(chain => chain.status === 'active').forEach((chain, index) => {
-        console.log(`【进行中的事业 ${index + 1}】${bundle.chains.find(item => item.id === chain.chain_id)?.name ?? chain.chain_id} (${chain.instance_id})；pause 暂停后输入 abandon ${index + 1} 可退出，已付成本不退。`);
-      });
+      const statusStr = state.timeline === 'historical' ? '历史阶段' : fictional > 0 ? `架空人生第 ${fictional} 年` : '架空人生';
+      console.log(styleText('gray', `[${p.calendar_year}年·${p.age}岁 | ${bundle.era.identities.find(item => item.id === p.identity_id)?.name} | 体魄${p.attributes.physique} 家资${p.attributes.wealth} 才干${p.attributes.intelligence} 人脉${p.attributes.prestige} 气数${p.attributes.luck} | ${statusStr}]`));
+      if (state.status !== 'ENDED') {
+        p.chains.filter(chain => chain.status === 'active').forEach((chain, index) => {
+          console.log(`【进行中的事业 ${index + 1}】${bundle.chains.find(item => item.id === chain.chain_id)?.name ?? chain.chain_id}；输入 pause 暂停，再输入 abandon ${index + 1} 可退出，已付费用不退。`);
+        });
+      }
       if (pending) {
         if (pending.kind === 'card') {
-          console.log(header('【先选家当，再选方向】'));
+          console.log(header('【选一件随身家当】'));
           pending.cards.forEach((id, idx) => {
             const card = bundle.cards.find(item => item.id === id);
             if (card) console.log(`  👉 输入 card ${idx + 1} 或 card ${id} —— ${card.name} [${card.rarity}]（${card.description}）`);
           });
         } else {
-          if (!pendingEventShown) console.log(`${pending.kind === 'option' ? '【事件抉择】' : '【自动演绎】'}${narrative(bundle.events.find(event => event.id === pending.event_id)!.text)}`);
+          if (!pendingEventShown && pending.kind === 'option') console.log(`【你的选择】${narrative(bundle.events.find(event => event.id === pending.event_id)!.text)}`);
           if (pending.kind === 'option') {
             console.log(header('【你的决策】'));
             const event = bundle.events.find(item => item.id === pending.event_id);
             const stages = new Map(event?.stages?.map(stage => [stage.id, stage]));
             pending.options.forEach((option, idx) => {
               const num = styleText('bold', styleText('yellow', `[${idx + 1}]`));
-              const hint = option.available ? styleText('green', '可选') : styleText('red', `不可选(${option.reason})`);
+              const reason = option.reason === 'OUTCOME_NOT_APPLICABLE' ? '当前无法执行这项选择，请换一项。' : option.reason;
+              const hint = option.available ? styleText('green', '可选') : styleText('red', `不可选(${reason})`);
               const source = event?.interaction === 'choice' ? event.options.find(item => item.id === option.id) : undefined;
+              const immediateDeath = source?.outcome.effects.some(effect => effect.type === 'death') ?? false;
+              let possibleDeath = immediateDeath;
               const reachable = source?.outcome.next_stage_id ? [source.outcome.next_stage_id] : [];
               const seen = new Set<string>();
               const descriptions: string[] = [];
@@ -146,27 +151,32 @@ await runCli(async () => {
                 seen.add(stageId);
                 const stage = stages.get(stageId)!;
                 const check = stageId === source?.outcome.next_stage_id ? option.checks[0] ?? stage.check : stage.check;
-                descriptions.push(`${attributeNames[check.attribute]} / DC ${check.dc}`);
+                descriptions.push(`${attributeNames[check.attribute]} / 难度 ${check.dc}`);
                 for (const outcome of [stage.success, stage.failure, stage.critical_success]) {
+                  if (outcome?.effects.some(effect => effect.type === 'death')) possibleDeath = true;
                   if (outcome?.next_stage_id) reachable.push(outcome.next_stage_id);
                 }
               }
               const checks = descriptions.length === 0 ? '无检定' : `可能检定：${descriptions.join('、')}（按分支触发）`;
               console.log(`  👉 输入 ${num} 或 choose ${option.id}  ——  ${option.text} [${hint}] [${riskNames[option.risk]}] ${checks}`);
+              if (possibleDeath) console.log(`     ${immediateDeath ? '后果：此选择会导致死亡。' : '风险：后续可能丧命。'}`);
               for (const effect of source?.outcome.effects ?? []) {
-                if (effect.type !== 'chain_start') continue;
-                const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
-                if (commitment) console.log(`     【起步前说明】${commitment}`);
+                if (effect.type === 'attribute_add' && effect.amount < 0) {
+                  console.log(`     立即消耗：${attributeNames[effect.attribute]} ${effect.amount}`);
+                } else if (effect.type === 'chain_start') {
+                  const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
+                  if (commitment) console.log(`     开始前请留意：${commitment}`);
+                }
               }
             });
-          } else console.log(`${narrative(pending.text)}\n阶段 ${pending.stage_id}：${attributeNames[pending.check.attribute]} / DC ${pending.check.dc}；自动掷骰并结算，无需选择。`);
+          } else console.log(`${narrative(pending.text)}\n${attributeNames[pending.check.attribute]} / 难度 ${pending.check.dc}；自动掷骰，无需操作。`);
         }
       }
       if (state.status === 'ENDED') {
         const report = engine.generateEndingReport();
         console.log(styleText('red', '\n════════════════════ 人生结束 ════════════════════'));
-        console.log(`【主线结局】${report.primary_achievement_id === null ? '普通人生' : bundle.achievements.find(item => item.id === report.primary_achievement_id)?.name}；${bundle.deaths.find(item => item.id === report.death_id)?.name}`);
-        console.log(`【享年寿命】终止年龄：${report.end_age} 岁（历经 ${report.years_played} 载风雨）`);
+        console.log(`【人生结局】${report.primary_achievement_id === null ? '普通人生' : bundle.achievements.find(item => item.id === report.primary_achievement_id)?.name}；${bundle.deaths.find(item => item.id === report.death_id)?.name}`);
+        console.log(`【寿命】${report.end_age} 岁 · 本局历经 ${report.years_played} 年`);
         console.log(`【最终身份】${bundle.era.identities.find(item => item.id === state.player.identity_id)?.name}`);
         const achievementNames = (ids: string[]) => ids.length === 0 ? '无' : ids.map(id => bundle.achievements.find(item => item.id === id)?.name ?? id).join('、');
         console.log(`【时代里程碑】${achievementNames(report.milestone_achievement_ids)}`);
@@ -238,7 +248,7 @@ await runCli(async () => {
     };
     console.log(args.auto
       ? '全自动模式：随机选择可用选项并推进至结局；pause 可暂停，Ctrl+C 在当前命令保存后停止。'
-      : '先选家当，再选方向。日常境遇由骰子自动演绎，重大人生走向等你决定。命令：card <序号或ID> / 序号 / choose <id> / pause / continue / next（单步后暂停） / abandon <事业编号或实例> / status / quit');
+      : '先选家当，再作选择。日常和检定会自动推进，遇到选项时等你决定。命令：card <序号或ID> / 序号 / choose <id> / pause / continue / next（单步后暂停） / abandon <事业编号或实例> / status / quit');
     show();
     try {
       await advance();
@@ -272,12 +282,12 @@ await runCli(async () => {
           const token = text.slice(5).trim();
           const index = /^\d+$/.test(token) ? Number(token) - 1 : pending.cards.indexOf(token);
           const cardId = pending.cards[index];
-          if (!cardId) { console.log(`无效卡牌。请输入 card 1 到 card ${pending.cards.length} 或 card <ID>。`); continue; }
+          if (!cardId) { console.log(`没有这件家当。请输入 card 1 到 card ${pending.cards.length}，也可使用列出的ID。`); continue; }
           result = await session.command({ type: 'selectCard', cardId });
           chose = true;
         } else if (/^\d+$/.test(text) && pending?.kind === 'option') {
           const option = pending.options[Number(text) - 1];
-          if (!option) { console.log(`无效序号。请输入 1 到 ${pending.options.length} 之间的数字。`); continue; }
+          if (!option) { console.log(`没有这个选项。请输入 1 到 ${pending.options.length} 之间的数字。`); continue; }
           result = await session.command({ type: 'choose', optionId: option.id });
           chose = true;
         } else if (text.startsWith('choose ') && text.slice(7).length > 0) {

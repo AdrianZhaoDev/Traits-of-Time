@@ -5,7 +5,7 @@ import { load } from '../../tools/lib/FileStateStore.js';
 import { writeContent } from '../helpers/content.js';
 import {
   chainLife, chainStartText, cliFixtures, expectJsonError, expectSuccess, runCli,
-  slotBytes, startCli, successJson, type DrawJson,
+  savedLife, slotBytes, startCli, successJson, type DrawJson,
 } from './helpers.js';
 
 const fixture = cliFixtures();
@@ -115,7 +115,8 @@ describe('CLI locks: real concurrent writers and abnormal exits', () => {
     const context = await fixture(chainLife);
     const owner = startCli('play', ['--content', context.content, '--state', context.state]);
     try {
-      await owner.waitForOutput('【先选家当，再选方向】');
+      await owner.waitForOutput('card 1');
+      expect((await savedLife(context.state)).engine.payload.run.status).toBe('AWAITING_CARD');
       owner.send('card 1\n');
       await owner.waitForOutput(chainStartText);
       const before = await slotBytes(context.state);
@@ -132,7 +133,8 @@ describe('CLI locks: real concurrent writers and abnormal exits', () => {
     const context = await fixture(chainLife);
     const owner = startCli('play', ['--content', context.content, '--state', context.state]);
     try {
-      await owner.waitForOutput('【先选家当，再选方向】');
+      await owner.waitForOutput('card 1');
+      expect((await savedLife(context.state)).engine.payload.run.status).toBe('AWAITING_CARD');
       owner.send('card 1\n');
       await owner.waitForOutput(chainStartText);
     } finally {

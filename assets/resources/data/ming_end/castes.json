@@ -19,7 +19,7 @@
   },
   {
     "id": "C_GENTRY",
-    "name": "江南士绅",
+    "name": "士绅",
     "weight": 1,
     "modifiers": {
       "wealth": 2

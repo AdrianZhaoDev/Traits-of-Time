@@ -46,6 +46,7 @@ export class LogParser {
       if (
         log.type === 'skip' ||
         log.type === 'draw' ||
+        log.type === 'ending' ||
         log.message === 'CONDITION_NOT_MET' ||
         (typeof log.message === 'string' && log.message.includes('CONDITION_NOT_MET'))
       ) {
@@ -82,7 +83,7 @@ export class LogParser {
         const cleanedIntro = this.sanitizeText(log.message);
         pendingEventItem = {
           id,
-          eventId: eventInstanceId || log.source_id,
+          eventId: log.source_id || (typeof payload?.event_id === 'string' ? payload.event_id : undefined) || eventInstanceId,
           introText: cleanedIntro,
           type: 'event',
         };
@@ -153,7 +154,7 @@ export class LogParser {
             eventId: effectSourceId,
             relicFlags,
             feedbackKey,
-            introText: parsed.stamp ? `【${parsed.stamp}】` : '',
+            introText: '',
             outcomeText: parsed.text,
             stampTag: parsed.stamp,
             effectsText,
@@ -162,9 +163,9 @@ export class LogParser {
           });
         }
       } else if (log.type === 'death') {
-        // 死亡结果日志：优先合并进当年的起因事件中（先起因后死因结果），并在同卡片内盖上【生平盖棺】印章
+        // 将死因合入当前事件；结算概览由主界面单独展示，避免重复评语。
         const parsed = this.parseStamp(log.message);
-        const stampTag = parsed.stamp || '生平盖棺';
+        const stampTag = parsed.stamp || '人生结束';
         const deathText = parsed.text;
         if (pendingEventItem) {
           pendingEventItem.outcomeText = deathText;
@@ -196,6 +197,7 @@ export class LogParser {
         items.push({
           id: `log_${Date.now()}_${Math.random()}`,
           eventId: log.source_id,
+          feedbackKey: log.seq === undefined ? undefined : `log_${log.seq}`,
           introText: parsed.stamp ? '' : parsed.text,
           outcomeText: parsed.stamp ? parsed.text : undefined,
           stampTag: parsed.stamp,

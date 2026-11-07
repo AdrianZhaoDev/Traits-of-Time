@@ -5,6 +5,7 @@ import { validateContent } from '../../assets/scripts/core/content/ContentValida
 import type { ContentBundle, Effect, Event, Outcome, Stage } from '../../assets/scripts/core/types/content.generated.js';
 import type { CommandResult } from '../../assets/scripts/core/types/commands.js';
 import { loadTemplate } from '../helpers/content.js';
+import { initializeWithCard } from './card-helper.js';
 
 type Result = CommandResult;
 type Success = Extract<CommandResult, { ok: true }>;
@@ -112,7 +113,7 @@ describe('GameEngine: lifecycle notifications and transitions', () => {
     bundle.events = [{ id: 'E_FATAL_OPEN', text: 'Accident', trigger: { kind: 'opening', weight: 1, trigger_probability: 1 },
       interaction: 'automatic', outcome: outcome([{ type: 'attribute_add', attribute: 'wealth', amount: -1 }, { type: 'death', id: 'D_OPENING' }]) }];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 0 }));
+    const result = success(initializeWithCard(engine, { seed: 0 }));
     expect(result.state.status).toBe('ENDED');
     expect(result.logs.filter(log => log.type === 'achievement').map(log => log.data.achievement_id)).toEqual(['A_FINAL']);
     expect(result.logs.findIndex(log => log.type === 'effects')).toBeLessThan(result.logs.findIndex(log => log.type === 'death'));
@@ -129,7 +130,7 @@ describe('GameEngine: lifecycle notifications and transitions', () => {
     bundle.events = [opening([{ type: 'ending_unlock', id: 'A_EXPLICIT' }, { type: 'ending_unlock', id: 'A_EXPLICIT' }]),
       history('E_FATAL', 1641, [{ type: 'attribute_add', attribute: 'wealth', amount: -1 }, { type: 'death', id: 'D_CRISIS' }])];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
+    const initial = success(initializeWithCard(engine, { seed: 0 }));
     expect(initial.logs.filter(log => log.type === 'achievement').map(log => log.data.achievement_id)).toEqual(['A_INITIAL']);
     const explicit = choose(engine, initial);
     expect(explicit.logs.filter(log => log.type === 'achievement').map(log => log.data.achievement_id)).toEqual(['A_EXPLICIT']);
@@ -154,7 +155,7 @@ describe('GameEngine: lifecycle notifications and transitions', () => {
       { id: 'independent', age: 18, text: 'Independent', effects: [{ type: 'flag_remove', id: 'dependent' }] },
     ];
     const engine = engineFor(bundle);
-    expect(success(engine.initGame({ seed: 0 })).state.player.identity_id).toBe('I_DEPENDENT');
+    expect(success(initializeWithCard(engine, { seed: 0 })).state.player.identity_id).toBe('I_DEPENDENT');
     expect(success(engine.nextYear('11')).state.player.identity_id).toBe('I_WORKER');
     for (let age = 12; age < 18; age++) success(engine.nextYear(String(age)));
     const restored = engineFor(bundle);
@@ -166,7 +167,7 @@ describe('GameEngine: lifecycle notifications and transitions', () => {
     expect(success(engine.nextYear('19')).logs.some(log => log.source_id === 'adult')).toBe(false);
     bundle.events = [history('E_PROMOTE', 1641, [{ type: 'identity_set', id: 'I_ARTISAN' }])];
     const promoted = engineFor(bundle);
-    success(promoted.initGame({ seed: 0 }));
+    success(initializeWithCard(promoted, { seed: 0 }));
     for (let age = 11; age <= 18; age++) success(promoted.nextYear(String(age)));
     expect(promoted.current().state.player.identity_id).toBe('I_ARTISAN');
     expect(promoted.current().state.player.flags).not.toContain('dependent');
@@ -178,7 +179,7 @@ describe('GameEngine: lifecycle notifications and transitions', () => {
     bundle.rules.lifespan = { min: 80, max: 80, min_remaining_years: 1 };
     bundle.achievements = [{ id: 'A_LONG', name: 'Long life', text: 'Long life', priority: 1, condition: { op: 'compare', field: 'age', comparator: 'gte', value: 80 } }];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
+    const initial = success(initializeWithCard(engine, { seed: 0 }));
     expect(initial.state.player.achievements).toEqual([]);
     const ended = success(engine.nextYear('80'));
     expect(ended.state.player.identity_id).toBe(initial.state.player.identity_id);
@@ -192,7 +193,7 @@ describe('GameEngine: data-driven deterministic openings', () => {
     const bundle = await quietContent();
     const first = engineFor(bundle);
     const second = engineFor(bundle);
-    expect(first.initGame({ seed })).toEqual(second.initGame({ seed }));
+    expect(initializeWithCard(first, { seed })).toEqual(initializeWithCard(second, { seed }));
     expect(first.exportSave()).toEqual(second.exportSave());
     expect(first.exportSave().payload.run.run_id).toBe(`life:${fingerprint}:${seed}`);
   });
@@ -212,7 +213,7 @@ describe('GameEngine: data-driven deterministic openings', () => {
     bundle.chains = [];
     bundle.achievements = [];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 1640 }));
+    const result = success(initializeWithCard(engine, { seed: 1640 }));
     const player = result.state.player;
     const identity = age <= 10 ? 'I_DEPENDENT' : ({ C_REFUGEE: 'I_REFUGEE', C_SOLDIER: 'I_WORKER', C_GENTRY: 'I_HOUSEHOLD' } as const)[caste as 'C_REFUGEE' | 'C_SOLDIER' | 'C_GENTRY'];
     expect(player).toMatchObject({ start_age: age, age, start_year: 1640, calendar_year: 1640, region_id: region, caste_id: caste, identity_id: identity, highest_identity_id: identity });
@@ -240,7 +241,7 @@ describe('GameEngine: data-driven deterministic openings', () => {
       background.modifiers = { wealth: 1, intelligence: 1 };
       background.flags = ['shared', 'background'];
     }
-    const result = success(engineFor(bundle).initGame({ seed: 0 }));
+    const result = success(initializeWithCard(engineFor(bundle), { seed: 0 }));
     expect(result.state.player.attributes).toEqual({ physique: 3, intelligence: 8, wealth: 4, prestige: 3, luck: 3 });
     expect([...result.state.player.flags].sort()).toEqual(['background', 'caste', 'region', 'shared']);
   });
@@ -251,7 +252,7 @@ describe('GameEngine: data-driven deterministic openings', () => {
     for (const selected of pool.entries) {
       for (const entry of pool.entries) entry.weight = entry === selected ? 1 : 0;
       for (const seed of [0, 1640, 0xffffffff]) {
-        const result = success(engineFor(bundle).initGame({ seed }));
+        const result = success(initializeWithCard(engineFor(bundle), { seed }));
         expect(result.state.player.cards).toEqual([selected.card_id]);
         expect(result.logs.find((entry) => entry.type === 'opening')?.data).toMatchObject({ card_id: selected.card_id });
       }
@@ -275,7 +276,7 @@ describe('GameEngine: data-driven deterministic openings', () => {
         point -= entry.weight;
         return point < 0;
       })!;
-      expect(success(engineFor(bundle).initGame({ seed })).state.player.cards).toEqual([selected.card_id]);
+      expect(success(initializeWithCard(engineFor(bundle), { seed })).state.player.cards).toEqual([selected.card_id]);
     }
   });
 
@@ -285,12 +286,12 @@ describe('GameEngine: data-driven deterministic openings', () => {
     bundle.rules.opening.year_max = bundle.era.historical_end_year;
     const years = new Set<number>();
     for (let seed = 0; seed < 64; seed++) {
-      const result = success(engineFor(bundle).initGame({ seed }));
+      const result = success(initializeWithCard(engineFor(bundle), { seed }));
       const year = result.state.player.start_year;
       expect(year).toBeGreaterThanOrEqual(bundle.rules.opening.year_min);
       expect(year).toBeLessThanOrEqual(bundle.rules.opening.year_max);
       expect(result.state.player.calendar_year).toBe(year);
-      expect(result).toEqual(success(engineFor(bundle).initGame({ seed })));
+      expect(result).toEqual(success(initializeWithCard(engineFor(bundle), { seed })));
       years.add(year);
     }
     expect(years.size).toBeGreaterThan(1);
@@ -299,20 +300,20 @@ describe('GameEngine: data-driven deterministic openings', () => {
   it('restricts lifespan to the valid remaining-years intersection', async () => {
     const bundle = await quietContent();
     bundle.rules.lifespan = { min: 9, max: 12, min_remaining_years: 3 };
-    expect(success(engineFor(bundle).initGame({ seed: 0 })).state.player.max_lifespan).toBe(12);
+    expect(success(initializeWithCard(engineFor(bundle), { seed: 0 })).state.player.max_lifespan).toBe(12);
   });
 
   it('does not initialize an existing run twice', async () => {
     const engine = engineFor(await quietContent());
-    success(engine.initGame({ seed: 0 }));
+    success(initializeWithCard(engine, { seed: 0 }));
     const before = structuredClone(engine.exportSave());
-    error(engine.initGame({ seed: 1 }), 'ALREADY_INITIALIZED');
+    error(initializeWithCard(engine, { seed: 1 }), 'ALREADY_INITIALIZED');
     expect(engine.exportSave()).toEqual(before);
   });
 
   it('does not leak mutable view collections or attribute objects', async () => {
     const engine = engineFor(await quietContent());
-    const result = success(engine.initGame({ seed: 1 }));
+    const result = success(initializeWithCard(engine, { seed: 1 }));
     const before = structuredClone(engine.exportSave());
     Reflect.set(result.state.player.flags, String(result.state.player.flags.length), 'injected');
     Reflect.set(result.state.player.attributes, 'wealth', 999);
@@ -327,7 +328,7 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     event.stages = [stage('S1', 'S2'), stage('S2')];
     bundle.events = [event];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 1640 }));
+    const initial = success(initializeWithCard(engine, { seed: 1640 }));
     expect(initial.state.status).toBe('AWAITING_OPTION');
     const beforeOption = structuredClone(engine.exportSave());
     error(engine.nextYear('too-early'), 'INVALID_STATE');
@@ -341,6 +342,7 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     expect(engine.exportSave().payload.run.dice_results).toHaveLength(0);
     const beforeStage = structuredClone(engine.exportSave());
     const pending = firstStage.pending!;
+    if (pending.kind !== 'stage') throw new Error('Expected stage');
     error(engine.resolveStage('wrong-stage', pending.event_instance_id, 'S2'), 'STALE_DECISION');
     error(engine.nextYear('still-pending'), 'INVALID_STATE');
     expect(engine.exportSave()).toEqual(beforeStage);
@@ -360,6 +362,7 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     expect(engine.exportSave().payload.run.dice_results).toHaveLength(2);
     const afterSecond = structuredClone(engine.exportSave());
     const originalOption = initial.pending!;
+    if (originalOption.kind !== 'option') throw new Error('Expected option');
     expect(engine.resolveOption('choose', originalOption.event_instance_id, 'start')).toEqual(firstStage);
     expect(engine.exportSave()).toEqual(afterSecond);
   });
@@ -370,12 +373,13 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     event.stages = [stage('S1', 'S2'), stage('S2')];
     bundle.events = [event];
     const uninterrupted = engineFor(bundle);
-    const first = choose(uninterrupted, uninterrupted.initGame({ seed: 73 }));
+    const first = choose(uninterrupted, initializeWithCard(uninterrupted, { seed: 73 }));
     const second = roll(uninterrupted, first, 'roll1');
     const saved = JSON.parse(JSON.stringify(uninterrupted.exportSave()));
     const restored = engineFor(bundle);
     restored.restoreSave(saved);
     const firstPending = first.pending!;
+    if (firstPending.kind !== 'stage') throw new Error('Expected stage');
     expect(restored.resolveStage('roll1', firstPending.event_instance_id, 'S1')).toEqual(second);
     expect(restored.exportSave()).toEqual(saved);
     expect(roll(restored, second, 'roll2')).toEqual(roll(uninterrupted, second, 'roll2'));
@@ -391,10 +395,11 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     event.stages = [{ ...stage('S1'), success: impossible, failure: structuredClone(impossible) }];
     bundle.events.push(event);
     const engine = engineFor(bundle);
-    const awaiting = choose(engine, engine.initGame({ seed: 1640 }));
+    const awaiting = choose(engine, initializeWithCard(engine, { seed: 1640 }));
     expect(awaiting.pending).toMatchObject({ kind: 'stage', stage_id: 'S1' });
     const before = structuredClone(engine.exportSave());
     const pending = awaiting.pending!;
+    if (pending.kind !== 'stage') throw new Error('Expected stage');
     error(engine.resolveStage('roll', pending.event_instance_id, 'S1'), 'OUTCOME_NOT_APPLICABLE');
     expect(engine.exportSave()).toEqual(before);
     error(engine.resolveStage('roll', pending.event_instance_id, 'S1'), 'OUTCOME_NOT_APPLICABLE');
@@ -412,7 +417,7 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
     });
     bundle.events = [event];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
+    const initial = success(initializeWithCard(engine, { seed: 0 }));
     const pending = initial.pending;
     if (pending?.kind !== 'option') throw new Error('Expected options');
     expect(pending.options.find((item) => item.id === 'locked')).toMatchObject({ available: false, reason: 'You lack the required flag.' });
@@ -432,7 +437,7 @@ describe('GameEngine: options, explicit stages and atomic commands', () => {
       { type: 'attribute_add', attribute: 'luck', amount: 1 },
     ])];
     const engine = engineFor(bundle);
-    const result = choose(engine, engine.initGame({ seed: 0 }));
+    const result = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(result.state.player.attributes).toEqual({ physique: 2, intelligence: 5, wealth: 8, prestige: 1, luck: 4 });
   });
 });
@@ -448,9 +453,9 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     const baseline = engineFor(absent);
     const zero = engineFor(disabled);
     const one = engineFor(active);
-    success(baseline.initGame({ seed: 1640 }));
-    const zeroStart = success(zero.initGame({ seed: 1640 }));
-    expect(success(one.initGame({ seed: 1640 })).state.player.attributes.wealth).toBe(4);
+    success(initializeWithCard(baseline, { seed: 1640 }));
+    const zeroStart = success(initializeWithCard(zero, { seed: 1640 }));
+    expect(success(initializeWithCard(one, { seed: 1640 })).state.player.attributes.wealth).toBe(4);
     expect(zero.exportSave().payload.run.prng).toEqual(baseline.exportSave().payload.run.prng);
     expect(one.exportSave().payload.run.prng.draws).toBe(baseline.exportSave().payload.run.prng.draws + 1);
     expect(zeroStart.logs.some((entry) => entry.message === disabled.era.fallback_text)).toBe(true);
@@ -471,7 +476,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     bundle.rules.events.per_year = 1;
     bundle.events = [random('E_COOL', [{ type: 'attribute_add', attribute: 'wealth', amount: 1 }], { cooldown: 1, max: 3 })];
     const engine = engineFor(bundle);
-    expect(success(engine.initGame({ seed: 1 })).state.player.attributes.wealth).toBe(4);
+    expect(success(initializeWithCard(engine, { seed: 1 })).state.player.attributes.wealth).toBe(4);
     const expected = [4, 5, 5, 6, 6, 6];
     for (let index = 0; index < expected.length; index++) {
       expect(success(engine.nextYear(`year-${index}`)).state.player.attributes.wealth).toBe(expected[index]);
@@ -491,7 +496,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     bundle.events = [opening(), history('E_HISTORY', 1640, []), ...choices,
       ...Array.from({ length: 5 }, (_, index) => random(`E_AUTO_${index}`, []))];
     const engine = engineFor(bundle);
-    let result = success(engine.initGame({ seed: 1640 }));
+    let result = success(initializeWithCard(engine, { seed: 1640 }));
     let command = 0;
     for (let year = 0; year < 4; year++) {
       if (year > 0) result = success(engine.nextYear(`year-${year}`));
@@ -505,6 +510,87 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     }
   });
 
+  it('offers an eligible priority choice before automatic pacing without adding annual encounters', async () => {
+    const bundle = await quietContent();
+    bundle.rules.events = { per_year: 1, automatic_ratio: 1 };
+    const career = opening([{ type: 'flag_add', id: 'career_chosen' }]);
+    career.trigger = { kind: 'random', priority: 1, weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: 1, rare: false };
+    bundle.events = [career, random('E_AUTO', [{ type: 'flag_add', id: 'ordinary_seen' }])];
+    const engine = engineFor(bundle);
+    const pending = success(initializeWithCard(engine, { seed: 0 }));
+    expect(pending.pending).toMatchObject({ kind: 'option', event_id: career.id });
+    expect(pending.state.player.flags).not.toContain('career_chosen');
+    const restored = engineFor(bundle);
+    restored.restoreSave(engine.exportSave());
+    const completed = choose(engine, pending);
+    expect(choose(restored, pending)).toEqual(completed);
+    expect(completed.state.player.flags).toContain('career_chosen');
+    expect(completed.state.player.flags).not.toContain('ordinary_seen');
+    const next = success(engine.nextYear('next'));
+    expect(next.pending).toBeNull();
+    expect(next.state.player.flags).toContain('ordinary_seen');
+    expect(engine.exportSave().payload.run.event_counts).toEqual({ E_TEST_OPEN: 1, E_AUTO: 1 });
+  });
+
+  it.each(['condition', 'option', 'probability', 'weight'] as const)('does not prioritize a career blocked by %s', async (blockedBy) => {
+    const bundle = await quietContent();
+    bundle.rules.events = { per_year: 1, automatic_ratio: 1 };
+    const career = opening([{ type: 'flag_add', id: 'forbidden_career' }]);
+    career.trigger = { kind: 'random', priority: 1, weight: blockedBy === 'weight' ? 0 : 1,
+      trigger_probability: blockedBy === 'probability' ? 0 : 1, cooldown_years: 0, max_occurrences: null, rare: false };
+    const unavailable = { op: 'compare' as const, field: 'wealth' as const, comparator: 'gte' as const, value: 10 };
+    if (blockedBy === 'condition') career.condition = unavailable;
+    if (career.interaction !== 'choice') throw new Error('Expected a career choice');
+    if (blockedBy === 'option') career.options[0]!.condition = unavailable;
+    bundle.events = [career, random('E_AUTO', [{ type: 'flag_add', id: 'ordinary_seen' }])];
+    const engine = engineFor(bundle);
+    const result = success(initializeWithCard(engine, { seed: 0 }));
+    expect(result.pending).toBeNull();
+    expect(result.state.player.flags).toContain('ordinary_seen');
+    expect(result.state.player.flags).not.toContain('forbidden_career');
+    expect(engine.exportSave().payload.run.event_counts).toEqual({ E_AUTO: 1 });
+  });
+
+  it('respects cooldown and occurrence caps before assigning random priority', async () => {
+    const bundle = await quietContent();
+    bundle.rules.events = { per_year: 1, automatic_ratio: 1 };
+    const career = opening();
+    career.trigger = { kind: 'random', priority: 1, weight: 1, trigger_probability: 1, cooldown_years: 1, max_occurrences: 2, rare: false };
+    bundle.events = [career, random('E_AUTO', [])];
+    const engine = engineFor(bundle);
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
+    expect(success(engine.nextYear('year-1')).pending).toBeNull();
+    const due = success(engine.nextYear('year-2'));
+    expect(due.pending).toMatchObject({ event_id: career.id });
+    choose(engine, due, 'choose-again');
+    expect(success(engine.nextYear('year-3')).pending).toBeNull();
+    expect(success(engine.nextYear('year-4')).pending).toBeNull();
+    expect(engine.exportSave().payload.run.event_counts).toEqual({ E_TEST_OPEN: 2, E_AUTO: 3 });
+  });
+
+  it('uses weights within the highest priority and selects each batch candidate only once', async () => {
+    const bundle = await quietContent();
+    bundle.rules.events = { per_year: 2, automatic_ratio: 1 };
+    const highA = random('E_HIGH_A', []), highB = random('E_HIGH_B', []), low = random('E_LOW', []);
+    if (highA.trigger.kind !== 'random' || highB.trigger.kind !== 'random' || low.trigger.kind !== 'random') throw new Error('Expected random fixtures');
+    highA.trigger.priority = highB.trigger.priority = 2;
+    highB.trigger.weight = 3;
+    low.trigger.priority = 1;
+    low.trigger.weight = 100;
+    bundle.events = [highA, highB, low];
+    const engine = engineFor(bundle);
+    success(initializeWithCard(engine, { seed: 0 }));
+    const save = engine.exportSave();
+    expect(save.payload.run.event_counts).toEqual({ E_HIGH_A: 1, E_HIGH_B: 1 });
+    const draw = save.payload.logs.find(log => log.type === 'draw' && log.source_id === 'random');
+    if (draw?.type !== 'draw') throw new Error('Expected random draw');
+    expect(draw.data.candidates).toEqual(expect.arrayContaining([
+      expect.objectContaining({ event_id: highA.id, conditional_probability: 0.25 }),
+      expect.objectContaining({ event_id: highB.id, conditional_probability: 0.75 }),
+      expect.objectContaining({ event_id: low.id, eligible: false, reason: 'LOWER_PRIORITY', conditional_probability: null }),
+    ]));
+  });
+
   it('never suppresses historical choices even when all random encounters target automatic', async () => {
     const bundle = await quietContent();
     bundle.rules.events = { per_year: 1, automatic_ratio: 1 };
@@ -513,7 +599,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     historical.trigger = { kind: 'historical', year: 1640, priority: 0 };
     bundle.events = [opening(), historical, random('E_AUTO', [])];
     const engine = engineFor(bundle);
-    const pending = choose(engine, engine.initGame({ seed: 0 }));
+    const pending = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(pending.pending).toMatchObject({ event_id: historical.id, kind: 'option' });
     expect(pending.state.player.flags).not.toContain('history_chosen');
     const complete = choose(engine, pending, 'historical-choice');
@@ -530,7 +616,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     event.trigger = { kind: 'random', weight: 1, trigger_probability: 1, cooldown_years: 0, max_occurrences: null, rare: false };
     bundle.events = [event];
     const engine = engineFor(bundle);
-    let result = success(engine.initGame({ seed: 0 }));
+    let result = success(initializeWithCard(engine, { seed: 0 }));
     if (interaction === 'choice') result = choose(engine, result);
     expect(result.pending).toBeNull();
     expect(engine.exportSave().payload.run.event_counts.E_ONLY).toBe(1);
@@ -545,7 +631,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     locked.options[0]!.condition = { op: 'compare', field: 'wealth', comparator: 'gt', value: 10 };
     bundle.events = [locked];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 0 }));
+    const result = success(initializeWithCard(engine, { seed: 0 }));
     expect(result).toMatchObject({ state: { status: 'READY' }, pending: null });
     expect(engine.exportSave().payload.run.event_counts[locked.id] ?? 0).toBe(0);
     expect(success(engine.nextYear('next')).state.player.calendar_year).toBe(1641);
@@ -571,7 +657,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
       bundle.events.push(event);
     }
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 1640 }));
+    const initial = success(initializeWithCard(engine, { seed: 1640 }));
     const afterSelection = structuredClone(engine.exportSave().payload.run.prng);
     const completed = choose(engine, initial);
     expect(completed).toMatchObject({ state: { status: 'READY' }, pending: null });
@@ -601,7 +687,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
       bundle.events = [rare, ordinary];
       for (const seed of [0, 1, 2, 73, 1640, 0xffffffff]) {
         const engine = engineFor(bundle);
-        success(engine.initGame({ seed }));
+        success(initializeWithCard(engine, { seed }));
         const before = engine.exportSave().payload.run.prng;
         const preview = Mulberry32.restore(before);
         const rareWeight = (luck + 10) / 10;
@@ -623,7 +709,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
     annualChoice.stages = [stage('S1', 'S2'), stage('S2')];
     bundle.events = [enter, annualChoice];
     const engine = engineFor(bundle);
-    expect(choose(engine, engine.initGame({ seed: 0 })).state.player.attributes.physique).toBe(3);
+    expect(choose(engine, initializeWithCard(engine, { seed: 0 })).state.player.attributes.physique).toBe(3);
     const annual = success(engine.nextYear('1641'));
     expect(annual.state.player.attributes.physique).toBe(2);
     const first = choose(engine, annual, 'annual-choice');
@@ -645,7 +731,7 @@ describe('GameEngine: configured random scheduling and yearly causality', () => 
       { type: 'attribute_add', attribute: 'wealth', amount: -1 }, { type: 'chain_start', id: 'CH_TEST' },
     ]));
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     const before = structuredClone(engine.exportSave());
     error(engine.nextYear('bad-year'), 'OUTCOME_NOT_APPLICABLE');
     expect(engine.exportSave()).toEqual(before);
@@ -661,7 +747,7 @@ describe('GameEngine: history boundaries, stable ordering and restoration', () =
       history('E_A', 1640, [{ type: 'attribute_add', attribute: 'wealth', amount: -100 }]),
     ];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 0 }));
+    const result = success(initializeWithCard(engine, { seed: 0 }));
     expect(result.state.player.attributes.wealth).toBe(0);
     expect(result.logs.filter((entry) => entry.type === 'event').map((entry) => entry.source_id)).toEqual(['E_HIGH', 'E_A', 'E_B']);
     const saved = JSON.parse(JSON.stringify(engine.exportSave()));
@@ -677,7 +763,7 @@ describe('GameEngine: history boundaries, stable ordering and restoration', () =
     unmatched.condition = { op: 'is', field: 'region_id', value: 'R_CAPITAL' };
     bundle.events = [unmatched];
     const engine = engineFor(bundle);
-    success(engine.initGame({ seed: 0 }));
+    success(initializeWithCard(engine, { seed: 0 }));
     for (const year of [1641, 1642, 1643]) expect(success(engine.nextYear(String(year))).state.timeline).toBe('historical');
     const boundary = success(engine.nextYear('1644'));
     expect(boundary.state.timeline).toBe('fictional');
@@ -701,7 +787,7 @@ describe('GameEngine: history boundaries, stable ordering and restoration', () =
     event.stages = [stage('S1')];
     bundle.events = [event];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
+    const initial = success(initializeWithCard(engine, { seed: 0 }));
     expect(initial.state.timeline).toBe('historical');
     const awaiting = choose(engine, initial);
     expect(awaiting.state.timeline).toBe('historical');
@@ -717,7 +803,7 @@ describe('GameEngine: history boundaries, stable ordering and restoration', () =
     stale.condition = { op: 'is', field: 'region_id', value: 'R_JIANGNAN' };
     bundle.events = [stale, history('E_MOVE', 1640, [{ type: 'region_set', id: 'R_CAPITAL' }], 10)];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 0 }));
+    const result = success(initializeWithCard(engine, { seed: 0 }));
     expect(result.state.player.region_id).toBe('R_CAPITAL');
     expect(result.state.player.flags).not.toContain('must_not_happen');
     expect(engine.exportSave().payload.run.processed_history).toContain('E_STALE');
@@ -734,7 +820,7 @@ describe('GameEngine: effects, achievements and highest identity', () => {
       history('E_CLEAR', 1641, [{ type: 'flag_remove', id: 'custom' }, { type: 'injury_remove', id: 'INJ_SEVERE' }]),
     ];
     const engine = engineFor(bundle);
-    const initial = choose(engine, engine.initGame({ seed: 0 }));
+    const initial = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(initial.state.player.flags.filter((id) => id === 'custom')).toHaveLength(1);
     expect(initial.state.player.injuries).toEqual(['INJ_SEVERE']);
     expect(initial.state.player.region_id).toBe('R_CAPITAL');
@@ -754,7 +840,7 @@ describe('GameEngine: effects, achievements and highest identity', () => {
     ];
     bundle.events = [opening([{ type: 'injury_add', id: 'INJ_Z' }, { type: 'injury_add', id: 'INJ_A' }])];
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(success(engine.nextYear('1641')).state.player.attributes.wealth).toBe(8);
   });
 
@@ -775,7 +861,7 @@ describe('GameEngine: effects, achievements and highest identity', () => {
       history('E_LOWER', 1642, [{ type: 'identity_set', id: 'I_REFUGEE' }, { type: 'death', id: 'D_CRISIS' }]),
     ];
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
+    const initial = success(initializeWithCard(engine, { seed: 0 }));
     expect(initial.state.player.achievements).toContain('A_INITIAL');
     const promoted = choose(engine, initial);
     expect(promoted.state.player).toMatchObject({ identity_id: 'I_ARTISAN', highest_identity_id: 'I_ARTISAN' });
@@ -801,7 +887,7 @@ describe('GameEngine: effects, achievements and highest identity', () => {
       condition: { op: 'compare' as const, field: 'age' as const, comparator: 'gte' as const, value: 0 },
     }));
     const engine = engineFor(bundle);
-    success(engine.initGame({ seed: 0 }));
+    success(initializeWithCard(engine, { seed: 0 }));
     const result = success(engine.nextYear('finish'));
     expect(result.state.status).toBe('ENDED');
     expect(engine.generateEndingReport().primary_achievement_id).toBe('A_B');
@@ -820,7 +906,7 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
       history('E_MUST_NOT_RUN', 1640, [{ type: 'flag_add', id: 'after_death' }]),
     ];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 0 }));
+    const result = success(initializeWithCard(engine, { seed: 0 }));
     expect(result).toMatchObject({ state: { status: 'ENDED', player: { age: 9, calendar_year: 1640 } }, pending: null });
     expect(result.state.player.flags).not.toContain('after_death');
     expect(engine.exportSave().payload.run.queue).toEqual([]);
@@ -840,7 +926,7 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     decision.stages = [{ ...stage('S1'), success: fatal, failure: structuredClone(fatal) }];
     bundle.events = [decision, history('E_AFTER', 1640, [{ type: 'flag_add', id: 'after_death' }])];
     const engine = engineFor(bundle);
-    const awaiting = choose(engine, engine.initGame({ seed: 0 }));
+    const awaiting = choose(engine, initializeWithCard(engine, { seed: 0 }));
     const ended = roll(engine, awaiting, 'fatal-roll');
     expect(ended).toMatchObject({ state: { status: 'ENDED', player: { attributes: { wealth: 2 } } }, pending: null });
     expect(ended.state.player.flags).not.toContain('after_death');
@@ -856,7 +942,7 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     }];
     bundle.events = [opening([{ type: 'injury_add', id: 'INJ_SEVERE' }]), history('E_AT_DEATH', 1643, [{ type: 'flag_add', id: 'too_late' }])];
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(success(engine.nextYear('1641')).state.player.attributes.wealth).toBe(2);
     expect(success(engine.nextYear('1642')).state.player.attributes.wealth).toBe(1);
     const terminal = success(engine.nextYear('1643'));
@@ -870,7 +956,7 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     bundle.era.injuries = [{ id: 'INJ_SEVERE', name: 'Fatal annual condition', annual_effects: [{ type: 'death', id: 'D_CRISIS' }] }];
     bundle.events = [opening([{ type: 'injury_add', id: 'INJ_SEVERE' }])];
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     const terminal = success(engine.nextYear('1641'));
     expect(terminal.state).toMatchObject({ status: 'ENDED', player: { attributes: { physique: 3 } } });
     expect(engine.generateEndingReport()).toMatchObject({ years_played: 1, death_id: 'D_CRISIS' });
@@ -880,7 +966,7 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     const bundle = await quietContent();
     bundle.rules.lifespan = { min: 12, max: 12, min_remaining_years: 3 };
     const engine = engineFor(bundle);
-    success(engine.initGame({ seed: 1640 }));
+    success(initializeWithCard(engine, { seed: 1640 }));
     const initial = structuredClone(engine.exportSave());
     expect(() => engine.generateEndingReport()).toThrowError(expect.objectContaining({ code: 'RUN_NOT_ENDED' }));
     expect(engine.exportSave()).toEqual(initial);
@@ -901,9 +987,9 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
   it('rejects restored saves for different content without changing the current run', async () => {
     const bundle = await quietContent();
     const engine = engineFor(bundle);
-    success(engine.initGame({ seed: 0 }));
+    success(initializeWithCard(engine, { seed: 0 }));
     const other = engineFor(bundle, 'd'.repeat(64));
-    success(other.initGame({ seed: 1 }));
+    success(initializeWithCard(other, { seed: 1 }));
     const before = structuredClone(other.exportSave());
     expect(() => other.restoreSave(engine.exportSave())).toThrowError(expect.objectContaining({ code: 'CONTENT_MISMATCH' }));
     expect(other.exportSave()).toEqual(before);
@@ -913,13 +999,13 @@ describe('GameEngine: death, lifespan and read-only ending reports', () => {
     const bundle = await quietContent();
     bundle.rules.lifespan = { min: 12, max: 12, min_remaining_years: 3 };
     const engine = engineFor(bundle);
-    success(engine.initGame({ seed: 0 }));
+    success(initializeWithCard(engine, { seed: 0 }));
     const living = engine.exportSave();
     for (const year of [1641, 1642, 1643]) success(engine.nextYear(String(year)));
     const ended = engine.exportSave();
-    expect(ended.save_version).toBe(3);
+    expect(ended.save_version).toBe(4);
     const invalid = [
-      ...[1, 2].map(version => { const save = structuredClone(ended); Reflect.set(save, 'save_version', version); return save; }),
+      ...[1, 2, 3].map(version => { const save = structuredClone(ended); Reflect.set(save, 'save_version', version); return save; }),
       ...[
         (save: typeof ended) => { save.payload.run.death = null; },
         (save: typeof ended) => { save.payload.run.death = 'D_UNKNOWN'; },
@@ -953,7 +1039,7 @@ describe('GameEngine: integrated dice and branch routing', () => {
     }];
     bundle.events = [event];
     const engine = engineFor(bundle);
-    const awaiting = choose(engine, engine.initGame({ seed: 1640 }));
+    const awaiting = choose(engine, initializeWithCard(engine, { seed: 1640 }));
     const before = engine.exportSave().payload.run.prng;
     const preview = Mulberry32.restore(before);
     const raw = uniformInt(1, 20, preview);
@@ -980,7 +1066,7 @@ describe('GameEngine: integrated dice and branch routing', () => {
     const reached = new Set<boolean>();
     for (const seed of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1640, 0xffffffff]) {
       const engine = engineFor(bundle);
-      const awaiting = choose(engine, engine.initGame({ seed }));
+      const awaiting = choose(engine, initializeWithCard(engine, { seed }));
       const preview = Mulberry32.restore(engine.exportSave().payload.run.prng);
       const raw = uniformInt(1, 20, preview);
       const passed = raw === 20 || (raw !== 1 && raw + 3 >= 14);
@@ -1010,8 +1096,8 @@ describe('GameEngine: integrated dice and branch routing', () => {
     for (const background of lucky.era.backgrounds) background.modifiers = { luck: 100 };
     const low = engineFor(bundle);
     const high = engineFor(lucky);
-    roll(low, choose(low, low.initGame({ seed: 1640 })), 'roll');
-    roll(high, choose(high, high.initGame({ seed: 1640 })), 'roll');
+    roll(low, choose(low, initializeWithCard(low, { seed: 1640 })), 'roll');
+    roll(high, choose(high, initializeWithCard(high, { seed: 1640 })), 'roll');
     expect(low.exportSave().payload.player.attributes.luck).toBe(0);
     expect(high.exportSave().payload.player.attributes.luck).toBe(10);
     expect(low.exportSave().payload.run.dice_results).toEqual(high.exportSave().payload.run.dice_results);
@@ -1037,7 +1123,7 @@ describe('GameEngine: explainable candidates and declarative opening filtering',
     denied.condition = { op: 'compare', field: 'wealth', comparator: 'gt', value: 10 };
     bundle.events = [denied, zeroWeight, closedGate, rare, ordinary];
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 1640 }));
+    const result = success(initializeWithCard(engine, { seed: 1640 }));
     const selected = result.state.player.flags.includes('ordinary') ? 'E_A' : 'E_B';
     expect(result.logs).toEqual(expect.arrayContaining([expect.objectContaining({
       type: 'draw', data: expect.objectContaining({
@@ -1067,7 +1153,7 @@ describe('GameEngine: explainable candidates and declarative opening filtering',
     reversed.events.reverse();
     const left = engineFor(bundle);
     const right = engineFor(reversed);
-    expect(left.initGame({ seed: 1640 })).toEqual(right.initGame({ seed: 1640 }));
+    expect(initializeWithCard(left, { seed: 1640 })).toEqual(initializeWithCard(right, { seed: 1640 }));
     for (const year of ['1641', '1642', '1643']) expect(left.nextYear(year)).toEqual(right.nextYear(year));
     expect(left.exportSave()).toEqual(right.exportSave());
   });
@@ -1077,7 +1163,7 @@ describe('GameEngine: explainable candidates and declarative opening filtering',
     bundle.rules.events.per_year = 2;
     bundle.events = ['E_A', 'E_B'].map((id) => random(id, [{ type: 'death', id: 'D_CRISIS' }]));
     const engine = engineFor(bundle);
-    const result = success(engine.initGame({ seed: 1640 }));
+    const result = success(initializeWithCard(engine, { seed: 1640 }));
     expect(result.state.status).toBe('ENDED');
     expect(result.logs.filter((entry) => entry.type === 'event')).toHaveLength(1);
     expect(result.logs.filter((entry) => entry.type === 'death')).toHaveLength(1);
@@ -1099,7 +1185,7 @@ describe('GameEngine: explainable candidates and declarative opening filtering',
     onlyBackground.flags = ['only_valid_biography'];
     bundle.era.backgrounds = [onlyBackground];
     for (const seed of [0, 1, 2, 1640, 0xffffffff]) {
-      const result = success(engineFor(bundle).initGame({ seed }));
+      const result = success(initializeWithCard(engineFor(bundle), { seed }));
       expect(result.state.player).toMatchObject({ region_id: 'R_CAPITAL', caste_id: 'C_GENTRY', identity_id: 'I_DEPENDENT' });
       expect(result.state.player.flags).toContain('only_valid_biography');
     }
@@ -1121,7 +1207,7 @@ describe('GameEngine: explainable candidates and declarative opening filtering',
     for (const seed of [0, 1, 1640, 0xffffffff]) {
       const left = engineFor(bundle);
       const right = engineFor(reversed);
-      expect(left.initGame({ seed })).toEqual(right.initGame({ seed }));
+      expect(initializeWithCard(left, { seed })).toEqual(initializeWithCard(right, { seed }));
       expect(left.exportSave()).toEqual(right.exportSave());
     }
   });
@@ -1146,7 +1232,7 @@ describe('GameEngine: weighted opening pairs and finite public snapshots', () =>
       uniformInt(bundle.rules.opening.year_min, bundle.rules.opening.year_max, preview);
       const point = preview.nextUint32() / 0x100000000 * 12;
       const expected = pairs.find((pair) => point < pair.end)!;
-      const result = success(engineFor(bundle).initGame({ seed }));
+      const result = success(initializeWithCard(engineFor(bundle), { seed }));
       expect(result.state.player.region_id).toBe(expected.region_id);
       expect(result.state.player.caste_id).toBe(expected.caste_id);
     }
@@ -1155,7 +1241,7 @@ describe('GameEngine: weighted opening pairs and finite public snapshots', () =>
   it('keeps command receipts finite and excludes save internals from public views', async () => {
     const bundle = await quietContent();
     const engine = engineFor(bundle);
-    const initial = success(engine.initGame({ seed: 0 }));
+    const initial = success(initializeWithCard(engine, { seed: 0 }));
     for (const key of ['payload', 'run', 'logs', 'processed_commands', 'prng', 'engine', 'cursor']) {
       expect(initial.state).not.toHaveProperty(key);
     }

@@ -1,6 +1,6 @@
 import { loadContent } from './lib/ContentLoader.js';
 import { DEFAULT_CONTENT, parseCli, requiredString, runCli } from './lib/cli.js';
-import type { ContentBundle, Effect, Stage } from '../assets/scripts/core/types/content.generated.js';
+import type { ContentBundle, Effect } from '../assets/scripts/core/types/content.generated.js';
 
 type Counts = Record<string, number>;
 function increment(counts: Counts, key: string, amount = 1): void { counts[key] = (counts[key] ?? 0) + amount; }
@@ -31,8 +31,8 @@ function lengths(bundle: ContentBundle): Counts {
   };
   visit(bundle); return result;
 }
-function audit(bundle: ContentBundle) {
-  const trigger: Counts = {}, interaction: Counts = {}, dc: Counts = {}, modifier: Counts = {}, effects: Counts = {}, conditions: Counts = {};
+function audit(bundle: ContentBundle, fingerprint: string) {
+  const trigger: Counts = {}, interaction: Counts = {}, dc: Counts = {}, modifier: Counts = {}, effects: Counts = {}, completionEffects: Counts = {}, conditions: Counts = {};
   const attributes: Record<string, { positive: number; negative: number; total_points: number; count: number }> = {};
   let options = 0, stages = 0, outcomes = 0;
   for (const event of bundle.events) {
@@ -48,6 +48,10 @@ function audit(bundle: ContentBundle) {
   const pools = bundle.pools.map(pool => ({ id: pool.id, entries: pool.entries.length, weight_total: pool.entries.reduce((sum, entry) => sum + entry.weight, 0) }));
   for (const pool of bundle.pools) for (const entry of pool.entries) increment(randomWeights, `${pool.id}:${entry.card_id}`, entry.weight);
   const categories: Counts = {}; for (const achievement of bundle.achievements) increment(categories, achievement.category ?? 'uncategorized');
-  return { content: { id: bundle.manifest.content_id, version: bundle.manifest.content_version }, events: { total: bundle.events.length, trigger_kind: trigger, interaction, options, stages, outcomes, effects, dc_distribution: dc, modifier_distribution: modifier, attribute_add: attributes }, cards: { total: bundle.cards.length, tags, rarity, pools, condition_references: conditions, random_weight_by_card: randomWeights }, chains: { total: bundle.chains.length, node_lengths: bundle.chains.map(chain => chain.nodes.length) }, achievements: { total: bundle.achievements.length, categories }, deaths: { total: bundle.deaths.length, d_mod_total: bundle.deaths.filter(death => death.id.startsWith('D_MOD_')).length }, text_length_distribution: lengths(bundle) };
+  const chainNodeLengths: Counts = {}; let chainNodeTotal = 0;
+  for (const chain of bundle.chains) { chainNodeTotal += chain.nodes.length; increment(chainNodeLengths, String(chain.nodes.length)); effectSummary(chain.completion.effects, {}, completionEffects); }
+  const effectTotal = Object.values(effects).reduce((sum, count) => sum + count, 0);
+  const completionEffectTotal = Object.values(completionEffects).reduce((sum, count) => sum + count, 0);
+  return { content: { id: bundle.manifest.content_id, version: bundle.manifest.content_version, fingerprint }, events: { total: bundle.events.length, trigger_kind: trigger, interaction, options, stages, outcomes, effects: { total: effectTotal, by_type: effects }, dc_distribution: dc, modifier_distribution: modifier, attribute_add: attributes }, cards: { total: bundle.cards.length, tags, rarity, pools, condition_references: conditions, random_weight_by_card: randomWeights }, chains: { total: bundle.chains.length, node_total: chainNodeTotal, node_lengths: chainNodeLengths, completion: { effects: { total: completionEffectTotal, by_type: completionEffects } } }, effects_scope: { event_effects: effectTotal, chain_completion_effects: completionEffectTotal, event_and_chain_completion_total: effectTotal + completionEffectTotal }, achievements: { total: bundle.achievements.length, categories }, deaths: { total: bundle.deaths.length, d_mod_total: bundle.deaths.filter(death => death.id.startsWith('D_MOD_')).length }, text_length_distribution: lengths(bundle) };
 }
-await runCli(async () => { const args = parseCli({ content: { type: 'string', default: DEFAULT_CONTENT }, json: { type: 'boolean' } }); const loaded = await loadContent(requiredString(args, 'content')); const result = audit(loaded.bundle); console.log(args.json ? JSON.stringify(result) : JSON.stringify(result, null, 2)); });
+await runCli(async () => { const args = parseCli({ content: { type: 'string', default: DEFAULT_CONTENT }, json: { type: 'boolean' } }); const loaded = await loadContent(requiredString(args, 'content')); const result = audit(loaded.bundle, loaded.fingerprint); console.log(args.json ? JSON.stringify(result) : JSON.stringify(result, null, 2)); });

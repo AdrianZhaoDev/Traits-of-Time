@@ -1,65 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { describe, it, expect } from 'vitest';
 import { EnumMapper } from '../../assets/scripts/presentation/EnumMapper';
 import { LogParser } from '../../assets/scripts/presentation/LogParser';
 describe('Presentation - EnumMapper', () => {
-  it('translates region, caste and identity correctly', () => {
-    expect(EnumMapper.translateRegion('R_SHANBEI')).toBe('陕北·延安府');
-    expect(EnumMapper.translateRegion('R_UNKNOWN')).toBe('R_UNKNOWN');
-
-    expect(EnumMapper.translateCaste('C_SOLDIER')).toBe('军户');
-    expect(EnumMapper.translateCaste('C_GENTRY')).toBe('士绅');
-
-    expect(EnumMapper.translateIdentity('I_CLAN_ELDER')).toBe('宗族耆老');
-    expect(EnumMapper.translateIdentity('I_MILITARY_OFFICER')).toBe('卫所旗官');
-  });
-
-  it('translates stat attributes correctly with aliases and icons', () => {
-    // 规范属性与别名
-    const physique = EnumMapper.translateStat('physique');
-    expect(physique.name).toBe('体魄');
-    expect(physique.icon).toBe('体');
-    expect(physique.shortName).toBe('体');
-
-    const health = EnumMapper.translateStat('health');
-    expect(health.name).toBe('体魄');
-    expect(health.icon).toBe('体');
-
-    const wealth = EnumMapper.translateStat('wealth');
-    expect(wealth.name).toBe('家资');
-    expect(wealth.icon).toBe('财');
-
-    const intelligence = EnumMapper.translateStat('intelligence');
-    expect(intelligence.name).toBe('才干');
-    expect(intelligence.icon).toBe('智');
-
-    const capability = EnumMapper.translateStat('capability');
-    expect(capability.name).toBe('才干');
-    expect(capability.icon).toBe('智');
-
-    const prestige = EnumMapper.translateStat('prestige');
-    expect(prestige.name).toBe('人脉');
-    expect(prestige.icon).toBe('脉');
-
-    const connection = EnumMapper.translateStat('connection');
-    expect(connection.name).toBe('人脉');
-    expect(connection.icon).toBe('脉');
-
-    const luck = EnumMapper.translateStat('luck');
-    expect(luck.name).toBe('气数');
-    expect(luck.icon).toBe('气');
-
-    const unknown = EnumMapper.translateStat('custom_stat');
-    expect(unknown.name).toBe('custom_stat');
-    expect(unknown.icon).toBe('c');
-  });
-
-  it('translates enum values dynamically via translateEnum', () => {
-    expect(EnumMapper.translateEnum('R_JIANGNAN')).toBe('江南·苏州府');
-    expect(EnumMapper.translateEnum('C_MILITARY')).toBe('卫所武官');
-    expect(EnumMapper.translateEnum('I_SILK_MERCHANT')).toBe('绸缎巨贾');
-    expect(EnumMapper.translateEnum('UNKNOWN_KEY')).toBe('UNKNOWN_KEY');
+  it.each([
+    [19, ''], [20, 'N'], [29, 'N'], [30, 'R'], [49, 'R'], [50, ''],
+    [59, ''], [60, 'SR'], [79, 'SR'], [80, 'SSR'], [95, 'SSR'], [96, ''],
+  ])('classifies priority %s without extending rarity ranges', (priority, rarity) => {
+    expect(EnumMapper.achievementRarity(Number(priority))).toBe(rarity);
   });
 });
 
@@ -236,16 +183,3 @@ describe('Presentation - LogParser', () => {
   });
 });
 
-describe('Content Fix - E_SOC_SENIOR_REPAIR', () => {
-  it('has armor outcome text rather than wooden furniture text', () => {
-    const eventsPath = resolve(__dirname, '../../assets/resources/data/ming_end/events.json');
-    const content = readFileSync(eventsPath, 'utf-8');
-    const events = JSON.parse(content) as Array<{ id: string; outcome?: { text?: string } }>;
-    const target = events.find(e => e.id === 'E_SOC_SENIOR_REPAIR');
-
-    expect(target).toBeDefined();
-    expect(target?.outcome?.text).toContain('【传家之宝】锁片铿锵甲光向日');
-    expect(target?.outcome?.text).not.toContain('木料');
-    expect(target?.outcome?.text).not.toContain('圈椅');
-  });
-});

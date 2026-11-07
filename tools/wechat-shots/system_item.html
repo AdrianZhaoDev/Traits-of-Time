@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><style>
+:root{
+  color-scheme:dark;
+  --bg-dark:#0c0d12;
+  --bg-desk:#13151c;
+  --panel-bg:#1a1d26;
+  --border-dim:#353b49;
+  --border-light:#525b6e;
+  --text-main:#edf1f7;
+  --text-sub:#8c96a8;
+  --text-muted:#5e6677;
+  --cyan-modern:#00f0ff;
+  --gold-val:#ffbe0b;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --font-sans:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --font-serif:"Songti SC","SimSun","Noto Serif CJK SC",serif;
+}
+*{box-sizing:border-box}
+html, body{
+  margin:0;padding:0;width:375px;height:812px;background:#090a0e;font:14px/1.6 var(--font-sans);color:var(--text-main);overflow:hidden;
+}
+.wx-topbar{
+  height:44px;padding:0 16px;display:flex;justify-content:space-between;align-items:center;
+  background:#11131a;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.wx-game-name{font-size:14px;font-weight:bold;color:#fff}
+.wx-capsule{
+  width:84px;height:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(10px);border-radius:15px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;
+}
+.wx-dots{display:flex;gap:3px}
+.wx-dots span{width:4px;height:4px;background:#fff;border-radius:50%}
+.wx-divider{width:1px;height:14px;background:rgba(255,255,255,0.2)}
+.wx-circle{width:13px;height:13px;border:2px solid #fff;border-radius:50%}
+
+.header-title{
+  background:#161922;padding:12px 16px;border-bottom:1px solid var(--border-dim);display:flex;justify-content:space-between;align-items:center;
+}
+.header-title h2{margin:0;font-size:15px;color:#fff}
+.header-title span{font-size:11px;color:var(--gold-val);font-family:var(--font-mono)}
+
+.content-box{padding:14px;height:calc(812px - 90px);overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.card{
+  background:var(--panel-bg);border:1px solid var(--border-dim);border-radius:8px;padding:14px;
+}
+</style></head>
+<body>
+<div class="wx-topbar">
+  <div class="wx-game-name">穿越了这次我带大喇叭逆袭</div>
+  <div class="wx-capsule"><div class="wx-dots"><span></span><span></span><span></span></div><div class="wx-divider"></div><div class="wx-circle"></div></div>
+</div>
+<div class="header-title">
+  <h2>随身家当道具系统</h2>
+  <span>现代词条博古架</span>
+</div>
+<div class="content-box">
+  <div class="card" style="border-color:var(--cyan-modern);background:#162330">
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="font-size:38px">📢</div>
+      <div>
+        <div style="font-size:15px;font-weight:bold;color:#fff">收废品大喇叭 <span style="font-size:10px;color:var(--cyan-modern);border:1px solid var(--cyan-modern);padding:1px 4px;border-radius:2px">SR装配中</span></div>
+        <div style="font-size:11px;color:var(--text-sub);margin-top:2px">具备高音扩音与循环录音能力，震慑全场</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="card" style="text-align:center">
+      <div style="font-size:28px">⚡</div>
+      <div style="font-size:12px;font-weight:bold;color:#fff">电鳗发电机</div>
+      <div style="font-size:10px;color:var(--gold-val)">SSR · 生物雷电</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:28px">🔦</div>
+      <div style="font-size:12px;font-weight:bold;color:#fff">强光手电筒</div>
+      <div style="font-size:10px;color:var(--cyan-modern)">SR · 撕裂黑夜</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:28px">💊</div>
+      <div style="font-size:12px;font-weight:bold;color:#fff">密封药板</div>
+      <div style="font-size:10px;color:var(--gold-val)">SSR · 救治重症</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:28px">🌾</div>
+      <div style="font-size:12px;font-weight:bold;color:#fff">高产种子</div>
+      <div style="font-size:10px;color:var(--gold-val)">SSR · 亩产翻番</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:11px;color:var(--text-muted);line-height:1.6">
+      说明：每局游戏开局可抽取或携带一件专属道具，道具可在关键历史年份触发专属分支路线与化学反应。
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -2,7 +2,7 @@ import type { Condition } from '../types/content.generated';
 import type { PlayerState, Timeline } from '../types/schema';
 
 export interface ConditionContext {
-  age: number; calendar_year: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;
+  age: number; calendar_year: number; start_year: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;
   region_id: string; caste_id: string; identity_id: string; timeline: Timeline;
   cards: readonly string[]; flags: readonly string[]; injuries: readonly string[]; completed_chains: readonly string[]; active_chains: readonly string[];
 }
@@ -25,6 +25,7 @@ export function conditionContext(player: PlayerState, timeline: Timeline): Condi
     ...player.attributes,
     age: player.age,
     calendar_year: player.calendar_year,
+    start_year: player.start_year,
     region_id: player.region_id,
     caste_id: player.caste_id,
     identity_id: player.identity_id,

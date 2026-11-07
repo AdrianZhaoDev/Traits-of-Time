@@ -1,189 +1,187 @@
-import { _decorator, Component, Node, Label, Color, Graphics, UITransform, Layout, Sprite } from 'cc';
-import { FoldItemData } from './LogParser';
-const { ccclass, property } = _decorator;
+import { _decorator, Component, Node, Label, Color, Graphics, UITransform } from 'cc';
+import type { FoldItemData } from './LogParser';
 
-/**
- * 单条折页历史际遇卡片
- * 根节点直接挂载 Sprite（背景）和 Layout（VERTICAL, CONTAINER）
- * 内部所有文本/行节点作为直接子节点，严禁独立卡片背景同级空框
- */
+const { ccclass } = _decorator;
+const CARD_WIDTH = 590;
+const CONTENT_WIDTH = 542;
+const PADDING_Y = 18;
+const SECTION_GAP = 12;
+const palette = {
+  panel: new Color(26, 29, 38, 255),
+  border: new Color(53, 59, 73, 255),
+  text: new Color(237, 241, 247, 255),
+  secondary: new Color(140, 150, 168, 255),
+  cyan: new Color(0, 240, 255, 255),
+  gold: new Color(255, 190, 11, 255),
+  green: new Color(5, 223, 183, 255),
+  red: new Color(255, 42, 95, 255),
+};
+
+/** 固定宽度的历史折页；每段正文与每条真实属性变动独立参与高度计算。 */
 @ccclass('EventFoldItem')
 export class EventFoldItem extends Component {
-  private introLabel: Label | null = null;
-  private actionLabel: Label | null = null;
-  private outcomeLabel: Label | null = null;
   private stampNode: Node | null = null;
-  private stampLabel: Label | null = null;
-  private effectsLabel: Label | null = null;
 
   public init(data: FoldItemData): void {
-    const cardWidth = 620;  // 固定宽度 620
-    const paddingX = 24;    // 左右 Padding 24 (合计 48)
-    const paddingY = 18;    // 上下 Padding 18
-    const innerWidth = 572; // 620 - 48 = 572
+    for (const child of [...this.node.children]) child.destroy();
+    this.node.removeAllChildren();
+    this.stampNode = null;
 
     const transform = this.getComponent(UITransform) || this.addComponent(UITransform);
     transform.setAnchorPoint(0.5, 0.5);
-    transform.setContentSize(cardWidth, 80);
+    const effects = data.effectsSummary ?? data.effectsText ?? [];
+    const death = data.type === 'death' || /盖棺|终章/.test(data.stampTag ?? '');
+    const special = data.type === 'card_selected' || data.type === 'modern' || data.type === 'special'
+      || Boolean(data.cardId?.startsWith('CARD_MODERN_'))
+      || Boolean(data.eventId?.startsWith('E_MOD_'))
+      || Boolean(data.relicFlags?.some(flag => flag.startsWith('F_MOD_')));
+    const gain = data.type === 'achievement' || data.type === 'gain'
+      || /珍宝|传家|珍藏|获利|进财|发财|金榜/.test(data.stampTag ?? '')
+      || effects.some(effect => /^(家资|财富).*\+\s*\d/.test(effect));
+    const accent = death ? palette.red : special ? palette.cyan : gain ? palette.gold : palette.border;
+    const sections: Node[] = [];
 
-    // 1. 恢复深褐色圆角单色卡片背景 (#2A2621，高光 #362F28)，保证卡片边界清晰
-    let sprite = this.getComponent(Sprite);
-    if (!sprite) {
-      sprite = this.addComponent(Sprite);
-    }
-    const isHighlight = Boolean(data.stampTag && (data.stampTag.includes('珍') || data.stampTag.includes('宝') || data.stampTag.includes('佛') || data.stampTag.includes('金')));
-    sprite.color = isHighlight ? new Color(54, 47, 40, 255) : new Color(42, 38, 33, 255);
-
-    // 2. 根节点挂载 Layout 组件 (VERTICAL, CONTAINER)，直接包裹内部子节点
-    let rootLayout = this.getComponent(Layout);
-    if (!rootLayout) {
-      rootLayout = this.addComponent(Layout);
-    }
-    rootLayout.type = Layout.Type.VERTICAL;
-    rootLayout.resizeMode = Layout.ResizeMode.CONTAINER;
-    rootLayout.paddingTop = paddingY;
-    rootLayout.paddingBottom = paddingY;
-    rootLayout.paddingLeft = paddingX;
-    rootLayout.paddingRight = paddingX;
-    rootLayout.spacingY = 10;
-
-    // 3. 淡墨起因 (IntroLabel) - 保持自身 AnchorX = 0.5, x = 0，宽度 572，Label.HorizontalAlign.LEFT
     if (data.introText) {
-      const introNode = new Node('IntroLabel');
-      introNode.setPosition(0, 0, 0);
-      const introTrans = introNode.addComponent(UITransform);
-      introTrans.setAnchorPoint(0.5, 0.5);
-      introTrans.setContentSize(innerWidth, 28);
-
-      this.introLabel = introNode.addComponent(Label);
-      this.introLabel.string = data.introText;
-      this.introLabel.fontSize = 22;
-      this.introLabel.lineHeight = 28;
-      this.introLabel.color = new Color(140, 130, 117, 255); // #8C8275 淡墨小字
-      this.introLabel.overflow = Label.Overflow.RESIZE_HEIGHT;
-      this.introLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
-      this.introLabel.updateRenderData(true);
-      this.node.addChild(introNode);
+      const intro = this.addText(this.node, 'IntroLabel', data.introText, CONTENT_WIDTH, 23,
+        data.outcomeText || data.actionText ? palette.secondary : palette.text);
+      sections.push(intro.node);
     }
-
-    // 4. 行动 (ActionLabel) - 白字行动陈词，AnchorX = 0.5, x = 0，宽度 572
     if (data.actionText) {
-      const actNode = new Node('ActionLabel');
-      actNode.setPosition(0, 0, 0);
-      const actTrans = actNode.addComponent(UITransform);
-      actTrans.setAnchorPoint(0.5, 0.5);
-      actTrans.setContentSize(innerWidth, 28);
-
-      this.actionLabel = actNode.addComponent(Label);
-      this.actionLabel.string = data.actionText;
-      this.actionLabel.fontSize = 24;
-      this.actionLabel.lineHeight = 32;
-      this.actionLabel.color = new Color(240, 240, 240, 255); // 白字
-      this.actionLabel.overflow = Label.Overflow.RESIZE_HEIGHT;
-      this.actionLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
-      this.actionLabel.updateRenderData(true);
-      this.node.addChild(actNode);
+      sections.push(this.addText(this.node, 'ActionLabel', data.actionText, CONTENT_WIDTH, 23, palette.text).node);
     }
 
-    // 5. 结果正文与印章栏 (OutcomeNode) - AnchorX = 0.5, x = 0
     if (data.outcomeText || data.stampTag) {
-      const outcomeRow = new Node('OutcomeNode');
-      outcomeRow.setPosition(0, 0, 0);
-      const rowTrans = outcomeRow.addComponent(UITransform);
-      rowTrans.setAnchorPoint(0.5, 0.5);
-      rowTrans.setContentSize(innerWidth, 36);
+      const outcome = new Node('OutcomeNode');
+      outcome.layer = this.node.layer;
+      const outcomeTransform = outcome.addComponent(UITransform);
+      outcomeTransform.setAnchorPoint(0.5, 1);
+      this.node.addChild(outcome);
+      let height = 0;
 
-      const rowLayout = outcomeRow.addComponent(Layout);
-      rowLayout.type = Layout.Type.HORIZONTAL;
-      rowLayout.resizeMode = Layout.ResizeMode.CONTAINER;
-      rowLayout.spacingX = 16; // 留出足够的水平间距 16px，严禁印章与文字重叠
-
-      const stampBadgeWidth = 120; // 适配【生平盖棺】等四字印章宽度
-
-      // 印章 (StampBadge)
       if (data.stampTag) {
-        this.stampNode = new Node('StampBadge');
-        const stampTrans = this.stampNode.addComponent(UITransform);
-        stampTrans.setAnchorPoint(0.5, 0.5);
-        stampTrans.setContentSize(stampBadgeWidth, 36);
-
-        const isDeathStamp = data.stampTag.includes('盖棺') || data.stampTag.includes('终章');
-        const stampColor = isDeathStamp ? new Color(130, 140, 145, 255) : new Color(200, 60, 35, 255);
-
-        const stampGfx = this.stampNode.addComponent(Graphics);
-        stampGfx.lineWidth = 2;
-        stampGfx.strokeColor = stampColor;
-        stampGfx.rect(-stampBadgeWidth / 2, -18, stampBadgeWidth, 36);
-        stampGfx.stroke();
-
-        const sLabelNode = new Node('StampText');
-        const sLabelTrans = sLabelNode.addComponent(UITransform);
-        sLabelTrans.setAnchorPoint(0.5, 0.5);
-        sLabelTrans.setContentSize(stampBadgeWidth, 36);
-        this.stampLabel = sLabelNode.addComponent(Label);
-        this.stampLabel.string = `【${data.stampTag}】`;
-        this.stampLabel.fontSize = 20;
-        this.stampLabel.color = stampColor;
-        this.stampLabel.overflow = Label.Overflow.RESIZE_HEIGHT;
-        this.stampLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
-        this.stampLabel.updateRenderData(true);
-        this.stampNode.addChild(sLabelNode);
-
-        outcomeRow.addChild(this.stampNode);
+        const stamp = new Node('StampBadge');
+        stamp.layer = this.node.layer;
+        const stampTransform = stamp.addComponent(UITransform);
+        stampTransform.setAnchorPoint(0.5, 1);
+        outcome.addChild(stamp);
+        const stampWidth = Math.min(CONTENT_WIDTH, Math.max(128, (data.stampTag.length + 2) * 20 + 20));
+        const stampColor = death || special || gain ? accent : palette.secondary;
+        const text = this.addText(stamp, 'StampText', `【${data.stampTag}】`, stampWidth - 16, 20, stampColor);
+        text.horizontalAlign = Label.HorizontalAlign.CENTER;
+        height = text.node.getComponent(UITransform)!.height + 12;
+        text.node.setPosition(0, -6, 0);
+        stampTransform.setContentSize(stampWidth, height);
+        stamp.setPosition(-CONTENT_WIDTH / 2 + stampWidth / 2, 0, 0);
+        const graphics = stamp.addComponent(Graphics);
+        graphics.strokeColor = stampColor;
+        graphics.lineWidth = 1.5;
+        graphics.roundRect(-stampWidth / 2, -height, stampWidth, height, 4);
+        graphics.stroke();
+        this.stampNode = stamp;
       }
 
-      // 结果文本
       if (data.outcomeText) {
-        const outNode = new Node('OutcomeText');
-        const outTrans = outNode.addComponent(UITransform);
-        outTrans.setAnchorPoint(0.5, 0.5);
-        const textWidth = data.stampTag ? (innerWidth - stampBadgeWidth - 16) : innerWidth;
-        outTrans.setContentSize(textWidth, 34);
-
-        this.outcomeLabel = outNode.addComponent(Label);
-        this.outcomeLabel.string = data.outcomeText;
-        this.outcomeLabel.fontSize = 26;
-        this.outcomeLabel.lineHeight = 34;
-        this.outcomeLabel.color = data.stampTag
-          ? new Color(212, 175, 55, 255) // #D4AF37 泥金
-          : new Color(230, 222, 200, 255); // #E6DEC8 浓墨正文
-        this.outcomeLabel.overflow = Label.Overflow.RESIZE_HEIGHT;
-        this.outcomeLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
-        this.outcomeLabel.updateRenderData(true);
-        outcomeRow.addChild(outNode);
+        if (height > 0) height += SECTION_GAP;
+        const body = this.addText(outcome, 'OutcomeText', data.outcomeText, CONTENT_WIDTH, 23, palette.text);
+        body.node.setPosition(0, -height, 0);
+        height += body.node.getComponent(UITransform)!.height;
       }
-
-      rowLayout.updateLayout();
-      this.node.addChild(outcomeRow);
+      outcomeTransform.setContentSize(CONTENT_WIDTH, height);
+      sections.push(outcome);
     }
 
-    // 6. 属性变动摘要 (EffectsSummary)
-    const effectsList = data.effectsSummary ?? data.effectsText;
-    if (effectsList && effectsList.length > 0) {
-      const effNode = new Node('EffectsSummary');
-      effNode.setPosition(0, 0, 0);
-      const effTrans = effNode.addComponent(UITransform);
-      effTrans.setAnchorPoint(0.5, 0.5);
-      effTrans.setContentSize(innerWidth, 24);
-
-      this.effectsLabel = effNode.addComponent(Label);
-      this.effectsLabel.string = `〔 ${effectsList.join(' · ')} 〕`;
-      this.effectsLabel.fontSize = 18;
-      this.effectsLabel.color = new Color(180, 160, 120, 220);
-      this.effectsLabel.overflow = Label.Overflow.RESIZE_HEIGHT;
-      this.effectsLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
-      this.effectsLabel.updateRenderData(true);
-      this.node.addChild(effNode);
+    if (effects.length > 0) {
+      const summary = new Node('EffectsSummary');
+      summary.layer = this.node.layer;
+      const summaryTransform = summary.addComponent(UITransform);
+      summaryTransform.setAnchorPoint(0.5, 1);
+      this.node.addChild(summary);
+      let x = 0;
+      let y = 0;
+      let rowHeight = 0;
+      for (const [index, effect] of effects.entries()) {
+        const width = Math.min(CONTENT_WIDTH, Math.max(104, effect.length * 20 + 24));
+        if (x > 0 && x + width > CONTENT_WIDTH) {
+          x = 0;
+          y += rowHeight + 8;
+          rowHeight = 0;
+        }
+        const negative = /[-−]\s*\d/.test(effect);
+        const positive = /\+\s*\d/.test(effect);
+        const color = negative ? palette.red : positive
+          ? /^(家资|财富)/.test(effect) ? palette.gold : palette.green
+          : palette.secondary;
+        const chip = new Node(`Effect_${index}`);
+        chip.layer = this.node.layer;
+        const chipTransform = chip.addComponent(UITransform);
+        chipTransform.setAnchorPoint(0.5, 1);
+        summary.addChild(chip);
+        const text = this.addText(chip, 'EffectText', effect, width - 24, 20, color);
+        const height = text.node.getComponent(UITransform)!.height + 12;
+        chipTransform.setContentSize(width, height);
+        chip.setPosition(-CONTENT_WIDTH / 2 + x + width / 2, -y, 0);
+        text.node.setPosition(0, -6, 0);
+        const graphics = chip.addComponent(Graphics);
+        graphics.fillColor = new Color(color.r, color.g, color.b, 22);
+        graphics.strokeColor = new Color(color.r, color.g, color.b, 80);
+        graphics.lineWidth = 1;
+        graphics.roundRect(-width / 2, -height, width, height, 4);
+        graphics.fill();
+        graphics.stroke();
+        x += width + 8;
+        rowHeight = Math.max(rowHeight, height);
+      }
+      summaryTransform.setContentSize(CONTENT_WIDTH, y + rowHeight);
+      sections.push(summary);
     }
 
-    // 7. 强制刷新布局，由 Layout 容器动态撑开根节点高度，保持宽度固定 620
-    rootLayout.updateLayout();
-    if (transform.width !== cardWidth) {
-      transform.setContentSize(cardWidth, transform.height);
+    const height = Math.max(64, PADDING_Y * 2
+      + sections.reduce((sum, section) => sum + section.getComponent(UITransform)!.height, 0)
+      + Math.max(0, sections.length - 1) * SECTION_GAP);
+    transform.setContentSize(CARD_WIDTH, height);
+    let top = height / 2 - PADDING_Y;
+    for (const section of sections) {
+      section.setPosition(0, top, 0);
+      top -= section.getComponent(UITransform)!.height + SECTION_GAP;
     }
+
+    const graphics = this.getComponent(Graphics) || this.addComponent(Graphics);
+    graphics.clear();
+    graphics.fillColor = palette.panel;
+    graphics.strokeColor = palette.border;
+    graphics.lineWidth = 1.5;
+    graphics.roundRect(-CARD_WIDTH / 2 + 1, -height / 2 + 1, CARD_WIDTH - 2, height - 2, 6);
+    graphics.fill();
+    graphics.stroke();
+    graphics.fillColor = accent;
+    graphics.rect(-CARD_WIDTH / 2 + 1, -height / 2 + 6, 6, height - 12);
+    graphics.fill();
   }
 
   public getStampNode(): Node | null {
     return this.stampNode;
+  }
+
+  private addText(parent: Node, name: string, text: string, width: number, size: number, color: Color): Label {
+    const node = new Node(name);
+    node.layer = this.node.layer;
+    const transform = node.addComponent(UITransform);
+    transform.setAnchorPoint(0.5, 1);
+    const lineHeight = Math.round(size * 1.4);
+    transform.setContentSize(width, lineHeight);
+    const label = node.addComponent(Label);
+    label.string = text;
+    label.fontSize = size;
+    label.lineHeight = lineHeight;
+    label.color = color;
+    label.overflow = Label.Overflow.RESIZE_HEIGHT;
+    label.horizontalAlign = Label.HorizontalAlign.LEFT;
+    parent.addChild(node);
+    label.updateRenderData(true);
+    // 非激活父节点尚未完成字体排版时也预留完整行高，不让相邻段落互相覆盖。
+    const columns = Math.max(1, Math.floor(width / size));
+    const lines = text.split('\n').reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / columns)), 0);
+    transform.setContentSize(width, Math.max(transform.height, lines * lineHeight));
+    return label;
   }
 }

@@ -197,12 +197,13 @@ class SemanticValidator {
     stages.forEach((stage, stageIndex) => {
       this.outcome(stage.success, file, `${path}/stages/${stageIndex}/success`, stageIds);
       this.outcome(stage.failure, file, `${path}/stages/${stageIndex}/failure`, stageIds);
+      if (stage.critical_success) this.outcome(stage.critical_success, file, `${path}/stages/${stageIndex}/critical_success`, stageIds);
     });
     if (event.trigger.kind === 'historical' && (event.trigger.year < this.content.era.start_year || event.trigger.year > this.content.era.historical_end_year)) {
       this.issue(file, `${path}/trigger/year`, 'INVALID_COMBINATION', '历史事件年份必须在历史窗口内。');
     }
     const indices = new Map(stages.map((stage, stageIndex) => [stage.id, stageIndex]));
-    const adjacency = stages.map((stage) => [stage.success.next_stage_id, stage.failure.next_stage_id]
+    const adjacency = stages.map((stage) => [stage.success.next_stage_id, stage.failure.next_stage_id, stage.critical_success?.next_stage_id ?? null]
       .flatMap((id) => id === null || !indices.has(id) ? [] : [indices.get(id)!]));
     const reachable = new Set<number>();
     const pending = entries.flatMap((outcome) => outcome.next_stage_id === null || !indices.has(outcome.next_stage_id) ? [] : [indices.get(outcome.next_stage_id)!]);
@@ -266,7 +267,7 @@ class SemanticValidator {
     const { rules, era, regions, castes } = this.content;
     // Non-starting fields are unreachable: condition validation above rejects them.
     const context: ConditionContext = {
-      age: 0, calendar_year: era.start_year, region_id: '', caste_id: '', identity_id: '', timeline: 'historical',
+      age: 0, calendar_year: era.start_year, start_year: era.start_year, region_id: '', caste_id: '', identity_id: '', timeline: 'historical',
       physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
       cards: [], flags: [], injuries: [], completed_chains: [], active_chains: [],
     };

@@ -9,6 +9,9 @@ import { EnumMapper } from './EnumMapper';
 export interface FoldItemData {
   id?: string;
   eventId?: string;
+  cardId?: string;
+  relicFlags?: string[];
+  feedbackKey?: string;
   introText: string;     // 起因淡墨：原 event text 或背景
   actionText?: string;    // 行动描述：option 选择等白字
   outcomeText?: string;   // 结果描述：泥金/浓墨
@@ -20,6 +23,7 @@ export interface FoldItemData {
 
 export interface EngineRawLog {
   type: string;
+  seq?: number;
   message: string;
   source_id?: string;
   metadata?: Record<string, unknown>;
@@ -49,6 +53,14 @@ export class LogParser {
       }
 
       const payload = log.metadata ?? log.data;
+      if (log.type === 'card_selected') {
+        if (pendingEventItem) items.push(pendingEventItem);
+        pendingEventItem = null;
+        pendingSourceId = undefined;
+        const cardId = typeof payload?.card_id === 'string' ? payload.card_id : undefined;
+        items.push({ id: `card_${cardId ?? ''}`, cardId, introText: this.sanitizeText(log.message), type: 'card_selected' });
+        continue;
+      }
       if (log.type === 'event') {
         // 拦截连续重复的起因文本
         if (log.message && log.message === lastIntroText) {
@@ -111,6 +123,12 @@ export class LogParser {
         const parsed = this.parseStamp(log.message);
         const effectsText = this.extractEffectsSummary(payload);
         const effectSourceId = log.source_id;
+        const relicFlags = Array.isArray(payload?.effects)
+          ? payload.effects.filter((effect): effect is { type: string; id: string } =>
+            !!effect && typeof effect === 'object' && effect.type === 'flag_add' && typeof effect.id === 'string')
+            .map(effect => effect.id)
+          : [];
+        const feedbackKey = log.seq === undefined ? undefined : `effects_${log.seq}`;
 
         const canMerge =
           pendingEventItem &&
@@ -122,6 +140,8 @@ export class LogParser {
           pendingEventItem.stampTag = parsed.stamp;
           pendingEventItem.effectsText = effectsText;
           pendingEventItem.effectsSummary = effectsText;
+          pendingEventItem.relicFlags = relicFlags;
+          pendingEventItem.feedbackKey = feedbackKey;
           items.push(pendingEventItem);
           pendingEventItem = null;
           pendingSourceId = undefined;
@@ -131,6 +151,8 @@ export class LogParser {
           items.push({
             id,
             eventId: effectSourceId,
+            relicFlags,
+            feedbackKey,
             introText: parsed.stamp ? `【${parsed.stamp}】` : '',
             outcomeText: parsed.text,
             stampTag: parsed.stamp,

@@ -48,11 +48,23 @@ export function scheduleWeightedEvents(content: ContentBundle, player: PlayerSta
       return { event, info: copy };
     });
     const availableCandidates = current.filter(c => c.info.eligible && c.info.gate_passed);
+    if (kind === 'random') {
+      let priority = 0;
+      for (const candidate of availableCandidates) {
+        if (candidate.event.trigger.kind === 'random') priority = Math.max(priority, candidate.event.trigger.priority ?? 0);
+      }
+      for (const candidate of availableCandidates) {
+        if (candidate.event.trigger.kind === 'random' && (candidate.event.trigger.priority ?? 0) < priority) {
+          candidate.info.eligible = false;
+          candidate.info.reason = 'LOWER_PRIORITY';
+        }
+      }
+    }
     const preferred = automatic < Math.round((encountered + 1) * content.rules.events.automatic_ratio) ? 'automatic' : 'choice';
-    const usePacing = kind === 'random' && availableCandidates.some(c => c.event.interaction === preferred);
+    const usePacing = kind === 'random' && availableCandidates.some(c => c.info.eligible && c.event.interaction === preferred);
     if (usePacing) {
       for (const candidate of availableCandidates) {
-        if (candidate.event.interaction !== preferred) {
+        if (candidate.info.eligible && candidate.event.interaction !== preferred) {
           candidate.info.eligible = false;
           candidate.info.reason = 'PACING_TARGET';
         }

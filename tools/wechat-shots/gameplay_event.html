@@ -1,0 +1,85 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+:root{
+  --bg:#0e1017;
+  --panel:#181c26;
+  --panel-light:#222838;
+  --border:#2f3647;
+  --gold:#ffbe0b;
+  --cyan:#00f0ff;
+  --red:#ff3366;
+  --green:#05dfb7;
+  --text:#f0f4fc;
+  --sub:#8e99ae;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  width:375px;height:812px;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.wx-topbar{
+  height:44px;padding:0 16px;display:flex;justify-content:space-between;align-items:center;
+  background:#11131a;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;
+}
+.wx-game-name{font-size:14px;font-weight:bold;color:#fff}
+.wx-capsule{
+  width:84px;height:30px;border:1px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.5);
+  border-radius:15px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;
+}
+.wx-dots{display:flex;gap:3px}
+.wx-dots span{width:4px;height:4px;background:#fff;border-radius:50%}
+.wx-divider{width:1px;height:14px;background:rgba(255,255,255,0.2)}
+.wx-circle{width:13px;height:13px;border:2px solid #fff;border-radius:50%}
+
+.hud{background:#141722;padding:10px 14px;border-bottom:1px solid var(--border)}
+.hud-top{display:flex;justify-content:space-between;font-size:13px;font-weight:bold;color:var(--gold)}
+.hud-badge{font-size:11px;background:#222838;color:var(--sub);padding:1px 6px;border-radius:2px}
+.identity{margin-top:6px;display:flex;justify-content:space-between;font-size:11px;color:var(--sub);background:#0e1017;padding:4px 8px;border-radius:4px}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:#11141c;padding:8px;border-bottom:1px solid var(--border)}
+.stat-item{background:var(--panel);text-align:center;padding:4px 2px;border-radius:3px}
+.stat-name{font-size:10px;color:var(--sub);display:block}
+.stat-val{font-size:13px;font-weight:bold;color:var(--gold)}
+.main-view{flex:1;display:flex;overflow:hidden}
+.event-col{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px}
+.rail{width:60px;background:#131620;border-left:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:10px}
+.event-card{background:var(--panel);border:1px solid var(--cyan);border-radius:8px;padding:14px;flex:1;display:flex;flex-direction:column}
+.event-tag{font-size:10px;color:var(--cyan);background:rgba(0,240,255,0.15);padding:2px 6px;border-radius:2px;display:inline-block;align-self:flex-start;margin-bottom:8px}
+.event-title{font-size:15px;font-weight:bold;color:#fff;margin-bottom:8px}
+.event-body{font-size:13px;color:var(--sub);line-height:1.6;flex:1}
+.event-react{background:#121622;border-left:2px solid var(--cyan);padding:8px 10px;font-size:11px;color:var(--cyan);margin-top:8px;border-radius:0 4px 4px 0}
+.opt-box{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.opt{background:var(--panel-light);border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:12px;font-weight:bold;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.opt.active{border-color:var(--cyan);background:linear-gradient(90deg, #182836, #1e2638)}
+</style></head><body>
+<div class="wx-topbar"><div class="wx-game-name">穿越了这次我带大喇叭逆袭</div><div class="wx-capsule"><div class="wx-dots"><span></span><span></span><span></span></div><div class="wx-divider"></div><div class="wx-circle"></div></div></div>
+<div class="hud">
+  <div class="hud-top"><span>崇祯十六年 · 癸未</span><span class="hud-badge">第 16 岁</span></div>
+  <div class="identity"><span>出身：<b>卫所军户 (少年)</b></span><span>地域：<b>京师直隶</b></span></div>
+</div>
+<div class="stats-grid">
+  <div class="stat-item"><span class="stat-name">体魄</span><span class="stat-val">6</span></div>
+  <div class="stat-item"><span class="stat-name">家资</span><span class="stat-val">5</span></div>
+  <div class="stat-item"><span class="stat-name">才干</span><span class="stat-val">7</span></div>
+  <div class="stat-item"><span class="stat-name">人脉</span><span class="stat-val">8</span></div>
+  <div class="stat-item"><span class="stat-name">气数</span><span class="stat-val">4</span></div>
+</div>
+<div class="main-view">
+  <div class="event-col">
+    <div class="event-card">
+      <span class="event-tag">重大突发事件</span>
+      <div class="event-title">城西施粥大混乱</div>
+      <div class="event-body">连月饥荒，城西开仓施粥，聚集的数千灾民你推我搡，秩序濒临失控，衙役嗓子喊哑亦无济于事……</div>
+      <div class="event-react">💡 道具反应：大喇叭电量充沛，可产生极强音量震慑全场。</div>
+      <div class="opt-box">
+        <div class="opt active"><span>1. 掏出大喇叭协助分批叫号</span><span style="font-size:10px;color:var(--gold)">人脉+2 才干+1</span></div>
+        <div class="opt"><span>2. 低调混在人群中领粥</span><span style="font-size:10px;color:var(--sub)">稳妥保命</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="rail">
+    <span style="font-size:10px;color:var(--sub);writing-mode:vertical-rl;letter-spacing:2px">博古架</span>
+    <div style="width:44px;height:44px;background:#182635;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px">📢</div>
+    <div style="width:44px;height:44px;background:var(--panel);border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--sub);opacity:0.4">🔒</div>
+  </div>
+</div>
+</body></html>

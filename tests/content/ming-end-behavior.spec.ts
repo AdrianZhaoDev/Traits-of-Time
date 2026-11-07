@@ -1,3 +1,4 @@
+import { startWithCard } from './card-selection.js';
 import { cp, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -43,6 +44,11 @@ function passed(result: Success): boolean {
 // conditions, options, stages, DCs, effects, achievements and chains stay intact.
 function controlled(source: ContentBundle, events: Event[], year = source.era.start_year): ContentBundle {
   const bundle = structuredClone(source);
+  // Career/history scenarios use a neutral fixture; production relic openings remain intact.
+  const pool = bundle.pools.find(item => item.id === bundle.rules.opening.pool_id)!;
+  bundle.cards.push({ id: 'CARD_TEST_NATIVE', name: '试用布袋', description: '只供历史事业场景隔离，不进入生产卡池。', rarity: 'N', tags: ['native'] });
+  for (const entry of pool.entries) entry.weight = 0;
+  pool.entries.push({ card_id: 'CARD_TEST_NATIVE', weight: 1 });
   bundle.events = structuredClone(events);
   bundle.era.start_year = year;
   bundle.rules.age_bands = [{ id: 'test-adult', min: 20, max: 20, weight: 1, modifiers: {} }];
@@ -82,7 +88,7 @@ function atEvent(source: ContentBundle, event: Event, seed: number, requiredCard
     for (const entry of pool.entries) entry.weight = entry.card_id === card ? 1 : 0;
   }
   const engine = new GameEngine(bundle, 'b'.repeat(64));
-  const result = ok(engine.initGame({ seed }));
+  const result = startWithCard(engine, { seed });
   return { engine, result, bundle };
 }
 async function production() {
@@ -116,7 +122,7 @@ it('loads and initializes the native package without modern references or an arc
   expect(pool!.entries.reduce((sum, entry) => sum + entry.weight, 0)).toBeGreaterThan(0);
   for (let seed = 0; seed < 16; seed++) {
     const engine = new GameEngine(source, '1'.repeat(64));
-    const result = ok(engine.initGame({ seed }));
+    const result = startWithCard(engine, { seed });
     expect(result.state.player.cards).toHaveLength(1);
     expect(source.cards.some(card => card.id === result.state.player.cards[0])).toBe(true);
     expect(pool!.entries.some(entry => entry.card_id === result.state.player.cards[0] && entry.weight > 0)).toBe(true);
@@ -260,13 +266,13 @@ describe('production ming_end: GM chains and historical consequences', () => {
       const histories = source.events.filter(event => event.id === historyId || event.id === `${historyId}_earned`);
       expect(histories, chain.id).toHaveLength(2);
       expect(histories.every(event => event.interaction === 'automatic')).toBe(true);
-      const special = histories.find(event => event.interaction === 'automatic' && event.outcome.effects.some(effect => effect.type === 'attribute_add' && effect.attribute === 'prestige' && effect.amount === 2))!;
-      const ordinary = histories.find(event => event.id !== special.id)!;
+      const special = histories.find(event => event.id === `${historyId}_earned`)!;
+      const ordinary = histories.find(event => event.id === historyId)!;
       if (special.trigger.kind !== 'historical') throw new Error('Missing historical date');
       const historyYear = special.trigger.year;
       const absentBundle = controlled(source, histories, historyYear);
       const absent = new GameEngine(absentBundle, 'c'.repeat(64));
-      const initial = ok(absent.initGame({ seed: 0 }));
+      const initial = startWithCard(absent, { seed: 0 });
       expect(initial.pending).toBeNull();
       expect(initial.logs.filter(entry => entry.type === 'event').map(entry => entry.source_id)).toEqual([ordinary.id]);
       expect(initial.state.player.flags).not.toContain('F_gm_history_saved');
@@ -277,7 +283,7 @@ describe('production ming_end: GM chains and historical consequences', () => {
       if (starter?.interaction !== 'choice') throw new Error('Missing historical career entry');
       const startOption = starter.options.find(option => option.outcome.effects.some(effect => effect.type === 'chain_start' && effect.id === chain.id))!.id;
       const abandoned = new GameEngine(bundle, 'c'.repeat(64));
-      let abandonedResult = choose(abandoned, ok(abandoned.initGame({ seed: 0 })), startOption);
+      let abandonedResult = choose(abandoned, startWithCard(abandoned, { seed: 0 }), startOption);
       abandonedResult = ok(abandoned.nextYear('learn'));
       while (abandonedResult.pending?.kind === 'stage') abandonedResult = roll(abandoned, abandonedResult);
       const earned = structuredClone(abandonedResult.state.player.attributes);
@@ -291,7 +297,7 @@ describe('production ming_end: GM chains and historical consequences', () => {
       const seen = new Set<string>();
       for (let seed = 0; seed < 2048 && seen.size < 2; seed++) {
         const engine = new GameEngine(bundle, 'c'.repeat(64));
-        let result = choose(engine, ok(engine.initGame({ seed })), startOption);
+        let result = choose(engine, startWithCard(engine, { seed }), startOption);
         const startYear = result.state.player.calendar_year;
         for (let index = 0; index < 3; index++) {
           result = ok(engine.nextYear(`year:${index}`));
@@ -318,7 +324,7 @@ describe('production ming_end: GM chains and historical consequences', () => {
         expect(result.pending).toBeNull();
         const historyLogs = engine.exportSave().payload.logs.filter(entry => entry.type === 'event' && histories.some(event => event.id === entry.source_id));
         expect(historyLogs.map(entry => entry.source_id)).toEqual([success ? special.id : ordinary.id]);
-        expect(result.state.player.attributes.prestige).toBe(Math.min(bundle.rules.attributes.max, prestige + (success ? 2 : 0)));
+        expect(result.state.player.attributes.prestige).toBe(prestige);
         if (chain.id === 'CH_gm_arms') {
           expect(result.state.player.flags.includes('F_gm_history_saved')).toBe(success);
           expect(result.state.player.achievements.includes('A_gm_history')).toBe(success);
@@ -345,7 +351,7 @@ describe('production ming_end: actual encounter mix and save continuation', () =
       for (const [index, region] of demographic.regions.entries()) region.weight = index === seed % demographic.regions.length ? 1 : 0;
       for (const [index, caste] of demographic.castes.entries()) caste.weight = index === seed % demographic.castes.length ? 1 : 0;
       const engine = new GameEngine(demographic, 'd'.repeat(64));
-      let result = ok(engine.initGame({ seed }));
+      let result = startWithCard(engine, { seed });
       expect(result.state.player.cards).toHaveLength(1);
       let commands = 0;
       let lifetimeChoices = 0;
@@ -395,7 +401,7 @@ describe('production ming_end: actual encounter mix and save continuation', () =
     const seen = new Set<string>();
     for (let seed = 0; seed < 256 && seen.size < 2; seed++) {
       const engine = new GameEngine(bundle, 'e'.repeat(64));
-      let result = ok(engine.initGame({ seed }));
+      let result = startWithCard(engine, { seed });
       for (let step = 0; step < 256 && result.state.status !== 'ENDED' && seen.size < 2; step++) {
         if (!result.pending) {
           result = ok(engine.nextYear(`year:${result.state.revision}`));
@@ -415,11 +421,13 @@ describe('production ming_end: actual encounter mix and save continuation', () =
           result = ok(engine.resolveOption(command, pending.event_instance_id, option.id));
           expect(restored.resolveOption(command, pending.event_instance_id, option.id)).toEqual(result);
           expect(restored.resolveOption(command, pending.event_instance_id, option.id)).toEqual(result);
-        } else {
+        } else if (pending.kind === 'stage') {
           result = ok(engine.resolveStage(command, pending.event_instance_id, pending.stage_id));
           expect(restored.resolveStage(command, pending.event_instance_id, pending.stage_id)).toEqual(result);
           expect(restored.resolveStage(command, pending.event_instance_id, pending.stage_id)).toEqual(result);
           expect(result.logs.some(entry => entry.type === 'dice')).toBe(true);
+        } else {
+          throw new Error('Unexpected card decision after initial card selection');
         }
         expect(restored.exportSave()).toEqual(engine.exportSave());
         seen.add(pending.kind);
@@ -520,7 +528,7 @@ describe('production ming_end: age, possessions and court chronology', () => {
       bundle.rules.age_bands = [{ id: 'fixed-age', min: age, max: age, weight: 1, modifiers: {} }];
       for (let seed = 0; seed < 32; seed++) {
         const engine = new GameEngine(bundle, 'a'.repeat(64));
-        const result = ok(engine.initGame({ seed }));
+        const result = startWithCard(engine, { seed });
         for (const entry of engine.exportSave().payload.logs.filter(log => log.type === 'event')) {
           expect(entry.source_id.startsWith(age === 5 ? 'E_LIFE_C_' : 'E_LIFE_S_')).toBe(true);
         }
@@ -539,7 +547,7 @@ describe('production ming_end: possession and historical access', () => {
     const bundle = controlled(source, [event], 1645);
     bundle.rules.age_bands = [{ id: 'child', min: 6, max: 6, weight: 1, modifiers: {} }];
     const engine = new GameEngine(bundle, 'c'.repeat(64));
-    const result = ok(engine.initGame({ seed: 3 }));
+    const result = startWithCard(engine, { seed: 3 });
     expect(result.pending).toMatchObject({ kind: 'option', event_id: event.id });
     if (result.pending?.kind !== 'option') throw new Error('Missing evacuation choice');
     expect(result.pending.options.filter(option => option.available).length).toBeGreaterThanOrEqual(2);
@@ -553,7 +561,7 @@ describe('production ming_end: possession and historical access', () => {
     const ids = ['E_HISTORY_1644', 'E_HIST_1644_JASHEN_FALL', 'E_gm_history_pass', 'E_HIST_1644_SHANHAI_PASS'];
     const events = ids.map(id => source.events.find(event => event.id === id)!);
     const engine = new GameEngine(controlled(source, events, 1644), 'f'.repeat(64));
-    const next = ok(engine.initGame({ seed: 1 }));
+    const next = startWithCard(engine, { seed: 1 });
     expect(next.pending).toBeNull();
     expect(engine.exportSave().payload.logs.some(entry => entry.type === 'option')).toBe(false);
     expect(next.state.player.region_id).toBe('R_CAPITAL');
@@ -566,7 +574,7 @@ describe('production ming_end: possession and historical access', () => {
     const ids = ['E_HIST_1645_NANJING_COURT', 'E_HIST_1645_YANGZHOU_FATE', 'E_HIST_1645_HAIRCUT'];
     const events = ids.map(id => source.events.find(event => event.id === id)!);
     const engine = new GameEngine(controlled(source, events, 1645), '6'.repeat(64));
-    let result = ok(engine.initGame({ seed: 1 }));
+    let result = startWithCard(engine, { seed: 1 });
     expect(result.state.player.region_id).toBe('R_JIANGNAN');
     expect(result.state.player.age).toBe(20);
     expect(result.logs.some(entry => entry.type === 'event' && entry.source_id === ids[0])).toBe(true);
@@ -595,7 +603,7 @@ it('grows production dependents through youth and each adult livelihood without 
       bundle.rules.age_bands = [{ id: 'growth', min: age, max: age, weight: 1, modifiers: {} }];
       for (const entry of bundle.castes) entry.weight = entry.id === caste ? 1 : 0;
       const engine = new GameEngine(bundle, '9'.repeat(64));
-      let result = ok(engine.initGame({ seed: 4 }));
+      let result = startWithCard(engine, { seed: 4 });
       expect(result.state.player.identity_id).toBe(age === 10 ? 'I_DEPENDENT' : 'I_YOUTH');
       expect(result.state.player.flags).toContain('dependent');
       result = ok(engine.nextYear('grow'));
@@ -612,7 +620,7 @@ it('grows production dependents through youth and each adult livelihood without 
   bundle.era.backgrounds = structuredClone(source.era.backgrounds);
   bundle.rules.age_bands = [{ id: 'youth', min: 17, max: 17, weight: 1, modifiers: {} }];
   const engine = new GameEngine(bundle, '8'.repeat(64));
-  ok(engine.initGame({ seed: 4 }));
+  startWithCard(engine, { seed: 4 });
   const adult = ok(engine.nextYear('adult'));
   expect(adult.state.player.identity_id).toBe('I_ARTISAN');
   expect(adult.state.player.flags).not.toContain('dependent');
@@ -624,7 +632,7 @@ it('awards the reachable longevity milestone at eighty, including the final life
   bundle.rules.age_bands = [{ id: 'elder', min: 79, max: 79, weight: 1, modifiers: {} }];
   bundle.rules.lifespan = { min: 80, max: 80, min_remaining_years: 1 };
   const engine = new GameEngine(bundle, '7'.repeat(64));
-  const before = ok(engine.initGame({ seed: 4 }));
+  const before = startWithCard(engine, { seed: 4 });
   expect(before.state.player.achievements).not.toContain('A_OLD_FOSSIL');
   const after = ok(engine.nextYear('eighty'));
   expect(after.state.status).toBe('ENDED');
@@ -645,7 +653,7 @@ it('consumes the historical turn on both Yangzhou routes and unlocks distinct la
     const seen = new Set<string>();
     for (let seed = 0; seed < 128 && seen.size < (option === 'leave_early' ? 1 : 3); seed++) {
       const engine = new GameEngine(bundle, 'a'.repeat(64));
-      let result = choose(engine, ok(engine.initGame({ seed })), option);
+      let result = choose(engine, startWithCard(engine, { seed }), option);
       expect(result.state.player.flags).toContain('F_LIFE_HISTORICAL_TURN_USED');
       const context = conditionContext(result.state.player, result.state.timeline);
       for (const event of source.events.filter(event => event.trigger.kind === 'historical' && event.interaction === 'choice')) expect(evaluateCondition(event.condition, context)).toBe(false);
@@ -664,10 +672,10 @@ it('consumes the historical turn on both Yangzhou routes and unlocks distinct la
       expect(next.pending).toBeNull();
       expect(next.logs.filter(entry => entry.type === 'event').map(entry => entry.source_id)).toEqual([follow]);
       if (option === 'leave_early') {
-        expect(next.state.player.attributes.wealth).toBe(Math.min(bundle.rules.attributes.max, result.state.player.attributes.wealth + 1));
+        expect(next.state.player.attributes.wealth).toBe(result.state.player.attributes.wealth);
       } else {
-        expect(next.state.player.attributes.physique).toBe(Math.min(bundle.rules.attributes.max, result.state.player.attributes.physique + 1));
-        expect(next.state.player.attributes.prestige).toBe(Math.min(bundle.rules.attributes.max, result.state.player.attributes.prestige + 1));
+        expect(next.state.player.attributes.physique).toBe(result.state.player.attributes.physique);
+        expect(next.state.player.attributes.prestige).toBe(result.state.player.attributes.prestige);
       }
     }
     expect([...seen].sort()).toEqual(option === 'leave_early' ? ['survive'] : ['death', 'escape', 'survive']);

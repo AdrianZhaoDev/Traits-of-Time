@@ -1,7 +1,7 @@
 import type { Effect, Option as EventOption, Stage } from './content.generated';
 import type { CommandResult } from './commands';
 export type Timeline = 'historical' | 'fictional';
-export type GameStatus = 'READY' | 'ADVANCING' | 'AWAITING_OPTION' | 'AWAITING_STAGE' | 'ENDED';
+export type GameStatus = 'READY' | 'ADVANCING' | 'AWAITING_CARD' | 'AWAITING_OPTION' | 'AWAITING_STAGE' | 'ENDED';
 export type YearPhase = 'opening' | 'vital' | 'chains' | 'history' | 'random' | 'complete';
 export type Attributes = Record<'physique' | 'intelligence' | 'wealth' | 'prestige' | 'luck', number>;
 export interface ChainInstance {
@@ -14,13 +14,16 @@ export interface PlayerState {
   cards: string[]; flags: string[]; injuries: string[]; chains: ChainInstance[]; achievements: string[];
 }
 export interface DiceResult { raw: number; attribute_value: number; modifier_before: number; modifier_after: number; dc: number; success: boolean; success_probability: number }
+export type CheckPreview = Stage['check'] & Pick<DiceResult, 'attribute_value' | 'modifier_before' | 'modifier_after' | 'success_probability'>;
 export interface QueueEntry { event_id: string; chain_instance_id: string | null }
 export interface ActiveEvent extends QueueEntry { instance_id: string; stage_id: string | null }
 export type PendingDecision =
-  | { kind: 'option'; event_instance_id: string; event_id: string; options: { id: string; text: string; risk: EventOption['risk']; checks: Stage['check'][]; available: boolean; reason: string | null }[] }
-  | { kind: 'stage'; event_instance_id: string; event_id: string; stage_id: string; text: string; check: Stage['check'] };
+  | { kind: 'card'; cards: string[] }
+  | { kind: 'option'; event_instance_id: string; event_id: string; options: { id: string; text: string; risk: EventOption['risk']; checks: CheckPreview[]; available: boolean; reason: string | null }[] }
+  | { kind: 'stage'; event_instance_id: string; event_id: string; stage_id: string; text: string; check: CheckPreview };
 export interface CandidateLog { event_id: string; eligible: boolean; reason: string | null; gate_passed: boolean | null; effective_weight: number; conditional_probability: number | null }
 export interface LogData {
+  card_selected: { card_id: string };
   opening: { background_id: string; age_band_id: string; card_id: string };
   draw: { candidates: CandidateLog[]; selected_event_id: string | null };
   event: { event_instance_id: string };
@@ -43,11 +46,11 @@ export interface EndingReport {
   achievements: string[]; highest_identity_id: string; chains_completed: ChainInstance[]; chains_interrupted: ChainInstance[];
   key_decisions: LogEntry[]; final_attributes: Attributes;
 }
-export interface CommandParameters { api: 'nextYear' | 'resolveOption' | 'resolveStage' | 'abandonChain'; args: string[] }
+export interface CommandParameters { api: 'nextYear' | 'resolveOption' | 'resolveStage' | 'abandonChain' | 'selectCard'; args: string[] }
 export interface CommandReceipt { parameters: CommandParameters; result: Extract<CommandResult, { ok: true }> }
 export interface RunState {
   run_id: string; seed: number; prng: { algorithm: 'mulberry32-v1'; state: number; draws: number };
-  status: GameStatus; timeline: Timeline; year_phase: YearPhase; queue: QueueEntry[]; queue_cursor: number;
+  status: GameStatus; card_offers: string[]; opening_background_id: string; opening_age_band_id: string; timeline: Timeline; year_phase: YearPhase; queue: QueueEntry[]; queue_cursor: number;
   event_counter: number; chain_counter: number; active_event: ActiveEvent | null; processed_history: string[];
   cooldowns: Record<string, number>; event_counts: Record<string, number>;
   dice_results: DiceResult[]; death: string | null; ending: EndingReport | null;
@@ -55,6 +58,6 @@ export interface RunState {
 }
 export interface GameView { player: PlayerState; status: GameStatus; timeline: Timeline; year_phase: YearPhase; active_event: ActiveEvent | null; revision: number; pending: PendingDecision | null }
 export interface GameSave {
-  save_version: 3; kind: 'life'; content_id: string; content_version: string; content_fingerprint: string; revision: number;
+  save_version: 4; kind: 'life'; content_id: string; content_version: string; content_fingerprint: string; revision: number;
   payload: { player: PlayerState; run: RunState; logs: LogEntry[] };
 }

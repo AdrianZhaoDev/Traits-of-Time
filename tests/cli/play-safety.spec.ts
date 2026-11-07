@@ -1,8 +1,9 @@
+import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { cliFixtures, expectSuccess, fixedLife, runCli, savedLife, slotBytes } from './helpers.js';
 import { save } from '../../tools/lib/FileStateStore.js';
-
+import { sha256 } from '../../tools/lib/canonical.js';
 const fixture = cliFixtures();
 
 describe('play preserves lives and renders outcomes', () => {
@@ -15,6 +16,21 @@ describe('play preserves lives and renders outcomes', () => {
     expect(result.code).toBe(1);
     expect(result.stderr).toContain('SAVE_INVALID');
     expect(await slotBytes(directory)).toEqual(before);
+  });
+
+  it('preserves a version-three life and explains how to start separately', async () => {
+    const context = await fixture(bundle => fixedLife(bundle, 12));
+    const args = ['--content', context.content, '--state', context.state];
+    expectSuccess(await runCli('play', args));
+    const current = await savedLife(context.state);
+    const legacy = { ...current, engine: { ...current.engine, save_version: 3 } };
+    await writeFile(join(context.state, 'slot-b.json'), JSON.stringify({ revision: 2, payload: legacy, checksum: sha256(legacy) }));
+    const before = await slotBytes(context.state);
+    const rejected = await runCli('play', args);
+    expect(rejected.code).toBe(1);
+    expect(rejected.stderr).toContain('旧档已保留');
+    expect(rejected.stderr).toContain('--new');
+    expect(await slotBytes(context.state)).toEqual(before);
   });
 
   it('preserves the default save on seed and content mismatch and creates separate explicit new lives', async () => {
@@ -86,7 +102,7 @@ describe('play preserves lives and renders outcomes', () => {
       }];
     });
     const args = ['--content', context.content, '--state', context.state];
-    const result = await runCli('play', args, 'choose finish\nstatus\nstatus\nquit\n');
+    const result = await runCli('play', args, 'card 1\nchoose finish\nstatus\nstatus\nquit\n');
     expectSuccess(result);
     expect(result.stdout.split('街坊给你送来了奖励×一份。')).toHaveLength(2);
     expect(result.stdout.indexOf('街坊给你送来了奖励×一份。')).toBeLessThan(result.stdout.indexOf('属性变动'));

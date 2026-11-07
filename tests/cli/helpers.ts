@@ -13,7 +13,7 @@ import { createContentFixture } from '../helpers/content.js';
 
 export const repositoryDirectory = fileURLToPath(new URL('../../', import.meta.url));
 const tsxImport = pathToFileURL(createRequire(import.meta.url).resolve('tsx')).href;
-export type CliName = 'validate-content' | 'draw' | 'play' | 'simulate' | 'replay';
+export type CliName = 'validate-content' | 'audit-content' | 'draw' | 'play' | 'simulate' | 'replay';
 
 export interface CliResult {
   code: number | null;
@@ -58,6 +58,9 @@ export function startCli(name: CliName, args: readonly string[], cwd = repositor
           waiting.abort();
         }
       }
+    },
+    send(input: string): void {
+      if (!settled && !child.stdin.destroyed) child.stdin.write(input);
     },
     async finish(input = ''): Promise<CliResult> {
       if (!settled && !child.stdin.destroyed) child.stdin.end(input);
@@ -134,7 +137,7 @@ export async function slotBytes(directory: string): Promise<Record<string, strin
 
 export interface SavedLife {
   engine: {
-    save_version: 3;
+    save_version: 4;
     kind: 'life';
     content_id: string;
     content_version: string;
@@ -156,6 +159,7 @@ export interface SavedLife {
       run: {
         status: string;
         seed: number;
+        card_offers: string[];
         active_event: unknown;
         prng: unknown;
         dice_results: unknown[];
@@ -171,7 +175,7 @@ export async function savedLife(directory: string): Promise<SavedLife> {
   const save = await load<SavedLife>(directory);
   expect(save, 'play must persist a real SessionSave before displaying success').not.toBeNull();
   if (save === null) throw new Error('No persisted session');
-  expect(save.engine).toMatchObject({ save_version: 3, kind: 'life' });
+  expect(save.engine).toMatchObject({ save_version: 4, kind: 'life' });
   return save;
 }
 

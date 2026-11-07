@@ -2,7 +2,8 @@ const nextTurn = (): Promise<void> => new Promise((resolve) => setTimeout(resolv
 import type { GameEngine } from '../core/engine/GameEngine';
 import type { CommandResult } from '../core/types/commands';
 import type { GameSave, GameView, PendingDecision } from '../core/types/schema';
-import { recordCommand, validateReplayCommands, type ReplayAction, type ReplayCommand } from './ReplayCommands';
+import { executeCommand, recordCommand, validateReplayCommands, type ReplayAction, type ReplayCommand } from './ReplayCommands';
+import { equalData } from '../core/persistence/SaveCodec';
 
 export interface SessionSave {
   engine: GameSave;
@@ -14,7 +15,7 @@ export interface SessionPorts {
   load(): Promise<SessionSave | null>;
   hash(value: unknown): string;
 }
-export type SessionAction = { type: 'next' } | { type: 'choose'; optionId: string } | { type: 'stage' } | { type: 'abandon'; chainInstanceId: string };
+export type SessionAction = { type: 'selectCard'; cardId: string } | { type: 'next' } | { type: 'choose'; optionId: string } | { type: 'stage' } | { type: 'abandon'; chainInstanceId: string };
 export interface AdvanceOptions {
   shouldStop?: () => boolean;
   onResult?: (result: CommandResult) => void | Promise<void>;
@@ -59,6 +60,16 @@ export class GameSession {
         if (command.commandId.startsWith(prefix) && /^\d+$/.test(command.commandId.slice(prefix.length)) && Number(command.commandId.slice(prefix.length)) >= cursor.next_child_index) throw failure('SAVE_INVALID', 'Child cursor would reuse a recorded command');
       }
     }
+    // Validate the engine envelope before replaying session commands so a changed package reports CONTENT_MISMATCH, not a misleading replay hash failure.
+    const validatedEngine = this.engine.createReplayEngine();
+    validatedEngine.restoreSave(save.engine);
+    const replay = this.engine.createReplayEngine();
+    for (const command of save.replay_commands) {
+      const result = executeCommand(replay, command);
+      const errorCode = 'ok' in result && !result.ok ? result.error.code : undefined;
+      if (this.ports.hash(result) !== command.expected_result_hash || errorCode !== command.error_code) throw failure('SAVE_INVALID', 'Session replay result differs from recorded command');
+    }
+    if (!equalData(replay.exportSave(), save.engine)) throw failure('SAVE_INVALID', 'Session replay differs from saved engine');
     // Engine restore is atomic; no session fields change until its full validation succeeds.
     this.engine.restoreSave(save.engine);
     this.cursor = { ...cursor, authorized: false };
@@ -111,10 +122,11 @@ export class GameSession {
       const pending = this.engine.current().pending;
       let actual: ReplayAction;
       switch (action.type) {
+        case 'selectCard': actual = { api: 'selectCard', commandId, args: { cardId: action.cardId } }; break;
         case 'next': actual = { api: 'nextYear', commandId, args: {} }; break;
         case 'abandon': actual = { api: 'abandonChain', commandId, args: { chainInstanceId: action.chainInstanceId } }; break;
-        case 'choose': actual = { api: 'resolveOption', commandId, args: { eventInstanceId: pending?.event_instance_id ?? '', optionId: action.optionId } }; break;
-        case 'stage': actual = { api: 'resolveStage', commandId, args: { eventInstanceId: pending?.event_instance_id ?? '', stageId: pending?.kind === 'stage' ? pending.stage_id : '' } }; break;
+        case 'choose': actual = { api: 'resolveOption', commandId, args: { eventInstanceId: pending && pending.kind !== 'card' ? pending.event_instance_id : '', optionId: action.optionId } }; break;
+        case 'stage': actual = { api: 'resolveStage', commandId, args: { eventInstanceId: pending && pending.kind !== 'card' ? pending.event_instance_id : '', stageId: pending?.kind === 'stage' ? pending.stage_id : '' } }; break;
       }
       const result = this.execute(actual);
       this.cursor.authorized = false;
@@ -128,7 +140,7 @@ export class GameSession {
       if (typeof commandId !== 'string' || commandId.length === 0) throw failure('INVALID_COMMAND_ID', 'Automatic advancement requires a command ID');
       for (;;) {
         const current = this.engine.current();
-        if (current.pending?.kind === 'option' || current.state.status === 'ENDED' || options.shouldStop?.()) {
+        if (current.pending?.kind === 'card' || current.pending?.kind === 'option' || current.state.status === 'ENDED' || options.shouldStop?.()) {
           this.cursor.authorized = false;
           return { ok: true, ...current, logs: [] };
         }

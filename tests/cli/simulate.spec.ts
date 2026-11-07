@@ -3,6 +3,10 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { load } from '../../tools/lib/FileStateStore.js';
 import { sha256 } from '../../tools/lib/canonical.js';
+import { loadContent } from '../../tools/lib/ContentLoader.js';
+import { GameEngine } from '../../assets/scripts/core/engine/GameEngine.js';
+import { executeCommand } from '../../assets/scripts/application/ReplayCommands.js';
+import { readReplay } from '../../tools/lib/Replay.js';
 import {
   chainLife, cliFixtures, expectReplay, expectSuccess, fixedLife, readJson, readJsonLines,
   runCli, successJson, type DrawItem, type DrawJson, type SavedLife,
@@ -37,6 +41,7 @@ interface LifeRun {
   };
   blocking_inputs: number;
   player_decisions: number;
+  card_selections: number;
   estimated_input_seconds: number;
   age_band_id: string;
   path_category: string;
@@ -66,11 +71,11 @@ interface Stratum {
 }
 
 describe('simulate: real life reports and replayable choices', () => {
-  it('prefers an available nested physical-card reaction over normal and negated gates', async () => {
+  it('prefers available positive modern gates over negated or locked gates', async () => {
     const context = await fixture((bundle) => {
       fixedLife(bundle, 12);
-      bundle.cards.push({ id: 'CARD_MOD_TEST', name: '随身物件', description: '用于确定性策略覆盖的随身物件。', rarity: 'N', tags: [] });
-      bundle.pools.find((pool) => pool.id === 'POOL_BASIC')!.entries = [{ card_id: 'CARD_MOD_TEST', weight: 1 }];
+      bundle.cards.push({ id: 'CARD_MODERN_COOLING_OIL', name: '风油精', description: '生产命名回归卡。', rarity: 'N', tags: ['modern'] });
+      bundle.pools.find((pool) => pool.id === 'POOL_BASIC')!.entries = [{ card_id: 'CARD_MODERN_COOLING_OIL', weight: 1 }];
       const opening = bundle.events.find((event) => event.id === 'E_OPEN_SAFE');
       if (opening?.interaction !== 'choice' || opening.trigger.kind !== 'opening') throw new Error('Missing opening choice');
       opening.trigger.trigger_probability = 1;
@@ -80,10 +85,10 @@ describe('simulate: real life reports and replayable choices', () => {
         { id: 'negated', text: '反向条件', unavailable_text: '不可选', risk: 'high', outcome,
           condition: { op: 'not', condition: { op: 'has', collection: 'cards', id: 'CARD_RARE' } } },
         { id: 'locked', text: '不可用物件路线', unavailable_text: '不可选', risk: 'high', outcome,
-          condition: { op: 'all', conditions: [{ op: 'has', collection: 'cards', id: 'CARD_MOD_TEST' },
+          condition: { op: 'all', conditions: [{ op: 'has', collection: 'cards', id: 'CARD_MODERN_COOLING_OIL' },
             { op: 'compare', field: 'age', comparator: 'lt', value: 0 }] } },
         { id: 'reaction', text: '物件路线', unavailable_text: '不可选', risk: 'high', outcome,
-          condition: { op: 'all', conditions: [{ op: 'any', conditions: [{ op: 'has', collection: 'cards', id: 'CARD_MOD_TEST' }] }] } },
+          condition: { op: 'all', conditions: [{ op: 'any', conditions: [{ op: 'has', collection: 'cards', id: 'CARD_MODERN_COOLING_OIL' }] }] } },
       ];
     });
     const output = join(context.root, 'reaction-strategy');
@@ -92,6 +97,72 @@ describe('simulate: real life reports and replayable choices', () => {
     expect(trace.commands.filter((command) => command.api === 'resolveOption')).toEqual([
       expect.objectContaining({ args: expect.objectContaining({ optionId: 'reaction' }) }),
     ]);
+  }, 90_000);
+
+  it('starts a real production modern relic chain automatically and replays the full life', async () => {
+    const content = 'assets/resources/data/ming_end';
+    const { bundle, fingerprint } = await loadContent(content);
+    const events = new Map(bundle.events.map(event => [event.id, event]));
+    let sample: { seed: number; cardId: string; chainId: string; openingId: string; nodeId: string; optionIds: string[] } | undefined;
+    for (let seed = 0; seed < 512 && !sample; seed++) {
+      const engine = new GameEngine(bundle, fingerprint);
+      const initial = engine.initGame({ seed });
+      if (!initial.ok) throw new Error(`${initial.error.code}: ${initial.error.message}`);
+      if (initial.pending?.kind !== 'card') throw new Error('Missing card offer');
+      // simulate selects the first offer; do not substitute a different offered card.
+      const cardId = initial.pending.cards[0]!;
+      if (!bundle.cards.some(card => card.id === cardId && card.tags.includes('modern'))) continue;
+      const opened = engine.selectCard('probe:card', cardId);
+      if (!opened.ok) throw new Error(`${opened.error.code}: ${opened.error.message}`);
+      const chain = opened.state.player.chains.find(chain => chain.status === 'active' && chain.chain_id.startsWith('CHAIN_MOD_'));
+      if (!chain || opened.state.player.start_year >= 1643 || opened.state.status !== 'READY') continue;
+      const openingLog = opened.logs.find(log => log.type === 'event' && events.get(log.source_id)?.trigger.kind === 'opening');
+      const opening = openingLog && events.get(openingLog.source_id);
+      if (opening?.interaction !== 'automatic') throw new Error('Modern relic chains must start in an automatic opening');
+      expect(opening.outcome.effects).toContainEqual({ type: 'chain_start', id: chain.chain_id });
+      const node = bundle.chains.find(item => item.id === chain.chain_id)!.nodes[0]!;
+      const advanced = engine.nextYear('probe:year');
+      if (!advanced.ok) throw new Error(`${advanced.error.code}: ${advanced.error.message}`);
+      if (advanced.pending?.kind !== 'option' || advanced.pending.event_id !== node.event_id) continue;
+      sample = { seed, cardId, chainId: chain.chain_id, openingId: opening.id, nodeId: node.event_id,
+        optionIds: advanced.pending.options.filter(option => option.available).map(option => option.id) };
+    }
+    const route = sample;
+    if (!route) throw new Error('Production must expose a reachable automatic modern relic chain');
+    expect(route.cardId).toMatch(/^CARD_MODERN_/);
+    expect(events.get(route.nodeId)?.trigger.kind).toBe('chain');
+    const context = await fixture();
+    const output = join(context.root, 'production-reaction');
+    expectSuccess(await runCli('simulate', ['--content', content, '--runs', '1', '--seed', String(route.seed), '--strategy', 'reaction', '--out', output]));
+    const replayFile = join(output, 'traces', '0.json');
+    const engine = new GameEngine(bundle, fingerprint);
+    for (const command of (await readReplay(replayFile)).commands) {
+      const result = executeCommand(engine, command);
+      if (!('ok' in result)) throw new Error('Life replay returned a draw');
+      if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
+    }
+    const saved = engine.exportSave();
+    const trace = await expectReplay(content, replayFile, saved);
+    expect(trace.commands.filter(command => command.api === 'selectCard')).toEqual([
+      expect.objectContaining({ args: { cardId: route.cardId } }),
+    ]);
+    expect(saved.payload.run.status).toBe('ENDED');
+    expect(saved.payload.player.cards).toEqual([route.cardId]);
+    expect(saved.payload.logs.filter(log => log.type === 'event' && log.source_id === route.openingId)).toHaveLength(1);
+    expect(saved.payload.logs.filter(log => log.type === 'option' && log.source_id === route.openingId)).toEqual([]);
+    expect(saved.payload.logs.filter(log => log.type === 'chain' && log.data.chain_id === route.chainId && log.data.action === 'started')).toHaveLength(1);
+    expect(saved.payload.logs.filter(log => log.type === 'event' && log.source_id === route.nodeId)).toHaveLength(1);
+    const decisions = saved.payload.logs.filter(log => log.type === 'option' && log.source_id === route.nodeId);
+    expect(decisions).toHaveLength(1);
+    const decision = decisions[0];
+    if (decision?.type !== 'option') throw new Error('Missing modern relic chain decision');
+    expect(route.optionIds).toContain(decision.data.option_id);
+    expect(trace.commands.find(command => command.api === 'resolveOption')).toMatchObject({
+      args: { eventInstanceId: decision.data.event_instance_id, optionId: decision.data.option_id },
+    });
+    const [record] = await readJsonLines<LifeRun>(join(output, 'runs.jsonl'));
+    expect(record).toMatchObject({ status: 'ended', card_selections: 1, card_id: route.cardId });
+    expect(record!.blocking_inputs).toBe(record!.player_decisions + 2);
   }, 90_000);
 
   it.each([false, true])('counts encountered events without counting stages or audits (events=%s)', async (withEvents) => {
@@ -104,8 +175,11 @@ describe('simulate: real life reports and replayable choices', () => {
       opening.options = [{ id: 'attempt', text: '开始', unavailable_text: '不可选', risk: 'normal',
         outcome: { text: '进入阶段', effects: [], next_stage_id: 'S_STATS' } }];
       opening.stages = [{ id: 'S_STATS', text: '确认阶段', check: { attribute: 'intelligence', dc: 14, modifier: 0 },
-        success: { text: '成功', effects: [], next_stage_id: null },
-        failure: { text: '失败', effects: [], next_stage_id: null } }];
+        success: { text: '成功后继续', effects: [], next_stage_id: 'S_STATS_SECOND' },
+        failure: { text: '失败后继续', effects: [], next_stage_id: 'S_STATS_SECOND' } },
+        { id: 'S_STATS_SECOND', text: '第二次检定', check: { attribute: 'physique', dc: 20, modifier: 0 },
+          success: { text: '通过', effects: [], next_stage_id: null },
+          failure: { text: '未通过', effects: [], next_stage_id: null } }];
       bundle.events.push({ id: 'E_STATS_AUTO', text: '自动历史事件',
         trigger: { kind: 'historical', year: 1641, priority: 0 }, interaction: 'automatic',
         outcome: { text: '完成', effects: [], next_stage_id: null } });
@@ -114,26 +188,35 @@ describe('simulate: real life reports and replayable choices', () => {
     expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '2', '--seed', '1640', '--out', output]));
     const records = await readJsonLines<LifeRun>(join(output, 'runs.jsonl'));
     const cardCounts: Record<string, number> = {};
+    const observedDice: boolean[] = [];
     const originCounts: Record<string, number> = {};
     expect(records).toHaveLength(2);
     for (const record of records) {
       expect(record).toMatchObject({ age_band_id: 'child', path_category: 'short', start_year: 1640,
         automatic_events: Number(withEvents), choice_events: Number(withEvents), auto_ratio: withEvents ? 0.5 : null });
-      expect(record).toMatchObject({ blocking_inputs: 1 + Number(withEvents), estimated_input_seconds: 5 * (1 + Number(withEvents)) });
+      expect(record).toMatchObject({ card_selections: 1, blocking_inputs: 2 + Number(withEvents), estimated_input_seconds: 5 * (2 + Number(withEvents)) });
       expect(record.player_decisions).toBe(Number(withEvents));
       expect(context.bundle.cards.map((card) => card.id)).toContain(record.card_id);
       expect(context.bundle.era.backgrounds.map((origin) => origin.id)).toContain(record.origin_id);
       cardCounts[record.card_id] = (cardCounts[record.card_id] ?? 0) + 1;
       originCounts[record.origin_id] = (originCounts[record.origin_id] ?? 0) + 1;
       const trace = await expectReplay(context.content, join(output, 'traces', `${record.index}.json`));
-      expect(trace.commands.filter((command) => command.api === 'resolveStage')).toHaveLength(Number(withEvents));
+      expect(trace.commands.filter((command) => command.api === 'resolveStage')).toHaveLength(2 * Number(withEvents));
       expect(trace.commands.filter((command) => command.api === 'resolveOption')).toHaveLength(record.player_decisions);
+      expect(trace.commands.filter((command) => command.api === 'selectCard')).toHaveLength(record.card_selections);
+      const engine = new GameEngine(context.bundle, trace.content_fingerprint);
+      for (const command of (await readReplay(join(output, 'traces', `${record.index}.json`))).commands) executeCommand(engine, command);
+      observedDice.push(...engine.exportSave().payload.run.dice_results.map(dice => dice.success));
     }
     const summary = await readJson<Summary & { life: { strata: Stratum[] } }>(join(output, 'summary.json'));
     const expected = { automatic_events: withEvents ? 2 : 0, choice_events: withEvents ? 2 : 0,
       player_decisions: { min: Number(withEvents), p50: Number(withEvents), p90: Number(withEvents), max: Number(withEvents) },
       auto_ratio: withEvents ? 0.5 : null, card_counts: cardCounts, origin_counts: originCounts, start_year_counts: { '1640': 2 } };
     expect(summary.life).toMatchObject(expected);
+    expect(summary.life).toMatchObject({ sample_count: 2, d20: {
+      total: observedDice.length, success: observedDice.filter(Boolean).length,
+      success_rate: withEvents ? observedDice.filter(Boolean).length / 4 : null,
+    } });
     expect(summary.life.strata).toEqual([expect.objectContaining({ ...expected, samples: 2 })]);
   }, 90_000);
 
@@ -151,7 +234,7 @@ describe('simulate: real life reports and replayable choices', () => {
     const output = join(context.root, 'uncapped-decisions');
     expectSuccess(await runCli('simulate', ['--content', context.content, '--runs', '1', '--seed', '14', '--out', output]));
     const [record] = await readJsonLines<LifeRun>(join(output, 'runs.jsonl'));
-    expect(record).toMatchObject({ player_decisions: 7, blocking_inputs: 8 });
+    expect(record).toMatchObject({ player_decisions: 7, card_selections: 1, blocking_inputs: 9 });
     const summary = await readJson<Summary & { life: { strata: Stratum[] } }>(join(output, 'summary.json'));
     const distribution = { min: 7, p50: 7, p90: 7, max: 7 };
     expect(summary.life).toMatchObject({ player_decisions: distribution });
@@ -181,7 +264,7 @@ describe('simulate: real life reports and replayable choices', () => {
     ]);
     for (const record of records) {
       expect(record).toMatchObject({
-        blocking_inputs: 2, estimated_input_seconds: 10,
+        card_selections: 1, blocking_inputs: 3, estimated_input_seconds: 15,
         report: {
           seed: record.seed, content_fingerprint: summary.content_fingerprint,
           years_played: 4, end_reason: 'death', death_id: 'D_OLD_AGE',
@@ -191,7 +274,7 @@ describe('simulate: real life reports and replayable choices', () => {
       const trace = await expectReplay(context.content, join(output, 'traces', `${record.index}.json`));
       expect(trace).toMatchObject({ kind: 'life', seed: record.seed, content_fingerprint: summary.content_fingerprint });
       expect(trace.commands.map((command) => command.api)).toEqual([
-        'initGame', 'resolveOption', 'nextYear', 'nextYear', 'nextYear', 'nextYear',
+        'initGame', 'selectCard', 'resolveOption', 'nextYear', 'nextYear', 'nextYear', 'nextYear',
       ]);
       expect(new Set(trace.commands.map((command) => command.commandId)).size).toBe(trace.commands.length);
       for (const command of trace.commands) expect(command.expected_result_hash).toMatch(/^[a-f0-9]{64}$/);
@@ -199,7 +282,7 @@ describe('simulate: real life reports and replayable choices', () => {
     expect(summary.life.strata).toEqual([expect.objectContaining({
       age_band_id: 'child', path_category: 'long_or_major', samples: 2,
       final_age: { p50: 13, p90: 13 }, years_played: { p50: 4, p90: 4 },
-      blocking_inputs: { p50: 2, p90: 2 }, early_death_rate: 0,
+      blocking_inputs: { p50: 3, p90: 3 }, early_death_rate: 0,
       death_counts: { D_OLD_AGE: 2 }, ending_counts: { A_PROJECT: 2 },
       chain_started: 2, chain_completed: 2, chain_interrupted: 0, chain_completion_rate: 1,
     })]);
@@ -241,7 +324,7 @@ describe('simulate: real life reports and replayable choices', () => {
     expect(choices[0]!.args).toMatchObject({ optionId });
     const records = await readJsonLines<LifeRun>(join(output, 'runs.jsonl'));
     expect(records).toHaveLength(1);
-    expect(records[0]).toMatchObject({ blocking_inputs: 2, estimated_input_seconds: 10, report: { years_played: 3 } });
+    expect(records[0]).toMatchObject({ card_selections: 1, blocking_inputs: 3, estimated_input_seconds: 15, report: { years_played: 3 } });
     expect(trace.commands.some((command) => command.api === 'retire')).toBe(false);
   }, 90_000);
 
@@ -274,7 +357,7 @@ describe('simulate: real life reports and replayable choices', () => {
     expect(summary.life.strata).toEqual([expect.objectContaining({
       age_band_id: 'child', path_category: 'opening_death', samples: 2,
       final_age: { p50: 9, p90: 9 }, years_played: { p50: 0, p90: 0 },
-      blocking_inputs: { p50: 1, p90: 1 }, early_death_rate: 1,
+      blocking_inputs: { p50: 2, p90: 2 }, early_death_rate: 1,
       death_counts: { D_OPENING: 2 }, chain_started: 0, chain_completed: 0,
       chain_interrupted: 0, chain_completion_rate: null,
     })]);
@@ -283,12 +366,12 @@ describe('simulate: real life reports and replayable choices', () => {
       years: record.report.years_played, reason: record.report.end_reason,
       death: record.report.death_id, inputs: record.blocking_inputs, seconds: record.estimated_input_seconds,
     }))).toEqual([
-      { years: 0, reason: 'death', death: 'D_OPENING', inputs: 1, seconds: 5 },
-      { years: 0, reason: 'death', death: 'D_OPENING', inputs: 1, seconds: 5 },
+      { years: 0, reason: 'death', death: 'D_OPENING', inputs: 2, seconds: 10 },
+      { years: 0, reason: 'death', death: 'D_OPENING', inputs: 2, seconds: 10 },
     ]);
     for (const record of records) {
       const replay = await expectReplay(context.content, join(output, 'traces', `${record.index}.json`));
-      expect(replay.commands.map((command) => command.api)).toEqual(['initGame']);
+      expect(replay.commands.map((command) => command.api)).toEqual(['initGame', 'selectCard']);
     }
   }, 90_000);
 
@@ -320,6 +403,7 @@ describe('simulate: real life reports and replayable choices', () => {
     for (const failure of failures) {
       expect(failure.player_decisions).toBe(failure.save.payload.logs.filter(log => log.type === 'option').length);
       expect(failure.player_decisions).toBe(1);
+      expect(failure).toMatchObject({ card_selections: 1, blocking_inputs: 3 });
       expect(failure.save.payload.run.status).toBe('READY');
       expect(failure.save.payload.player).toMatchObject({ age: 9, calendar_year: 1640 });
       expect(failure.save.payload.player.flags).not.toContain('workshop_complete');

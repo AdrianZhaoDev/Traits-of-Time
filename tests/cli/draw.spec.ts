@@ -115,6 +115,8 @@ describe('CLI locks: real concurrent writers and abnormal exits', () => {
     const context = await fixture(chainLife);
     const owner = startCli('play', ['--content', context.content, '--state', context.state]);
     try {
+      await owner.waitForOutput('【先选家当，再选方向】');
+      owner.send('card 1\n');
       await owner.waitForOutput(chainStartText);
       const before = await slotBytes(context.state);
       const denied = await runCli('draw', drawArgs(context.content, context.state, 'blocked', 1));
@@ -130,6 +132,8 @@ describe('CLI locks: real concurrent writers and abnormal exits', () => {
     const context = await fixture(chainLife);
     const owner = startCli('play', ['--content', context.content, '--state', context.state]);
     try {
+      await owner.waitForOutput('【先选家当，再选方向】');
+      owner.send('card 1\n');
       await owner.waitForOutput(chainStartText);
     } finally {
       const killed = await owner.kill();

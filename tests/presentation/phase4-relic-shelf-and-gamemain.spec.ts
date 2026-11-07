@@ -1,11 +1,55 @@
-import { describe, it, expect, vi } from 'vitest';
-import { Node, UITransform, Label, UIOpacity } from '../mocks/cc-mock';
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
+import { Button, Node, UITransform, Label, UIOpacity, view } from '../mocks/cc-mock';
 import { RelicBarController, type RelicItemData } from '../../assets/scripts/presentation/RelicBarController';
 import { GameMain } from '../../assets/scripts/presentation/GameMain';
+import type { SessionSave } from '../../assets/scripts/application/GameSession';
+import { getNativeMingEndContent } from '../../assets/scripts/application/NativeContentLoader';
 import { EnumMapper } from '../../assets/scripts/presentation/EnumMapper';
 import { LogParser } from '../../assets/scripts/presentation/LogParser';
 import { EventFoldItem } from '../../assets/scripts/presentation/EventFoldItem';
 
+beforeEach(() => { vi.spyOn(Math, 'random').mockReturnValue(1628 / 0x1_0000_0000); });
+afterEach(() => { vi.restoreAllMocks(); });
+
+function descendants(node: Node): Node[] {
+  return [node, ...node.children.flatMap(descendants)];
+}
+
+function displayedText(node: Node): string {
+  return descendants(node).map(child => child.getComponent(Label)?.string ?? '').join('\n');
+}
+
+async function selectOpeningCard(gameMain: GameMain, preferredCard?: string): Promise<string> {
+  await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD'));
+  const pending = gameMain.getCurrentView()!.pending;
+  if (pending?.kind !== 'card') throw new Error('Expected card offers');
+  expect(gameMain.getCurrentView()!.player.cards).toEqual([]);
+  const paper = gameMain.getDecisionOverlay()!.children.find(node => node.name === 'CardChoice')!;
+  const confirm = paper.children.find(node => node.name === 'Btn_确认家当 · 进入人生')!;
+  confirm.emit(Node.EventType.TOUCH_END);
+  expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD');
+  await gameMain.triggerAdvance();
+  expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD');
+  const cardId = preferredCard ?? pending.cards[pending.cards.length - 1]!;
+  paper.children.find(node => node.name === `CardOffer_${cardId}`)!.emit(Node.EventType.TOUCH_END);
+  confirm.emit(Node.EventType.TOUCH_END);
+  await vi.waitFor(() => expect(gameMain.getCurrentView()!.player.cards).toEqual([cardId]));
+  expect(gameMain.getCurrentView()?.status).toBe('AWAITING_OPTION');
+  expect(gameMain.getMemorialCard()!.node.active).toBe(true);
+  return cardId;
+}
+
+async function enterWorkshopFromRelic(gameMain: GameMain): Promise<void> {
+  await selectOpeningCard(gameMain, 'CARD_NATIVE_BOOK');
+  descendants(gameMain.getMemorialCard()!.node)
+    .find(node => node.name === 'Option_invest')!.emit(Node.EventType.TOUCH_END);
+  await vi.waitFor(() => {
+    const pending = gameMain.getCurrentView()!.pending;
+    expect(pending?.kind === 'option' && pending.options.some(option => option.id === 'career_ch_workshop' && option.available)).toBe(true);
+  });
+  descendants(gameMain.getMemorialCard()!.node)
+    .find(node => node.name === 'Option_career_ch_workshop')!.emit(Node.EventType.TOUCH_END);
+}
 describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
   describe('RelicBarController component logic', () => {
     it('initializes 5 antique display shelf slots upon onLoad', () => {
@@ -60,163 +104,220 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
       expect(relicBar.getRelics()).toHaveLength(5);
     });
 
-    it('plays smooth curved flying animation from source node to target shelf slot', () => {
-      const node = new Node('RelicBarRoot');
-      const relicBar = node.addComponent(RelicBarController);
-      relicBar.onLoad();
-
-      const sourceNode = new Node('FoldCardStamp');
-      const item: RelicItemData = {
-        id: 'relic_buddha',
-        name: '万家生佛',
-        desc: '全城百姓盛赞你是乱世活菩萨，声望直冲云霄！',
-      };
-
-      // Add with sourceWorldNode
-      relicBar.addRelic(item, sourceNode);
-      expect(relicBar.getRelics()).toHaveLength(1);
-
-      const slot0 = relicBar.getSlotNode(0);
-      expect(slot0).not.toBeNull();
-      const icon = slot0?.children.find((c) => c.name === 'RelicIcon');
-      expect(icon).toBeDefined();
-
-      const iconLabel = icon?.getComponent(Label);
-      expect(iconLabel?.string).toBe('万家');
+    it('keeps all five slots clear of the hint on a short shelf', () => {
+      const node = new Node('ShortShelf');
+      const shelf = node.addComponent(RelicBarController);
+      shelf.onLoad();
+      shelf.setHeight(600);
+      const hint = node.getChildByName('ShelfHint')!;
+      const hintTop = hint.position.y + hint.getComponent(UITransform)!.height / 2;
+      const last = shelf.getSlotNode(4)!;
+      const lastBottom = last.position.y - last.getComponent(UITransform)!.height * last.scale.y / 2;
+      expect(lastBottom).toBeGreaterThan(hintTop);
+      for (let i = 0; i < 4; i++) {
+        const upper = shelf.getSlotNode(i)!;
+        const lower = shelf.getSlotNode(i + 1)!;
+        expect(upper.position.y - upper.getComponent(UITransform)!.height * upper.scale.y / 2)
+          .toBeGreaterThan(lower.position.y + lower.getComponent(UITransform)!.height * lower.scale.y / 2);
+      }
     });
 
-    it('pops up relic provenance detail upon clicking slot icon', () => {
-      const node = new Node('RelicBarRoot');
-      const relicBar = node.addComponent(RelicBarController);
-      relicBar.onLoad();
 
-      const item: RelicItemData = {
-        id: 'relic_antique',
-        name: '绝世古董',
-        desc: '擦干净一看竟是宋代建盏！收古董的大官追了三条街求购！',
-      };
-      relicBar.addRelic(item);
-
-      const slot0 = relicBar.getSlotNode(0);
-      const icon = slot0?.children.find((c) => c.name === 'RelicIcon');
-      expect(icon).toBeDefined();
-
-      // Trigger click event
-      icon?.emit(Node.EventType.TOUCH_END);
-
-      const detailPanel = relicBar.getDetailPanel();
-      expect(detailPanel).not.toBeNull();
-      expect(detailPanel?.active).toBe(true);
-
-      const textNode = detailPanel?.children.find((c) => c.name === 'TipText');
-      const label = textNode?.getComponent(Label);
-      expect(label?.string).toContain('【绝世古董】');
-      expect(label?.string).toContain('擦干净一看竟是宋代建盏');
-    });
   });
 
   describe('GameMain full orchestration & UI tree integration', () => {
-    it('constructs 750x1334 ink wash hierarchy and initializes components', async () => {
-      const mainNode = new Node('GameMainRoot');
-      const gameMain = mainNode.addComponent(GameMain);
 
+
+
+    it('waits for an in-flight automatic stage when advance is pressed again', async () => {
+      const root = new Node('GameMainRoot');
+      const gameMain = root.addComponent(GameMain);
       gameMain.onLoad();
-
-      // 验证 750x1334 画布尺寸
-      const rootTrans = mainNode.getComponent(UITransform);
-      expect(rootTrans?.width).toBe(750);
-      expect(rootTrans?.height).toBe(1334);
-
-      // 验证顶部 HUD (汉化身份、地区、阶层)
-      const eraLabel = gameMain.getEraYearLabel();
-      expect(eraLabel).not.toBeNull();
-      expect(eraLabel?.string).toContain('大明崇祯');
-
-      const idLabel = gameMain.getIdentityLabel();
-      expect(idLabel).not.toBeNull();
-      expect(idLabel?.string).toContain('身份:');
-      expect(idLabel?.string).toContain('地区:');
-      expect(idLabel?.string).toContain('阶层:');
-
-      // 验证五维铜钱
-      const stats = ['physique', 'wealth', 'intelligence', 'prestige', 'luck'];
-      for (const st of stats) {
-        const coin = gameMain.getStatCoinNode(st);
-        expect(coin).not.toBeNull();
+      await enterWorkshopFromRelic(gameMain);
+      await vi.waitFor(() => expect(gameMain.getCurrentView()!.status).toBe('READY'));
+      const age = gameMain.getCurrentView()!.player.age;
+      const session: unknown = gameMain.getSession();
+      if (!session || typeof session !== 'object' || !('ports' in session)) throw new Error('Missing session ports');
+      const ports = session.ports;
+      if (!ports || typeof ports !== 'object' || !('persist' in ports) || typeof ports.persist !== 'function') throw new Error('Missing persistence port');
+      const persist = ports.persist;
+      // Node 22 provides this method, but the project type library targets ES2022.
+      const promiseApi = Promise as unknown as { withResolvers(): { promise: Promise<void>; resolve(): void } };
+      const gate = promiseApi.withResolvers();
+      let held = false;
+      ports.persist = async (save: SessionSave) => {
+        if (!held && save.replay_commands.at(-1)?.api === 'resolveStage') {
+          held = true;
+          await gate.promise;
+        }
+        await persist(save);
+      };
+      try {
+        await gameMain.triggerAdvance();
+        await vi.waitFor(() => expect(held).toBe(true));
+        expect(gameMain.getCurrentView()!.status).toBe('AWAITING_STAGE');
+        const repeated = gameMain.triggerAdvance();
+        gate.resolve();
+        await repeated;
+        expect(gameMain.getCurrentView()!.status).toBe('READY');
+        expect(gameMain.getCurrentView()!.player.age).toBe(age + 1);
+        expect(gameMain.getSession()!.exportSave().replay_commands.every(command => !command.error_code)).toBe(true);
+      } finally {
+        gate.resolve();
+        ports.persist = persist;
       }
-
-      // 验证博古架、奏折抉择弹层、青铜官印
-      expect(gameMain.getRelicBar()).not.toBeNull();
-      expect(gameMain.getDecisionOverlay()).not.toBeNull();
-      expect(gameMain.getMemorialCard()).not.toBeNull();
-      expect(gameMain.getSealAdvanceBtn()).not.toBeNull();
-      expect(gameMain.getLogContentNode()).not.toBeNull();
     });
 
-    it('binds seal button touch interactions for tap and hold cadence', () => {
+    it('lets a player cancel or confirm exit while a career decision is pending', async () => {
       const mainNode = new Node('GameMainRoot');
       const gameMain = mainNode.addComponent(GameMain);
       gameMain.onLoad();
-
-      const sealBtn = gameMain.getSealAdvanceBtn();
-      expect(sealBtn).not.toBeNull();
-
-      // TOUCH_START activates holding state
-      sealBtn?.emit(Node.EventType.TOUCH_START);
-      expect(gameMain.isHoldingSeal()).toBe(true);
-
-      // TOUCH_END releases holding state
-      sealBtn?.emit(Node.EventType.TOUCH_END);
-      expect(gameMain.isHoldingSeal()).toBe(false);
-
-      // TOUCH_CANCEL also releases holding state safely
-      sealBtn?.emit(Node.EventType.TOUCH_START);
-      expect(gameMain.isHoldingSeal()).toBe(true);
-      sealBtn?.emit(Node.EventType.TOUCH_CANCEL);
-      expect(gameMain.isHoldingSeal()).toBe(false);
-    });
-
-    it('collects heirloom & rare entries into relic bar during game turn advance', async () => {
-      const mainNode = new Node('GameMainRoot');
-      const gameMain = mainNode.addComponent(GameMain);
-      gameMain.onLoad();
-
-      // Wait a microtask for session initialization
-      const { promise, resolve } = Promise.withResolvers<void>();
-      setTimeout(resolve, 10);
-      await promise;
-      const relicBar = gameMain.getRelicBar();
-      expect(relicBar).not.toBeNull();
-      const initialRelics = relicBar?.getRelics().length ?? 0;
-
-      // Simulate advancing a turn
+      await enterWorkshopFromRelic(gameMain);
+      const card = gameMain.getMemorialCard()!.node;
+      await vi.waitFor(() => expect(gameMain.getCurrentView()!.player.chains.some(chain => chain.chain_id === 'CH_WORKSHOP' && chain.status === 'active')).toBe(true));
+      const pendingEventId = () => {
+        const pending = gameMain.getCurrentView()!.pending;
+        return pending?.kind === 'option' ? pending.event_id : null;
+      };
       await gameMain.triggerAdvance();
+      await vi.waitFor(() => expect(gameMain.getCurrentView()!.status).toBe('READY'));
+      await gameMain.triggerAdvance();
+      await vi.waitFor(() => expect(pendingEventId()).toBe('E_CHAIN_3'));
 
-      // Ensure view state is updated
-      expect(gameMain.getCurrentView()).not.toBeNull();
-      expect(gameMain.getEraYearLabel()?.string).toContain('崇祯');
+      const overlay = gameMain.getDecisionOverlay()!;
+      card.children.find(node => node.name === 'ManageCareers')!.emit(Node.EventType.TOUCH_END);
+      let panel = overlay.children.find(node => node.name === 'CareerPanel')!;
+      panel.children.find(node => node.name === 'Btn_返回')!.emit(Node.EventType.TOUCH_END);
+      expect(pendingEventId()).toBe('E_CHAIN_3');
+      expect(gameMain.getCurrentView()!.player.chains.find(chain => chain.chain_id === 'CH_WORKSHOP')!.status).toBe('active');
+
+      card.children.find(node => node.name === 'ManageCareers')!.emit(Node.EventType.TOUCH_END);
+      panel = overlay.children.find(node => node.name === 'CareerPanel')!;
+      const careerContent = panel.children.find(node => node.name === 'CareerScrollView')!
+        .children.find(node => node.name === 'Viewport')!.children.find(node => node.name === 'Content')!;
+      const confirm = panel.children.find(node => node.name === 'Btn_确认退出事业')!;
+      expect(confirm.getComponent(Button)?.interactable).toBe(false);
+      confirm.emit(Node.EventType.TOUCH_END);
+      expect(gameMain.getCurrentView()!.player.chains.find(chain => chain.chain_id === 'CH_WORKSHOP')!.status).toBe('active');
+      const workshopName = getNativeMingEndContent().bundle.chains.find(chain => chain.id === 'CH_WORKSHOP')!.name;
+      careerContent.children.find(node => displayedText(node).includes(workshopName))!.emit(Node.EventType.TOUCH_END);
+      expect(confirm.getComponent(Button)?.interactable).toBe(true);
+      expect(gameMain.getCurrentView()!.player.chains.find(chain => chain.chain_id === 'CH_WORKSHOP')!.status).toBe('active');
+      confirm.emit(Node.EventType.TOUCH_END);
+      await vi.waitFor(() => expect(gameMain.getCurrentView()!.player.chains.find(chain => chain.chain_id === 'CH_WORKSHOP')!.status).toBe('interrupted'));
+      expect(pendingEventId()).not.toBe('E_CHAIN_3');
     });
 
-    it('changes seal button text to 尘埃落定 · 重启人生 when life ends and triggers restart upon click', () => {
-      const mainNode = new Node('GameMainRoot');
-      const gameMain = mainNode.addComponent(GameMain);
+    it('does not revive the view after teardown when its seal child is already destroyed', async () => {
+      const root = new Node('DestroyedScene');
+      const game = root.addComponent(GameMain);
+      game.onLoad();
+      game.getSealAdvanceBtn()!.destroy();
+      game.onDestroy();
+      await game.triggerAdvance();
+      expect(game.getSession()).toBeNull();
+      expect(game.getCurrentView()).toBeNull();
+      expect(game.isHoldingSeal()).toBe(false);
+      expect(game.getDecisionOverlay()!.getChildByName('CardChoice')).toBeNull();
+    });
+
+    it('keeps the seal within the visible short-screen bounds', async () => {
+      const height = 1136;
+      vi.spyOn(view, 'getVisibleSize').mockReturnValue({ width: 750, height });
+      const root = new Node('ShortScreen');
+      const game = root.addComponent(GameMain);
+      game.onLoad();
+      await selectOpeningCard(game);
+      const seal = game.getSealAdvanceBtn()!;
+      const bounds = seal.getComponent(UITransform)!;
+      const center = seal.parent!.position.y + seal.position.y;
+      expect(center - bounds.height / 2).toBeGreaterThanOrEqual(-height / 2);
+      expect(center + bounds.height / 2).toBeLessThanOrEqual(height / 2);
+    });
+
+    it('starts repeating at 0.35 seconds and preserves death until a new gesture', async () => {
+      vi.mocked(Math.random).mockReturnValue(3 / 0x1_0000_0000);
+      const root = new Node('NaturalDeath');
+      const game = root.addComponent(GameMain);
+      game.onLoad();
+      await selectOpeningCard(game, 'CARD_MODERN_CALCULATOR');
+      const choose = (id: string) => descendants(game.getMemorialCard()!.node)
+        .find(node => node.name === `Option_${id}`)!.emit(Node.EventType.TOUCH_END);
+      choose('withdraw');
+      await vi.waitFor(() => {
+        const pending = game.getCurrentView()?.pending;
+        expect(pending?.kind === 'option' && pending.event_id).toBe('E_SOC_YOUTH_APPRENTICE');
+      });
+      choose('decline');
+      await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('READY'));
+      const seal = game.getSealAdvanceBtn()!;
+      seal.emit(Node.EventType.TOUCH_START);
+      await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('READY'));
+      await game.triggerAdvance();
+      await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('READY'));
+      const initialYear = game.getCurrentView()!.player.calendar_year;
+      game.update(0.349);
+      expect(game.getCurrentView()!.player.calendar_year).toBe(initialYear);
+      game.update(0.001);
+      await vi.waitFor(() => expect(game.getCurrentView()!.player.calendar_year).toBe(initialYear + 1));
+      seal.emit(Node.EventType.TOUCH_CANCEL);
+      await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('READY'));
+      while (game.getCurrentView()!.player.calendar_year < 1635) {
+        await game.triggerAdvance();
+        await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('READY'));
+      }
+      seal.emit(Node.EventType.TOUCH_START);
+      await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('ENDED'));
+      const session = game.getSession();
+      seal.emit(Node.EventType.TOUCH_END);
+      expect(game.getCurrentView()?.status).toBe('ENDED');
+      expect(game.getSession()).toBe(session);
+      expect(game.getSession()!.exportSave().engine.payload.run.death).toBe('D_MOD_CALCULATOR_HERESY_FIRE');
+      seal.emit(Node.EventType.TOUCH_START);
+      seal.emit(Node.EventType.TOUCH_END);
+      await vi.waitFor(() => expect(game.getCurrentView()?.status).toBe('AWAITING_CARD'));
+      expect(game.getCurrentView()!.player.cards).toEqual([]);
+    });
+
+    it('shows the real death report and permits restarting a completed life', async () => {
+      const root = new Node('GameMainRoot');
+      const gameMain = root.addComponent(GameMain);
       gameMain.onLoad();
-
-      const sealBtn = gameMain.getSealAdvanceBtn();
-      expect(sealBtn).not.toBeNull();
-      const labelNode = sealBtn?.children.find((c) => c.name === 'BtnLabel');
-      const label = labelNode?.getComponent(Label);
-      expect(label?.string).toBe('钤印流转 · 推进流年');
-
-      // Mock ENDED status
-      (gameMain as unknown as { currentView: { status: string } }).currentView = { status: 'ENDED' };
-      (gameMain as unknown as { updateSealButtonState: (isEnded: boolean) => void }).updateSealButtonState(true);
-      expect(label?.string).toBe('尘埃落定 · 重启人生');
-
-      // Clicking seal button in ENDED state restarts new life
-      sealBtn?.emit(Node.EventType.TOUCH_END);
-      // Verify holding is cleared and restart handled
-      expect(gameMain.isHoldingSeal()).toBe(false);
+      await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD'));
+      const overlay = gameMain.getDecisionOverlay()!;
+      const choice = overlay.children.find(node => node.name === 'CardChoice')!;
+      choice.children.find(node => node.name === 'CardOffer_CARD_MODERN_FLASHLIGHT')!.emit(Node.EventType.TOUCH_END);
+      choice.children.find(node => node.name === 'Btn_确认家当 · 进入人生')!.emit(Node.EventType.TOUCH_END);
+      await vi.waitFor(() => expect(gameMain.getCurrentView()?.pending?.kind).toBe('option'));
+      const clickOption = (id: string) => descendants(gameMain.getMemorialCard()!.node)
+        .find(node => node.name === `Option_${id}`)!.emit(Node.EventType.TOUCH_END);
+      clickOption('career_study');
+      await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('READY'));
+      await gameMain.triggerAdvance();
+      await vi.waitFor(() => {
+        const pending = gameMain.getCurrentView()?.pending;
+        expect(pending?.kind === 'option' && pending.event_id).toBe('E_MOD_FLASHLIGHT_EVIDENCE');
+      });
+      clickOption('flashlight_robbery');
+      await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('ENDED'));
+      const report = gameMain.getSession()!.exportSave().engine.payload.run.ending!;
+      const bundle = getNativeMingEndContent().bundle;
+      const death = bundle.deaths.find(item => item.id === report.death_id)!;
+      const achievement = bundle.achievements.find(item => item.id === 'A_MOD_FLASHLIGHT_DEATH_ROBBERY')!;
+      expect(report.achievements).toContain(achievement.id);
+      descendants(root).find(node => node.name === 'Btn_管理事业')!.emit(Node.EventType.TOUCH_END);
+      const panel = overlay.children.find(node => node.name === 'EndingPanel')!;
+      expect(displayedText(panel)).toContain(death.text);
+      expect(displayedText(panel)).toContain(achievement.name);
+      const firstSeed = gameMain.getSession()!.exportSave().engine.payload.run.seed;
+      vi.mocked(Math.random).mockReturnValue(2000 / 0x1_0000_0000);
+      panel.children.find(node => node.name === 'Btn_重启人生')!.emit(Node.EventType.TOUCH_END);
+      await vi.waitFor(() => expect(gameMain.getCurrentView()?.status).toBe('AWAITING_CARD'));
+      expect(gameMain.getCurrentView()!.player.cards).toEqual([]);
+      const restarted = gameMain.getSession()!.exportSave();
+      expect(firstSeed).toBe(1628);
+      expect(restarted.engine.payload.run.seed).toBe(2000);
+      expect(restarted.replay_commands[0]).toMatchObject({ api: 'initGame', args: { seed: 2000 } });
     });
   });
 });

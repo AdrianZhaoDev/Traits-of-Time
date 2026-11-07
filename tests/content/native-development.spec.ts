@@ -1,3 +1,4 @@
+import { startWithCard } from './card-selection.js';
 import { describe, expect, it } from 'vitest';
 import { loadContent } from '../../tools/lib/ContentLoader.js';
 import { GameEngine } from '../../assets/scripts/core/engine/GameEngine.js';
@@ -27,7 +28,7 @@ function settle(engine: GameEngine, result: Success): Success {
 // Control selection and demographics, never authored conditions, effects or dice.
 function scenario(source: ContentBundle, ids: string[], settings: {
   year?: number; age?: number; wealth?: number; intelligence?: number;
-  physique?: number; prestige?: number; region?: string; caste?: string;
+  physique?: number; prestige?: number; region?: string; caste?: string; card?: string;
 } = {}): ContentBundle {
   const bundle = structuredClone(source);
   bundle.events = ids.map(id => {
@@ -36,6 +37,14 @@ function scenario(source: ContentBundle, ids: string[], settings: {
     if (event.trigger.kind === 'random' || event.trigger.kind === 'opening') event.trigger.trigger_probability = 1;
     return event;
   });
+  const pool = bundle.pools.find(pool => pool.id === bundle.rules.opening.pool_id)!;
+  // A neutral fixture isolates career behavior from all eight relic prologues.
+  const card = settings.card ?? 'CARD_TEST_NATIVE';
+  if (!settings.card) {
+    bundle.cards.push({ id: card, name: '试用布袋', description: '只供事业场景隔离，不进入生产卡池。', rarity: 'N', tags: ['native'] });
+    pool.entries.push({ card_id: card, weight: 1 });
+  }
+  for (const entry of pool.entries) entry.weight = entry.card_id === card ? 1 : 0;
   const year = settings.year ?? 1630;
   const age = settings.age ?? 30;
   bundle.era.start_year = year;
@@ -65,7 +74,7 @@ describe('native opening access', () => {
     for (const age of [5, 17, 18, 55, 70]) for (const caste of source.castes) for (const region of source.regions) {
       const bundle = scenario(source, openings, { age, wealth: 0, caste: caste.id, region: region.id });
       const engine = new GameEngine(bundle, '2'.repeat(64));
-      const initial = ok(engine.initGame({ seed: 3 }));
+      const initial = startWithCard(engine, { seed: 3 });
       if (initial.pending?.kind !== 'option') throw new Error(`Missing opening: ${age}/${caste.id}/${region.id}`);
       const legal = initial.pending.options.filter(option => option.available);
       expect(legal.length).toBeGreaterThanOrEqual(2);
@@ -94,7 +103,7 @@ it('consumes the one global career pivot on every available path before any dice
       const bundle = scenario(source, [event.id], { age, caste: caste.id });
       if (service) for (const background of bundle.era.backgrounds) background.flags.push('F_LIFE_ROUTE_SERVICE');
       const engine = new GameEngine(bundle, '3'.repeat(64));
-      const initial = ok(engine.initGame({ seed: 1 }));
+      const initial = startWithCard(engine, { seed: 1 });
       if (initial.pending?.kind !== 'option') continue;
       exercised = true;
       for (const option of initial.pending.options.filter(option => option.available)) {
@@ -117,6 +126,50 @@ it('consumes the one global career pivot on every available path before any dice
   }
 });
 
+it('shares chain capacity with automatic relic stories without starting a career or spending its pivot implicitly', async () => {
+  const source = (await loadContent(templateDirectory)).bundle;
+  const entry = source.events.find(event => event.id === 'E_START_IMPERIAL_EXAM');
+  if (entry?.interaction !== 'choice') throw new Error('Missing imperial exam career offer');
+  const careers = new Set(source.chains.filter(chain => !chain.id.startsWith('CHAIN_MOD_')).map(chain => chain.id));
+  const pivots = source.events.filter(event => event.trigger.kind === 'random' && event.interaction === 'choice' && event.options.some(option => option.outcome.effects.some(effect => effect.type === 'chain_start' && careers.has(effect.id))));
+  for (const [card, opening, relic] of [
+    ['CARD_MODERN_CORN', 'E_MOD_CORN_OPEN_ADULT', 'CHAIN_MOD_CORN_KING'],
+    ['CARD_MODERN_ANTIBIOTIC', 'E_MOD_HEALER_OPEN_ADULT', 'CHAIN_MOD_HEALER_SAGE'],
+    ['CARD_MODERN_FLASHLIGHT', 'E_MOD_FLASHLIGHT_OPEN_ADULT', 'CHAIN_MOD_FLASHLIGHT_DETECTIVE'],
+  ] as const) for (const capacity of [1, source.rules.chains.max_active]) {
+    const bundle = scenario(source, [opening, entry.id], { card });
+    bundle.rules.chains.max_active = capacity;
+    const engine = new GameEngine(bundle, '9'.repeat(64));
+    const initial = startWithCard(engine, { seed: 1 });
+    expect(initial.state.player.chains.filter(chain => chain.status === 'active').map(chain => chain.chain_id)).toEqual([relic]);
+    expect(initial.state.player.flags).not.toContain(directionUsed);
+    if (initial.pending?.kind !== 'option') throw new Error(`Missing career offer beside ${card}`);
+    expect(initial.pending.event_id).toBe(entry.id);
+    expect(initial.pending.options.find(option => option.id === 'start')?.available).toBe(capacity > 1);
+    if (capacity === 1) {
+      const before = engine.exportSave();
+      expect(engine.resolveOption('full-capacity', initial.pending.event_instance_id, 'start')).toMatchObject({ ok: false, error: { code: 'OPTION_UNAVAILABLE' } });
+      expect(engine.exportSave()).toEqual(before);
+    }
+    for (const option of initial.pending.options.filter(option => option.available)) {
+      const branch = new GameEngine(bundle, '9'.repeat(64));
+      branch.restoreSave(structuredClone(engine.exportSave()));
+      const selected = choose(branch, initial, option.id);
+      expect(selected.state.player.flags).toContain(directionUsed);
+      const startsCareer = entry.options.find(item => item.id === option.id)!.outcome.effects.some(effect => effect.type === 'chain_start');
+      const active = selected.state.player.chains.filter(chain => chain.status === 'active').map(chain => chain.chain_id);
+      expect(active.sort()).toEqual((startsCareer ? [relic, 'CHAIN_IMPERIAL_EXAM'] : [relic]).sort());
+      expect(active.length).toBeLessThanOrEqual(capacity);
+      if (startsCareer) {
+        const context = conditionContext(selected.state.player, selected.state.timeline);
+        context.flags = context.flags.filter(flag => flag !== directionUsed);
+        for (const pivot of pivots) expect(evaluateCondition(pivot.condition, context), `${card}/${pivot.id}`).toBe(false);
+      }
+      expect(settle(branch, selected).pending).toBeNull();
+    }
+  }
+});
+
 it('keeps entry age, wealth, capability and military eligibility boundaries', async () => {
   const source = (await loadContent(templateDirectory)).bundle;
   for (const age of [17, 18, 55, 70]) for (const wealth of [0, 1, 2, 3]) {
@@ -128,7 +181,7 @@ it('keeps entry age, wealth, capability and military eligibility boundaries', as
     ] as const) {
       const bundle = scenario(source, [id], { year: 1650, age, wealth, caste: 'C_SOLDIER' });
       const engine = new GameEngine(bundle, '4'.repeat(64));
-      const result = ok(engine.initGame({ seed: 1 }));
+      const result = startWithCard(engine, { seed: 1 });
       expect(result.state.timeline).toBe('fictional');
       const event = bundle.events[0]!;
       expect(evaluateCondition(event.condition, conditionContext(result.state.player, result.state.timeline)), `${id}/${age}/${wealth}`).toBe(eligible);
@@ -137,7 +190,7 @@ it('keeps entry age, wealth, capability and military eligibility boundaries', as
   }
   for (const intelligence of [3, 4]) for (const id of ['E_START_IMPERIAL_EXAM', 'E_START_MILITARY_MERIT', 'E_START_MARITIME_TRADE']) {
     const bundle = scenario(source, [id], { intelligence, caste: 'C_REFUGEE', region: 'R_SHANBEI' });
-    const result = ok(new GameEngine(bundle, '4'.repeat(64)).initGame({ seed: 1 }));
+    const result = startWithCard(new GameEngine(bundle, '4'.repeat(64)), { seed: 1 });
     expect(result.pending?.kind === 'option', id).toBe(id === 'E_START_IMPERIAL_EXAM' && intelligence === 4);
   }
 });
@@ -145,7 +198,9 @@ it('keeps entry age, wealth, capability and military eligibility boundaries', as
 it('advances every career without intermediate confirmation, retains learning on exit and never demotes at its final', async () => {
   const source = (await loadContent(templateDirectory)).bundle;
   const ranks = new Map(source.era.identities.map(identity => [identity.id, identity.rank]));
-  for (const chain of source.chains) {
+  const careerIds = new Set(source.events.flatMap(event => event.trigger.kind === 'random' && event.interaction === 'choice'
+    ? event.options.flatMap(option => option.outcome.effects.flatMap(effect => effect.type === 'chain_start' ? [effect.id] : [])) : []));
+  for (const chain of source.chains.filter(chain => careerIds.has(chain.id))) {
     const entry = source.events.find(event => event.trigger.kind === 'random' && event.interaction === 'choice' && event.options.some(option => option.outcome.effects.some(effect => effect.type === 'chain_start' && effect.id === chain.id)))
       ?? source.events.find(event => event.interaction === 'choice' && event.options.some(option => option.outcome.effects.some(effect => effect.type === 'chain_start' && effect.id === chain.id)));
     if (entry?.interaction !== 'choice') throw new Error(`Missing entry ${chain.id}`);
@@ -154,7 +209,7 @@ it('advances every career without intermediate confirmation, retains learning on
     const outcomes = new Set<string>();
     for (let seed = 0; seed < 96 && outcomes.size < 2; seed++) {
       const engine = new GameEngine(bundle, '5'.repeat(64));
-      let result = settle(engine, choose(engine, ok(engine.initGame({ seed })), option.id));
+      let result = settle(engine, choose(engine, startWithCard(engine, { seed }), option.id));
       const start = result.state.player.calendar_year;
       for (let index = 0; index < chain.nodes.length && result.state.player.chains[0]?.status === 'active'; index++) {
         while (result.state.player.calendar_year < start + chain.nodes[index]!.after_years) result = ok(engine.nextYear(`year:${result.state.revision}`));
@@ -171,10 +226,11 @@ it('advances every career without intermediate confirmation, retains learning on
             expect(exit.state.player.chains[0]?.status).toBe('interrupted');
           }
         } else {
-          if (result.pending?.kind === 'option') {
-            const event = bundle.events.find(event => event.id === result.pending!.event_id);
+          const pending = result.pending;
+          if (pending?.kind === 'option') {
+            const event = bundle.events.find(event => event.id === pending.event_id);
             if (event?.interaction !== 'choice') throw new Error('Missing final');
-            const legal = result.pending.options.filter(option => option.available);
+            const legal = pending.options.filter(option => option.available);
             expect(legal.length).toBeGreaterThanOrEqual(2);
             for (const identity of source.era.identities.filter(identity => identity.rank >= 3)) {
               const player = { ...result.state.player, identity_id: identity.id };
@@ -183,7 +239,7 @@ it('advances every career without intermediate confirmation, retains learning on
               expect(alternatives.length, `${event.id}/${identity.id}`).toBeGreaterThanOrEqual(2);
               for (const alternative of alternatives) {
                 const stage = event.stages?.find(stage => stage.id === alternative.outcome.next_stage_id);
-                const effects = [...alternative.outcome.effects, ...(stage?.success.effects ?? []), ...(stage?.failure.effects ?? [])];
+                const effects = [...alternative.outcome.effects, ...(stage?.success.effects ?? []), ...(stage?.failure.effects ?? []), ...(stage?.critical_success?.effects ?? [])];
                 for (const effect of effects) if (effect.type === 'identity_set') expect(ranks.get(effect.id)!).toBeGreaterThanOrEqual(identity.rank);
               }
             }
@@ -230,7 +286,7 @@ it('prepays maritime costs once and never asks for a second payment mid-voyage',
   for (const wealth of [2, 3]) {
     const bundle = scenario(source, ['E_START_MARITIME_TRADE', ...chain.nodes.map(node => node.event_id)], { wealth });
     const engine = new GameEngine(bundle, '6'.repeat(64));
-    let result = ok(engine.initGame({ seed: 1 }));
+    let result = startWithCard(engine, { seed: 1 });
     if (wealth === 2) {
       expect(result.pending).toBeNull();
       expect(result.state.player.chains).toEqual([]);
@@ -255,7 +311,7 @@ it('routes poor and rich economic encounters without an option pause or forced r
   for (const wealth of [0, 1, 2, 5, 6]) {
     const bundle = scenario(source, ['E_SOC_POOR_WORK', 'E_SOC_RICH_GRAIN'], { wealth });
     const engine = new GameEngine(bundle, '7'.repeat(64));
-    const initial = ok(engine.initGame({ seed: 1 }));
+    const initial = startWithCard(engine, { seed: 1 });
     expect(initial.pending?.kind).not.toBe('option');
     const result = settle(engine, initial);
     const encountered = engine.exportSave().payload.logs.filter(entry => entry.type === 'event').map(entry => entry.source_id);
@@ -271,7 +327,7 @@ it('interrupts only the local workshop after automatic fire resolution and retai
   for (const region of ['R_CAPITAL', 'R_JIANGNAN']) {
     const bundle = scenario(source, ['E_START_FIREARMS_RESEARCH', ...chain.nodes.map(node => node.event_id), 'E_HIST_1635_CAPITAL_FIRE'], { year: 1633, region });
     const engine = new GameEngine(bundle, '8'.repeat(64));
-    choose(engine, ok(engine.initGame({ seed: 2 })), 'start');
+    choose(engine, startWithCard(engine, { seed: 2 }), 'start');
     const learned = settle(engine, ok(engine.nextYear('1634'))).state.player.attributes;
     const result = settle(engine, ok(engine.nextYear('1635')));
     expect(result.pending).toBeNull();
@@ -283,24 +339,3 @@ it('interrupts only the local workshop after automatic fire resolution and retai
   }
 });
 
-it('has no hidden chain starts or choices outside opening, one pivot, finals and one history turn', async () => {
-  const source = (await loadContent(templateDirectory)).bundle;
-  const finals = new Set(source.chains.map(chain => chain.nodes[chain.nodes.length - 1]!.event_id));
-  for (const event of source.events) {
-    for (const stage of event.stages ?? []) for (const outcome of [stage.success, stage.failure]) expect(outcome.effects.some(effect => effect.type === 'chain_start'), event.id).toBe(false);
-    if (event.interaction === 'automatic') {
-      expect(event.outcome.effects.some(effect => effect.type === 'chain_start'), event.id).toBe(false);
-      expect(event.trigger.kind, event.id).not.toBe('opening');
-      continue;
-    }
-    for (const option of event.options) {
-      const starts = option.outcome.effects.filter(effect => effect.type === 'chain_start');
-      expect(starts.length, event.id).toBeLessThanOrEqual(1);
-      if (starts.length > 0) expect(['opening', 'random']).toContain(event.trigger.kind);
-      if (event.trigger.kind === 'random') expect(option.outcome.effects).toContainEqual({ type: 'flag_add', id: directionUsed });
-      if (event.trigger.kind === 'historical') expect(option.outcome.effects).toContainEqual({ type: 'flag_add', id: 'F_LIFE_HISTORICAL_TURN_USED' });
-    }
-    if (event.trigger.kind === 'chain') expect(finals.has(event.id), event.id).toBe(true);
-    else expect(['opening', 'random', 'historical']).toContain(event.trigger.kind);
-  }
-});

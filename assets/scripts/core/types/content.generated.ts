@@ -187,7 +187,7 @@ export interface NotCondition {
 }
 export interface CompareCondition {
   op: 'compare';
-  field: 'age' | 'calendar_year' | 'physique' | 'intelligence' | 'wealth' | 'prestige' | 'luck';
+  field: 'age' | 'calendar_year' | 'start_year' | 'physique' | 'intelligence' | 'wealth' | 'prestige' | 'luck';
   comparator: 'eq' | 'ne' | 'lt' | 'lte' | 'gt' | 'gte';
   value: number;
 }
@@ -278,6 +278,10 @@ export interface Card {
   name: string;
   description: string;
   rarity: string;
+  check_bonus?: {
+    tag: string;
+    amount: number;
+  };
   tags: string[];
 }
 /**
@@ -337,6 +341,10 @@ export interface OpeningTrigger {
 export interface RandomTrigger {
   kind: 'random';
   weight: number;
+  /**
+   * Random events compete only within the highest eligible priority after probability gates; omitted priority is 0. Pacing and weights apply within that tier.
+   */
+  priority?: number;
   trigger_probability: number;
   cooldown_years: number;
   max_occurrences: number | null;
@@ -359,6 +367,7 @@ export interface Stage {
   text: string;
   check: Check;
   success: Outcome;
+  critical_success?: Outcome;
   failure: Outcome;
 }
 /**
@@ -368,6 +377,8 @@ export interface Stage {
 export interface Check {
   attribute: VisibleAttribute;
   dc: number;
+  tag?: string;
+  raw_minimum?: number;
   modifier: number;
 }
 /**

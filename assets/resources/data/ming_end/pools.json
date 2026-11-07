@@ -3,90 +3,14 @@
     "id": "POOL_NATIVE_LIFE",
     "name": "寻常家当",
     "entries": [
-      {
-        "card_id": "CARD_NATIVE_NEEDLE",
-        "weight": 20
-      },
-      {
-        "card_id": "CARD_NATIVE_BOWL",
-        "weight": 20
-      },
-      {
-        "card_id": "CARD_NATIVE_ROPE",
-        "weight": 20
-      },
-      {
-        "card_id": "CARD_NATIVE_ACCOUNT",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_NATIVE_HERBS",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_NATIVE_TOOLS",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_NATIVE_BOOK",
-        "weight": 4
-      },
-      {
-        "card_id": "CARD_NATIVE_SCALES",
-        "weight": 4
-      },
-      {
-        "card_id": "CARD_MODERN_COOLING_OIL",
-        "weight": 15
-      },
-      {
-        "card_id": "CARD_MODERN_SUPER_GLUE",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_MODERN_CRANK_FLASHLIGHT",
-        "weight": 6
-      },
-      {
-        "card_id": "CARD_MODERN_ANTIBIOTIC",
-        "weight": 3
-      },
-      {
-        "card_id": "CARD_MODERN_HYBRID_SEEDS",
-        "weight": 3
-      },
-      {
-        "card_id": "CARD_MODERN_LIGHTER",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_MODERN_BANDAGE",
-        "weight": 15
-      },
-      {
-        "card_id": "CARD_MODERN_NAIL_CLIPPER",
-        "weight": 15
-      },
-      {
-        "card_id": "CARD_MODERN_SCOTCH_TAPE",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_MODERN_READING_GLASSES",
-        "weight": 6
-      },
-      {
-        "card_id": "CARD_MODERN_THERMOS",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_MODERN_SWISS_ARMY_KNIFE",
-        "weight": 10
-      },
-      {
-        "card_id": "CARD_MODERN_SOLAR_CALCULATOR",
-        "weight": 6
-      }
+      { "card_id": "CARD_MODERN_CORN", "weight": 5 },
+      { "card_id": "CARD_MODERN_ANTIBIOTIC", "weight": 5 },
+      { "card_id": "CARD_MODERN_FLASHLIGHT", "weight": 15 },
+      { "card_id": "CARD_MODERN_CALCULATOR", "weight": 15 },
+      { "card_id": "CARD_NATIVE_BOOK", "weight": 15 },
+      { "card_id": "CARD_MODERN_GLUE", "weight": 30 },
+      { "card_id": "CARD_MODERN_LIGHTER", "weight": 30 },
+      { "card_id": "CARD_NATIVE_BOWL", "weight": 50 }
     ],
     "replacement": true,
     "hard_pity": null

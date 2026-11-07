@@ -1,14 +1,15 @@
 import { mkdir, open, readFile, rename, unlink } from 'node:fs/promises';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { canonicalJson, sha256 } from './canonical.js';
+import { sha256 } from './canonical.js';
 import { decodeGameSave, decodeGachaSave, keys, record, validateJson } from '../../assets/scripts/core/persistence/SaveCodec.js';
+import { canonicalJson } from '../../assets/scripts/core/persistence/JsonDigest.js';
 import { validateReplayCommands } from '../../assets/scripts/application/ReplayCommands.js';
 
 export class StateStoreError extends Error {
   constructor(public readonly code: 'SAVE_CORRUPT' | 'STATE_CONFLICT' | 'SAVE_FAILED' | 'STATE_LOCKED', message: string) { super(message); this.name = 'StateStoreError'; }
 }
-interface Slot { revision: number; payload: unknown; checksum: string; name: string; legacyLife: boolean }
+interface Slot { revision: number; payload: unknown; checksum: string; name: string; unsupportedLife: boolean }
 const names = ['slot-a.json', 'slot-b.json'] as const;
 const hasCode = (error: unknown, code: string): boolean => record(error) && error.code === code;
 
@@ -52,9 +53,9 @@ async function latest(directory: string): Promise<Slot | null> {
       if (!record(value) || !keys(value, ['revision', 'payload', 'checksum']) || !Number.isSafeInteger(value.revision) || (value.revision as number) < 1 || typeof value.checksum !== 'string' || value.checksum !== sha256(value.payload)) continue;
       const payload = value.payload;
       const engine = record(payload) && record(payload.engine) ? payload.engine : payload;
-      const legacyLife = record(engine) && engine.kind === 'life' && engine.save_version === 2;
-      if (!legacyLife) validatePayload(payload);
-      slots.push({ revision: value.revision as number, payload, checksum: value.checksum, name, legacyLife });
+      const unsupportedLife = record(engine) && engine.kind === 'life' && typeof engine.save_version === 'number' && engine.save_version !== 4;
+      if (!unsupportedLife) validatePayload(payload);
+      slots.push({ revision: value.revision as number, payload, checksum: value.checksum, name, unsupportedLife });
     } catch { /* Keep invalid files intact; only a valid peer can recover them. */ }
   }
   if (!slots.length) {
@@ -63,7 +64,7 @@ async function latest(directory: string): Promise<Slot | null> {
   }
   slots.sort((a, b) => b.revision - a.revision);
   if (slots.length === 2 && slots[0].revision === slots[1].revision && canonicalJson(slots[0].payload) !== canonicalJson(slots[1].payload)) throw new StateStoreError('STATE_CONFLICT', `Conflicting state revision ${slots[0].revision} in ${directory}`);
-  if (slots[0].legacyLife) throw new StateStoreError('SAVE_CORRUPT', `Unsupported life save version 2 in ${directory}; files retained`);
+  if (slots[0].unsupportedLife) throw new StateStoreError('SAVE_CORRUPT', `Unsupported life save version in ${directory}; files retained`);
   return slots[0];
 }
 export async function load<T>(directory: string): Promise<T | null> {

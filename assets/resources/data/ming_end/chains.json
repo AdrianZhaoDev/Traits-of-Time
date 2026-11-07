@@ -2,7 +2,7 @@
   {
     "id": "CHAIN_IMPERIAL_EXAM",
     "name": "崇祯科举大考",
-    "commitment": "四年备考，起步花费财富1。借书抄卷自动推进，第二年借旧卷，不再加收钱；末年掷D20评卷，符合资格时由你决定是否争取举人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，道路受阻或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "commitment": "四年先付财力1，平日自动学卷；末关D20争名或养家传艺；失败重伤断路会停，退出不退费但留本事。",
     "priority": 25,
     "interrupt_condition": {
       "op": "any",
@@ -24,7 +24,7 @@
         }
       ]
     },
-    "interrupt_text": "书卷先收起来，备考停在了半途。",
+    "interrupt_text": "收好旧卷先停赶考，书没读成废纸本事也不作废。",
     "nodes": [
       {
         "after_years": 1,
@@ -44,7 +44,7 @@
       }
     ],
     "completion": {
-      "text": "几年的文章磨出了章法，这趟读书有了结果。",
+      "text": "旧卷功课终于有了交接，先生少皱一次眉头。",
       "effects": [
         {
           "type": "flag_add",
@@ -57,7 +57,7 @@
   {
     "id": "CHAIN_MILITARY_MERIT",
     "name": "九边行伍从戎",
-    "commitment": "三年随营历练，起步免费。常规操练与留营轮值自动推进，不另收费；末年掷D20评定功簿，符合资格时由你决定是否争取武官身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，道路受阻或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "commitment": "三年免费，平日自动操练轮值；末关D20争名或养家传艺；失败重伤断路会停，退出仍留本事。",
     "priority": 25,
     "interrupt_condition": {
       "op": "any",
@@ -79,7 +79,7 @@
         }
       ]
     },
-    "interrupt_text": "你交还军中差事，随营历练暂且停下。",
+    "interrupt_text": "交回轮值单先离营，练出的步子没跟着被收走。",
     "nodes": [
       {
         "after_years": 1,
@@ -95,7 +95,7 @@
       }
     ],
     "completion": {
-      "text": "操练和轮值记进功簿，这段军中差事办完了。",
+      "text": "轮值操练记进功簿，老班头总算肯少喊一声。",
       "effects": [
         {
           "type": "flag_add",
@@ -108,7 +108,7 @@
   {
     "id": "CHAIN_FIREARMS_RESEARCH",
     "name": "神机营火器督造",
-    "commitment": "三年学修火器，起步花费财富1。常规匠活自动推进，第二年借旧料，不再加收钱；在作坊期间可能遇火药意外，先辨退路、失手再由工友救援，两次检定都失败才会丧命，不是让你主动试爆。末年掷D20验收，符合资格时由你决定是否争取匠人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，工坊毁坏或重伤也会打断安排。推进前可暂停或退出这条事业，退出后不再遭遇这条事业的作坊事故；已花费用不退，已学本事保留。",
+    "commitment": "四年先付财力1；平日自动修器，作坊事故连败两检可亡；末关D20争名或养家传艺，失败重伤毁坊会停且退出不退费留技。",
     "priority": 25,
     "interrupt_condition": {
       "op": "any",
@@ -130,7 +130,7 @@
         }
       ]
     },
-    "interrupt_text": "图稿先收好，匠作停在了半途。",
+    "interrupt_text": "图稿卷好先离工坊，停工不把学会的活计退回。",
     "nodes": [
       {
         "after_years": 1,
@@ -141,12 +141,12 @@
         "event_id": "E_CHAIN_FIREARMS_RESEARCH_2"
       },
       {
-        "after_years": 3,
+        "after_years": 4,
         "event_id": "E_CHAIN_FIREARMS_RESEARCH_3"
       }
     ],
     "completion": {
-      "text": "图稿和器件通过核验，匠作有了实在成果。",
+      "text": "图稿器件交接齐全，工坊终于不只记得催你返工。",
       "effects": [
         {
           "type": "flag_add",
@@ -159,7 +159,7 @@
   {
     "id": "CHAIN_EPIDEMIC_HEALING",
     "name": "崇祯大疫悬壶录",
-    "commitment": "三年跟诊练就活人神技！起步免费，辨药尝草与救治病患自动推进；末年掷D20复核医案冲刺名医赛华佗，亦可整理药账养家或传授防疫土方。失败中断，手艺保留。",
+    "commitment": "三年免费，平日自动跟诊；末关D20核医案或养家传艺；失败重伤流离会停，退出仍留本事。",
     "priority": 25,
     "interrupt_condition": {
       "op": "any",
@@ -181,7 +181,7 @@
         }
       ]
     },
-    "interrupt_text": "药材交回乡医，跟诊暂且停下。",
+    "interrupt_text": "药材交回乡医柜里，跟诊先停但药账还认得字。",
     "nodes": [
       {
         "after_years": 1,
@@ -197,7 +197,7 @@
       }
     ],
     "completion": {
-      "text": "【神医出山】手搓针灸妙手回春，连救百号重症病患，万人争送‘大明第一神针’金匾！",
+      "text": "医案药账交清楚了，药柜不必挂包治百病的空牌。",
       "effects": [
         {
           "type": "flag_add",
@@ -210,7 +210,7 @@
   {
     "id": "CHAIN_FORTRESS_DEFENSE",
     "name": "筑堡屯粮抗乱",
-    "commitment": "三年深挖洞广积粮！起步合仓管粮，自动推进清点；末年掷D20议定冲刺坊里甲首/族老，亦可稳当顾家或传授苟命避险宝典。天下大乱，我自稳如泰山！",
+    "commitment": "三年先付财力1，平日自动管仓修墙；末关D20争名或养家传艺；失败重伤流离会停，退出不退费但留本事。",
     "priority": 25,
     "interrupt_condition": {
       "op": "any",
@@ -232,7 +232,7 @@
         }
       ]
     },
-    "interrupt_text": "修墙和管仓暂且停下，账目交给乡邻。",
+    "interrupt_text": "仓账交给邻里保管，墙先停修也不把旧米袋作废。",
     "nodes": [
       {
         "after_years": 1,
@@ -248,7 +248,7 @@
       }
     ],
     "completion": {
-      "text": "【苟道大成】粮满仓堡筑成，任凭外界风吹雨打，堡内歌舞升平米肉飘香！",
+      "text": "仓账墙料终于对得上，街坊先拿回一条清楚分工单。",
       "effects": [
         {
           "type": "flag_add",
@@ -261,7 +261,7 @@
   {
     "id": "CHAIN_MARITIME_TRADE",
     "name": "大明福船出洋",
-    "commitment": "三年合伙下南洋搞暴富！起步须财富3一次付清包办候风。第二年自动掷D20迎战风浪；末年可冒风浪风险冲刺海商大亨名分分大钱，或稳妥做账房，亦可退伙当祖师爷传授秘诀。失败或退出均不退预付款，本事永久保留！",
+    "commitment": "四年预付财力3，平日自动合伙运货且不加费；二年与末关D20遇风浪；可争名或养家传艺，失败重伤断路会停且退出不退款留技。",
     "priority": 25,
     "interrupt_condition": {
       "op": "any",
@@ -283,7 +283,7 @@
         }
       ]
     },
-    "interrupt_text": "合伙运货暂且停下，船账先交给船东。",
+    "interrupt_text": "船账交回合伙人手里，预付银不退本事没收走。",
     "nodes": [
       {
         "after_years": 1,
@@ -294,12 +294,12 @@
         "event_id": "E_CHAIN_MARITIME_TRADE_2"
       },
       {
-        "after_years": 3,
+        "after_years": 4,
         "event_id": "E_CHAIN_MARITIME_TRADE_3"
       }
     ],
     "completion": {
-      "text": "【商海暴富】货船满载南洋香料象牙回港，金银进账堆满仓库，全港商贾夹道欢呼！",
+      "text": "货账终于跟船一同交回，算盘少算了一场空欢喜。",
       "effects": [
         {
           "type": "flag_add",
@@ -312,7 +312,7 @@
   {
     "id": "CH_WORKSHOP",
     "name": "工部百工学艺",
-    "commitment": "三年工坊学艺，起步免费。认工具与试做器件自动推进，不另收费；末年掷D20验活，符合资格时由你决定是否争取匠人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，工坊毁坏或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "commitment": "两年免费，平日自动学工具；末关D20争名或养家传艺；失败重伤毁坊会停，退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -334,7 +334,7 @@
         }
       ]
     },
-    "interrupt_text": "你收起工具，工坊学艺暂且停下。",
+    "interrupt_text": "工具收好工坊先停学，旧锉刀没把本事一起锉掉。",
     "nodes": [
       {
         "after_years": 1,
@@ -342,15 +342,11 @@
       },
       {
         "after_years": 2,
-        "event_id": "E_CHAIN_2"
-      },
-      {
-        "after_years": 3,
         "event_id": "E_CHAIN_3"
       }
     ],
     "completion": {
-      "text": "学徒活计做完，师傅认可了你的手艺。",
+      "text": "学徒活计做出个样子，师傅总算把点头写上交单。",
       "effects": [
         {
           "type": "flag_add",
@@ -363,7 +359,7 @@
   {
     "id": "CH_JN_EXAM",
     "name": "复社制艺赴考",
-    "commitment": "三年江南读书，起步免费。借卷温习自动推进，不另收费；第二年院试会自动掷D20，失败便停学。末年乡试再掷D20，符合资格时由你决定是否争取举人身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，道路受阻或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "commitment": "四年免费，自动温习且第二年D20院试；末关D20乡试或养家传艺；失败重伤断路会停，退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -385,7 +381,7 @@
         }
       ]
     },
-    "interrupt_text": "书卷先收好，这趟赶考停在了半途。",
+    "interrupt_text": "收好江南借来的旧卷，赶考先停不把识字也退回。",
     "nodes": [
       {
         "after_years": 1,
@@ -396,12 +392,12 @@
         "event_id": "E_JN_EXAM_2"
       },
       {
-        "after_years": 3,
+        "after_years": 4,
         "event_id": "E_JN_EXAM_3"
       }
     ],
     "completion": {
-      "text": "江南这段读书赶考的日子，终于有了结果。",
+      "text": "四年旧卷终于交出结果，催功课的人先松了一口气。",
       "effects": [
         {
           "type": "flag_add",
@@ -414,7 +410,7 @@
   {
     "id": "CH_JN_TRADE",
     "name": "苏杭织造商海",
-    "commitment": "三年玩转织造商战！起步免费，学经纬与工料自动推进；末年掷D20验货冲刺江南织造商大亨，或留机接活稳妥养家，亦可退居幕后传艺。失败中断，本事保留。",
+    "commitment": "三年免费，平日自动学织造；末关D20争名或养家传艺；失败重伤断路会停，退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -436,7 +432,7 @@
         }
       ]
     },
-    "interrupt_text": "织布和交货暂且停下，货账先收起来。",
+    "interrupt_text": "货账收起先停机织，织过的经纬没跟着打成死结。",
     "nodes": [
       {
         "after_years": 1,
@@ -452,7 +448,7 @@
       }
     ],
     "completion": {
-      "text": "【机房崛起】丝锦光润惊艳四方，订货单排到秦淮河对岸，江南丝界新巨头诞生！",
+      "text": "工料货账终于交得齐，机房少了一回扯皮返工。",
       "effects": [
         {
           "type": "flag_add",
@@ -465,7 +461,7 @@
   {
     "id": "CH_gm_arms",
     "name": "卫所军械清核",
-    "commitment": "三年库房整修，起步免费。清点旧账与修架自动推进，不另收费；军械作坊就在近旁，期间可能遇火药意外，先辨退路、失手再由工友救援，两次检定都失败才会丧命，不要求你点火试器。末年掷D20交接，符合资格时由你决定是否争取军资协理官身份。末关不另收费，也可保留身份专心养家，或退出评定转为传艺济邻；养家有进账与忙累，传艺换照应。末关检定失败会中断，工坊毁坏或重伤也会打断安排。推进前可暂停或退出这条事业，退出后不再遭遇这条事业的作坊事故；已花费用不退，已学本事保留。",
+    "commitment": "三年免费；自动清库修架，邻坊事故连败两检可亡；末关D20争名或养家传艺，失败重伤毁坊会停且退出不退旧成本但留技。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -487,7 +483,7 @@
         }
       ]
     },
-    "interrupt_text": "库房清点暂且停下，账册先收起来。",
+    "interrupt_text": "旧库账先卷好离场，钥匙交回不等于记性清零。",
     "nodes": [
       {
         "after_years": 1,
@@ -503,7 +499,7 @@
       }
     ],
     "completion": {
-      "text": "旧账和库物交接清楚，钥匙也有了去处。",
+      "text": "旧账库物各有着落，钥匙终于不用替糊涂账背锅。",
       "effects": [
         {
           "type": "flag_add",
@@ -516,7 +512,7 @@
   {
     "id": "CH_gm_water",
     "name": "小冰期凿井抗旱",
-    "commitment": "三年钻研甘泉排班！深井轮值自动推进，末年掷D20交接班，解决全街饮水大计。旱情虽重，我井水长清！",
+    "commitment": "三年免费，井边轮值自动推进；末关D20交接可争名或养家传艺；失败重伤流离会停，退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -538,7 +534,7 @@
         }
       ]
     },
-    "interrupt_text": "你退出井边轮值，名单交给乡邻。",
+    "interrupt_text": "退出井边轮值先回家，名单交清不让水桶白排队。",
     "nodes": [
       {
         "after_years": 1,
@@ -554,7 +550,7 @@
       }
     ],
     "completion": {
-      "text": "【甘泉活人】井水清冽甘甜如蜜，全街男女老少红润健康，奉你为活水仙人！",
+      "text": "井边轮值终于交清楚，水桶多也不必靠嗓门抢号。",
       "effects": [
         {
           "type": "flag_add",
@@ -567,7 +563,7 @@
   {
     "id": "CH_gm_fort",
     "name": "合仓深垒守望",
-    "commitment": "三年深挖洞广积粮！起步合仓管粮，自动推进清点；末年掷D20议定冲刺坊里甲首/族老，亦可稳当顾家或传授苟命避险宝典。天下大乱，我自稳如泰山！",
+    "commitment": "三年免费，合仓清点自动推进；末关D20争名或养家传艺；失败重伤流离会停，退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -589,7 +585,7 @@
         }
       ]
     },
-    "interrupt_text": "合仓的活暂且停下，仓账交给街坊。",
+    "interrupt_text": "合仓账交给街坊保管，停活不把原来的米袋抹掉。",
     "nodes": [
       {
         "after_years": 1,
@@ -605,7 +601,7 @@
       }
     ],
     "completion": {
-      "text": "【苟道大成】粮满仓堡筑成，任凭外界风吹雨打，堡内歌舞升平米肉飘香！",
+      "text": "合仓与修垒有了交接单，街坊的米袋终于不白排班。",
       "effects": [
         {
           "type": "flag_add",
@@ -618,7 +614,7 @@
   {
     "id": "CH_MENTOR",
     "name": "传授百工秘技",
-    "commitment": "两年传授手艺，起步免费。示范教活自动推进，不另收费；末年自动掷D20看后辈接活，成功办完差事，不改变身份。末关不另收费，末关检定失败会中断，流离失所或重伤也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "commitment": "两年免费，自动教活且末关D20看接班；失败重伤流离会停；不改身份，退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -640,7 +636,7 @@
         }
       ]
     },
-    "interrupt_text": "传授手艺暂且停下，后辈先自行练习。",
+    "interrupt_text": "传艺先歇留好图样，后辈没跟着师傅一块放假。",
     "nodes": [
       {
         "after_years": 1,
@@ -652,7 +648,7 @@
       }
     ],
     "completion": {
-      "text": "后辈能独自接活，你的经验也有人接着用。",
+      "text": "后辈能独自接活了，老师傅终于有空把饭吃热。",
       "effects": [
         {
           "type": "flag_add",
@@ -665,7 +661,7 @@
   {
     "id": "CH_STUDY",
     "name": "研读经世奇书",
-    "commitment": "两年借书识字，起步免费。以扫院换借书，常规读写自动推进，不另收费；末年自动掷D20考记账，成功读完功课，不改变身份。末关不另收费，末关检定失败会中断，流离失所也会打断安排。推进前可暂停或退出这条事业，已花费用不退，已学本事保留。",
+    "commitment": "两年免费，以扫院换借书自动读写；末关D20核账，失败流离会停；不改身份且退出仍留本事。",
     "priority": 20,
     "interrupt_condition": {
       "op": "any",
@@ -682,7 +678,7 @@
         }
       ]
     },
-    "interrupt_text": "识字暂且停下，借来的书先收起来。",
+    "interrupt_text": "借来的书先收好停课，扫过的院子不收回认过的字。",
     "nodes": [
       {
         "after_years": 1,
@@ -694,11 +690,465 @@
       }
     ],
     "completion": {
-      "text": "你学会认字记账，往后还可以继续读。",
+      "text": "字和账都认得清楚，扫院扫出一份不必退回的本事。",
       "effects": [
         {
           "type": "flag_add",
           "id": "F_STUDY_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_CORN_KING",
+    "name": "玉米试田济邻",
+    "commitment": "免费；1/3/6年试田合仓济邻，可委托退出；重伤流离会停，耐旱不免水；甲申晚开局另办护粮。",
+    "priority": 40,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        }
+      ]
+    },
+    "interrupt_text": "种袋先随人避险，试田停工旧泥账照样认得路。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_CORN_TRIAL"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_CORN_STORE"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_CORN_RELIEF"
+      }
+    ],
+    "completion": {
+      "text": "试田泥账交给街坊，玉米耐旱也没拿到免水假条。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_CORN_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_HEALER_SAGE",
+    "name": "医圣守册",
+    "commitment": "免费；1/3/6年学边界清洁与协作，可退出；重伤断路会停且药量有限；甲申晚开局另办救助。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "断路先收好有限药盒，跟诊停了手册不必跟着失业。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_HEALER_NODE_1"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_HEALER_NODE_2"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_HEALER_NODE_3"
+      }
+    ],
+    "completion": {
+      "text": "照护章程有人来接班，药盒终于不用冒充百宝箱。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_HEALER_MAIN_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+    "name": "手摇灯下捕神路",
+    "commitment": "免费；1/3/6年搜证巡夜护送，可退出；重伤断路会停且灯须手摇；甲申晚开局另办照路。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "摇把收进布袋先歇工，旧巡夜单不再重复盖领赏章。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_FLASHLIGHT_EVIDENCE"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_FLASHLIGHT_PATROL"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_FLASHLIGHT_ESCORT"
+      }
+    ],
+    "completion": {
+      "text": "巡夜簿终于写满三页，街坊多煮一碗面给摇灯人。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_FLASHLIGHT_MAIN_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_CALCULATOR_FINANCE",
+    "name": "借光清账",
+    "commitment": "八年免费，1/3/6/8年自动清账；末关D20验收或济邻，失败重伤流离断路会停；退出留本事。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "账册装箱随人先避险，停的是差事不是学会的乘除。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_CALCULATOR_CORRUPT"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_CALCULATOR_SUPPLY"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_CALCULATOR_MINISTRY"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_MOD_CALCULATOR_SSR_TREASURY"
+      }
+    ],
+    "completion": {
+      "text": "签单底账各留一份，算器歇工也有人接着复核。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_CALCULATOR_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_GLUE_ARTISAN",
+    "name": "小胶大工序",
+    "commitment": "八年免费，1/3/6/8年自动画图试样；末关D20验收或济邻，失败重伤流离断路会停；胶不碰高温承重且退出留技。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "合刀收胶随工友避险，工坊暂停图样还认得来路。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_GLUE_PORCELAIN_MASTER"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_SWISS_CHIEF"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_SWISS_GUNSMITH"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_MOD_SWISS_BOOK"
+      }
+    ],
+    "completion": {
+      "text": "徒弟领走留样工序册，没胶可用也会先查材料。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_GLUE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_LIGHTER_VETERAN",
+    "name": "风雨护火粮道",
+    "commitment": "八年免费，1/3/6/8年自动护火；末关D20验收或交班，失败重伤流离断路会停；燃料有限且退出留本事。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_FUEL_EMPTY"
+        }
+      ]
+    },
+    "interrupt_text": "收紧火源随队先避险，粮道差事停了探路本事还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_OIL_FOLK_DOCTOR"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_LIGHTER_ARMY_REFORM"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_LIGHTER_PALACE_PRESENT"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_MOD_LIGHTER_DYNASTY_MIRACLE"
+      }
+    ],
+    "completion": {
+      "text": "护火记要交给接班人，火机不必再替整队人加班。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_LIGHTER_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_NAT_BOWL_TYCOON",
+    "name": "破碗明价修街",
+    "commitment": "六年免费，1/3/6年自动学经营；末关D20验收或济邻，失败重伤流离断路会停；盲买须财力4且连败可亡；退出留技。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "破碗收进布袋随邻走，停摊不把旧信誉一起丢掉。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_NAT_BOWL_STALL"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_NAT_BOWL_SHOP"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_NAT_BOWL_STREET"
+      }
+    ],
+    "completion": {
+      "text": "公棚修好街坊各守摊，破碗还在柜上压着公道价。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_NAT_BOWL_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_NAT_SCHOLAR_MINISTER",
+    "name": "旧书新秤经世录",
+    "commitment": "八年免费，1/3/6/8年自动核实务；末关D20验收或济邻，失败重伤流离断路会停；运卷有救援检定且连败可亡；退出留技。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "蒙书压好凭票先避险，停差事不把认过的字收回。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_NATIVE_SCALES_CUNNING"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_NATIVE_SCALES_SILVER"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_NATIVE_BOOK_PETITION"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_NAT_BOOK_GOVERNANCE"
+      }
+    ],
+    "completion": {
+      "text": "实务手册交给后来人，小秤和旧书都不必装万能。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_NAT_BOOK_DONE"
         }
       ],
       "next_stage_id": null

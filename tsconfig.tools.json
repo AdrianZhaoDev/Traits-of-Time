@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.core.json",
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "paths": {
+      "cc": ["./tests/mocks/cc-mock.ts"]
+    },
     "types": [
       "node"
     ]

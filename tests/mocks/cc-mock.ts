@@ -44,6 +44,9 @@ export class Color {
 
 export class Component {
   node: Node;
+  enabled = true;
+  get isValid(): boolean { return this.node.isValid; }
+  get enabledInHierarchy(): boolean { return this.enabled && this.node.activeInHierarchy; }
   constructor() {
     this.node = new Node();
   }
@@ -53,6 +56,10 @@ export class Component {
   addComponent<T extends Component>(type: new () => T): T {
     return this.node.addComponent(type);
   }
+}
+
+export function isValid(value: { isValid?: boolean } | null | undefined, _strictMode = false): boolean {
+  return value !== null && value !== undefined && value.isValid !== false;
 }
 
 export class UITransform extends Component {
@@ -90,6 +97,8 @@ export class Label extends Component {
   color: Color = new Color();
   overflow: number = 0;
   horizontalAlign: number = 0;
+  verticalAlign: number = 0;
+  isBold: boolean = false;
   updateRenderData(_force?: boolean): void {}
   static Overflow = {
     NONE: 0,
@@ -102,15 +111,43 @@ export class Label extends Component {
     CENTER: 1,
     RIGHT: 2,
   };
+  static VerticalAlign = { TOP: 0, CENTER: 1, BOTTOM: 2 };
 }
 
-export class SpriteFrame {}
+export class Texture2D {
+  isValid = true;
+  static Filter = { NEAREST: 0, NONE: 0 };
+  static WrapMode = { CLAMP_TO_EDGE: 0 };
+  setFilters(_min: number, _mag: number): void {}
+  setMipFilter(_filter: number): void {}
+  setWrapMode(_s: number, _t: number): void {}
+}
+
+export class SpriteFrame {
+  isValid = true;
+  texture: Texture2D | null = null;
+  packable = true;
+}
+
+export class SpriteAtlas {
+  getTexture(): Texture2D | null { return null; }
+  getSpriteFrame(_name: string): SpriteFrame | null { return null; }
+  addRef(): void {}
+  decRef(): void {}
+}
+
+export const resources = {
+  load(_path: string, _type: typeof SpriteAtlas, callback: (error: Error | null, asset: SpriteAtlas | null) => void): void {
+    callback(new Error('Resource loading is not available in the Cocos test double'), null);
+  },
+};
 
 export class Sprite extends Component {
   color: Color = new Color();
   spriteFrame: SpriteFrame | null = null;
   type: number = 0;
   sizeMode: number = 0;
+  trim = true;
   static Type = {
     SIMPLE: 0,
     SLICED: 1,
@@ -137,11 +174,21 @@ export class Graphics extends Component {
 }
 
 export class ScrollView extends Component {
+  horizontal: boolean = true;
+  vertical: boolean = true;
   content: Node | null = null;
+  cancelInnerEvents = true;
   scrollToBottom(_duration?: number): void {}
+  stopAutoScroll(): void {}
+  getScrollOffset(): { x: number; y: number } { return { x: 0, y: 0 }; }
+  scrollToOffset(_offset: { x: number; y: number }, _duration?: number): void {}
 }
 
-export class Button extends Component {}
+export class Button extends Component {
+  static Transition = { NONE: 0 };
+  interactable = true;
+  transition = Button.Transition.NONE;
+}
 
 export class Mask extends Component {}
 export class BlockInputEvents extends Component {}
@@ -170,6 +217,7 @@ export class Layout extends Component {
   };
 }
 export interface EventTouch {
+  propagationStopped: boolean;
   getUILocation(): { x: number; y: number };
 }
 
@@ -182,11 +230,28 @@ export class Node {
   scale: Vec3 = new Vec3(1, 1, 1);
   angle: number = 0;
   children: Node[] = [];
+  private _parent: Node | null = null;
+  get activeInHierarchy(): boolean { return this.isValid && this.active && (!this.parent || this.parent.activeInHierarchy); }
+  get eulerAngles(): Vec3 { return new Vec3(0, 0, this.angle); }
   components: Component[] = [];
   eventListeners: Map<string, Array<(...args: any[]) => void>> = new Map();
 
   constructor(name: string = '') {
     this.name = name;
+  }
+
+  get parent(): Node | null {
+    return this._parent;
+  }
+
+  set parent(parent: Node | null) {
+    if (this._parent === parent) return;
+    if (this._parent) {
+      const index = this._parent.children.indexOf(this);
+      if (index !== -1) this._parent.children.splice(index, 1);
+    }
+    this._parent = parent;
+    if (parent) parent.children.push(this);
   }
 
   addComponent<T extends Component>(type: new () => T): T {
@@ -204,23 +269,51 @@ export class Node {
   }
 
   addChild(child: Node): void {
-    this.children.push(child);
+    child.parent = this;
+  }
+
+  getChildByName(name: string): Node | null {
+    return this.children.find(child => child.name === name) ?? null;
+  }
+
+  removeChild(child: Node): void {
+    if (child.parent === this) child.parent = null;
   }
 
   removeAllChildren(): void {
-    this.children = [];
+    for (const child of this.children) child._parent = null;
+    this.children.length = 0;
   }
 
-  setScale(x: number, y: number, z: number = 1): void {
-    this.scale.set(x, y, z);
+  destroy(): boolean {
+    if (!this.isValid) return false;
+    // Tests have no engine frame loop, so finish node destruction synchronously.
+    this.isValid = false;
+    this.active = false;
+    this.parent = null;
+    while (this.children.length > 0) {
+      const child = this.children[this.children.length - 1];
+      child.destroy();
+      this.removeChild(child);
+    }
+    this.eventListeners.clear();
+    this.components.length = 0;
+    return true;
   }
 
-  setPosition(x: number, y: number, z: number = 0): void {
-    this.position.set(x, y, z);
+  setScale(value: number | Vec3, y?: number, z: number = 1): void {
+    if (!this.isValid) throw new Error('Cannot transform a destroyed Cocos node');
+    if (typeof value === 'number') this.scale.set(value, y ?? value, z);
+    else this.scale.set(value.x, value.y, value.z);
   }
 
-  setRotationFromEuler(_x: number, _y: number, z: number): void {
-    this.angle = z;
+  setPosition(value: number | Vec3, y?: number, z: number = 0): void {
+    if (typeof value === 'number') this.position.set(value, y ?? 0, z);
+    else this.position.set(value.x, value.y, value.z);
+  }
+
+  setRotationFromEuler(value: number | Vec3, _y?: number, z?: number): void {
+    this.angle = typeof value === 'number' ? z ?? 0 : value.z;
   }
 
   on(type: string, cb: (...args: any[]) => void, _target?: any): void {
@@ -232,10 +325,16 @@ export class Node {
     arr.push(cb);
   }
 
-  emit(type: string, ...args: any[]): void {
+  off(type: string, callback: (...args: unknown[]) => void, _target?: unknown): void {
+    const listeners = this.eventListeners.get(type);
+    if (listeners) this.eventListeners.set(type, listeners.filter(item => item !== callback));
+  }
+
+  emit(type: string, ...args: unknown[]): void {
     const arr = this.eventListeners.get(type);
     if (arr) {
-      for (const cb of arr) cb(...args);
+      const eventArgs = args.length || !type.startsWith('touch-') ? args : [{ propagationStopped: false, getUILocation: () => ({ x: 0, y: 0 }) }];
+      for (const cb of arr) cb(...eventArgs);
     }
   }
 
@@ -255,6 +354,18 @@ export const Layers = {
     UI_3D: 3,
   },
 };
+
+export const screen = new Node('Screen');
+export const view = {
+  getVisibleSize: () => ({ width: 750, height: 1334 }),
+  getFrameSize: () => ({ width: 750, height: 1334 }),
+  setDesignResolutionSize(_width: number, _height: number, _policy: number): void {},
+};
+export const ResolutionPolicy = { FIXED_WIDTH: 3 };
+
+export class Tween {
+  static stopAllByTarget(_target: unknown): void {}
+}
 
 export const _decorator = {
   ccclass: (_name?: string) => (target: any) => target,
@@ -288,6 +399,10 @@ export function tween<T = unknown>(_target?: T): MockTween<T> {
       if (!hasDelay) {
         cb();
       }
+      return chain;
+    },
+    // Keep perpetual animations chainable without starting an endless test timer.
+    repeatForever(_subTween?: MockTween<unknown>) {
       return chain;
     },
     start() {

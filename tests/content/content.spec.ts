@@ -3,7 +3,8 @@ import { mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { loadContent } from '../../tools/lib/ContentLoader.js';
 import { ContentLoadError } from '../../assets/scripts/application/ContentPackage.js';
-import { canonicalJson, sha256 } from '../../tools/lib/canonical.js';
+import { sha256 } from '../../tools/lib/canonical.js';
+import { canonicalJson, sha256Json } from '../../assets/scripts/core/persistence/JsonDigest.js';
 import { validateContent } from '../../assets/scripts/core/content/ContentValidator.js';
 import { createContentRegistry } from '../../assets/scripts/core/content/ContentRegistry.js';
 import type { ContentBundle, Condition } from '../../assets/scripts/core/types/content.generated.js';
@@ -287,6 +288,17 @@ describe('structural validation', () => {
     });
     await expectIssue(directory, 'SCHEMA_INVALID', 'pools.json', '/0/entries/0/weight');
     await expectIssue(directory, 'SCHEMA_INVALID', 'rules.json', '/events/per_year');
+  });
+
+  it.each([-1, 0.5, Number.MAX_SAFE_INTEGER + 1])('rejects invalid random scheduling priority %s', async (priority) => {
+    const bundle = await loadTemplate();
+    const index = bundle.events.findIndex(event => event.trigger.kind === 'random');
+    const trigger = bundle.events[index]!.trigger;
+    if (trigger.kind !== 'random') throw new Error('Expected random fixture');
+    trigger.priority = priority;
+    expect(validateContent(bundle)).toMatchObject({ ok: false, issues: expect.arrayContaining([
+      expect.objectContaining({ code: 'SCHEMA_INVALID', file: 'events.json', path: `/${index}/trigger/priority` }),
+    ]) });
   });
 
   it('rejects non-finite values from the direct core validation API', async () => {
@@ -607,6 +619,11 @@ describe('canonical JSON', () => {
     expect(canonicalJson({ z: [2, 1], a: { 中: '文字', a: -0 } })).toBe('{"a":{"a":0,"中":"文字"},"z":[2,1]}');
     expect(sha256({ b: 2, a: 1 })).toBe(sha256({ a: 1, b: 2 }));
     expect(sha256([1, 2])).not.toBe(sha256([2, 1]));
+  });
+
+  it('matches the CLI digest across UTF-8 and SHA padding block boundaries', () => {
+    const values = [null, {}, { z: [2, 1], a: '中文🕯️\ud800' }, ...[53, 54, 61, 62, 63, 126].map(length => 'a'.repeat(length)), '汉'.repeat(18)];
+    for (const value of values) expect(sha256Json(value)).toBe(sha256(value));
   });
 
   it('rejects values outside the JSON domain instead of silently changing them', () => {

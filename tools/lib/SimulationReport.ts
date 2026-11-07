@@ -34,7 +34,7 @@ interface Stratum {
   ages: number[]; years: number[]; inputs: number[]; decisions: number[]; early: number;
   death_counts: Record<string, number>; ending_counts: Record<string, number>;
   chain_started: number; chain_completed: number; chain_interrupted: number;
-  automatic_events: number; choice_events: number;
+  automatic_events: number; choice_events: number; card_selections: number;
   card_counts: Record<string, number>; start_year_counts: Record<string, number>; origin_counts: Record<string, number>;
   final_attributes: AttributeAggregates; final_totals: NumericAggregate; dice_total: number; dice_success: number;
   card_event_triggers: number;
@@ -46,6 +46,8 @@ export class LifeStatistics {
   private readonly cardGatedEvents = new Map<string, Set<string>>();
   private automaticEvents = 0;
   private choiceEvents = 0;
+  private endedRuns = 0;
+  private cardSelections = 0;
   private readonly decisions: number[] = [];
   private readonly cardCounts = counts();
   private readonly startYearCounts = counts();
@@ -71,6 +73,7 @@ export class LifeStatistics {
     }
   }
   add(report: EndingReport, save: GameSave, blockingInputs: number) {
+    this.endedRuns++;
     const ageBand = this.content.rules.age_bands.find(band => report.start_age >= band.min && report.start_age <= band.max);
     if (!ageBand) throw new Error(`未找到开局年龄档：${report.start_age}`);
     const age_band_id = ageBand.id;
@@ -82,7 +85,7 @@ export class LifeStatistics {
     if (!group) {
       group = { age_band_id, path_category, samples: 0, ages: [], years: [], inputs: [], decisions: [], early: 0,
         death_counts: counts(), ending_counts: counts(), chain_started: 0, chain_completed: 0, chain_interrupted: 0,
-        automatic_events: 0, choice_events: 0, card_counts: counts(), start_year_counts: counts(), origin_counts: counts(),
+        automatic_events: 0, choice_events: 0, card_selections: 0, card_counts: counts(), start_year_counts: counts(), origin_counts: counts(),
         final_attributes: aggregate(), final_totals: { values: [], capped: 0 }, dice_total: 0, dice_success: 0, card_event_triggers: 0 };
       this.strata.set(key, group);
     }
@@ -104,11 +107,14 @@ export class LifeStatistics {
     let automatic_events = 0;
     let choice_events = 0;
     let player_decisions = 0;
+    let card_selections = 0;
     let card_id: string | null = null;
     let origin_id: string | null = null;
     for (const log of save.payload.logs) {
       if (log.type === 'opening') {
         card_id = log.data.card_id; origin_id = log.data.background_id;
+      } else if (log.type === 'card_selected') {
+        card_selections++;
       } else if (log.type === 'option') {
         player_decisions++;
       } else if (log.type === 'event') {
@@ -124,12 +130,13 @@ export class LifeStatistics {
       }
     }
     group.decisions.push(player_decisions); this.decisions.push(player_decisions);
+    group.card_selections += card_selections; this.cardSelections += card_selections;
     group.automatic_events += automatic_events; group.choice_events += choice_events;
     this.automaticEvents += automatic_events; this.choiceEvents += choice_events;
     if (card_id !== null) { increment(group.card_counts, card_id); increment(this.cardCounts, card_id); }
     if (origin_id !== null) { increment(group.origin_counts, origin_id); increment(this.originCounts, origin_id); }
     increment(group.start_year_counts, String(report.start_year)); increment(this.startYearCounts, String(report.start_year));
-    return { age_band_id, path_category, automatic_events, choice_events, player_decisions,
+    return { age_band_id, path_category, automatic_events, choice_events, player_decisions, card_selections,
       auto_ratio: autoRatio(automatic_events, choice_events), card_id, start_year: report.start_year, origin_id };
   }
   private numericSummary(values: NumericAggregate, includeCap = true) {
@@ -142,10 +149,10 @@ export class LifeStatistics {
     return result;
   }
   summary() {
-    const ended_runs = this.decisions.length;
+    const ended_runs = this.endedRuns;
     const death_proportions = Object.fromEntries(Object.entries(this.deathCounts).map(([id, count]) => [id, proportion(count, ended_runs)]));
     const ending_proportions = Object.fromEntries(Object.entries(this.endingCounts).map(([id, count]) => [id, proportion(count, ended_runs)]));
-    return { sample_count: ended_runs, automatic_events: this.automaticEvents, choice_events: this.choiceEvents,
+    return { sample_count: ended_runs, automatic_events: this.automaticEvents, choice_events: this.choiceEvents, card_selections: this.cardSelections,
       player_decisions: decisionRange(this.decisions), auto_ratio: autoRatio(this.automaticEvents, this.choiceEvents),
       d20: { total: this.diceTotal, success: this.diceSuccess, success_rate: proportion(this.diceSuccess, this.diceTotal) },
       final_attributes: Object.fromEntries(ATTRIBUTES.map(attribute => [attribute, this.numericSummary(this.finalAttributes[attribute])])),
@@ -155,7 +162,7 @@ export class LifeStatistics {
       opening_card_total: Object.values(this.cardCounts).reduce((sum, count) => sum + count, 0), card_counts: this.cardCounts,
       card_event_trigger_total: Object.values(this.cardEventTriggers).reduce((sum, count) => sum + count, 0), card_event_triggers: this.cardEventTriggers,
       start_year_counts: this.startYearCounts, origin_counts: this.originCounts,
-      denominator: { ended_runs, note: 'death_counts、ending_counts、d20、最终属性和链统计均以 ended_runs 为分母；failed runs 不进入 EndingReport 聚合。' },
+      denominator: { ended_runs, total_attempts: this.diceTotal, chain_started: this.chainStarted, event_total: this.automaticEvents + this.choiceEvents, note: 'death_counts、ending_counts、终局属性以 ended_runs 为分母；d20.success_rate 以 total_attempts（实际骰子次数）为分母；chains.completion_rate 以 started 为分母；auto_ratio 以实际 automatic/choice 事件总数为分母；early_death_rate 以各分层 samples 为分母；failed runs 不进入 EndingReport 聚合。' },
       early_death_definition: { years_played_lte: 3, rate_denominator: 'stratum.samples' },
       path_category_definition: 'path_category 是按开局死亡、里程碑/重大路径和阻塞输入数分类，不是单纯按寿命长短分类。',
       strata: [...this.strata.values()].map(({ ages, years, inputs, decisions, early, final_attributes, final_totals, dice_total, dice_success, ...group }) => ({

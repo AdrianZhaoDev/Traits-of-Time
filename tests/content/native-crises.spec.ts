@@ -1,3 +1,4 @@
+import { startWithCard } from './card-selection.js';
 import { describe, expect, it } from 'vitest';
 import { loadContent } from '../../tools/lib/ContentLoader.js';
 import { GameEngine } from '../../assets/scripts/core/engine/GameEngine.js';
@@ -42,6 +43,11 @@ function scenario(source: ContentBundle, kind: Kind): ContentBundle {
     for (const node of bundle.chains.find(chain => chain.id === 'CH_gm_arms')!.nodes) selected.add(node.event_id);
   }
   bundle.events = bundle.events.filter(event => selected.has(event.id));
+  // Keep crisis conditions intact while excluding every production relic prologue.
+  const pool = bundle.pools.find(pool => pool.id === bundle.rules.opening.pool_id)!;
+  bundle.cards.push({ id: 'CARD_TEST_NATIVE', name: '试用布袋', description: '只供危机场景隔离，不进入生产卡池。', rarity: 'N', tags: ['native'] });
+  pool.entries.push({ card_id: 'CARD_TEST_NATIVE', weight: 1 });
+  for (const entry of pool.entries) entry.weight = entry.card_id === 'CARD_TEST_NATIVE' ? 1 : 0;
   const startYear = kind === 'WAR_CHAOS' ? 1642 : 1630;
   bundle.era.start_year = startYear;
   bundle.rules.opening.year_min = startYear;
@@ -65,7 +71,7 @@ describe('production native crises', () => {
     const seen = new Set<string>();
     for (let seed = 0; seed < 512 && seen.size < 3; seed++) {
       const engine = new GameEngine(bundle, fingerprint);
-      const opening = ok(engine.initGame({ seed }));
+      const opening = startWithCard(engine, { seed });
       expect(opening.pending?.kind).toBe('option');
       expect(engine.exportSave().payload.run.event_counts[event.id] ?? 0).toBe(0);
       const first = choose(engine, opening, kind === 'EXPLOSION' ? 'career_ch_gm_arms' : 'learning');
@@ -119,22 +125,27 @@ describe('production native crises', () => {
     const source = (await loadContent(templateDirectory)).bundle;
     const bundle = scenario(source, kind);
     const engine = new GameEngine(bundle, fingerprint);
-    const first = choose(engine, ok(engine.initGame({ seed: 1 })), 'learning');
+    const first = choose(engine, startWithCard(engine, { seed: 1 }), kind === 'EXPLOSION' ? 'career_ch_gm_arms' : 'learning');
     const event = bundle.events.find(event => event.id === `E_NATIVE_CRISIS_${kind}`)!;
     const context = conditionContext(first.state.player, first.state.timeline);
     const eligible = { ...context, active_chains: kind === 'EXPLOSION' ? ['CH_gm_arms'] : context.active_chains };
     expect(evaluateCondition(event.condition, eligible)).toBe(true);
-    const excluded = kind === 'EPIDEMIC' ? [{ ...eligible, physique: 3 }]
-      : kind === 'STARVATION' ? [{ ...eligible, wealth: 2 }, { ...eligible, physique: 3 }, { ...eligible, region_id: 'R_CAPITAL', flags: eligible.flags.filter(flag => flag !== 'F_ERA_DISPLACED') }]
+    const excluded = kind === 'EPIDEMIC' ? [{ ...eligible, physique: 4 }]
+      : kind === 'STARVATION' ? [{ ...eligible, wealth: 3 }, { ...eligible, physique: 5 }]
       : kind === 'EXPLOSION' ? [{ ...eligible, age: 17 }, { ...eligible, active_chains: [], flags: [...eligible.flags, 'F_CHAIN_FIREARMS_RESEARCH_STARTED', 'F_CH_gm_arms_STARTED'] }, { ...eligible, active_chains: [], completed_chains: ['CHAIN_FIREARMS_RESEARCH', 'CH_gm_arms'] }]
       : kind === 'DROWNING' ? [{ ...eligible, age: 10 }, { ...eligible, region_id: 'R_SHANBEI' }]
       : kind === 'POISON' ? [{ ...eligible, physique: 3 }, { ...eligible, wealth: 2 }]
-      : kind === 'FREEZING' ? [{ ...eligible, physique: 3 }, { ...eligible, wealth: 2 }]
-      : kind === 'BANDIT' ? [{ ...eligible, age: 13 }, { ...eligible, physique: 4 }]
-      : kind === 'CHARLATAN' ? [{ ...eligible, intelligence: 4 }, { ...eligible, physique: 4 }]
+      : kind === 'FREEZING' ? [{ ...eligible, physique: 5 }, { ...eligible, wealth: 3 }]
+      : kind === 'BANDIT' ? [{ ...eligible, age: 13 }, { ...eligible, physique: 6 }]
+      : kind === 'CHARLATAN' ? [{ ...eligible, intelligence: 5 }]
       : kind === 'WAR_CHAOS' ? [{ ...eligible, calendar_year: 1641 }, { ...eligible, age: 11 }]
-      : [{ ...eligible, wealth: 2 }, { ...eligible, age: 17 }];
-    if (kind === 'STARVATION') expect(evaluateCondition(event.condition, { ...eligible, region_id: 'R_CAPITAL', flags: [...eligible.flags, 'F_ERA_DISPLACED'] })).toBe(true);
+      : [{ ...eligible, wealth: 4 }, { ...eligible, age: 17 }];
+    for (const context of excluded) expect(evaluateCondition(event.condition, context), `${kind}: ${JSON.stringify(context)}`).toBe(false);
+    if (kind === 'EPIDEMIC') {
+      expect(evaluateCondition(event.condition, { ...eligible, calendar_year: 1641, physique: 5 })).toBe(true);
+      expect(evaluateCondition(event.condition, { ...eligible, calendar_year: 1644, physique: 6 })).toBe(false);
+      expect(evaluateCondition(event.condition, { ...eligible, calendar_year: 1645, physique: 4 })).toBe(false);
+    }
     if (kind === 'EXPLOSION') expect(evaluateCondition(event.condition, { ...eligible, active_chains: ['CHAIN_FIREARMS_RESEARCH'] })).toBe(true);
   });
 
@@ -143,7 +154,7 @@ describe('production native crises', () => {
     let abandoned = false;
     for (let seed = 0; seed < 64 && !abandoned; seed++) {
       const engine = new GameEngine(bundle, fingerprint);
-      const result = choose(engine, ok(engine.initGame({ seed })), 'career_ch_gm_arms');
+      const result = choose(engine, startWithCard(engine, { seed }), 'career_ch_gm_arms');
       if (result.pending) continue;
       const chain = result.state.player.chains.find(item => item.chain_id === 'CH_gm_arms')!;
       const after = ok(engine.abandonChain('leave-workshop', chain.instance_id));
@@ -157,15 +168,25 @@ describe('production native crises', () => {
     expect(abandoned).toBe(true);
   });
 
-  it('keeps the first production encounter a direction choice before every crisis', async () => {
+  it('keeps native-card opening directions ahead of every crisis', async () => {
     const source = (await loadContent(templateDirectory)).bundle;
-    for (let seed = 0; seed < 64; seed++) {
-      const engine = new GameEngine(source, fingerprint);
-      const result = ok(engine.initGame({ seed }));
-      expect(result.pending?.kind).toBe('option');
-      const opening = source.events.find(event => event.id === result.pending?.event_id)!;
-      expect(opening.trigger.kind).toBe('opening');
-      expect(engine.exportSave().payload.logs.some(entry => entry.type === 'death')).toBe(false);
+    for (const card of source.cards.filter(card => card.tags.includes('native'))) {
+      const bundle = structuredClone(source);
+      const pool = bundle.pools.find(pool => pool.id === bundle.rules.opening.pool_id)!;
+      for (const entry of pool.entries) entry.weight = entry.card_id === card.id ? 1 : 0;
+      for (let seed = 0; seed < 64; seed++) {
+        const engine = new GameEngine(bundle, fingerprint);
+        const result = startWithCard(engine, { seed });
+        const pending = result.pending;
+        expect(result.state.player.cards).toEqual([card.id]);
+        if (pending?.kind !== 'option') throw new Error(`Expected native opening choice for ${card.id}/${seed}`);
+        const opening = bundle.events.find(event => event.id === pending.event_id)!;
+        expect(opening.trigger.kind).toBe('opening');
+        expect(pending.options.filter(option => option.available).length).toBeGreaterThanOrEqual(2);
+        const logs = engine.exportSave().payload.logs;
+        expect(logs.filter(entry => entry.type === 'event').map(entry => entry.source_id)).toEqual([opening.id]);
+        expect(logs.some(entry => entry.type === 'death' || entry.type === 'dice')).toBe(false);
+      }
     }
   });
 });

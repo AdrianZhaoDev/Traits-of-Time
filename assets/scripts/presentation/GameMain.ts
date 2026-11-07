@@ -10,246 +10,328 @@ import {
   Layers,
   Mask,
   Graphics,
-  EventTouch,
-  v3,
-  UIOpacity,
   BlockInputEvents,
+  view,
+  screen,
+  ResolutionPolicy,
+  isValid,
 } from 'cc';
 import { GameEngine } from '../core/engine/GameEngine';
 import { GameSession, type SessionSave } from '../application/GameSession';
+import { sha256Json } from '../core/persistence/JsonDigest';
 import { getNativeMingEndContent } from '../application/NativeContentLoader';
-import type { GameView, PendingDecision, LogEntry } from '../core/types/schema';
+import type { GameView, PendingDecision, LogEntry, EndingReport } from '../core/types/schema';
 import { EnumMapper } from './EnumMapper';
 import { LogParser, FoldItemData } from './LogParser';
 import { EventFoldItem } from './EventFoldItem';
 import { UIAnimController } from './UIAnimController';
 import { MemorialCard } from './MemorialCard';
 import { RelicBarController } from './RelicBarController';
+import { PixelFXController } from './PixelFXController';
 
 const { ccclass } = _decorator;
 
+const VIEW = {
+  width: 750,
+  height: 1334,
+  hudHeight: 220,
+  bodyHeight: 934,
+  footerHeight: 180,
+  logWidth: 630,
+  foldWidth: 590,
+  shelfWidth: 120,
+};
+const HOLD_DELAY = 0.35;
+const HOLD_INTERVAL = 0.22;
+
+const INK = {
+  background: new Color(19, 21, 28, 255),
+  hud: new Color(22, 25, 34, 255),
+  panel: new Color(26, 29, 38, 255),
+  raised: new Color(34, 38, 51, 255),
+  inset: new Color(17, 19, 26, 255),
+  border: new Color(53, 59, 73, 255),
+  borderLight: new Color(82, 91, 110, 255),
+  text: new Color(237, 241, 247, 255),
+  sub: new Color(140, 150, 168, 255),
+  cyan: new Color(0, 240, 255, 255),
+  gold: new Color(255, 190, 11, 255),
+  green: new Color(5, 223, 183, 255),
+  red: new Color(255, 42, 95, 255),
+  purple: new Color(199, 125, 255, 255),
+  selected: new Color(18, 40, 50, 255),
+  advance: new Color(25, 79, 59, 255),
+  advanceBorder: new Color(74, 222, 128, 255),
+  ended: new Color(87, 19, 31, 255),
+  scrim: new Color(9, 10, 14, 224),
+};
+
 /**
- * GameMain: 竖屏水墨沉浸式界面主控
- * 尺寸：750 x 1334
- * 模块：顶栏 HUD (汉化+五维铜钱)、折页日志视口、右侧博古架、奏折批红遮罩、青铜官印长按推进
+ * GameMain: 真实 GameSession 驱动的暗色竖屏主界面。
+ * 固定宽度 750：HUD 220、底部控制 180，日志和博古架随可视高度伸缩。
+ * 家当仅从开局三选一取得；终局与像素反馈均读取真实状态。
  */
 @ccclass('GameMain')
 export class GameMain extends Component {
   private session: GameSession | null = null;
   private currentView: GameView | null = null;
+  private viewportHeight = VIEW.height;
+  private contentHeight = VIEW.bodyHeight;
 
   // 节点引用
   private eraYearLabel: Label | null = null;
+  private turnLabel: Label | null = null;
   private identityLabel: Label | null = null;
   private identityPlaqueNode: Node | null = null;
   private statCoinNodes: Map<string, Node> = new Map();
   private prevStatValues: Map<string, number> = new Map();
 
-  private candleVignetteNode: Node | null = null;
+  private pixelFX: PixelFXController | null = null;
+  private endingPanel: Node | null = null;
+  private endingReport: EndingReport | null = null;
+  private terminalHandled = false;
+  private endingFXDelay = 0;
   private logContentNode: Node | null = null;
   private scrollView: ScrollView | null = null;
   private relicBar: RelicBarController | null = null;
+  private acquiredRelicId: string | null = null;
 
   // 抉择与遮罩
   private decisionOverlay: Node | null = null;
   private memorialCardComp: MemorialCard | null = null;
+  private cardChoiceNode: Node | null = null;
+  private selectedCardId: string | null = null;
+  private cardSubmitting = false;
+  private cardErrorLabel: Label | null = null;
+  private careerButton: Node | null = null;
+  private careerPanel: Node | null = null;
+  private careerBusy = false;
+  private stageInFlight: Promise<void> | null = null;
 
   // 底部推进官印交互
   private sealAdvanceBtn: Node | null = null;
-  private isSealHolding: boolean = false;
-  private holdTimer: number = 0;
-  private autoAdvanceInterval: number = 0;
+  private isSealHolding = false;
+  private holdTimer = 0;
+  private autoAdvanceInterval = 0;
+  private holdBeganEnded = false;
+  private advanceInFlight: Promise<void> | null = null;
 
   // 统计已渲染折页
   private renderedItemsCount: number = 0;
 
   onLoad(): void {
+    this.viewportHeight = view.getVisibleSize().height;
+    this.contentHeight = this.viewportHeight - VIEW.hudHeight - VIEW.footerHeight;
     this.buildBaseView();
+    screen.on('window-resize', this.resizeLayout, this);
     this.startNewLife();
   }
 
-  update(dt: number): void {
-    // 监听长按快进
-    if (this.isSealHolding) {
-      this.holdTimer += dt;
-      if (this.holdTimer >= 0.35) {
-        this.autoAdvanceInterval += dt;
-        if (this.autoAdvanceInterval >= 0.22) {
-          this.autoAdvanceInterval = 0;
-          this.onAdvance();
-        }
+  onEnable(): void {
+    this.resizeLayout();
+  }
+
+  onDisable(): void {
+    this.cancelSealHold();
+    this.holdBeganEnded = false;
+    this.endingFXDelay = 0;
+    UIAnimController.stopAnimations(this.node, true);
+    this.pixelFX?.stopTransient();
+  }
+
+  onDestroy(): void {
+    screen.off('window-resize', this.resizeLayout, this);
+    this.onDisable();
+    this.session = null;
+  }
+
+  private resizeLayout(): void {
+    const frame = view.getFrameSize();
+    const height = VIEW.width * frame.height / frame.width;
+    if (Math.abs(view.getVisibleSize().height - height) > 1) {
+      view.setDesignResolutionSize(VIEW.width, VIEW.height, ResolutionPolicy.FIXED_WIDTH);
+    }
+    this.viewportHeight = height;
+    this.contentHeight = height - VIEW.hudHeight - VIEW.footerHeight;
+    this.node.getComponent(UITransform)?.setContentSize(VIEW.width, height);
+    const background = this.node.getChildByName('BgLayer');
+    if (background) {
+      background.getComponent(UITransform)!.setContentSize(VIEW.width, height);
+      this.paintPanel(background, VIEW.width, height, INK.background, INK.background, 0);
+    }
+    this.node.getChildByName('TopHUD')?.setPosition(0, (height - VIEW.hudHeight) / 2, 0);
+    this.node.getChildByName('BottomControlBar')?.setPosition(0, -(height - VIEW.footerHeight) / 2, 0);
+    const center = this.node.getChildByName('CenterScrollArea');
+    center?.getComponent(UITransform)?.setContentSize(VIEW.width, this.contentHeight);
+    if (this.scrollView && this.logContentNode) {
+      const offset = this.scrollView.getScrollOffset();
+      this.scrollView.stopAutoScroll();
+      this.scrollView.node.getComponent(UITransform)!.setContentSize(VIEW.logWidth, this.contentHeight);
+      this.logContentNode.parent!.getComponent(UITransform)!.setContentSize(VIEW.logWidth, this.contentHeight);
+      this.logContentNode.setPosition(0, this.contentHeight / 2, 0);
+      this.updateLogContentLayout();
+      this.scrollView.scrollToOffset(offset, 0);
+    }
+    this.relicBar?.setHeight(this.contentHeight);
+    this.pixelFX?.setViewportHeight(height);
+    if (this.decisionOverlay) {
+      this.decisionOverlay.getComponent(UITransform)!.setContentSize(VIEW.width, height);
+      const mask = this.decisionOverlay.getChildByName('MaskBg')!;
+      mask.getComponent(UITransform)!.setContentSize(VIEW.width, height);
+      this.paintPanel(mask, VIEW.width, height, INK.scrim, INK.scrim, 0);
+      for (const child of this.decisionOverlay.children) {
+        if (child !== mask) this.fitModal(child);
       }
     }
   }
 
-  /**
-   * 纯代码构建 750x1334 沉浸式竖屏水墨节点树
-   */
+  private fitModal(node: Node): void {
+    const height = node.getComponent(UITransform)?.height;
+    if (!height) return;
+    const scale = Math.min(1, (this.viewportHeight - 48) / height);
+    node.setScale(scale, scale, 1);
+  }
+
+  update(dt: number): void {
+    if (this.endingFXDelay > 0) {
+      this.endingFXDelay -= dt;
+      if (this.endingFXDelay <= 0 && this.currentView?.status === 'ENDED') this.pixelFX?.play('ending');
+    }
+    if (!this.isSealHolding) return;
+    const previousHoldTimer = this.holdTimer;
+    this.holdTimer += dt;
+    if (this.holdTimer < HOLD_DELAY) return;
+    if (previousHoldTimer < HOLD_DELAY) {
+      this.autoAdvanceInterval = 0;
+      void this.onAdvance();
+      return;
+    }
+    this.autoAdvanceInterval += dt;
+    if (this.autoAdvanceInterval < HOLD_INTERVAL) return;
+    this.autoAdvanceInterval = 0;
+    void this.onAdvance();
+  }
+
+  /** 固定逻辑宽度，按实际可视高度构建首帧。 */
   private buildBaseView(): void {
     const root = this.node;
     root.layer = Layers.Enum.UI_2D;
     const rootTransform = root.getComponent(UITransform) || root.addComponent(UITransform);
-    rootTransform.setContentSize(750, 1334);
+    rootTransform.setContentSize(VIEW.width, this.viewportHeight);
 
-    // 0. 背景层：宣纸暗底与烛火暗角
     this.buildBackground(root);
-
-    // 1. 顶部水墨档案 HUD (710 x 160)
     this.buildTopHUD(root);
-
-    // 2. 中部核心区：左侧历史流折页 + 右侧博古架
     this.buildCenterArea(root);
-
-    // 3. 底部青铜官印与辅助控制区
     this.buildBottomControlBar(root);
 
-    // 4. 奏折抉择弹层 (必须处于最顶层以响应交互并遮罩底层)
+    // 特效无输入组件，位于普通界面之上、所有交互弹层之下。
+    const effectsNode = new Node('PixelFXLayer');
+    effectsNode.layer = Layers.Enum.UI_2D;
+    effectsNode.addComponent(UITransform).setContentSize(VIEW.width, this.viewportHeight);
+    root.addChild(effectsNode);
+    this.pixelFX = effectsNode.addComponent(PixelFXController);
+    this.pixelFX.setViewportHeight(this.viewportHeight);
     this.buildDecisionOverlay(root);
   }
 
   private buildBackground(root: Node): void {
-    const bgNode = new Node('BgLayer');
-    bgNode.layer = Layers.Enum.UI_2D;
-    const bgTrans = bgNode.addComponent(UITransform);
-    bgTrans.setContentSize(750, 1334);
-    const bgGfx = bgNode.addComponent(Graphics);
-    bgGfx.fillColor = new Color(30, 27, 24, 255); // #1E1B18 宣纸炭黑底
-    bgGfx.rect(-375, -667, 750, 1334);
-    bgGfx.fill();
-    root.addChild(bgNode);
-
-    // 烛火暗角
-    const candleNode = new Node('CandleVignette');
-    candleNode.layer = Layers.Enum.UI_2D;
-    const candleTrans = candleNode.addComponent(UITransform);
-    candleTrans.setContentSize(750, 1334);
-    const cGfx = candleNode.addComponent(Graphics);
-    cGfx.fillColor = new Color(0, 0, 0, 120);
-    cGfx.rect(-375, -667, 750, 1334);
-    cGfx.fill();
-    candleNode.addComponent(UIOpacity);
-    root.addChild(candleNode);
-    this.candleVignetteNode = candleNode;
+    const background = new Node('BgLayer');
+    background.layer = Layers.Enum.UI_2D;
+    background.addComponent(UITransform).setContentSize(VIEW.width, this.viewportHeight);
+    this.paintPanel(background, VIEW.width, this.viewportHeight, INK.background, INK.background, 0);
+    root.addChild(background);
   }
 
   private buildTopHUD(root: Node): void {
     const hudNode = new Node('TopHUD');
     hudNode.layer = Layers.Enum.UI_2D;
-    hudNode.setPosition(0, 567, 0);
-    const hudTrans = hudNode.addComponent(UITransform);
-    hudTrans.setContentSize(750, 200);
+    hudNode.setPosition(0, (this.viewportHeight - VIEW.hudHeight) / 2, 0);
+    hudNode.addComponent(UITransform).setContentSize(VIEW.width, VIEW.hudHeight);
+    this.paintPanel(hudNode, VIEW.width, VIEW.hudHeight, INK.hud, INK.border, 0);
     root.addChild(hudNode);
 
-    // 纪年与岁数 (EraAndAgeLabel)
-    const eraNode = new Node('EraAndAgeLabel');
-    eraNode.layer = Layers.Enum.UI_2D;
-    eraNode.setPosition(0, 55, 0);
-    const eraTrans = eraNode.addComponent(UITransform);
-    eraTrans.setContentSize(750, 36);
-    this.eraYearLabel = eraNode.addComponent(Label);
-    this.eraYearLabel.string = '大明崇祯纪事 · 正在启幕...';
-    this.eraYearLabel.fontSize = 24;
-    this.eraYearLabel.color = new Color(223, 204, 163, 255);
-    hudNode.addChild(eraNode);
+    this.eraYearLabel = this.createText(hudNode, 'EraAndAgeLabel', '正在启幕…', -103, 72, 496, 44, 28, INK.gold);
+    this.eraYearLabel.isBold = true;
+    const turnBadge = new Node('TurnBadge');
+    turnBadge.layer = Layers.Enum.UI_2D;
+    turnBadge.setPosition(257, 72, 0);
+    turnBadge.addComponent(UITransform).setContentSize(188, 38);
+    this.paintPanel(turnBadge, 188, 38, INK.raised, INK.raised, 4);
+    hudNode.addChild(turnBadge);
+    this.turnLabel = this.createText(turnBadge, 'TurnLabel', '等待开局', 0, 0, 180, 34, 20, INK.sub, Label.HorizontalAlign.CENTER);
 
-    // 身份腰牌容器 (IdentityPlaque)
     this.identityPlaqueNode = new Node('IdentityPlaque');
     this.identityPlaqueNode.layer = Layers.Enum.UI_2D;
-    this.identityPlaqueNode.setPosition(0, 15, 0);
-    const idTrans = this.identityPlaqueNode.addComponent(UITransform);
-    idTrans.setContentSize(640, 34);
-    this.identityLabel = this.identityPlaqueNode.addComponent(Label);
-    this.identityLabel.string = '身份: 测算命中... | 地区: 关陕 | 阶层: 平民';
-    this.identityLabel.fontSize = 18;
-    this.identityLabel.color = new Color(190, 180, 165, 255);
+    this.identityPlaqueNode.setPosition(0, 18, 0);
+    this.identityPlaqueNode.addComponent(UITransform).setContentSize(702, 48);
+    this.paintPanel(this.identityPlaqueNode, 702, 48, INK.inset, INK.border, 4);
     hudNode.addChild(this.identityPlaqueNode);
+    this.identityLabel = this.createText(this.identityPlaqueNode, 'IdentityLabel', '身份、地区与阶层正在载入…', 0, 0, 674, 42, 21, INK.text);
 
-    // 五维属性铜钱栏 (StatsCoinBar)
-    const coinBarNode = new Node('StatsCoinBar');
-    coinBarNode.layer = Layers.Enum.UI_2D;
-    coinBarNode.setPosition(0, -32, 0);
-    const barTrans = coinBarNode.addComponent(UITransform);
-    barTrans.setContentSize(700, 40);
-    hudNode.addChild(coinBarNode);
+    const statBar = new Node('StatsCoinBar');
+    statBar.layer = Layers.Enum.UI_2D;
+    statBar.setPosition(0, -68, 0);
+    statBar.addComponent(UITransform).setContentSize(VIEW.width, 84);
+    this.paintPanel(statBar, VIEW.width, 84, INK.inset, INK.border, 0);
+    hudNode.addChild(statBar);
 
     const stats = ['physique', 'wealth', 'intelligence', 'prestige', 'luck'];
-    const startX = -260;
-    const spacingX = 130;
-
-    stats.forEach((stKey, index) => {
-      const info = EnumMapper.translateStat(stKey);
-      const coinNode = new Node(`Coin_${stKey}`);
-      coinNode.layer = Layers.Enum.UI_2D;
-      coinNode.setPosition(startX + index * spacingX, 0, 0);
-      const cTrans = coinNode.addComponent(UITransform);
-      cTrans.setContentSize(120, 36);
-
-      const label = coinNode.addComponent(Label);
-      label.string = `${info.name}: 0`;
-      label.fontSize = 17;
-      label.color = new Color(210, 200, 180, 255);
-
-      coinBarNode.addChild(coinNode);
-      this.statCoinNodes.set(stKey, coinNode);
+    stats.forEach((key, index) => {
+      const cell = new Node(`StatCell_${key}`);
+      cell.layer = Layers.Enum.UI_2D;
+      cell.setPosition(-284 + index * 142, 0, 0);
+      cell.addComponent(UITransform).setContentSize(134, 70);
+      this.paintPanel(cell, 134, 70, INK.panel, INK.panel, 4);
+      statBar.addChild(cell);
+      this.createText(cell, 'StatName', EnumMapper.translateStat(key).name, 0, 21, 126, 24, 19, INK.sub, Label.HorizontalAlign.CENTER);
+      const value = this.createText(cell, `Coin_${key}`, '—', 0, -14, 118, 40, 28, key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text, Label.HorizontalAlign.CENTER);
+      value.isBold = true;
+      this.statCoinNodes.set(key, value.node);
     });
   }
 
   private buildCenterArea(root: Node): void {
     const centerNode = new Node('CenterScrollArea');
     centerNode.layer = Layers.Enum.UI_2D;
-    centerNode.setPosition(0, 20, 0);
-    const centerTrans = centerNode.addComponent(UITransform);
-    centerTrans.setContentSize(750, 880);
+    centerNode.setPosition(0, (VIEW.footerHeight - VIEW.hudHeight) / 2, 0);
+    centerNode.addComponent(UITransform).setContentSize(VIEW.width, this.contentHeight);
     root.addChild(centerNode);
 
-    // 左侧历史流视窗 (ScrollView, 680 x 880, X: -30)
     const scrollNode = new Node('EventScrollView');
     scrollNode.layer = Layers.Enum.UI_2D;
-    scrollNode.setPosition(-30, 0, 0);
-    const scrollTrans = scrollNode.addComponent(UITransform);
-    scrollTrans.setContentSize(680, 880);
+    scrollNode.setPosition(-VIEW.shelfWidth / 2, 0, 0);
+    scrollNode.addComponent(UITransform).setContentSize(VIEW.logWidth, this.contentHeight);
+    const viewport = new Node('Viewport');
+    viewport.layer = Layers.Enum.UI_2D;
+    viewport.addComponent(UITransform).setContentSize(VIEW.logWidth, this.contentHeight);
+    viewport.addComponent(Mask);
+    scrollNode.addChild(viewport);
 
-    // Viewport (Mask) - 居中且 AnchorX = 0.5, x = 0
-    const viewportNode = new Node('Viewport');
-    viewportNode.layer = Layers.Enum.UI_2D;
-    viewportNode.setPosition(0, 0, 0);
-    const vpTrans = viewportNode.addComponent(UITransform);
-    vpTrans.setAnchorPoint(0.5, 0.5);
-    vpTrans.setContentSize(680, 880);
-    viewportNode.addComponent(Mask);
-    scrollNode.addChild(viewportNode);
-
-    const scrollView = scrollNode.addComponent(ScrollView);
-    scrollView.horizontal = false;
-    scrollView.vertical = true;
-    this.scrollView = scrollView;
-
-    const contentNode = new Node('Content');
-    contentNode.layer = Layers.Enum.UI_2D;
-    const contentTrans = contentNode.addComponent(UITransform);
-    contentTrans.setContentSize(680, 880);
-    contentTrans.setAnchorPoint(0.5, 1);
-    contentNode.setPosition(0, 440, 0);
-    viewportNode.addChild(contentNode);
-    scrollView.content = contentNode;
-    this.logContentNode = contentNode;
+    const content = new Node('Content');
+    content.layer = Layers.Enum.UI_2D;
+    const contentTransform = content.addComponent(UITransform);
+    contentTransform.setAnchorPoint(0.5, 1);
+    contentTransform.setContentSize(VIEW.logWidth, this.contentHeight);
+    content.setPosition(0, this.contentHeight / 2, 0);
+    viewport.addChild(content);
+    const scroll = scrollNode.addComponent(ScrollView);
+    scroll.horizontal = false;
+    scroll.vertical = true;
+    scroll.content = content;
+    this.scrollView = scroll;
+    this.logContentNode = content;
     centerNode.addChild(scrollNode);
-
-    // 监听滚动实现历史折页岁月风化褪色
     scrollNode.on('scrolling', () => {
-      if (this.scrollView) {
-        UIAnimController.updateScrollWeathering(this.scrollView);
-      }
+      if (this.scrollView) UIAnimController.updateScrollWeathering(this.scrollView);
     });
 
-    // 右侧博古架 (60 x 880, X: 335)
     const relicNode = new Node('RightRelicBar');
     relicNode.layer = Layers.Enum.UI_2D;
-    relicNode.setPosition(335, 0, 0);
-    const relicTrans = relicNode.addComponent(UITransform);
-    relicTrans.setContentSize(60, 880);
-    this.relicBar = relicNode.addComponent(RelicBarController);
+    relicNode.setPosition(VIEW.logWidth / 2, 0, 0);
+    relicNode.addComponent(UITransform).setContentSize(VIEW.shelfWidth, this.contentHeight);
     centerNode.addChild(relicNode);
+    this.relicBar = relicNode.addComponent(RelicBarController);
+    this.relicBar.setHeight(this.contentHeight);
   }
 
   private buildDecisionOverlay(root: Node): void {
@@ -257,18 +339,15 @@ export class GameMain extends Component {
     overlayNode.layer = Layers.Enum.UI_2D;
     overlayNode.setPosition(0, 0, 0);
     const trans = overlayNode.addComponent(UITransform);
-    trans.setContentSize(750, 1334);
+    trans.setContentSize(VIEW.width, this.viewportHeight);
 
     // 半透明遮罩 (MaskBg)
     const maskBg = new Node('MaskBg');
     maskBg.layer = Layers.Enum.UI_2D;
     const mTrans = maskBg.addComponent(UITransform);
-    mTrans.setContentSize(750, 1334);
+    mTrans.setContentSize(VIEW.width, this.viewportHeight);
     maskBg.addComponent(BlockInputEvents);
-    const gfx = maskBg.addComponent(Graphics);
-    gfx.fillColor = new Color(0, 0, 0, 180);
-    gfx.rect(-375, -667, 750, 1334);
-    gfx.fill();
+    this.paintPanel(maskBg, VIEW.width, this.viewportHeight, INK.scrim, INK.scrim, 0);
     overlayNode.addChild(maskBg);
 
     // 奏折卡片 (MemorialCard)
@@ -285,130 +364,186 @@ export class GameMain extends Component {
   private buildBottomControlBar(root: Node): void {
     const barNode = new Node('BottomControlBar');
     barNode.layer = Layers.Enum.UI_2D;
-    barNode.setPosition(0, -547, 0);
-    const barTrans = barNode.addComponent(UITransform);
-    barTrans.setContentSize(750, 240);
+    barNode.setPosition(0, -(this.viewportHeight - VIEW.footerHeight) / 2, 0);
+    barNode.addComponent(UITransform).setContentSize(VIEW.width, VIEW.footerHeight);
+    this.paintPanel(barNode, VIEW.width, VIEW.footerHeight, INK.hud, INK.border, 0);
     root.addChild(barNode);
 
-    // 青铜官印大按钮 (推进流转)
-    const sealBtnNode = new Node('SealAdvanceBtn');
-    sealBtnNode.layer = Layers.Enum.UI_2D;
-    sealBtnNode.setPosition(0, 48, 0);
-    const sealTrans = sealBtnNode.addComponent(UITransform);
-    sealTrans.setContentSize(380, 72);
+    const advance = new Node('SealAdvanceBtn');
+    advance.layer = Layers.Enum.UI_2D;
+    advance.setPosition(0, 34, 0);
+    advance.addComponent(UITransform).setContentSize(702, 80);
+    this.paintPanel(advance, 702, 80, INK.advance, INK.advanceBorder, 10);
+    const label = this.createText(advance, 'BtnLabel', '等待选择随身家当', 0, 0, 654, 72, 27, INK.text, Label.HorizontalAlign.CENTER);
+    label.isBold = true;
+    this.bindSealEvents(advance);
+    barNode.addChild(advance);
+    this.sealAdvanceBtn = advance;
 
-    const btnGfx = sealBtnNode.addComponent(Graphics);
-    btnGfx.fillColor = new Color(45, 75, 60, 255); // 青铜官印墨绿底
-    btnGfx.roundRect(-190, -36, 380, 72, 10);
-    btnGfx.fill();
-    btnGfx.lineWidth = 2.5;
-    btnGfx.strokeColor = new Color(180, 140, 60, 255);
-    btnGfx.roundRect(-190, -36, 380, 72, 10);
-    btnGfx.stroke();
-
-    const labelNode = new Node('BtnLabel');
-    labelNode.layer = Layers.Enum.UI_2D;
-    const lTrans = labelNode.addComponent(UITransform);
-    lTrans.setContentSize(380, 72);
-    const label = labelNode.addComponent(Label);
-    label.string = '钤印流转 · 推进流年';
-    label.fontSize = 22;
-    label.color = new Color(235, 225, 205, 255);
-    sealBtnNode.addChild(labelNode);
-
-    this.bindSealEvents(sealBtnNode);
-    barNode.addChild(sealBtnNode);
-    this.sealAdvanceBtn = sealBtnNode;
-
-    // 辅助控制栏容器 (SubBtnLayout)
-    const subLayoutNode = new Node('SubBtnLayout');
-    subLayoutNode.layer = Layers.Enum.UI_2D;
-    subLayoutNode.setPosition(0, -42, 0);
-    const subTrans = subLayoutNode.addComponent(UITransform);
-    subTrans.setContentSize(700, 50);
-    barNode.addChild(subLayoutNode);
-
-    this.createButton(subLayoutNode, '重启人生', -220, 0, 180, 48, () => this.startNewLife());
-    this.createButton(subLayoutNode, '存档状态', 0, 0, 180, 48, () => this.showSaveTip());
-    this.createButton(subLayoutNode, '滚至最新', 220, 0, 180, 48, () => {
-      if (this.scrollView) this.scrollView.scrollToBottom(0.2);
+    const controls = new Node('SubBtnLayout');
+    controls.layer = Layers.Enum.UI_2D;
+    controls.setPosition(0, -40, 0);
+    controls.addComponent(UITransform).setContentSize(702, 48);
+    barNode.addChild(controls);
+    this.createButton(controls, '重启人生', -267, 0, 168, 48, () => this.startNewLife());
+    this.createButton(controls, '存档状态', -89, 0, 168, 48, () => this.showSaveTip());
+    this.careerButton = this.createButton(controls, '管理事业', 89, 0, 168, 48, () => {
+      if (this.currentView?.status === 'ENDED') this.showEndingSummary();
+      else this.openCareerManager();
+    });
+    this.careerButton.getComponent(Button)!.interactable = false;
+    this.createButton(controls, '滚至最新', 267, 0, 168, 48, () => {
+      this.scrollView?.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
     });
   }
   private bindSealEvents(btnNode: Node): void {
     btnNode.on(Node.EventType.TOUCH_START, () => {
-      this.isSealHolding = true;
-      this.holdTimer = 0;
-      this.autoAdvanceInterval = 0;
-      btnNode.setScale(0.95, 0.95, 1);
-    });
-
-    btnNode.on(Node.EventType.TOUCH_END, () => {
-      btnNode.setScale(1, 1, 1);
-      if (this.currentView && this.currentView.status === 'ENDED') {
-        // 死亡状态直接触发重启人生
-        this.startNewLife();
+      this.holdBeganEnded = false;
+      const status = this.currentView?.status;
+      if (!this.currentView || status === 'AWAITING_CARD') {
+        this.cancelSealHold();
         return;
       }
-      if (this.holdTimer < 0.35) {
-        // 短按推进单步
-        this.onAdvance();
+      this.holdBeganEnded = status === 'ENDED';
+      this.holdTimer = 0;
+      this.autoAdvanceInterval = 0;
+      if (status === 'ENDED') {
+        this.isSealHolding = false;
+        return;
       }
-      this.isSealHolding = false;
+
+      this.isSealHolding = true;
+      btnNode.setScale(0.98, 0.98, 1);
+      if (status === 'READY' || status === 'AWAITING_STAGE') {
+        void this.onAdvance();
+      }
+    });
+    btnNode.on(Node.EventType.TOUCH_END, () => {
+      const beganEnded = this.holdBeganEnded;
+      this.holdBeganEnded = false;
+      this.cancelSealHold();
+      if (!this.currentView || this.currentView.status === 'AWAITING_CARD') return;
+      if (this.currentView.status === 'ENDED') {
+        // 死于本次长按时保留终局；下一次明确点击才重启。
+        if (beganEnded) this.startNewLife();
+      }
     });
     btnNode.on(Node.EventType.TOUCH_CANCEL, () => {
-      btnNode.setScale(1, 1, 1);
-      this.isSealHolding = false;
+      this.holdBeganEnded = false;
+      this.cancelSealHold();
     });
   }
 
-  private startNewLife(): void {
+  private cancelSealHold(): void {
     this.isSealHolding = false;
+    this.holdTimer = 0;
+    this.autoAdvanceInterval = 0;
+    const seal = this.sealAdvanceBtn;
+    if (seal && isValid(seal, true)) seal.setScale(1, 1, 1);
+  }
+
+  private startNewLife(): void {
+    this.cancelSealHold();
+    this.holdBeganEnded = false;
+    UIAnimController.stopAnimations(this.node, true);
+    this.pixelFX?.stopTransient();
+    this.advanceInFlight = null;
+    this.prevStatValues.clear();
+    this.terminalHandled = false;
+    this.endingFXDelay = 0;
+    this.endingReport = null;
+    this.endingPanel?.destroy();
+    this.endingPanel = null;
+    this.currentView = null;
+    this.cardSubmitting = false;
+    this.stageInFlight = null;
+    this.careerBusy = false;
+    this.careerPanel?.destroy();
+    this.careerPanel = null;
+    this.selectedCardId = null;
+    this.acquiredRelicId = null;
+    this.relicBar?.reset();
+    this.cardChoiceNode?.destroy();
+    this.cardChoiceNode = null;
+    this.cardErrorLabel = null;
+    if (this.eraYearLabel) this.eraYearLabel.string = '正在启幕…';
+    if (this.turnLabel) this.turnLabel.string = '等待开局';
+    if (this.identityLabel) this.identityLabel.string = '身份、地区与阶层正在载入…';
+    for (const node of this.statCoinNodes.values()) {
+      const label = node.getComponent(Label);
+      if (label) label.string = '—';
+    }
+    if (this.careerButton) {
+      this.careerButton.getComponent(Button)!.interactable = false;
+      this.styleButton(this.careerButton, INK.raised, INK.border, INK.sub);
+      const title = this.careerButton.children.find(child => child.name === 'Title')?.getComponent(Label);
+      if (title) title.string = '管理事业';
+    }
+    this.updateSealButtonState(false);
+    if (this.decisionOverlay) this.decisionOverlay.active = false;
     if (this.logContentNode) {
+      for (const child of [...this.logContentNode.children]) child.destroy();
       this.logContentNode.removeAllChildren();
       const trans = this.logContentNode.getComponent(UITransform);
-      if (trans) trans.setContentSize(630, 800);
+      if (trans) trans.setContentSize(VIEW.logWidth, this.contentHeight);
+      this.logContentNode.setPosition(0, this.contentHeight / 2, 0);
+      this.scrollView?.stopAutoScroll();
     }
     this.renderedItemsCount = 0;
 
     const pkg = getNativeMingEndContent();
     const engine = new GameEngine(pkg.bundle, pkg.fingerprint);
     let saveSlot: unknown = null;
-    this.session = new GameSession(engine, {
-      hash: (val: unknown) => String(val),
+    const session = new GameSession(engine, {
+      hash: sha256Json,
       persist: async (save) => { saveSlot = structuredClone(save); },
       load: async () => saveSlot as SessionSave | null,
     });
 
-    this.session.initialize(1628).then((initResult) => {
+    this.session = session;
+    session.initialize(Math.floor(Math.random() * 0x1_0000_0000)).then((initResult) => {
+      if (this.session !== session) return;
       if (!initResult.ok) {
         this.appendSystemLog(`启动遇阻: ${initResult.error.message}`);
         return;
       }
       this.currentView = initResult.state;
       this.updateHUD(this.currentView);
-      this.updateSealButtonState(false);
 
-      this.appendSystemLog('【天启末造】大明崇祯元年，天象动荡，世事如棋。');
-      if (this.identityPlaqueNode) {
-        UIAnimController.playPlaqueSway(this.identityPlaqueNode);
-      }
+      this.appendSystemLog(`【人生启幕】${initResult.state.player.calendar_year}年，${initResult.state.player.age}岁。先选定一件随身家当，再续流年。`);
 
       this.renderPending(initResult.pending);
     }).catch((e) => {
-      this.appendSystemLog(`启动异常: ${String(e)}`);
+      if (this.session === session) this.appendSystemLog(`启动异常: ${String(e)}`);
     });
   }
 
-  private async onAdvance(): Promise<void> {
+  private onAdvance(): Promise<void> {
+    if (this.advanceInFlight) return this.advanceInFlight;
+    const run = this.advanceOnce();
+    let tracked: Promise<void>;
+    tracked = run.finally(() => {
+      if (this.advanceInFlight === tracked) this.advanceInFlight = null;
+    });
+    this.advanceInFlight = tracked;
+    return tracked;
+  }
+
+  private async advanceOnce(): Promise<void> {
     if (!this.session) return;
+    const session = this.session;
+    if (!this.currentView || this.currentView.status === 'AWAITING_CARD') {
+      this.cancelSealHold();
+      return;
+    }
     if (this.currentView && this.currentView.status === 'ENDED') {
-      this.isSealHolding = false;
+      this.cancelSealHold();
       this.appendSystemLog('【生平盖棺】尘埃落定，不可复进。请点击“重启人生”。');
       return;
     }
     // 如果当前有尚未完成的玩家选择，阻止盲目推进并弹出提示
     if (this.currentView && this.currentView.status === 'AWAITING_OPTION') {
-      this.isSealHolding = false;
+      this.cancelSealHold();
       if (this.decisionOverlay) this.decisionOverlay.active = true;
       this.appendSystemLog('【时局待定】当前有机缘抉择尚未定夺，请先批红呈阅。');
       return;
@@ -420,9 +555,10 @@ export class GameMain extends Component {
     }
 
     try {
-      const res = await this.session.command({ type: 'next' });
+      const res = await session.command({ type: 'next' });
+      if (this.session !== session) return;
       if (!res.ok) {
-        this.isSealHolding = false;
+        this.cancelSealHold();
         this.appendSystemLog(`推进遇阻: ${res.error.message}`);
         return;
       }
@@ -443,68 +579,61 @@ export class GameMain extends Component {
       this.renderPending(res.pending);
 
       if (this.currentView && this.currentView.status === 'ENDED') {
-        this.isSealHolding = false;
-        this.updateSealButtonState(true);
+        this.cancelSealHold();
         this.appendEndingHint();
       }
 
       if (this.scrollView) {
-        this.scrollView.scrollToBottom(0.2);
+        this.scrollView.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
         UIAnimController.updateScrollWeathering(this.scrollView);
       }
     } catch (e) {
-      this.isSealHolding = false;
+      if (this.session !== session) return;
+      this.cancelSealHold();
       this.appendSystemLog(`推进异常: ${String(e)}`);
     }
   }
 
   private updateHUD(view: GameView): void {
-    const p = view.player;
+    const player = view.player;
+    const isEnded = view.status === 'ENDED';
+    if (view.status === 'AWAITING_CARD' || view.status === 'AWAITING_OPTION' || view.status === 'ENDED') this.cancelSealHold();
+    if (this.careerButton) {
+      const canManage = (view.status === 'READY' || view.status === 'AWAITING_OPTION') && player.chains.some(chain => chain.status === 'active');
+      this.careerButton.getComponent(Button)!.interactable = canManage || isEnded;
+      const title = this.careerButton.children.find(child => child.name === 'Title')?.getComponent(Label);
+      if (title) title.string = isEnded ? '生平结案' : '管理事业';
+      this.styleButton(this.careerButton, INK.raised, canManage || isEnded ? INK.gold : INK.border, canManage || isEnded ? INK.gold : INK.sub);
+    }
     if (this.eraYearLabel) {
-      const reignYear = p.calendar_year - 1627;
-      this.eraYearLabel.string = `大明崇祯 ${reignYear} 年 (${p.calendar_year}) · ${p.age} 岁`;
+      const reignYear = player.calendar_year - 1627;
+      this.eraYearLabel.string = view.timeline === 'historical'
+        ? `大明崇祯 ${reignYear} 年 · ${player.calendar_year}`
+        : `架空推演 · ${player.calendar_year}`;
     }
-
+    if (this.turnLabel) this.turnLabel.string = `${player.age} 岁 · 第 ${player.calendar_year - player.start_year + 1} 年`;
     if (this.identityLabel) {
-      const idName = EnumMapper.translateIdentity(p.identity_id);
-      const regName = EnumMapper.translateRegion(p.region_id);
-      const casteName = EnumMapper.translateCaste(p.caste_id);
-      this.identityLabel.string = `身份: ${idName} | 地区: ${regName} | 阶层: ${casteName}`;
+      this.identityLabel.string = `身份: ${EnumMapper.translateIdentity(player.identity_id)}  |  地区: ${EnumMapper.translateRegion(player.region_id)}  |  阶层: ${EnumMapper.translateCaste(player.caste_id)}`;
     }
 
-    // 五维属性与铜钱翻转动效
-    const stats: Record<string, number> = {
-      physique: p.attributes.physique,
-      wealth: p.attributes.wealth,
-      intelligence: p.attributes.intelligence,
-      prestige: p.attributes.prestige,
-      luck: p.attributes.luck,
-    };
-
-    for (const [k, val] of Object.entries(stats)) {
-      const node = this.statCoinNodes.get(k);
-      if (node) {
-        const lbl = node.getComponent(Label);
-        const prev = this.prevStatValues.get(k) ?? val;
-        const info = EnumMapper.translateStat(k);
-        if (lbl) lbl.string = `${info.name}: ${val}`;
-
-        if (prev !== val) {
-          UIAnimController.playStatChangeEffect(node, val - prev);
-          this.prevStatValues.set(k, val);
+    for (const [key, value] of Object.entries(player.attributes)) {
+      const coin = this.statCoinNodes.get(key);
+      const previous = this.prevStatValues.get(key);
+      const label = coin?.getComponent(Label);
+      if (label) label.string = String(value);
+      if (previous !== undefined && previous !== value) {
+        if (coin && !this.reduceMotion()) {
+          const defaultColor = key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text;
+          UIAnimController.playAttrPunch(coin, label, value - previous, defaultColor);
         }
+        if (key === 'wealth' && value > previous) this.pixelFX?.play('gain');
       }
+      // 首帧只记录，重启后不会把另一局的初始家资误报为增益。
+      this.prevStatValues.set(key, value);
     }
-
-    // 烛火暗角更新
-    if (this.candleVignetteNode) {
-      UIAnimController.updateCandleVignette(
-        this.candleVignetteNode,
-        p.age,
-        p.attributes.luck,
-      );
-    }
+    this.updateSealButtonState(isEnded);
   }
+
 
   private appendFoldCard(data: FoldItemData): void {
     if (!this.logContentNode) return;
@@ -512,53 +641,29 @@ export class GameMain extends Component {
 
     const itemNode = new Node(`FoldCard_${this.renderedItemsCount}`);
     itemNode.layer = Layers.Enum.UI_2D;
-    itemNode.setPosition(0, -this.renderedItemsCount * 90, 0);
+    itemNode.setPosition(0, 0, 0);
     const itemTrans = itemNode.addComponent(UITransform);
     itemTrans.setAnchorPoint(0.5, 0.5);
+    itemTrans.setContentSize(VIEW.foldWidth, 80);
     this.logContentNode.addChild(itemNode);
 
     const comp = itemNode.addComponent(EventFoldItem);
     comp.init(data);
-    // 朱砂印章盖印动效与震屏
-    const stampBadge = comp.getStampNode();
-    if (stampBadge) {
-      UIAnimController.playStampEffect(stampBadge, this.node);
-      // 如果是传家宝或珍贵词条，飞入右侧博古架
-      if (this.relicBar && this.isRareRelicTag(data.stampTag)) {
-        const relicInfo = this.resolveRelicItem(data);
-        this.relicBar.addRelic(relicInfo, stampBadge);
+
+    this.updateLogContentLayout();
+    if (data.type === 'card_selected' && data.cardId && this.relicBar) {
+      const card = getNativeMingEndContent().bundle.cards.find(entry => entry.id === data.cardId);
+      if (card) {
+        this.acquiredRelicId = card.id;
+        this.relicBar.addRelic({ id: card.id, name: card.name, desc: card.description, rarity: card.rarity }, this.cardChoiceNode ?? itemNode);
       }
     }
 
-    this.updateLogContentLayout();
+    if (this.acquiredRelicId && data.relicFlags?.length) {
+      this.relicBar?.playFeedback(this.acquiredRelicId, data.relicFlags, data.feedbackKey);
+    }
   }
 
-  /**
-   * 识别传家宝与珍贵词条（如“传家之宝”锁子甲、“万家生佛”、“点石成金”、“绝世古董”等）
-   */
-  private isRareRelicTag(tag?: string): boolean {
-    if (!tag) return false;
-    const rareKeywords = [
-      '传家之宝',
-      '万家生佛',
-      '点石成金',
-      '绝世古董',
-      '民间鲁班',
-      '大明货王',
-      '泰山北斗',
-      '赛华佗在世',
-    ];
-    return rareKeywords.includes(tag) || tag.includes('传家') || tag.includes('古董') || tag.includes('至宝');
-  }
-
-  private resolveRelicItem(data: FoldItemData) {
-    const name = data.stampTag || '传家珍宝';
-    return {
-      id: data.id ?? `relic_${Date.now()}_${Math.random()}`,
-      name: name === '传家之宝' ? '铁扎战甲' : name,
-      desc: data.outcomeText || '明末遗珍，岁月见证。',
-    };
-  }
   private updateLogContentLayout(): void {
     if (!this.logContentNode) return;
     let totalHeight = 16;
@@ -572,76 +677,333 @@ export class GameMain extends Component {
     }
     const contentTrans = this.logContentNode.getComponent(UITransform);
     if (contentTrans) {
-      contentTrans.setContentSize(680, Math.max(880, totalHeight + 20));
+      contentTrans.setContentSize(VIEW.logWidth, Math.max(this.contentHeight, totalHeight + 20));
     }
   }
 
   private renderPending(pending: PendingDecision | null): void {
+    this.careerPanel?.destroy();
+    this.careerPanel = null;
+    this.cardChoiceNode?.destroy();
+    this.cardChoiceNode = null;
+    this.cardErrorLabel = null;
+    this.selectedCardId = null;
+    if (this.memorialCardComp) this.memorialCardComp.node.active = pending?.kind === 'option';
+    if (pending?.kind === 'card' && this.decisionOverlay) {
+      this.cancelSealHold();
+      this.decisionOverlay.active = true;
+      this.renderCardChoices(pending.cards);
+      return;
+    }
     if (!pending) {
       if (this.decisionOverlay) this.decisionOverlay.active = false;
       return;
     }
 
-    // 打断官印长按
-    this.isSealHolding = false;
-
     if (pending.kind === 'option' && this.memorialCardComp && this.decisionOverlay) {
+      this.cancelSealHold();
+      const bundle = getNativeMingEndContent().bundle;
+      const event = bundle.events.find(item => item.id === pending.event_id);
+      const details: Record<string, string[]> = {};
+      if (event?.interaction === 'choice') {
+        for (const option of event.options) {
+          const lines: string[] = [];
+          if (option.condition && (event.id.endsWith('BREAKTHROUGH') || event.id === 'E_MOD_GLUE_CRAFT_CHALLENGE')) {
+            lines.push(`门槛：${EnumMapper.describeCondition(option.condition, bundle)}`);
+          }
+          for (const effect of option.outcome.effects) {
+            if (effect.type === 'attribute_add' && effect.amount < 0) {
+              lines.push(`立即付出：${EnumMapper.translateStat(effect.attribute).name} ${effect.amount}`);
+            } else if (effect.type === 'chain_start') {
+              const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
+              if (commitment) lines.push(`事业说明：${commitment}`);
+            }
+          }
+          details[option.id] = lines;
+        }
+      }
       this.decisionOverlay.active = true;
       this.memorialCardComp.init(pending, (optId) => {
-        this.chooseOption(optId);
-      });
+        void this.chooseOption(optId);
+      }, event?.text, details, this.currentView?.player.chains.some(chain => chain.status === 'active') ? () => this.openCareerManager() : undefined);
+      this.fitModal(this.memorialCardComp.node);
     } else {
       if (this.decisionOverlay) this.decisionOverlay.active = false;
       if (pending.kind === 'stage') {
-        this.chooseStage();
+        void this.chooseStage();
       }
+    }
+  }
+
+  private renderCardChoices(ids: string[]): void {
+    if (!this.decisionOverlay) return;
+    const paper = new Node('CardChoice');
+    paper.layer = Layers.Enum.UI_2D;
+    paper.addComponent(UITransform).setContentSize(700, 960);
+    this.paintPanel(paper, 700, 960, INK.panel, INK.borderLight, 12);
+    this.decisionOverlay.addChild(paper);
+    this.cardChoiceNode = paper;
+    this.createText(paper, 'Title', '选一件随身家当', 0, 406, 620, 48, 32, INK.cyan).isBold = true;
+    this.createText(paper, 'Instruction', `${ids.length} 选 1 · 确认后本局只携此件，不可重选`, 0, 350, 620, 48, 21, INK.sub);
+
+    const cards = getNativeMingEndContent().bundle.cards;
+    const rows: { node: Node; label: Label; name: string; id: string }[] = [];
+    const confirm = this.createButton(paper, '确认家当 · 进入人生', 0, -390, 620, 76, () => {
+      if (this.selectedCardId && !this.cardSubmitting) void this.selectCard(this.selectedCardId, confirm);
+    });
+    confirm.getComponent(Button)!.interactable = false;
+    this.styleButton(confirm, INK.raised, INK.border, INK.sub);
+
+    ids.forEach((id, index) => {
+      const card = cards.find(item => item.id === id);
+      const row = new Node(`CardOffer_${id}`);
+      row.layer = Layers.Enum.UI_2D;
+      row.setPosition(0, 222 - index * 172, 0);
+      row.addComponent(UITransform).setContentSize(620, 156);
+      this.paintPanel(row, 620, 156, INK.raised, INK.borderLight, 8);
+      paper.addChild(row);
+      const name = card?.name ?? id;
+      const label = this.createText(row, 'Name', name, -42, 44, 472, 40, 25, INK.text);
+      label.isBold = true;
+      const rarity = new Node('RarityBadge');
+      rarity.layer = Layers.Enum.UI_2D;
+      rarity.setPosition(252, 44, 0);
+      rarity.addComponent(UITransform).setContentSize(70, 34);
+      const rarityColor = this.rarityColor(card?.rarity ?? '');
+      this.paintPanel(rarity, 70, 34, INK.inset, rarityColor, 4);
+      row.addChild(rarity);
+      this.createText(rarity, 'Rarity', card?.rarity ?? '—', 0, 0, 64, 30, 20, rarityColor, Label.HorizontalAlign.CENTER).isBold = true;
+      this.createText(row, 'Description', card?.description ?? '家当资料缺失，无法确认。', 0, -24, 564, 70, 22, INK.sub);
+      rows.push({ node: row, label, name, id });
+      row.on(Node.EventType.TOUCH_START, () => {
+        if (!this.cardSubmitting && card) row.setScale(0.98, 0.98, 1);
+      });
+      row.on(Node.EventType.TOUCH_CANCEL, () => row.setScale(1, 1, 1));
+      row.on(Node.EventType.TOUCH_END, () => {
+        row.setScale(1, 1, 1);
+        if (this.cardSubmitting || !card) return;
+        this.selectedCardId = id;
+        for (const item of rows) {
+          const selected = item.id === id;
+          item.label.string = `${selected ? '已选 · ' : ''}${item.name}`;
+          item.label.color = selected ? INK.cyan : INK.text;
+          this.paintPanel(item.node, 620, 156, selected ? INK.selected : INK.raised, selected ? INK.cyan : INK.borderLight, 8);
+        }
+        confirm.getComponent(Button)!.interactable = true;
+        this.styleButton(confirm, INK.cyan, INK.cyan, INK.inset);
+      });
+    });
+    this.cardErrorLabel = this.createText(paper, 'CardError', '', 0, -270, 620, 60, 20, INK.red);
+    this.fitModal(paper);
+  }
+
+  private async selectCard(cardId: string, confirm: Node): Promise<void> {
+    if (!this.session || this.cardSubmitting) return;
+    const session = this.session;
+    this.cardSubmitting = true;
+    if (this.cardErrorLabel) this.cardErrorLabel.string = '正在确认家当…';
+    confirm.getComponent(Button)!.interactable = false;
+    this.styleButton(confirm, INK.raised, INK.border, INK.sub);
+    try {
+      const result = await session.command({ type: 'selectCard', cardId });
+      if (this.session !== session) return;
+      if (!result.ok) {
+        if (this.cardErrorLabel) this.cardErrorLabel.string = `未能确认：${result.error.message}`;
+        return;
+      }
+      this.currentView = result.state;
+      if (this.currentView) this.updateHUD(this.currentView);
+      for (const item of LogParser.parseBatch(this.extractRawLogs(result.logs))) this.appendFoldCard(item);
+      this.renderPending(result.pending);
+      if (result.state.status === 'ENDED') this.appendEndingHint();
+      this.scrollView?.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
+    } catch (error) {
+      if (this.session === session && this.cardErrorLabel) this.cardErrorLabel.string = `未能确认：${String(error)}`;
+    } finally {
+      if (this.session === session) {
+        this.cardSubmitting = false;
+        if (this.currentView?.status === 'AWAITING_CARD' && confirm.isValid) {
+          confirm.getComponent(Button)!.interactable = true;
+          this.styleButton(confirm, INK.cyan, INK.cyan, INK.inset);
+        }
+      }
+    }
+  }
+
+  private openCareerManager(): void {
+    if (!this.session || !this.currentView || !this.decisionOverlay || this.careerBusy) return;
+    if (this.currentView.status !== 'READY' && this.currentView.status !== 'AWAITING_OPTION') return;
+    const active = this.currentView.player.chains.filter(chain => chain.status === 'active');
+    if (active.length === 0) return;
+    this.cancelSealHold();
+    if (this.memorialCardComp) this.memorialCardComp.node.active = false;
+    this.decisionOverlay.active = true;
+    this.careerPanel?.destroy();
+
+    const panel = new Node('CareerPanel');
+    panel.layer = Layers.Enum.UI_2D;
+    panel.addComponent(UITransform).setContentSize(700, 1000);
+    this.paintPanel(panel, 700, 1000, INK.panel, INK.borderLight, 12);
+    this.decisionOverlay.addChild(panel);
+    this.careerPanel = panel;
+    this.fitModal(panel);
+    this.createText(panel, 'Title', '管理事业', 0, 440, 620, 50, 32, INK.gold).isBold = true;
+    this.createText(panel, 'Explanation', `进行中 ${active.length} 项 · 选择一项后确认退出`, 0, 365, 620, 60, 23, INK.sub);
+
+    const scrollNode = new Node('CareerScrollView');
+    scrollNode.layer = Layers.Enum.UI_2D;
+    scrollNode.setPosition(0, 65, 0);
+    scrollNode.addComponent(UITransform).setContentSize(640, 420);
+    panel.addChild(scrollNode);
+    const viewport = new Node('Viewport');
+    viewport.layer = Layers.Enum.UI_2D;
+    viewport.addComponent(UITransform).setContentSize(640, 420);
+    viewport.addComponent(Mask);
+    scrollNode.addChild(viewport);
+    const content = new Node('Content');
+    content.layer = Layers.Enum.UI_2D;
+    const transform = content.addComponent(UITransform);
+    transform.setAnchorPoint(0.5, 1);
+    transform.setContentSize(640, Math.max(420, active.length * 112 + 12));
+    content.setPosition(0, 210, 0);
+    viewport.addChild(content);
+    const scroll = scrollNode.addComponent(ScrollView);
+    scroll.horizontal = false;
+    scroll.vertical = true;
+    scroll.content = content;
+
+    let selected: string | null = null;
+    const rows: { node: Node; selection: Label; id: string }[] = [];
+    const notice = this.createText(panel, 'CareerNotice', '退出后已付成本不退，不获完成奖励；已得成长保留。', 0, -235, 620, 132, 23, INK.sub);
+    const confirm = this.createButton(panel, '确认退出事业', 160, -405, 292, 80, () => {
+      if (selected) void this.abandonCareer(selected, notice);
+    });
+    confirm.getComponent(Button)!.interactable = false;
+    this.createButton(panel, '返回', -160, -405, 292, 80, () => {
+      if (this.careerBusy) return;
+      panel.destroy();
+      this.careerPanel = null;
+      const pending = this.currentView?.pending;
+      if (this.memorialCardComp) this.memorialCardComp.node.active = pending?.kind === 'option';
+      if (this.decisionOverlay) this.decisionOverlay.active = pending?.kind === 'option';
+    });
+    const bundle = getNativeMingEndContent().bundle;
+    active.forEach((chain, index) => {
+      const definition = bundle.chains.find(item => item.id === chain.chain_id);
+      const name = definition?.name ?? chain.chain_id;
+      const button = this.createButton(content, `选择：${name}`, 0, -58 - index * 112, 600, 96, () => {
+        if (this.careerBusy) return;
+        selected = chain.instance_id;
+        notice.string = `拟退出：${name}。\n已付成本不退，不获完成奖励；已得成长保留。`;
+        for (const row of rows) {
+          const chosen = row.id === selected;
+          row.selection.string = chosen ? '已选' : '选择';
+          this.styleButton(row.node, chosen ? INK.selected : INK.raised, chosen ? INK.cyan : INK.border, INK.text);
+        }
+        confirm.getComponent(Button)!.interactable = true;
+        this.styleButton(confirm, INK.ended, INK.red, INK.text);
+      });
+      const label = button.children.find(child => child.name === 'Title')?.getComponent(Label);
+      if (label) {
+        label.string = name;
+        label.fontSize = 25;
+        label.horizontalAlign = Label.HorizontalAlign.LEFT;
+        label.node.setPosition(-38, 21, 0);
+        label.node.getComponent(UITransform)!.setContentSize(480, 38);
+      }
+      this.createText(button, 'Progress', `节点 ${chain.node_index}/${definition?.nodes.length ?? '—'} · 下次 ${chain.next_due_year ?? '—'} 年`, -38, -22, 480, 30, 20, INK.sub);
+      const selection = this.createText(button, 'Selection', '选择', 253, 0, 64, 38, 20, INK.cyan, Label.HorizontalAlign.CENTER);
+      rows.push({ node: button, selection, id: chain.instance_id });
+    });
+  }
+
+  private async abandonCareer(instanceId: string, notice: Label): Promise<void> {
+    if (!this.session || this.careerBusy) return;
+    const session = this.session;
+    this.careerBusy = true;
+    notice.string = '正在退出事业…';
+    try {
+      const result = await session.command({ type: 'abandon', chainInstanceId: instanceId });
+      if (this.session !== session) return;
+      if (!result.ok) {
+        notice.string = `未能退出：${result.error.message}`;
+        return;
+      }
+      this.currentView = result.state;
+      this.updateHUD(result.state);
+      for (const item of LogParser.parseBatch(this.extractRawLogs(result.logs))) this.appendFoldCard(item);
+      if (result.state.status === 'ENDED') {
+        this.appendEndingHint();
+      }
+      this.renderPending(result.pending);
+      if (this.scrollView) this.scrollView.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
+    } catch (error) {
+      if (this.session === session) notice.string = `未能退出：${String(error)}`;
+    } finally {
+      if (this.session === session) this.careerBusy = false;
     }
   }
 
   private async chooseOption(optId: string): Promise<void> {
     if (!this.session) return;
-    if (this.decisionOverlay) this.decisionOverlay.active = false;
+    const session = this.session;
+    try {
+      const res = await session.command({ type: 'choose', optionId: optId });
+      if (this.session !== session) return;
+      if (!res.ok) {
+        this.memorialCardComp?.showError(res.error.message);
+        return;
+      }
 
-    const res = await this.session.command({ type: 'choose', optionId: optId });
-    if (!res.ok) {
-      this.appendSystemLog(`抉择遇阻: ${res.error.message}`);
-      return;
+      this.currentView = res.state;
+      if (this.currentView) this.updateHUD(this.currentView);
+      for (const item of LogParser.parseBatch(this.extractRawLogs(res.logs))) this.appendFoldCard(item);
+      if (this.currentView && this.currentView.status === 'ENDED') {
+        this.cancelSealHold();
+        this.appendEndingHint();
+      }
+      this.renderPending(res.pending);
+      if (this.scrollView) this.scrollView.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
+    } catch (error) {
+      if (this.session === session) this.memorialCardComp?.showError(String(error));
     }
-
-    this.currentView = res.state;
-    if (this.currentView) this.updateHUD(this.currentView);
-
-    if (res.logs && res.logs.length > 0) {
-      const items = LogParser.parseBatch(this.extractRawLogs(res.logs));
-      for (const it of items) this.appendFoldCard(it);
-    }
-    if (this.currentView && this.currentView.status === 'ENDED') {
-      this.isSealHolding = false;
-      this.updateSealButtonState(true);
-      this.appendEndingHint();
-    }
-    this.renderPending(res.pending);
-    if (this.scrollView) this.scrollView.scrollToBottom(0.2);
   }
 
-  private async chooseStage(): Promise<void> {
-    if (!this.session) return;
-    const res = await this.session.command({ type: 'stage' });
-    if (!res.ok) return;
-
-    this.currentView = res.state;
-    if (this.currentView) this.updateHUD(this.currentView);
-    if (res.logs && res.logs.length > 0) {
-      const items = LogParser.parseBatch(this.extractRawLogs(res.logs));
-      for (const it of items) this.appendFoldCard(it);
-    }
-    if (this.currentView && this.currentView.status === 'ENDED') {
-      this.isSealHolding = false;
-      this.updateSealButtonState(true);
-      this.appendEndingHint();
-    }
-    this.renderPending(res.pending);
-    if (this.scrollView) this.scrollView.scrollToBottom(0.2);
+  private chooseStage(): Promise<void> {
+    if (this.stageInFlight) return this.stageInFlight;
+    const session = this.session;
+    if (!session) return Promise.resolve();
+    const run = async (): Promise<void> => {
+      for (;;) {
+        const res = await session.command({ type: 'stage' });
+        if (this.session !== session) return;
+        if (!res.ok) {
+          this.cancelSealHold();
+          this.appendSystemLog(`自动检定遇阻: ${res.error.message}`);
+          return;
+        }
+        this.currentView = res.state;
+        this.updateHUD(res.state);
+        for (const item of LogParser.parseBatch(this.extractRawLogs(res.logs))) this.appendFoldCard(item);
+        if (res.state.status === 'ENDED') {
+          this.cancelSealHold();
+          this.appendEndingHint();
+        }
+        if (res.pending?.kind === 'stage') continue;
+        this.renderPending(res.pending);
+        if (this.scrollView) this.scrollView.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
+        return;
+      }
+    };
+    this.stageInFlight = run().catch(error => {
+      if (this.session === session) {
+        this.cancelSealHold();
+        this.appendSystemLog(`自动检定异常: ${String(error)}`);
+      }
+    }).finally(() => {
+      if (this.session === session) this.stageInFlight = null;
+    });
+    return this.stageInFlight;
   }
 
   private appendSystemLog(msg: string): void {
@@ -657,21 +1019,133 @@ export class GameMain extends Component {
       if ('data' in l && l.data && typeof l.data === 'object') {
         metadata = l.data as Record<string, unknown>;
       }
+      let message = l.message;
+      if (l.type === 'achievement') {
+        const achievement = getNativeMingEndContent().bundle.achievements.find(item => item.id === l.data.achievement_id);
+        if (achievement) message = `【${achievement.name} · ${EnumMapper.achievementMeta(achievement)}】${achievement.text}`;
+      }
       return {
         type: l.type,
-        message: l.message,
+        seq: l.seq,
+        source_id: l.source_id,
+        message,
         metadata,
       };
     });
   }
 
   private appendEndingHint(): void {
-    this.appendFoldCard({
-      id: `end_${Date.now()}`,
-      introText: '【大明终章】一代沧桑过往俱成青史微尘。',
-      outcomeText: '盖棺定论，岁月寂然。',
-      type: 'death',
+    if (!this.session || this.currentView?.status !== 'ENDED' || this.terminalHandled) return;
+    const run = this.session.exportSave().engine.payload.run;
+    if (!run.ending) return;
+    this.terminalHandled = true;
+    this.endingReport = run.ending;
+    this.cancelSealHold();
+    if (run.death !== null) {
+      this.pixelFX?.play('death');
+      if (!this.reduceMotion()) UIAnimController.playDeathShake(this.node);
+    }
+    // 当前引擎的寿终也产生真实 death；结案礼花在白烟结束后单次播放。
+    if (run.death !== null) this.endingFXDelay = 1.7;
+    else this.pixelFX?.play('ending');
+    this.updateSealButtonState(true);
+    this.appendSystemLog(`【生平结案】${run.ending.start_year}—${run.ending.end_year}，历经 ${run.ending.years_played} 年。点击“生平结案”查看真实生平与成就。`);
+  }
+
+  private showEndingSummary(): void {
+    if (!this.session || !this.decisionOverlay || this.currentView?.status !== 'ENDED') return;
+    const report = this.endingReport ?? this.session.exportSave().engine.payload.run.ending;
+    if (!report) return;
+    const bundle = getNativeMingEndContent().bundle;
+    const natural = report.death_id === bundle.era.old_age_death_id;
+    const death = bundle.deaths.find(item => item.id === report.death_id);
+    const primary = bundle.achievements.find(item => item.id === report.primary_achievement_id);
+    this.cancelSealHold();
+    if (this.memorialCardComp) this.memorialCardComp.node.active = false;
+    this.endingPanel?.destroy();
+    const panel = new Node('EndingPanel');
+    panel.layer = Layers.Enum.UI_2D;
+    panel.addComponent(UITransform).setContentSize(700, 1000);
+    this.paintPanel(panel, 700, 1000, INK.panel, natural ? INK.gold : INK.red, 12);
+    this.decisionOverlay.addChild(panel);
+    this.decisionOverlay.active = true;
+    this.endingPanel = panel;
+    this.fitModal(panel);
+
+    this.createText(panel, 'EndingTitle', natural ? '寿终归档' : '生平盖棺', 0, 440, 620, 50, 34, natural ? INK.gold : INK.red, Label.HorizontalAlign.CENTER).isBold = true;
+    this.createText(panel, 'LifeSpan', `${report.start_year}—${report.end_year} · ${report.start_age}—${report.end_age} 岁 · 历经 ${report.years_played} 年`, 0, 376, 620, 52, 23, INK.sub, Label.HorizontalAlign.CENTER);
+    this.createText(panel, 'DeathReason', death ? `${death.name} · ${death.text}` : report.death_id, 0, 294, 620, 84, 24, INK.text, Label.HorizontalAlign.CENTER);
+
+    const finalStats = new Node('FinalStats');
+    finalStats.layer = Layers.Enum.UI_2D;
+    finalStats.setPosition(0, 202, 0);
+    finalStats.addComponent(UITransform).setContentSize(620, 80);
+    this.paintPanel(finalStats, 620, 80, INK.inset, INK.inset, 6);
+    panel.addChild(finalStats);
+    ['physique', 'wealth', 'intelligence', 'prestige', 'luck'].forEach((key, index) => {
+      const value = report.final_attributes[key as keyof typeof report.final_attributes];
+      const x = -248 + index * 124;
+      this.createText(finalStats, `Name_${key}`, EnumMapper.translateStat(key).name, x, 24, 116, 24, 19, INK.sub, Label.HorizontalAlign.CENTER);
+      this.createText(finalStats, `Value_${key}`, String(value), x, -12, 116, 40, 28, key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text, Label.HorizontalAlign.CENTER).isBold = true;
     });
+
+    const lines = [
+      '结案评语',
+      primary ? `${primary.name} · ${EnumMapper.achievementMeta(primary)}\n${primary.text}` : '普通人生',
+      '',
+      `最高身份 · ${EnumMapper.translateIdentity(report.highest_identity_id)}`,
+      `事业 · 完成 ${report.chains_completed.length} 项 / 中断 ${report.chains_interrupted.length} 项`,
+      ...report.chains_completed.map(chain => `完成 · ${bundle.chains.find(item => item.id === chain.chain_id)?.name ?? chain.chain_id}`),
+      ...report.chains_interrupted.map(chain => `中断 · ${bundle.chains.find(item => item.id === chain.chain_id)?.name ?? chain.chain_id}`),
+      '',
+      `所获成就 · ${report.achievements.length} 项`,
+      ...report.achievements.map(id => {
+        const achievement = bundle.achievements.find(item => item.id === id);
+        return achievement ? `${achievement.name} · ${EnumMapper.achievementMeta(achievement)}\n${achievement.text}` : id;
+      }),
+      ...(report.achievements.length === 0 ? ['本局未获得成就。'] : []),
+      '',
+      '随身家当',
+      ...this.currentView.player.cards.map(id => {
+        const card = bundle.cards.find(item => item.id === id);
+        return card ? `${card.name} · ${card.rarity}\n${card.description}` : id;
+      }),
+    ];
+    const scrollNode = new Node('EndingScrollView');
+    scrollNode.layer = Layers.Enum.UI_2D;
+    scrollNode.setPosition(0, -88, 0);
+    scrollNode.addComponent(UITransform).setContentSize(640, 420);
+    panel.addChild(scrollNode);
+    const viewport = new Node('Viewport');
+    viewport.layer = Layers.Enum.UI_2D;
+    viewport.addComponent(UITransform).setContentSize(640, 420);
+    viewport.addComponent(Mask);
+    scrollNode.addChild(viewport);
+    const content = new Node('Content');
+    content.layer = Layers.Enum.UI_2D;
+    const transform = content.addComponent(UITransform);
+    transform.setAnchorPoint(0.5, 1);
+    content.setPosition(0, 210, 0);
+    viewport.addChild(content);
+    const details = this.createText(content, 'ReportDetails', lines.join('\n'), 0, -16, 604, 40, 23, INK.sub);
+    const detailsTransform = details.node.getComponent(UITransform)!;
+    detailsTransform.setAnchorPoint(0.5, 1);
+    details.verticalAlign = Label.VerticalAlign.TOP;
+    details.overflow = Label.Overflow.RESIZE_HEIGHT;
+    details.updateRenderData(true);
+    transform.setContentSize(640, Math.max(420, detailsTransform.height + 32));
+    const scroll = scrollNode.addComponent(ScrollView);
+    scroll.horizontal = false;
+    scroll.vertical = true;
+    scroll.content = content;
+    this.createText(panel, 'ReportHint', '上下滑动查看完整结案记录', 0, -334, 620, 32, 20, INK.sub, Label.HorizontalAlign.CENTER);
+    this.createButton(panel, '返回历程', -160, -414, 292, 76, () => {
+      panel.destroy();
+      this.endingPanel = null;
+      if (this.decisionOverlay) this.decisionOverlay.active = false;
+    });
+    const restart = this.createButton(panel, '重启人生', 160, -414, 292, 76, () => this.startNewLife());
+    this.styleButton(restart, INK.cyan, INK.cyan, INK.inset);
   }
 
   private showSaveTip(): void {
@@ -685,38 +1159,87 @@ export class GameMain extends Component {
     title: string,
     x: number,
     y: number,
-    w: number,
-    h: number,
-    cb: () => void,
+    width: number,
+    height: number,
+    callback: () => void,
   ): Node {
-    const btnNode = new Node(`Btn_${title}`);
-    btnNode.layer = Layers.Enum.UI_2D;
-    btnNode.setPosition(x, y, 0);
-    const trans = btnNode.addComponent(UITransform);
-    trans.setContentSize(w, h);
+    const node = new Node(`Btn_${title}`);
+    node.layer = Layers.Enum.UI_2D;
+    node.setPosition(x, y, 0);
+    node.addComponent(UITransform).setContentSize(width, height);
+    this.paintPanel(node, width, height, INK.raised, INK.border, 6);
+    this.createText(node, 'Title', title, 0, 0, width - 16, height - 8, height > 60 ? 25 : 20, INK.sub, Label.HorizontalAlign.CENTER);
+    const button = node.addComponent(Button);
+    button.transition = Button.Transition.NONE;
+    node.on(Node.EventType.TOUCH_START, () => {
+      if (button.interactable && !this.reduceMotion()) node.setScale(0.98, 0.98, 1);
+    });
+    node.on(Node.EventType.TOUCH_CANCEL, () => node.setScale(1, 1, 1));
+    node.on(Node.EventType.TOUCH_END, () => {
+      node.setScale(1, 1, 1);
+      if (button.interactable) callback();
+    });
+    parent.addChild(node);
+    return node;
+  }
 
-    const gfx = btnNode.addComponent(Graphics);
-    gfx.fillColor = new Color(50, 45, 40, 220);
-    gfx.roundRect(-w / 2, -h / 2, w, h, 6);
-    gfx.fill();
-    gfx.lineWidth = 1.5;
-    gfx.strokeColor = new Color(130, 110, 80, 200);
-    gfx.roundRect(-w / 2, -h / 2, w, h, 6);
-    gfx.stroke();
+  private createText(
+    parent: Node,
+    name: string,
+    value: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    size: number,
+    color: Color = INK.text,
+    align = Label.HorizontalAlign.LEFT,
+  ): Label {
+    const node = new Node(name);
+    node.layer = Layers.Enum.UI_2D;
+    node.setPosition(x, y, 0);
+    node.addComponent(UITransform).setContentSize(width, height);
+    const label = node.addComponent(Label);
+    label.string = value;
+    label.fontSize = size;
+    label.lineHeight = Math.round(size * 1.4);
+    label.color = color;
+    label.horizontalAlign = align;
+    label.verticalAlign = Label.VerticalAlign.CENTER;
+    label.overflow = Label.Overflow.SHRINK;
+    parent.addChild(node);
+    return label;
+  }
 
-    const lblNode = new Node('Title');
-    lblNode.layer = Layers.Enum.UI_2D;
-    const lTrans = lblNode.addComponent(UITransform);
-    lTrans.setContentSize(w, h);
-    const lbl = lblNode.addComponent(Label);
-    lbl.string = title;
-    lbl.fontSize = 18;
-    lbl.color = new Color(220, 210, 190, 255);
-    btnNode.addChild(lblNode);
+  private paintPanel(node: Node, width: number, height: number, fill: Color, border: Color, radius: number): void {
+    const graphics = node.getComponent(Graphics) || node.addComponent(Graphics);
+    graphics.clear();
+    graphics.fillColor = fill;
+    graphics.roundRect(-width / 2, -height / 2, width, height, radius);
+    graphics.fill();
+    graphics.lineWidth = 1.5;
+    graphics.strokeColor = border;
+    graphics.roundRect(-width / 2, -height / 2, width, height, radius);
+    graphics.stroke();
+  }
 
-    btnNode.on(Node.EventType.TOUCH_END, cb);
-    parent.addChild(btnNode);
-    return btnNode;
+  private styleButton(node: Node, fill: Color, border: Color, text: Color): void {
+    const transform = node.getComponent(UITransform);
+    if (transform) this.paintPanel(node, transform.width, transform.height, fill, border, 6);
+    const label = node.children.find(child => child.name === 'Title')?.getComponent(Label);
+    if (label) label.color = text;
+  }
+
+  private rarityColor(rarity: string): Color {
+    if (rarity === 'SSR') return INK.gold;
+    if (rarity === 'SR') return INK.purple;
+    if (rarity === 'R') return INK.cyan;
+    return INK.sub;
+  }
+
+  private reduceMotion(): boolean {
+    const host = globalThis as typeof globalThis & { matchMedia?: (query: string) => { matches: boolean } };
+    return host.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   }
 
   // --- 公共检查与交互接口 (供测试、调试与自动化验收) ---
@@ -770,33 +1293,21 @@ export class GameMain extends Component {
 
   private updateSealButtonState(isEnded: boolean): void {
     if (!this.sealAdvanceBtn) return;
-    const labelNode = this.sealAdvanceBtn.children.find((c) => c.name === 'BtnLabel');
-    const label = labelNode?.getComponent(Label);
-    const gfx = this.sealAdvanceBtn.getComponent(Graphics);
+    const label = this.sealAdvanceBtn.children.find(child => child.name === 'BtnLabel')?.getComponent(Label);
+    const status = this.currentView?.status;
     if (isEnded) {
-      if (label) label.string = '尘埃落定 · 重启人生';
-      if (gfx) {
-        gfx.clear();
-        gfx.fillColor = new Color(55, 50, 50, 255); // 置灰深色
-        gfx.roundRect(-190, -36, 380, 72, 10);
-        gfx.fill();
-        gfx.lineWidth = 2.5;
-        gfx.strokeColor = new Color(130, 110, 90, 255);
-        gfx.roundRect(-190, -36, 380, 72, 10);
-        gfx.stroke();
-      }
+      const death = this.endingReport?.death_id;
+      const natural = death === getNativeMingEndContent().bundle.era.old_age_death_id;
+      const title = death ? (natural ? '寿终归档' : '生平盖棺') : '生平已结';
+      if (label) label.string = `${title} · 重启人生`;
+      this.paintPanel(this.sealAdvanceBtn, 702, 80, INK.ended, INK.red, 10);
+    } else if (!status || status === 'AWAITING_CARD') {
+      if (label) label.string = status ? '先选定一件随身家当' : '正在启幕…';
+      this.paintPanel(this.sealAdvanceBtn, 702, 80, INK.raised, INK.border, 10);
     } else {
-      if (label) label.string = '钤印流转 · 推进流年';
-      if (gfx) {
-        gfx.clear();
-        gfx.fillColor = new Color(45, 75, 60, 255); // 青铜墨绿底
-        gfx.roundRect(-190, -36, 380, 72, 10);
-        gfx.fill();
-        gfx.lineWidth = 2.5;
-        gfx.strokeColor = new Color(180, 140, 60, 255);
-        gfx.roundRect(-190, -36, 380, 72, 10);
-        gfx.stroke();
-      }
+      if (label) label.string = status === 'AWAITING_OPTION' ? '抉择待定 · 先作选择' : status === 'AWAITING_STAGE' ? '检定进行中…' : '推进流年 · 长按快进';
+      this.paintPanel(this.sealAdvanceBtn, 702, 80, INK.advance, INK.advanceBorder, 10);
     }
+    if (label) label.color = !status || status === 'AWAITING_CARD' ? INK.sub : INK.text;
   }
 }

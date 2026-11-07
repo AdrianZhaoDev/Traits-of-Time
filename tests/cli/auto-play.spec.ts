@@ -1,6 +1,7 @@
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { cliFixtures, expectReplay, expectSuccess, fixedLife, runCli, savedLife, slotBytes, startCli } from './helpers.js';
+import { chooseAutomaticCard } from '../../tools/lib/AutoPlay.js';
 
 const fixture = cliFixtures();
 
@@ -32,10 +33,14 @@ describe('play --auto: unattended random choices', () => {
     expect(full.engine.payload.run.dice_results).toHaveLength(2);
     expect(full.engine.payload.player.flags).not.toContain('invalid_choice');
     const trace = await expectReplay(context.content, replayFile, full.engine);
+    expect(trace.commands.filter(command => command.api === 'selectCard')).toHaveLength(1);
     expect(trace.commands.filter(command => command.api === 'resolveOption').map(command => command.args.optionId)).not.toContain('locked');
 
     const resumedState = join(context.root, 'resumed');
-    expectSuccess(await runCli('play', ['--content', context.content, '--seed', '1640', '--state', resumedState], 'pause\nchoose attempt\nquit\n'));
+    expectSuccess(await runCli('play', ['--content', context.content, '--seed', '1640', '--state', resumedState]));
+    const offered = (await savedLife(resumedState)).engine.payload.run.card_offers;
+    const selected = chooseAutomaticCard({ kind: 'card', cards: offered }, 1640);
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', resumedState], `pause\ncard ${selected}\nchoose attempt\nquit\n`));
     expect((await savedLife(resumedState)).engine.payload.run.status).toBe('AWAITING_STAGE');
     expectSuccess(await runCli('play', ['--content', context.content, '--state', resumedState, '--auto']));
     expect((await savedLife(resumedState)).engine).toEqual(full.engine);
@@ -54,8 +59,28 @@ describe('play --auto: unattended random choices', () => {
     });
     expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state]));
     const save = await savedLife(context.state);
-    expect(save.engine.payload.run.status).toBe('AWAITING_OPTION');
+    expect(save.engine.payload.run.status).toBe('AWAITING_CARD');
+    expect(save.engine.payload.player.cards).toEqual([]);
+    expect(save.engine.payload.run.card_offers.length).toBeGreaterThan(0);
+    expect(save.engine.payload.logs.some(entry => entry.type === 'opening')).toBe(false);
     expect(save.cursor.input_sequence).toBe(0);
+    const before = await slotBytes(context.state);
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state]));
+    expect(await slotBytes(context.state)).toEqual(before);
+    expect((await savedLife(context.state)).engine.payload.run.card_offers).toEqual(save.engine.payload.run.card_offers);
+    const cardId = save.engine.payload.run.card_offers[0]!;
+    const card = context.bundle.cards.find(item => item.id === cardId)!;
+    const chosen = await runCli('play', ['--content', context.content, '--state', context.state], `card ${cardId}\n`);
+    expectSuccess(chosen);
+    expect(chosen.stdout).toContain(card.name);
+    expect(chosen.stdout).toContain(card.description);
+    expect(chosen.stdout).toContain(`[${card.rarity}]`);
+    const selected = await savedLife(context.state);
+    expect(selected.engine.payload.player.cards).toEqual([cardId]);
+    expect(selected.engine.payload.run.card_offers).toEqual([]);
+    expect(selected.engine.payload.run.status).toBe('AWAITING_OPTION');
+    expect(selected.engine.payload.logs.filter(entry => entry.type === 'card_selected')).toHaveLength(1);
+    expect(selected.engine.payload.logs.filter(entry => entry.type === 'option')).toHaveLength(0);
   });
 
   it('stops on an unappliable automatic outcome rather than retrying or losing its saved position', async () => {
@@ -73,6 +98,6 @@ describe('play --auto: unattended random choices', () => {
     const save = await savedLife(context.state);
     expect(save.engine.payload.player.age).toBe(9);
     expect(save.engine.payload.player.chains).toEqual([]);
-    expect(save.cursor.input_sequence).toBe(1);
+    expect(save.cursor.input_sequence).toBe(2);
   });
 });

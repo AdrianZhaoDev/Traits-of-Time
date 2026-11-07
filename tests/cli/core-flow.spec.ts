@@ -15,7 +15,7 @@ describe('play: real stdin, durable decisions and replay', () => {
     const replayFile = join(context.root, 'continued-life.json');
     const result = await runCli('play', [
       '--content', context.content, '--seed', '1640', '--state', context.state, '--export-replay', replayFile,
-    ], 'choose start\n');
+    ], 'card 1\nchoose start\n');
     expectSuccess(result);
     const completed = await savedLife(context.state);
     expect(completed.engine.payload.player).toMatchObject({
@@ -40,7 +40,7 @@ describe('play: real stdin, durable decisions and replay', () => {
     const replayFile = join(context.root, 'abandoned.json');
     const result = await runCli('play', [
       '--content', context.content, '--seed', '1640', '--state', context.state, '--export-replay', replayFile,
-    ], 'pause\nchoose start\nnext\nabandon 1\nquit\n');
+    ], 'pause\ncard 1\nchoose start\nnext\nabandon 1\nquit\n');
     expectSuccess(result);
     const saved = await savedLife(context.state);
     expect(saved.engine.payload.player).toMatchObject({ age: 10, calendar_year: 1641,
@@ -58,7 +58,7 @@ describe('play: real stdin, durable decisions and replay', () => {
     const firstReplay = join(context.root, 'first-eof.json');
     const first = await runCli('play', [
       '--content', context.content, '--seed', '27', '--state', context.state, '--export-replay', firstReplay,
-    ]);
+    ], 'card 1\n');
     expectSuccess(first);
     expect(first.stdout).toContain(chainOpeningText);
     const before = await savedLife(context.state);
@@ -66,7 +66,8 @@ describe('play: real stdin, durable decisions and replay', () => {
     expect(before.engine.payload.player).toMatchObject({ age: 9, calendar_year: 1640, attributes: { wealth: 3 } });
     expect(before.engine.payload.player.chains).toEqual([]);
     const replay = await expectReplay(context.content, firstReplay, before.engine);
-    expect(replay.commands).toHaveLength(1);
+    expect(replay.commands.filter(command => command.api === 'selectCard')).toHaveLength(1);
+    expect(replay.commands.filter(command => command.api === 'resolveOption')).toHaveLength(0);
 
     const second = await runCli('play', ['--content', context.content, '--state', context.state]);
     expectSuccess(second);
@@ -111,13 +112,14 @@ describe('play: real stdin, durable decisions and replay', () => {
         options: [{ id: 'wait', text: 'Wait', risk: 'safe', unavailable_text: 'Unavailable',
           outcome: { text: 'Waited', effects: [], next_stage_id: null } }] });
     });
-    const preview = await runCli('play', ['--content', context.content, '--seed', '71', '--state', context.state], 'quit\n');
+    const preview = await runCli('play', ['--content', context.content, '--seed', '71', '--state', context.state], 'card 1\nquit\n');
     expectSuccess(preview);
     const lines = preview.stdout.split('\n');
     const attemptLine = lines.find(line => line.includes('确认进入两个阶段'));
     expect(attemptLine).toContain('[高风险]');
     expect(attemptLine).toMatch(/(?:intelligence|智力|智谋)\s*\/\s*DC\s*14/);
     expect(attemptLine).toMatch(/(?:physique|体魄|体质)\s*\/\s*DC\s*14/);
+    expect(attemptLine).toContain('按分支触发');
     // Both branches reach S2: show its check once, not twice or as a combined probability.
     expect(attemptLine?.match(/DC\s*14/g)).toHaveLength(2);
     expect(lines.find(line => line.includes('留在家中'))).toContain('[安全]');
@@ -125,10 +127,11 @@ describe('play: real stdin, durable decisions and replay', () => {
     expect(lockedLine).toContain('[普通]');
     expect(lockedLine).toContain('钱不够请向导');
     expect(lockedLine).toMatch(/(?:physique|体魄|体质)\s*\/\s*DC\s*14/);
+    expect(lockedLine).toContain('按分支触发');
     const beforeChoice = await savedLife(context.state);
     expect(beforeChoice.engine.payload.run.status).toBe('AWAITING_OPTION');
     expect(beforeChoice.engine.payload.run.dice_results).toEqual([]);
-    expect(beforeChoice.replay_commands).toHaveLength(1);
+    expect(beforeChoice.replay_commands).toHaveLength(2);
     const replayFile = join(context.root, 'stages.json');
     const rolled = await runCli('play', [
       '--content', context.content, '--state', context.state, '--export-replay', replayFile,
@@ -164,7 +167,7 @@ describe('play: real stdin, durable decisions and replay', () => {
     const replayFile = join(context.root, 'automatic-rain.json');
     const result = await runCli('play', [
       '--content', context.content, '--seed', '71', '--state', context.state, '--export-replay', replayFile,
-    ]);
+    ], 'card 1\n');
     expectSuccess(result);
     const saved = await savedLife(context.state);
     expect(saved.engine.payload.run.status).toBe('AWAITING_OPTION');
@@ -206,7 +209,7 @@ describe('play: real stdin, durable decisions and replay', () => {
       const option = work.options.find((entry) => entry.id === 'work')!;
       option.outcome.effects = [{ type: 'attribute_add', attribute: 'wealth', amount: 4 }];
     });
-    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], 'quit\n'));
+    expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], 'card 1\nquit\n'));
     const before = await savedLife(context.state);
     expect(before.engine.payload.player.attributes.wealth).toBe(3);
     expect(before.engine.payload.run.status).toBe('AWAITING_OPTION');
@@ -251,7 +254,7 @@ describe('play: real stdin, durable decisions and replay', () => {
 
   it('keeps an ended save ended on relaunch rather than silently creating a new life', async () => {
     const context = await fixture((bundle) => fixedLife(bundle, 12));
-    const first = await runCli('play', ['--content', context.content, '--state', context.state], 'next\nnext\nnext\nquit\n');
+    const first = await runCli('play', ['--content', context.content, '--state', context.state], 'card 1\nnext\nnext\nnext\nquit\n');
     expectSuccess(first);
     const ended = await savedLife(context.state);
     expect(ended.engine.payload.run.status).toBe('ENDED');

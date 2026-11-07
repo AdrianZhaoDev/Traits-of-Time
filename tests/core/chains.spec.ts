@@ -4,6 +4,7 @@ import { validateContent } from '../../assets/scripts/core/content/ContentValida
 import type { Chain, Condition, ContentBundle, Effect, Event, Outcome, Stage } from '../../assets/scripts/core/types/content.generated.js';
 import type { CommandResult } from '../../assets/scripts/core/types/commands.js';
 import { loadTemplate } from '../helpers/content.js';
+import { initializeWithCard } from './card-helper.js';
 
 type Success = Extract<CommandResult, { ok: true }>;
 const fingerprint = 'e'.repeat(64);
@@ -99,7 +100,7 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
     const bundle = await chainContent();
     bundle.rules.lifespan = { min: 14, max: 14, min_remaining_years: 3 };
     const engine = engineFor(bundle);
-    const started = choose(engine, engine.initGame({ seed: 1640 }));
+    const started = choose(engine, initializeWithCard(engine, { seed: 1640 }));
     expect(started.state.player).toMatchObject({ age: 9, calendar_year: 1640, attributes: { intelligence: 3, wealth: 2, prestige: 3 } });
     expect(started.state.player.chains).toHaveLength(1);
     expect(started.state.player.chains[0]).toMatchObject({ chain_id: 'CH_WORKSHOP', started_year: 1640, next_due_year: 1641, node_index: 0, status: 'active' });
@@ -128,7 +129,7 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
   it('restores the unfinished chain and its exact receipts without rescheduling or rewarding twice', async () => {
     const bundle = await chainContent();
     const control = engineFor(bundle);
-    choose(control, control.initGame({ seed: 1640 }));
+    choose(control, initializeWithCard(control, { seed: 1640 }));
     const first = success(control.nextYear('1641'));
     const saved = JSON.parse(JSON.stringify(control.exportSave()));
     const resumed = engineFor(bundle);
@@ -158,7 +159,7 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
     first.stages = [makeStage('S1', 'S2'), makeStage('S2', null)];
     bundle.events = bundle.events.map((event) => event.id === first.id ? first : event);
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     const decision = success(engine.nextYear('1641'));
     expect(decision.pending).toMatchObject({ kind: 'option', event_id: 'E_CHAIN_1' });
     expect(decision.state.player.chains[0]).toMatchObject({ node_index: 0, status: 'active' });
@@ -183,7 +184,7 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
     bundle.events.push(choice('E_RESTART', [{ type: 'chain_start', id: 'CH_WORKSHOP' }],
       { kind: 'historical', year: 1642, priority: 0 }));
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 1640 }));
+    choose(engine, initializeWithCard(engine, { seed: 1640 }));
     const grown = success(engine.nextYear('grow'));
     const [target, sibling] = grown.state.player.chains;
     const abandoned = success(engine.abandonChain('leave', target!.instance_id));
@@ -214,7 +215,7 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
       ? choice(event.id, [], { kind: 'chain' }) : event);
     else bundle.events.push(choice('E_UNRELATED', [], { kind: 'historical', year: 1641, priority: 0 }));
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 1640 }));
+    choose(engine, initializeWithCard(engine, { seed: 1640 }));
     const before = success(engine.nextYear('decision'));
     expect(before.pending?.kind).toBe('option');
     const result = success(engine.abandonChain('leave', before.state.player.chains[0]!.instance_id));
@@ -238,7 +239,7 @@ describe('chains: real years, saved cursors and exactly-once completion', () => 
       success: outcome(), failure: outcome() }];
     bundle.events = bundle.events.map(event => event.id === node.id ? node : event);
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 1640 }));
+    choose(engine, initializeWithCard(engine, { seed: 1640 }));
     const stage = choose(engine, engine.nextYear('year'), 'authorize');
     const id = stage.state.player.chains[0]!.instance_id;
     const saved = structuredClone(engine.exportSave());
@@ -264,7 +265,7 @@ describe('chains: capacity preview and atomic resource effects', () => {
     third.options.push({ id: 'wait', text: 'Wait', unavailable_text: 'Unavailable', risk: 'safe', outcome: outcome() });
     bundle.events.push(third);
     const engine = engineFor(bundle);
-    const pending = choose(engine, engine.initGame({ seed: 0 }));
+    const pending = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(pending.state.player.chains).toHaveLength(2);
     expect(new Set(pending.state.player.chains.map((chain) => chain.instance_id)).size).toBe(2);
     if (pending.pending?.kind !== 'option') throw new Error('Expected third-chain choice');
@@ -294,7 +295,7 @@ describe('chains: capacity preview and atomic resource effects', () => {
       { type: 'chain_start', id: 'CH_REPLACEMENT' },
     ], { kind: 'historical', year: 1640, priority: 0 }));
     const engine = engineFor(bundle);
-    const replacementChoice = choose(engine, engine.initGame({ seed: 0 }));
+    const replacementChoice = choose(engine, initializeWithCard(engine, { seed: 0 }));
     if (replacementChoice.pending?.kind !== 'option') throw new Error('Expected replacement choice');
     expect(replacementChoice.pending.options[0]!.available).toBe(true);
     const result = choose(engine, replacementChoice, 'replace');
@@ -308,7 +309,7 @@ describe('chains: capacity preview and atomic resource effects', () => {
     const bundle = await chainContent();
     configureOpening(bundle, [{ type: 'injury_add', id: 'INJ_SEVERE' }, { type: 'chain_start', id: 'CH_WORKSHOP' }]);
     const engine = engineFor(bundle);
-    const started = choose(engine, engine.initGame({ seed: 0 }));
+    const started = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(started.state.player.chains[0]).toMatchObject({ status: 'interrupted', next_due_year: null });
     expect(started.state.player.flags).not.toContain('workshop_complete');
     for (const year of [1641, 1642, 1643]) success(engine.nextYear(String(year)));
@@ -339,7 +340,7 @@ describe('chains: interruption on every relevant change', () => {
     ]);
     bundle.events.push(automatic('E_INTERRUPT', [effect], { kind: 'historical', year: 1640, priority: 0 }));
     const engine = engineFor(bundle);
-    const initial = choose(engine, engine.initGame({ seed: 0 }));
+    const initial = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(initial.state.player.chains[0]).toMatchObject({ status: 'interrupted', next_due_year: null });
     expect(initial.state.player.chains[0]!.interruption_reason).toEqual(expect.any(String));
     expect(initial.state.player.attributes.wealth).toBe(effect.type === 'attribute_add' ? 0 : 2);
@@ -360,7 +361,7 @@ describe('chains: interruption on every relevant change', () => {
       success: outcome([{ type: 'flag_add', id: 'bad_stage' }]), failure: outcome([{ type: 'flag_add', id: 'bad_stage' }]),
     }];
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     success(engine.nextYear('1641'));
     success(engine.nextYear('1642'));
     const final = success(engine.nextYear('1643'));
@@ -382,7 +383,7 @@ describe('chains: interruption on every relevant change', () => {
     locked.options[0]!.condition = { op: 'compare', field: 'wealth', comparator: 'gt', value: 10 };
     bundle.events = bundle.events.map((event) => event.id === locked.id ? locked : event);
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     const first = success(engine.nextYear('1641'));
     expect(first).toMatchObject({ state: { status: 'READY' }, pending: null });
     expect(first.state.player.chains[0]).toMatchObject({ status: 'interrupted', interruption_reason: 'NO_AVAILABLE_OPTION' });
@@ -395,7 +396,7 @@ describe('chains: interruption on every relevant change', () => {
     const bundle = await chainContent();
     automaticOutcome(bundle, 'E_CHAIN_3').effects = [{ type: 'death', id: 'D_CRISIS' }];
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     success(engine.nextYear('1641'));
     success(engine.nextYear('1642'));
     const final = success(engine.nextYear('1643'));
@@ -428,7 +429,7 @@ describe('chains: stable queue ordering and same-year effects', () => {
       { op: 'has', collection: 'completed_chains', id: 'CH_HIGH' }, { op: 'has', collection: 'completed_chains', id: 'CH_LOW' },
     ] };
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     const result = success(engine.nextYear('1641'));
     expect(result.state.player.attributes.wealth).toBe(8);
     expect(result.state.player.flags).toContain('history_after_chains');
@@ -453,7 +454,7 @@ describe('chains: stable queue ordering and same-year effects', () => {
       choice('E_START', [{ type: 'chain_start', id: first.id }, { type: 'chain_start', id: second.id }], { kind: 'opening', weight: 1, trigger_probability: 1 }),
     ];
     const engine = engineFor(bundle);
-    const start = choose(engine, engine.initGame({ seed: 0 }));
+    const start = choose(engine, initializeWithCard(engine, { seed: 0 }));
     const ordered = [...start.state.player.chains].sort((left, right) => left.instance_id < right.instance_id ? -1 : left.instance_id > right.instance_id ? 1 : 0);
     const result = success(engine.nextYear('1641'));
     const expectedWealth = ordered[0]!.chain_id === first.id ? 8 : 10;
@@ -480,7 +481,7 @@ describe('chains: stable queue ordering and same-year effects', () => {
     bundle.achievements = [];
     configureOpening(bundle, [{ type: 'chain_start', id: 'CH_WORKSHOP' }, { type: 'chain_start', id: 'CH_OTHER' }]);
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     const result = success(engine.nextYear('1641'));
     expect(result.state.player.attributes).toMatchObject({ intelligence: 4, wealth: 3 });
     expect(result.state.player.chains.map((chain) => chain.status)).toEqual(['completed', 'interrupted']);
@@ -494,7 +495,7 @@ describe('chains: completion and vital-phase boundaries', () => {
     const bundle = await chainContent();
     bundle.chains[0]!.interrupt_condition = { op: 'has', collection: 'flags', id: 'workshop_complete' };
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     for (const year of [1641, 1642]) success(engine.nextYear(String(year)));
     const final = success(engine.nextYear('1643'));
     expect(final.state.player.chains[0]).toMatchObject({ status: 'completed', next_due_year: null, interruption_reason: null });
@@ -512,7 +513,7 @@ describe('chains: completion and vital-phase boundaries', () => {
       { type: 'chain_start', id: 'CH_WORKSHOP' },
     ]);
     const engine = engineFor(bundle);
-    const started = choose(engine, engine.initGame({ seed: 0 }));
+    const started = choose(engine, initializeWithCard(engine, { seed: 0 }));
     expect(started.state.player.chains[0]!.status).toBe('active');
     expect(started.state.player.attributes.physique).toBe(3);
     const next = success(engine.nextYear('1641'));
@@ -526,7 +527,7 @@ describe('chains: completion and vital-phase boundaries', () => {
     const bundle = await chainContent();
     bundle.rules.lifespan = { min: 12, max: 12, min_remaining_years: 3 };
     const engine = engineFor(bundle);
-    choose(engine, engine.initGame({ seed: 0 }));
+    choose(engine, initializeWithCard(engine, { seed: 0 }));
     success(engine.nextYear('1641'));
     success(engine.nextYear('1642'));
     const final = success(engine.nextYear('1643'));

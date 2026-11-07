@@ -10,7 +10,7 @@ import type { CommandResult } from '../assets/scripts/core/types/commands.js';
 import { loadContent } from './lib/ContentLoader.js';
 import { load, save } from './lib/FileStateStore.js';
 import { sha256 } from './lib/canonical.js';
-import { chooseAutomaticOption } from './lib/AutoPlay.js';
+import { chooseAutomaticCard, chooseAutomaticOption } from './lib/AutoPlay.js';
 import { buildReplay, writeReplay } from './lib/Replay.js';
 import { DEFAULT_CONTENT, parseCli, requiredString, integerArg, assertDestinationOutsideContent, checkSeed, withStateLock, runCli } from './lib/cli.js';
 
@@ -42,7 +42,13 @@ await runCli(async () => {
     if (args.new && (await readdir(directory)).some(name => name === 'slot-a.json' || name === 'slot-b.json')) {
       throw Object.assign(new Error(`该目录已有存档，不能覆盖。另开一局：${newCommand}`), { code: 'STATE_EXISTS' });
     }
-    const stored = await load<SessionSave>(directory);
+    let stored: SessionSave | null;
+    try {
+      stored = await load<SessionSave>(directory);
+    } catch (error) {
+      if (error instanceof Error) error.message += `；旧档已保留。另开一局：${newCommand}`;
+      throw error;
+    }
     if (stored) {
       try {
         session.restoreSave(stored);
@@ -81,7 +87,7 @@ await runCli(async () => {
           console.log(`【出身启程】${narrative(entry.message)}`);
           showCard(entry.data.card_id);
         } else if (entry.type === 'event') {
-          if (entry.data.event_instance_id === pending?.event_instance_id) pendingEventShown = true;
+          if (pending && pending.kind !== 'card' && entry.data.event_instance_id === pending.event_instance_id) pendingEventShown = true;
           console.log(`${narrative(entry.message)}`);
         } else if (entry.type === 'dice') {
           console.log(styleText('magenta', `  🎲 掷骰检定：D20=${entry.data.raw} + 属性=${entry.data.attribute_value} (修正${entry.data.modifier_after}) vs DC=${entry.data.dc} → ${entry.data.success ? '成功' : '失败'}`));
@@ -114,24 +120,46 @@ await runCli(async () => {
         console.log(`【进行中的事业 ${index + 1}】${bundle.chains.find(item => item.id === chain.chain_id)?.name ?? chain.chain_id} (${chain.instance_id})；pause 暂停后输入 abandon ${index + 1} 可退出，已付成本不退。`);
       });
       if (pending) {
-        if (!pendingEventShown) console.log(`${pending.kind === 'option' ? '【事件抉择】' : '【自动演绎】'}${narrative(bundle.events.find(event => event.id === pending.event_id)!.text)}`);
-        if (pending.kind === 'option') {
-          console.log(header('【你的决策】'));
-          pending.options.forEach((option, idx) => {
-            const num = styleText('bold', styleText('yellow', `[${idx + 1}]`));
-            const hint = option.available ? styleText('green', '可选') : styleText('red', `不可选(${option.reason})`);
-            const checks = option.checks.length === 0 ? '无检定' : `可能检定：${option.checks.map(check => `${attributeNames[check.attribute]} / DC ${check.dc}`).join('、')}（按分支触发）`;
-            console.log(`  👉 输入 ${num} 或 choose ${option.id}  ——  ${option.text} [${hint}] [${riskNames[option.risk]}] ${checks}`);
-            const event = bundle.events.find(item => item.id === pending.event_id);
-            const source = event?.interaction === 'choice' ? event.options.find(item => item.id === option.id) : undefined;
-            for (const effect of source?.outcome.effects ?? []) {
-              if (effect.type !== 'chain_start') continue;
-              const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
-              if (commitment) console.log(`     【起步前说明】${commitment}`);
-            }
+        if (pending.kind === 'card') {
+          console.log(header('【先选家当，再选方向】'));
+          pending.cards.forEach((id, idx) => {
+            const card = bundle.cards.find(item => item.id === id);
+            if (card) console.log(`  👉 输入 card ${idx + 1} 或 card ${id} —— ${card.name} [${card.rarity}]（${card.description}）`);
           });
         } else {
-          console.log(`${narrative(pending.text)}\n阶段 ${pending.stage_id}：${attributeNames[pending.check.attribute]} / DC ${pending.check.dc}；自动掷骰并结算，无需选择。`);
+          if (!pendingEventShown) console.log(`${pending.kind === 'option' ? '【事件抉择】' : '【自动演绎】'}${narrative(bundle.events.find(event => event.id === pending.event_id)!.text)}`);
+          if (pending.kind === 'option') {
+            console.log(header('【你的决策】'));
+            const event = bundle.events.find(item => item.id === pending.event_id);
+            const stages = new Map(event?.stages?.map(stage => [stage.id, stage]));
+            pending.options.forEach((option, idx) => {
+              const num = styleText('bold', styleText('yellow', `[${idx + 1}]`));
+              const hint = option.available ? styleText('green', '可选') : styleText('red', `不可选(${option.reason})`);
+              const source = event?.interaction === 'choice' ? event.options.find(item => item.id === option.id) : undefined;
+              const reachable = source?.outcome.next_stage_id ? [source.outcome.next_stage_id] : [];
+              const seen = new Set<string>();
+              const descriptions: string[] = [];
+              // Preserve the engine's projected first check. Later checks are structural hints only:
+              // earlier branches can change the attributes and modifiers used for those rolls.
+              for (const stageId of reachable) {
+                if (seen.has(stageId)) continue;
+                seen.add(stageId);
+                const stage = stages.get(stageId)!;
+                const check = stageId === source?.outcome.next_stage_id ? option.checks[0] ?? stage.check : stage.check;
+                descriptions.push(`${attributeNames[check.attribute]} / DC ${check.dc}`);
+                for (const outcome of [stage.success, stage.failure, stage.critical_success]) {
+                  if (outcome?.next_stage_id) reachable.push(outcome.next_stage_id);
+                }
+              }
+              const checks = descriptions.length === 0 ? '无检定' : `可能检定：${descriptions.join('、')}（按分支触发）`;
+              console.log(`  👉 输入 ${num} 或 choose ${option.id}  ——  ${option.text} [${hint}] [${riskNames[option.risk]}] ${checks}`);
+              for (const effect of source?.outcome.effects ?? []) {
+                if (effect.type !== 'chain_start') continue;
+                const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
+                if (commitment) console.log(`     【起步前说明】${commitment}`);
+              }
+            });
+          } else console.log(`${narrative(pending.text)}\n阶段 ${pending.stage_id}：${attributeNames[pending.check.attribute]} / DC ${pending.check.dc}；自动掷骰并结算，无需选择。`);
         }
       }
       if (state.status === 'ENDED') {
@@ -193,9 +221,11 @@ await runCli(async () => {
         if (args.auto) {
           while (!shouldStop() && session.current().state.status !== 'ENDED') {
             const pending = session.current().pending;
-            const result = await session.command(pending?.kind === 'option'
-              ? { type: 'choose', optionId: chooseAutomaticOption(pending) }
-              : pending?.kind === 'stage' ? { type: 'stage' } : { type: 'next' });
+            const result = await session.command(pending?.kind === 'card'
+              ? { type: 'selectCard', cardId: chooseAutomaticCard(pending, session.exportSave().engine.payload.run.seed) }
+              : pending?.kind === 'option'
+                ? { type: 'choose', optionId: chooseAutomaticOption(pending) }
+                : pending?.kind === 'stage' ? { type: 'stage' } : { type: 'next' });
             await displayResult(result);
             if (!result.ok) throw Object.assign(new Error(result.error.message), { code: result.error.code });
             await nextTurn();
@@ -208,7 +238,7 @@ await runCli(async () => {
     };
     console.log(args.auto
       ? '全自动模式：随机选择可用选项并推进至结局；pause 可暂停，Ctrl+C 在当前命令保存后停止。'
-      : '日常境遇由骰子自动演绎，重大人生走向等你决定。命令：序号 / choose <id> / pause / continue / next（单步后暂停） / abandon <事业编号或实例> / status / quit');
+      : '先选家当，再选方向。日常境遇由骰子自动演绎，重大人生走向等你决定。命令：card <序号或ID> / 序号 / choose <id> / pause / continue / next（单步后暂停） / abandon <事业编号或实例> / status / quit');
     show();
     try {
       await advance();
@@ -238,7 +268,14 @@ await runCli(async () => {
         let result: CommandResult;
         const pending = session.current().pending;
         let chose = false;
-        if (/^\d+$/.test(text) && pending?.kind === 'option') {
+        if (/^card\s+\S+$/.test(text) && pending?.kind === 'card') {
+          const token = text.slice(5).trim();
+          const index = /^\d+$/.test(token) ? Number(token) - 1 : pending.cards.indexOf(token);
+          const cardId = pending.cards[index];
+          if (!cardId) { console.log(`无效卡牌。请输入 card 1 到 card ${pending.cards.length} 或 card <ID>。`); continue; }
+          result = await session.command({ type: 'selectCard', cardId });
+          chose = true;
+        } else if (/^\d+$/.test(text) && pending?.kind === 'option') {
           const option = pending.options[Number(text) - 1];
           if (!option) { console.log(`无效序号。请输入 1 到 ${pending.options.length} 之间的数字。`); continue; }
           result = await session.command({ type: 'choose', optionId: option.id });
@@ -256,7 +293,10 @@ await runCli(async () => {
         } else if (text === 'next') {
           paused = true;
           result = await session.command({ type: text });
-        } else { console.log('未知命令。输入序号 / continue / pause / next / abandon <编号或实例> / status / quit。'); continue; }
+        } else {
+          console.log('未知命令。输入 card <序号或ID> / 序号 / continue / pause / next / abandon <编号或实例> / status / quit。');
+          continue;
+        }
         await displayResult(result);
         if (chose && result.ok && !paused) await advance();
       }

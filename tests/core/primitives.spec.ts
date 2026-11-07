@@ -150,6 +150,19 @@ describe('resolveCheck: explicit D20 resolution', () => {
       .toMatchObject({ raw: 20, success: true, success_probability: 1 / 20 });
   });
 
+  it('applies the raw-die threshold in both the outcome and probability, preserving natural 1 and 20', () => {
+    const threshold = { ...check, dc: 12, raw_minimum: 10 };
+    const results = Array.from({ length: 20 }, (_, index) =>
+      resolveCheck(threshold, 12, limits, new SequenceRandom([index])));
+    expect(results.map(result => result.success)).toEqual([
+      false, false, false, false, false, false, false, false, false,
+      true, true, true, true, true, true, true, true, true, true, true,
+    ]);
+    expect(results.every(result => result.success_probability === 11 / 20)).toBe(true);
+    const impossible = resolveCheck({ ...threshold, dc: 100 }, 0, limits, new SequenceRandom([19]));
+    expect(impossible).toMatchObject({ raw: 20, success: true, success_probability: 1 / 20 });
+  });
+
   it.each([[9, 3], [-9, -3], [-1, -1]])(
     'clamps stage modifier %i to %i', (before, after) => {
       const result = resolveCheck({ ...check, modifier: before }, 4, limits, new SequenceRandom([9]));
@@ -183,7 +196,7 @@ describe('probability gates: exact boundary and deterministic endpoints', () => 
 
 describe('evaluateCondition: restricted declarative operators', () => {
   const state: ConditionContext = {
-    age: 9, calendar_year: 1640, physique: 2, intelligence: 4, wealth: 3, prestige: 1, luck: 5,
+    age: 9, calendar_year: 1640, start_year: 1638, physique: 2, intelligence: 4, wealth: 3, prestige: 1, luck: 5,
     region_id: 'R_JIANGNAN', caste_id: 'C_SOLDIER', identity_id: 'I_DEPENDENT', timeline: 'historical',
     cards: ['CARD_COMMON'], flags: ['dependent'], injuries: ['INJ_SEVERE'], completed_chains: ['CH_WORKSHOP'], active_chains: ['CH_ACTIVE'],
   };
@@ -194,7 +207,7 @@ describe('evaluateCondition: restricted declarative operators', () => {
     expect(state).toEqual(before);
   });
 
-  it.each(['age', 'calendar_year', 'physique', 'intelligence', 'wealth', 'prestige', 'luck'] as const)(
+  it.each(['age', 'calendar_year', 'start_year', 'physique', 'intelligence', 'wealth', 'prestige', 'luck'] as const)(
     'compares the named numeric field %s', (field) => {
       expect(evaluateCondition({ op: 'compare', field, comparator: 'eq', value: state[field] }, state)).toBe(true);
       expect(evaluateCondition({ op: 'compare', field, comparator: 'eq', value: state[field] + 1 }, state)).toBe(false);

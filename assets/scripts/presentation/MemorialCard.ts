@@ -6,279 +6,281 @@ import {
   Graphics,
   UITransform,
   Color,
-  EventTouch,
-  Vec3,
-  v3,
-  tween,
-  UIOpacity,
+  ScrollView,
+  Mask,
   Layers,
+  EventTouch,
 } from 'cc';
 import type { PendingDecision } from '../core/types/schema';
+import { EnumMapper } from './EnumMapper';
 
 export type OptionPending = Extract<PendingDecision, { kind: 'option' }>;
 
 const { ccclass } = _decorator;
+const riskNames = { safe: '安全', normal: '普通', high: '高风险' } as const;
+const PANEL_WIDTH = 710;
+const PANEL_HEIGHT = 1180;
+const SCROLL_WIDTH = 662;
+const SCROLL_HEIGHT = 880;
+const ROW_WIDTH = 646;
+const TEXT_WIDTH = 598;
+const palette = {
+  background: new Color(19, 21, 28, 255),
+  panel: new Color(26, 29, 38, 255),
+  option: new Color(34, 39, 54, 255),
+  pressed: new Color(43, 50, 69, 255),
+  border: new Color(53, 59, 73, 255),
+  text: new Color(237, 241, 247, 255),
+  secondary: new Color(140, 150, 168, 255),
+  cyan: new Color(0, 240, 255, 255),
+  gold: new Color(255, 190, 11, 255),
+  green: new Color(5, 223, 183, 255),
+  red: new Color(255, 42, 95, 255),
+};
 
-/**
- * 奏折式抉择卡片 (支持左右滑动批红/批墨交互)
- * 向左划动 > 100px：冷眼旁观 / 拒绝 (批墨叉)
- * 向右划动 > 100px：倾力入局 / 顺从 (批朱圈)
- */
+interface DecisionRow {
+  id: string;
+  node: Node;
+  graphics: Graphics;
+  height: number;
+  available: boolean;
+  risk: OptionPending['options'][number]['risk'];
+}
+
+/** 金色标题栏固定；事件正文与全部真实选项共用一个滚动区，不截断长分支。 */
 @ccclass('MemorialCard')
 export class MemorialCard extends Component {
-  private titleLabel: Label | null = null;
-  private descLabel: Label | null = null;
-  private leftHintLabel: Label | null = null;
-  private rightHintLabel: Label | null = null;
-
-  private decisionData: OptionPending | null = null;
-  private onSelectCallback: ((optionId: string) => void) | null = null;
-
-  private startTouchPos: Vec3 = new Vec3();
-  private currentOffset: number = 0;
-  private isDragging: boolean = false;
+  private submitting = false;
+  private selectedOptionId: string | null = null;
+  private noticeLabel: Label | null = null;
+  private rows: DecisionRow[] = [];
 
   public init(
     decision: OptionPending,
     onSelect: (optionId: string) => void,
-    customDesc?: string,
+    eventText = '',
+    optionDetails: Record<string, string[]> = {},
+    onManageCareers?: () => void,
   ): void {
-    this.decisionData = decision;
-    this.onSelectCallback = onSelect;
+    this.submitting = false;
+    this.selectedOptionId = null;
+    this.noticeLabel = null;
+    this.rows = [];
+    for (const child of [...this.node.children]) child.destroy();
     this.node.removeAllChildren();
     this.node.layer = Layers.Enum.UI_2D;
     this.node.setPosition(0, 0, 0);
 
     const transform = this.getComponent(UITransform) || this.addComponent(UITransform);
     transform.setAnchorPoint(0.5, 0.5);
-    transform.setContentSize(640, 520);
+    transform.setContentSize(PANEL_WIDTH, PANEL_HEIGHT);
 
-    // 1. 奏折底板背景 (醒目古宣纸黄 #F4EBD9，深赭色边框 #6A4426)
-    const bgNode = new Node('MemorialPaperBg');
-    bgNode.layer = Layers.Enum.UI_2D;
-    bgNode.setPosition(0, 0, 0);
-    const bgTrans = bgNode.addComponent(UITransform);
-    bgTrans.setAnchorPoint(0.5, 0.5);
-    bgTrans.setContentSize(640, 520);
+    const background = new Node('MemorialPaperBg');
+    background.layer = Layers.Enum.UI_2D;
+    background.addComponent(UITransform).setContentSize(PANEL_WIDTH, PANEL_HEIGHT);
+    const panel = background.addComponent(Graphics);
+    panel.fillColor = palette.panel;
+    panel.strokeColor = palette.gold;
+    panel.lineWidth = 2;
+    panel.roundRect(-354, -589, 708, 1178, 12);
+    panel.fill();
+    panel.stroke();
+    panel.fillColor = palette.gold;
+    panel.rect(-353, 512, 706, 76);
+    panel.fill();
+    this.node.addChild(background);
 
-    const gfx = bgNode.addComponent(Graphics);
-    // 纸张底色
-    gfx.fillColor = new Color(244, 235, 217, 255);
-    gfx.roundRect(-320, -260, 640, 520, 12);
-    gfx.fill();
-    // 赭色外边框
-    gfx.lineWidth = 4;
-    gfx.strokeColor = new Color(106, 68, 38, 255);
-    gfx.roundRect(-320, -260, 640, 520, 12);
-    gfx.stroke();
-    // 内侧朱砂金线
-    gfx.lineWidth = 1.5;
-    gfx.strokeColor = new Color(200, 60, 35, 180);
-    gfx.roundRect(-312, -252, 624, 504, 8);
-    gfx.stroke();
-    this.node.addChild(bgNode);
+    this.addLabel(this.node, 'Title', '重大抉择', -180, 550, 280, 48, 32, palette.background);
+    this.addLabel(this.node, 'DecisionCount', `${decision.options.length} 条选择`, 205, 550, 230, 42, 24, palette.background, true);
+    this.addLabel(this.node, 'OptionsHeading', '上滑阅读全部选项 · 点击可选项定夺', 0, 482, 646, 34, 23, palette.secondary);
 
-    // 2. 奏折顶端标题
-    const titleNode = new Node('Title');
-    titleNode.layer = Layers.Enum.UI_2D;
-    titleNode.setPosition(0, 215, 0);
-    const titleTrans = titleNode.addComponent(UITransform);
-    titleTrans.setAnchorPoint(0.5, 0.5);
-    titleTrans.setContentSize(580, 40);
+    const scrollNode = new Node('OptionScrollView');
+    scrollNode.layer = Layers.Enum.UI_2D;
+    scrollNode.addComponent(UITransform).setContentSize(SCROLL_WIDTH, SCROLL_HEIGHT);
+    this.node.addChild(scrollNode);
 
-    this.titleLabel = titleNode.addComponent(Label);
-    this.titleLabel.string = '【 呈阅 · 时局要事定夺 】';
-    this.titleLabel.fontSize = 24;
-    this.titleLabel.lineHeight = 32;
-    this.titleLabel.color = new Color(140, 35, 25, 255); // 朱红标题
-    this.titleLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
-    this.node.addChild(titleNode);
+    const viewport = new Node('Viewport');
+    viewport.layer = Layers.Enum.UI_2D;
+    viewport.addComponent(UITransform).setContentSize(SCROLL_WIDTH, SCROLL_HEIGHT);
+    viewport.addComponent(Mask);
+    scrollNode.addChild(viewport);
 
-    // 3. 详细陈词区
-    const descNode = new Node('Desc');
-    descNode.layer = Layers.Enum.UI_2D;
-    descNode.setPosition(0, 75, 0);
-    const descTrans = descNode.addComponent(UITransform);
-    descTrans.setAnchorPoint(0.5, 0.5);
-    descTrans.setContentSize(560, 210);
+    const content = new Node('Content');
+    content.layer = Layers.Enum.UI_2D;
+    const contentTransform = content.addComponent(UITransform);
+    contentTransform.setAnchorPoint(0.5, 1);
+    content.setPosition(0, SCROLL_HEIGHT / 2, 0);
+    viewport.addChild(content);
+    const scroll = scrollNode.addComponent(ScrollView);
+    scroll.horizontal = false;
+    scroll.vertical = true;
+    scroll.cancelInnerEvents = true;
+    scroll.content = content;
 
-    this.descLabel = descNode.addComponent(Label);
-    this.descLabel.string = customDesc || '时值崇祯年间天下扰攘，正是立身立命之机。前方机缘路口已至，请主公斟酌批定：';
-    this.descLabel.fontSize = 21;
-    this.descLabel.lineHeight = 32;
-    this.descLabel.overflow = Label.Overflow.RESIZE_HEIGHT;
-    this.descLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
-    this.descLabel.color = new Color(50, 40, 32, 255); // 焦墨正文
-    this.node.addChild(descNode);
+    const description = this.addLabel(content, 'Desc', eventText || '事件信息不可用。', 0, -8, 630, 38, 27, palette.text);
+    description.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
+    const descriptionHeight = this.measureLabel(description, 630);
+    let offset = descriptionHeight + 36;
 
-    // 4. 左选项（批墨 / 谨守）
-    const leftOpt = decision.options[0];
-    const leftBtnNode = new Node('LeftBtn');
-    leftBtnNode.layer = Layers.Enum.UI_2D;
-    leftBtnNode.setPosition(-155, -190, 0);
-    const leftTrans = leftBtnNode.addComponent(UITransform);
-    leftTrans.setAnchorPoint(0.5, 0.5);
-    leftTrans.setContentSize(270, 76);
+    decision.options.forEach((option, index) => {
+      const rowNode = new Node(`Option_${option.id}`);
+      rowNode.layer = Layers.Enum.UI_2D;
+      const rowTransform = rowNode.addComponent(UITransform);
+      rowTransform.setAnchorPoint(0.5, 1);
+      rowNode.setPosition(0, -offset, 0);
+      content.addChild(rowNode);
 
-    const leftGfx = leftBtnNode.addComponent(Graphics);
-    leftGfx.fillColor = new Color(48, 44, 40, 255); // 浓墨深底
-    leftGfx.roundRect(-135, -38, 270, 76, 8);
-    leftGfx.fill();
-    leftGfx.lineWidth = 2;
-    leftGfx.strokeColor = new Color(130, 120, 105, 255);
-    leftGfx.roundRect(-135, -38, 270, 76, 8);
-    leftGfx.stroke();
+      const title = this.addLabel(rowNode, 'OptionTitle', `${index + 1}. ${option.text}`, 0, -20,
+        TEXT_WIDTH, 40, 28, option.available ? palette.text : palette.secondary);
+      title.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
+      const titleHeight = this.measureLabel(title, TEXT_WIDTH);
+      const checks = option.checks.length === 0 ? '无检定' : `可能检定（按分支触发）：\n${option.checks.map(check => {
+        const modifier = check.modifier_after ?? check.modifier;
+        const value = Number.isFinite(check.attribute_value) ? ` ${check.attribute_value}` : '';
+        const capped = check.modifier_before !== undefined && check.modifier_after !== undefined
+          && check.modifier_before !== check.modifier_after ? '（已封顶）' : '';
+        const minimum = check.raw_minimum === undefined ? '' : `，原骰至少 ${check.raw_minimum}`;
+        const probability = Number.isFinite(check.success_probability)
+          ? `${Math.round(check.success_probability * 100)}%` : '未提供';
+        return `${EnumMapper.translateStat(check.attribute).name}${value} / DC ${check.dc}，修正 ${modifier >= 0 ? '+' : ''}${modifier}${capped}${minimum}，成功率 ${probability}`;
+      }).join('\n')}`;
+      const availability = option.available ? '可选' : `不可选：${option.reason || '眼下条件不符。'}`;
+      const text = [`${riskNames[option.risk]} · ${availability}`, checks, ...(optionDetails[option.id] ?? [])].join('\n');
+      const detail = this.addLabel(rowNode, 'OptionDetail', text, 0, -32 - titleHeight,
+        TEXT_WIDTH, 34, 24, palette.secondary);
+      detail.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
+      const detailHeight = this.measureLabel(detail, TEXT_WIDTH);
+      const height = 52 + titleHeight + detailHeight;
+      rowTransform.setContentSize(ROW_WIDTH, height);
+      const row: DecisionRow = {
+        id: option.id,
+        node: rowNode,
+        graphics: rowNode.addComponent(Graphics),
+        height,
+        available: option.available,
+        risk: option.risk,
+      };
+      this.rows.push(row);
+      this.drawOption(row);
 
-    const leftLabelNode = new Node('LeftLabel');
-    leftLabelNode.layer = Layers.Enum.UI_2D;
-    const lLblTrans = leftLabelNode.addComponent(UITransform);
-    lLblTrans.setAnchorPoint(0.5, 0.5);
-    lLblTrans.setContentSize(250, 70);
-
-    this.leftHintLabel = leftLabelNode.addComponent(Label);
-    this.leftHintLabel.string = `← 批墨\n${leftOpt ? leftOpt.text : '作罢'}`;
-    this.leftHintLabel.fontSize = 18;
-    this.leftHintLabel.lineHeight = 24;
-    this.leftHintLabel.color = new Color(240, 235, 220, 255);
-    this.leftHintLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
-    leftBtnNode.addChild(leftLabelNode);
-    this.node.addChild(leftBtnNode);
-
-    // 点击左选项
-    leftBtnNode.on(Node.EventType.TOUCH_END, (e: unknown) => {
-      if (leftOpt) this.confirmSelection(leftOpt.id, -1);
-    });
-
-    // 5. 右选项（批朱 / 破局）
-    const rightOpt = decision.options[1] || decision.options[0];
-    const rightBtnNode = new Node('RightBtn');
-    rightBtnNode.layer = Layers.Enum.UI_2D;
-    rightBtnNode.setPosition(155, -190, 0);
-    const rightTrans = rightBtnNode.addComponent(UITransform);
-    rightTrans.setAnchorPoint(0.5, 0.5);
-    rightTrans.setContentSize(270, 76);
-
-    const rightGfx = rightBtnNode.addComponent(Graphics);
-    rightGfx.fillColor = new Color(180, 50, 35, 255); // 朱砂红底
-    rightGfx.roundRect(-135, -38, 270, 76, 8);
-    rightGfx.fill();
-    rightGfx.lineWidth = 2;
-    rightGfx.strokeColor = new Color(225, 185, 90, 255); // 金色勾边
-    rightGfx.roundRect(-135, -38, 270, 76, 8);
-    rightGfx.stroke();
-
-    const rightLabelNode = new Node('RightLabel');
-    rightLabelNode.layer = Layers.Enum.UI_2D;
-    const rLblTrans = rightLabelNode.addComponent(UITransform);
-    rLblTrans.setAnchorPoint(0.5, 0.5);
-    rLblTrans.setContentSize(250, 70);
-
-    this.rightHintLabel = rightLabelNode.addComponent(Label);
-    this.rightHintLabel.string = `批朱 →\n${rightOpt ? rightOpt.text : '准予'}`;
-    this.rightHintLabel.fontSize = 18;
-    this.rightHintLabel.lineHeight = 24;
-    this.rightHintLabel.color = new Color(255, 250, 235, 255);
-    this.rightHintLabel.horizontalAlign = Label.HorizontalAlign.CENTER;
-    rightBtnNode.addChild(rightLabelNode);
-    this.node.addChild(rightBtnNode);
-
-    // 点击右选项
-    rightBtnNode.on(Node.EventType.TOUCH_END, (e: unknown) => {
-      if (rightOpt) this.confirmSelection(rightOpt.id, 1);
-    });
-
-    // 6. 注册拖拽手势
-    this.registerTouch();
-  }
-
-  private registerTouch(): void {
-    this.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
-    this.node.on(Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-    this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
-    this.node.on(Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-  }
-
-  private onTouchStart(e: unknown): void {
-    const touch = e as EventTouch;
-    this.isDragging = true;
-    this.startTouchPos.set(touch.getUILocation().x, touch.getUILocation().y, 0);
-  }
-
-  private onTouchMove(e: unknown): void {
-    if (!this.isDragging) return;
-    const touch = e as EventTouch;
-    const currentPos = touch.getUILocation();
-    const deltaX = currentPos.x - this.startTouchPos.x;
-    this.currentOffset = deltaX;
-    // 跟随位移与轻微倾斜角度
-    this.node.setPosition(deltaX, 0, 0);
-    const rotZ = -(deltaX / 500) * 8; // -8° ~ 8°
-    this.node.setRotationFromEuler(0, 0, rotZ);
-
-    // 左右文字高亮提示
-    if (this.leftHintLabel && this.rightHintLabel) {
-      if (deltaX < -60) {
-        this.leftHintLabel.node.setScale(1.15, 1.15, 1);
-        this.rightHintLabel.node.setScale(0.9, 0.9, 1);
-      } else if (deltaX > 60) {
-        this.rightHintLabel.node.setScale(1.15, 1.15, 1);
-        this.leftHintLabel.node.setScale(0.9, 0.9, 1);
-      } else {
-        this.leftHintLabel.node.setScale(1.0, 1.0, 1);
-        this.rightHintLabel.node.setScale(1.0, 1.0, 1);
+      if (option.available) {
+        let origin: { x: number; y: number } | null = null;
+        let dragged = false;
+        const moved = (event?: EventTouch): boolean => {
+          if (!event || !origin) return false;
+          const point = event.getUILocation();
+          return Math.abs(point.x - origin.x) + Math.abs(point.y - origin.y) > 14;
+        };
+        rowNode.on(Node.EventType.TOUCH_START, (event?: EventTouch) => {
+          origin = event ? event.getUILocation() : null;
+          dragged = false;
+          if (!this.submitting) this.drawOption(row, true);
+        });
+        rowNode.on(Node.EventType.TOUCH_MOVE, (event?: EventTouch) => {
+          dragged = dragged || moved(event);
+          if (dragged) this.drawOption(row);
+        });
+        rowNode.on(Node.EventType.TOUCH_CANCEL, () => {
+          dragged = true;
+          origin = null;
+          this.drawOption(row);
+        });
+        rowNode.on(Node.EventType.TOUCH_END, (event?: EventTouch) => {
+          const wasDragged = dragged || moved(event);
+          origin = null;
+          this.drawOption(row);
+          if (this.submitting || wasDragged) return;
+          this.submitting = true;
+          this.selectedOptionId = option.id;
+          for (const other of this.rows) this.drawOption(other);
+          if (this.noticeLabel) {
+            this.noticeLabel.string = '正在定夺…\n请勿重复提交。';
+            this.noticeLabel.color = palette.gold;
+          }
+          onSelect(option.id);
+        });
       }
+      offset += height + 16;
+    });
+    contentTransform.setContentSize(SCROLL_WIDTH, Math.max(SCROLL_HEIGHT, offset + 8));
+
+    this.noticeLabel = this.addLabel(this.node, 'Notice', '点击可选项定夺；\n滑动可阅读完整说明。',
+      onManageCareers ? -106 : 0, -524, onManageCareers ? 410 : 646, 92, 22, palette.secondary);
+    if (onManageCareers) {
+      const manage = new Node('ManageCareers');
+      manage.layer = Layers.Enum.UI_2D;
+      manage.setPosition(225, -524, 0);
+      manage.addComponent(UITransform).setContentSize(196, 96);
+      const graphics = manage.addComponent(Graphics);
+      const drawManage = (pressed: boolean): void => {
+        graphics.clear();
+        graphics.fillColor = pressed ? palette.pressed : palette.option;
+        graphics.strokeColor = pressed ? palette.cyan : palette.border;
+        graphics.lineWidth = 2;
+        graphics.roundRect(-98, -48, 196, 96, 6);
+        graphics.fill();
+        graphics.stroke();
+      };
+      drawManage(false);
+      this.addLabel(manage, 'ManageLabel', '管理事业', 0, 0, 180, 44, 25, palette.text, true);
+      manage.on(Node.EventType.TOUCH_START, () => { if (!this.submitting) drawManage(true); });
+      manage.on(Node.EventType.TOUCH_CANCEL, () => drawManage(false));
+      manage.on(Node.EventType.TOUCH_END, () => {
+        drawManage(false);
+        if (!this.submitting) onManageCareers();
+      });
+      this.node.addChild(manage);
     }
   }
 
-  private onTouchEnd(): void {
-    if (!this.isDragging) return;
-    this.isDragging = false;
-
-    const threshold = 110;
-    if (this.currentOffset < -threshold && this.decisionData?.options[0]) {
-      // 触发左侧选项 (冷眼旁观/拒绝)
-      this.confirmSelection(this.decisionData.options[0].id, -1);
-    } else if (this.currentOffset > threshold) {
-      // 触发右侧选项 (倾力入局/照准)
-      const targetOpt = this.decisionData?.options[1] || this.decisionData?.options[0];
-      if (targetOpt) {
-        this.confirmSelection(targetOpt.id, 1);
-      } else {
-        this.resetPosition();
-      }
-    } else {
-      // 未达到滑动门槛，弹性复位
-      this.resetPosition();
+  public showError(message: string): void {
+    this.submitting = false;
+    this.selectedOptionId = null;
+    for (const row of this.rows) this.drawOption(row);
+    if (this.noticeLabel) {
+      this.noticeLabel.string = `未能定夺：${message}`;
+      this.noticeLabel.color = palette.red;
     }
   }
 
-  private onTouchCancel(): void {
-    this.isDragging = false;
-    this.resetPosition();
+  private drawOption(row: DecisionRow, pressed = false): void {
+    const selected = this.submitting && this.selectedOptionId === row.id;
+    const graphics = row.graphics;
+    graphics.clear();
+    graphics.fillColor = row.available ? pressed ? palette.pressed : palette.option : palette.panel;
+    graphics.strokeColor = selected ? palette.gold : pressed && !this.submitting ? palette.cyan : palette.border;
+    graphics.lineWidth = selected ? 2.5 : 1.5;
+    graphics.roundRect(-ROW_WIDTH / 2, -row.height, ROW_WIDTH, row.height, 6);
+    graphics.fill();
+    graphics.stroke();
+    graphics.fillColor = !row.available || (this.submitting && !selected) ? palette.border
+      : row.risk === 'high' ? palette.red : row.risk === 'safe' ? palette.green : palette.secondary;
+    graphics.rect(-ROW_WIDTH / 2 + 1, -row.height + 8, 4, row.height - 16);
+    graphics.fill();
   }
 
-  private resetPosition(): void {
-    tween(this.node)
-      .to(0.2, { position: v3(0, 0, 0) }, { easing: 'backOut' })
-      .call(() => {
-        this.node.setRotationFromEuler(0, 0, 0);
-      })
-      .start();
-
-    if (this.leftHintLabel) this.leftHintLabel.node.setScale(1.0, 1.0, 1);
-    if (this.rightHintLabel) this.rightHintLabel.node.setScale(1.0, 1.0, 1);
+  private measureLabel(label: Label, width: number): number {
+    label.overflow = Label.Overflow.RESIZE_HEIGHT;
+    label.updateRenderData(true);
+    const columns = Math.max(1, Math.floor(width / label.fontSize));
+    const lines = label.string.split('\n').reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / columns)), 0);
+    const height = Math.max(label.node.getComponent(UITransform)!.height, lines * label.lineHeight);
+    label.node.getComponent(UITransform)!.setContentSize(width, height);
+    return height;
   }
 
-  private confirmSelection(optionId: string, direction: number): void {
-    // 飞出屏幕动效
-    const targetX = direction * 800;
-    tween(this.node)
-      .to(0.2, { position: v3(targetX, 0, 0) }, { easing: 'quadIn' })
-      .call(() => {
-        if (this.onSelectCallback) {
-          this.onSelectCallback(optionId);
-        }
-      })
-      .start();
+  private addLabel(parent: Node, name: string, text: string, x: number, y: number, width: number, height: number, size: number, color: Color, centered = false): Label {
+    const node = new Node(name);
+    node.layer = Layers.Enum.UI_2D;
+    node.setPosition(x, y, 0);
+    node.addComponent(UITransform).setContentSize(width, height);
+    const label = node.addComponent(Label);
+    label.string = text;
+    label.fontSize = size;
+    label.lineHeight = Math.round(size * 1.4);
+    label.color = color;
+    label.horizontalAlign = centered ? Label.HorizontalAlign.CENTER : Label.HorizontalAlign.LEFT;
+    parent.addChild(node);
+    return label;
   }
 }

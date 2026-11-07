@@ -6,6 +6,7 @@ import type { Condition } from '../assets/scripts/core/types/content.generated.j
 import { recordCommand, type ReplayAction, type ReplayCommand } from '../assets/scripts/application/ReplayCommands.js';
 import { loadContent } from './lib/ContentLoader.js';
 import { buildInitializationFailureReplay, buildReplay, writeReplay } from './lib/Replay.js';
+import { simulationSourceVersion } from './lib/SourceVersion.js';
 import { sha256 } from './lib/canonical.js';
 import { DrawStatistics, LifeStatistics } from './lib/SimulationReport.js';
 import { ArgumentError, DEFAULT_CONTENT, DEFAULT_SEED, assertDestinationOutsideContent, errorDetails, integerArg, parseCli, requiredString, runCli } from './lib/cli.js';
@@ -22,6 +23,13 @@ function hasModernCardGate(condition: Condition | undefined, cards: ReadonlyArra
   return false;
 }
 
+const SIMULATION_REPORT_VERSION = 'e1-v2';
+const STRATEGY_SEMANTICS = {
+  normal: '按可用选项原顺序选择第一项。',
+  cautious: '按 safe、normal、high 风险顺序，在各风险内保持原选项顺序。',
+  risky: '按 high、normal、safe 风险顺序，在各风险内保持原选项顺序。',
+  reaction: '优先选择正向条件包含 modern 标签卡牌的可用选项，否则回退到第一项。',
+} as const;
 await runCli(async () => {
   const args = parseCli({ mode: { type: 'string' }, content: { type: 'string' }, runs: { type: 'string' },
     seed: { type: 'string' }, strategy: { type: 'string' }, pool: { type: 'string' },
@@ -41,6 +49,7 @@ await runCli(async () => {
   const draws = mode === 'draw' ? integerArg(requiredString(args, 'draws-per-run'), 'draws-per-run', 1) : undefined;
   await assertDestinationOutsideContent(contentDirectory, output);
   const { bundle, fingerprint } = await loadContent(contentDirectory);
+  const source_version = await simulationSourceVersion();
   const pool = mode === 'draw' ? bundle.pools.find(item => item.id === poolId) : undefined;
   if (mode === 'draw' && !pool) throw Object.assign(new Error(`卡池不存在：${poolId}`), { code: 'POOL_NOT_FOUND' });
   if (pool && !pool.replacement && draws! > pool.entries.filter(entry => entry.weight > 0).length) {
@@ -61,6 +70,7 @@ await runCli(async () => {
       const commands: ReplayCommand[] = [];
       const engine = mode === 'life' ? new GameEngine(bundle, fingerprint) : new GachaEngine(bundle, fingerprint, runSeed);
       let blockingInputs = 1;
+      let cardSelections = 0;
       let initialized = engine instanceof GachaEngine;
       let record: Record<string, unknown>;
       try {
@@ -82,13 +92,18 @@ await runCli(async () => {
             if (!('ok' in result)) throw new Error('人生返回了抽卡结果');
             if (!result.ok) throw Object.assign(new Error(result.error.message), { code: result.error.code });
             initialized = true;
-            // Opening plus explicit choices; authorized D20 resolution is not a user input.
+            // Opening, card selection and story choices block input; D20 stages do not.
+            if (action.api === 'selectCard') { cardSelections++; blockingInputs++; }
             if (action.api === 'resolveOption') blockingInputs++;
             if (result.state.status === 'ENDED') break;
             if (commands.length >= 100_000) throw Object.assign(new Error('单局达到 100000 条命令，未结束'), { code: 'SIMULATION_COMMAND_LIMIT' });
             const commandId = `simulate:${commands.length}`;
             const pending = result.pending;
-            if (pending?.kind === 'stage') {
+            if (pending?.kind === 'card') {
+              const cardId = pending.cards[0];
+              if (!cardId) throw Object.assign(new Error('开局没有可选卡牌'), { code: 'SIMULATION_NO_PROGRESS' });
+              action = { api: 'selectCard', commandId, args: { cardId } };
+            } else if (pending?.kind === 'stage') {
               action = { api: 'resolveStage', commandId, args: { eventInstanceId: pending.event_instance_id, stageId: pending.stage_id } };
             } else if (pending?.kind === 'option') {
               const event = events.get(pending.event_id);
@@ -114,7 +129,7 @@ await runCli(async () => {
         failed++;
         const save = initialized ? engine.exportSave() : null;
         record = { index, seed: runSeed, status: 'failed', error: errorDetails(error), save,
-          ...(mode === 'life' ? { blocking_inputs: blockingInputs, estimated_input_seconds: blockingInputs * 5,
+          ...(mode === 'life' ? { blocking_inputs: blockingInputs, card_selections: cardSelections, estimated_input_seconds: blockingInputs * 5,
             player_decisions: save?.kind === 'life' ? save.payload.logs.reduce((count, log) => count + Number(log.type === 'option'), 0) : 0 } : {}) };
       }
       const trace = initialized ? buildReplay(engine, commands)
@@ -123,10 +138,17 @@ await runCli(async () => {
       await stream.writeFile(`${JSON.stringify(record)}\n`);
     }
   } finally { await stream.close(); }
-  const summary = { mode, content_id: bundle.manifest.content_id, content_version: bundle.manifest.content_version,
-    content_fingerprint: fingerprint, seed, seed_end: seed + runs - 1, runs, success, failed,
-    ...(mode === 'life' ? { strategy, life: lifeStats.summary(), estimated_input_seconds_note: '按每次阻塞输入 5 秒估算，不是实际游玩时长' }
-      : { draw: drawStats!.summary(), probability_note: 'base_probability 是原始权重比例；实验频率受保底或无放回影响，不等同于基础概率' }) };
+  const summary = mode === 'life' ? { mode, content_id: bundle.manifest.content_id, content_version: bundle.manifest.content_version,
+    content_fingerprint: fingerprint, source_version, seed, seed_end: seed + runs - 1, runs, success, failed,
+    simulation_report_version: SIMULATION_REPORT_VERSION, strategy, strategy_semantics: STRATEGY_SEMANTICS[strategy],
+    card_selection_semantics: '所有策略均选择第一张候选；选卡独立计入 card_selections 与 blocking_inputs，不计入 player_decisions。',
+    run_accounting: { all_runs: runs, ended_runs: success, failed_runs: failed, life_statistics_population: 'ended_runs；各指标分母见 life.denominator' },
+    life: lifeStats.summary(), estimated_input_seconds_note: '按每次阻塞输入 5 秒估算，不是实际游玩时长' }
+    : { mode, content_id: bundle.manifest.content_id, content_version: bundle.manifest.content_version,
+      content_fingerprint: fingerprint, source_version, seed, seed_end: seed + runs - 1, runs, success, failed,
+      simulation_report_version: SIMULATION_REPORT_VERSION,
+      run_accounting: { all_runs: runs, ended_runs: success, failed_runs: failed },
+      draw: drawStats!.summary(), probability_note: 'base_probability 是原始权重比例；实验频率受保底或无放回影响，不等同于基础概率' };
   await writeFile(join(output, 'summary.json'), `${JSON.stringify(summary, null, 2)}\n`, { flag: 'wx' });
   if (args.json) process.stdout.write(`${JSON.stringify(summary)}\n`);
   else process.stdout.write(`模拟完成：seed=${seed}–${seed + runs - 1}，${runs} 局，成功 ${success}，失败 ${failed}。报告：${output}\n`);

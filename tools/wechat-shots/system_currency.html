@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><style>
+:root{
+  color-scheme:dark;
+  --bg-dark:#0c0d12;
+  --bg-desk:#13151c;
+  --panel-bg:#1a1d26;
+  --border-dim:#353b49;
+  --border-light:#525b6e;
+  --text-main:#edf1f7;
+  --text-sub:#8c96a8;
+  --text-muted:#5e6677;
+  --cyan-modern:#00f0ff;
+  --gold-val:#ffbe0b;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --font-sans:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --font-serif:"Songti SC","SimSun","Noto Serif CJK SC",serif;
+}
+*{box-sizing:border-box}
+html, body{
+  margin:0;padding:0;width:375px;height:812px;background:#090a0e;font:14px/1.6 var(--font-sans);color:var(--text-main);overflow:hidden;
+}
+.wx-topbar{
+  height:44px;padding:0 16px;display:flex;justify-content:space-between;align-items:center;
+  background:#11131a;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.wx-game-name{font-size:14px;font-weight:bold;color:#fff}
+.wx-capsule{
+  width:84px;height:30px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(10px);border-radius:15px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;
+}
+.wx-dots{display:flex;gap:3px}
+.wx-dots span{width:4px;height:4px;background:#fff;border-radius:50%}
+.wx-divider{width:1px;height:14px;background:rgba(255,255,255,0.2)}
+.wx-circle{width:13px;height:13px;border:2px solid #fff;border-radius:50%}
+
+.header-title{
+  background:#161922;padding:12px 16px;border-bottom:1px solid var(--border-dim);display:flex;justify-content:space-between;align-items:center;
+}
+.header-title h2{margin:0;font-size:15px;color:#fff}
+.header-title span{font-size:11px;color:var(--gold-val);font-family:var(--font-mono)}
+
+.content-box{padding:14px;height:calc(812px - 90px);overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.card{
+  background:var(--panel-bg);border:1px solid var(--border-dim);border-radius:8px;padding:14px;
+}
+</style></head>
+<body>
+<div class="wx-topbar">
+  <div class="wx-game-name">穿越了这次我带大喇叭逆袭</div>
+  <div class="wx-capsule"><div class="wx-dots"><span></span><span></span><span></span></div><div class="wx-divider"></div><div class="wx-circle"></div></div>
+</div>
+<div class="header-title">
+  <h2>货币资产系统 (家资)</h2>
+  <span>单机局内推演</span>
+</div>
+<div class="content-box">
+  <div class="card" style="text-align:center;background:#181f2b;border-color:var(--gold-val)">
+    <div style="font-size:12px;color:var(--text-sub);margin-bottom:4px">当前角色局内家资</div>
+    <div style="font-size:32px;font-weight:900;color:var(--gold-val);font-family:var(--font-mono)">🪙 1,280 文</div>
+    <div style="font-size:11px;color:var(--cyan-modern);margin-top:4px">身份阶层：江南富商 / 资财富足</div>
+  </div>
+  
+  <div class="card">
+    <div style="font-size:13px;font-weight:bold;color:#fff;margin-bottom:8px">📜 局内收支明细记录</div>
+    <div style="font-size:12px;color:var(--text-sub);line-height:2">
+      <div>· 岁末田庄岁入：<span style="color:#05dfb7">+200 文</span></div>
+      <div>· 协助赈灾分批叫号赏赐：<span style="color:#05dfb7">+150 文</span></div>
+      <div>· 购置过冬柴薪与口粮：<span style="color:#ff2a5f">-50 文</span></div>
+      <div>· 支援关外军饷摊派：<span style="color:#ff2a5f">-100 文</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:13px;font-weight:bold;color:#fff;margin-bottom:6px">💡 货币规则说明</div>
+    <div style="font-size:11px;color:var(--text-muted);line-height:1.6">
+      本作为纯单机历史人生推演，铜钱（家资）仅用于局内买卖米粮、发展工坊和经历危机事件，不支持任何真实货币充值或提现，离线本地保存。
+    </div>
+  </div>
+</div>
+</body>
+</html>

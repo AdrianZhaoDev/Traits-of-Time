@@ -129,6 +129,14 @@ function requireSuccess(result: CommandResult): asserts result is Extract<Comman
   if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
 }
 
+async function selectFirstCard(session: GameSession): Promise<Extract<CommandResult, { ok: true }>> {
+  const { pending } = session.current();
+  if (pending?.kind !== 'card' || pending.cards.length === 0) throw new Error('Fixture must offer a card before its opening');
+  const selected = await session.command({ type: 'selectCard', cardId: pending.cards[0]! });
+  requireSuccess(selected);
+  return selected;
+}
+
 function deterministicState(value: SessionSave) {
   const { player, run } = value.engine.payload;
   return {
@@ -143,6 +151,7 @@ function deterministicState(value: SessionSave) {
 
 async function reachFirstStage(value: SessionHarness): Promise<void> {
   requireSuccess(await value.session.initialize(1640));
+  await selectFirstCard(value.session);
   requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
   const history = await value.session.advanceToDecision('reach-history');
   requireSuccess(history);
@@ -157,7 +166,9 @@ async function playToEnd(value: SessionHarness, mode: 'next' | 'auto'): Promise<
     const current = value.session.current();
     if (current.state.status === 'ENDED') return;
     let result: CommandResult;
-    if (current.pending?.kind === 'option') {
+    if (current.pending?.kind === 'card') {
+      result = await selectFirstCard(value.session);
+    } else if (current.pending?.kind === 'option') {
       const option = current.pending.options.find((candidate) => candidate.available);
       if (!option) throw new Error('Story fixture must have an available option');
       result = await value.session.command({ type: 'choose', optionId: option.id });
@@ -174,12 +185,12 @@ async function playToEnd(value: SessionHarness, mode: 'next' | 'auto'): Promise<
 }
 
 describe('GameSession: real engine commands, decisions and durable cursors', () => {
-  it('persists initialization and its result hash without adding session data to the core save', async () => {
+  it('persists initialization and card selection with result hashes without adding session data to the core save', async () => {
     const value = await harness(await storyContent());
     const initialized = await value.session.initialize(1640);
     requireSuccess(initialized);
-    expect(initialized.state.player).toMatchObject({ age: 9, calendar_year: 1640 });
-    expect(initialized.pending).toMatchObject({ kind: 'option', event_id: 'E_SESSION_OPEN' });
+    expect(initialized.state).toMatchObject({ status: 'AWAITING_CARD', revision: 1, player: { age: 9, calendar_year: 1640, cards: [] } });
+    expect(initialized.pending).toMatchObject({ kind: 'card' });
     expect(value.io.attempts).toHaveLength(1);
     const stored = await load<SessionSave>(value.directory);
     expect(stored).toEqual(value.session.exportSave());
@@ -190,6 +201,20 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     expect(stored!.engine).not.toHaveProperty('cursor');
     expect(stored!.engine.payload.run).not.toHaveProperty('replay_commands');
     expect(value.session.current()).toEqual({ state: initialized.state, pending: initialized.pending });
+    const selected = await selectFirstCard(value.session);
+    expect(selected.pending).toMatchObject({ kind: 'option', event_id: 'E_SESSION_OPEN' });
+    expect(selected.state.revision).toBe(2);
+    expect(value.io.attempts).toHaveLength(2);
+    const opening = (await load<SessionSave>(value.directory))!;
+    expect(opening).toEqual(value.session.exportSave());
+    expect(opening.engine).toEqual(value.engine.exportSave());
+    expect(opening.replay_commands).toHaveLength(2);
+    expect(opening.replay_commands[0]).toEqual(stored!.replay_commands[0]);
+    expect(opening.replay_commands[1]).toMatchObject({
+      api: 'selectCard', commandId: 'life-input:0', args: { cardId: selected.state.player.cards[0] }, expected_result_hash: sha256(selected),
+    });
+    expect(opening.cursor).toMatchObject({ authorized: false, pause_reason: 'option', input_sequence: 1 });
+    expect(value.session.current()).toEqual({ state: selected.state, pending: selected.pending });
   });
 
   it('produces the same player, queue, RNG, dice, chains and ending using next or auto', async () => {
@@ -214,6 +239,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
   it('saves every child year in order and returns at a choice without choosing or rolling', async () => {
     const value = await harness(await storyContent());
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
     const before = value.session.exportSave();
     const result = await value.session.advanceToDecision('project-year');
@@ -267,6 +293,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     }];
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const result = await value.session.advanceToDecision('important');
     requireSuccess(result);
     expect(result.state).toMatchObject({ status: 'ENDED', player: { age: 17, calendar_year: 1648 } });
@@ -274,7 +301,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     if (important === 'identity') expect(result.state.player.identity_id).toBe('I_ARTISAN');
     else expect(result.state.player.achievements).toContain('A_MILESTONE');
     expect(value.session.exportSave().cursor.authorized).toBe(false);
-    const children = value.session.exportSave().replay_commands.slice(1).map((command) => command.commandId);
+    const children = value.session.exportSave().replay_commands.slice(2).map((command) => command.commandId);
     expect(children).toEqual(Array.from({ length: 8 }, (_, index) => `important:${index}`));
     const distinctYears = [...new Set(value.io.attempts.map((attempt) => attempt.engine.payload.player.calendar_year))];
     expect(distinctYears).toEqual(Array.from({ length: 9 }, (_, index) => 1640 + index));
@@ -306,6 +333,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
       condition: { op: 'compare', field: 'age', comparator: 'gte', value: 11 } }];
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const result = await value.session.advanceToDecision('achievement');
     requireSuccess(result);
     expect(result.state).toMatchObject({ status: 'ENDED', player: { age: 17, achievements: ['A_READY'] } });
@@ -319,6 +347,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
       condition: { op: 'compare', field: 'age', comparator: 'gte', value: 10 } }];
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
     const decision = await value.session.advanceToDecision('first-achievement');
     requireSuccess(decision);
@@ -363,6 +392,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     const bundle = await storyContent();
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
     const before = value.session.exportSave();
     const chainInstanceId = before.engine.payload.player.chains[0]!.instance_id;
@@ -383,6 +413,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     bundle.events = bundle.events.filter(event => event.id !== 'E_SESSION_STAGES');
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     requireSuccess(await value.session.command({ type: 'choose', optionId: 'start' }));
     let stop = false;
     const result = await value.session.advanceToDecision('pause-boundary', {
@@ -405,6 +436,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
   it('does not execute next or auto through a pending choice and persists rejected manual commands for replay', async () => {
     const value = await harness(await storyContent());
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const before = value.engine.exportSave();
     const rejected = await value.session.command({ type: 'next' });
     expect(rejected).toMatchObject({ ok: false, error: { code: 'INVALID_STATE' } });
@@ -422,6 +454,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     const bundle = await storyContent();
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const initial = value.session.exportSave();
     const rejected = await value.session.command({ type: 'choose', optionId: 'locked' });
     expect(rejected).toMatchObject({ ok: false, error: { code: 'OPTION_UNAVAILABLE' } });
@@ -449,6 +482,7 @@ describe('GameSession: real engine commands, decisions and durable cursors', () 
     const bundle = await peacefulContent();
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const result = await value.session.advanceToDecision('finish-life');
     requireSuccess(result);
     expect(result.state.status).toBe('ENDED');
@@ -466,11 +500,12 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
     const bundle = await peacefulContent();
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const before = value.session.exportSave();
     value.io.failure = { at: value.io.attempts.length + 1, phase };
     await expect(value.session.advanceToDecision('failed-auto')).rejects.toMatchObject({ code: 'SAVE_FAILED' });
     expect(value.io.reads).toBe(1);
-    expect(value.io.attempts).toHaveLength(2);
+    expect(value.io.attempts).toHaveLength(3);
     const expectedAge = phase === 'after' ? 10 : 9;
     expect(value.session.current().state.player.age).toBe(expectedAge);
     expect(value.session.exportSave().cursor.authorized).toBe(false);
@@ -483,7 +518,10 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
       expect(stored.replay_commands.at(-1)!.commandId).toBe('failed-auto:0');
       expect(stored.cursor.next_child_index).toBe(1);
       const control = new GameEngine(bundle, sha256(bundle));
-      requireSuccess(control.initGame({ seed: 1640 }));
+      const initialized = control.initGame({ seed: 1640 });
+      requireSuccess(initialized);
+      if (initialized.pending?.kind !== 'card') throw new Error('Fixture must offer a card before its opening');
+      requireSuccess(control.selectCard('life-input:0', initialized.pending.cards[0]!));
       requireSuccess(control.nextYear('failed-auto:0'));
       expect(value.engine.exportSave()).toEqual(control.exportSave());
     }
@@ -493,6 +531,7 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
     const bundle = await peacefulContent();
     const value = await harness(bundle);
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     value.io.failure = { at: value.io.attempts.length + 2, phase: 'before' };
     await expect(value.session.advanceToDecision('resumable')).rejects.toMatchObject({ code: 'SAVE_FAILED' });
     const stored = (await load<SessionSave>(value.directory))!;
@@ -509,7 +548,7 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
     requireSuccess(ended);
     expect(ended.state.status).toBe('ENDED');
     expect(restored.io.attempts[0].engine.payload.player).toMatchObject({ age: 11, calendar_year: 1642 });
-    const children = restored.session.exportSave().replay_commands.slice(1).map((command) => command.commandId);
+    const children = restored.session.exportSave().replay_commands.slice(2).map((command) => command.commandId);
     expect(children).toEqual(Array.from({ length: 8 }, (_, index) => `resumable:${index}`));
     expect(new Set(children).size).toBe(children.length);
   });
@@ -568,10 +607,11 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
   it('halts without retrying or removing files when both the response and recovery read fail', async () => {
     const value = await harness(await peacefulContent());
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     value.io.failure = { at: value.io.attempts.length + 1, phase: 'after-unreadable' };
     await expect(value.session.advanceToDecision('uncertain')).rejects.toMatchObject({ code: 'SAVE_FAILED' });
     expect(value.io.reads).toBe(1);
-    expect(value.io.attempts).toHaveLength(2);
+    expect(value.io.attempts).toHaveLength(3);
     expect(value.session.exportSave().cursor.authorized).toBe(false);
     const names = (await readdir(value.directory)).sort();
     expect(names).toEqual(['slot-a.json', 'slot-b.json']);
@@ -580,7 +620,7 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
     expect(actual.engine.payload.player.age).toBe(10);
     expect(actual.replay_commands.at(-1)!.commandId).toBe('uncertain:0');
     await nextTurn();
-    expect(value.io.attempts).toHaveLength(2);
+    expect(value.io.attempts).toHaveLength(3);
     expect(await Promise.all(names.map((name) => readFile(join(value.directory, name), 'utf8')))).toEqual(bytes);
   });
 
@@ -604,6 +644,7 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
       },
     });
     requireSuccess(await session.initialize(1640));
+    await selectFirstCard(session);
     hold = true;
     let settled = false;
     const command = session.command({ type: 'next' });
@@ -624,7 +665,7 @@ describe('GameSession: uncertain persistence outcomes and restart safety', () =>
   });
 });
 
-describe('GameSession.restoreSave: strict session cursors', () => {
+describe('GameSession.restoreSave: strict session cursors and replay receipts', () => {
   const invalid: Array<{ name: string; corrupt: (value: SessionSave) => void }> = [
     { name: 'negative child index', corrupt: (value) => { Object.assign(value.cursor, { next_child_index: -1 }); } },
     { name: 'fractional child index', corrupt: (value) => { Object.assign(value.cursor, { next_child_index: 1.5 }); } },
@@ -636,17 +677,28 @@ describe('GameSession.restoreSave: strict session cursors', () => {
     { name: 'nonstring parent ID', corrupt: (value) => { Object.assign(value.cursor, { parent_command_id: 42 }); } },
     { name: 'missing cursor', corrupt: (value) => { Reflect.deleteProperty(value, 'cursor'); } },
     { name: 'nonarray replay commands', corrupt: (value) => { Object.assign(value, { replay_commands: {} }); } },
+    { name: 'tampered card-selection arguments', corrupt: (value) => {
+      const command = value.replay_commands.find(entry => entry.api === 'selectCard');
+      if (command?.api !== 'selectCard') throw new Error('Fixture must record card selection');
+      command.args.cardId = 'UNRECORDED_CARD';
+    } },
+    { name: 'tampered card-selection result hash', corrupt: (value) => {
+      const command = value.replay_commands.find(entry => entry.api === 'selectCard');
+      if (!command) throw new Error('Fixture must record card selection');
+      command.expected_result_hash = sha256('tampered card-selection result');
+    } },
   ];
 
   it.each(invalid)('rejects $name without replacing the engine or current cursor', async ({ corrupt }) => {
     const value = await harness(await peacefulContent());
     requireSuccess(await value.session.initialize(1640));
+    await selectFirstCard(value.session);
     const before = value.session.exportSave();
     const malformed = structuredClone(before);
     corrupt(malformed);
-    expect(() => value.session.restoreSave(malformed)).toThrow();
+    expect(() => value.session.restoreSave(malformed)).toThrow(expect.objectContaining({ code: 'SAVE_INVALID' }));
     expect(value.session.exportSave()).toEqual(before);
-    expect(value.io.attempts).toHaveLength(1);
+    expect(value.io.attempts).toHaveLength(2);
     expect(await load<SessionSave>(value.directory)).toEqual(before);
   });
 });

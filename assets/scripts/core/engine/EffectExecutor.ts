@@ -35,14 +35,18 @@ export function executeEffects(effects: readonly Effect[], player: PlayerState, 
     if (effect.type !== 'death') interruptChains(player, run, registry, chain => ports.chain(chain, 'interrupted'));
   }
 }
-export function previewOutcome(outcome: Outcome, player: PlayerState, run: RunState, content: ContentBundle, registry: ContentRegistry): boolean {
+/** Projects effects on isolated mutable state without logging, achievements callbacks, or RNG. */
+export function projectOutcome(outcome: Outcome, player: PlayerState, run: RunState, content: ContentBundle, registry: ContentRegistry): { player: PlayerState; run: RunState } | null {
   const draftPlayer: PlayerState = { ...player, attributes: { ...player.attributes }, flags: [...player.flags], injuries: [...player.injuries], achievements: [...player.achievements], chains: player.chains.map(c => ({ ...c })) };
   const draftRun = { ...run };
   try {
     executeEffects(outcome.effects, draftPlayer, draftRun, content, registry, { chain: () => {}, achievement: () => {}, death: () => { draftRun.status = 'ENDED'; } });
-    return true;
+    return { player: draftPlayer, run: draftRun };
   } catch (error) {
-    if (error instanceof DomainError && error.code === 'OUTCOME_NOT_APPLICABLE') return false;
+    if (error instanceof DomainError && error.code === 'OUTCOME_NOT_APPLICABLE') return null;
     throw error;
   }
+}
+export function previewOutcome(outcome: Outcome, player: PlayerState, run: RunState, content: ContentBundle, registry: ContentRegistry): boolean {
+  return projectOutcome(outcome, player, run, content, registry) !== null;
 }

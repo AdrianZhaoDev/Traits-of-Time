@@ -3,6 +3,7 @@ import { GachaEngine, type DrawResult } from '../core/engine/GachaEngine';
 import type { CommandResult } from '../core/types/commands';
 export type ReplayAction =
   | { api: 'initGame'; commandId: string; args: { seed: number } }
+  | { api: 'selectCard'; commandId: string; args: { cardId: string } }
   | { api: 'nextYear'; commandId: string; args: Record<string, never> }
   | { api: 'resolveOption'; commandId: string; args: { eventInstanceId: string; optionId: string } }
   | { api: 'resolveStage'; commandId: string; args: { eventInstanceId: string; stageId: string } }
@@ -28,6 +29,7 @@ export function validateReplayCommands(value: unknown, kind: 'life' | 'gacha'): 
     let valid = false;
     switch (command.api) {
       case 'initGame': valid = kind === 'life' && exact(args, ['seed']) && Number.isInteger(args.seed) && Number(args.seed) >= 0 && Number(args.seed) <= 0xffffffff; break;
+      case 'selectCard': valid = kind === 'life' && exact(args, ['cardId']) && typeof args.cardId === 'string'; break;
       case 'nextYear': valid = kind === 'life' && exact(args, []); break;
       case 'resolveOption': valid = kind === 'life' && exact(args, ['eventInstanceId', 'optionId']) && typeof args.eventInstanceId === 'string' && typeof args.optionId === 'string'; break;
       case 'resolveStage': valid = kind === 'life' && exact(args, ['eventInstanceId', 'stageId']) && typeof args.eventInstanceId === 'string' && typeof args.stageId === 'string'; break;
@@ -44,6 +46,7 @@ export function executeCommand(engine: Engine, action: ReplayAction): ReplayResu
     if (action.api === 'draw' && engine instanceof GachaEngine) return engine.draw(action.commandId, action.args.poolId, action.args.count);
     if (engine instanceof GameEngine) switch (action.api) {
       case 'initGame': return engine.initGame({ seed: action.args.seed });
+      case 'selectCard': return engine.selectCard(action.commandId, action.args.cardId);
       case 'nextYear': return engine.nextYear(action.commandId);
       case 'resolveOption': return engine.resolveOption(action.commandId, action.args.eventInstanceId, action.args.optionId);
       case 'resolveStage': return engine.resolveStage(action.commandId, action.args.eventInstanceId, action.args.stageId);

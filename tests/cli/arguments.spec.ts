@@ -27,7 +27,7 @@ const invalidDrawCases = [
 describe('CLI argument errors: exit two before mutating state', () => {
   it('persists an omitted play seed and reproduces it explicitly without regenerating on resume', async () => {
     const context = await fixture((bundle) => fixedLife(bundle, 12));
-    const openingInput = 'pause\nnext\nquit\n';
+    const openingInput = 'pause\ncard 1\nnext\nquit\n';
     expectSuccess(await runCli('play', ['--content', context.content, '--state', context.state], openingInput));
     const initial = await savedLife(context.state);
     const seed = initial.engine.payload.run.seed;
@@ -225,7 +225,7 @@ describe('validate-content and replay: structured real failures', () => {
     const original = join(context.root, 'source.json');
     expectSuccess(await runCli('play', [
       '--content', context.content, '--state', context.state, '--export-replay', original,
-    ], 'next\nquit\n'));
+    ], 'card 1\nnext\nquit\n'));
     const replay = await readJson<ReplayFile>(original);
     const diverged = structuredClone(replay);
     diverged.commands[1]!.expected_result_hash = '0'.repeat(64);

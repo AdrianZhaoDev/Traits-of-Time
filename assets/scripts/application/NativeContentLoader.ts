@@ -44,8 +44,8 @@ export function getNativeMingEndContent(): StaticContentPackage {
     throw new Error(`Native ming_end package validation failed:\n${msgs}`);
   }
 
-  // Pre-calculated canonical sha256 fingerprint of native ming_end v0.7.1
-  const fingerprint = '5a2223979a5d79033328c440decf8b00202940f30d192810f05306857cc5893f';
+  // Canonical SHA-256 of the bundled ming_end content.
+  const fingerprint = 'afef7e86f56d816e15b23c282ca5d592e9b41a9589f0e93e27cf9254af506681';
 
   return {
     bundle: freezeContent(rawBundle),

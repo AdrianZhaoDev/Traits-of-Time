@@ -2,7 +2,7 @@ import { resolve } from 'node:path';
 import { GachaEngine, type GachaSave } from '../assets/scripts/core/engine/GachaEngine.js';
 import { loadContent } from './lib/ContentLoader.js';
 import { load, save } from './lib/FileStateStore.js';
-import { canonicalJson } from './lib/canonical.js';
+import { canonicalJson } from '../assets/scripts/core/persistence/JsonDigest.js';
 import { DEFAULT_CONTENT, DEFAULT_SEED, parseCli, requiredString, integerArg, assertDestinationOutsideContent, checkSeed, withStateLock, runCli } from './lib/cli.js';
 
 await runCli(async () => {

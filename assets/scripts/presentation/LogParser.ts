@@ -7,11 +7,14 @@
  */
 import { EnumMapper } from './EnumMapper';
 export interface FoldItemData {
+  age?: number;
   id?: string;
   eventId?: string;
   cardId?: string;
   relicFlags?: string[];
   feedbackKey?: string;
+  achievementIds?: string[];
+  achievementFeedbackKeys?: string[];
   introText: string;     // 起因淡墨：原 event text 或背景
   actionText?: string;    // 行动描述：option 选择等白字
   outcomeText?: string;   // 结果描述：泥金/浓墨
@@ -24,6 +27,7 @@ export interface FoldItemData {
 export interface EngineRawLog {
   type: string;
   seq?: number;
+  age?: number;
   message: string;
   source_id?: string;
   metadata?: Record<string, unknown>;
@@ -40,8 +44,14 @@ export class LogParser {
     let pendingEventItem: FoldItemData | null = null;
     let pendingSourceId: string | undefined = undefined;
     let lastIntroText: string | null = null;
+    let currentAge: number | undefined;
+    const addItem = (item: FoldItemData): void => {
+      if (item.age === undefined) item.age = currentAge;
+      items.push(item);
+    };
 
     for (const log of logs) {
+      currentAge = log.age;
       // 过滤系统状态码与内部跳过日志（不生成卡片）
       if (
         log.type === 'skip' ||
@@ -55,11 +65,11 @@ export class LogParser {
 
       const payload = log.metadata ?? log.data;
       if (log.type === 'card_selected') {
-        if (pendingEventItem) items.push(pendingEventItem);
+        if (pendingEventItem) addItem(pendingEventItem);
         pendingEventItem = null;
         pendingSourceId = undefined;
         const cardId = typeof payload?.card_id === 'string' ? payload.card_id : undefined;
-        items.push({ id: `card_${cardId ?? ''}`, cardId, introText: this.sanitizeText(log.message), type: 'card_selected' });
+        addItem({ id: `card_${cardId ?? ''}`, cardId, introText: this.sanitizeText(log.message), type: 'card_selected' });
         continue;
       }
       if (log.type === 'event') {
@@ -71,7 +81,7 @@ export class LogParser {
 
         // 如果之前有暂存未匹配 effects 的 event，先推入结果
         if (pendingEventItem) {
-          items.push(pendingEventItem);
+          addItem(pendingEventItem);
           pendingEventItem = null;
           pendingSourceId = undefined;
         }
@@ -143,13 +153,13 @@ export class LogParser {
           pendingEventItem.effectsSummary = effectsText;
           pendingEventItem.relicFlags = relicFlags;
           pendingEventItem.feedbackKey = feedbackKey;
-          items.push(pendingEventItem);
+          addItem(pendingEventItem);
           pendingEventItem = null;
           pendingSourceId = undefined;
         } else {
           // 独立结果项
           const id = `eff_${Date.now()}_${Math.random()}`;
-          items.push({
+          addItem({
             id,
             eventId: effectSourceId,
             relicFlags,
@@ -167,34 +177,67 @@ export class LogParser {
         const parsed = this.parseStamp(log.message);
         const stampTag = parsed.stamp || '人生结束';
         const deathText = parsed.text;
+        const orphanedAchievement = items[items.length - 1]?.type === 'achievement' ? items.pop() : undefined;
         if (pendingEventItem) {
           pendingEventItem.outcomeText = deathText;
           pendingEventItem.stampTag = stampTag;
           pendingEventItem.type = 'death';
-          items.push(pendingEventItem);
+          if (orphanedAchievement) {
+            pendingEventItem.achievementIds = orphanedAchievement.achievementIds;
+            pendingEventItem.achievementFeedbackKeys = orphanedAchievement.achievementFeedbackKeys;
+          }
+          addItem(pendingEventItem);
           pendingEventItem = null;
           pendingSourceId = undefined;
         } else {
           const id = `death_${Date.now()}_${Math.random()}`;
-          items.push({
+          addItem({
             id,
             eventId: log.source_id,
+            achievementIds: orphanedAchievement?.achievementIds,
+            achievementFeedbackKeys: orphanedAchievement?.achievementFeedbackKeys,
             introText: '',
             outcomeText: deathText,
             stampTag,
             type: 'death',
           });
         }
+      } else if (log.type === 'achievement') {
+        if (pendingEventItem) {
+          addItem(pendingEventItem);
+          pendingEventItem = null;
+          pendingSourceId = undefined;
+        }
+        const achievementId = typeof payload?.achievement_id === 'string'
+          ? payload.achievement_id
+          : log.source_id;
+        const feedbackKey = log.seq === undefined
+          ? achievementId ?? `achievement_${Date.now()}_${Math.random()}`
+          : `achievement_${log.seq}`;
+        const previous = items[items.length - 1];
+        if (achievementId && previous && ['event', 'effects', 'chain', 'death'].includes(previous.type)) {
+          previous.achievementIds = [...(previous.achievementIds ?? []), achievementId];
+          previous.achievementFeedbackKeys = [...(previous.achievementFeedbackKeys ?? []), feedbackKey];
+          continue;
+        }
+        addItem({
+          id: `achievement_${achievementId ?? ''}`,
+          eventId: achievementId,
+          achievementIds: achievementId ? [achievementId] : [],
+          achievementFeedbackKeys: [feedbackKey],
+          introText: '',
+          type: 'achievement',
+        });
       } else {
         // 其它日志 (history, system, chain, achievement 等)
         if (pendingEventItem) {
-          items.push(pendingEventItem);
+          addItem(pendingEventItem);
           pendingEventItem = null;
           pendingSourceId = undefined;
         }
 
         const parsed = this.parseStamp(log.message);
-        items.push({
+        addItem({
           id: `log_${Date.now()}_${Math.random()}`,
           eventId: log.source_id,
           feedbackKey: log.seq === undefined ? undefined : `log_${log.seq}`,
@@ -207,7 +250,7 @@ export class LogParser {
     }
 
     if (pendingEventItem) {
-      items.push(pendingEventItem);
+      addItem(pendingEventItem);
     }
 
     return items;

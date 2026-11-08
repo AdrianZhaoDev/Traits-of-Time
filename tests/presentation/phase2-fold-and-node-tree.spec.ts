@@ -53,7 +53,7 @@ describe('UI Refactor Phase 2 - FoldItem & Presentation Structure', () => {
     expect(item.outcomeText).toBe('锁片铿锵甲光向日，披甲之姿凛然如生。');
   });
 
-  it('renders an independent result stamp once without losing the outcome or cost', () => {
+  it('renders a flat one-line result with its status pills', () => {
     const [item] = LogParser.parseBatch([{
       type: 'effects', source_id: 'E_SUPPLIES', message: '【已备粮】口粮备齐了。',
       data: { effects: [{ type: 'attribute_add', attribute: 'wealth', amount: -1 }] },
@@ -67,7 +67,7 @@ describe('UI Refactor Phase 2 - FoldItem & Presentation Structure', () => {
       if (label) displayed.push(label.string);
       nodes.push(...current.children);
     }
-    expect(displayed.filter(text => text === '【已备粮】')).toHaveLength(1);
+    expect(displayed.filter(text => text === '已备粮')).toHaveLength(1);
     expect(displayed).toContain('口粮备齐了。');
     expect(displayed).toContain('家资 -1');
   });
@@ -78,9 +78,9 @@ describe('UI Refactor Phase 2 - FoldItem & Presentation Structure', () => {
       { type: 'death', source_id: 'D_OLD', message: '这一生结束了。' },
       { type: 'ending', source_id: 'A_REVIEW', message: '两年的功夫没有白费。' },
     ]);
-    expect(items.map(item => item.type)).toEqual(['achievement', 'death']);
-    expect(items[0]!.outcomeText).toBe('两年的功夫没有白费。');
-    expect(items[1]!.outcomeText).toBe('这一生结束了。');
+    expect(items.map(item => item.type)).toEqual(['death']);
+    expect(items[0]!.achievementIds).toEqual(['A_REVIEW']);
+    expect(items[0]!.outcomeText).toBe('这一生结束了。');
   });
 
 

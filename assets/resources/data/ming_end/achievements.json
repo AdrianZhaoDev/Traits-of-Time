@@ -2112,8 +2112,8 @@
   },
   {
     "id": "A_MOD_FLASHLIGHT_SENIOR",
-    "name": "老手新灯",
-    "text": "带后生学会轮着摇灯，年长的人也能把经验用在实处。",
+    "name": "老摇灯人",
+    "text": "教后生摇灯，成功把苦差事甩了出去。",
     "condition": {
       "op": "all",
       "conditions": [

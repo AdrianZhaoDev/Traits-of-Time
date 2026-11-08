@@ -20,16 +20,19 @@ import { prefersReducedNarrativeMotion } from './NarrativePanelArt';
 const { ccclass } = _decorator;
 const SHELF_WIDTH = 120;
 const SHELF_HEIGHT = 934;
-const SLOT_SIZE = 96;
-const DETAIL_WIDTH = 360;
+const SLOT_SIZE = 88;
+const SLOT_GAP = 18;
+const DETAIL_WIDTH = 396;
 const DETAIL_HEIGHT = 276;
 const DETAIL_X = -(SHELF_WIDTH + DETAIL_WIDTH) / 2 - 12;
 const palette = {
-  background: new Color(19, 21, 28, 255),
+  background: new Color(20, 23, 32, 255),
   panel: new Color(26, 29, 38, 255),
+  slot: new Color(28, 32, 43, 255),
   border: new Color(53, 59, 73, 255),
   text: new Color(237, 241, 247, 255),
   secondary: new Color(140, 150, 168, 255),
+  muted: new Color(94, 102, 119, 255),
   cyan: new Color(0, 240, 255, 255),
   gold: new Color(255, 190, 11, 255),
   purple: new Color(199, 125, 255, 255),
@@ -171,12 +174,12 @@ export class RelicBarController extends Component {
     background.rect(-SHELF_WIDTH / 2, -height / 2, 1.5, height);
     background.fill();
     this.node.getChildByName('ShelfTitle')?.setPosition(0, height / 2 - 35, 0);
-    this.node.getChildByName('ShelfHint')?.setPosition(0, -height / 2 + 48, 0);
     const size = Math.min(SLOT_SIZE, (height - 220) / 5);
     for (const [index, slot] of this.slotNodes.entries()) {
       slot.setScale(size / SLOT_SIZE, size / SLOT_SIZE, 1);
-      slot.setPosition(0, height / 2 - 90 - size / 2 - index * (size + 10), 0);
+      slot.setPosition(0, height / 2 - 86 - size / 2 - index * (size + SLOT_GAP), 0);
     }
+    this.node.getChildByName('ShelfHint')?.setPosition(0, -height / 2 + 20, 0);
     this.stopDetailAnimations();
     if (this.detailPanel) this.detailPanel.active = false;
   }
@@ -361,7 +364,7 @@ export class RelicBarController extends Component {
     transform.setAnchorPoint(0.5, 0.5);
     transform.setContentSize(SHELF_WIDTH, this.shelfHeight);
     if (!this.getComponent(Graphics)) this.addComponent(Graphics);
-    this.addLabel(this.node, 'ShelfTitle', '随身家当', 0, 432, 112, 32, 22, palette.secondary);
+    this.addLabel(this.node, 'ShelfTitle', '博古架\n(奇物槽)', 0, 432, 112, 52, 18, palette.muted);
 
     for (let i = 0; i < 5; i++) {
       const slot = new Node(`RelicSlot_${i}`);
@@ -370,18 +373,20 @@ export class RelicBarController extends Component {
       slot.setPosition(0, 328 - i * 116, 0);
       this.node.addChild(slot);
       this.drawSlot(slot);
-      this.addLabel(slot, 'EmptySlot', '空位', 0, 0, 88, 32, 20, palette.secondary);
+      this.addLabel(slot, 'EmptySlot', '空置', 0, 0, 88, 32, 18, palette.muted);
+      slot.addComponent(UIOpacity).opacity = 64;
       slot.on(Node.EventType.TOUCH_END, (event?: EventTouch) => this.handleSlotTap(i, event));
       this.slotNodes.push(slot);
     }
-    this.addLabel(this.node, 'ShelfHint', '点击家当\n查看详情', 0, -406, 112, 60, 17, palette.secondary);
+    const hint = this.addLabel(this.node, 'ShelfHint', '', 0, -406, 112, 60, 17, palette.secondary);
+    hint.node.active = false;
     this.setHeight(this.shelfHeight);
   }
 
   private drawSlot(slot: Node, data?: RelicItemData, selected = false): void {
     const graphics = slot.getComponent(Graphics) || slot.addComponent(Graphics);
     graphics.clear();
-    graphics.fillColor = palette.panel;
+    graphics.fillColor = palette.slot;
     graphics.rect(-47, -47, 94, 94);
     graphics.fill();
     if (!data && !selected) {
@@ -397,7 +402,9 @@ export class RelicBarController extends Component {
       graphics.fill();
       return;
     }
-    graphics.strokeColor = selected ? palette.gold : this.relicColor(data!.id, this.rarityFor(data!));
+    graphics.strokeColor = selected
+      ? data!.id.startsWith('CARD_MODERN_') ? palette.cyan : palette.gold
+      : this.relicColor(data!.id, this.rarityFor(data!));
     graphics.lineWidth = selected ? 3 : 2;
     graphics.roundRect(-47, -47, 94, 94, 8);
     graphics.stroke();
@@ -424,15 +431,17 @@ export class RelicBarController extends Component {
     const targetSlot = this.slotNodes[slotIndex];
     if (!targetSlot) return;
     this.relics.push(data);
+    if (openingRarity) this.activeSlotIndex = slotIndex;
+    targetSlot.getComponent(UIOpacity)!.opacity = 255;
     for (const child of [...targetSlot.children]) child.destroy();
     targetSlot.removeAllChildren();
     this.drawSlot(targetSlot, data, this.activeSlotIndex === slotIndex);
 
     const identity = RELIC_IDENTITIES[data.id];
     const rarity = this.rarityFor(data);
-    const color = this.relicColor(data.id, rarity);
+    const color = data.id.startsWith('CARD_MODERN_') ? palette.cyan : this.relicColor(data.id, rarity);
     const icon = identity
-      ? createArt(targetSlot, 'RelicIcon', identity.art, 48, 48, 0, 7)
+      ? createArt(targetSlot, 'RelicIcon', identity.art, 36, 36, 0, 7)
       : this.addLabel(targetSlot, 'RelicIcon', data.name.slice(0, 2), 0, 1, 88, 48, 28, color).node;
     this.addLabel(targetSlot, 'SlotTag', openingRarity ? '开局' : '奇物', 0, 48, 72, 28, 16,
       data.id.startsWith('CARD_MODERN_') ? palette.cyan : color);

@@ -45,7 +45,7 @@ export function getNativeMingEndContent(): StaticContentPackage {
   }
 
   // Canonical SHA-256 of the bundled ming_end content.
-  const fingerprint = '8d6d5e18de0c3d665ac3fca1a17dfe4ef578ee396d2c890942b0d1a35789a46d';
+  const fingerprint = 'b135bd2a9c381474523f1e56b6499e3c855b5f097dcd8bca875ec3c51316449b';
 
   return {
     bundle: freezeContent(rawBundle),

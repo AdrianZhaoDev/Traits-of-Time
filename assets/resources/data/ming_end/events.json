@@ -1592,7 +1592,7 @@
   {
     "id": "E_HIST_BEIPING_1644",
     "title": "京师大变",
-    "text": "京师局势骤变，街坊抱着包袱挤满巷口。你要带家人南撤，还是留下接应？",
+    "text": "京师骤乱，街巷挤满逃难人。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -1630,7 +1630,7 @@
         "unavailable_text": "眼下条件不足。",
         "risk": "safe",
         "outcome": {
-          "text": "你带家人南下另找住处，原来的营生只好停下。",
+          "text": "你带家人南下，原来的营生停了。",
           "effects": [
             {
               "type": "flag_add",
@@ -1654,7 +1654,7 @@
         "unavailable_text": "眼下条件不足。",
         "risk": "high",
         "outcome": {
-          "text": "接回走散的街坊，路障旁响起一片道谢声。",
+          "text": "你接回走散的街坊，听见一片道谢。",
           "effects": [
             {
               "type": "flag_add",
@@ -1680,7 +1680,7 @@
         "unavailable_text": "须持有高产耐旱玉米良种。",
         "risk": "safe",
         "outcome": {
-          "text": "你分粮帮助邻里南撤，把种袋留到下一处落脚地再用。",
+          "text": "你分粮助邻南撤，把种袋留待下处。",
           "effects": [
             {
               "type": "flag_add",
@@ -1719,7 +1719,7 @@
         "unavailable_text": "须持有抗生素与防疫手册。",
         "risk": "safe",
         "outcome": {
-          "text": "你按手册上的办法联络郎中，让几处救治能接续进行。",
+          "text": "你照手册联络郎中，几处救治接上。",
           "effects": [
             {
               "type": "flag_add",
@@ -1754,7 +1754,7 @@
         "unavailable_text": "须持有手摇发电强光手电。",
         "risk": "safe",
         "outcome": {
-          "text": "你和街坊轮流摇灯，照着岔路接应走散的人，也熟悉了分工。",
+          "text": "街坊轮灯接应，走散的人有了着落。",
           "effects": [
             {
               "type": "flag_add",
@@ -1790,7 +1790,7 @@
           "id": "CARD_MODERN_CALCULATOR"
         },
         "outcome": {
-          "text": "你核对存粮和领粮凭签再分发，避免有人重复领取。",
+          "text": "你核对粮单再分粮，免得重复领取。",
           "effects": [
             {
               "type": "flag_add",
@@ -1825,7 +1825,7 @@
           "id": "CARD_NATIVE_BOWL"
         },
         "outcome": {
-          "text": "你按名册和现有粮食分发口粮，没有插队多领，也没有趁乱涨价。",
+          "text": "你照名册分粮，没人插队多领，粮价也没涨。",
           "effects": [
             {
               "type": "flag_add",
@@ -1859,7 +1859,7 @@
           "id": "CARD_NATIVE_BOOK"
         },
         "outcome": {
-          "text": "你核对凭票上的姓名和粮数，分清同名的人，接应时少漏了人家。",
+          "text": "你核对姓名和粮数，接应时少漏了人家。",
           "effects": [
             {
               "type": "flag_add",
@@ -9054,7 +9054,7 @@
   {
     "id": "E_START_IMPERIAL_EXAM",
     "title": "读书备考",
-    "text": "备考要四年，先付家资1。你也能抄写养家或教人识字，但这次选定后就不能再转向。",
+    "text": "旧卷摞成山，功名路又开。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -9391,7 +9391,7 @@
         "unavailable_text": "尚不满足条件，或没有空闲的事业位置。",
         "risk": "normal",
         "outcome": {
-          "text": "你交了费用，开始温习旧卷、准备考试。",
+          "text": "进了学堂，旧卷又要从头读。",
           "effects": [
             {
               "type": "flag_add",
@@ -9424,7 +9424,7 @@
         "unavailable_text": "你先前已选择过帮乡邻，这次请另选方向。",
         "risk": "safe",
         "outcome": {
-          "text": "你暂不赶考，改去教乡邻识字。",
+          "text": "你暂缓赴考，转去教乡邻识字。",
           "effects": [
             {
               "type": "flag_add",
@@ -9456,7 +9456,7 @@
         "unavailable_text": "先前选择过帮乡邻，才能改走这条路。",
         "risk": "safe",
         "outcome": {
-          "text": "你放下赴考的行囊，接些抄写活补贴家用。",
+          "text": "你放下赴考的行囊，接抄写活养家。",
           "effects": [
             {
               "type": "flag_add",
@@ -9485,7 +9485,7 @@
         "unavailable_text": "需要持有良种，并满足这项选择的其他条件。",
         "risk": "normal",
         "outcome": {
-          "text": "你付出家资1入塾，把种谱抄进功课，学习用田间的账目写文章。",
+          "text": "你带着种谱进学堂，拿田账练文章。",
           "effects": [
             {
               "type": "flag_add",
@@ -9857,7 +9857,7 @@
         "unavailable_text": "需要持有照护手册，并满足这项选择的其他条件。",
         "risk": "normal",
         "outcome": {
-          "text": "你付出家资1，开始四年备考，课余抄写照护手册，请郎中纠错。",
+          "text": "你带手册备考，课余请郎中帮忙纠错。",
           "effects": [
             {
               "type": "flag_add",
@@ -10233,7 +10233,7 @@
         "unavailable_text": "需要持有手电，并满足入塾备考的条件。",
         "risk": "normal",
         "outcome": {
-          "text": "你付出家资1，开始四年备考，和同窗轮流摇灯，晚上也能读书。",
+          "text": "你和同窗摇灯夜读，备考就此开始。",
           "effects": [
             {
               "type": "flag_add",
@@ -10615,7 +10615,7 @@
           ]
         },
         "outcome": {
-          "text": "你付出家资1，开始四年备考，用算器核算工钱，再结合盘点记录练习策论。",
+          "text": "你拿算器核工钱，再练策论。",
           "effects": [
             {
               "type": "flag_add",
@@ -10667,7 +10667,7 @@
           ]
         },
         "outcome": {
-          "text": "你付出家资1，开始四年备考，拿摊价单练策论，从米价和分量写起。",
+          "text": "你拿摊价单练文章，从米价写起。",
           "effects": [
             {
               "type": "flag_add",
@@ -10714,7 +10714,7 @@
           ]
         },
         "outcome": {
-          "text": "你付出家资1，开始四年备考，用蒙书打基础，能否中举还得看后面的功课。",
+          "text": "你带旧书打基础，继续准备科举。",
           "effects": [
             {
               "type": "flag_add",
@@ -10749,7 +10749,7 @@
     "stages": [
       {
         "id": "corn_farming_copybook",
-        "text": "先生让你比较旱田与水田的用水量，看看种谱是否写得可靠。",
+        "text": "先生让你对照旱田水田，核对用水。",
         "check": {
           "attribute": "intelligence",
           "dc": 16,
@@ -10757,7 +10757,7 @@
           "tag": "farming"
         },
         "success": {
-          "text": "你写清用水量和试种发芽的情况，先生借去给学生讲课。",
+          "text": "你记下用水和发芽情况，先生借去讲课。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10768,7 +10768,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你漏抄了用水量，只好另买纸墨重抄，备考仍照常继续。",
+          "text": "你漏抄用水量，只好重买纸墨，备考照常。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10781,7 +10781,7 @@
       },
       {
         "id": "calculator_study_check",
-        "text": "用工钱实账说明怎么算，再逐项附上凭据。",
+        "text": "你用工钱实账解释算式，再附凭据。",
         "check": {
           "attribute": "intelligence",
           "dc": 14,
@@ -10789,7 +10789,7 @@
           "tag": "accounting"
         },
         "success": {
-          "text": "你把算式和凭据写得清楚，先生让全塾照这份账练笔。",
+          "text": "算式凭据写清了，先生让全塾照着练。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10800,7 +10800,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你漏抄了签收单，只好再买纸张，把功课重写一遍。",
+          "text": "你漏抄签收单，只好买纸重写功课，备考照常。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10813,7 +10813,7 @@
       },
       {
         "id": "bowl_study_check",
-        "text": "核对摊价和分量，用实际账目说明策论中的主张。",
+        "text": "你对照摊价和分量，用账目练策论。",
         "check": {
           "attribute": "wealth",
           "dc": 14,
@@ -10821,7 +10821,7 @@
           "tag": "street_trade"
         },
         "success": {
-          "text": "你把工价和米价讲清楚了，先生先核对账目，再评文章。",
+          "text": "工价米价说清了，先生核账再评文章。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10832,7 +10832,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你漏写了损耗，只好重新抄价目，也记住了核账时不能漏项。",
+          "text": "你漏写损耗，重抄价目时记住了。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10845,7 +10845,7 @@
       },
       {
         "id": "book_exam_check",
-        "text": "对照旧书核实考卷上的词义，还要举出实际办事的例子。",
+        "text": "你对照旧书释义，再举办事例子。",
         "check": {
           "attribute": "intelligence",
           "dc": 16,
@@ -10853,7 +10853,7 @@
           "tag": "practical_learning"
         },
         "success": {
-          "text": "你解释清了词义，也举出了实际例子，先生让你再补一页米账。",
+          "text": "词义讲清、例子也有，先生让你补米账。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10869,7 +10869,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你背得出原句，却举不出实际例子，只好记下批语，回去补课。",
+          "text": "你会背原句，却举不出例子，只好补课。",
           "effects": [
             {
               "type": "flag_add",
@@ -10884,7 +10884,7 @@
   {
     "id": "E_CHAIN_IMPERIAL_EXAM_1",
     "title": "借书习字",
-    "text": "借来的古书被虫蛀坏了半页，几处残句看不明白。",
+    "text": "借来的古书虫蛀半页，残句难辨。",
     "trigger": {
       "kind": "chain"
     },
@@ -10897,14 +10897,14 @@
     "stages": [
       {
         "id": "practice",
-        "text": "对照前后文，补出残页上的字句。",
+        "text": "你对照上下文，补出残页上的字句。",
         "check": {
           "attribute": "intelligence",
           "dc": 11,
           "modifier": 0
         },
         "success": {
-          "text": "你补齐残页，又把全文抄进册子，功课也更熟了。",
+          "text": "补齐残页后，你把全文抄进册子。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10915,7 +10915,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "有几处仍猜不出来，你来回借书查对，倒练了腿脚。",
+          "text": "几处仍猜不出，倒把腿脚跑勤了。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10931,27 +10931,27 @@
   {
     "id": "E_CHAIN_IMPERIAL_EXAM_2",
     "title": "同窗论题",
-    "text": "同窗们凑来一桌旧考卷，准备一起讨论题目和文章。",
+    "text": "同窗摆出旧考卷，准备一起论题。",
     "trigger": {
       "kind": "chain"
     },
     "interaction": "automatic",
     "outcome": {
-      "text": "你也加入讨论，没说几句，大家就为一处解法争了起来。",
+      "text": "大家争起一道解法，你也加入讨论。",
       "effects": [],
       "next_stage_id": "practice"
     },
     "stages": [
       {
         "id": "practice",
-        "text": "找出考卷中的问题，向同窗说明理由。",
+        "text": "你找出考卷的问题，向同窗说明理由。",
         "check": {
           "attribute": "intelligence",
           "dc": 11,
           "modifier": 0
         },
         "success": {
-          "text": "你指出了文章的疏漏，同窗们听明白后，又来向你请教。",
+          "text": "你指出文章疏漏，同窗听懂后又来请教。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10962,7 +10962,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你没能说服同窗，转去帮忙搬书，倒把胳膊练结实了。",
+          "text": "你没说服同窗，搬书倒练壮了胳膊。",
           "effects": [
             {
               "type": "attribute_add",
@@ -10978,7 +10978,7 @@
   {
     "id": "E_CHAIN_IMPERIAL_EXAM_3",
     "title": "筹备乡试",
-    "text": "乡试临近，四书已被你翻得卷边，文章还得再练。",
+    "text": "乡试将近，旧卷读到卷边。",
     "trigger": {
       "kind": "chain"
     },
@@ -10991,14 +10991,14 @@
     "stages": [
       {
         "id": "practice",
-        "text": "选一道旧题重写，把背熟的典故用在合适的地方。",
+        "text": "重写旧题，把熟悉的典故用对地方。",
         "check": {
           "attribute": "intelligence",
           "dc": 11,
           "modifier": 0
         },
         "success": {
-          "text": "你把典故用得恰当，文章也比从前清楚了。",
+          "text": "典故用得恰当，文章也清楚了些。",
           "effects": [
             {
               "type": "attribute_add",
@@ -11009,7 +11009,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你背书总是卡壳，便在院里边走边背，文章没理顺，腿脚倒练了练。",
+          "text": "背书总卡壳，文章没理顺，腿脚倒勤快。",
           "effects": [
             {
               "type": "attribute_add",
@@ -11025,7 +11025,7 @@
   {
     "id": "E_CHAIN_IMPERIAL_EXAM_4",
     "title": "乡试交卷",
-    "text": "该交卷了。你可应试争取功名，也可接抄写活养家，两者都要检定；教邻童则不应试，也不换身份。",
+    "text": "考卷写完了，功名等人评。",
     "trigger": {
       "kind": "chain"
     },
@@ -11037,7 +11037,7 @@
         "unavailable_text": "尚不满足条件，或没有空闲的事业位置。",
         "risk": "normal",
         "outcome": {
-          "text": "你递上考卷，等考官评定文章。",
+        "text": "你递上考卷，等考官评定文章。",
           "effects": [],
           "next_stage_id": "promote"
         },
@@ -11078,7 +11078,7 @@
         "unavailable_text": "眼下条件不符。",
         "risk": "safe",
         "outcome": {
-          "text": "你不参加这次乡试，改接抄写活，先把抄件交人验看。",
+          "text": "你停下乡试，接抄写活养家。",
           "effects": [
             {
               "type": "flag_remove",
@@ -11098,7 +11098,7 @@
         "unavailable_text": "眼下条件不符。",
         "risk": "safe",
         "outcome": {
-          "text": "你退出这次备考，去教邻童认字。",
+          "text": "你退出备考，转去教邻童识字。",
           "effects": [
             {
               "type": "flag_remove",
@@ -11122,7 +11122,7 @@
         "unavailable_text": "需要持有照护手册，并满足这项选择的其他条件。",
         "risk": "safe",
         "outcome": {
-          "text": "不争本次功名，抄清照护手册请郎中核对。",
+          "text": "你不争功名，抄清手册请郎中核对。",
           "effects": [
             {
               "type": "flag_remove",
@@ -11163,14 +11163,14 @@
     "stages": [
       {
         "id": "promote",
-        "text": "考官正在评阅最后一篇文章，能否中举就看这次评定。",
+          "text": "考官翻到最后一页，评定即将落笔。",
         "check": {
           "attribute": "intelligence",
           "dc": 15,
           "modifier": 0
         },
         "success": {
-          "text": "你的文章通过评定，名字列入了举人名册。",
+            "text": "文章过关，你的名字进了举人名册。",
           "effects": [
             {
               "type": "attribute_add",
@@ -11185,7 +11185,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你的文章未能通过乡试，这次赶考到此结束。",
+            "text": "文章没能过关，这次乡试到此为止。",
           "effects": [
             {
               "type": "flag_add",
@@ -11197,14 +11197,14 @@
       },
       {
         "id": "regular",
-        "text": "逐页核对抄件的字句，交给雇主验看。",
+        "text": "你逐页核对抄件，交给雇主验看。",
         "check": {
           "attribute": "intelligence",
           "dc": 15,
           "modifier": 0
         },
         "success": {
-          "text": "抄件字迹工整、内容无误，你虽没换身份，也赢得了称赞。",
+          "text": "抄件工整无误，你没换身份也得了称赞。",
           "effects": [
             {
               "type": "attribute_add",
@@ -11215,7 +11215,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "抄件错处太多，没能通过验看，这次差事只能作罢。",
+          "text": "抄件错处太多，雇主没接下这单。",
           "effects": [
             {
               "type": "flag_add",
@@ -17913,7 +17913,7 @@
   {
     "id": "E_JN_EXAM_3",
     "title": "准备乡试",
-    "text": "乡试将开。应试要检定才干，回报较高；抄书养家要检定人脉，也可退出备考，把旧卷留给后生。",
+    "text": "乡试将开，旧卷也能另谋生计。",
     "trigger": {
       "kind": "chain"
     },
@@ -17925,7 +17925,7 @@
         "unavailable_text": "尚不满足条件，或没有空闲的事业位置。",
         "risk": "normal",
         "outcome": {
-          "text": "你递上文章，等候考官评卷。",
+          "text": "文章递上去了，考官开始评卷。",
           "effects": [],
           "next_stage_id": "promote"
         },
@@ -17966,7 +17966,7 @@
         "unavailable_text": "眼下条件不符。",
         "risk": "safe",
         "outcome": {
-          "text": "你不参加这次乡试，拿抄书样稿去找主顾接活。",
+          "text": "你拿抄书样稿找活，先补贴家用。",
           "effects": [
             {
               "type": "flag_remove",
@@ -17986,7 +17986,7 @@
         "unavailable_text": "眼下条件不符。",
         "risk": "safe",
         "outcome": {
-          "text": "你退出这次乡试，把旧卷留给后生，教他们读书。",
+          "text": "你退出乡试，留下旧卷教后生。",
           "effects": [
             {
               "type": "flag_remove",
@@ -18008,14 +18008,14 @@
     "stages": [
       {
         "id": "promote",
-        "text": "考官评阅乡试文章，检验你这四年的功课。",
+        "text": "考官翻看乡试文章，最后一卷等着批阅。",
         "check": {
           "attribute": "intelligence",
           "dc": 13,
           "modifier": 0
         },
         "success": {
-          "text": "你的文章通过乡试，成为举人，也得到了较厚的报酬。",
+          "text": "文章过了乡试，举人和报酬都有了。",
           "effects": [
             {
               "type": "attribute_add",
@@ -18035,7 +18035,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你的文章没能通过乡试，这次赶考到此结束。",
+          "text": "文章没过乡试，这次赶考结束了。",
           "effects": [
             {
               "type": "flag_add",
@@ -18047,14 +18047,14 @@
       },
       {
         "id": "regular",
-        "text": "把抄书样稿交给主顾看，商定工价。",
+        "text": "你把抄书样稿交给主顾看，商量工价。",
         "check": {
           "attribute": "prestige",
           "dc": 13,
           "modifier": 0
         },
         "success": {
-          "text": "老主顾认下抄书活，付了工钱，也向人夸赞你的字。",
+          "text": "主顾接下抄书活，你拿到工钱和几句夸奖。",
           "effects": [
             {
               "type": "attribute_add",
@@ -18070,7 +18070,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "主顾没接下这份抄书单，你只好收回样稿。",
+          "text": "主顾没接这份抄书活，你只好收回样稿。",
           "effects": [
             {
               "type": "flag_add",
@@ -18085,7 +18085,7 @@
   {
     "id": "E_JN_OPEN_STUDY",
     "title": "东林就学",
-    "text": "书院招人读书备考，四年不收费用，但第二年的院试失利就会中断。你也可留家练读写，或与乡邻互助。",
+    "text": "书院又开门，案头多了几摞旧书。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -18258,7 +18258,7 @@
         "unavailable_text": "尚不满足条件，或没有空闲的事业位置。",
         "risk": "normal",
         "outcome": {
-          "text": "你留在书院温习，开始准备院试。",
+          "text": "你留在书院温习，开始备考院试。",
           "effects": [
             {
               "type": "flag_add",
@@ -32840,7 +32840,7 @@
   {
     "id": "E_MOD_FLASHLIGHT_OPEN_ELDER",
     "title": "教后生用灯",
-    "text": "后生们跟着你学用手电，最先要练的就是怎么摇亮它。",
+    "text": "后生跟你学摇灯，终于有人接班。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -32864,7 +32864,7 @@
     },
     "interaction": "automatic",
     "outcome": {
-      "text": "你把摇灯的次序排好，后生们轮流接手，不再让你一个人出力。",
+      "text": "你教后生轮流摇灯，终于有人接班。",
       "effects": [
         {
           "type": "flag_add",
@@ -33051,7 +33051,7 @@
   {
     "id": "E_MOD_FLASHLIGHT_PATROL",
     "title": "夜巡轮流摇灯",
-    "text": "夜巡的人只肯提灯，不肯摇把，巷口刚照亮就暗下去。街坊搬来板凳，等你安排轮班。",
+    "text": "夜巡的人只肯提灯，街坊等你排班。",
     "trigger": {
       "kind": "chain"
     },
@@ -33063,7 +33063,7 @@
         "unavailable_text": "暂时无法安排夜巡轮班。",
         "risk": "safe",
         "outcome": {
-          "text": "你把摇灯和查路排成轮班，大家轮流出力，不必一人一直摇着。",
+          "text": "轮班排妥，夜路总算有人照。",
           "effects": [
             {
               "type": "flag_add",
@@ -33089,7 +33089,7 @@
         "unavailable_text": "暂时无法练习负重巡路。",
         "risk": "safe",
         "outcome": {
-          "text": "你白天练习认路和负重，晚上与同伴轮流摇灯巡查。",
+          "text": "白天练路负重，夜里轮班巡查。",
           "effects": [
             {
               "type": "flag_add",
@@ -33115,7 +33115,7 @@
         "unavailable_text": "暂时无法这样吹嘘。",
         "risk": "high",
         "outcome": {
-          "text": "你吹嘘手电能透墙认贼，引来人群争抢，货架被撞得快倒了，躲不开可能丧命。",
+          "text": "你谎称手电透墙认贼，人群挤乱货架。",
           "effects": [],
           "next_stage_id": "claims_escape"
         }
@@ -33124,7 +33124,7 @@
     "stages": [
       {
         "id": "claims_escape",
-        "text": "人群争抢着挤歪了货架，你得先说清透墙是谎话，再找退路。",
+        "text": "人群撞歪货架，你得先认错脱身。",
         "check": {
           "attribute": "intelligence",
           "dc": 17,
@@ -33132,7 +33132,7 @@
           "tag": "night_patrol"
         },
         "success": {
-          "text": "你承认刚才是在吹嘘，说清手电不能透墙，随后安排好夜巡轮班。",
+          "text": "你澄清透墙是谎话，夜巡也排妥了。",
           "effects": [
             {
               "type": "flag_add",
@@ -33142,7 +33142,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "争抢的人群撞倒了货架，你没来得及躲开，受重伤身亡。",
+          "text": "你没能躲开倒下的货架，最终身亡。",
           "effects": [
             {
               "type": "flag_add",
@@ -33161,7 +33161,7 @@
   {
     "id": "E_MOD_FLASHLIGHT_ESCORT",
     "title": "照路护送乡邻",
-    "text": "兵马从街口过境，夜路挤满挑担的人。手电一次只能照清一段路，众人等你安排怎么走。",
+    "text": "夜路挤满行人，大家等你安排。",
     "trigger": {
       "kind": "chain"
     },
@@ -33173,7 +33173,7 @@
         "unavailable_text": "暂时无法画路分队护送。",
         "risk": "safe",
         "outcome": {
-          "text": "你画出接力护送的路线，安排各队轮换，大家少走了不少冤枉路。",
+          "text": "你分队接力护送，乡邻少走冤枉路。",
           "effects": [
             {
               "type": "flag_add",
@@ -33203,7 +33203,7 @@
         "unavailable_text": "暂时无法背扶老幼。",
         "risk": "safe",
         "outcome": {
-          "text": "你和同伴轮流背扶老幼、摇灯照路，累了就换人接手。",
+          "text": "你们轮流照路背扶老幼，送出了巷口。",
           "effects": [
             {
               "type": "flag_add",
@@ -33233,7 +33233,7 @@
         "unavailable_text": "暂时无法独自闯过暗沟。",
         "risk": "high",
         "outcome": {
-          "text": "你举灯独自往前闯，没看清脚下的暗沟，失足可能丧命。",
+          "text": "你独自闯向暗沟，脚下险些失稳。",
           "effects": [],
           "next_stage_id": "ditch_escape"
         }
@@ -33242,7 +33242,7 @@
     "stages": [
       {
         "id": "ditch_escape",
-        "text": "你在沟边踩了空，得赶紧站稳，免得跌下去。",
+        "text": "你在沟边踩空，得赶紧站稳。",
         "check": {
           "attribute": "physique",
           "dc": 17,
@@ -33250,7 +33250,7 @@
           "tag": "night_patrol"
         },
         "success": {
-          "text": "你压低灯光看清沟沿，退回队伍，和大家轮流护送乡邻。",
+          "text": "你看清沟沿，退回队伍轮流护送。",
           "effects": [
             {
               "type": "flag_add",
@@ -33264,7 +33264,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你只顾看远处，没有留意脚下，跌入暗沟后没能活下来。",
+          "text": "你没留意脚下，跌进暗沟后身亡。",
           "effects": [
             {
               "type": "flag_add",
@@ -33283,7 +33283,7 @@
   {
     "id": "E_MOD_FLASHLIGHT_FAST_FRAUD",
     "title": "拆穿灯影骗局",
-    "text": "京师局势混乱，有人借灯影骗路费。你得先暂停夜查，帮大家查清投影机关。",
+    "text": "有人借灯影骗路费，你得查清机关。",
     "trigger": {
       "kind": "historical",
       "year": 1644,
@@ -33297,7 +33297,7 @@
         "unavailable_text": "需持手摇发电强光手电，并在历史线1643或1644年开局。",
         "risk": "safe",
         "outcome": {
-          "text": "你拆开投影用的小机关，当众讲清影子是怎么来的，骗子无话可说。",
+          "text": "你拆开小机关，讲清影子原理。",
           "effects": [
             {
               "type": "flag_add",
@@ -33331,7 +33331,7 @@
         "unavailable_text": "需持手摇发电强光手电，并在历史线1643或1644年开局。",
         "risk": "safe",
         "outcome": {
-          "text": "你和街坊轮流摇灯，核对墙上的影子，一起拆穿了骗局。",
+          "text": "你和街坊验看灯影，骗局当场露馅。",
           "effects": [
             {
               "type": "flag_add",
@@ -33365,7 +33365,7 @@
         "unavailable_text": "需持手摇发电强光手电，并在历史线1643或1644年开局。",
         "risk": "high",
         "outcome": {
-          "text": "你谎称手电能透墙认人，人群争着挤上来，撞得货架摇晃，躲不及可能丧命。",
+          "text": "你谎称手电透墙认人，人群挤向货架。",
           "effects": [
             {
               "type": "flag_add",
@@ -33379,7 +33379,7 @@
     "stages": [
       {
         "id": "fraud_escape",
-        "text": "人群为了看透墙的本事挤向货架，你得赶紧承认说谎，给自己留条退路。",
+        "text": "人群挤向货架，你得认错留退路。",
         "check": {
           "attribute": "intelligence",
           "dc": 17,
@@ -33387,7 +33387,7 @@
           "tag": "night_patrol"
         },
         "success": {
-          "text": "你承认说谎，讲清投影机关的原理，众人松了手，再商量怎么照路。",
+          "text": "你说明投影原理，众人松手接着巡夜。",
           "effects": [
             {
               "type": "flag_add",
@@ -33401,7 +33401,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你还没来得及解释，货架已经倒下，你没能躲过，最终丧命。",
+          "text": "货架倒下，你没能躲过，最终丧命。",
           "effects": [
             {
               "type": "flag_add",
@@ -33447,7 +33447,7 @@
   {
     "id": "E_MOD_FLASHLIGHT_FAST_ROTA",
     "title": "换人接着摇灯",
-    "text": "临时收留点挤满行人，摇手电的人已经累得手臂发酸，路却还没照完。得安排大家轮换。",
+    "text": "摇灯的人累了，巷路还没照完。",
     "trigger": {
       "kind": "historical",
       "year": 1644,
@@ -33461,7 +33461,7 @@
         "unavailable_text": "需持手摇发电强光手电，在历史线1643或1644年开局，并已拆穿灯影骗局。",
         "risk": "safe",
         "outcome": {
-          "text": "你画清巡查路线，排好摇灯的轮次，让大家轮流出力。",
+          "text": "路线和班次排好，巡夜不再独撑。",
           "effects": [
             {
               "type": "flag_add",
@@ -33491,7 +33491,7 @@
         "unavailable_text": "需持手摇发电强光手电，在历史线1643或1644年开局，并已拆穿灯影骗局。",
         "risk": "safe",
         "outcome": {
-          "text": "你跟熟路的邻人轮流摇灯、巡路，累了就让同伴接手。",
+          "text": "邻人接手摇灯，你终于能歇一歇。",
           "effects": [
             {
               "type": "flag_add",
@@ -33557,7 +33557,7 @@
   {
     "id": "E_MOD_FLASHLIGHT_FAST_EXIT",
     "title": "结伴撤离",
-    "text": "夜间撤离的人排成长队，巷外兵马声越来越近。手电只能照清眼前几步，还得防着暗沟。",
+    "text": "撤离的人排成长队，暗沟挡在路上。",
     "trigger": {
       "kind": "historical",
       "year": 1644,
@@ -33571,7 +33571,7 @@
         "unavailable_text": "需持手摇发电强光手电，在历史线1643或1644年开局，并已排好巡路轮班。",
         "risk": "safe",
         "outcome": {
-          "text": "你把巷路分成几段，安排各队接力护送，乡邻少走了冤枉路。",
+          "text": "你分段接力护送，乡邻少走冤枉路。",
           "effects": [
             {
               "type": "flag_add",
@@ -33605,7 +33605,7 @@
         "unavailable_text": "需持手摇发电强光手电，在历史线1643或1644年开局，并已排好巡路轮班。",
         "risk": "safe",
         "outcome": {
-          "text": "你和同伴轮流摇灯、背扶乡邻，把大家照应着送出了巷子。",
+          "text": "你们轮流照路背扶乡邻，送出了巷子。",
           "effects": [
             {
               "type": "flag_add",
@@ -33639,7 +33639,7 @@
         "unavailable_text": "需持手摇发电强光手电，在历史线1643或1644年开局，并已排好巡路轮班。",
         "risk": "high",
         "outcome": {
-          "text": "你举灯独自往暗沟边闯，脚下稍有不稳就可能失足丧命。",
+          "text": "你独自闯向暗沟，脚下一滑险丧命。",
           "effects": [],
           "next_stage_id": "exit_escape"
         }
@@ -33648,7 +33648,7 @@
     "stages": [
       {
         "id": "exit_escape",
-        "text": "你冲到沟边，脚下已经打滑，得赶紧站稳退回去。",
+        "text": "脚下已经打滑，你得站稳退回队伍。",
         "check": {
           "attribute": "physique",
           "dc": 17,
@@ -33656,7 +33656,7 @@
           "tag": "night_patrol"
         },
         "success": {
-          "text": "你及时站稳，退回队伍，随后分段照路，把乡邻送出巷口。",
+          "text": "你退回队伍，分段照路送出乡邻。",
           "effects": [
             {
               "type": "flag_add",
@@ -33674,7 +33674,7 @@
           "next_stage_id": null
         },
         "failure": {
-          "text": "你只顾用灯照远处，没看见沟沿，失足跌下后没能活下来。",
+          "text": "你没看见沟沿，跌下后没能活下来。",
           "effects": [
             {
               "type": "flag_add",

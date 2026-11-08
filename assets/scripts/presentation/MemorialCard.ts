@@ -18,16 +18,16 @@ import type { PendingDecision } from '../core/types/schema';
 import { EnumMapper } from './EnumMapper';
 import { createArt } from './ArtAssets';
 import { GameAudio } from './GameAudio';
-import { createNarrativeArtSection, prefersReducedNarrativeMotion } from './NarrativePanelArt';
+import { prefersReducedNarrativeMotion } from './NarrativePanelArt';
 
 export type OptionPending = Extract<PendingDecision, { kind: 'option' }>;
 
 const { ccclass } = _decorator;
 const riskNames = { safe: '安全', normal: '普通', high: '高风险' } as const;
 const PANEL_WIDTH = 710;
-const PANEL_HEIGHT = 1180;
+const PANEL_HEIGHT = 900;
 const SCROLL_WIDTH = 662;
-const SCROLL_HEIGHT = 880;
+const SCROLL_HEIGHT = 652;
 const ROW_WIDTH = 646;
 const TEXT_WIDTH = 598;
 const palette = {
@@ -103,19 +103,20 @@ export class MemorialCard extends Component {
     panel.fillColor = palette.panel;
     panel.strokeColor = palette.gold;
     panel.lineWidth = 2;
-    panel.roundRect(-354, -589, 708, 1178, 12);
+    panel.roundRect(-354, -449, 708, 898, 12);
     panel.fill();
     panel.stroke();
     panel.fillColor = palette.gold;
-    panel.rect(-353, 512, 706, 76);
+    panel.rect(-353, 389, 706, 58);
     panel.fill();
     surface.addChild(background);
 
-    this.addLabel(surface, 'Title', '你的选择', -180, 550, 280, 48, 32, palette.background);
-    this.addLabel(surface, 'DecisionCount', `${decision.options.length} 个选项`, 205, 550, 230, 42, 24, palette.background, true);
+    this.addLabel(surface, 'Title', '★ 重大抉择 · 奏折 ★', -130, 418, 380, 42, 21, palette.background, true);
+    this.addLabel(surface, 'DecisionCount', `${decision.options.length} 个选项`, 258, 418, 150, 38, 18, palette.background, true);
 
     const scrollNode = new Node('OptionScrollView');
     scrollNode.layer = Layers.Enum.UI_2D;
+    scrollNode.setPosition(0, 20, 0);
     scrollNode.addComponent(UITransform).setContentSize(SCROLL_WIDTH, SCROLL_HEIGHT);
     surface.addChild(scrollNode);
 
@@ -137,10 +138,8 @@ export class MemorialCard extends Component {
     scroll.cancelInnerEvents = true;
     scroll.content = content;
 
-    const eventArt = createNarrativeArtSection(content, decision.event_id, 630);
-    eventArt.setPosition(0, -8, 0);
-    const descriptionTop = eventArt.getComponent(UITransform)!.height + 28;
-    const description = this.addLabel(content, 'Desc', eventText || '未能读取事件详情。', 0, -descriptionTop, 630, 38, 27, palette.text);
+    const descriptionTop = 8;
+    const description = this.addLabel(content, 'Desc', eventText || '未能读取事件详情。', 0, -descriptionTop, 630, 38, 22, palette.text);
     description.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
     const descriptionHeight = this.measureLabel(description, 630);
     let offset = descriptionTop + descriptionHeight + 28;
@@ -159,9 +158,9 @@ export class MemorialCard extends Component {
         32, 32, -TEXT_WIDTH / 2 + 16, -28);
       const riskColor = !option.available ? palette.secondary
         : option.risk === 'high' ? palette.red : option.risk === 'safe' ? palette.green : palette.secondary;
-      this.addLabel(rowNode, 'RiskLabel', riskNames[option.risk], -151, -28, 200, 34, 24, riskColor);
+      this.addLabel(rowNode, 'RiskLabel', riskNames[option.risk], -151, -28, 200, 34, 18, riskColor);
       const title = this.addLabel(rowNode, 'OptionTitle', `${index + 1}. ${option.text}`, 0, -60,
-        TEXT_WIDTH, 40, 28, option.available ? palette.text : palette.secondary);
+        TEXT_WIDTH, 40, 22, option.available ? palette.text : palette.secondary);
       title.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
       const titleHeight = this.measureLabel(title, TEXT_WIDTH);
       const checks = option.checks.length === 0 ? '无检定' : `接下来检定：\n${option.checks.map(check => {
@@ -178,7 +177,7 @@ export class MemorialCard extends Component {
       const availability = option.available ? '可选' : `不可选：${reason || '尚未满足条件。'}`;
       const text = [availability, checks, ...(optionDetails[option.id] ?? [])].join('\n');
       const detail = this.addLabel(rowNode, 'OptionDetail', text, 0, -72 - titleHeight,
-        TEXT_WIDTH, 34, 24, palette.secondary);
+        TEXT_WIDTH, 34, 18, palette.secondary);
       detail.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
       const detailHeight = this.measureLabel(detail, TEXT_WIDTH);
       const height = 92 + titleHeight + detailHeight;
@@ -237,24 +236,24 @@ export class MemorialCard extends Component {
     contentTransform.setContentSize(SCROLL_WIDTH, Math.max(SCROLL_HEIGHT, offset + 8));
 
     this.noticeLabel = this.addLabel(surface, 'Notice', '上下滑动查看选项，点击即可选择。',
-      onManageCareers ? -106 : 0, -524, onManageCareers ? 410 : 646, 92, 22, palette.secondary);
+      onManageCareers ? -106 : 0, -390, onManageCareers ? 410 : 646, 48, 18, palette.secondary);
     if (onManageCareers) {
       const manage = new Node('ManageCareers');
       manage.layer = Layers.Enum.UI_2D;
-      manage.setPosition(225, -524, 0);
-      manage.addComponent(UITransform).setContentSize(196, 96);
+      manage.setPosition(225, -390, 0);
+      manage.addComponent(UITransform).setContentSize(196, 52);
       const graphics = manage.addComponent(Graphics);
       const drawManage = (pressed: boolean): void => {
         graphics.clear();
         graphics.fillColor = pressed ? palette.pressed : palette.option;
         graphics.strokeColor = pressed ? palette.cyan : palette.border;
         graphics.lineWidth = 2;
-        graphics.roundRect(-98, -48, 196, 96, 6);
+        graphics.roundRect(-98, -26, 196, 52, 6);
         graphics.fill();
         graphics.stroke();
       };
       drawManage(false);
-      this.addLabel(manage, 'ManageLabel', '管理事业', 0, 0, 180, 44, 25, palette.text, true);
+      this.addLabel(manage, 'ManageLabel', '管理事业', 0, 0, 180, 44, 19, palette.text, true);
       manage.on(Node.EventType.TOUCH_START, () => { if (!this.submitting) drawManage(true); });
       manage.on(Node.EventType.TOUCH_CANCEL, () => drawManage(false));
       manage.on(Node.EventType.TOUCH_END, () => {

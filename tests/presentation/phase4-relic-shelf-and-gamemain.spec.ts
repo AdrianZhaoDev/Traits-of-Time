@@ -347,7 +347,9 @@ describe('UI Refactor Phase 4 - Relic Shelf & GameMain Integration', () => {
       const death = bundle.deaths.find(item => item.id === report.death_id)!;
       const achievement = bundle.achievements.find(item => item.id === 'A_MOD_FLASHLIGHT_DEATH_ROBBERY')!;
       expect(report.achievements).toContain(achievement.id);
-      descendants(root).find(node => node.name === 'Btn_管理事业')!.emit(Node.EventType.TOUCH_END);
+      descendants(root).find(node => node.name === 'Btn_事业')!.emit(Node.EventType.TOUCH_END);
+      const careerPanel = overlay.children.find(node => node.name === 'CareerPanel')!;
+      careerPanel.children.find(node => node.name === 'Btn_人生总结')!.emit(Node.EventType.TOUCH_END);
       const panel = overlay.children.find(node => node.name === 'EndingPanel')!;
       expect(displayedText(panel)).toContain(death.text);
       expect(displayedText(panel)).toContain(achievement.name);

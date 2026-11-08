@@ -290,7 +290,7 @@ export class OpeningFlow extends Component {
     this.setCards(cards);
     this.beginScreen('cards');
     this.revealDone = cards.length === 0;
-    this.setHeader('02 / 选择物品', '只能带走一件', '三件同时抽取，依次揭晓。');
+    this.setHeader('', '✦ 启封时空卷宗 · 挑选本世家当 ✦', '三选一入局：选择一件家当，作为本局随身物品。');
     const candidates = cards.map(card => card.name);
     let offset = 8;
     for (let i = 0; i < cards.length; i++) {
@@ -299,8 +299,10 @@ export class OpeningFlow extends Component {
       offset += slot.height + 16;
     }
     this.naturalHeight = Math.max(120, offset - 8);
-    this.primary = this.makeControl(this.footer!, '穿越', 0, 0, CONTENT_WIDTH, 104, true, () => { void this.enter(); });
-    this.setNotice(cards.length > 0 ? '正在揭晓物品，稍后选择一件。' : '未能读取本次物品，请返回首页重新开始。', cards.length === 0);
+    this.primary = this.makeControl(this.footer!, '确认选定 · 开启本轮大明推演', 0, 0, CONTENT_WIDTH, 72, true, () => { void this.enter(); });
+    this.primary.label.fontSize = 24;
+    this.primary.label.lineHeight = 34;
+    this.setNotice(cards.length > 0 ? '选择一件家当，作为本局随身物品。' : '未能读取本次物品，请返回首页重新开始。', cards.length === 0);
     if (cards.length === 0) {
       this.makeControl(this.items!, '返回首页', 0, -60, CONTENT_WIDTH, 96, false, () => this.showHome());
     }
@@ -466,6 +468,8 @@ export class OpeningFlow extends Component {
     this.screenKind = kind;
     this.homeArt!.active = kind === 'home';
     this.homeVeil!.node.active = kind === 'home';
+    this.portalRoot!.active = kind !== 'cards';
+    this.drawBackground();
     if (this.page) {
       this.page.active = false;
       this.page.parent = null;
@@ -496,8 +500,8 @@ export class OpeningFlow extends Component {
     this.footer = this.makeNode(this.page, 'OpeningFooter', WIDTH, 220);
     this.notice = this.text(this.footer, 'OpeningNotice', '', 0, 0, CONTENT_WIDTH, 36, 26, INK.secondary, true);
     this.notice.node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
-    for (let i = 0; i < this.rings.length; i++) this.rings[i].opacity.opacity = kind === 'cards' ? 235 : 150;
-    for (let i = 0; i < this.streaks.length; i++) this.streaks[i].node.active = i < (kind === 'cards' ? 32 : 16);
+    for (let i = 0; i < this.rings.length; i++) this.rings[i].opacity.opacity = 150;
+    for (let i = 0; i < this.streaks.length; i++) this.streaks[i].node.active = kind !== 'cards' && i < 16;
   }
 
   private setHeader(kicker: string, heading: string, subtitle: string): void {
@@ -508,6 +512,10 @@ export class OpeningFlow extends Component {
 
   private layout(): void {
     if (!this.page || !this.scroll || !this.content || !this.items || !this.footer || !this.viewport) return;
+    if (this.screenKind === 'cards') {
+      this.layoutCards();
+      return;
+    }
     const home = this.screenKind === 'home';
     const compact = this.viewportHeight < 1200;
     const topInset = compact ? 24 : 48;
@@ -554,6 +562,57 @@ export class OpeningFlow extends Component {
     this.positionStars();
   }
 
+  private layoutCards(): void {
+    if (!this.page || !this.scroll || !this.content || !this.items || !this.footer || !this.viewport
+      || !this.header || !this.notice) return;
+    const panelHeight = Math.min(850, this.viewportHeight - 48);
+
+    this.page.getComponent(UITransform)!.setContentSize(WIDTH, this.viewportHeight);
+    this.pageHost!.getComponent(UITransform)!.setContentSize(WIDTH, this.viewportHeight);
+    this.kicker!.node.active = false;
+    this.header.setPosition(0, panelHeight / 2 - 59, 0);
+    this.header.getComponent(UITransform)!.setContentSize(690, 80);
+    this.heading!.node.setPosition(0, 12, 0);
+    this.heading!.node.getComponent(UITransform)!.setContentSize(670, 36);
+    this.heading!.fontSize = 29;
+    this.heading!.lineHeight = 40;
+    this.heading!.color = new Color(0, 240, 255, 255);
+    this.subtitle!.node.setPosition(0, -25, 0);
+    this.subtitle!.node.getComponent(UITransform)!.setContentSize(650, 30);
+    this.subtitle!.fontSize = 20;
+    this.subtitle!.lineHeight = 28;
+
+    const oldOffset = this.scroll.getScrollOffset();
+    const bodyHeight = Math.max(180, panelHeight - 262);
+    const scrollHeight = Math.min(bodyHeight, Math.max(320, this.naturalHeight + 24));
+    const headerBottom = panelHeight / 2 - 96;
+    const footerTop = -panelHeight / 2 + 166;
+    const scrollY = (headerBottom + footerTop) / 2;
+    this.scroll.stopAutoScroll();
+    this.scroll.node.setPosition(0, scrollY, 0);
+    this.scroll.node.getComponent(UITransform)!.setContentSize(VIEWPORT_WIDTH, scrollHeight);
+    this.viewport.getComponent(UITransform)!.setContentSize(VIEWPORT_WIDTH, scrollHeight);
+    const contentHeight = Math.max(scrollHeight, this.naturalHeight);
+    this.content.getComponent(UITransform)!.setContentSize(VIEWPORT_WIDTH, contentHeight);
+    this.content.setPosition(0, scrollHeight / 2, 0);
+    this.items.getComponent(UITransform)!.setContentSize(CONTENT_WIDTH, this.naturalHeight);
+    this.items.setPosition(0, -Math.max(0, (scrollHeight - this.naturalHeight) / 2), 0);
+    this.scroll.scrollToOffset(oldOffset, 0);
+
+    this.footer.setPosition(0, -panelHeight / 2 + 179, 0);
+    this.footer.getComponent(UITransform)!.setContentSize(WIDTH, 144);
+    const noticeHeight = Math.max(28, this.noticeHeight);
+    this.notice.node.setPosition(0, 20 + noticeHeight, 0);
+    this.notice.node.getComponent(UITransform)!.setContentSize(CONTENT_WIDTH, noticeHeight);
+    if (this.primary) {
+      this.primary.height = 72;
+      this.primary.node.setPosition(0, -28, 0);
+      this.primary.node.getComponent(UITransform)!.setContentSize(CONTENT_WIDTH, 72);
+      this.primary.label.node.getComponent(UITransform)!.setContentSize(CONTENT_WIDTH - 32, 64);
+      this.drawControl(this.primary);
+    }
+  }
+
   private beginJourney(): void {
     if (this.busy || !this.callbacks) return;
     this.busy = true;
@@ -589,7 +648,7 @@ export class OpeningFlow extends Component {
     }
     if (this.screenKind === 'cards') {
       enabled = ready && this.revealDone && this.selectedId !== null;
-      title = this.busy ? '正在穿越…' : this.revealDone ? '穿越' : '物品揭晓中…';
+      title = this.busy ? '正在进入本局…' : this.revealDone ? '确认选定 · 开启本轮大明推演' : '物品揭晓中…';
     }
     this.primary.label.string = title;
     this.primary.button.interactable = enabled;
@@ -608,20 +667,30 @@ export class OpeningFlow extends Component {
   }
 
   private makeCard(card: OpeningCard, index: number, candidates: readonly string[], offset: number): CardSlot {
-    // Keep all three moving reels visible together, even on shorter phones.
-    // The selected item's complete description occupies the fixed footer below.
-    const height = 152;
+    const height = 144;
     const node = this.makeNode(this.items!, `CardOffer_${card.id}`, CONTENT_WIDTH, height, 0, -offset);
     node.getComponent(UITransform)!.setAnchorPoint(0.5, 1);
     const graphics = node.addComponent(Graphics);
-    this.text(node, 'OfferNumber', `${index + 1}`.padStart(2, '0'), CARD_ART_X, -22, 48, 36, 26, INK.secondary, true);
-    const rarity = this.text(node, 'OfferRarity', card.rarity, 260, -48, 92, 42, 28, this.rarityColor(card.rarity), true);
-    rarity.isBold = true;
-    const rarityOpacity = rarity.node.addComponent(UIOpacity);
+    const badgeNode = this.makeNode(node, 'OfferRarityBadge', 126, 32, 238, -25);
+    const rarityGraphics = badgeNode.addComponent(Graphics);
+    const rarityColor = this.rarityColor(card.rarity);
+    rarityGraphics.fillColor = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 42);
+    rarityGraphics.strokeColor = rarityColor;
+    rarityGraphics.lineWidth = 1;
+    rarityGraphics.roundRect(-63, -16, 126, 32, 4);
+    rarityGraphics.fill();
+    rarityGraphics.stroke();
+    const rarityOpacity = badgeNode.addComponent(UIOpacity);
     rarityOpacity.opacity = 0;
-    const selection = this.text(node, 'OfferSelection', '正在揭晓', -12, -height + 34, 380, 40, 26, INK.secondary);
+    const rarityText = card.id.startsWith('CARD_MODERN_') ? `现代 ${card.rarity}` : `原生家当 ${card.rarity}`;
+    const rarity = this.text(badgeNode, 'OfferRarity', rarityText, 0, 0, 116, 28, 18, rarityColor, true);
+    rarity.isBold = true;
+    const description = this.text(node, 'OfferDescription', card.description.replace(/\s*\n\s*/g, ' '),
+      20, -78, 470, 46, 18, INK.secondary);
+    description.overflow = Label.Overflow.SHRINK;
+    const selection = this.text(node, 'OfferSelection', '正在揭晓', 0, -height + 17, CONTENT_WIDTH - 20, 26, 17, INK.secondary, true);
     const artPath = ITEM_ART[card.id];
-    const art = artPath ? createArt(node, `OfferArt_${card.id}`, artPath, 96, 96, CARD_ART_X, CARD_ART_Y) : null;
+    const art = artPath ? createArt(node, `OfferArt_${card.id}`, artPath, 68, 68, CARD_ART_X, -72) : null;
     const artOpacity = art?.addComponent(UIOpacity) ?? null;
     if (artOpacity) artOpacity.opacity = 0;
     const slot: CardSlot = {
@@ -637,12 +706,12 @@ export class OpeningFlow extends Component {
     });
     slot.button.transition = Button.Transition.NONE;
     slot.button.interactable = false;
-    this.makeReel(node, `CardReel_${card.id}`, card.name, candidates, 380, 80, 32, -12, -48, 1.52 + index * 0.42, slot);
+    this.makeReel(node, `CardReel_${card.id}`, card.name, candidates, 370, 34, 23, -24, -24, 1.52 + index * 0.42, slot);
     this.bindPress(node, slot.button, () => {
       if (this.busy || !this.revealDone) return;
       GameAudio.instance?.playCue('select');
       this.selectedId = card.id;
-      this.setNotice(`已选择「${card.name}」\n${card.description}`);
+      this.setNotice(`已选择「${card.name}」。确认后进入本局。`);
       this.refreshActions();
     }, pressed => { slot.pressed = pressed; this.drawCard(slot); });
     this.drawCard(slot);
@@ -660,31 +729,16 @@ export class OpeningFlow extends Component {
 
   private drawCard(slot: CardSlot): void {
     const selected = this.selectedId === slot.card.id;
-    const color = this.rarityColor(slot.card.rarity);
     const graphics = slot.graphics;
     graphics.clear();
-    graphics.fillColor = selected ? INK.selected : slot.pressed ? INK.pressed : INK.surface;
-    graphics.strokeColor = selected ? INK.cyan : slot.settled ? color : INK.border;
+    graphics.fillColor = selected ? new Color(33, 39, 54, 255) : slot.pressed ? INK.pressed : new Color(26, 30, 42, 255);
+    graphics.strokeColor = selected ? new Color(0, 240, 255, 255) : INK.border;
     graphics.lineWidth = selected ? 3 : 1.5;
-    graphics.roundRect(-CONTENT_WIDTH / 2, -slot.height, CONTENT_WIDTH, slot.height, 16);
+    graphics.roundRect(-CONTENT_WIDTH / 2, -slot.height, CONTENT_WIDTH, slot.height, 8);
     graphics.fill();
     graphics.stroke();
-    if (slot.settled) {
-      graphics.fillColor = color;
-      graphics.roundRect(-CONTENT_WIDTH / 2 + 1, -slot.height + 18, 4, slot.height - 36, 2);
-      graphics.fill();
-    }
-    graphics.strokeColor = selected ? INK.cyan : INK.border;
-    graphics.lineWidth = 2;
-    graphics.circle(280, -slot.height + 34, 13);
-    graphics.stroke();
-    if (selected) {
-      graphics.moveTo(273, -slot.height + 34);
-      graphics.lineTo(278, -slot.height + 29);
-      graphics.lineTo(288, -slot.height + 40);
-      graphics.stroke();
-    }
-    slot.selection.color = selected ? INK.cyan : INK.secondary;
+    slot.selection.string = !slot.settled ? '正在揭晓' : selected ? '已选择' : '点击选择';
+    slot.selection.color = selected ? new Color(0, 240, 255, 255) : INK.secondary;
   }
 
   private makeReel(parent: Node, name: string, result: string, candidates: readonly string[], width: number, height: number,
@@ -739,7 +793,7 @@ export class OpeningFlow extends Component {
       this.revealDone = true;
       if (this.identityDetails) this.identityDetails.opacity = 255;
       if (!this.noticeIsError) this.setNotice(this.screenKind === 'identity'
-        ? '身份已揭晓，接下来选一件现代物品。' : '物品已揭晓，点击一件查看说明。');
+        ? '身份已揭晓，接下来选一件现代物品。' : '选择一件家当，作为本局随身物品。');
       this.refreshActions();
     }
   }
@@ -747,11 +801,11 @@ export class OpeningFlow extends Component {
   private setNotice(message: string, error = false): void {
     if (!this.notice) return;
     this.notice.string = message;
-    const description = this.screenKind === 'cards' && this.selectedId !== null && !this.busy && !error;
-    this.notice.fontSize = description ? 28 : 26;
-    this.notice.lineHeight = description ? 39 : 36;
-    this.notice.horizontalAlign = description ? Label.HorizontalAlign.LEFT : Label.HorizontalAlign.CENTER;
-    this.notice.color = error ? INK.error : description ? INK.text : INK.secondary;
+    const selectedCard = this.screenKind === 'cards' && this.selectedId !== null && !this.busy && !error;
+    this.notice.fontSize = selectedCard ? 20 : 26;
+    this.notice.lineHeight = selectedCard ? 28 : 36;
+    this.notice.horizontalAlign = Label.HorizontalAlign.CENTER;
+    this.notice.color = error ? INK.error : selectedCard ? INK.text : INK.secondary;
     this.noticeIsError = error;
     this.noticeHeight = message.length > 0 ? this.measure(this.notice, CONTENT_WIDTH) : 0;
     this.layout();
@@ -886,10 +940,12 @@ export class OpeningFlow extends Component {
     if (!this.background) return;
     const graphics = this.background;
     graphics.clear();
-    graphics.fillColor = INK.background;
+    graphics.fillColor = this.screenKind === 'cards'
+      ? new Color(9, 10, 14, 217)
+      : INK.background;
     graphics.rect(-WIDTH / 2, -this.viewportHeight / 2, WIDTH, this.viewportHeight);
     graphics.fill();
-    graphics.strokeColor = INK.portalDim;
+    graphics.strokeColor = this.screenKind === 'cards' ? new Color(9, 10, 14, 0) : INK.portalDim;
     graphics.lineWidth = 1;
     graphics.moveTo(-350, -this.viewportHeight / 2);
     graphics.lineTo(-350, this.viewportHeight / 2);
@@ -932,8 +988,9 @@ export class OpeningFlow extends Component {
 
   private drawControl(control: Control): void {
     const enabled = control.button.interactable;
-    const fill = control.primary && enabled ? INK.cyan : control.pressed && enabled ? INK.pressed : INK.surface;
-    const border = control.primary && enabled ? INK.cyan : INK.border;
+    const actionCyan = this.screenKind === 'cards' ? new Color(0, 240, 255, 255) : INK.cyan;
+    const fill = control.primary && enabled ? actionCyan : control.pressed && enabled ? INK.pressed : INK.surface;
+    const border = control.primary && enabled ? actionCyan : INK.border;
     this.panel(control.graphics, control.width, control.height, fill, border, 14);
     control.label.color = !enabled ? INK.disabled : control.primary ? INK.background : INK.text;
   }

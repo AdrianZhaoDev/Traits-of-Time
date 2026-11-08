@@ -31,8 +31,8 @@ import { LogParser, FoldItemData } from './LogParser';
 import { EventFoldItem } from './EventFoldItem';
 import { UIAnimController } from './UIAnimController';
 import { MemorialCard } from './MemorialCard';
-import { RelicBarController } from './RelicBarController';
 import { PixelFXController } from './PixelFXController';
+import { RelicBarController, type RelicItemData } from './RelicBarController';
 import { OpeningFlow } from './OpeningFlow';
 import { LifetimeRecords } from './LifetimeRecords';
 import { createArt, setArt } from './ArtAssets';
@@ -43,18 +43,40 @@ const { ccclass } = _decorator;
 const VIEW = {
   width: 750,
   height: 1334,
-  hudHeight: 220,
-  bodyHeight: 870,
-  footerHeight: 244,
-  logWidth: 630,
-  foldWidth: 590,
+  hudHeight: 234,
+  bodyHeight: 950,
+  footerHeight: 150,
   shelfWidth: 120,
+  logWidth: 630,
+  foldWidth: 594,
 };
 const HOLD_DELAY = 0.35;
 const HOLD_INTERVAL = 0.22;
 const SOUND_ACCESS_STYLE = 'position:fixed;left:0;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;';
 const SOUND_HELP = '上下滑动查看更多，拖动或使用加减按钮调音。\n键盘可用 Tab 切换、方向键调节、Esc 返回。';
 let lifetimeSequence = 0;
+
+const STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+const BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+
+function chineseYearNumber(value: number): string {
+  if (!Number.isFinite(value) || value < 1 || value > 99) return String(value);
+  const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  if (value < 10) return digits[value]!;
+  if (value === 10) return '十';
+  const tens = Math.floor(value / 10);
+  const ones = value % 10;
+  return `${tens === 1 ? '' : digits[tens]}十${ones ? digits[ones] : ''}`;
+}
+
+function ganzhiYear(year: number): string {
+  const index = ((year - 4) % 60 + 60) % 60;
+  return `${STEMS[index % 10]}${BRANCHES[index % 12]}`;
+}
+
+function formatWealth(value: number): string {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
 type RegionScene = 'shanbei' | 'capital' | 'jiangnan';
 type AudioChannel = 'music' | 'effects' | 'ambience';
@@ -69,10 +91,8 @@ const AUDIO_LABELS: Readonly<Record<AudioChannel, string>> = {
   music: '音乐', effects: '音效', ambience: '环境声',
 };
 interface RegionArtwork {
-  background: Node;
-  banner: Node;
-  backgroundOpacity: UIOpacity;
-  bannerOpacity: UIOpacity;
+  image: Node;
+  opacity: UIOpacity;
 }
 interface AudioSettingRow {
   node: Node;
@@ -91,6 +111,8 @@ const INK = {
   borderLight: new Color(82, 91, 110, 255),
   text: new Color(237, 241, 247, 255),
   sub: new Color(140, 150, 168, 255),
+  muted: new Color(94, 102, 119, 255),
+  coin: new Color(24, 28, 38, 255),
   cyan: new Color(0, 240, 255, 255),
   gold: new Color(255, 190, 11, 255),
   green: new Color(5, 223, 183, 255),
@@ -100,7 +122,7 @@ const INK = {
   advance: new Color(25, 79, 59, 255),
   advanceBorder: new Color(74, 222, 128, 255),
   ended: new Color(87, 19, 31, 255),
-  scrim: new Color(9, 10, 14, 224),
+  scrim: new Color(9, 10, 14, 217),
 };
 
 /**
@@ -125,8 +147,6 @@ export class GameMain extends Component {
   private wealthGainPending = false;
   private regionScene: RegionScene | null = null;
   private regionBackdrop: Node | null = null;
-  private regionBanner: Node | null = null;
-  private regionBannerCaption: Label | null = null;
   private regionArtwork: RegionArtwork | null = null;
   private pendingRegionArtwork: RegionArtwork | null = null;
   private outgoingRegionArtwork: RegionArtwork | null = null;
@@ -152,18 +172,19 @@ export class GameMain extends Component {
   private eraYearLabel: Label | null = null;
   private turnLabel: Label | null = null;
   private identityLabel: Label | null = null;
+  private regionLabel: Label | null = null;
+  private casteLabel: Label | null = null;
   private identityPlaqueNode: Node | null = null;
   private statCoinNodes: Map<string, Node> = new Map();
   private prevStatValues: Map<string, number> = new Map();
 
   private pixelFX: PixelFXController | null = null;
+  private relicBar: RelicBarController | null = null;
   private endingPanel: Node | null = null;
   private endingReport: EndingReport | null = null;
   private terminalHandled = false;
   private logContentNode: Node | null = null;
   private scrollView: ScrollView | null = null;
-  private relicBar: RelicBarController | null = null;
-  private acquiredRelicId: string | null = null;
 
   // 抉择与遮罩
   private decisionOverlay: Node | null = null;
@@ -184,6 +205,7 @@ export class GameMain extends Component {
 
   // 统计已渲染折页
   private renderedItemsCount: number = 0;
+  private narrativeYears: Node[][] = [];
 
   onLoad(): void {
     this.viewportHeight = view.getVisibleSize().height;
@@ -260,9 +282,11 @@ export class GameMain extends Component {
     if (this.scrollView && this.logContentNode) {
       const offset = this.scrollView.getScrollOffset();
       this.scrollView.stopAutoScroll();
-      this.scrollView.node.getComponent(UITransform)!.setContentSize(VIEW.logWidth, this.contentHeight);
-      this.logContentNode.parent!.getComponent(UITransform)!.setContentSize(VIEW.logWidth, this.contentHeight);
-      this.logContentNode.setPosition(0, this.contentHeight / 2, 0);
+      const logHeight = this.logViewportHeight();
+      this.scrollView.node.setPosition(-VIEW.shelfWidth / 2, 0, 0);
+      this.scrollView.node.getComponent(UITransform)!.setContentSize(VIEW.logWidth, logHeight);
+      this.logContentNode.parent!.getComponent(UITransform)!.setContentSize(VIEW.logWidth, logHeight);
+      this.logContentNode.setPosition(0, logHeight / 2, 0);
       this.updateLogContentLayout();
       this.scrollView.scrollToOffset(offset, 0);
     }
@@ -339,13 +363,16 @@ export class GameMain extends Component {
     background.addComponent(UITransform).setContentSize(VIEW.width, this.viewportHeight);
     this.paintPanel(background, VIEW.width, this.viewportHeight, INK.background, INK.background, 0);
     root.addChild(background);
-    const backdrop = new Node('RegionBackdrop');
-    backdrop.layer = Layers.Enum.UI_2D;
-    backdrop.addComponent(UITransform).setContentSize(VIEW.width, this.contentHeight);
-    backdrop.addComponent(Mask);
-    backdrop.setPosition(0, (VIEW.footerHeight - VIEW.hudHeight) / 2, 0);
-    background.addChild(backdrop);
-    this.regionBackdrop = backdrop;
+  }
+
+  private regionImageHeight(): number {
+    // The production game uses the same uninterrupted history stream as the
+    // phone viewport in output/pixelfx/preview.html; region art stays off this layer.
+    return 0;
+  }
+
+  private logViewportHeight(): number {
+    return Math.max(1, this.contentHeight);
   }
 
   private setAudioScene(track: 'home' | 'life' | 'ending', region: RegionScene | null): void {
@@ -359,27 +386,6 @@ export class GameMain extends Component {
     }
   }
 
-  private ensureRegionBanner(): Node | null {
-    if (!this.logContentNode) return null;
-    if (this.regionBanner && isValid(this.regionBanner, true)) return this.regionBanner.getChildByName('RegionPicture');
-    const banner = new Node('RegionBanner');
-    banner.layer = Layers.Enum.UI_2D;
-    banner.addComponent(UITransform).setContentSize(VIEW.foldWidth, 252);
-    this.paintPanel(banner, VIEW.foldWidth, 252, INK.inset, INK.border, 6);
-    const picture = new Node('RegionPicture');
-    picture.layer = Layers.Enum.UI_2D;
-    picture.addComponent(UITransform).setContentSize(VIEW.foldWidth - 4, 208);
-    picture.addComponent(Mask);
-    picture.setPosition(0, 20, 0);
-    banner.addChild(picture);
-    this.regionBannerCaption = this.createText(banner, 'RegionCaption', '', 0, -104, 550, 38, 23, INK.text);
-    this.logContentNode.addChild(banner);
-    banner.setSiblingIndex(0);
-    this.regionBanner = banner;
-    this.updateLogContentLayout();
-    return picture;
-  }
-
   private updateRegionArtwork(regionId: string): void {
     const scene = REGION_SCENES[regionId] ?? null;
     if (scene === this.regionScene) return;
@@ -389,31 +395,21 @@ export class GameMain extends Component {
     if (!scene) {
       // Unknown regions remain unillustrated; never substitute another real place.
       this.clearRegionArtwork();
-      this.updateLogContentLayout();
       return;
     }
     this.regionScene = scene;
-    const banner = this.ensureRegionBanner();
-    if (!banner || !this.regionBackdrop) return;
-    if (this.regionBannerCaption) this.regionBannerCaption.string = EnumMapper.translateRegion(regionId);
+    if (!this.regionBackdrop) return;
     const path = `scenes/${scene}`;
-    const background = createArt(this.regionBackdrop, `RegionScene_${scene}`, path, VIEW.width, this.contentHeight);
-    const bannerArt = createArt(banner, `RegionBanner_${scene}`, path, VIEW.foldWidth - 4, 208);
+    const image = createArt(this.regionBackdrop, `RegionScene_${scene}`, path, VIEW.width, this.regionImageHeight());
     const art: RegionArtwork = {
-      background, banner: bannerArt,
-      backgroundOpacity: background.getComponent(UIOpacity) || background.addComponent(UIOpacity),
-      bannerOpacity: bannerArt.getComponent(UIOpacity) || bannerArt.addComponent(UIOpacity),
+      image,
+      opacity: image.getComponent(UIOpacity) || image.addComponent(UIOpacity),
     };
-    art.backgroundOpacity.opacity = 0;
-    art.bannerOpacity.opacity = 0;
+    art.opacity.opacity = 0;
     this.pendingRegionArtwork = art;
-    const loaded = new Set<Node>();
     const ready = (node: Node, loadedPath: string): void => {
       if (loadedPath !== path || this.pendingRegionArtwork !== art || !isValid(this.node, true)) return;
-      loaded.add(node);
-      if (loaded.size !== 2) return;
-      this.coverArt(art.background, VIEW.width, this.contentHeight);
-      this.coverArt(art.banner, VIEW.foldWidth - 4, 208);
+      this.coverArt(node, VIEW.width, this.regionImageHeight());
       this.outgoingRegionArtwork = this.regionArtwork;
       this.regionArtwork = art;
       this.pendingRegionArtwork = null;
@@ -426,16 +422,9 @@ export class GameMain extends Component {
       this.pendingRegionArtwork = null;
       if (this.regionArtwork) this.destroyRegionArtwork(this.regionArtwork);
       this.regionArtwork = null;
-      this.regionBanner?.removeFromParent();
-      this.regionBanner?.destroy();
-      this.regionBanner = null;
-      this.regionBannerCaption = null;
-      this.updateLogContentLayout();
     };
-    background.on('art-ready', (loadedPath: string) => ready(background, loadedPath));
-    bannerArt.on('art-ready', (loadedPath: string) => ready(bannerArt, loadedPath));
-    background.on('art-error', failed);
-    bannerArt.on('art-error', failed);
+    image.on('art-ready', (loadedPath: string) => ready(image, loadedPath));
+    image.on('art-error', failed);
   }
 
   private coverArt(node: Node, width: number, height: number): void {
@@ -446,20 +435,19 @@ export class GameMain extends Component {
   }
 
   private resizeRegionArtwork(): void {
-    this.regionBackdrop?.getComponent(UITransform)?.setContentSize(VIEW.width, this.contentHeight);
-    this.regionBackdrop?.setPosition(0, (VIEW.footerHeight - VIEW.hudHeight) / 2, 0);
+    const imageHeight = this.regionImageHeight();
+    this.regionBackdrop?.getComponent(UITransform)?.setContentSize(VIEW.width, imageHeight);
+    this.regionBackdrop?.setPosition(0, (VIEW.footerHeight - VIEW.hudHeight) / 2 - this.contentHeight / 2 + imageHeight / 2, 0);
     for (const art of [this.regionArtwork, this.pendingRegionArtwork, this.outgoingRegionArtwork]) {
-      if (art && isValid(art.background, true)) this.coverArt(art.background, VIEW.width, this.contentHeight);
+      if (art && isValid(art.image, true)) this.coverArt(art.image, VIEW.width, imageHeight);
     }
   }
 
   private destroyRegionArtwork(art: RegionArtwork): void {
-    for (const node of [art.background, art.banner]) {
-      if (!isValid(node, true)) continue;
-      UIAnimController.stopAnimations(node, true);
-      node.removeFromParent();
-      node.destroy();
-    }
+    if (!isValid(art.image, true)) return;
+    UIAnimController.stopAnimations(art.image, true);
+    art.image.removeFromParent();
+    art.image.destroy();
   }
 
   private clearRegionArtwork(): void {
@@ -471,17 +459,10 @@ export class GameMain extends Component {
     this.outgoingRegionArtwork = null;
     this.regionScene = null;
     this.regionFadeElapsed = -1;
-    this.regionBanner?.removeFromParent();
-    this.regionBanner?.destroy();
-    this.regionBanner = null;
-    this.regionBannerCaption = null;
   }
 
   private finishRegionFade(): void {
-    if (this.regionArtwork) {
-      this.regionArtwork.backgroundOpacity.opacity = 58;
-      this.regionArtwork.bannerOpacity.opacity = 255;
-    }
+    if (this.regionArtwork) this.regionArtwork.opacity.opacity = 255;
     if (this.outgoingRegionArtwork) this.destroyRegionArtwork(this.outgoingRegionArtwork);
     this.outgoingRegionArtwork = null;
     this.regionFadeElapsed = -1;
@@ -500,11 +481,9 @@ export class GameMain extends Component {
     if (this.regionFadeElapsed >= 0 && this.regionArtwork) {
       this.regionFadeElapsed += dt;
       const t = this.reduceMotion() ? 1 : Math.min(1, this.regionFadeElapsed / 0.25);
-      this.regionArtwork.backgroundOpacity.opacity = Math.round(58 * t);
-      this.regionArtwork.bannerOpacity.opacity = Math.round(255 * t);
+      this.regionArtwork.opacity.opacity = Math.round(255 * t);
       if (this.outgoingRegionArtwork) {
-        this.outgoingRegionArtwork.backgroundOpacity.opacity = Math.round(58 * (1 - t));
-        this.outgoingRegionArtwork.bannerOpacity.opacity = Math.round(255 * (1 - t));
+        this.outgoingRegionArtwork.opacity.opacity = Math.round(255 * (1 - t));
       }
       if (t === 1) this.finishRegionFade();
     }
@@ -542,12 +521,14 @@ export class GameMain extends Component {
     this.identityPlaqueNode.addComponent(UITransform).setContentSize(702, 48);
     this.paintPanel(this.identityPlaqueNode, 702, 48, INK.inset, INK.border, 4);
     hudNode.addChild(this.identityPlaqueNode);
-    this.identityLabel = this.createText(this.identityPlaqueNode, 'IdentityLabel', '正在读取身份信息…', 0, 0, 674, 42, 21, INK.text);
+    this.identityLabel = this.createText(this.identityPlaqueNode, 'IdentityLabel', '身份: 正在读取…', -228, 0, 196, 42, 19, INK.text);
+    this.regionLabel = this.createText(this.identityPlaqueNode, 'RegionLabel', '地区: —', 8, 0, 286, 42, 19, INK.sub, Label.HorizontalAlign.CENTER);
+    this.casteLabel = this.createText(this.identityPlaqueNode, 'CasteLabel', '阶层: —', 254, 0, 158, 42, 19, INK.sub, Label.HorizontalAlign.CENTER);
 
     const statBar = new Node('StatsCoinBar');
     statBar.layer = Layers.Enum.UI_2D;
     statBar.setPosition(0, -68, 0);
-    statBar.addComponent(UITransform).setContentSize(VIEW.width, 84);
+    statBar.addComponent(UITransform).setContentSize(VIEW.width, 94);
     this.paintPanel(statBar, VIEW.width, 84, INK.inset, INK.border, 0);
     hudNode.addChild(statBar);
 
@@ -556,18 +537,24 @@ export class GameMain extends Component {
       const cell = new Node(`StatCell_${key}`);
       cell.layer = Layers.Enum.UI_2D;
       cell.setPosition(-284 + index * 142, 0, 0);
-      cell.addComponent(UITransform).setContentSize(134, 70);
-      this.paintPanel(cell, 134, 70, INK.panel, INK.panel, 4);
+      cell.addComponent(UITransform).setContentSize(134, 80);
+      this.paintPanel(cell, 134, 80, INK.coin, INK.coin, 3);
       statBar.addChild(cell);
-      createArt(cell, `StatIcon_${key}`, `icons/${key}`, 26, 26, -35, 21);
-      this.createText(cell, 'StatName', EnumMapper.translateStat(key).name, 19, 21, 72, 24, 19, INK.sub, Label.HorizontalAlign.CENTER);
-      const value = this.createText(cell, `Coin_${key}`, '—', 0, -14, 118, 40, 28, key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text, Label.HorizontalAlign.CENTER);
+      const shortNames: Record<string, string> = {
+        physique: '体魄 (体)', wealth: '家资 (财)', intelligence: '才干 (智)', prestige: '人脉 (脉)', luck: '气数 (运)',
+      };
+      this.createText(cell, 'StatName', shortNames[key] ?? EnumMapper.translateStat(key).name,
+        0, 19, 128, 24, 18, INK.muted, Label.HorizontalAlign.CENTER);
+      const value = this.createText(cell, `Coin_${key}`, '—', 0, -19, 122, 40, 24,
+        key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text, Label.HorizontalAlign.CENTER);
       value.isBold = true;
       this.statCoinNodes.set(key, value.node);
     });
   }
 
   private buildCenterArea(root: Node): void {
+    const imageHeight = this.regionImageHeight();
+    const logHeight = this.logViewportHeight();
     const centerNode = new Node('CenterScrollArea');
     centerNode.layer = Layers.Enum.UI_2D;
     centerNode.setPosition(0, (VIEW.footerHeight - VIEW.hudHeight) / 2, 0);
@@ -577,10 +564,10 @@ export class GameMain extends Component {
     const scrollNode = new Node('EventScrollView');
     scrollNode.layer = Layers.Enum.UI_2D;
     scrollNode.setPosition(-VIEW.shelfWidth / 2, 0, 0);
-    scrollNode.addComponent(UITransform).setContentSize(VIEW.logWidth, this.contentHeight);
+    scrollNode.addComponent(UITransform).setContentSize(VIEW.logWidth, logHeight);
     const viewport = new Node('Viewport');
     viewport.layer = Layers.Enum.UI_2D;
-    viewport.addComponent(UITransform).setContentSize(VIEW.logWidth, this.contentHeight);
+    viewport.addComponent(UITransform).setContentSize(VIEW.logWidth, logHeight);
     viewport.addComponent(Mask);
     scrollNode.addChild(viewport);
 
@@ -588,8 +575,8 @@ export class GameMain extends Component {
     content.layer = Layers.Enum.UI_2D;
     const contentTransform = content.addComponent(UITransform);
     contentTransform.setAnchorPoint(0.5, 1);
-    contentTransform.setContentSize(VIEW.logWidth, this.contentHeight);
-    content.setPosition(0, this.contentHeight / 2, 0);
+    contentTransform.setContentSize(VIEW.logWidth, logHeight);
+    content.setPosition(0, logHeight / 2, 0);
     viewport.addChild(content);
     const scroll = scrollNode.addComponent(ScrollView);
     scroll.horizontal = false;
@@ -598,16 +585,13 @@ export class GameMain extends Component {
     this.scrollView = scroll;
     this.logContentNode = content;
     centerNode.addChild(scrollNode);
-    scrollNode.on('scrolling', () => {
-      if (this.scrollView) UIAnimController.updateScrollWeathering(this.scrollView);
-    });
 
-    const relicNode = new Node('RightRelicBar');
-    relicNode.layer = Layers.Enum.UI_2D;
-    relicNode.setPosition(VIEW.logWidth / 2, 0, 0);
-    relicNode.addComponent(UITransform).setContentSize(VIEW.shelfWidth, this.contentHeight);
-    centerNode.addChild(relicNode);
-    this.relicBar = relicNode.addComponent(RelicBarController);
+    const shelf = new Node('RelicShelf');
+    shelf.layer = Layers.Enum.UI_2D;
+    shelf.setPosition(VIEW.width / 2 - VIEW.shelfWidth / 2, 0, 0);
+    shelf.addComponent(UITransform).setContentSize(VIEW.shelfWidth, this.contentHeight);
+    centerNode.addChild(shelf);
+    this.relicBar = shelf.addComponent(RelicBarController);
     this.relicBar.setHeight(this.contentHeight);
   }
 
@@ -643,40 +627,36 @@ export class GameMain extends Component {
     barNode.layer = Layers.Enum.UI_2D;
     barNode.setPosition(0, -(this.viewportHeight - VIEW.footerHeight) / 2, 0);
     barNode.addComponent(UITransform).setContentSize(VIEW.width, VIEW.footerHeight);
-    this.paintPanel(barNode, VIEW.width, VIEW.footerHeight, INK.hud, INK.border, 0);
+    this.paintPanel(barNode, VIEW.width, VIEW.footerHeight, INK.background, INK.background, 0);
     root.addChild(barNode);
 
     const advance = new Node('SealAdvanceBtn');
     advance.layer = Layers.Enum.UI_2D;
-    advance.setPosition(0, 66, 0);
-    advance.addComponent(UITransform).setContentSize(702, 80);
-    this.paintPanel(advance, 702, 80, INK.advance, INK.advanceBorder, 10);
-    const label = this.createText(advance, 'BtnLabel', '等待选择随身家当', 0, 0, 654, 72, 27, INK.text, Label.HorizontalAlign.CENTER);
+    advance.setPosition(0, 32, 0);
+    advance.addComponent(UITransform).setContentSize(702, 86);
+    this.paintPanel(advance, 702, 86, new Color(31, 96, 72, 255), INK.advanceBorder, 10);
+    this.createText(advance, 'SealMark', '印', -306, 0, 42, 60, 30, INK.text, Label.HorizontalAlign.CENTER).isBold = true;
+    const label = this.createText(advance, 'BtnLabel', '推进流年 · 长按快进', 20, 0, 570, 78, 26, INK.text, Label.HorizontalAlign.CENTER);
     label.isBold = true;
-    this.addActionIcon(advance, 'btn-next', 'BtnLabel');
     this.bindSealEvents(advance);
     barNode.addChild(advance);
     this.sealAdvanceBtn = advance;
 
     const controls = new Node('SubBtnLayout');
     controls.layer = Layers.Enum.UI_2D;
-    controls.setPosition(0, -8, 0);
+    controls.setPosition(0, -49, 0);
     controls.addComponent(UITransform).setContentSize(702, 48);
     barNode.addChild(controls);
-    const restart = this.createButton(controls, '重启人生', -267, 0, 168, 48, () => this.startNewLife());
-    this.addActionIcon(restart, 'btn-restart');
-    this.createButton(controls, '进度说明', -89, 0, 168, 48, () => this.showSaveTip());
-    this.careerButton = this.createButton(controls, '管理事业', 89, 0, 168, 48, () => {
-      if (this.currentView?.status === 'ENDED') this.showEndingSummary();
-      else this.openCareerManager();
-    });
-    this.addActionIcon(this.careerButton, 'btn-career');
+    this.careerButton = this.createButton(controls, '事业', -238, 0, 226, 48, () => this.openCareerManager());
+    this.careerButton.getChildByName('Title')!.getComponent(Label)!.string = '管理事业 (0)';
+    this.styleButton(this.careerButton, new Color(30, 35, 48, 255), INK.border, INK.sub);
     this.careerButton.getComponent(Button)!.interactable = false;
-    const latest = this.createButton(controls, '查看最新', 267, 0, 168, 48, () => {
+    const restart = this.createButton(controls, '重启人生', 0, 0, 226, 48, () => this.startNewLife());
+    this.styleButton(restart, new Color(30, 35, 48, 255), INK.border, INK.sub);
+    const latest = this.createButton(controls, '滚至最新', 238, 0, 226, 48, () => {
       this.scrollView?.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
     });
-    this.addActionIcon(latest, 'btn-next');
-    this.createButton(barNode, '声音设置', 0, -82, 702, 60, () => this.showSoundSettings());
+    this.styleButton(latest, new Color(30, 35, 48, 255), INK.border, INK.sub);
   }
   private bindSealEvents(btnNode: Node): void {
     btnNode.on(Node.EventType.TOUCH_START, () => {
@@ -751,21 +731,21 @@ export class GameMain extends Component {
     this.careerBusy = false;
     this.careerPanel?.destroy();
     this.careerPanel = null;
-    this.acquiredRelicId = null;
-    this.relicBar?.reset();
     if (this.eraYearLabel) this.eraYearLabel.string = '正在开局…';
     if (this.turnLabel) this.turnLabel.string = '等待开局';
     if (this.identityLabel) this.identityLabel.string = '正在读取身份信息…';
+    if (this.regionLabel) this.regionLabel.string = '地区: —';
+    if (this.casteLabel) this.casteLabel.string = '阶层: —';
+    this.relicBar?.reset();
     for (const node of this.statCoinNodes.values()) {
       const label = node.getComponent(Label);
       if (label) label.string = '—';
     }
     if (this.careerButton) {
       this.careerButton.getComponent(Button)!.interactable = false;
-      this.styleButton(this.careerButton, INK.raised, INK.border, INK.sub);
+      this.styleButton(this.careerButton, new Color(30, 35, 48, 255), INK.border, INK.sub);
       const title = this.careerButton.children.find(child => child.name === 'Title')?.getComponent(Label);
-      if (title) title.string = '管理事业';
-      this.addActionIcon(this.careerButton, 'btn-career');
+      if (title) title.string = '管理事业 (0)';
     }
     this.updateSealButtonState(false);
     if (this.decisionOverlay) this.decisionOverlay.active = false;
@@ -774,11 +754,13 @@ export class GameMain extends Component {
       for (const child of [...this.logContentNode.children]) child.destroy();
       this.logContentNode.removeAllChildren();
       const trans = this.logContentNode.getComponent(UITransform);
-      if (trans) trans.setContentSize(VIEW.logWidth, this.contentHeight);
-      this.logContentNode.setPosition(0, this.contentHeight / 2, 0);
+      const logHeight = this.logViewportHeight();
+      if (trans) trans.setContentSize(VIEW.logWidth, logHeight);
+      this.logContentNode.setPosition(0, logHeight / 2, 0);
       this.scrollView?.stopAutoScroll();
     }
     this.renderedItemsCount = 0;
+    this.narrativeYears = [];
 
     const pkg = getNativeMingEndContent();
     const engine = new GameEngine(pkg.bundle, pkg.fingerprint);
@@ -864,11 +846,20 @@ export class GameMain extends Component {
         this.updateHUD(this.currentView);
       }
 
+      // Keep the narrative surface focused on the three most recent in-game years.
+      // Each successful `next` command is one year of play and may emit several cards.
+      const yearCards: Node[] = [];
+      this.narrativeYears.push(yearCards);
+      while (this.narrativeYears.length > 3) {
+        const expired = this.narrativeYears.shift() ?? [];
+        for (const node of expired) node.destroy();
+      }
+
       // 聚合解析引擎日志并追加折页卡片
       if (res.logs && res.logs.length > 0) {
         const foldItems = LogParser.parseBatch(this.extractRawLogs(res.logs));
         for (const item of foldItems) {
-          this.appendFoldCard(item);
+          this.appendFoldCard(item, yearCards);
         }
       }
       // 刷新待处理决断
@@ -879,10 +870,7 @@ export class GameMain extends Component {
         this.appendEndingHint();
       }
 
-      if (this.scrollView) {
-        this.scrollView.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
-        UIAnimController.updateScrollWeathering(this.scrollView);
-      }
+      this.scrollView?.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
     } catch (e) {
       if (this.session !== session) return;
       this.cancelSealHold();
@@ -898,32 +886,39 @@ export class GameMain extends Component {
     if (!isEnded && view.status !== 'AWAITING_CARD') this.setAudioScene('life', REGION_SCENES[player.region_id] ?? null);
     if (view.status === 'AWAITING_CARD' || view.status === 'AWAITING_OPTION' || view.status === 'ENDED') this.cancelSealHold();
     if (this.careerButton) {
-      const canManage = (view.status === 'READY' || view.status === 'AWAITING_OPTION') && player.chains.some(chain => chain.status === 'active');
-      this.careerButton.getComponent(Button)!.interactable = canManage || isEnded;
+      const canOpenCareer = view.status !== 'AWAITING_CARD';
+      this.careerButton.getComponent(Button)!.interactable = canOpenCareer;
       const title = this.careerButton.children.find(child => child.name === 'Title')?.getComponent(Label);
-      if (title) title.string = isEnded ? '人生总结' : '管理事业';
-      this.addActionIcon(this.careerButton, isEnded ? 'btn-summary' : 'btn-career');
-      this.styleButton(this.careerButton, INK.raised, canManage || isEnded ? INK.gold : INK.border, canManage || isEnded ? INK.gold : INK.sub);
+      if (title) title.string = `管理事业 (${view.player.chains.filter(chain => chain.status === 'active').length})`;
+      this.styleButton(this.careerButton, new Color(30, 35, 48, 255), canOpenCareer ? INK.gold : INK.border, canOpenCareer ? INK.gold : INK.sub);
     }
     if (this.eraYearLabel) {
       const reignYear = player.calendar_year - 1627;
       this.eraYearLabel.string = view.timeline === 'historical'
-        ? `崇祯 ${reignYear} 年 · ${player.calendar_year}`
+        ? `崇祯${chineseYearNumber(reignYear)}年 · 岁次${ganzhiYear(player.calendar_year)}`
         : `架空人生 · ${player.calendar_year}`;
     }
-    if (this.turnLabel) this.turnLabel.string = `${player.age} 岁 · 第 ${player.calendar_year - player.start_year + 1} 年`;
+    if (this.turnLabel) this.turnLabel.string = `流年轮次 #${player.calendar_year - player.start_year + 1}`;
     if (this.identityLabel) {
-      this.identityLabel.string = `${EnumMapper.translateIdentity(player.identity_id)} · ${EnumMapper.translateRegion(player.region_id)} · ${EnumMapper.translateCaste(player.caste_id)}`;
+      this.identityLabel.string = `身份: ${EnumMapper.translateIdentity(player.identity_id)}`;
     }
+    if (this.regionLabel) this.regionLabel.string = `地区: ${EnumMapper.translateRegion(player.region_id)}`;
+    if (this.casteLabel) this.casteLabel.string = `阶层: ${EnumMapper.translateCaste(player.caste_id)}`;
 
     for (const [key, value] of Object.entries(player.attributes)) {
       const coin = this.statCoinNodes.get(key);
       const previous = this.prevStatValues.get(key);
       const label = coin?.getComponent(Label);
-      if (label) label.string = String(value);
+      if (label) {
+        label.string = key === 'wealth' ? `${formatWealth(value)}两` : String(value);
+        label.color = isEnded && key === 'physique'
+          ? INK.red
+          : key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text;
+      }
       if (previous !== undefined && previous !== value) {
         if (coin && !this.reduceMotion()) {
-          const defaultColor = key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text;
+          const defaultColor = isEnded && key === 'physique' ? INK.red
+            : key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text;
           UIAnimController.playAttrPunch(coin, label, value - previous, defaultColor);
         }
         if (key === 'wealth' && value > previous && !isEnded) {
@@ -934,11 +929,28 @@ export class GameMain extends Component {
       // 首帧只记录，重启后不会把另一局的初始家资误报为增益。
       this.prevStatValues.set(key, value);
     }
+    const startingCardId = player.cards[0];
+    if (startingCardId && this.relicBar && !this.relicBar.getRelics().some(item => item.id === startingCardId)) {
+      const card = getNativeMingEndContent().bundle.cards.find(item => item.id === startingCardId);
+      if (card) {
+        const perk = card.check_bonus
+          ? `对应检定修正 +${card.check_bonus.amount}`
+          : '';
+        const item: RelicItemData = {
+          id: card.id,
+          name: card.name,
+          desc: card.description.replace(/\s+/g, ' ').trim(),
+          rarity: card.rarity,
+          perk,
+        };
+        this.relicBar.addRelic(item);
+      }
+    }
     this.updateSealButtonState(isEnded);
   }
 
 
-  private appendFoldCard(data: FoldItemData): void {
+  private appendFoldCard(data: FoldItemData, yearCards?: Node[]): void {
     if (!this.logContentNode) return;
     this.renderedItemsCount += 1;
 
@@ -949,28 +961,23 @@ export class GameMain extends Component {
     itemTrans.setAnchorPoint(0.5, 0.5);
     itemTrans.setContentSize(VIEW.foldWidth, 80);
     this.logContentNode.addChild(itemNode);
+    if (yearCards) yearCards.push(itemNode);
 
     const comp = itemNode.addComponent(EventFoldItem);
     comp.init(data, this.currentView?.status !== 'ENDED');
+    const cardId = this.currentView?.player.cards[0];
+    if (cardId && data.relicFlags?.length) {
+      this.relicBar?.playFeedback(cardId, data.relicFlags, data.feedbackKey);
+    }
+    if (data.achievementIds?.length) this.pixelFX?.play('confetti');
 
     this.updateLogContentLayout();
-    if (data.type === 'card_selected' && data.cardId && this.relicBar) {
-      const card = getNativeMingEndContent().bundle.cards.find(entry => entry.id === data.cardId);
-      if (card) {
-        this.acquiredRelicId = card.id;
-        this.relicBar.addRelic({ id: card.id, name: card.name, desc: card.description, rarity: card.rarity }, itemNode);
-      }
-    }
-
-    if (this.currentView?.status !== 'ENDED' && this.acquiredRelicId && data.relicFlags?.length) {
-      this.relicBar?.playFeedback(this.acquiredRelicId, data.relicFlags, data.feedbackKey);
-    }
   }
 
   private updateLogContentLayout(): void {
     if (!this.logContentNode) return;
     let totalHeight = 16;
-    const spacing = 16;
+    const spacing = 18;
     for (const child of this.logContentNode.children) {
       const trans = child.getComponent(UITransform);
       if (trans) {
@@ -980,7 +987,7 @@ export class GameMain extends Component {
     }
     const contentTrans = this.logContentNode.getComponent(UITransform);
     if (contentTrans) {
-      contentTrans.setContentSize(VIEW.logWidth, Math.max(this.contentHeight, totalHeight + 20));
+      contentTrans.setContentSize(VIEW.logWidth, Math.max(this.logViewportHeight(), totalHeight + 20));
     }
   }
 
@@ -1033,12 +1040,22 @@ export class GameMain extends Component {
             }
           }
           if (possibleDeath) lines.push(immediateDeath ? '后果：此选择会导致死亡。' : '风险：后续可能丧命。');
+          const chainCommitments: string[] = [];
+          for (const effect of option.outcome.effects) {
+            if (effect.type === 'chain_start') {
+              const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
+              if (commitment) {
+                chainCommitments.push(commitment);
+                lines.push(`开始前请留意：${commitment}`);
+              }
+            }
+          }
           for (const effect of option.outcome.effects) {
             if (effect.type === 'attribute_add' && effect.amount < 0) {
-              lines.push(`立即消耗：${EnumMapper.translateStat(effect.attribute).name} ${effect.amount}`);
-            } else if (effect.type === 'chain_start') {
-              const commitment = bundle.chains.find(chain => chain.id === effect.id)?.commitment;
-              if (commitment) lines.push(`开始前请留意：${commitment}`);
+              const statName = EnumMapper.translateStat(effect.attribute).name;
+              const costListedInCommitment = chainCommitments.some(commitment =>
+                commitment.includes(`${statName}${Math.abs(effect.amount)}`));
+              if (!costListedInCommitment) lines.push(`立即消耗：${statName} ${effect.amount}`);
             }
           }
           details[option.id] = lines;
@@ -1047,7 +1064,7 @@ export class GameMain extends Component {
       this.decisionOverlay.active = true;
       this.memorialCardComp.init(pending, (optId) => {
         void this.chooseOption(optId);
-      }, event?.text, details, this.currentView?.player.chains.some(chain => chain.status === 'active') ? () => this.openCareerManager() : undefined);
+      }, event?.text, details, () => this.openCareerManager());
       this.fitModal(this.memorialCardComp.node);
     } else {
       if (this.decisionOverlay) this.decisionOverlay.active = false;
@@ -1104,10 +1121,7 @@ export class GameMain extends Component {
   }
 
   private openCareerManager(): void {
-    if (!this.session || !this.currentView || !this.decisionOverlay || this.careerBusy) return;
-    if (this.currentView.status !== 'READY' && this.currentView.status !== 'AWAITING_OPTION') return;
-    const active = this.currentView.player.chains.filter(chain => chain.status === 'active');
-    if (active.length === 0) return;
+    if (!this.currentView || !this.decisionOverlay || this.careerBusy || this.currentView.status === 'AWAITING_CARD') return;
     this.cancelSealHold();
     if (this.memorialCardComp) this.memorialCardComp.node.active = false;
     this.decisionOverlay.active = true;
@@ -1115,30 +1129,39 @@ export class GameMain extends Component {
 
     const panel = new Node('CareerPanel');
     panel.layer = Layers.Enum.UI_2D;
-    panel.addComponent(UITransform).setContentSize(700, 1000);
-    this.paintPanel(panel, 700, 1000, INK.panel, INK.borderLight, 12);
+    panel.addComponent(UITransform).setContentSize(700, 900);
+    this.paintPanel(panel, 700, 900, new Color(24, 27, 36, 255), INK.borderLight, 12);
     this.decisionOverlay.addChild(panel);
     this.careerPanel = panel;
     this.fitModal(panel);
-    this.createText(panel, 'Title', '管理事业', 0, 440, 620, 50, 32, INK.gold).isBold = true;
-    this.createText(panel, 'Explanation', `进行中 ${active.length} 项 · 选择一项后确认退出`, 0, 365, 620, 60, 23, INK.sub);
+    this.createText(panel, 'Title', '事业', 0, 377, 620, 50, 30, INK.gold).isBold = true;
+    this.createText(panel, 'Explanation', '路线、词条、家当与这段人生的成就', 0, 332, 620, 36, 20, INK.sub, Label.HorizontalAlign.CENTER);
+
+    const tabs = [
+      { id: 'careers', name: '事业' },
+      { id: 'modern', name: '现代词条' },
+      { id: 'relics', name: '家当' },
+      { id: 'achievements', name: '生涯成就' },
+    ] as const;
+    type HubTab = typeof tabs[number]['id'];
+    let selectedTab: HubTab = 'careers';
 
     const scrollNode = new Node('CareerScrollView');
     scrollNode.layer = Layers.Enum.UI_2D;
-    scrollNode.setPosition(0, 65, 0);
-    scrollNode.addComponent(UITransform).setContentSize(640, 420);
+    scrollNode.setPosition(0, 6, 0);
+    scrollNode.addComponent(UITransform).setContentSize(640, 470);
     panel.addChild(scrollNode);
     const viewport = new Node('Viewport');
     viewport.layer = Layers.Enum.UI_2D;
-    viewport.addComponent(UITransform).setContentSize(640, 420);
+    viewport.addComponent(UITransform).setContentSize(640, 470);
     viewport.addComponent(Mask);
     scrollNode.addChild(viewport);
     const content = new Node('Content');
     content.layer = Layers.Enum.UI_2D;
     const transform = content.addComponent(UITransform);
     transform.setAnchorPoint(0.5, 1);
-    transform.setContentSize(640, Math.max(420, active.length * 112 + 12));
-    content.setPosition(0, 210, 0);
+    transform.setContentSize(640, 470);
+    content.setPosition(0, 235, 0);
     viewport.addChild(content);
     const scroll = scrollNode.addComponent(ScrollView);
     scroll.horizontal = false;
@@ -1147,47 +1170,160 @@ export class GameMain extends Component {
 
     let selected: string | null = null;
     const rows: { node: Node; selection: Label; id: string }[] = [];
-    const notice = this.createText(panel, 'CareerNotice', '退出后不退已付费用，也不发完成奖励；已学本事保留。', 0, -235, 620, 132, 23, INK.sub);
-    const confirm = this.createButton(panel, '确认退出事业', 160, -405, 292, 80, () => {
+    const notice = this.createText(panel, 'CareerNotice', '选中进行中的事业后，可在此确认退出。', 0, -251, 620, 42, 18, INK.sub, Label.HorizontalAlign.CENTER);
+    const confirm = this.createButton(panel, '确认退出事业', -160, -354, 292, 64, () => {
       if (selected) void this.abandonCareer(selected, notice);
     });
     confirm.getComponent(Button)!.interactable = false;
-    this.createButton(panel, '返回', -160, -405, 292, 80, () => {
+    const closeHub = (): void => {
       if (this.careerBusy) return;
       panel.destroy();
       this.careerPanel = null;
       const pending = this.currentView?.pending;
       if (this.memorialCardComp) this.memorialCardComp.node.active = pending?.kind === 'option';
       if (this.decisionOverlay) this.decisionOverlay.active = pending?.kind === 'option';
-    });
-    const bundle = getNativeMingEndContent().bundle;
-    active.forEach((chain, index) => {
-      const definition = bundle.chains.find(item => item.id === chain.chain_id);
-      const name = definition?.name ?? chain.chain_id;
-      const button = this.createButton(content, `选择：${name}`, 0, -58 - index * 112, 600, 96, () => {
+    };
+    const close = this.createButton(panel, '返回', 160, -354, 292, 64, closeHub);
+    let summaryButton: Node | null = null;
+    if (this.currentView.status === 'ENDED') {
+      summaryButton = this.createButton(panel, '人生总结', 0, -354, 292, 64, () => {
         if (this.careerBusy) return;
-        selected = chain.instance_id;
-        notice.string = `将退出“${name}”。\n不退已付费用，也不发完成奖励；已学本事保留。`;
-        for (const row of rows) {
-          const chosen = row.id === selected;
-          row.selection.string = chosen ? '已选' : '选择';
-          this.styleButton(row.node, chosen ? INK.selected : INK.raised, chosen ? INK.cyan : INK.border, INK.text);
-        }
-        confirm.getComponent(Button)!.interactable = true;
-        this.styleButton(confirm, INK.ended, INK.red, INK.text);
+        panel.destroy();
+        this.careerPanel = null;
+        this.showEndingSummary();
       });
-      const label = button.children.find(child => child.name === 'Title')?.getComponent(Label);
-      if (label) {
-        label.string = name;
-        label.fontSize = 25;
-        label.horizontalAlign = Label.HorizontalAlign.LEFT;
-        label.node.setPosition(-38, 21, 0);
-        label.node.getComponent(UITransform)!.setContentSize(480, 38);
-      }
-      this.createText(button, 'Progress', `进展 ${chain.node_index}/${definition?.nodes.length ?? '—'} · 下次 ${chain.next_due_year ?? '—'} 年`, -38, -22, 480, 30, 20, INK.sub);
-      const selection = this.createText(button, 'Selection', '选择', 253, 0, 64, 38, 20, INK.cyan, Label.HorizontalAlign.CENTER);
-      rows.push({ node: button, selection, id: chain.instance_id });
+      this.addActionIcon(summaryButton, 'btn-summary');
+    }
+
+    const tabButtons = new Map<HubTab, Node>();
+    let renderTab: () => void = () => undefined;
+    const tabLayout = [
+      { x: -240, width: 152 }, { x: -80, width: 152 },
+      { x: 80, width: 152 }, { x: 240, width: 152 },
+    ];
+    tabs.forEach((tab, index) => {
+      const button = this.createButton(panel, tab.name, tabLayout[index].x, 284, tabLayout[index].width, 48, () => {
+        if (this.careerBusy) return;
+        selectedTab = tab.id;
+        renderTab();
+      });
+      tabButtons.set(tab.id, button);
     });
+
+    const bundle = getNativeMingEndContent().bundle;
+    renderTab = (): void => {
+      for (const child of [...content.children]) child.destroy();
+      content.removeAllChildren();
+      rows.length = 0;
+      selected = null;
+      confirm.getComponent(Button)!.interactable = false;
+      this.styleButton(confirm, INK.raised, INK.border, INK.sub);
+      for (const [id, button] of tabButtons) {
+        const active = id === selectedTab;
+        this.styleButton(button, active ? INK.selected : INK.raised, active ? INK.cyan : INK.border,
+          active ? INK.cyan : INK.text);
+      }
+      const current = this.currentView;
+      if (!current) return;
+      const rowGap = 96;
+      let count = 0;
+      const addTextEntry = (title: string, body: string, color = INK.text): void => {
+        const y = -46 - count * rowGap;
+        const heading = this.createText(content, `EntryTitle_${count}`, title, 0, y, 600, 34, 23, color);
+        heading.isBold = true;
+        this.createText(content, `EntryBody_${count}`, body || '暂无说明。', 0, y - 42, 600, 62, 19, INK.sub);
+        count += 1;
+      };
+      const chains = current.player.chains;
+      const activeChains = chains.filter(chain => chain.status === 'active');
+      notice.node.active = selectedTab === 'careers' && activeChains.length > 0;
+      confirm.active = selectedTab === 'careers' && activeChains.length > 0;
+      if (summaryButton) summaryButton.active = true;
+      if (close.isValid) close.active = true;
+
+      if (selectedTab === 'careers') {
+        notice.string = activeChains.length > 0
+          ? '选中进行中的事业后，可在此确认退出。'
+          : '当前没有进行中的事业。';
+        activeChains.forEach((chain, index) => {
+          const definition = bundle.chains.find(item => item.id === chain.chain_id);
+          const name = definition?.name ?? chain.chain_id;
+          const button = this.createButton(content, `选择：${name}`, 0, -50 - index * 104, 600, 88, () => {
+            if (this.careerBusy) return;
+            selected = chain.instance_id;
+            notice.string = `将退出“${name}”。已付费用不退，已学本事保留。`;
+            for (const row of rows) {
+              const chosen = row.id === selected;
+              row.selection.string = chosen ? '已选' : '选择';
+              this.styleButton(row.node, chosen ? INK.selected : INK.raised, chosen ? INK.cyan : INK.border, INK.text);
+            }
+            confirm.getComponent(Button)!.interactable = true;
+            this.styleButton(confirm, INK.ended, INK.red, INK.text);
+          });
+          const label = button.children.find(child => child.name === 'Title')?.getComponent(Label);
+          if (label) {
+            label.string = name;
+            label.fontSize = 25;
+            label.horizontalAlign = Label.HorizontalAlign.LEFT;
+            label.node.setPosition(-38, 21, 0);
+            label.node.getComponent(UITransform)!.setContentSize(480, 38);
+          }
+          this.createText(button, 'Progress', `进展 ${chain.node_index}/${definition?.nodes.length ?? '—'} · 下次 ${chain.next_due_year ?? '—'} 年`, -38, -20, 480, 28, 18, INK.sub);
+          const selection = this.createText(button, 'Selection', '选择', 253, 0, 64, 38, 20, INK.cyan, Label.HorizontalAlign.CENTER);
+          rows.push({ node: button, selection, id: chain.instance_id });
+        });
+        chains.filter(chain => chain.status !== 'active').forEach(chain => {
+          const definition = bundle.chains.find(item => item.id === chain.chain_id);
+          const name = definition?.name ?? chain.chain_id;
+          const status = chain.status === 'completed' ? '已完成' : '已中断';
+          addTextEntry(`${name} · ${status}`, `进展 ${chain.node_index}/${definition?.nodes.length ?? '—'}`,
+            chain.status === 'completed' ? INK.gold : INK.sub);
+        });
+        if (chains.length === 0) addTextEntry('暂无事业记录', '选择一条事业路线后，会在这里看到进展。', INK.sub);
+      } else if (selectedTab === 'modern' || selectedTab === 'relics') {
+        const cards = current.player.cards
+          .map(id => bundle.cards.find(card => card.id === id))
+          .filter((card): card is (typeof bundle.cards)[number] => Boolean(card));
+        const entries = cards.filter(card => selectedTab === 'modern'
+          ? card.id.startsWith('CARD_MODERN_')
+          : !card.id.startsWith('CARD_MODERN_'));
+        for (const card of entries) {
+          const label = card.rarity ? `${card.name} · ${card.rarity}` : card.name;
+          addTextEntry(label, card.description, selectedTab === 'modern' ? INK.cyan : INK.gold);
+        }
+        if (entries.length === 0) {
+          addTextEntry(selectedTab === 'modern' ? '尚无现代词条' : '尚未获得家当',
+            selectedTab === 'modern' ? '开局选择后，词条会记在这里。' : '获得的物件会记在这里。', INK.sub);
+        }
+      } else {
+        const completedLifeAchievements = this.lifetimeRecords?.snapshot().achievements ?? new Set<string>();
+        const endingAchievements = current.status === 'ENDED' && this.endingReport
+          ? [...this.endingReport.achievements, this.endingReport.primary_achievement_id].filter((id): id is string => Boolean(id))
+          : [];
+        const ids = [...new Set([...completedLifeAchievements, ...current.player.achievements, ...endingAchievements])];
+        const achievements = ids
+          .map(id => bundle.achievements.find(item => item.id === id))
+          .filter((item): item is (typeof bundle.achievements)[number] => Boolean(item));
+        for (const achievement of achievements) {
+          addTextEntry(`${achievement.name} · ${EnumMapper.achievementMeta(achievement)}`, achievement.text, INK.gold);
+        }
+        if (achievements.length === 0) addTextEntry('本局还没有成就', '这一段人生还没留下称号。', INK.sub);
+      }
+
+      const height = Math.max(470, count * rowGap + 24,
+        selectedTab === 'careers' ? activeChains.length * 104 + Math.max(0, chains.length - activeChains.length) * rowGap + 24 : 0);
+      transform.setContentSize(640, height);
+      content.setPosition(0, height / 2, 0);
+      notice.node.active = selectedTab === 'careers' && activeChains.length > 0;
+      confirm.active = selectedTab === 'careers' && activeChains.length > 0;
+      if (this.currentView?.status === 'ENDED' && summaryButton) {
+        summaryButton.setPosition(-160, -354, 0);
+        close.setPosition(160, -354, 0);
+      } else {
+        close.setPosition(0, -354, 0);
+      }
+    };
+    renderTab();
   }
 
   private async abandonCareer(instanceId: string, notice: Label): Promise<void> {
@@ -1203,6 +1339,8 @@ export class GameMain extends Component {
         notice.string = `未能退出：${EnumMapper.playerError(result.error)}`;
         return;
       }
+      this.careerPanel?.destroy();
+      this.careerPanel = null;
       this.currentView = result.state;
       this.updateHUD(result.state);
       for (const item of LogParser.parseBatch(this.extractRawLogs(result.logs))) this.appendFoldCard(item);
@@ -1292,6 +1430,7 @@ export class GameMain extends Component {
       introText: msg,
       type: 'system',
     });
+    this.scrollView?.scrollToBottom(this.reduceMotion() ? 0 : 0.2);
   }
 
   private playLogCues(logs: readonly LogEntry[]): void {
@@ -1333,11 +1472,12 @@ export class GameMain extends Component {
       let message = l.message;
       if (l.type === 'achievement') {
         const achievement = getNativeMingEndContent().bundle.achievements.find(item => item.id === l.data.achievement_id);
-        if (achievement) message = `【${achievement.name} · ${EnumMapper.achievementMeta(achievement)}】${achievement.text}`;
+        if (achievement) message = `【${achievement.name}】${achievement.text}`;
       }
       return {
         type: l.type,
         seq: l.seq,
+        age: l.age,
         source_id: l.source_id,
         message,
         metadata,
@@ -1359,6 +1499,8 @@ export class GameMain extends Component {
     if (run.death !== null && !natural) {
       this.pixelFX?.play('death');
       if (!this.reduceMotion()) UIAnimController.playDeathShake(this.node);
+    } else if (natural && run.ending.achievements.length > 0) {
+      this.pixelFX?.play('confetti');
     }
     // A death report is not a victory: no delayed confetti or cheerful success cue.
     this.updateSealButtonState(true);
@@ -1379,8 +1521,8 @@ export class GameMain extends Component {
     this.endingPanel?.destroy();
     const panel = new Node('EndingPanel');
     panel.layer = Layers.Enum.UI_2D;
-    panel.addComponent(UITransform).setContentSize(700, 1000);
-    this.paintPanel(panel, 700, 1000, INK.panel, natural ? INK.gold : INK.borderLight, 12);
+    panel.addComponent(UITransform).setContentSize(700, 860);
+    this.paintPanel(panel, 700, 860, new Color(23, 25, 34, 255), INK.borderLight, 12);
     this.decisionOverlay.addChild(panel);
     this.decisionOverlay.active = true;
     this.endingPanel = panel;
@@ -1392,22 +1534,25 @@ export class GameMain extends Component {
       this.endingEntranceElapsed = 0;
     }
 
-    this.createText(panel, 'EndingTitle', natural ? '寿终' : '人生结束', 0, 440, 620, 50, 34, natural ? INK.gold : INK.text, Label.HorizontalAlign.CENTER).isBold = true;
-    this.createText(panel, 'LifeSpan', `${report.start_year}—${report.end_year} · ${report.start_age}—${report.end_age} 岁 · 历经 ${report.years_played} 年`, 0, 376, 620, 52, 23, INK.sub, Label.HorizontalAlign.CENTER);
-    this.createText(panel, 'DeathReason', death ? `${death.name} · ${death.text}` : '未能读取死因。', 0, 294, 620, 84, 24, INK.text, Label.HorizontalAlign.CENTER);
+    this.createText(panel, 'EndingTitle', '【 终局盖棺 · 历史定论 】', 0, 380, 620, 48, 32, natural ? INK.gold : INK.text, Label.HorizontalAlign.CENTER).isBold = true;
+    this.createText(panel, 'LifeSpan', `${report.start_year}—${report.end_year} · ${report.start_age}—${report.end_age} 岁 · 历经 ${report.years_played} 年`, 0, 326, 620, 42, 20, INK.sub, Label.HorizontalAlign.CENTER);
+    this.createText(panel, 'DeathReason', death ? `${death.name} · ${death.text}` : '未能读取死因。', 0, 257, 620, 78, 22, INK.text, Label.HorizontalAlign.CENTER);
 
     const finalStats = new Node('FinalStats');
     finalStats.layer = Layers.Enum.UI_2D;
-    finalStats.setPosition(0, 202, 0);
-    finalStats.addComponent(UITransform).setContentSize(620, 80);
-    this.paintPanel(finalStats, 620, 80, INK.inset, INK.inset, 6);
+    finalStats.setPosition(0, 150, 0);
+    finalStats.addComponent(UITransform).setContentSize(620, 78);
+    this.paintPanel(finalStats, 620, 78, INK.inset, INK.inset, 6);
     panel.addChild(finalStats);
-    ['physique', 'wealth', 'intelligence', 'prestige', 'luck'].forEach((key, index) => {
-      const value = report.final_attributes[key as keyof typeof report.final_attributes];
-      const x = -248 + index * 124;
-      createArt(finalStats, `FinalStatIcon_${key}`, `icons/${key}`, 26, 26, x - 34, 24);
-      this.createText(finalStats, `Name_${key}`, EnumMapper.translateStat(key).name, x + 18, 24, 72, 24, 19, INK.sub, Label.HorizontalAlign.CENTER);
-      this.createText(finalStats, `Value_${key}`, String(value), x, -12, 116, 40, 28, key === 'wealth' ? INK.gold : key === 'physique' ? INK.green : INK.text, Label.HorizontalAlign.CENTER).isBold = true;
+    const endingStats = [
+      { key: 'age', title: '享寿', value: `${report.end_age} 岁`, color: INK.green },
+      { key: 'wealth', title: '积累家资', value: `${formatWealth(report.final_attributes.wealth)} 两`, color: INK.gold },
+      { key: 'achievements', title: '达成成就', value: `${report.achievements.length} 项`, color: INK.cyan },
+    ];
+    endingStats.forEach((item, index) => {
+      const x = -202 + index * 202;
+      this.createText(finalStats, `Name_${item.key}`, item.title, x, 19, 180, 24, 18, INK.sub, Label.HorizontalAlign.CENTER);
+      this.createText(finalStats, `Value_${item.key}`, item.value, x, -15, 180, 34, 25, item.color, Label.HorizontalAlign.CENTER).isBold = true;
     });
 
     const otherAchievements: string[] = [];
@@ -1438,67 +1583,49 @@ export class GameMain extends Component {
     ];
     const scrollNode = new Node('EndingScrollView');
     scrollNode.layer = Layers.Enum.UI_2D;
-    scrollNode.setPosition(0, -88, 0);
-    scrollNode.addComponent(UITransform).setContentSize(640, 420);
+    scrollNode.setPosition(0, -42, 0);
+    scrollNode.addComponent(UITransform).setContentSize(640, 270);
     panel.addChild(scrollNode);
     const viewport = new Node('Viewport');
     viewport.layer = Layers.Enum.UI_2D;
-    viewport.addComponent(UITransform).setContentSize(640, 420);
+    viewport.addComponent(UITransform).setContentSize(640, 270);
     viewport.addComponent(Mask);
     scrollNode.addChild(viewport);
     const content = new Node('Content');
     content.layer = Layers.Enum.UI_2D;
     const transform = content.addComponent(UITransform);
     transform.setAnchorPoint(0.5, 1);
-    content.setPosition(0, 210, 0);
+    content.setPosition(0, 135, 0);
     viewport.addChild(content);
-    const illustration = new Node('EndingIllustrationFrame');
-    illustration.layer = Layers.Enum.UI_2D;
-    illustration.addComponent(UITransform).setContentSize(604, 200);
-    illustration.addComponent(Mask);
-    illustration.setPosition(0, -116, 0);
-    content.addChild(illustration);
-    // Hard deaths keep their own tone even if this life completed a career.
-    const endingScene = !natural ? 'ending-hard' : report.chains_completed.length > 0 ? 'ending-career' : 'ending-natural';
-    const endingPath = `scenes/${endingScene}`;
-    const endingArt = createArt(illustration, 'EndingIllustration', endingPath, 604, 200);
-    endingArt.on('art-ready', (path: string) => {
-      if (path === endingPath && this.endingPanel === panel && isValid(endingArt, true)) this.coverArt(endingArt, 604, 200);
-    });
-    const markers = [{ icon: 'life', label: '生平' }];
-    if (report.chains_completed.length) markers.push({ icon: 'career', label: `事业 ${report.chains_completed.length}` });
-    if (report.milestone_achievement_ids.length) markers.push({ icon: 'milestone', label: `里程碑 ${report.milestone_achievement_ids.length}` });
-    if (report.anecdote_achievement_ids.length) markers.push({ icon: 'anecdote', label: `轶事 ${report.anecdote_achievement_ids.length}` });
-    const markerWidth = 604 / markers.length;
-    markers.forEach((marker, index) => {
-      const node = new Node(`ReportMarker_${marker.icon}`);
-      node.layer = Layers.Enum.UI_2D;
-      node.addComponent(UITransform).setContentSize(markerWidth - 4, 44);
-      node.setPosition(-302 + markerWidth * (index + 0.5), -250, 0);
-      content.addChild(node);
-      this.paintPanel(node, markerWidth - 4, 44, INK.inset, INK.inset, 4);
-      this.createText(node, 'Title', marker.label, 0, 0, markerWidth - 12, 36, 19, INK.text, Label.HorizontalAlign.CENTER);
-      this.addActionIcon(node, marker.icon);
-    });
-    const details = this.createText(content, 'ReportDetails', lines.join('\n'), 0, -294, 604, 40, 23, INK.sub);
+    const details = this.createText(content, 'ReportDetails', lines.join('\n'), 0, 0, 604, 40, 20, INK.sub);
     const detailsTransform = details.node.getComponent(UITransform)!;
     detailsTransform.setAnchorPoint(0.5, 1);
     details.verticalAlign = Label.VerticalAlign.TOP;
     details.overflow = Label.Overflow.RESIZE_HEIGHT;
     details.updateRenderData(true);
-    transform.setContentSize(640, Math.max(420, detailsTransform.height + 310));
+    const detailsHeight = Math.max(270, detailsTransform.height + 16);
+    transform.setContentSize(640, detailsHeight);
+    content.setPosition(0, 135, 0);
     const scroll = scrollNode.addComponent(ScrollView);
     scroll.horizontal = false;
     scroll.vertical = true;
     scroll.content = content;
-    this.createText(panel, 'ReportHint', '上下滑动查看完整记录', 0, -334, 620, 32, 20, INK.sub, Label.HorizontalAlign.CENTER);
-    this.createButton(panel, '返回历程', -160, -414, 292, 76, () => {
+    this.createText(panel, 'ReportHint', '上下滑动查看完整记录', 0, -218, 620, 28, 18, INK.sub, Label.HorizontalAlign.CENTER);
+    const restartLife = this.createButton(panel, '尘埃落定 · 重启人生', 0, -292, 620, 64, () => {
+      this.finishEndingEntrance();
+      panel.destroy();
+      this.endingPanel = null;
+      if (this.decisionOverlay) this.decisionOverlay.active = false;
+      this.startNewLife();
+    });
+    this.styleButton(restartLife, INK.green, INK.green, INK.inset);
+    this.createButton(panel, '返回历程', -155, -376, 280, 42, () => {
       this.finishEndingEntrance();
       panel.destroy();
       this.endingPanel = null;
       if (this.decisionOverlay) this.decisionOverlay.active = false;
     });
-    const restart = this.createButton(panel, '返回首页', 160, -414, 292, 76, () => {
+    const home = this.createButton(panel, '返回首页', 155, -376, 280, 42, () => {
       this.finishEndingEntrance();
       panel.destroy();
       this.endingPanel = null;
@@ -1506,8 +1633,7 @@ export class GameMain extends Component {
       this.setAudioScene('home', null);
       this.openingFlow?.showHome();
     });
-    this.addActionIcon(restart, 'btn-restart');
-    this.styleButton(restart, INK.cyan, INK.cyan, INK.inset);
+    this.styleButton(home, INK.raised, INK.border, INK.text);
   }
 
   private showSaveTip(): void {
@@ -1985,10 +2111,6 @@ export class GameMain extends Component {
     return this.statCoinNodes.get(statKey) ?? null;
   }
 
-  public getRelicBar(): RelicBarController | null {
-    return this.relicBar;
-  }
-
   public getDecisionOverlay(): Node | null {
     return this.decisionOverlay;
   }
@@ -2025,19 +2147,15 @@ export class GameMain extends Component {
     if (!this.sealAdvanceBtn) return;
     const label = this.sealAdvanceBtn.children.find(child => child.name === 'BtnLabel')?.getComponent(Label);
     const status = this.currentView?.status;
-    this.addActionIcon(this.sealAdvanceBtn, isEnded ? 'btn-restart' : 'btn-next', 'BtnLabel');
     if (isEnded) {
-      const death = this.endingReport?.death_id;
-      const natural = death === getNativeMingEndContent().bundle.era.old_age_death_id;
-      const title = death ? (natural ? '寿终' : '人生结束') : '本局结束';
-      if (label) label.string = `${title} · 重启人生`;
-      this.paintPanel(this.sealAdvanceBtn, 702, 80, INK.ended, INK.red, 10);
+      if (label) label.string = '尘埃落定 · 重启人生';
+      this.paintPanel(this.sealAdvanceBtn, 702, 86, new Color(133, 34, 51, 255), new Color(255, 77, 109, 255), 10);
     } else if (!status || status === 'AWAITING_CARD') {
       if (label) label.string = status ? '先选一件随身家当' : '正在开局…';
-      this.paintPanel(this.sealAdvanceBtn, 702, 80, INK.raised, INK.border, 10);
+      this.paintPanel(this.sealAdvanceBtn, 702, 86, INK.raised, INK.border, 10);
     } else {
-      if (label) label.string = status === 'AWAITING_OPTION' ? '先完成当前选择' : status === 'AWAITING_STAGE' ? '正在检定…' : '下一年 · 长按快进';
-      this.paintPanel(this.sealAdvanceBtn, 702, 80, INK.advance, INK.advanceBorder, 10);
+      if (label) label.string = status === 'AWAITING_OPTION' ? '先完成当前选择' : status === 'AWAITING_STAGE' ? '正在检定…' : '推进流年 · 长按快进';
+      this.paintPanel(this.sealAdvanceBtn, 702, 86, new Color(31, 96, 72, 255), INK.advanceBorder, 10);
     }
     if (label) label.color = !status || status === 'AWAITING_CARD' ? INK.sub : INK.text;
   }

@@ -14,7 +14,7 @@ import {
 
 const { ccclass, property } = _decorator;
 
-type EffectKind = 'gain' | 'death';
+type EffectKind = 'gain' | 'death' | 'confetti';
 type EffectName = 'candle' | EffectKind;
 
 interface EffectSpec {
@@ -41,10 +41,10 @@ const EFFECTS: Readonly<Record<EffectName, EffectSpec>> = {
     duration: 4,
     loop: true,
     // Reference's lower-left candle, fitted into the agreed non-text gutter.
-    x: -359,
-    y: -449,
-    width: 28,
-    height: 38,
+    x: -317,
+    y: -457,
+    width: 101,
+    height: 137,
   },
   gain: {
     path: 'pixel/ming_end/fx/pickups/collect-burst/collect-burst',
@@ -54,10 +54,10 @@ const EFFECTS: Readonly<Record<EffectName, EffectSpec>> = {
     duration: 1.35,
     loop: false,
     // Beside the real wealth value, not over the value or its heading.
-    x: -94,
-    y: 475,
-    width: 112 / 3,
-    height: 36,
+    x: -112,
+    y: 500,
+    width: 202,
+    height: 194,
   },
   death: {
     path: 'pixel/ming_end/fx/spawn/poof/poof',
@@ -66,14 +66,26 @@ const EFFECTS: Readonly<Record<EffectName, EffectSpec>> = {
     fps: 15,
     duration: 1.6,
     loop: false,
-    // Reserve the shelf gutter: the death reason remains readable throughout.
-    x: 315,
-    y: -80,
-    width: 112,
-    height: 92,
+    // Center on the event stream like the comic poof in the phone preview.
+    x: -4,
+    y: 151,
+    width: 202,
+    height: 166,
+  },
+  confetti: {
+    path: 'pixel/ming_end/fx/ui/confetti/confetti',
+    prefix: 'confetti',
+    frameCount: 52,
+    fps: 15,
+    duration: 3.4,
+    loop: false,
+    x: 0,
+    y: 0,
+    width: 360,
+    height: 252,
   },
 };
-const EFFECT_NAMES: readonly EffectName[] = ['candle', 'gain', 'death'];
+const EFFECT_NAMES: readonly EffectName[] = ['candle', 'gain', 'death', 'confetti'];
 
 interface LoadedEffect {
   readonly spec: EffectSpec;
@@ -180,7 +192,8 @@ export class PixelFXController extends Component {
 
   private positionPlayback(playback: Playback, spec: EffectSpec): void {
     const offset = (this.viewportHeight - 1334) / 2;
-    const y = spec.y + (spec === EFFECTS.candle ? -offset : spec === EFFECTS.gain ? offset : 0);
+    const y = spec.y + (spec === EFFECTS.candle ? -offset
+      : spec === EFFECTS.gain || spec === EFFECTS.death ? offset : 0);
     playback.node.setPosition(spec.x, y, 0);
   }
 

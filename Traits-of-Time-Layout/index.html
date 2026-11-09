@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c0d12">
+  <title>时空词条 · 历史重开模拟器</title>
+  <link rel="stylesheet" href="./src/web.css">
+</head>
+<body>
+  <main id="game-stage" aria-label="时空词条 · 历史重开模拟器">
+    <canvas id="game" tabindex="0" aria-label="游戏画布，按 Tab 使用键盘操作"></canvas>
+    <div id="game-accessibility" class="assistive"></div>
+    <p id="startup-status" role="alert" hidden></p>
+    <noscript>请启用 JavaScript 以运行人生推演。</noscript>
+  </main>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

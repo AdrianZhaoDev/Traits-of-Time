@@ -1,0 +1,12 @@
+/* Hallmark · macrostructure: Game workspace · theme: user reference preview.html */
+:root {
+  color-scheme: dark;
+  --color-background: #0c0d12;
+  --color-surface: #181b24;
+  --color-text: #edf1f7;
+  --color-error: #ff5277;
+  --color-border: #353b49;
+  --font-body: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --space-md: 16px;
+  --space-lg: 24px;
+}

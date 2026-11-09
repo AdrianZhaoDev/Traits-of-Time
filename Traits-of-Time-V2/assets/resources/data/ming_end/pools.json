@@ -1,0 +1,16 @@
+[
+  {
+    "id": "POOL_NATIVE_LIFE",
+    "name": "寻常家当",
+    "entries": [
+      { "card_id": "CARD_MODERN_CORN", "weight": 5 },
+      { "card_id": "CARD_MODERN_ANTIBIOTIC", "weight": 5 },
+      { "card_id": "CARD_MODERN_FLASHLIGHT", "weight": 15 },
+      { "card_id": "CARD_MODERN_CALCULATOR", "weight": 15 },
+      { "card_id": "CARD_MODERN_GLUE", "weight": 30 },
+      { "card_id": "CARD_MODERN_LIGHTER", "weight": 30 }
+    ],
+    "replacement": true,
+    "hard_pity": null
+  }
+]

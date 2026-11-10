@@ -1,0 +1,40 @@
+Traits-of-Time-Layout media and dependency sources
+
+1. minigame-canvas-engine 1.0.29
+Installed from the npm release, not a copied/reimplemented renderer.
+Upstream: https://github.com/wechat-miniprogram/minigame-canvas-engine
+MIT License, Copyright (c) 2019 wechat-miniprogram.
+Full notice: minigame-canvas-engine.MIT.txt.
+
+2. Existing pixel-effect PNG atlases and metadata
+Copied byte-for-byte from ../Traits-of-Time-V2/public/fx/.
+Original preview: ../output/pixelfx/preview.html.
+Full license and original notices: pixelfx.MIT.txt and pixelfx.NOTICE.txt.
+No new generation, paid API call, third-party font, or pixelfx clone is involved.
+
+3. Home and identity illustrations
+Source: ../assets/resources/art/ming_end/scenes/home.png,
+../assets/resources/art/ming_end/identity/{gentry,refugee,soldier}.png,
+../assets/resources/art/ming_end/people/{artisan,farmer,merchant}.png.
+Their original drawing source ../tools/generate_ming_scene_art.py declares CC0-1.0
+for that drawing source and its generated artwork:
+https://creativecommons.org/publicdomain/zero/1.0/
+They are anonymous illustrative types, not historical portraits.
+
+4. Eight original item illustrations
+Source: ../assets/resources/art/ming_end/items/.
+Their generator ../tools/generate-ming-icon-art.py identifies these as original
+project code-drawn artwork, without external images, models, fonts, or trademarks.
+No additional blanket third-party or CC0 license is asserted here for these files.
+
+5. Existing MP3 music, ambience, and cues
+Source: ../assets/resources/audio/ming_end/{music,ambience,cues}/.
+The authoritative ../assets/resources/audio/ming_end/provenance.json states:
+"Project-original algorithmic composition and synthesis. No external service,
+borrowed melody, recording, sample library, speech, or third-party audio was used."
+"Original audio created for this repository; no third-party audio license obligations."
+Generator: ../tools/synthesize-ming-end-audio-20261107.mjs.
+These are synthetic atmospheres, not documentary period recordings.
+
+The Layout build does not change ownership or licensing of shared gameplay source,
+content, or project-original assets. It reuses the repository files in place.

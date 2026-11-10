@@ -1,13 +1,4 @@
 node_modules/
-.local-state/
-coverage/
+dist-web/
+dist-wechat/
 *.tsbuildinfo
-tmp/
-library/
-temp/
-profiles/
-local/
-.mcp.json
-/.forge/
-__pycache__/
-extensions/

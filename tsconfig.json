@@ -3,21 +3,13 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "node"],
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
     "strict": true,
-    "baseUrl": "./",
-    "types": [
-      "./temp/declarations/cc.custom-macro",
-      "./temp/declarations/cc",
-      "./temp/declarations/jsb",
-      "./temp/declarations/cc.env"
-    ],
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "temp/declarations/**/*.d.ts",
-    "assets/scripts/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "vite.config.ts"]
 }

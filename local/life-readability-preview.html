@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>人生记录 · 三种阅读方案</title>
+  <style>
+    /* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+    /* Independent preview. Game palette and typography follow the existing Canvas UI. */
+    :root {
+      --paper: #fff9e9;
+      --surface: #fffdf5;
+      --ink: #302826;
+      --muted: #67594c;
+      --red: #bf3527;
+      --yellow: #ffda58;
+      --yellow-soft: #fff0ac;
+      --line: #d8c899;
+      --focus: #196c8a;
+      --outside: #efe9dd;
+      --white: #fff;
+      --soft-ink: #53473e;
+      --positive: #396749;
+      --font: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-width: 0; overflow-x: clip; }
+    body { background: var(--outside); color: var(--ink); font-family: var(--font); line-height: 1.5; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    button:disabled { cursor: default; opacity: .5; }
+    button:not(:disabled):active { transform: translateY(1px); }
+    .page { max-width: 1016px; margin: 0 auto; padding: 32px 24px 64px; }
+    .page-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 26px; }
+    .page-head h1 { margin: 0; font-size: clamp(25px, 3vw, 34px); line-height: 1.2; letter-spacing: -.04em; overflow-wrap: anywhere; }
+    .page-head p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+    .preview-note { flex: 0 0 auto; color: var(--muted); font-size: 13px; text-align: right; }
+    .workbench { display: grid; grid-template-columns: minmax(230px, 300px) minmax(0, 420px); justify-content: center; align-items: start; gap: 52px; }
+    .picker-title { margin: 3px 0 12px; font-size: 14px; font-weight: 800; }
+    .picker { display: grid; gap: 8px; }
+    .pick { width: 100%; min-height: 76px; display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; align-items: center; padding: 12px; text-align: left; border: 1px solid transparent; border-radius: 8px; background: transparent; }
+    .pick:hover { background: var(--surface); }
+    .pick[aria-pressed="true"] { border-color: var(--ink); background: var(--surface); box-shadow: 2px 2px 0 var(--ink); }
+    .pick-letter { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); font-weight: 800; }
+    .pick[aria-pressed="true"] .pick-letter { background: var(--yellow); border-color: var(--ink); }
+    .pick-title { display: block; font-size: 16px; font-weight: 800; line-height: 1.3; }
+    .pick-desc { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .instructions { margin-top: 32px; border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .instructions strong { color: var(--ink); }
+    .instructions p { margin: 0 0 10px; }
+    .preview-column { min-width: 0; }
+    .preview-caption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 10px; }
+    .preview-caption h2 { margin: 0; font-size: 16px; line-height: 1.3; }
+    .preview-caption span { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .game { background: var(--paper); border: 1px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); min-width: 0; }
+    .game-header { padding: 16px 16px 12px; }
+    .header-top { display: flex; align-items: center; gap: 8px; }
+    .year-heading { flex: 1; min-width: 0; margin: 0; font-size: 18px; font-weight: 800; line-height: 1.35; }
+    .item-button, .sound-button { flex: 0 0 auto; height: 44px; border: 1px solid var(--ink); border-radius: 7px; background: var(--surface); }
+    .item-button { display: grid; place-items: center; width: 44px; padding: 5px; }
+    .item-button img { width: 32px; height: 32px; object-fit: contain; }
+    .sound-button { min-width: 56px; padding: 0 8px; font-size: 14px; font-weight: 700; }
+    .identity { margin: 8px 0 0; font-size: 14px; }
+    .identity .muted { color: var(--muted); }
+    .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 9px 12px 10px; background: var(--surface); border-block: 1px solid var(--line); }
+    .stat { text-align: center; min-width: 0; }
+    .stat-name { display: block; color: var(--muted); font-size: 12px; }
+    .stat-value { display: block; margin-top: 1px; font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .history-head { display: flex; align-items: center; justify-content: space-between; min-height: 46px; padding: 0 16px; }
+    .history-head strong { font-size: 14px; }
+    .history-head span { color: var(--muted); font-size: 12px; }
+    .feed { height: 398px; overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth; scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
+    .feed::-webkit-scrollbar { width: 5px; }
+    .feed::-webkit-scrollbar-thumb { border-radius: 8px; background: var(--line); }
+    .year-row { display: grid; width: 100%; min-height: 132px; padding: 10px 16px; text-align: left; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; }
+    .year-row:hover { background: var(--surface); }
+    .year-row .year-title { display: block; font-size: 14px; font-weight: 800; color: var(--muted); line-height: 1.35; }
+    .year-row .summary { display: block; margin-top: 4px; font-size: 18px; line-height: 1.45; overflow-wrap: anywhere; }
+    .year-row .summary strong { color: var(--red); font-weight: 800; }
+    .change { display: inline-block; margin-top: 4px; color: var(--positive); font-size: 13px; font-weight: 800; }
+    .hint { display: inline-block; margin-top: 8px; color: var(--muted); font-size: 12px; }
+    .timeline-row { grid-template-columns: 52px minmax(0, 1fr); gap: 10px; align-content: start; }
+    .timeline-age { padding-top: 0; color: var(--ink); font-size: 18px; font-weight: 800; white-space: nowrap; }
+    .timeline-age::after { display: block; width: 18px; height: 2px; margin-top: 8px; background: var(--line); content: ""; }
+    .timeline-row.is-current .timeline-age { color: var(--red); }
+    .focus-row { align-content: center; }
+    .focus-row:not(.is-current) { min-height: 110px; }
+    .focus-row.is-current { min-height: 178px; background: var(--yellow-soft); border-left: 4px solid var(--ink); padding-left: 18px; }
+    .focus-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .focus-age { font-size: 16px; font-weight: 800; }
+    .focus-row.is-current .focus-age { font-size: 24px; }
+    .focus-row.is-current .summary { font-size: 20px; line-height: 1.55; }
+    .focus-row:not(.is-current) .summary { font-size: 16px; line-height: 1.45; }
+    .year-tag { color: var(--red); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .single-view { display: flex; flex-direction: column; }
+    .age-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 10px 16px 12px; border-top: 1px solid var(--line); }
+    .age-tab { min-width: 0; min-height: 44px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); font-weight: 800; font-size: 14px; }
+    .age-tab[aria-pressed="true"] { background: var(--yellow-soft); border-color: var(--ink); }
+    .single-story { padding: 12px 20px 22px; }
+    .single-age { display: flex; align-items: baseline; gap: 6px; color: var(--red); font-size: 15px; font-weight: 800; }
+    .single-age b { font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .single-title { margin: 14px 0 10px; font-size: 21px; line-height: 1.3; }
+    .single-text { margin: 0; font-size: 19px; line-height: 1.65; overflow-wrap: anywhere; }
+    .single-result { margin: 16px 0 0; padding-left: 12px; border-left: 3px solid var(--red); font-size: 17px; line-height: 1.6; }
+    .details-button { min-height: 44px; margin-top: 10px; padding: 0; border: 0; background: transparent; color: var(--red); font-size: 14px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+    .history-controls { display: flex; justify-content: space-between; gap: 8px; padding: 0 16px 8px; }
+    .history-controls button { min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .history-controls button:not(:disabled):hover { color: var(--red); }
+    .game-footer { padding: 10px 16px 16px; border-top: 1px solid var(--line); background: var(--paper); }
+    .advance { width: 100%; min-height: 52px; border: 2px solid var(--ink); border-radius: 7px; background: var(--yellow); box-shadow: 0 3px 0 var(--ink); font-size: 16px; font-weight: 800; }
+    .advance:active { box-shadow: 0 2px 0 var(--ink); }
+    .footer-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+    .footer-row button { min-height: 44px; padding: 0 4px; border: 1px solid var(--ink); border-radius: 7px; background: var(--surface); font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .under-preview { margin: 12px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    dialog { width: min(390px, calc(100% - 32px)); max-height: min(80vh, 720px); padding: 0; overflow: auto; color: var(--ink); border: 2px solid var(--ink); border-radius: 10px; background: var(--surface); box-shadow: 4px 4px 0 var(--ink); }
+    dialog::backdrop { background: rgba(48, 40, 38, .68); }
+    .dialog-inner { padding: 24px; }
+    .dialog-kicker { margin: 0 0 8px; color: var(--red); font-size: 13px; font-weight: 800; }
+    .dialog-inner h2 { margin: 0 0 16px; font-size: 23px; line-height: 1.3; }
+    .dialog-inner p { margin: 0 0 14px; font-size: 16px; line-height: 1.7; }
+    .dialog-inner .dialog-label { display: block; margin-bottom: 3px; color: var(--muted); font-size: 13px; font-weight: 800; }
+    .dialog-close { width: 100%; min-height: 48px; margin-top: 6px; border: 1px solid var(--ink); border-radius: 6px; background: var(--surface); font-weight: 800; }
+    @media (max-width: 720px) {
+      .page { padding: 12px 14px 40px; }
+      .page-head { margin-bottom: 10px; gap: 8px; align-items: start; }
+      .page-head h1 { font-size: 21px; }
+      .page-head p { margin-top: 3px; font-size: 13px; }
+      .preview-note { padding-top: 3px; font-size: 12px; }
+      .workbench { display: flex; flex-direction: column; gap: 10px; }
+      .options, .preview-column { width: 100%; }
+      .picker-title { display: none; }
+      .picker { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+      .pick { display: flex; flex-direction: row; justify-content: center; gap: 6px; min-height: 48px; padding: 6px 3px; text-align: center; border-color: var(--line); background: var(--surface); }
+      .pick-letter { width: auto; height: auto; border: 0; background: transparent; line-height: 1; font-size: 12px; }
+      .pick[aria-pressed="true"] .pick-letter { background: transparent; color: var(--red); }
+      .pick-title { font-size: 13px; white-space: nowrap; }
+      .pick-desc, .instructions { display: none; }
+      .preview-column { max-width: 420px; align-self: center; }
+      .preview-caption { margin-bottom: 6px; }
+      .game-header { padding-top: 10px; padding-bottom: 9px; }
+      .identity { margin-top: 5px; }
+      .stats { padding-top: 6px; padding-bottom: 6px; }
+      .history-head { min-height: 38px; }
+      .feed { height: 360px; }
+      .year-row { min-height: 120px; }
+      .focus-row:not(.is-current) { min-height: 94px; }
+      .focus-row.is-current { min-height: 172px; }
+      .history-controls { padding-bottom: 0; }
+      .game-footer { padding-top: 8px; padding-bottom: 10px; }
+      .advance { min-height: 48px; }
+      .footer-row { margin-top: 8px; }
+    }
+    @media (max-width: 360px) {
+      .game-header { padding-left: 12px; padding-right: 12px; }
+      .header-top { gap: 6px; }
+      .year-heading { font-size: 16px; }
+      .sound-button { min-width: 48px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .feed { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-head">
+      <div>
+        <h1>人生记录，清楚一点</h1>
+        <p>同一组故事，比较三种阅读方式。</p>
+      </div>
+      <span class="preview-note">独立预览<br>不连接正式游戏</span>
+    </header>
+    <div class="workbench">
+      <aside class="options" aria-label="选择预览方案">
+        <p class="picker-title">选择一个方案</p>
+        <nav class="picker" aria-label="阅读方案">
+          <button class="pick" type="button" data-mode="timeline" aria-pressed="true"><span class="pick-letter">A</span><span><span class="pick-title">清爽时间线</span><span class="pick-desc">三年并列，沿时间向下读</span></span></button>
+          <button class="pick" type="button" data-mode="focus" aria-pressed="false"><span class="pick-letter">B</span><span><span class="pick-title">突出这一年</span><span class="pick-desc">前两年轻一点，最新一年更醒目</span></span></button>
+          <button class="pick" type="button" data-mode="single" aria-pressed="false"><span class="pick-letter">C</span><span><span class="pick-title">一年一屏</span><span class="pick-desc">一次专注一年，年岁可切换</span></span></button>
+        </nav>
+        <div class="instructions">
+          <p><strong>怎么体验</strong><br>点击「推进一年」，看新一年出现。可向上滚动或点「往前看」回顾。</p>
+          <p>点任一事件查看完整情境与结果。C 可以直接点上方年岁切换。</p>
+          <p>事件取自现有内容，年份与数值为排版演示，并非一局真实回放。</p>
+        </div>
+      </aside>
+      <section class="preview-column" aria-label="方案演示">
+        <div class="preview-caption"><h2 id="scheme-title">A · 清爽时间线</h2><span>交互演示</span></div>
+        <div class="game">
+          <header class="game-header">
+            <div class="header-top">
+              <h3 class="year-heading" id="game-year"></h3>
+              <button type="button" class="item-button" id="item-button" aria-label="查看随身物品：502强力胶与折叠军刀"><img src="../public/art/items/glue.png" alt=""></button>
+              <button type="button" class="sound-button" id="sound-button">声音</button>
+            </div>
+            <p class="identity"><span id="game-identity"></span><br><span class="muted">地区：陕北灾区 · 阶层：士绅</span></p>
+          </header>
+          <div class="stats" aria-label="示例属性">
+            <div class="stat"><span class="stat-name">体魄</span><b class="stat-value" id="stat-body"></b></div>
+            <div class="stat"><span class="stat-name">家资</span><b class="stat-value">5两</b></div>
+            <div class="stat"><span class="stat-name">才干</span><b class="stat-value" id="stat-skill"></b></div>
+            <div class="stat"><span class="stat-name">人脉</span><b class="stat-value">4</b></div>
+            <div class="stat"><span class="stat-name">气数</span><b class="stat-value">3</b></div>
+          </div>
+          <div class="history-head"><strong id="history-title">人生经历</strong><span id="history-hint">点击事件查看完整内容</span></div>
+          <div class="feed" id="feed" tabindex="0" aria-label="人生经历，可滚动查看"></div>
+          <div class="history-controls"><button type="button" id="older">↑ 往前看</button><button type="button" id="back-latest">回到最新 ↓</button></div>
+          <footer class="game-footer">
+            <button type="button" class="advance" id="advance">推进一年</button>
+            <div class="footer-row"><button type="button" id="career">事业</button><button type="button" id="reset">重置演示</button><button type="button" id="latest">查看最新</button></div>
+          </footer>
+        </div>
+        <p class="under-preview">点击「推进一年」体验自动滚动；事件可点开查看完整内容。示例内容经过编排，不代表实际对局。</p>
+      </section>
+    </div>
+  </main>
+  <dialog id="detail-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-inner"><p class="dialog-kicker" id="dialog-kicker"></p><h2 id="dialog-title"></h2><div id="dialog-body"></div><button type="button" class="dialog-close" id="dialog-close">收起</button></div>
+  </dialog>
+  <script>
+    (() => {
+      // Display examples use existing content, arranged for comparing layout, not a recorded run.
+      const years = [
+        { age: 27, year: '崇祯四年 · 岁次辛未', title: '官靴被胶粘住', intro: '漏出的胶水粘住了知县的靴底，他退堂时一时迈不开脚。', action: '清理漏胶学手艺', result: '你先帮差役清理漏胶，再跟匠人学修补，认清哪些物件不能用胶。', summary: '你清理漏胶，再跟匠人学修补。', highlight: '跟匠人学修补', change: '体魄 +2 · 才干 +3', body: 6, skill: 7 },
+        { age: 28, year: '崇祯五年 · 岁次壬申', title: '残胶粘住了蝉', intro: '一点残胶粘住了一只蝉，围观的孩子吵得比蝉还响。', action: '', result: '半条街的人都凑来看蝉，修补的活只好先放一放。', summary: '半条街的人来看蝉，修补先放一放。', highlight: '先放一放', change: '', body: 6, skill: 7 },
+        { age: 29, year: '崇祯六年 · 岁次癸酉', title: '补好只作摆件', intro: '用作摆件的瓷碗裂成几片，你要用胶把碎片对齐。补好后也只能陈设，不能拿来盛饭。', action: '', result: '你把碎片对齐粘好，瓷碗恢复了形状，仍只用作摆件。', summary: '你粘好了瓷碗，仍只用作摆件。', highlight: '仍只用作摆件', change: '体魄 +2 · 才干 +2', body: 8, skill: 9 },
+        { age: 30, year: '崇祯七年 · 岁次甲戌', title: '干胶被当成琥珀', intro: '商贾把干胶误认成琥珀，想摆进药柜。卖东西以前，得先把材料和用途说清楚。', action: '说明干胶的材质', result: '你说明这只是干胶，只能当摆件。商贾收起药匣，改按摆件来谈。', summary: '你说明干胶只能当摆件，商贾改按摆件来谈。', highlight: '只能当摆件', change: '才干 +1', body: 8, skill: 10 },
+        { age: 31, year: '崇祯八年 · 岁次乙亥', title: '粮船接缝渗水', intro: '运粮小船的接缝渗水，你用军刀比量旧件、用胶定位木样，补漏还得交给船匠。', action: '', result: '木样定位后，你把活交给船匠；补缝、试水都由专人验收签单。', summary: '木样定位后，你把活交给船匠。', highlight: '交给船匠', change: '体魄 +3 · 才干 +3', body: 11, skill: 13 },
+        { age: 32, year: '崇祯九年 · 岁次丙子', title: '用旧胶管教徒弟', intro: '你把瘪胶管摆上桌，徒弟问起修补的事，你拿它讲解材料该怎么用。', action: '', result: '旧胶管留作样本，你借它教徒弟分清哪些材料能粘、哪些不能粘。', summary: '旧胶管留作样本，你借它教徒弟。', highlight: '教徒弟', change: '', body: 11, skill: 13 }
+      ];
+      const names = { timeline: 'A · 清爽时间线', focus: 'B · 突出这一年', single: 'C · 一年一屏' };
+      const $ = id => document.getElementById(id);
+      const feed = $('feed');
+      const dialog = $('detail-dialog');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let mode = 'timeline';
+      let progress = 2;
+      let selected = 2;
+      let windowEnd = 2;
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+      }
+      function highlighted(text, part) {
+        const position = text.indexOf(part);
+        if (position < 0) return escapeHtml(text);
+        return escapeHtml(text.slice(0, position)) + '<strong>' + escapeHtml(part) + '</strong>' + escapeHtml(text.slice(position + part.length));
+      }
+      function changeText(year) { return year.change ? '<span class="change">' + escapeHtml(year.change) + '</span>' : ''; }
+      function openDialog(kicker, title, body) {
+        $('dialog-kicker').textContent = kicker;
+        $('dialog-title').textContent = title;
+        $('dialog-body').innerHTML = body;
+        dialog.showModal();
+      }
+      function showYear(index) {
+        const year = years[index];
+        let body = '<p><span class="dialog-label">发生了什么</span>' + escapeHtml(year.intro) + '</p>';
+        if (year.action) body += '<p><span class="dialog-label">你的行动</span>' + escapeHtml(year.action) + '</p>';
+        body += '<p><span class="dialog-label">结果</span>' + escapeHtml(year.result) + '</p>';
+        if (year.change) body += '<p><span class="dialog-label">变化</span>' + escapeHtml(year.change) + '</p>';
+        openDialog(year.age + ' 岁 · 事件详情', year.title, body);
+      }
+      function rowMarkup(year, index) {
+        const current = index === progress;
+        const title = escapeHtml(year.title);
+        const result = highlighted(year.summary, year.highlight);
+        if (mode === 'timeline') {
+          return '<button type="button" class="year-row timeline-row' + (current ? ' is-current' : '') + '" data-year="' + index + '">' +
+            '<span class="timeline-age">' + year.age + '岁</span><span><span class="year-title">' + title + (current ? ' · 本年' : '') + '</span><span class="summary">' + result + '</span>' + changeText(year) + '</span></button>';
+        }
+        return '<button type="button" class="year-row focus-row' + (current ? ' is-current' : '') + '" data-year="' + index + '">' +
+          '<span class="focus-top"><span class="focus-age">' + year.age + '岁 · ' + title + '</span>' + (current ? '<span class="year-tag">本年</span>' : '') + '</span>' +
+          '<span class="summary">' + result + '</span>' + changeText(year) + '</button>';
+      }
+      function renderSingle() {
+        const start = Math.max(0, windowEnd - 2);
+        const tabs = years.slice(start, windowEnd + 1).map((year, offset) => {
+          const index = start + offset;
+          return '<button type="button" class="age-tab" data-select-year="' + index + '" aria-pressed="' + (selected === index) + '">' + year.age + '岁</button>';
+        }).join('');
+        const year = years[selected];
+        feed.className = 'feed single-view';
+        feed.innerHTML = '<div class="age-tabs" aria-label="选择年份">' + tabs + '</div>' +
+          '<article class="single-story"><div class="single-age"><b>' + year.age + '</b><span>岁</span></div>' +
+          '<h4 class="single-title">' + escapeHtml(year.title) + '</h4><p class="single-text">' + escapeHtml(year.intro) + '</p>' +
+          '<p class="single-result">' + highlighted(year.result, year.highlight) + '</p>' + changeText(year) +
+          '<div><button type="button" class="details-button" data-year="' + selected + '">查看本年完整经过</button></div></article>';
+        $('older').disabled = windowEnd <= 2;
+        $('back-latest').disabled = selected === progress && windowEnd === progress;
+      }
+      function scrollLatest(animate) {
+        feed.scrollTo({ top: feed.scrollHeight, behavior: animate && !reduceMotion.matches ? 'smooth' : 'auto' });
+      }
+      function syncHistoryButtons() {
+        if (mode === 'single') return;
+        $('older').disabled = feed.scrollTop < 4;
+        $('back-latest').disabled = feed.scrollHeight - feed.clientHeight - feed.scrollTop < 4;
+      }
+      function render(animate) {
+        const now = years[progress];
+        $('scheme-title').textContent = names[mode];
+        $('game-year').textContent = now.year;
+        $('game-identity').textContent = now.age + ' 岁 · 身份：当家子弟 · 第' + (progress + 1) + '年';
+        $('stat-body').textContent = now.body;
+        $('stat-skill').textContent = now.skill;
+        $('advance').textContent = progress === years.length - 1 ? '演示结束 · 从头再看' : '推进一年';
+        $('history-title').textContent = mode === 'single' ? '选择年岁' : '人生经历';
+        $('history-hint').textContent = mode === 'single' ? '一次读一年的经历' : '点击事件查看完整内容';
+        document.querySelectorAll('.pick').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
+        if (mode === 'single') {
+          renderSingle();
+          feed.scrollTop = 0;
+        } else {
+          feed.className = 'feed';
+          feed.innerHTML = years.slice(0, progress + 1).map(rowMarkup).join('');
+          // Start at the previous ending, then let the new year scroll into view.
+          if (animate) {
+            const rows = feed.querySelectorAll('.year-row');
+            feed.scrollTop = Math.max(0, feed.scrollHeight - feed.clientHeight - (rows[rows.length - 1]?.offsetHeight || 0));
+          }
+          requestAnimationFrame(() => { scrollLatest(animate); requestAnimationFrame(syncHistoryButtons); });
+        }
+      }
+      function reset() { progress = 2; selected = 2; windowEnd = 2; render(false); }
+      document.querySelectorAll('.pick').forEach(button => button.addEventListener('click', () => {
+        mode = button.dataset.mode;
+        windowEnd = progress;
+        selected = progress;
+        render(false);
+      }));
+      $('advance').addEventListener('click', () => {
+        if (progress === years.length - 1) return reset();
+        progress++;
+        selected = progress;
+        windowEnd = progress;
+        render(true);
+      });
+      $('reset').addEventListener('click', reset);
+      function toLatest() {
+        if (mode === 'single') { windowEnd = progress; selected = progress; renderSingle(); feed.scrollTop = 0; }
+        else scrollLatest(true);
+      }
+      $('latest').addEventListener('click', toLatest);
+      $('back-latest').addEventListener('click', toLatest);
+      $('older').addEventListener('click', () => {
+        if (mode === 'single') {
+          windowEnd = Math.max(2, windowEnd - 1);
+          selected = windowEnd;
+          renderSingle();
+          feed.scrollTop = 0;
+        } else feed.scrollBy({ top: -feed.clientHeight * .65, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      });
+      feed.addEventListener('scroll', syncHistoryButtons, { passive: true });
+      feed.addEventListener('click', event => {
+        const select = event.target.closest('[data-select-year]');
+        if (select) { selected = Number(select.dataset.selectYear); renderSingle(); feed.scrollTop = 0; return; }
+        const detail = event.target.closest('[data-year]');
+        if (detail) showYear(Number(detail.dataset.year));
+      });
+      $('item-button').addEventListener('click', () => openDialog('随身物品', '502强力胶与折叠军刀', '<p>胶水可修小件，不能粘高温或承重部位。</p><p>工艺检定+1。检定修正受上限限制。</p>'));
+      $('sound-button').addEventListener('click', () => openDialog('独立预览', '声音设置', '<p>这里仅演示主界面排版，没有连接正式游戏的声音设置。</p>'));
+      $('career').addEventListener('click', () => openDialog('独立预览', '事业', '<p>这里仅演示主界面排版，没有连接正式游戏的事业状态。</p>'));
+      $('dialog-close').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+      render(false);
+    })();
+  </script>
+</body>
+</html>

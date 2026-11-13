@@ -471,7 +471,8 @@ export class GameRenderer {
     const scene = this.state.overlay ? this.overlayScene : this.baseScene;
     if (!scene) return;
     const layer = this.state.screen + ':' + (this.state.overlay ?? 'base');
-    const changedLayer = layer !== this.previousLayer;
+    const previousLayer = this.previousLayer;
+    const changedLayer = layer !== previousLayer;
     this.previousLayer = layer;
     this.semantic.setAttribute('role', this.state.overlay ? 'dialog' : 'group');
     this.semantic.setAttribute('aria-label', GAME_NAME + ' · ' + screenLabels[this.state.overlay ?? this.state.screen]);
@@ -506,6 +507,7 @@ export class GameRenderer {
     }
     for (const element of present.values()) element.remove();
     if (changedLayer && this.state.overlay) this.semanticActions.querySelector<HTMLElement>('button:not(:disabled),input:not(:disabled)')?.focus({ preventScroll: true });
+    else if (previousLayer === 'game:relic' && layer === 'game:base') document.getElementById('access_heldItem')?.focus({ preventScroll: true });
     else if (focus && document.getElementById(focus)) (document.getElementById(focus) as HTMLElement).focus({ preventScroll: true });
   }
 

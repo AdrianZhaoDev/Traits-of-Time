@@ -224,8 +224,10 @@ export class GameViewBuilder {
     const gutter = ui.px(16);
     const width = 750 - 2 * gutter;
     const gap = ui.px(8);
+    const card = this.cards.get(player.cards[0]);
+    const itemWidth = ui.px(44);
     const soundWidth = ui.px(56);
-    const yearWidth = width - soundWidth - gap;
+    const yearWidth = width - soundWidth - gap - (card ? itemWidth + gap : 0);
     const heading = yearHeading(view);
     const yearHeight = this.textHeight(ui, heading, yearWidth, 18, 27, '800');
     const topHeight = Math.max(ui.px(44), yearHeight);
@@ -234,9 +236,15 @@ export class GameViewBuilder {
     const identityHeight = this.textHeight(ui, identity, width, 14, 22);
     const locationHeight = this.textHeight(ui, location, width, 13, 21);
     const headerHeight = ui.px(8) + topHeight + gap + identityHeight + locationHeight + ui.px(8);
+    const art = card && itemArt[card.id];
+    const item = card ? ui.view(ui.control('heldItem', card.name + ' · ' + card.rarity + ' · 查看详情',
+      art ? ui.image(this.platform.asset('art/items/' + art + '.png'), ui.px(32), ui.px(32))
+        : ui.text('物', itemWidth - ui.px(4), { textAlign: 'center', fontWeight: '700' }),
+      { width: itemWidth, height: ui.px(44), alignItems: 'center', justifyContent: 'center' },
+      () => this.controller.inspectRelic(card.id)), { marginLeft: gap }) : '';
     const header = ui.view(
       ui.row(ui.text(heading, yearWidth, { fontFamily: fonts.title, fontSize: ui.px(18), lineHeight: ui.px(27),
-        fontWeight: '800', color: ink.text })
+        fontWeight: '800', color: ink.text }) + item
         + ui.view(ui.button('gameSound', '声音', soundWidth, () => this.controller.open('sound'),
           { height: ui.px(44), fontSize: ui.px(14) }), { marginLeft: gap }), width, { height: topHeight })
       + ui.text(identity, width, { fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap })
@@ -261,39 +269,12 @@ export class GameViewBuilder {
     const footerHeight = ui.px(136);
     const centerHeight = Math.max(ui.px(80), height - headerHeight - statHeight - ui.px(8) - footerHeight);
     const compact = height < headerHeight + statHeight + ui.px(8) + footerHeight + ui.px(80);
-    const railWidth = ui.px(68);
-    const streamWidth = 750 - railWidth;
-    const readingWidth = streamWidth - gutter * 2;
+    const readingWidth = width;
     let logs = this.notice(ui, snapshot, readingWidth);
     for (const item of snapshot.folds) logs += this.fold(ui, item, readingWidth);
     if (!snapshot.folds.length) logs += ui.text('选择家当后，这段人生就此展开。', readingWidth, { color: ink.muted });
-    const history = ui.view(logs, { width: streamWidth, padding: gutter, paddingBottom: ui.px(24) });
-    const stream = compact ? history : ui.scroll(history, streamWidth, centerHeight, 'history');
-    const slotWidth = railWidth - ui.px(16);
-    const slotInner = slotWidth - ui.px(4);
-    let shelf = ui.text('博古架', slotWidth, { fontSize: ui.px(12), lineHeight: ui.px(20), color: ink.muted,
-      textAlign: 'center', marginBottom: ui.px(12) });
-    for (let index = 0; index < 5; index++) {
-      const card = this.cards.get(player.cards[index]);
-      if (!card) {
-        shelf += ui.view(ui.text('空置', slotWidth, { fontSize: ui.px(12), lineHeight: ui.px(20), color: ink.muted,
-          textAlign: 'center' }), { width: slotWidth, height: ui.px(68), marginBottom: gap,
-          justifyContent: 'center', borderBottomWidth: 1, borderColor: ink.line });
-        continue;
-      }
-      const art = itemArt[card.id];
-      shelf += ui.control(`relic_${index}`, card.name + ' · ' + card.rarity + ' · 查看详情',
-        (art ? ui.image(this.platform.asset('art/items/' + art + '.png'), ui.px(32), ui.px(32),
-          { marginLeft: (slotInner - ui.px(32)) / 2 })
-          : ui.text(card.name, slotInner, { fontSize: ui.px(12), lineHeight: ui.px(18), textAlign: 'center' }))
-        + ui.text(card.rarity, slotInner, { fontSize: ui.px(12), lineHeight: ui.px(20), textAlign: 'center', color: ink.muted }),
-        { width: slotWidth, minHeight: ui.px(68), marginBottom: gap, paddingTop: ui.px(4), paddingBottom: ui.px(4),
-          borderWidth: ui.px(1), borderColor: ink.text, borderRadius: ui.px(6), backgroundColor: ink.surface },
-        () => this.controller.inspectRelic(card.id));
-    }
-    const shelfContent = ui.view(shelf, { width: railWidth, padding: ui.px(8),
-      backgroundColor: ink.surface, borderLeftWidth: 1, borderColor: ink.line });
-    const rail = compact ? shelfContent : ui.scroll(shelfContent, railWidth, centerHeight, 'shelf', { backgroundColor: ink.surface });
+    const history = ui.view(logs, { width: 750, padding: gutter, paddingBottom: ui.px(24) });
+    const stream = compact ? history : ui.scroll(history, 750, centerHeight, 'history');
     const blocked = snapshot.busy || view.status === 'AWAITING_CARD' || view.status === 'AWAITING_OPTION' || view.status === 'AWAITING_STAGE';
     const ended = view.status === 'ENDED';
     const activeCareers = player.chains.filter(chain => chain.status === 'active').length;
@@ -311,8 +292,7 @@ export class GameViewBuilder {
           { height: ui.px(48), fontSize: ui.px(14) }), { marginLeft: gap }), width, { marginTop: gap }),
       { width: 750, height: footerHeight, padding: gutter, paddingTop: ui.px(8), backgroundColor: ink.paper,
         borderTopWidth: 1, borderColor: ink.line });
-    const content = header + statBar + ui.row(stream + rail, 750, compact
-      ? { alignItems: 'flex-start' } : { height: centerHeight, alignItems: 'flex-start' }) + footer;
+    const content = header + statBar + stream + footer;
     return compact ? ui.scroll(ui.view(content, { width: 750 }), 750, height, 'compactGame') : content;
   }
 

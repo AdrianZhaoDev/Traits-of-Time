@@ -1,16 +1,14 @@
+/** Approved A palette; Canvas and host styles share these exact sRGB roles. */
 export const ink = {
-  background: '#0c0d12', desk: '#13151c', panel: '#181b24', raised: '#222633',
-  inset: '#11131a', rail: '#141720', slot: '#1c202b', border: '#353b49',
-  borderLight: '#525b6e', text: '#edf1f7', sub: '#a0aabb', muted: '#7e899c',
-  cyan: '#00f0ff', gold: '#ffbe0b', red: '#ff5277', green: '#05dfb7',
-  purple: '#c77dff', modern: '#121c29', ended: '#571b29', advance: '#1f6048',
-  advanceBorder: '#4ade80', selected: '#19313c', veil: 'rgba(9,10,14,0.88)',
-  clear: 'rgba(0,0,0,0)', hud: '#161922', homeVeil: 'rgba(12,13,18,0.3)',
+  paper: '#FFF9E9', text: '#302826', muted: '#67594C', accent: '#BF3527',
+  accentInk: '#FFF9E9', accentHover: '#A42B21', sun: '#FFDA58', sunSoft: '#FFF0AC',
+  surface: '#FFFDF5', line: '#D8C899', focus: '#196C8A', disabled: '#E4DDD0',
+  veil: 'rgba(48,40,38,0.72)', clear: 'rgba(0,0,0,0)',
 } as const;
 
 export const fonts = {
   body: '"PingFang SC", "Microsoft YaHei", system-ui, sans-serif',
-  title: '"Songti SC", SimSun, "Noto Serif CJK SC", serif',
+  title: '"Microsoft YaHei", "PingFang SC", sans-serif',
 } as const;
 
 export type Style = Record<string, string | number | Record<string, string | number>>;
@@ -20,6 +18,7 @@ export interface UiAction {
   invoke: () => unknown;
   disabled: boolean;
   pressed?: boolean;
+  primary?: boolean;
   kind?: 'seal' | 'range';
   value?: number;
   setValue?: (value: number) => void;
@@ -44,6 +43,11 @@ export class Ui {
   readonly texts: string[] = [];
   readonly scrollIds: string[] = [];
 
+  constructor(readonly viewportWidth = 360) {}
+
+  /** Convert visible CSS pixels to the engine's 750-unit layout. DPR is independent. */
+  px(value: number): number { return Math.ceil(value * 750 / this.viewportWidth); }
+
   private node(tag: string, attributes: string, children: string, style: Style, id?: string): string {
     const key = id ?? `node${++this.sequence}`;
     this.styles[key] = { flexShrink: 0, ...style };
@@ -61,7 +65,7 @@ export class Ui {
   text(value: string, width: number, style: Style = {}, id?: string): string {
     if (value) this.texts.push(value);
     return this.node('text', ` value="${escapeXml(value)}"`, '', {
-      width, fontSize: 26, lineHeight: 42, color: ink.text,
+      width, fontSize: this.px(16), lineHeight: this.px(25), color: ink.text,
       fontFamily: fonts.body, whiteSpace: 'pre-wrap', wordBreak: 'break-all', ...style,
     }, id);
   }
@@ -79,29 +83,45 @@ export class Ui {
   }
 
   control(id: string, label: string, children: string, style: Style,
-    invoke: () => unknown, options: Partial<Pick<UiAction, 'disabled' | 'pressed' | 'kind' | 'value' | 'setValue'>> = {}): string {
+    invoke: () => unknown, options: Partial<Pick<UiAction, 'disabled' | 'pressed' | 'primary' | 'kind' | 'value' | 'setValue'>> = {}): string {
     this.actions.push({ id, label, invoke, disabled: false, ...options });
     return this.view(children, {
-      borderWidth: 1, borderColor: ink.border, backgroundColor: ink.raised,
-      borderRadius: 6, opacity: options.disabled ? 0.45 : 1, ...style,
+      borderWidth: this.px(1.5), borderColor: ink.text,
+      backgroundColor: options.disabled ? ink.disabled : ink.surface,
+      borderRadius: this.px(8), ...style,
     }, id);
   }
 
   button(id: string, label: string, width: number, invoke: () => unknown,
     options: { height?: number; fill?: string; color?: string; border?: string; disabled?: boolean;
-      fontSize?: number; marginTop?: number; kind?: 'seal' } = {}): string {
-    const height = options.height ?? 84;
-    return this.control(id, label, this.text(label, width - 20, {
-      textAlign: 'center', fontSize: options.fontSize ?? 26, lineHeight: 36,
-      color: options.color ?? ink.text, fontWeight: '600', fontFamily: options.kind === 'seal' ? fonts.title : fonts.body,
-    }), { width, height, justifyContent: 'center', alignItems: 'center',
-      backgroundColor: options.fill ?? ink.raised, borderColor: options.border ?? ink.border,
-      marginTop: options.marginTop ?? 0 }, invoke, { disabled: options.disabled, kind: options.kind });
+      fontSize?: number; marginTop?: number; kind?: 'seal'; primary?: boolean; pressed?: boolean } = {}): string {
+    const primary = options.primary ?? options.kind === 'seal';
+    const height = Math.max(this.px(primary ? 52 : 44), options.height ?? this.px(primary ? 56 : 48));
+    const fontSize = options.fontSize ?? this.px(16);
+    const faceWidth = primary ? width - this.px(4) : width;
+    const faceHeight = primary ? height - this.px(5) : height;
+    const labelNode = this.text(label, faceWidth - this.px(12), {
+      textAlign: 'center', fontSize, lineHeight: Math.ceil(fontSize * 1.5), whiteSpace: 'nowrap',
+      color: options.disabled ? ink.muted : options.color ?? ink.text,
+      fontWeight: primary ? '800' : '600',
+    });
+    const faceStyle: Style = { width: faceWidth, height: faceHeight, justifyContent: 'center', alignItems: 'center',
+      backgroundColor: options.disabled ? ink.disabled : options.fill ?? (primary ? ink.sun : options.pressed ? ink.sunSoft : ink.surface),
+      borderColor: options.border ?? ink.text, borderWidth: this.px(primary ? 2 : 1.5), borderRadius: this.px(primary ? 10 : 8) };
+    const children = primary
+      ? this.view('', { width: faceWidth, height: faceHeight, position: 'absolute', left: this.px(4), top: this.px(5),
+        backgroundColor: ink.text, borderRadius: this.px(10) }, id + '_shadow')
+        + this.view(labelNode, { ...faceStyle, position: 'absolute', left: 0, top: 0 }, id + '_face')
+      : labelNode;
+    return this.control(id, label, children, primary
+      ? { width, height, backgroundColor: ink.clear, borderWidth: 0, marginTop: options.marginTop ?? 0 }
+      : { ...faceStyle, marginTop: options.marginTop ?? 0 }, invoke,
+    { disabled: options.disabled, kind: options.kind, primary, pressed: options.pressed });
   }
 
   finish(children: string, height: number, overlay = false): UiScene {
     return {
-      xml: this.view(children, { width: 750, height, backgroundColor: overlay ? ink.clear : ink.desk }, 'root'),
+      xml: this.view(children, { width: 750, height, backgroundColor: overlay ? ink.clear : ink.paper }, 'root'),
       styles: this.styles, actions: this.actions, text: this.texts, scrollIds: this.scrollIds,
     };
   }

@@ -1,0 +1,2176 @@
+{
+  "date": "2026-11-12",
+  "scope": "Standalone HTML design comparison only; no Canvas/game/persistence changes",
+  "approvals": {
+    "style": "awaiting_user_selection",
+    "externalMediaCalls": 0
+  },
+  "pages": [
+    {
+      "id": "A",
+      "name": "爆笑开播",
+      "file": "a-comic.html",
+      "viewports": [
+        {
+          "url": "http://127.0.0.1:5196/a-comic.html",
+          "title": "A 爆笑开播 · 穿越了这次我带大喇叭逆袭",
+          "viewport": {
+            "width": 390,
+            "height": 844,
+            "dpr": 2
+          },
+          "document": {
+            "width": 390,
+            "height": 844
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 24,
+              "y": 118.53125,
+              "width": 342,
+              "height": 160.46875,
+              "bottom": 279,
+              "right": 366
+            }
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 24,
+                "y": 598.40625,
+                "width": 338,
+                "height": 58,
+                "bottom": 656.40625,
+                "right": 362
+              },
+              "fontSize": "21px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 24,
+                "y": 699.40625,
+                "width": 108.65625,
+                "height": 46,
+                "bottom": 745.40625,
+                "right": 132.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 140.65625,
+                "y": 699.40625,
+                "width": 108.671875,
+                "height": 46,
+                "bottom": 745.40625,
+                "right": 249.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 257.328125,
+                "y": 699.40625,
+                "width": 108.65625,
+                "height": 46,
+                "bottom": 745.40625,
+                "right": 365.984375
+              },
+              "fontSize": "16px"
+            }
+          ],
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 24,
+              "y": 761.40625,
+              "width": 342,
+              "height": 39.59375,
+              "bottom": 801,
+              "right": 366
+            },
+            "fontSize": "12px"
+          },
+          "images": [
+            {
+              "src": "assets/avatar.png",
+              "loaded": true,
+              "width": 38,
+              "height": 38
+            }
+          ],
+          "hasGameRuntime": false
+        },
+        {
+          "url": "http://127.0.0.1:5196/a-comic.html",
+          "title": "A 爆笑开播 · 穿越了这次我带大喇叭逆袭",
+          "viewport": {
+            "width": 360,
+            "height": 640,
+            "dpr": 3
+          },
+          "document": {
+            "width": 360,
+            "height": 640
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 24,
+              "y": 75.640625,
+              "width": 312,
+              "height": 137.921875,
+              "bottom": 213.5625,
+              "right": 336
+            }
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 24,
+                "y": 406.40625,
+                "width": 308,
+                "height": 58,
+                "bottom": 464.40625,
+                "right": 332
+              },
+              "fontSize": "21px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 24,
+                "y": 507.40625,
+                "width": 98.65625,
+                "height": 46,
+                "bottom": 553.40625,
+                "right": 122.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 130.65625,
+                "y": 507.40625,
+                "width": 98.671875,
+                "height": 46,
+                "bottom": 553.40625,
+                "right": 229.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 237.328125,
+                "y": 507.40625,
+                "width": 98.65625,
+                "height": 46,
+                "bottom": 553.40625,
+                "right": 335.984375
+              },
+              "fontSize": "16px"
+            }
+          ],
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 24,
+              "y": 565.40625,
+              "width": 312,
+              "height": 39.59375,
+              "bottom": 605,
+              "right": 336
+            },
+            "fontSize": "12px"
+          },
+          "images": [
+            {
+              "src": "assets/avatar.png",
+              "loaded": true,
+              "width": 38,
+              "height": 38
+            }
+          ],
+          "hasGameRuntime": false
+        }
+      ],
+      "interactions": [
+        {
+          "action": "start",
+          "open": true,
+          "title": "首页主操作",
+          "description": "这里仅预览按钮与弹层样式，不会创建人生或跳过身份、家当选择。正式流程仍由 Canvas 客户端处理。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "sound",
+          "open": true,
+          "title": "声音入口",
+          "description": "这是无声的视觉预览，没有新增或播放任何音乐、音效，也不会修改你已有的音量设置。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "achievements",
+          "open": true,
+          "title": "成就入口",
+          "description": "这里只预览成就入口与弹层，不读取本机记录，也不制造解锁成就。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "stats",
+          "open": true,
+          "title": "统计入口",
+          "description": "这里只预览统计入口与弹层，不读取本机人生记录，也不显示虚构统计数据。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        }
+      ],
+      "extraWidths": [
+        {
+          "viewport": {
+            "width": 320,
+            "height": 640,
+            "dpr": 1
+          },
+          "document": {
+            "width": 320,
+            "height": 640
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 20,
+              "y": 77.34375,
+              "width": 280,
+              "height": 134.53125,
+              "bottom": 211.875,
+              "right": 300
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 20,
+              "y": 565.40625,
+              "width": 280,
+              "height": 39.59375,
+              "bottom": 605,
+              "right": 300
+            },
+            "fontSize": "12px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 20,
+                "y": 406.40625,
+                "width": 276,
+                "height": 58,
+                "bottom": 464.40625,
+                "right": 296
+              },
+              "fontSize": "21px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 20,
+                "y": 507.40625,
+                "width": 88,
+                "height": 46,
+                "bottom": 553.40625,
+                "right": 108
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 116,
+                "y": 507.40625,
+                "width": 88,
+                "height": 46,
+                "bottom": 553.40625,
+                "right": 204
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 212,
+                "y": 507.40625,
+                "width": 88,
+                "height": 46,
+                "bottom": 553.40625,
+                "right": 300
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 375,
+            "height": 812,
+            "dpr": 1
+          },
+          "document": {
+            "width": 375,
+            "height": 812
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 24,
+              "y": 109,
+              "width": 327,
+              "height": 154.59375,
+              "bottom": 263.59375,
+              "right": 351
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 24,
+              "y": 729.40625,
+              "width": 327,
+              "height": 39.59375,
+              "bottom": 769,
+              "right": 351
+            },
+            "fontSize": "12px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 24,
+                "y": 566.40625,
+                "width": 323,
+                "height": 58,
+                "bottom": 624.40625,
+                "right": 347
+              },
+              "fontSize": "21px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 24,
+                "y": 667.40625,
+                "width": 103.65625,
+                "height": 46,
+                "bottom": 713.40625,
+                "right": 127.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 135.65625,
+                "y": 667.40625,
+                "width": 103.671875,
+                "height": 46,
+                "bottom": 713.40625,
+                "right": 239.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 247.328125,
+                "y": 667.40625,
+                "width": 103.65625,
+                "height": 46,
+                "bottom": 713.40625,
+                "right": 350.984375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 414,
+            "height": 896,
+            "dpr": 1
+          },
+          "document": {
+            "width": 414,
+            "height": 896
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 24,
+              "y": 138.6875,
+              "width": 366,
+              "height": 169.828125,
+              "bottom": 308.515625,
+              "right": 390
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 24,
+              "y": 813.40625,
+              "width": 366,
+              "height": 39.59375,
+              "bottom": 853,
+              "right": 390
+            },
+            "fontSize": "12px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 24,
+                "y": 650.40625,
+                "width": 362,
+                "height": 58,
+                "bottom": 708.40625,
+                "right": 386
+              },
+              "fontSize": "21px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 24,
+                "y": 751.40625,
+                "width": 116.65625,
+                "height": 46,
+                "bottom": 797.40625,
+                "right": 140.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 148.65625,
+                "y": 751.40625,
+                "width": 116.671875,
+                "height": 46,
+                "bottom": 797.40625,
+                "right": 265.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 273.328125,
+                "y": 751.40625,
+                "width": 116.65625,
+                "height": 46,
+                "bottom": 797.40625,
+                "right": 389.984375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 768,
+            "height": 900,
+            "dpr": 1
+          },
+          "document": {
+            "width": 768,
+            "height": 900
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 178,
+              "y": 134.609375,
+              "width": 412,
+              "height": 182,
+              "bottom": 316.609375,
+              "right": 590
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 178,
+              "y": 817.40625,
+              "width": 412,
+              "height": 39.59375,
+              "bottom": 857,
+              "right": 590
+            },
+            "fontSize": "12px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 178,
+                "y": 654.40625,
+                "width": 408,
+                "height": 58,
+                "bottom": 712.40625,
+                "right": 586
+              },
+              "fontSize": "21px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 178,
+                "y": 755.40625,
+                "width": 132,
+                "height": 46,
+                "bottom": 801.40625,
+                "right": 310
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 318,
+                "y": 755.40625,
+                "width": 132,
+                "height": 46,
+                "bottom": 801.40625,
+                "right": 450
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 458,
+                "y": 755.40625,
+                "width": 132,
+                "height": 46,
+                "bottom": 801.40625,
+                "right": 590
+              },
+              "fontSize": "16px"
+            }
+          ]
+        }
+      ],
+      "reducedMotion": {
+        "matches": true,
+        "activeAnimations": 0,
+        "hasGameRuntime": false,
+        "mediaElements": 0,
+        "storage": []
+      }
+    },
+    {
+      "id": "B",
+      "name": "片场开机",
+      "file": "b-film.html",
+      "viewports": [
+        {
+          "url": "http://127.0.0.1:5196/b-film.html",
+          "title": "B 片场开机 · 穿越了这次我带大喇叭逆袭",
+          "viewport": {
+            "width": 390,
+            "height": 844,
+            "dpr": 2
+          },
+          "document": {
+            "width": 390,
+            "height": 844
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 29.640625,
+              "y": 182.328125,
+              "width": 330.71875,
+              "height": 148.75,
+              "bottom": 331.078125,
+              "right": 360.359375
+            }
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 41.640625,
+                "y": 593.90625,
+                "width": 306.71875,
+                "height": 56,
+                "bottom": 649.90625,
+                "right": 348.359375
+              },
+              "fontSize": "20px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 41.640625,
+                "y": 657.90625,
+                "width": 96.90625,
+                "height": 48,
+                "bottom": 705.90625,
+                "right": 138.546875
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 146.546875,
+                "y": 657.90625,
+                "width": 96.90625,
+                "height": 48,
+                "bottom": 705.90625,
+                "right": 243.453125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 251.453125,
+                "y": 657.90625,
+                "width": 96.90625,
+                "height": 48,
+                "bottom": 705.90625,
+                "right": 348.359375
+              },
+              "fontSize": "16px"
+            }
+          ],
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 65.640625,
+              "y": 726.90625,
+              "width": 143,
+              "height": 41.59375,
+              "bottom": 768.5,
+              "right": 208.640625
+            },
+            "fontSize": "13px"
+          },
+          "images": [
+            {
+              "src": "assets/avatar.png",
+              "loaded": true,
+              "width": 38,
+              "height": 38
+            }
+          ],
+          "hasGameRuntime": false
+        },
+        {
+          "url": "http://127.0.0.1:5196/b-film.html",
+          "title": "B 片场开机 · 穿越了这次我带大喇叭逆袭",
+          "viewport": {
+            "width": 360,
+            "height": 640,
+            "dpr": 3
+          },
+          "document": {
+            "width": 360,
+            "height": 640
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 27.96875,
+              "y": 91.71875,
+              "width": 304.0625,
+              "height": 137.953125,
+              "bottom": 229.671875,
+              "right": 332.03125
+            }
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 39.96875,
+                "y": 389.90625,
+                "width": 280.0625,
+                "height": 56,
+                "bottom": 445.90625,
+                "right": 320.03125
+              },
+              "fontSize": "20px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 39.96875,
+                "y": 453.90625,
+                "width": 88.015625,
+                "height": 48,
+                "bottom": 501.90625,
+                "right": 127.984375
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 135.984375,
+                "y": 453.90625,
+                "width": 88.015625,
+                "height": 48,
+                "bottom": 501.90625,
+                "right": 224
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 232,
+                "y": 453.90625,
+                "width": 88.03125,
+                "height": 48,
+                "bottom": 501.90625,
+                "right": 320.03125
+              },
+              "fontSize": "16px"
+            }
+          ],
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 63.96875,
+              "y": 522.90625,
+              "width": 143,
+              "height": 41.59375,
+              "bottom": 564.5,
+              "right": 206.96875
+            },
+            "fontSize": "13px"
+          },
+          "images": [
+            {
+              "src": "assets/avatar.png",
+              "loaded": true,
+              "width": 38,
+              "height": 38
+            }
+          ],
+          "hasGameRuntime": false
+        }
+      ],
+      "interactions": [
+        {
+          "action": "start",
+          "open": true,
+          "title": "首页主操作",
+          "description": "这里仅预览按钮与弹层样式，不会创建人生或跳过身份、家当选择。正式流程仍由 Canvas 客户端处理。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "sound",
+          "open": true,
+          "title": "声音入口",
+          "description": "这是无声的视觉预览，没有新增或播放任何音乐、音效，也不会修改你已有的音量设置。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "achievements",
+          "open": true,
+          "title": "成就入口",
+          "description": "这里只预览成就入口与弹层，不读取本机记录，也不制造解锁成就。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "stats",
+          "open": true,
+          "title": "统计入口",
+          "description": "这里只预览统计入口与弹层，不读取本机人生记录，也不显示虚构统计数据。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        }
+      ],
+      "extraWidths": [
+        {
+          "viewport": {
+            "width": 320,
+            "height": 640,
+            "dpr": 1
+          },
+          "document": {
+            "width": 320,
+            "height": 640
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 25.75,
+              "y": 98.9375,
+              "width": 268.5,
+              "height": 123.515625,
+              "bottom": 222.453125,
+              "right": 294.25
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 61.75,
+              "y": 522.90625,
+              "width": 143,
+              "height": 41.59375,
+              "bottom": 564.5,
+              "right": 204.75
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 37.75,
+                "y": 389.90625,
+                "width": 244.5,
+                "height": 56,
+                "bottom": 445.90625,
+                "right": 282.25
+              },
+              "fontSize": "20px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 37.75,
+                "y": 453.90625,
+                "width": 76.15625,
+                "height": 48,
+                "bottom": 501.90625,
+                "right": 113.90625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 121.90625,
+                "y": 453.90625,
+                "width": 76.171875,
+                "height": 48,
+                "bottom": 501.90625,
+                "right": 198.078125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 206.078125,
+                "y": 453.90625,
+                "width": 76.15625,
+                "height": 48,
+                "bottom": 501.90625,
+                "right": 282.234375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 375,
+            "height": 812,
+            "dpr": 1
+          },
+          "document": {
+            "width": 375,
+            "height": 812
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 28.8125,
+              "y": 169.015625,
+              "width": 317.375,
+              "height": 143.359375,
+              "bottom": 312.375,
+              "right": 346.1875
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 64.8125,
+              "y": 694.90625,
+              "width": 143,
+              "height": 41.59375,
+              "bottom": 736.5,
+              "right": 207.8125
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 40.8125,
+                "y": 561.90625,
+                "width": 293.375,
+                "height": 56,
+                "bottom": 617.90625,
+                "right": 334.1875
+              },
+              "fontSize": "20px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 40.8125,
+                "y": 625.90625,
+                "width": 92.453125,
+                "height": 48,
+                "bottom": 673.90625,
+                "right": 133.265625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 141.265625,
+                "y": 625.90625,
+                "width": 92.453125,
+                "height": 48,
+                "bottom": 673.90625,
+                "right": 233.71875
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 241.71875,
+                "y": 625.90625,
+                "width": 92.46875,
+                "height": 48,
+                "bottom": 673.90625,
+                "right": 334.1875
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 414,
+            "height": 896,
+            "dpr": 1
+          },
+          "document": {
+            "width": 414,
+            "height": 896
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 30.96875,
+              "y": 203.96875,
+              "width": 352.0625,
+              "height": 157.453125,
+              "bottom": 361.421875,
+              "right": 383.03125
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 66.96875,
+              "y": 778.90625,
+              "width": 143,
+              "height": 41.59375,
+              "bottom": 820.5,
+              "right": 209.96875
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 42.96875,
+                "y": 645.90625,
+                "width": 328.0625,
+                "height": 56,
+                "bottom": 701.90625,
+                "right": 371.03125
+              },
+              "fontSize": "20px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 42.96875,
+                "y": 709.90625,
+                "width": 104.015625,
+                "height": 48,
+                "bottom": 757.90625,
+                "right": 146.984375
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 154.984375,
+                "y": 709.90625,
+                "width": 104.015625,
+                "height": 48,
+                "bottom": 757.90625,
+                "right": 259
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 267,
+                "y": 709.90625,
+                "width": 104.03125,
+                "height": 48,
+                "bottom": 757.90625,
+                "right": 371.03125
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 768,
+            "height": 900,
+            "dpr": 1
+          },
+          "document": {
+            "width": 768,
+            "height": 900
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 186,
+              "y": 199.8125,
+              "width": 396,
+              "height": 169.78125,
+              "bottom": 369.59375,
+              "right": 582
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 222,
+              "y": 782.90625,
+              "width": 143,
+              "height": 41.59375,
+              "bottom": 824.5,
+              "right": 365
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 198,
+                "y": 649.90625,
+                "width": 372,
+                "height": 56,
+                "bottom": 705.90625,
+                "right": 570
+              },
+              "fontSize": "20px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 198,
+                "y": 713.90625,
+                "width": 118.65625,
+                "height": 48,
+                "bottom": 761.90625,
+                "right": 316.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 324.65625,
+                "y": 713.90625,
+                "width": 118.671875,
+                "height": 48,
+                "bottom": 761.90625,
+                "right": 443.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 451.328125,
+                "y": 713.90625,
+                "width": 118.65625,
+                "height": 48,
+                "bottom": 761.90625,
+                "right": 569.984375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        }
+      ],
+      "reducedMotion": {
+        "matches": true,
+        "activeAnimations": 0,
+        "hasGameRuntime": false,
+        "mediaElements": 0,
+        "storage": []
+      }
+    },
+    {
+      "id": "C",
+      "name": "晴天闯明朝",
+      "file": "c-daylight.html",
+      "viewports": [
+        {
+          "url": "http://127.0.0.1:5196/c-daylight.html",
+          "title": "C 晴天闯明朝 · 穿越了这次我带大喇叭逆袭",
+          "viewport": {
+            "width": 390,
+            "height": 844,
+            "dpr": 2
+          },
+          "document": {
+            "width": 390,
+            "height": 844
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 21.4375,
+              "y": 198.75,
+              "width": 347.125,
+              "height": 151.828125,
+              "bottom": 350.578125,
+              "right": 368.5625
+            }
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 21.4375,
+                "y": 639.703125,
+                "width": 347.125,
+                "height": 56,
+                "bottom": 695.703125,
+                "right": 368.5625
+              },
+              "fontSize": "18px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 21.4375,
+                "y": 707.703125,
+                "width": 110.375,
+                "height": 48,
+                "bottom": 755.703125,
+                "right": 131.8125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 139.8125,
+                "y": 707.703125,
+                "width": 110.375,
+                "height": 48,
+                "bottom": 755.703125,
+                "right": 250.1875
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 258.1875,
+                "y": 707.703125,
+                "width": 110.375,
+                "height": 48,
+                "bottom": 755.703125,
+                "right": 368.5625
+              },
+              "fontSize": "16px"
+            }
+          ],
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 21.4375,
+              "y": 771.703125,
+              "width": 347.125,
+              "height": 20.796875,
+              "bottom": 792.5,
+              "right": 368.5625
+            },
+            "fontSize": "13px"
+          },
+          "images": [],
+          "hasGameRuntime": false
+        },
+        {
+          "url": "http://127.0.0.1:5196/c-daylight.html",
+          "title": "C 晴天闯明朝 · 穿越了这次我带大喇叭逆袭",
+          "viewport": {
+            "width": 360,
+            "height": 640,
+            "dpr": 3
+          },
+          "document": {
+            "width": 360,
+            "height": 640
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 20,
+              "y": 108.28125,
+              "width": 320,
+              "height": 140.75,
+              "bottom": 249.03125,
+              "right": 340
+            }
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 20,
+                "y": 439.703125,
+                "width": 320,
+                "height": 56,
+                "bottom": 495.703125,
+                "right": 340
+              },
+              "fontSize": "18px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 20,
+                "y": 507.703125,
+                "width": 101.328125,
+                "height": 48,
+                "bottom": 555.703125,
+                "right": 121.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 129.328125,
+                "y": 507.703125,
+                "width": 101.328125,
+                "height": 48,
+                "bottom": 555.703125,
+                "right": 230.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 238.65625,
+                "y": 507.703125,
+                "width": 101.34375,
+                "height": 48,
+                "bottom": 555.703125,
+                "right": 340
+              },
+              "fontSize": "16px"
+            }
+          ],
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 20,
+              "y": 571.703125,
+              "width": 320,
+              "height": 20.796875,
+              "bottom": 592.5,
+              "right": 340
+            },
+            "fontSize": "13px"
+          },
+          "images": [],
+          "hasGameRuntime": false
+        }
+      ],
+      "interactions": [
+        {
+          "action": "start",
+          "open": true,
+          "title": "首页主操作",
+          "description": "这里仅预览按钮与弹层样式，不会创建人生或跳过身份、家当选择。正式流程仍由 Canvas 客户端处理。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "sound",
+          "open": true,
+          "title": "声音入口",
+          "description": "这是无声的视觉预览，没有新增或播放任何音乐、音效，也不会修改你已有的音量设置。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "achievements",
+          "open": true,
+          "title": "成就入口",
+          "description": "这里只预览成就入口与弹层，不读取本机记录，也不制造解锁成就。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        },
+        {
+          "action": "stats",
+          "open": true,
+          "title": "统计入口",
+          "description": "这里只预览统计入口与弹层，不读取本机人生记录，也不显示虚构统计数据。",
+          "focus": "返回预览",
+          "closedAndFocusRestored": true
+        }
+      ],
+      "extraWidths": [
+        {
+          "viewport": {
+            "width": 320,
+            "height": 640,
+            "dpr": 1
+          },
+          "document": {
+            "width": 320,
+            "height": 640
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 20,
+              "y": 98.875,
+              "width": 280,
+              "height": 138.78125,
+              "bottom": 237.65625,
+              "right": 300
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 20,
+              "y": 550.90625,
+              "width": 280,
+              "height": 41.59375,
+              "bottom": 592.5,
+              "right": 300
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 20,
+                "y": 418.90625,
+                "width": 280,
+                "height": 56,
+                "bottom": 474.90625,
+                "right": 300
+              },
+              "fontSize": "18px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 20,
+                "y": 486.90625,
+                "width": 88,
+                "height": 48,
+                "bottom": 534.90625,
+                "right": 108
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 116,
+                "y": 486.90625,
+                "width": 88,
+                "height": 48,
+                "bottom": 534.90625,
+                "right": 204
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 212,
+                "y": 486.90625,
+                "width": 88,
+                "height": 48,
+                "bottom": 534.90625,
+                "right": 300
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 375,
+            "height": 812,
+            "dpr": 1
+          },
+          "document": {
+            "width": 375,
+            "height": 812
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 20.625,
+              "y": 185.515625,
+              "width": 333.75,
+              "height": 146.28125,
+              "bottom": 331.796875,
+              "right": 354.375
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 20.625,
+              "y": 739.703125,
+              "width": 333.75,
+              "height": 20.796875,
+              "bottom": 760.5,
+              "right": 354.375
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 20.625,
+                "y": 607.703125,
+                "width": 333.75,
+                "height": 56,
+                "bottom": 663.703125,
+                "right": 354.375
+              },
+              "fontSize": "18px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 20.625,
+                "y": 675.703125,
+                "width": 105.90625,
+                "height": 48,
+                "bottom": 723.703125,
+                "right": 126.53125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 134.53125,
+                "y": 675.703125,
+                "width": 105.921875,
+                "height": 48,
+                "bottom": 723.703125,
+                "right": 240.453125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 248.453125,
+                "y": 675.703125,
+                "width": 105.90625,
+                "height": 48,
+                "bottom": 723.703125,
+                "right": 354.359375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 414,
+            "height": 896,
+            "dpr": 1
+          },
+          "document": {
+            "width": 414,
+            "height": 896
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 22.765625,
+              "y": 220.34375,
+              "width": 368.46875,
+              "height": 160.640625,
+              "bottom": 380.984375,
+              "right": 391.234375
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 22.765625,
+              "y": 823.703125,
+              "width": 368.46875,
+              "height": 20.796875,
+              "bottom": 844.5,
+              "right": 391.234375
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 22.765625,
+                "y": 691.703125,
+                "width": 368.46875,
+                "height": 56,
+                "bottom": 747.703125,
+                "right": 391.234375
+              },
+              "fontSize": "18px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 22.765625,
+                "y": 759.703125,
+                "width": 117.484375,
+                "height": 48,
+                "bottom": 807.703125,
+                "right": 140.25
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 148.25,
+                "y": 759.703125,
+                "width": 117.484375,
+                "height": 48,
+                "bottom": 807.703125,
+                "right": 265.734375
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 273.734375,
+                "y": 759.703125,
+                "width": 117.5,
+                "height": 48,
+                "bottom": 807.703125,
+                "right": 391.234375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 768,
+            "height": 900,
+            "dpr": 1
+          },
+          "document": {
+            "width": 768,
+            "height": 900
+          },
+          "heading": {
+            "text": "穿越了这次我带大喇叭逆袭",
+            "box": {
+              "x": 182,
+              "y": 220.1875,
+              "width": 404,
+              "height": 164.953125,
+              "bottom": 385.140625,
+              "right": 586
+            }
+          },
+          "warning": {
+            "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+            "box": {
+              "x": 182,
+              "y": 827.703125,
+              "width": 404,
+              "height": 20.796875,
+              "bottom": 848.5,
+              "right": 586
+            },
+            "fontSize": "13px"
+          },
+          "buttons": [
+            {
+              "action": "start",
+              "text": "我要穿越",
+              "box": {
+                "x": 182,
+                "y": 695.703125,
+                "width": 404,
+                "height": 56,
+                "bottom": 751.703125,
+                "right": 586
+              },
+              "fontSize": "18px"
+            },
+            {
+              "action": "sound",
+              "text": "声音",
+              "box": {
+                "x": 182,
+                "y": 763.703125,
+                "width": 129.328125,
+                "height": 48,
+                "bottom": 811.703125,
+                "right": 311.328125
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "achievements",
+              "text": "成就",
+              "box": {
+                "x": 319.328125,
+                "y": 763.703125,
+                "width": 129.328125,
+                "height": 48,
+                "bottom": 811.703125,
+                "right": 448.65625
+              },
+              "fontSize": "16px"
+            },
+            {
+              "action": "stats",
+              "text": "统计",
+              "box": {
+                "x": 456.65625,
+                "y": 763.703125,
+                "width": 129.328125,
+                "height": 48,
+                "bottom": 811.703125,
+                "right": 585.984375
+              },
+              "fontSize": "16px"
+            }
+          ]
+        }
+      ],
+      "reducedMotion": {
+        "matches": true,
+        "activeAnimations": 0,
+        "hasGameRuntime": false,
+        "mediaElements": 0,
+        "storage": []
+      }
+    }
+  ],
+  "contrast": [
+    {
+      "id": "A",
+      "staticTextPairs": [
+        {
+          "text": "穿越了",
+          "fontSize": "41px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            249,
+            233
+          ],
+          "ratio": 13.71066313630373
+        },
+        {
+          "text": "这次我带",
+          "fontSize": "28px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            249,
+            233
+          ],
+          "ratio": 13.71066313630373
+        },
+        {
+          "text": "大喇叭逆袭",
+          "fontSize": "46px",
+          "color": "rgb(191, 53, 39)",
+          "background": [
+            255,
+            249,
+            233
+          ],
+          "ratio": 5.322300663939084
+        },
+        {
+          "text": "带上一件现代物品，去明朝过一生。",
+          "fontSize": "16px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            249,
+            233
+          ],
+          "ratio": 13.71066313630373
+        },
+        {
+          "text": "我要穿越",
+          "fontSize": "21px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            218,
+            88
+          ],
+          "ratio": 10.583093478683002
+        },
+        {
+          "text": "出发前，先看看你的身份。",
+          "fontSize": "13px",
+          "color": "rgb(103, 89, 76)",
+          "background": [
+            255,
+            249,
+            233
+          ],
+          "ratio": 6.424035796977831
+        },
+        {
+          "text": "声音",
+          "fontSize": "16px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            253,
+            245
+          ],
+          "ratio": 14.151044521741545
+        },
+        {
+          "text": "成就",
+          "fontSize": "16px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            253,
+            245
+          ],
+          "ratio": 14.151044521741545
+        },
+        {
+          "text": "统计",
+          "fontSize": "16px",
+          "color": "rgb(48, 40, 38)",
+          "background": [
+            255,
+            253,
+            245
+          ],
+          "ratio": 14.151044521741545
+        },
+        {
+          "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+          "fontSize": "12px",
+          "color": "rgb(103, 89, 76)",
+          "background": [
+            255,
+            249,
+            233
+          ],
+          "ratio": 6.424035796977831
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "staticTextPairs": [
+        {
+          "text": "荒诞穿越 · 明朝人生",
+          "fontSize": "13px",
+          "color": "oklch(0.44 0.035 335)",
+          "background": [
+            255,
+            230,
+            215
+          ],
+          "ratio": 6.646850005586214
+        },
+        {
+          "text": "穿越了",
+          "fontSize": "41.76px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            230,
+            215
+          ],
+          "ratio": 12.403286564420164
+        },
+        {
+          "text": "这次我带",
+          "fontSize": "31.7376px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            230,
+            215
+          ],
+          "ratio": 12.403286564420164
+        },
+        {
+          "text": "大喇叭逆袭",
+          "fontSize": "41.76px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            230,
+            215
+          ],
+          "ratio": 12.403286564420164
+        },
+        {
+          "text": "大喇叭",
+          "fontSize": "41.76px",
+          "color": "oklch(0.56 0.16 43)",
+          "background": [
+            255,
+            230,
+            215
+          ],
+          "ratio": 4.17518582276928
+        },
+        {
+          "text": "带上一件现代物品，去明朝过一生。",
+          "fontSize": "16px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            230,
+            215
+          ],
+          "ratio": 12.403286564420164
+        },
+        {
+          "text": "出发前，先看看你的身份。",
+          "fontSize": "16px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            250,
+            240
+          ],
+          "ratio": 14.263577543689543
+        },
+        {
+          "text": "我要穿越",
+          "fontSize": "20px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            123,
+            42
+          ],
+          "ratio": 5.737102264094346
+        },
+        {
+          "text": "声音",
+          "fontSize": "16px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            250,
+            240
+          ],
+          "ratio": 14.263577543689543
+        },
+        {
+          "text": "成就",
+          "fontSize": "16px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            250,
+            240
+          ],
+          "ratio": 14.263577543689543
+        },
+        {
+          "text": "统计",
+          "fontSize": "16px",
+          "color": "oklch(0.28 0.045 335)",
+          "background": [
+            255,
+            250,
+            240
+          ],
+          "ratio": 14.263577543689543
+        },
+        {
+          "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+          "fontSize": "13px",
+          "color": "oklch(0.44 0.035 335)",
+          "background": [
+            255,
+            250,
+            240
+          ],
+          "ratio": 7.643769252894333
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "staticTextPairs": [
+        {
+          "text": "一场明朝生活喜剧",
+          "fontSize": "13px",
+          "color": "oklch(0.42 0.046 230)",
+          "background": [
+            204,
+            238,
+            255
+          ],
+          "ratio": 6.854966599468243
+        },
+        {
+          "text": "穿越了",
+          "fontSize": "30.6px",
+          "color": "oklch(0.32 0.053 235)",
+          "background": [
+            204,
+            238,
+            255
+          ],
+          "ratio": 10.30532068652262
+        },
+        {
+          "text": "这次我带大喇叭",
+          "fontSize": "30.6px",
+          "color": "oklch(0.32 0.053 235)",
+          "background": [
+            204,
+            238,
+            255
+          ],
+          "ratio": 10.30532068652262
+        },
+        {
+          "text": "逆袭",
+          "fontSize": "50.4px",
+          "color": "oklch(0.28 0.055 140)",
+          "background": [
+            204,
+            238,
+            255
+          ],
+          "ratio": 11.824959385495394
+        },
+        {
+          "text": "带上一件现代物品，去明朝过一生。",
+          "fontSize": "16px",
+          "color": "oklch(0.42 0.046 230)",
+          "background": [
+            204,
+            238,
+            255
+          ],
+          "ratio": 6.854966599468243
+        },
+        {
+          "text": "出发前，先看看你的身份。",
+          "fontSize": "16px",
+          "color": "oklch(0.42 0.046 230)",
+          "background": [
+            253,
+            248,
+            236
+          ],
+          "ratio": 7.878136130138334
+        },
+        {
+          "text": "我要穿越",
+          "fontSize": "18px",
+          "color": "oklch(0.28 0.055 140)",
+          "background": [
+            153,
+            206,
+            92
+          ],
+          "ratio": 7.775855896875952
+        },
+        {
+          "text": "声音",
+          "fontSize": "16px",
+          "color": "oklch(0.32 0.053 235)",
+          "background": [
+            229,
+            245,
+            252
+          ],
+          "ratio": 11.235917668736759
+        },
+        {
+          "text": "成就",
+          "fontSize": "16px",
+          "color": "oklch(0.32 0.053 235)",
+          "background": [
+            229,
+            245,
+            252
+          ],
+          "ratio": 11.235917668736759
+        },
+        {
+          "text": "统计",
+          "fontSize": "16px",
+          "color": "oklch(0.32 0.053 235)",
+          "background": [
+            229,
+            245,
+            252
+          ],
+          "ratio": 11.235917668736759
+        },
+        {
+          "text": "本局进度仅临时保留，关闭或刷新后不能继续。",
+          "fontSize": "13px",
+          "color": "oklch(0.42 0.042 65)",
+          "background": [
+            253,
+            248,
+            236
+          ],
+          "ratio": 8.108206069660726
+        }
+      ]
+    }
+  ]
+}

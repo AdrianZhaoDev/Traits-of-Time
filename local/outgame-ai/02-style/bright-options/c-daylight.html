@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>C 晴天闯明朝 · 穿越了这次我带大喇叭逆袭</title>
+  <link rel="stylesheet" href="preview.css">
+  <link rel="icon" href="assets/avatar.png" type="image/png">
+  <style>
+    /* Hallmark · route: custom (bespoke) · structure: daylight title / open departure area
+     * idea: a blue daytime sky gives way to the cream-coloured space where the story begins.
+     * Visual thesis: sky blue, milk-white, grass-green action, and one small orange sun.
+     * Content plan: quiet masthead / complete title / premise / four entries / progress warning.
+     * Interaction thesis: a short button press and a directional arrow; reduced motion is static.
+     * Context: explicit Chinese life-comedy game preview; only this HTML owns these styles.
+     * Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4 (design judgment, not browser verification).
+     */
+    :root {
+      --color-sky: oklch(93% 0.042 230);
+      --color-page: oklch(96% 0.021 225);
+      --color-paper: oklch(98% 0.017 88);
+      --color-ink: oklch(32% 0.053 235);
+      --color-secondary-ink: oklch(42% 0.046 230);
+      --color-muted: oklch(47% 0.032 230);
+      --color-roofline: oklch(73% 0.054 225);
+      --color-action: oklch(79% 0.155 130);
+      --color-action-hover: oklch(75% 0.153 130);
+      --color-action-active: oklch(72% 0.145 130);
+      --color-action-border: oklch(61% 0.12 133);
+      --color-action-ink: oklch(28% 0.055 140);
+      --color-secondary: oklch(96% 0.019 225);
+      --color-secondary-hover: oklch(92% 0.035 225);
+      --color-secondary-active: oklch(88% 0.04 225);
+      --color-rule: oklch(79% 0.033 225);
+      --color-sun: oklch(73% 0.16 58);
+      --color-warning: oklch(42% 0.042 65);
+      --color-focus: oklch(43% 0.12 245);
+      --color-transparent: transparent;
+      --font-display: "STSong", "Songti SC", "Noto Serif CJK SC", "SimSun", serif;
+      --font-body: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      --text-small: 0.8125rem;
+      --text-body: 1rem;
+      --text-action: 1.125rem;
+      --text-title: clamp(1.875rem, 8.5vw, 2.25rem);
+      --text-payoff: clamp(3.125rem, 14vw, 3.75rem);
+      --space-tight: 0.25rem;
+      --space-xs: 0.5rem;
+      --space-sm: 0.75rem;
+      --space-md: 1rem;
+      --space-lg: 1.25rem;
+      --space-xl: 1.5rem;
+      --page-gutter: clamp(1.25rem, 5.5vw, 1.75rem);
+      --radius-action: 0.75rem;
+      --radius-utility: 0.5rem;
+      --dur-micro: 120ms;
+      --dur-short: 180ms;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { overflow-x: clip; background: var(--color-page); }
+    body {
+      margin: 0;
+      overflow-x: clip;
+      color: var(--color-ink);
+      background: var(--color-page);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      line-height: 1.5;
+    }
+    button { font-family: var(--font-body); }
+    svg { display: block; flex-shrink: 0; }
+    p, h1 { margin: 0; }
+
+    .daylight {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 460px;
+      min-height: 100svh;
+      margin-inline: auto;
+      background: var(--color-paper);
+    }
+    .opening {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex: 1 0 auto;
+      flex-direction: column;
+      padding-block-start: calc(var(--space-lg) + env(safe-area-inset-top, 0px));
+      background: var(--color-sky);
+    }
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      min-height: 36px;
+      padding-inline: max(var(--page-gutter), env(safe-area-inset-left, 0px)) max(var(--page-gutter), env(safe-area-inset-right, 0px));
+      color: var(--color-secondary-ink);
+      font-size: var(--text-small);
+      font-weight: 600;
+    }
+    .sun {
+      width: 36px;
+      height: 36px;
+      color: var(--color-sun);
+      fill: var(--color-sun);
+      stroke: var(--color-sun);
+      stroke-width: 1.7;
+      stroke-linecap: round;
+    }
+    .cloud {
+      position: absolute;
+      z-index: -1;
+      inset-block-start: 5.75rem;
+      inset-inline-start: var(--page-gutter);
+      width: 52px;
+      height: 24px;
+      color: var(--color-roofline);
+      fill: var(--color-transparent);
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+    }
+    .title-block {
+      min-width: 0;
+      margin-block: auto;
+      padding: var(--space-xl) var(--page-gutter) var(--space-lg);
+      text-align: center;
+    }
+    .game-title {
+      display: grid;
+      gap: var(--space-tight);
+      min-width: 0;
+      font-family: var(--font-display);
+      font-size: var(--text-title);
+      font-style: normal;
+      font-weight: 900;
+      line-height: 1.28;
+      letter-spacing: 0.025em;
+      overflow-wrap: anywhere;
+    }
+    .game-title span { display: block; min-width: 0; }
+    .game-title__intro { font-size: var(--text-title); }
+    .game-title__payoff {
+      color: var(--color-action-ink);
+      font-size: var(--text-payoff);
+      line-height: 1.08;
+      letter-spacing: 0.12em;
+      text-indent: 0.12em;
+    }
+    .premise {
+      margin-block-start: var(--space-md);
+      color: var(--color-secondary-ink);
+      font-size: var(--text-body);
+      line-height: 1.65;
+      text-wrap: balance;
+    }
+    .roofline {
+      width: 100%;
+      height: 48px;
+      margin-block-start: var(--space-xs);
+    }
+    .roofline__paper { fill: var(--color-paper); }
+    .roofline__line {
+      fill: var(--color-transparent);
+      stroke: var(--color-roofline);
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+    .departure {
+      display: grid;
+      flex: 0 0 auto;
+      gap: var(--space-sm);
+      padding-block-start: var(--space-md);
+      padding-inline: max(var(--page-gutter), env(safe-area-inset-left, 0px)) max(var(--page-gutter), env(safe-area-inset-right, 0px));
+    }
+    .departure__note { color: var(--color-secondary-ink); }
+    .start-button, .utility-button {
+      appearance: none;
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--color-rule);
+      cursor: pointer;
+      -webkit-tap-highlight-color: var(--color-transparent);
+      white-space: nowrap;
+      transition: transform var(--dur-micro) var(--ease-out);
+    }
+    .start-button {
+      justify-content: space-between;
+      gap: var(--space-md);
+      width: 100%;
+      min-height: 56px;
+      padding: var(--space-sm) var(--space-lg);
+      border-color: var(--color-action-border);
+      border-radius: var(--radius-action);
+      color: var(--color-action-ink);
+      background: var(--color-action);
+      font-size: var(--text-action);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .start-button svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--color-transparent);
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform var(--dur-short) var(--ease-out);
+    }
+    .utilities {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-xs);
+    }
+    .utility-button {
+      justify-content: center;
+      gap: var(--space-xs);
+      min-width: 0;
+      min-height: 48px;
+      padding: var(--space-xs) var(--space-tight);
+      border-radius: var(--radius-utility);
+      color: var(--color-ink);
+      background: var(--color-secondary);
+      font-size: var(--text-body);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .utility-button svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--color-transparent);
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .start-button:focus-visible, .utility-button:focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .start-button:hover:not(:disabled) { background: var(--color-action-hover); }
+      .start-button:hover:not(:disabled) svg { transform: translateX(3px); }
+      .utility-button:hover:not(:disabled) { background: var(--color-secondary-hover); }
+    }
+    .start-button:active:not(:disabled) {
+      transform: translateY(1px);
+      background: var(--color-action-active);
+    }
+    .utility-button:active:not(:disabled) {
+      transform: translateY(1px);
+      background: var(--color-secondary-active);
+    }
+    .start-button:disabled, .utility-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .progress-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-xs);
+      margin-block-start: var(--space-tight);
+      color: var(--color-warning);
+      font-size: var(--text-small);
+      line-height: 1.6;
+    }
+    .progress-warning svg {
+      width: 16px;
+      height: 16px;
+      margin-block-start: 2px;
+      fill: var(--color-transparent);
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+    }
+    .progress-warning span { min-width: 0; }
+    .preview-label {
+      flex: 0 0 auto;
+      padding: var(--space-lg) var(--page-gutter) calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
+      color: var(--color-muted);
+      font-size: var(--text-small);
+      line-height: 1.5;
+      text-align: center;
+    }
+    .preview-dialog {
+      --dialog-paper: var(--color-paper);
+      --dialog-ink: var(--color-ink);
+      --dialog-border: var(--color-roofline);
+      --dialog-action: var(--color-action);
+      --dialog-action-ink: var(--color-action-ink);
+      --dialog-focus: var(--color-focus);
+      --dialog-font: var(--font-body);
+    }
+    @media (max-height: 680px) {
+      .opening { padding-block-start: calc(var(--space-sm) + env(safe-area-inset-top, 0px)); }
+      .title-block { padding-block: var(--space-lg) var(--space-sm); }
+      .roofline { height: 36px; }
+      .preview-label { padding-block-start: var(--space-md); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .start-button, .utility-button, .start-button svg { transition: none; }
+      .start-button:hover:not(:disabled) svg,
+      .start-button:active:not(:disabled),
+      .utility-button:active:not(:disabled) { transform: none; }
+    }
+  </style>
+  <script defer src="preview.js"></script>
+</head>
+<body>
+  <main class="daylight" data-preview-home aria-labelledby="game-title">
+    <section class="opening" aria-label="游戏介绍">
+      <header class="masthead">
+        <p>一场明朝生活喜剧</p>
+        <svg class="sun" viewBox="0 0 36 36" aria-hidden="true">
+          <circle cx="18" cy="18" r="7" stroke="none" />
+          <path fill="none" d="M18 2v4m0 24v4M2 18h4m24 0h4M6.7 6.7l2.8 2.8m17 17 2.8 2.8M6.7 29.3l2.8-2.8m17-17 2.8-2.8" />
+        </svg>
+      </header>
+      <svg class="cloud" viewBox="0 0 52 24" aria-hidden="true">
+        <path d="M3 18h34a6 6 0 0 0 0-12 9 9 0 0 0-17-1 6 6 0 0 0-9 5H6m38 8h5" />
+      </svg>
+      <div class="title-block">
+        <h1 class="game-title" id="game-title" aria-label="穿越了这次我带大喇叭逆袭">
+          <span class="game-title__intro">穿越了</span>
+          <span>这次我带大喇叭</span>
+          <span class="game-title__payoff">逆袭</span>
+        </h1>
+        <p class="premise">带上一件现代物品，去明朝过一生。</p>
+      </div>
+      <svg class="roofline" viewBox="0 0 460 48" preserveAspectRatio="none" aria-hidden="true">
+        <path class="roofline__paper" d="M0 39h36V29c18-2 35-9 49-23 15 14 34 21 54 23v10h117v-7c14-2 27-8 39-20 13 12 28 18 45 20v7h120v9H0Z" />
+        <path class="roofline__line" d="M0 39h36V29m-12 0c24-1 44-10 61-23 18 13 41 22 66 23m-12 0v10h117v-7m-9 0c19-1 34-8 48-20 15 12 33 19 52 20m-7 0v7h120" />
+      </svg>
+    </section>
+
+    <section class="departure" aria-label="出发与辅助入口">
+      <p class="departure__note" id="departure-note">出发前，先看看你的身份。</p>
+      <button class="start-button" type="button" data-action="start" aria-haspopup="dialog" aria-describedby="departure-note progress-warning">
+        <span>我要穿越</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+      </button>
+      <nav class="utilities" aria-label="辅助入口">
+        <button class="utility-button" type="button" data-action="sound" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM17 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" /></svg>
+          <span>声音</span>
+        </button>
+        <button class="utility-button" type="button" data-action="achievements" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 1v6m-4 1h8" /></svg>
+          <span>成就</span>
+        </button>
+        <button class="utility-button" type="button" data-action="stats" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16h16M8 16v-4m5 4V7m5 9v-6" /></svg>
+          <span>统计</span>
+        </button>
+      </nav>
+      <p class="progress-warning" id="progress-warning">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.3" /><path d="M10 5.7v5m0 3v.2" /></svg>
+        <span>本局进度仅临时保留，关闭或刷新后不能继续。</span>
+      </p>
+    </section>
+    <footer class="preview-label">风格预览 · 未接入游戏</footer>
+  </main>
+</body>
+</html>

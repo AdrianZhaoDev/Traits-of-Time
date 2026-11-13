@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "phase": "02-style",
+  "date": "2026-11-12",
+  "project": "穿越了这次我带大喇叭逆袭",
+  "status": "approved_A_project_wide_style_documented_not_runtime_cutover",
+  "runtime": {
+    "language": "TypeScript",
+    "engine": "minigame-canvas-engine",
+    "engineVersion": "1.0.29",
+    "rendering": "XML/Flex with Canvas; HTML reference is not the game runtime",
+    "logicalWidth": 750,
+    "platforms": ["Web", "微信小游戏"]
+  },
+  "userDecision": {
+    "direction": "A",
+    "name": "爆笑开播",
+    "evidence": "选择A. 以此风格制定全项目风格 修改对应文档,采取覆盖形式修正 不用保留历史文档",
+    "approvedScope": "Whole-project design standard and in-place documentation replacement",
+    "runtimeImplementationRequested": false,
+    "externalMediaAuthorized": false,
+    "batchProductionAuthorized": false
+  },
+  "style": {
+    "selectedDirection": "A",
+    "selectedName": "爆笑开播",
+    "finalStyleApproved": true,
+    "specification": "Doc/UI整体风格方案.md",
+    "motionSpecification": "Doc/动效与微交互制作规范.md",
+    "writingSpecification": "Doc/文案设计与风格规范.md",
+    "productionBrief": "local/outgame-ai/02-style/art-direction.md",
+    "referenceManifest": "local/outgame-ai/02-style/bright-options/manifest.json",
+    "design": "Bright everyday Ming time-travel comic: cream paper, tomato title, yellow primary with ink text, localized coarse ink outlines and short hard shadows; quiet long-text and ending surfaces",
+    "newGeneratedArtApproved": false,
+    "batchProductionApproved": false,
+    "approvedReferences": [
+      { "path": "local/outgame-ai/02-style/bright-options/a-comic.html", "role": "approved_layout_color_type_line_button_reference_not_game_client", "sha256": "981ea4fd81a274333aea3283de7eb0900f7b9085d89f227275d6f9244345770f" },
+      { "path": "local/outgame-ai/02-style/bright-options/previews/a-comic-390x844-dpr2.png", "role": "actual_HTML_reference_screenshot", "cssViewport": [390,844], "dpr": 2, "pixels": [780,1688], "sha256": "77b437c6c8bc37609d0af77d0eeb55316d31be58f5120a8c76cf7e66c27d0313" },
+      { "path": "local/outgame-ai/02-style/bright-options/previews/a-comic-360x640-dpr3.png", "role": "actual_HTML_reference_screenshot", "cssViewport": [360,640], "dpr": 3, "pixels": [1080,1920], "sha256": "10fe642a496a076c499a963df0b86c7879b1bcab768fbe735124469b65366828" }
+    ]
+  },
+  "documents": [
+    "README.md",
+    "Doc/UI整体风格方案.md",
+    "Doc/动效与微交互制作规范.md",
+    "Doc/文案设计与风格规范.md",
+    "Doc/游戏开发技能使用指南.md",
+    "Doc/游戏完整制作文档.md",
+    "Doc/Plans/非局内页面AI重制提示词/00-使用说明与执行顺序.md",
+    "Doc/Plans/非局内页面AI重制提示词/01-范围盘点与素材契约.md",
+    "Doc/Plans/非局内页面AI重制提示词/02-首页样板与风格定稿.md",
+    "Doc/Plans/非局内页面AI重制提示词/03-图片批量生成与素材整理.md",
+    "Doc/Plans/非局内页面AI重制提示词/04-UI与程序动效实现.md",
+    "Doc/Plans/非局内页面AI重制提示词/05-音乐音效生成与混音.md",
+    "Doc/Plans/非局内页面AI重制提示词/06-资源接入与发布整理.md",
+    "Doc/Plans/非局内页面AI重制提示词/07-全流程验收与交付.md",
+    "Doc/Plans/非局内页面AI重制提示词/08-外部AI素材清单与完整提示词.md",
+    "local/outgame-ai/01-inventory/scope.md",
+    "local/outgame-ai/01-inventory/manifest.json",
+    "local/outgame-ai/02-style/art-direction.md",
+    "local/outgame-ai/02-style/request-plan.md",
+    "local/outgame-ai/02-style/verification.md",
+    "local/outgame-ai/02-style/bright-options/README.md"
+  ],
+  "sourceInventory": "local/outgame-ai/01-inventory/manifest.json",
+  "authorization": {
+    "images": { "state": "not_authorized", "provider": null, "model": null, "budget": null, "quota": null, "requestsExecuted": 0 },
+    "music": { "state": "not_authorized", "provider": null, "model": null, "budget": null, "quota": null, "requestsExecuted": 0 },
+    "video": { "state": "not_requested", "requestsExecuted": 0 },
+    "referenceUpload": { "state": "not_authorized", "filesUploaded": [] }
+  },
+  "assets": [
+    { "id": "IMG-BG-01", "status": "planned_A_style_not_generated", "sourceFile": null, "runtimeFile": null, "provider": null, "sha256": null, "approval": "specific_media_not_approved" },
+    { "id": "MUS-01", "status": "planned_not_authorized", "sourceFile": null, "masterFile": null, "runtimeFile": null, "provider": null, "sha256": null, "approval": "not_generated", "listeningResult": null },
+    { "id": "FX-01", "status": "optional_reference_not_requested_programmatic_motion_default", "sourceFile": null, "runtimeFile": null }
+  ],
+  "implementation": {
+    "styleAppliedToCanvas": false,
+    "runtimeChangedByThisTask": false,
+    "productionContentChanged": false,
+    "gameplayIdsProbabilitiesAndPersistenceChanged": false,
+    "scopeBoundary": "Project-wide target rules cover all surfaces; outgame implementation prompts remain limited to the original outgame screens and overlays, preserving the game underlay, original in-game FX/music/regions and native startup/failure fallback",
+    "megaphoneIsBrandNotFixedStartingItem": true,
+    "unfinishedLifeIsMemoryOnly": true
+  },
+  "verification": {
+    "referenceMeasurements": "local/outgame-ai/02-style/bright-options/verification.json",
+    "referenceMeasurementsSha256": "5b771439b342cd8b506ed2ba2bbb68c1c6425f2d1242c04b1c79312c88ebd952",
+    "referenceSelection": "pages[id=A] and contrast[id=A]; raw capture-time approval context is not the current approval registry",
+    "narrative": "local/outgame-ai/02-style/verification.md",
+    "noNewRuntimeVerificationClaim": true,
+    "notPerformedByThisTask": ["Canvas cutover", "new external media generation or uploads", "new music listening", "WeChat/device verification", "runtime builds, typecheck, full tests or content validation"]
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "date": "2026-11-11",
+  "runtime": "Chromium 155, single CDP target, sequential CSS viewports; not physical devices",
+  "home390": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "pixelWidth": 780,
+      "pixelHeight": 1688
+    },
+    "logicalHeight": 1623,
+    "safeTop": 0,
+    "safeBottom": 0,
+    "screen": "home",
+    "overlay": null,
+    "text": [
+      "历史重开模拟器",
+      "明末人生",
+      "时空词条",
+      "带上一件现代物品，\n去明朝过一生。",
+      "我要穿越",
+      "出发前，先看看你的身份。",
+      "声音",
+      "成就",
+      "统计",
+      "本局进度仅临时保留，\n关闭或刷新后不能继续。"
+    ],
+    "actions": [
+      {
+        "id": "startLife",
+        "disabled": false,
+        "rect": {
+          "width": 340.08,
+          "height": 56.160000000000004,
+          "left": 24.96,
+          "right": 365.03999999999996,
+          "top": 608.9200000000001,
+          "bottom": 665.08
+        }
+      },
+      {
+        "id": "homeSound",
+        "disabled": false,
+        "rect": {
+          "width": 107.12,
+          "height": 49.92,
+          "left": 24.96,
+          "right": 132.08,
+          "top": 710.84,
+          "bottom": 760.76
+        }
+      },
+      {
+        "id": "homeAchievements",
+        "disabled": false,
+        "rect": {
+          "width": 107.12,
+          "height": 49.92,
+          "left": 141.44,
+          "right": 248.56,
+          "top": 710.84,
+          "bottom": 760.76
+        }
+      },
+      {
+        "id": "homeStats",
+        "disabled": false,
+        "rect": {
+          "width": 107.12,
+          "height": 49.92,
+          "left": 257.92,
+          "right": 365.04,
+          "top": 710.84,
+          "bottom": 760.76
+        }
+      }
+    ],
+    "audio": {
+      "src": "http://127.0.0.1:5177/audio/music/home.mp3",
+      "paused": true,
+      "time": 0,
+      "unlocked": false,
+      "volume": 1
+    },
+    "crop": {
+      "sourceWidth": 900,
+      "sourceHeight": 1440,
+      "scale": 1.1270833333333334,
+      "x": -132.18750000000006,
+      "y": -1.1368683772161603e-13,
+      "width": 1014.3750000000001,
+      "height": 1623.0000000000002
+    },
+    "motionTime": 36.84099999999938
+  },
+  "soundClickRect": {
+    "width": 107.12,
+    "height": 49.92,
+    "left": 24.96,
+    "right": 132.08,
+    "top": 710.84,
+    "bottom": 760.76
+  },
+  "audioStart": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    "overlay": "sound",
+    "src": "http://127.0.0.1:5177/audio/music/home.mp3",
+    "paused": false,
+    "time": 0,
+    "unlocked": true,
+    "volume": 0.2025,
+    "readyState": 0,
+    "dustTime": 37.07299999999938
+  },
+  "audioEnd": {
+    "overlay": "sound",
+    "paused": false,
+    "time": 3.96489,
+    "readyState": 4,
+    "volume": 0.2025,
+    "error": null,
+    "dustTime": 37.07299999999938
+  },
+  "menus": [
+    {
+      "screen": "home",
+      "overlay": "achievements",
+      "text": [
+        "已完成 0 段人生 · 获得 0 项成就",
+        "还没有解锁成就",
+        "完成一段人生后，成就会留在这里。",
+        "仅统计本机完成的人生；当前未结束的进度不计入。",
+        "返回",
+        "生涯成就",
+        "返回"
+      ]
+    },
+    {
+      "screen": "home",
+      "overlay": "stats",
+      "text": [
+        "已完成 0 段人生 · 获得 0 项成就",
+        "完成的人生",
+        "0 次",
+        "最长寿命",
+        "0 岁",
+        "累计经历",
+        "0 年",
+        "已获成就",
+        "0 项",
+        "仅统计本机完成的人生；当前未结束的进度不计入。",
+        "返回",
+        "人生统计",
+        "返回"
+      ]
+    }
+  ],
+  "contrast": {
+    "textRows": [
+      {
+        "text": "历史重开模拟器",
+        "minRatioAcrossStaticTextBox": 8.729567170119523
+      },
+      {
+        "text": "明末人生",
+        "minRatioAcrossStaticTextBox": 9.80910196331153
+      },
+      {
+        "text": "时空词条",
+        "minRatioAcrossStaticTextBox": 7.059454505518275
+      },
+      {
+        "text": "带上一件现代物品，\n去明朝过一生。",
+        "minRatioAcrossStaticTextBox": 4.6729454814535485
+      },
+      {
+        "text": "出发前，先看看你的身份。",
+        "minRatioAcrossStaticTextBox": 8.86642020909535
+      },
+      {
+        "text": "本局进度仅临时保留，\n关闭或刷新后不能继续。",
+        "minRatioAcrossStaticTextBox": 9.4030093047789
+      }
+    ],
+    "primary": 7.423482916843465,
+    "primaryPressed": 5.322635182426938,
+    "secondary": 10.34464725268467,
+    "secondaryPressed": 8.06094115760727
+  },
+  "home360": {
+    "viewport": {
+      "width": 360,
+      "height": 640,
+      "dpr": 3
+    },
+    "canvas": {
+      "x": 0,
+      "y": 0,
+      "width": 360,
+      "height": 640,
+      "pixelWidth": 1080,
+      "pixelHeight": 1920
+    },
+    "logicalHeight": 1333,
+    "safeTop": 0,
+    "safeBottom": 0,
+    "screen": "home",
+    "overlay": null,
+    "text": [
+      "历史重开模拟器",
+      "明末人生",
+      "时空词条",
+      "带上一件现代物品，\n去明朝过一生。",
+      "我要穿越",
+      "出发前，先看看你的身份。",
+      "声音",
+      "成就",
+      "统计",
+      "本局进度仅临时保留，\n关闭或刷新后不能继续。"
+    ],
+    "actions": [
+      {
+        "id": "startLife",
+        "disabled": false,
+        "rect": {
+          "width": 313.92,
+          "height": 51.839999999999996,
+          "left": 23.04,
+          "right": 336.96000000000004,
+          "top": 422.88,
+          "bottom": 474.71999999999997
+        }
+      },
+      {
+        "id": "homeSound",
+        "disabled": false,
+        "rect": {
+          "width": 98.88,
+          "height": 46.08,
+          "left": 23.04,
+          "right": 121.91999999999999,
+          "top": 516.96,
+          "bottom": 563.0400000000001
+        }
+      },
+      {
+        "id": "homeAchievements",
+        "disabled": false,
+        "rect": {
+          "width": 98.88,
+          "height": 46.08,
+          "left": 130.56,
+          "right": 229.44,
+          "top": 516.96,
+          "bottom": 563.0400000000001
+        }
+      },
+      {
+        "id": "homeStats",
+        "disabled": false,
+        "rect": {
+          "width": 98.88,
+          "height": 46.08,
+          "left": 238.07999999999998,
+          "right": 336.96,
+          "top": 516.96,
+          "bottom": 563.0400000000001
+        }
+      }
+    ],
+    "audio": {
+      "src": "http://127.0.0.1:5177/audio/music/home.mp3",
+      "paused": false,
+      "time": 20.365316,
+      "unlocked": true,
+      "volume": 0.2025
+    },
+    "crop": {
+      "sourceWidth": 900,
+      "sourceHeight": 1440,
+      "scale": 0.9256944444444445,
+      "x": -41.5625,
+      "y": 0,
+      "width": 833.125,
+      "height": 1333
+    },
+    "motionTime": 61.97700000000354
+  },
+  "reducedMotion": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    "matches": true,
+    "timeBefore": 62.264000000003534,
+    "timeAfter": 62.264000000003534,
+    "samePixels": true,
+    "labels": [
+      "我要穿越",
+      "声音",
+      "成就",
+      "统计"
+    ]
+  },
+  "missingBackground": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    "pixelWidth": 780,
+    "pixelHeight": 1688,
+    "loaded": false,
+    "imageComplete": true,
+    "screen": "home",
+    "labels": [
+      "我要穿越",
+      "声音",
+      "成就",
+      "统计"
+    ],
+    "paused": true,
+    "unlocked": false
+  },
+  "identity": {
+    "screen": "identity",
+    "overlay": null,
+    "busy": false,
+    "text": [
+      "年份",
+      "1635 年",
+      "年龄",
+      "3 岁",
+      "身份",
+      "孩子",
+      "确认身份",
+      "你将来到明朝",
+      "明朝",
+      "京师直隶 · 赤贫流民",
+      "年份、年龄和身份已经揭晓。\n接下来，从本局候选家当中选一件带入人生。",
+      "挑选本局家当"
+    ],
+    "homeClock": 0,
+    "rootFill": "#13151c"
+  },
+  "selectedCandidate": {
+    "id": "card_CARD_MODERN_GLUE",
+    "label": "502强力胶与折叠军刀 · R"
+  },
+  "game": {
+    "screen": "game",
+    "overlay": "decision",
+    "status": "AWAITING_OPTION",
+    "homeClock": 0,
+    "rootFill": "#13151c",
+    "actions": [
+      "声音",
+      "502强力胶与折叠军刀 · 查看详情",
+      "印  推进流年 · 按住快进",
+      "管理事业 (0)",
+      "重启人生",
+      "滚至最新"
+    ],
+    "music": "http://127.0.0.1:5177/audio/music/life.mp3",
+    "ambience": "http://127.0.0.1:5177/audio/ambience/capital.mp3"
+  }
+}

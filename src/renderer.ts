@@ -1,11 +1,12 @@
-import { Layout, ScrollView, env, type IStyle } from 'minigame-canvas-engine';
-import type { GameView } from './game/core/types/schema';
+import { Layout, ScrollView, env, type Element as LayoutElement, type IStyle } from 'minigame-canvas-engine';
 import { GameController, type AppSnapshot } from './controller';
 import { GameAudio } from './audio';
+import { GAME_NAME } from './brand';
 import { PixelEffects } from './effects';
 import type { GamePlatform } from './platform';
 import { GameViewBuilder } from './view';
-import { ink, fonts, type UiAction, type UiScene } from './ui';
+import { ink, type UiAction, type UiScene } from './ui';
+import { HomeBackdrop } from './home';
 
 const screenLabels: Record<string, string> = {
   home: '首页', identity: '确认身份', game: '人生推演', cards: '家当三选一',
@@ -43,7 +44,14 @@ export class GameRenderer {
   private readonly view: GameViewBuilder;
   private readonly audio: GameAudio;
   private readonly effects: PixelEffects;
+  private readonly homeBackdrop: HomeBackdrop;
   private readonly cleanups: (() => void)[] = [];
+  private homeIllustration: LayoutElement | null = null;
+  private homeScroll: ScrollView | null = null;
+  private feedback: { layout: Layout; id: string; fill: string | undefined; primary: boolean; pressed: boolean } | null = null;
+  private pressX = 0;
+  private pressY = 0;
+  private cssScale = 750 / 360;
   private baseScene: UiScene | null = null;
   private overlayScene: UiScene | null = null;
   private state: AppSnapshot;
@@ -56,16 +64,10 @@ export class GameRenderer {
   private disposed = false;
   private gesture: Gesture | null = null;
   private pointerId: number | null = null;
-  private lastView: GameView | null = null;
   private lastFolds = 0;
   private latestRequested = false;
-  private modalEntered = 0;
   private previousLayer = '';
   private focusId: string | null = null;
-  private noticeUntil = 0;
-  private lastNotice = '';
-  private readonly memoryNotice: string;
-  private readonly pulses = new Map<string, { at: number; color: string; base: string }>();
   private readonly reducedMotion = typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion: reduce)') : null;
   private semantic: HTMLElement | null = null;
   private semanticText: HTMLElement | null = null;
@@ -92,9 +94,9 @@ export class GameRenderer {
     this.baseContext = baseContext;
     this.overlayContext = overlayContext;
     this.state = controller.snapshot;
-    this.memoryNotice = this.state.notice;
     this.audio = new GameAudio(platform);
     this.effects = new PixelEffects(platform);
+    this.homeBackdrop = new HomeBackdrop(platform);
     this.view = new GameViewBuilder(controller, this.audio, platform, () => { this.pendingRender = true; }, () => {
       this.latestRequested = true;
       const scroll = this.baseLayout.getElementById('history');
@@ -115,32 +117,19 @@ export class GameRenderer {
         if (this.state.overlay) this.overlayLayout.ticker.start();
       }
     }));
+    if (this.reducedMotion) {
+      const changed = (): void => { this.clearFeedback(); };
+      this.reducedMotion.addEventListener('change', changed);
+      this.cleanups.push(() => this.reducedMotion?.removeEventListener('change', changed));
+    }
     this.cleanups.push(controller.subscribe((snapshot, logs) => {
       const previous = this.state;
+      this.clearFeedback();
       this.state = snapshot;
+      if (this.live && snapshot.notice !== previous.notice) this.live.textContent = snapshot.notice;
       this.pendingRender = true;
-      if (snapshot.notice !== this.lastNotice) {
-        this.lastNotice = snapshot.notice;
-        this.noticeUntil = snapshot.notice === this.memoryNotice ? 0 : Date.now() + 4200;
-        if (this.live) this.live.textContent = snapshot.notice;
-      }
-      if (snapshot.screen !== 'game' || (this.lastView && snapshot.view && snapshot.view.player.cards[0] !== this.lastView.player.cards[0])) {
-        this.lastView = null;
-        this.pulses.clear();
-      }
-      if (snapshot.screen === 'game' && snapshot.view && this.lastView) {
-        for (const key of Object.keys(snapshot.view.player.attributes) as (keyof GameView['player']['attributes'])[]) {
-          const value = snapshot.view.player.attributes[key];
-          if (value !== this.lastView.player.attributes[key]) this.pulses.set('stat_' + key, {
-            at: Date.now(), color: value > this.lastView.player.attributes[key] ? ink.green : ink.red,
-            base: key === 'wealth' ? ink.gold : key === 'physique' ? snapshot.view.status === 'ENDED' ? ink.red : ink.green : ink.text,
-          });
-        }
-      }
-      this.lastView = snapshot.view;
       if (snapshot.overlay && snapshot.overlay !== previous.overlay) {
         if (snapshot.overlay !== 'stage') this.cancelGesture();
-        this.modalEntered = Date.now();
       }
       if (snapshot.view?.status === 'ENDED' || snapshot.view?.status === 'AWAITING_OPTION') this.cancelGesture();
       this.audio.playMusic(snapshot.screen === 'home' ? 'home' : snapshot.view?.status === 'ENDED' ? 'ending' : 'life');
@@ -166,9 +155,15 @@ export class GameRenderer {
     this.height = Math.round(750 * viewport.height / viewport.width);
     this.safeTop = Math.round(750 * viewport.safeTop / viewport.width);
     this.safeBottom = Math.round(750 * viewport.safeBottom / viewport.width);
+    this.cssScale = 750 / viewport.width;
     this.platform.canvas.width = Math.round(viewport.width * viewport.pixelRatio);
     this.platform.canvas.height = Math.round(viewport.height * viewport.pixelRatio);
-    for (const canvas of [this.baseCanvas, this.overlayCanvas]) { canvas.width = 750; canvas.height = this.height; }
+    for (const canvas of [this.baseCanvas, this.overlayCanvas]) {
+      canvas.width = this.platform.canvas.width;
+      canvas.height = this.platform.canvas.height;
+    }
+    this.baseContext.setTransform(this.baseCanvas.width / 750, 0, 0, this.baseCanvas.height / this.height, 0, 0);
+    this.overlayContext.setTransform(this.overlayCanvas.width / 750, 0, 0, this.overlayCanvas.height / this.height, 0, 0);
     const rect = this.platform.kind === 'web' ? this.platform.canvas.getBoundingClientRect() : { left: 0, top: 0 };
     for (const layout of [this.baseLayout, this.overlayLayout]) layout.updateViewPort({
       x: rect.left, y: rect.top, width: viewport.width, height: viewport.height,
@@ -177,6 +172,7 @@ export class GameRenderer {
   }
 
   private renderScene(layout: Layout, context: CanvasRenderingContext2D, scene: UiScene, newest: boolean): void {
+    if (this.feedback?.layout === layout) this.clearFeedback();
     const positions = new Map<string, number>();
     for (const id of scene.scrollIds) {
       const previous = layout.getElementById(id);
@@ -191,11 +187,6 @@ export class GameRenderer {
       const element = layout.getElementById(action.id);
       if (!element || action.kind) continue;
       element.on('click', () => { this.invoke(action); });
-      element.on('touchstart', () => {
-        if (!action.disabled) element.style.backgroundColor = ink.selected;
-      });
-      const fill = element.style.backgroundColor;
-      for (const event of ['touchend', 'touchcancel']) element.on(event, () => { element.style.backgroundColor = fill; });
     }
     // The scroller initializes after the first layout tick; restore offsets then.
     layout.ticker.next(() => {
@@ -219,6 +210,9 @@ export class GameRenderer {
         this.latestRequested = false;
         this.baseScene = this.view.base(this.state, this.height, this.safeTop, this.safeBottom);
         this.renderScene(this.baseLayout, this.baseContext, this.baseScene, newest);
+        this.homeIllustration = this.state.screen === 'home' ? this.baseLayout.getElementById('homeIllustration') : null;
+        const homeScroll = this.state.screen === 'home' ? this.baseLayout.getElementById('homeScroll') : null;
+        this.homeScroll = homeScroll instanceof ScrollView ? homeScroll : null;
         if (this.state.overlay) {
           this.overlayScene = this.view.overlay(this.state, this.height, this.safeTop, this.safeBottom);
           this.renderScene(this.overlayLayout, this.overlayContext, this.overlayScene, false);
@@ -235,29 +229,23 @@ export class GameRenderer {
         this.gesture.last = now;
         void this.controller.advance();
       }
-      for (const [id, pulse] of this.pulses) {
-        const element = this.baseLayout.getElementById(id);
-        const t = Math.min(1, (now - pulse.at) / 200);
-        if (element) {
-          element.style.transform = this.reducedMotion?.matches || t >= 1 ? 'scale(1, 1)' : `scale(${1 + 0.22 * Math.sin(t * Math.PI)}, ${1 + 0.22 * Math.sin(t * Math.PI)})`;
-          element.style.color = t >= 1 ? pulse.base : pulse.color;
-        }
-        if (t >= 1) this.pulses.delete(id);
-      }
       const context = this.platform.context;
       context.setTransform(this.platform.canvas.width / 750, 0, 0, this.platform.canvas.height / this.height, 0, 0);
       context.clearRect(0, 0, 750, this.height);
-      context.drawImage(this.baseCanvas, 0, 0);
+      context.drawImage(this.baseCanvas, 0, 0, 750, this.height);
+      if (this.homeIllustration && this.homeScroll) {
+        const box = this.homeIllustration.layoutBox;
+        const clip = this.homeScroll.layoutBox;
+        context.save();
+        context.beginPath();
+        context.rect(clip.absoluteX, clip.absoluteY, clip.width, clip.height);
+        context.clip();
+        this.homeBackdrop.draw(context, box.absoluteX, box.absoluteY, box.width, box.height);
+        context.restore();
+      }
       this.effects.draw(context, 750, this.height - this.safeBottom, now, this.state.screen === 'game');
-      if (this.state.overlay) {
-        context.globalAlpha = this.reducedMotion?.matches ? 1 : Math.min(1, (now - this.modalEntered) / 180);
-        context.drawImage(this.overlayCanvas, 0, 0);
-        context.globalAlpha = 1;
-      }
+      if (this.state.overlay) context.drawImage(this.overlayCanvas, 0, 0, 750, this.height);
       this.drawFocus(context);
-      if (this.state.notice && now < this.noticeUntil && (!this.state.overlay || (!this.state.busy && this.state.notice !== this.memoryNotice))) {
-        this.drawNotice(context, this.state.notice);
-      }
     }
     this.frameId = requestAnimationFrame(this.frame);
   };
@@ -280,6 +268,13 @@ export class GameRenderer {
     for (let index = actions.length - 1; index >= 0; index--) {
       const action = actions[index];
       if (action.disabled) continue;
+      if (action.id === 'dismissRelic') {
+        const panel = layout.getElementById('modal');
+        if (panel) {
+          const bounds = layout.getElementViewportRect(panel);
+          if (point.x >= bounds.left && point.x <= bounds.right && point.y >= bounds.top && point.y <= bounds.bottom) continue;
+        }
+      }
       const element = layout.getElementById(action.id);
       if (!element) continue;
       const rect = layout.getElementViewportRect(element);
@@ -298,6 +293,32 @@ export class GameRenderer {
     return undefined;
   }
 
+  private clearFeedback(): void {
+    const feedback = this.feedback;
+    if (!feedback) return;
+    this.feedback = null;
+    const element = feedback.layout.getElementById(feedback.id + (feedback.primary ? '_face' : ''));
+    if (!element) return;
+    if (feedback.fill !== undefined) element.style.backgroundColor = feedback.fill;
+    if (feedback.primary) { element.style.left = 0; element.style.top = 0; }
+  }
+
+  private showFeedback(action: UiAction | undefined, pressed: boolean): void {
+    if (this.feedback?.id === action?.id && this.feedback?.pressed === pressed) return;
+    this.clearFeedback();
+    if (!action || action.disabled || action.kind === 'range') return;
+    const layout = this.state.overlay ? this.overlayLayout : this.baseLayout;
+    const primary = Boolean(action.primary);
+    const element = layout.getElementById(action.id + (primary ? '_face' : ''));
+    if (!element) return;
+    this.feedback = { layout, id: action.id, fill: element.style.backgroundColor, primary, pressed };
+    element.style.backgroundColor = ink.sunSoft;
+    if (primary && pressed && !this.reducedMotion?.matches) {
+      element.style.left = Math.ceil(2 * this.cssScale);
+      element.style.top = Math.ceil(2 * this.cssScale);
+    }
+  }
+
   private route(name: TouchName, event: TouchInput, point: Point): void {
     if (name === 'touchstart') {
       if (this.pointerId !== null) return;
@@ -305,6 +326,9 @@ export class GameRenderer {
       this.focusId = null;
       this.audio.unlock();
       const action = this.actionAt(point);
+      this.pressX = point.x;
+      this.pressY = point.y;
+      this.showFeedback(action, true);
       if (action?.kind) {
         this.gesture = { action, id: point.id, x: point.x, y: point.y, start: Date.now(), last: Date.now(), ended: this.state.view?.status === 'ENDED' };
         if (action.kind === 'seal') {
@@ -327,7 +351,9 @@ export class GameRenderer {
       return;
     }
     (this.state.overlay ? this.overlayLayout : this.baseLayout).eventHandler(name)(event);
-    if (name === 'touchend' || name === 'touchcancel') this.pointerId = null;
+    if (name === 'touchmove' && (Math.abs(point.x - this.pressX) > 12 || Math.abs(point.y - this.pressY) > 12
+      || this.actionAt(point)?.id !== this.feedback?.id)) this.clearFeedback();
+    if (name === 'touchend' || name === 'touchcancel') { this.pointerId = null; this.clearFeedback(); }
   }
 
   private updateRange(x: number): void {
@@ -335,11 +361,13 @@ export class GameRenderer {
     const element = this.overlayLayout.getElementById(this.gesture.action.id);
     if (!element) return;
     const rect = this.overlayLayout.getElementViewportRect(element);
-    const inset = 20 * rect.width / 650;
+    const configuredInset = this.overlayScene?.styles[this.gesture.action.id]?.rangeInset;
+    const inset = (typeof configuredInset === 'number' ? configuredInset : 20) * rect.width / element.layoutBox.width;
     this.gesture.action.setValue?.(Math.max(0, Math.min(1, (x - rect.left - inset) / (rect.width - 2 * inset))));
   }
 
   private cancelGesture(): void {
+    this.clearFeedback();
     this.gesture = null;
     this.pointerId = null;
   }
@@ -364,6 +392,12 @@ export class GameRenderer {
     for (const [domName, name] of [['pointerdown', 'touchstart'], ['pointermove', 'touchmove'], ['pointerup', 'touchend'], ['pointercancel', 'touchcancel']] as const) {
       const handler = ((event: PointerEvent) => {
         if (event.button > 0 || !event.isPrimary) return;
+        if (domName === 'pointermove' && this.pointerId === null) {
+          const action = this.actionAt({ x: event.clientX, y: event.clientY, id: event.pointerId });
+          canvas.style.cursor = action ? 'pointer' : 'default';
+          if (event.pointerType === 'mouse') this.showFeedback(action, false);
+          return;
+        }
         if (domName === 'pointerdown') canvas.setPointerCapture(event.pointerId);
         const touch = { identifier: event.pointerId, pageX: event.clientX, pageY: event.clientY, clientX: event.clientX, clientY: event.clientY, timeStamp: event.timeStamp };
         this.route(name, { type: name, timeStamp: event.timeStamp, touches: name === 'touchend' || name === 'touchcancel' ? [] : [touch], changedTouches: [touch] },
@@ -384,10 +418,13 @@ export class GameRenderer {
       event.preventDefault();
     };
     const blur = (): void => { this.cancelGesture(); this.focusId = null; };
+    const leave = (): void => { if (this.pointerId === null) this.clearFeedback(); };
+    canvas.addEventListener('pointerleave', leave);
     canvas.addEventListener('wheel', wheel, { passive: false });
     window.addEventListener('blur', blur);
     this.cleanups.push(() => {
       for (const [name, callback] of handlers) canvas.removeEventListener(name, callback);
+      canvas.removeEventListener('pointerleave', leave);
       canvas.removeEventListener('wheel', wheel);
       window.removeEventListener('blur', blur);
     });
@@ -437,7 +474,7 @@ export class GameRenderer {
     const changedLayer = layer !== this.previousLayer;
     this.previousLayer = layer;
     this.semantic.setAttribute('role', this.state.overlay ? 'dialog' : 'group');
-    this.semantic.setAttribute('aria-label', '时空词条 · ' + screenLabels[this.state.overlay ?? this.state.screen]);
+    this.semantic.setAttribute('aria-label', GAME_NAME + ' · ' + screenLabels[this.state.overlay ?? this.state.screen]);
     if (this.state.overlay) this.semantic.setAttribute('aria-modal', 'true'); else this.semantic.removeAttribute('aria-modal');
     const narrative = scene.text.join('\n');
     if (this.semanticText.textContent !== narrative) this.semanticText.textContent = narrative;
@@ -494,36 +531,22 @@ export class GameRenderer {
     const layout = this.state.overlay ? this.overlayLayout : this.baseLayout;
     const element = layout.getElementById(this.focusId);
     if (!element) return;
-    const box = element.getBoundingClientRect();
-    context.strokeStyle = ink.cyan;
-    context.lineWidth = 3;
-    context.strokeRect(box.left + 3, box.top + 3, box.width - 6, box.height - 6);
+    const box = element.layoutBox;
+    const inset = Math.ceil(3 * this.cssScale);
+    context.save();
+    context.strokeStyle = ink.focus;
+    context.lineWidth = inset;
+    context.strokeRect(box.absoluteX + inset, box.absoluteY + inset, box.width - 2 * inset, box.height - 2 * inset);
+    context.restore();
   }
 
-  private drawNotice(context: CanvasRenderingContext2D, message: string): void {
-    context.font = '24px ' + fonts.body;
-    const lines: string[] = [];
-    let line = '';
-    for (const char of message) {
-      if (context.measureText(line + char).width > 626) { lines.push(line); line = char; } else line += char;
-    }
-    if (line) lines.push(line);
-    const y = this.height - this.safeBottom - 220 - lines.length * 36;
-    context.fillStyle = ink.inset;
-    context.fillRect(40, y, 670, lines.length * 36 + 28);
-    context.strokeStyle = ink.borderLight;
-    context.strokeRect(40, y, 670, lines.length * 36 + 28);
-    context.fillStyle = ink.text;
-    context.textBaseline = 'top';
-    for (let index = 0; index < lines.length; index++) context.fillText(lines[index], 62, y + 14 + index * 36);
-  }
 
   dispose(): void {
     this.disposed = true;
     cancelAnimationFrame(this.frameId);
     this.cancelGesture();
     for (const cleanup of this.cleanups) cleanup();
-    this.audio.dispose(); this.effects.dispose();
+    this.audio.dispose(); this.effects.dispose(); this.homeBackdrop.dispose();
     this.baseLayout.clearAll(); this.overlayLayout.clearAll();
     this.baseLayout.ticker.stop(); this.overlayLayout.ticker.stop();
   }

@@ -1,4 +1,4 @@
-Traits-of-Time-Layout media and dependency sources
+穿越了这次我带大喇叭逆袭 — media and dependency sources
 
 1. minigame-canvas-engine 1.0.29
 Installed from the npm release, not a copied/reimplemented renderer.
@@ -38,3 +38,17 @@ These are synthetic atmospheres, not documentary period recordings.
 
 The Layout build does not change ownership or licensing of shared gameplay source,
 content, or project-original assets. It reuses the repository files in place.
+
+6. Final game branding supplied by the user (2026-11-11)
+Game name: 穿越了这次我带大喇叭逆袭.
+The user identified the red megaphone avatar and name in their supplied image
+as the final game identity. Reference SHA-256:
+3c17065096ecece426120425b58269d500dbba81c9698b3c0f4ec75672a391b1.
+The received RGB PNG is a 140 x 106 thumbnail, not a high-resolution master.
+Runtime art/branding/avatar.png is a local, unresampled 38 x 38 crop of
+rectangle [41,14,79,52) from that reference; it is used as the Web favicon.
+No image model, external media service, reference upload, or AI upscaling
+was used for this derivative. The user-approved identity does not establish
+an independently verified copyright chain or a blanket CC0/MIT grant.
+The high-resolution store/WeChat-console icon and platform upload remain
+outside this repository change; no platform-console update is claimed.

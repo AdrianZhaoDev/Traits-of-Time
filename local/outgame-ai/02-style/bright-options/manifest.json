@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-12",
+  "phase": "02-style-approved-reference",
+  "gameName": "穿越了这次我带大喇叭逆袭",
+  "status": "approved_A_project_wide_design_reference_not_Canvas_implementation",
+  "selectedDirection": "A",
+  "selectedName": "爆笑开播",
+  "finalStyleApproved": true,
+  "approvalEvidence": "选择A. 以此风格制定全项目风格 修改对应文档,采取覆盖形式修正 不用保留历史文档",
+  "specification": "Doc/UI整体风格方案.md",
+  "approvalRegistry": "local/outgame-ai/02-style/manifest.json",
+  "implementationBoundary": "Style reference only. Actual TypeScript/minigame-canvas-engine/Canvas client, protected gameplay surfaces, content IDs, production JSON, probabilities, audio and persistence not changed by this docs task.",
+  "batchProductionApproved": false,
+  "externalMediaRequests": 0,
+  "referenceUploads": 0,
+  "reference": {
+    "id": "A",
+    "name": "爆笑开播",
+    "status": "approved_style_reference",
+    "html": "a-comic.html",
+    "sha256": "981ea4fd81a274333aea3283de7eb0900f7b9085d89f227275d6f9244345770f",
+    "design": "Cream comic broadside, tomato title, yellow primary with ink text and outline, localized short hard shadow, bold upright sans-serif",
+    "longScreenshot": { "file": "previews/a-comic-390x844-dpr2.png", "cssViewport": [390,844], "dpr": 2, "pixels": [780,1688], "sha256": "77b437c6c8bc37609d0af77d0eeb55316d31be58f5120a8c76cf7e66c27d0313" },
+    "shortScreenshot": { "file": "previews/a-comic-360x640-dpr3.png", "cssViewport": [360,640], "dpr": 3, "pixels": [1080,1920], "sha256": "10fe642a496a076c499a963df0b86c7879b1bcab768fbe735124469b65366828" }
+  },
+  "sharedFiles": [
+    { "file": "preview.css", "sha256": "de0868b4e8d898d183668224315c04bffdc2a673351701cad4a9728622150d95", "purpose": "Preview-only themed dialog" },
+    { "file": "preview.js", "sha256": "1df563331b09c18d8ec1e51d8febb94de325bc6de9ddff5e4fcb0783fe623afd", "purpose": "Four HTML clicks open non-game preview dialogs; no game imports, audio or storage" },
+    { "file": "assets/avatar.png", "sha256": "a1b986a9966fb56fbd1b200c6c642449433bccedd2c56092cc7cc85f65b4f4cb", "source": "public/art/branding/avatar.png, unmodified copy", "size": [38,38], "rights": "Existing user-confirmed identity; source/provenance in licenses/media-sources.txt; no new license or high-resolution master asserted" }
+  ],
+  "artProvenance": "No new generated art. A inline SVG/CSS is the selected local composition reference, not a replacement high-resolution brand master. System fonts only; no downloads or reference uploads.",
+  "verification": {
+    "measurements": "verification.json",
+    "sha256": "5b771439b342cd8b506ed2ba2bbb68c1c6425f2d1242c04b1c79312c88ebd952",
+    "selection": "A entry in pages and contrast; immutable capture-time context, current style approval is this manifest",
+    "browser": "One actual Chromium page sequentially resized, not multiple physical devices",
+    "mainViewports": [ { "css": [390,844], "dpr": 2 }, { "css": [360,640], "dpr": 3 } ],
+    "additionalWidthsMeasured": [320,375,414,768],
+    "observedForA": ["Complete game title, promise, four entrances and memory warning visible in both screenshots", "No horizontal overflow in measured widths", "Smallest entrance height 46 CSS px", "All four entrances clicked; preview dialogs opened/closed and restored focus", "Reduced-motion emulation left no running animations", "No game runtime, media elements or storage keys"],
+    "staticTextMinimumContrastRatio": 5.3223,
+    "limits": ["Reference evidence is not Canvas implementation or WeChat/device proof", "No new generated or approved media file", "No new music or auditory listening", "No runtime checks repeated for this docs-only selection"]
+  }
+}

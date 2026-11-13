@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>明亮 UI 三方案 · 穿越了这次我带大喇叭逆袭</title>
+<link rel="icon" href="assets/avatar.png" type="image/png">
+<style>
+/* Hallmark · macrostructure: comparative contact sheet · three independent game previews */
+:root { color-scheme: light; --paper: #f8f6ef; --ink: #292c2b; --muted: #60675f; --rule: #d8d9cf; --accent: #a32d23; --surface: #fffdf8; --focus: #245f85; --font: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+* { box-sizing: border-box; }
+html,body { margin:0; overflow-x:clip; }
+body { background:var(--paper);color:var(--ink);font:16px/1.6 var(--font); }
+main { max-width:1200px;margin:0 auto;padding:32px; }
+header { margin-bottom:24px; }
+h1 { margin:0 0 8px;font-size:30px;line-height:1.3;font-weight:850;min-width:0;overflow-wrap:anywhere; }
+header p { margin:0;color:var(--muted);font-size:14px; }
+.options { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px; }
+figure { margin:0;min-width:0; }
+figure>a { display:block;line-height:0;border:1px solid var(--rule); }
+a:focus-visible { outline:3px solid var(--focus);outline-offset:4px; }
+img { display:block;width:100%;height:auto;aspect-ratio:390/844; }
+figcaption { padding-top:12px; }
+h2 { margin:0 0 4px;font-size:20px;line-height:1.5; }
+h2 small { color:var(--accent);font-size:12px;margin-left:8px; }
+figcaption p { margin:0;color:var(--muted);font-size:14px;line-height:1.65; }
+.open { display:inline-flex;align-items:center;min-height:44px;color:var(--accent);text-underline-offset:4px;font-size:14px;font-weight:700;white-space:nowrap; }
+footer { margin-top:20px;padding-top:16px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px; }
+@media(max-width:740px) { main { padding:24px; } .options { grid-template-columns:minmax(0,1fr);gap:32px; } figure { max-width:460px;margin-inline:auto; } h1 { font-size:26px; } }
+</style>
+</head>
+<body>
+<main>
+<header><h1>明亮一点，荒诞一点。</h1><p>同一个游戏，三种开场气质。点击画面可打开 HTML；当前只比较风格，不进入游戏。</p></header>
+<section class="options" aria-label="三套首页方案">
+<figure><a href="a-comic.html" aria-label="打开 A 爆笑开播 HTML 预览"><img src="previews/a-comic-390x844-dpr2.png" alt="A 爆笑开播：奶油黄色漫画海报首页" width="780" height="1688"></a><figcaption><h2>A · 爆笑开播<small>优先推荐</small></h2><p>奶油黄、番茄红、漫画粗线条。<br>荒诞感最强，开场就有喜剧的劲儿。</p><a class="open" href="a-comic.html">打开可点击预览 →</a></figcaption></figure>
+<figure><a href="b-film.html" aria-label="打开 B 片场开机 HTML 预览"><img src="previews/b-film-390x844-dpr2.png" alt="B 片场开机：浅桃色与橙色的短剧票券首页" width="780" height="1688"></a><figcaption><h2>B · 片场开机</h2><p>浅桃、亮橙、场记板与票券构图。<br>短剧感最强，像准备开演的一出戏。</p><a class="open" href="b-film.html">打开可点击预览 →</a></figcaption></figure>
+<figure><a href="c-daylight.html" aria-label="打开 C 晴天闯明朝 HTML 预览"><img src="previews/c-daylight-390x844-dpr2.png" alt="C 晴天闯明朝：浅蓝天与绿色操作区的明亮首页" width="780" height="1688"></a><figcaption><h2>C · 晴天闯明朝</h2><p>天蓝、草绿、白天的生活气。<br>最轻快耐看，更适合长期阅读。</p><a class="open" href="c-daylight.html">打开可点击预览 →</a></figcaption></figure>
+</section>
+<footer>三张均为同一 390×844 CSS 视口、DPR 2 的真实 HTML 截图，不是三台设备。未修改 Canvas 客户端；未调用图片、视频、音乐外部服务。简洁矢量图形仅为本轮界面概念，不是新批准的品牌原画。</footer>
+</main>
+</body>
+</html>

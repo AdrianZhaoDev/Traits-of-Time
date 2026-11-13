@@ -1,12 +1,11 @@
-/* Hallmark · macrostructure: Game workspace · theme: user reference preview.html */
+/* Approved A · exact sRGB host roles; Canvas uses the same palette in src/ui.ts. */
 :root {
-  color-scheme: dark;
-  --color-background: #0c0d12;
-  --color-surface: #181b24;
-  --color-text: #edf1f7;
-  --color-error: #ff5277;
-  --color-border: #353b49;
+  color-scheme: light;
+  --color-background: #FFF9E9;
+  --color-surface: #FFFDF5;
+  --color-text: #302826;
+  --color-error: #BF3527;
+  --color-focus: #196C8A;
   --font-body: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  --space-md: 16px;
   --space-lg: 24px;
 }

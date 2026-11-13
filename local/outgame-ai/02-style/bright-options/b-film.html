@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>B 片场开机 · 穿越了这次我带大喇叭逆袭</title>
+  <link rel="stylesheet" href="preview.css">
+  <link rel="icon" href="assets/avatar.png" type="image/png">
+  <style>
+    /* Hallmark · macrostructure: Cut-ticket Opening · tone: bright short-drama · anchor hue: orange
+     * theme: custom · idea: staggered Chinese title above one cream admission ticket
+     * visual thesis: peach paper, plum lettering, orange action; playful rather than cinematic-serious
+     * content plan: complete title / modern-item premise / identity instruction / four entries / progress warning
+     * interaction thesis: brief entrance, direct press feedback, visible keyboard focus
+     * pre-emit critique: P4 H4 E4 S5 R5 V5
+     */
+    :root {
+      color-scheme: light;
+      --color-page: oklch(94.5% 0.038 48);
+      --color-paper: oklch(98.6% 0.014 78);
+      --color-ink: oklch(28% 0.045 335);
+      --color-secondary: oklch(44% 0.035 335);
+      --color-accent: oklch(73% 0.185 47);
+      --color-accent-ink: var(--color-ink);
+      --color-accent-hover: oklch(69% 0.185 45);
+      --color-accent-active: oklch(66% 0.175 44);
+      --color-title-accent: oklch(56% 0.16 43);
+      --color-rule: oklch(81% 0.035 48);
+      --color-utility-hover: oklch(94% 0.026 65);
+      --color-utility-active: oklch(90% 0.04 55);
+      --color-focus: oklch(40% 0.12 335);
+      --color-disabled-surface: oklch(88% 0.025 48);
+      --color-disabled-ink: oklch(55% 0.025 335);
+      --color-paper-shadow: oklch(64% 0.065 43 / 0.12);
+      --color-clear: transparent;
+      --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      --font-display: var(--font-body);
+      --text-body: 1rem;
+      --text-small: 0.8125rem;
+      --text-display: clamp(2.25rem, 11.6vw, 3.25rem);
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 0.75rem;
+      --space-lg: 1rem;
+      --space-xl: 1.25rem;
+      --space-2xl: 1.5rem;
+      --space-3xl: 2rem;
+      --space-4xl: 2.5rem;
+      --gutter-page: clamp(var(--space-lg), 5.55vw, var(--space-2xl));
+      --radius-control: 0.625rem;
+      --size-icon: 1.25rem;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --duration-press: 140ms;
+      --duration-enter: 280ms;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      overflow-x: clip;
+      background: var(--color-page);
+    }
+
+    body {
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      line-height: 1.5;
+      -webkit-tap-highlight-color: var(--color-clear);
+    }
+
+    p,
+    h1 {
+      margin: 0;
+    }
+
+    .film-home {
+      width: 100%;
+      max-width: 460px;
+      min-height: 100svh;
+      margin-inline: auto;
+      padding: max(var(--space-2xl), env(safe-area-inset-top))
+        max(var(--gutter-page), env(safe-area-inset-right))
+        max(var(--space-lg), env(safe-area-inset-bottom))
+        max(var(--gutter-page), env(safe-area-inset-left));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .opening {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-md) var(--space-sm) clamp(var(--space-2xl), 5svh, var(--space-4xl));
+      animation: opening-enter var(--duration-enter) var(--ease-out) both;
+    }
+
+    .premise-label {
+      color: var(--color-secondary);
+      font-size: var(--text-small);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+    }
+
+    .wordmark {
+      position: relative;
+      min-width: 0;
+      margin-top: var(--space-lg);
+    }
+
+    .clapper {
+      position: absolute;
+      top: -24px;
+      right: 0;
+      width: 76px;
+      height: 60px;
+      color: var(--color-ink);
+      pointer-events: none;
+    }
+
+    .clapper-body {
+      fill: var(--color-paper);
+      stroke: var(--color-ink);
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+    }
+
+    .clapper-slat {
+      fill: var(--color-ink);
+    }
+
+    .clapper-stripes {
+      fill: none;
+      stroke: var(--color-paper);
+      stroke-width: 6;
+    }
+
+    .clapper-guides {
+      fill: none;
+      stroke: var(--color-rule);
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .game-title {
+      position: relative;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-family: var(--font-display);
+      font-size: var(--text-display);
+      font-style: normal;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .title-line {
+      display: block;
+      min-width: 0;
+    }
+
+    .title-line-middle {
+      align-self: flex-end;
+      padding-right: var(--space-lg);
+      font-size: 0.76em;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.2;
+    }
+
+    .title-line-last {
+      padding-left: var(--space-sm);
+    }
+
+    .title-object {
+      color: var(--color-title-accent);
+    }
+
+    .core-description {
+      margin-top: var(--space-xl);
+      font-size: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .ticket-shell {
+      flex: 0 0 auto;
+      filter: drop-shadow(0 8px 0 var(--color-paper-shadow));
+      animation: opening-enter var(--duration-enter) 50ms var(--ease-out) both;
+    }
+
+    .ticket {
+      padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+      background: var(--color-paper);
+      clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px,
+        100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%,
+        0 calc(100% - 12px), 0 12px);
+    }
+
+    .identity-note {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 28px;
+      font-size: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .identity-avatar {
+      display: block;
+      flex: 0 0 28px;
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .film-home button {
+      min-width: 0;
+      margin: 0;
+      border: 0;
+      border-radius: var(--radius-control);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform var(--duration-press) var(--ease-out);
+    }
+
+    .start-button {
+      width: 100%;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-top: var(--space-lg) !important;
+      padding: var(--space-lg) var(--space-xl);
+      background: var(--color-accent);
+      color: var(--color-accent-ink);
+      font-size: 1.25rem !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.04em;
+    }
+
+    .secondary-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px dashed var(--color-rule);
+    }
+
+    .utility-button {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-xs);
+      background: var(--color-clear);
+      color: var(--color-ink);
+    }
+
+    .control-icon {
+      flex: 0 0 auto;
+      width: var(--size-icon);
+      height: var(--size-icon);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .start-button .control-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .film-home button:focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+
+    .film-home button:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    .start-button:active:not(:disabled) {
+      background: var(--color-accent-active);
+    }
+
+    .utility-button:active:not(:disabled) {
+      background: var(--color-utility-active);
+    }
+
+    .film-home button:disabled {
+      background: var(--color-disabled-surface);
+      color: var(--color-disabled-ink);
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .progress-note {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      color: var(--color-secondary);
+      font-size: var(--text-small);
+      line-height: 1.6;
+    }
+
+    .progress-note .control-icon {
+      width: 16px;
+      height: 16px;
+      margin-top: var(--space-xs);
+    }
+
+    .preview-label {
+      flex: 0 0 auto;
+      margin-top: var(--space-xl);
+      color: var(--color-secondary);
+      font-size: var(--text-small);
+      line-height: 1.5;
+      text-align: center;
+    }
+    .preview-dialog {
+      --dialog-paper: var(--color-paper);
+      --dialog-ink: var(--color-ink);
+      --dialog-border: var(--color-rule);
+      --dialog-action: var(--color-accent);
+      --dialog-action-ink: var(--color-accent-ink);
+      --dialog-focus: var(--color-focus);
+      --dialog-font: var(--font-body);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .start-button:hover:not(:disabled) {
+        background: var(--color-accent-hover);
+      }
+
+      .utility-button:hover:not(:disabled) {
+        background: var(--color-utility-hover);
+      }
+    }
+
+    @media (max-height: 680px) {
+      .film-home {
+        padding-top: max(var(--space-lg), env(safe-area-inset-top));
+      }
+
+      .opening {
+        padding-top: var(--space-sm);
+        padding-bottom: var(--space-2xl);
+      }
+
+      .core-description {
+        margin-top: var(--space-lg);
+      }
+
+      .ticket {
+        padding-top: var(--space-xl);
+      }
+    }
+
+    @keyframes opening-enter {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .opening,
+      .ticket-shell {
+        animation: none;
+      }
+
+      .film-home button {
+        transition: none;
+      }
+
+      .film-home button:active:not(:disabled) {
+        transform: none;
+      }
+    }
+  </style>
+  <script defer src="preview.js"></script>
+</head>
+<body>
+  <main class="film-home" data-preview-home aria-labelledby="game-title">
+    <header class="opening">
+      <p class="premise-label">荒诞穿越 · 明朝人生</p>
+      <div class="wordmark">
+        <svg class="clapper" viewBox="0 0 88 68" aria-hidden="true" focusable="false">
+          <path class="clapper-body" d="M11 30h66v30H11z" />
+          <path class="clapper-slat" d="M11 30h66v10H11zM10 18 73 6l3 14-63 12z" />
+          <path class="clapper-stripes" d="m24 15 9 12m11-16 9 12M64 8l9 12" />
+          <path class="clapper-guides" d="M24 49h38M24 55h22" />
+        </svg>
+        <h1 class="game-title" id="game-title" aria-label="穿越了这次我带大喇叭逆袭"><span class="title-line">穿越了</span><span class="title-line title-line-middle">这次我带</span><span class="title-line title-line-last"><span class="title-object">大喇叭</span>逆袭</span></h1>
+      </div>
+      <p class="core-description">带上一件现代物品，去明朝过一生。</p>
+    </header>
+
+    <section class="ticket-shell" aria-label="开场入口">
+      <div class="ticket">
+        <div class="identity-note" id="identity-note">
+          <img class="identity-avatar" src="assets/avatar.png" alt="" width="28" height="28">
+          <p>出发前，先看看你的身份。</p>
+        </div>
+        <button class="start-button" type="button" data-action="start" aria-describedby="identity-note progress-warning">
+          <span>我要穿越</span>
+          <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+        </button>
+        <div class="secondary-actions">
+          <button class="utility-button" type="button" data-action="sound">
+            <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m11 5-5 4H3v6h3l5 4V5Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" /></svg>
+            <span>声音</span>
+          </button>
+          <button class="utility-button" type="button" data-action="achievements">
+            <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4v2a4 4 0 0 0 4 4m9-6h3v2a4 4 0 0 1-4 4m-4 2v6m-4 0h8" /></svg>
+            <span>成就</span>
+          </button>
+          <button class="utility-button" type="button" data-action="stats">
+            <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v16h16M9 15v-4m5 4V6m5 9v-6" /></svg>
+            <span>统计</span>
+          </button>
+        </div>
+        <div class="progress-note">
+          <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" /><path d="M12 10v6m0-10v.2" /></svg>
+          <p id="progress-warning">本局进度仅临时保留，<br>关闭或刷新后不能继续。</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="preview-label">风格预览 · 未接入游戏</footer>
+  </main>
+</body>
+</html>

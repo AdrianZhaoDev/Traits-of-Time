@@ -1,0 +1,4409 @@
+{
+  "schemaVersion": 1,
+  "project": "穿越了这次我带大喇叭逆袭",
+  "phase": "01-inventory",
+  "inventoryDate": "2026-11-11",
+  "status": "planned",
+  "evidenceLevel": "static_source_and_local_file_headers_only",
+  "promptDocument": "Doc/Plans/非局内页面AI重制提示词/08-外部AI素材清单与完整提示词.md",
+  "styleDecision": {
+    "direction": "A",
+    "name": "爆笑开播",
+    "status": "approved_project_wide_standard",
+    "source": "用户：选择A. 以此风格制定全项目风格 修改对应文档,采取覆盖形式修正 不用保留历史文档",
+    "specification": "Doc/UI整体风格方案.md",
+    "approvalRegistry": "local/outgame-ai/02-style/manifest.json",
+    "runtimeImplementation": "not_performed_by_documentation_task",
+    "externalMediaAuthorized": false
+  },
+  "runtime": {
+    "language": "TypeScript",
+    "engine": "minigame-canvas-engine",
+    "engineVersion": "1.0.29",
+    "rendering": "Canvas with two Layout trees; Web DOM only for host/accessibility/fallback",
+    "logicalWidth": 750,
+    "platforms": [
+      "Web",
+      "微信小游戏"
+    ]
+  },
+  "contract": {
+    "requiredMeans": "08方案目标，非现有运行时依赖或已授权调用",
+    "surfaceKeyMeaning": "assets.screen为消费表面key；cards等是overlay，career.*是同一overlay内tab，不是AppSnapshot.screen值；层级见screenStateMatrix",
+    "deliverableOperation": "静态范围与素材契约；当前风格依已批准A规范执行，素材仍未生成或接入",
+    "assetIdsAreNotGameContentIds": true,
+    "productionJsonChanged": false,
+    "runtimeCodeChanged": false,
+    "mediaGenerated": false,
+    "externalRequestsMade": false,
+    "buildsRun": false,
+    "testsRun": false,
+    "runtimeObserved": false,
+    "projectStyleApproved": true,
+    "generatedVisualOrAudioApproved": false,
+    "missingActualFileFieldsAreNull": true
+  },
+  "authorization": {
+    "state": "not_authorized",
+    "provider": null,
+    "model": null,
+    "budget": null,
+    "quota": null,
+    "referenceUploadAuthorized": false,
+    "rightsCleared": false,
+    "reason": "当前任务没有明确的供应商及预算/额度授权；密钥、已登录CLI、08提示词都不构成授权"
+  },
+  "pathPlan": {
+    "status": "planned",
+    "originalRoot": "local/outgame-ai/",
+    "styleArchive": "local/outgame-ai/02-style/",
+    "imageArchive": "local/outgame-ai/03-images/",
+    "motionReferenceArchive": "local/outgame-ai/04-motion/",
+    "audioArchive": "local/outgame-ai/05-audio/",
+    "imageRuntimeDirectory": "public/art/outgame/",
+    "audioRuntimeDirectory": "public/audio/outgame/",
+    "fxRuntimeDirectory": "public/fx/outgame/",
+    "outgameRuntimeDirectoriesObserved": false,
+    "runtimeAssetResolver": "platform.asset(relativePath)",
+    "web": "public/<relativePath> -> dist-web/<relativePath> -> BASE_URL-relative URL",
+    "wechat": "public/{art,audio,fx}/outgame -> dist-wechat/media/{art,audio,fx}/outgame; platform.asset adds media/",
+    "versionControl": "最终运行文件须入public并纳入项目版本管理；不得依赖local/、dist旧副本或CDN；本次未检查Git跟踪状态",
+    "provenanceRegistry": "licenses/media-sources.txt -> public/licenses/media-sources.txt (prepare-assets copies); 本阶段不修改"
+  },
+  "globalPolicies": {
+    "scope": [
+      "home",
+      "identity",
+      "cards",
+      "achievements",
+      "stats",
+      "sound",
+      "career.careers",
+      "career.modern",
+      "career.relics",
+      "career.achievements",
+      "relic",
+      "ending"
+    ],
+    "nativeFallbacks": [
+      "startup.loading",
+      "startup.failure"
+    ],
+    "protected": [
+      "src/view.ts:223-321 game/HUD/history/博古架本体/advance",
+      "src/view.ts:71-113 decision/stage",
+      "src/effects.ts:21-27,61-94; src/renderer.ts:148-155,247-258 局内四图集/日志特效",
+      "public/audio/music/life.mp3",
+      "public/audio/music/ending.mp3 已结束历程原曲",
+      "public/audio/ambience/{shanbei,capital,jiangnan}.mp3",
+      "public/audio/cues/* 局内日志消费者",
+      "src/ui.ts:1-14,81-107 shared ink/fonts/control/button"
+    ],
+    "images": "仅目标screen或目标overlay自己的边界内使用；game下层Layout、博古架与原art/items不变；声音设置只用共用面板材质/装饰，不另造全屏设置背景",
+    "text": "文案、数值、按钮、身份/事业/成就名称来自现有代码/生产配置，由Canvas绘制；不烘入图，不复制第二套内容ID或名称",
+    "imageSpec": "遵循Doc/UI整体风格方案.md的A爆笑开播：奶油纸#FFF9E9/纸白#FFFDF5，墨线#302826，番茄红#BF3527作标题点睛、亮黄#FFDA58配墨字作主行动；平光平涂、局部粗轮廓和短硬阴影、正文区近乎平整；背景目标1080x1920等比cover或补边、不拉伸；文字与控件不烘入图",
+    "input": "只给当前顶层scene输入；禁用/忙碌/选择以现有真实字段为准；装饰不拦截触摸和焦点、不增加撤销选中/详情入口/领取奖励等新功能",
+    "audioCurrent": "renderer按screen及view.status选曲，overlay不参与；identity/cards用life，ENDED历程及其上所有overlay用原ending；tap全局共用",
+    "audioPlanned": "MUS-01首页；MUS-02 identity/cards；MUS-03只报告上下文；普通菜单延续底层，game管理/设置/详情保留原音乐与地区声；回ENDED历程恢复原ending",
+    "cues": "一次局外交互一个主UI提示，专属替代该次通用tap/open，不更改局内cue文件/日志触发；不向禁用控件增加点击；拖动range不连续播声；不把旧成就展示当新解锁",
+    "collisionBoundary": "当前confirmCard可有tap与card_selected:item，终局可有death/achievement日志；SFX-08/11未来启用须先给出不重叠且保留局内日志消费者的边界方案，未证明不得接入",
+    "cancellation": "视觉以当前可见目标/交互序列为归属；切页/返回/关闭/换选/销毁取消过时装饰及延迟回调，不延迟真实命令或让旧回调覆盖新状态；后台不补播短音；遵守现有手势解锁与三路音量",
+    "audioFiles": "音乐/环境48kHz立体声WAV后处理母版，SFX 48kHz WAV声道按实际用途；运行MP3，保留供应商原始下载与真实格式；不承诺生成工具原生精确支持/无缝/响度；需后续试听",
+    "fx": "Canvas程序动效默认；FX-01只参考；FX-02/03视频非直接运行能力，只有可靠提帧/遮罩且平台包体验证后才考虑入包；无额外播放器或动画循环假设",
+    "reducedMotion": "后续目标为静态最终状态/停装饰循环、后台停时钟不追赶；当前Web减少动态与宿主兼容差异须接入阶段核实，本阶段不称已实现",
+    "keyboardFocusCurrent": "仅Web有语义桥；变到有overlay的层时聚焦首个可用控件；base screen切换不主动聚焦，关闭全部overlay没有专门恢复打开者焦点逻辑；Canvas有焦点时Enter/空格取首个可用action，方向/Page键滚第一个scroll，range方向键依赖Web原生input；未做运行或微信键盘验证",
+    "canvasGeometryCurrent": "逻辑高round(750*viewport.height/viewport.width)，安全区同比换算；Web使用Canvas实际矩形、平台安全区0且宿主CSS另处理safe-area；微信取窗口safeArea。普通overlay外宽702/内宽650、高度上限1120、正文滚动与固定页头页脚；relic使用独立固定面板，不套普通panel的滚动能力",
+    "overlayLifecycleCurrent": "screen仅home/identity/game；只绘制栈顶overlay，底层base与局内FX仍存在。普通open不统一拒绝busy，初始化期间打开的首页辅助面板可保留到identity上方；gameCareer重置事业tab/选择，decisionCareer只open；点任意hub标签（包括当前标签）会清事业选择。终局FX归属ending可见层，不因底层screen=game取消",
+    "forbiddenFeatures": [
+      "商店",
+      "登录",
+      "商城",
+      "云存档",
+      "排行榜",
+      "领取/装备/出售新操作",
+      "撤销选中",
+      "开局/管理新增详情入口",
+      "新重抽或返回功能",
+      "改玩法/内容ID/概率/持久化/生产JSON"
+    ]
+  },
+  "screenStateMatrix": [
+    {
+      "key": "home",
+      "layer": "screen",
+      "source": "src/view.ts:170-191",
+      "entry": "初始化；home()；start失败回到/留在home",
+      "states": {
+        "normal": "标题、我要穿越、声音/成就/统计、临时进度提示",
+        "empty": "无业务空列表；旧首页图缺失不能成为控件可用性的依赖",
+        "longText": "标题、说明和提示均为代码文字；homeScroll可滚动",
+        "longList": "固定三个辅助入口，不制造无限列表",
+        "busy": "start期间显示正在揭晓身份；startLife禁用，三个辅助入口未统一禁用",
+        "disabled": "startLife由snapshot.busy禁用",
+        "selected": "无业务选中态",
+        "keyboardFocus": "Web语义按钮；切换screen没有首控件自动聚焦；Canvas有焦点时Enter/空格调用首个可用action，不用图片替代焦点",
+        "back": "首页无更上一层；Esc只调用close，当前无overlay时不退出或清档"
+      },
+      "assetIds": [
+        "IMG-BG-01",
+        "IMG-UI-04",
+        "IMG-LAYER-01",
+        "MUS-01",
+        "SFX-01",
+        "SFX-09",
+        "AMB-01",
+        "FX-01"
+      ]
+    },
+    {
+      "key": "identity",
+      "layer": "screen",
+      "source": "src/view.ts:194-220",
+      "entry": "start初始化成功且pending.kind=card；尚未revealCards",
+      "states": {
+        "normal": "明朝、年份、年龄、身份、地区/门第；挑选本局家当",
+        "empty": "player缺失时当前返回空字符串，无独立空状态",
+        "longText": "身份/地区/门第名称、两段说明按实际宽度换行；identityScroll",
+        "longList": "年份/年龄/身份固定三项，不新增身份列表",
+        "busy": "start尾部busy为true时揭家当按钮禁用",
+        "disabled": "revealCards由busy禁用，controller另守卫screen/pending/cardsRevealed",
+        "selected": "无业务选中态",
+        "keyboardFocus": "Web主要按钮有语义控件，但切换到identity不自动聚焦；Canvas有焦点时Enter/空格可调用该可用按钮",
+        "back": "未提供返回首页按钮；无overlay的Esc不跳页，不新增重抽/返回功能"
+      },
+      "assetIds": [
+        "IMG-BG-02",
+        "IMG-LAYER-01",
+        "MUS-02",
+        "SFX-01",
+        "SFX-05",
+        "SFX-09",
+        "AMB-01"
+      ]
+    },
+    {
+      "key": "cards",
+      "layer": "required_overlay",
+      "baseScreen": "identity",
+      "source": "src/view.ts:57-70,323-337",
+      "entry": "revealCards置cardsRevealed=true；不改变identity screen",
+      "states": {
+        "normal": "真实pending.cards三选一；未选时确认禁用；提交成功才进入game",
+        "empty": "pending非card或候选定义缺失时当前可为空；start的非card结果已有失败notice；不合成补位卡",
+        "longText": "名称、稀有度、description、检定加成；panel_cards纵向滚动",
+        "longList": "只呈现真实候选，三选一不变，不新增候选/抽卡/分页",
+        "busy": "候选与确认由busy禁用，确认文案正在启程",
+        "disabled": "busy或未选禁用确认；禁用按钮不新增失败点击",
+        "selected": "selectedCardId；点击同卡仍选中，换卡覆盖，无撤销选中",
+        "keyboardFocus": "可用候选及确认；Web aria-pressed来自cardOffer",
+        "back": "无关闭按钮；Esc/close只给请先选定提示，不能绕过选卡；仅confirmCard成功迁移game"
+      },
+      "assetIds": [
+        "IMG-BG-03",
+        "IMG-ITEM-01",
+        "IMG-ITEM-02",
+        "IMG-ITEM-03",
+        "IMG-ITEM-04",
+        "IMG-ITEM-05",
+        "IMG-ITEM-06",
+        "IMG-ITEM-07",
+        "IMG-ITEM-08",
+        "IMG-UI-01",
+        "IMG-UI-02",
+        "IMG-LAYER-01",
+        "MUS-02",
+        "SFX-01",
+        "SFX-06",
+        "SFX-07",
+        "SFX-08",
+        "SFX-09",
+        "AMB-01",
+        "FX-02"
+      ]
+    },
+    {
+      "key": "achievements",
+      "layer": "overlay",
+      "source": "src/view.ts:132-151",
+      "entry": "homeAchievements；controller.open允许但当前没有局内同名入口",
+      "states": {
+        "normal": "仅records中的已完成人生本机成就；跳过未知定义ID",
+        "empty": "records.achievements.size=0显示还没有解锁成就；不造锁定/奖励条目",
+        "longText": "name/meta/text及读取或写入warning保留；panel_achievements",
+        "longList": "完整已获集合滚动；不逐条播解锁声",
+        "busy": "无专属busy加载态；header返回随busy禁用，footer返回未绑定busy",
+        "disabled": "列表为静态entry，不是可点击奖励",
+        "selected": "无列表选择态",
+        "keyboardFocus": "当前可聚焦返回按钮；静态成就不是伪按钮",
+        "back": "close弹出一层回原screen/overlay；不清记录/人生"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-03",
+        "IMG-UI-04",
+        "IMG-UI-05",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-09",
+        "SFX-10"
+      ]
+    },
+    {
+      "key": "stats",
+      "layer": "overlay",
+      "source": "src/view.ts:132-151",
+      "entry": "homeStats；controller.open允许但无局内同名入口",
+      "states": {
+        "normal": "完成次数、最长寿命、累计经历、已获成就；只统计已完成人生",
+        "empty": "completed=0仍显示四项零值；没有独立空统计页面",
+        "longText": "本机范围说明、存储warning、数值不烘焙入图；panel_stats",
+        "longList": "固定四行，不新增历史人生详情或榜单",
+        "busy": "无专属busy态；header返回随busy禁用，footer未绑定busy",
+        "disabled": "无业务禁用行",
+        "selected": "无业务选中态",
+        "keyboardFocus": "返回按钮焦点；统计行静态",
+        "back": "close回上一层；不写入当前未完成进度"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-04",
+        "IMG-UI-05",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-09"
+      ]
+    },
+    {
+      "key": "sound",
+      "layer": "overlay",
+      "source": "src/view.ts:426-449,152-155",
+      "entry": "homeSound或gameSound；同一个GameAudio实例",
+      "states": {
+        "normal": "music/effects/ambience三路滑块、加减、单路及全部静音",
+        "empty": "无业务空内容；设置读取抛错时沿用现有默认并仅在控制台警告，当前面板无保存失败提示行",
+        "longText": "说明及键盘提示换行；panel_sound",
+        "longList": "固定三路，不新增总线/音色/设备菜单",
+        "busy": "无独立加载态；音量即时设置，header返回随busy禁用，footer未绑定busy",
+        "disabled": "value<=0减小禁用；value>=1增大禁用",
+        "selected": "0显示恢复，>0显示静音；全部静音按钮反映三路值；不是新增持久化字段",
+        "keyboardFocus": "Web range键盘/Tab/方向键、按钮；Canvas range action的空invoke不等于键盘调音量",
+        "back": "返回仅close；修改已即时保存，无应用/确认/取消回滚；game底层音乐/环境继续"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-04",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-09"
+      ]
+    },
+    {
+      "key": "career.careers",
+      "layer": "overlay_tab",
+      "overlay": "career",
+      "source": "src/view.ts:114-122,340-366",
+      "entry": "gameCareer重置careers和selection；decisionCareer只open，可能保留上次tab",
+      "states": {
+        "normal": "四标签；active/completed/interrupted事业、进展/下次年份/commitment及退出不退费说明",
+        "empty": "player.chains.length=0显示暂无事业记录；未知definition跳过",
+        "longText": "name/commitment按宽度换行；panel_career",
+        "longList": "所有实际chains滚动，非active为静态记录",
+        "busy": "active选择、abandon、closeCareer及header返回由busy禁用；tab按钮当前未绑定busy",
+        "disabled": "无active选中时abandon禁用；controller仅READY/AWAITING_OPTION接受abandon，UI并非完整复制该守卫",
+        "selected": "selectedCareer为active instance_id；切tab清空；确认退出成功才移除career overlay",
+        "keyboardFocus": "四tab、可用active条目、退出与返回；Web active条目aria-pressed",
+        "back": "返回pop，可能回decision或game；确认退出直接abandon，没有额外二次确认对话框"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-04",
+        "IMG-UI-05",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-04",
+        "SFX-09"
+      ]
+    },
+    {
+      "key": "career.modern",
+      "layer": "overlay_tab",
+      "overlay": "career",
+      "source": "src/view.ts:340-348,367-372",
+      "entry": "career内hub_modern",
+      "states": {
+        "normal": "只列实际持有且ID以CARD_MODERN_开头的卡；当前文字entry，无图无详情点击",
+        "empty": "尚无现代词条",
+        "longText": "名称/稀有度/description完整换行；panel_career",
+        "longList": "实际持有集合滚动，不新增图鉴/商店",
+        "busy": "tabs未统一busy禁用，退出按钮此页一直不可用，返回遵原守卫",
+        "disabled": "abandon按钮禁用，不把物品行做成新的可执行操作",
+        "selected": "仅tab强调；无物品行选择；切tab清空selectedCareer",
+        "keyboardFocus": "tab和返回等既有按钮；静态物品条目不新增Tab节点",
+        "back": "close或切现有tab；不丢持有物，不新增详情入口"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-04",
+        "IMG-UI-05",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-04",
+        "SFX-09"
+      ]
+    },
+    {
+      "key": "career.relics",
+      "layer": "overlay_tab",
+      "overlay": "career",
+      "source": "src/view.ts:340-348,367-372",
+      "entry": "career内hub_relics",
+      "states": {
+        "normal": "实际持有且ID不以CARD_MODERN_开头的家当；当前文字entry，无图无详情点击",
+        "empty": "尚未获得家当",
+        "longText": "名称/稀有度/description完整换行；panel_career",
+        "longList": "真实持有集合滚动",
+        "busy": "同career.modern，无独立加载态",
+        "disabled": "abandon按钮禁用",
+        "selected": "仅tab强调，无行选择",
+        "keyboardFocus": "tab及既有返回等按钮",
+        "back": "close或切现有tab；不新增出售/装备/丢弃"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-04",
+        "IMG-UI-05",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-04",
+        "SFX-09"
+      ]
+    },
+    {
+      "key": "career.achievements",
+      "layer": "overlay_tab",
+      "overlay": "career",
+      "source": "src/view.ts:340-348,374-380",
+      "entry": "career内hub_achievements",
+      "states": {
+        "normal": "records、player.achievements、ending.achievements及primary_achievement_id的并集；不同于首页本机成就页",
+        "empty": "并集size=0显示本局还没有成就；未知definition跳过",
+        "longText": "name/meta/text换行；panel_career",
+        "longList": "完整并集滚动；不是仅本局或仅已完成人生",
+        "busy": "同其他career tabs，无独立加载态",
+        "disabled": "abandon按钮禁用",
+        "selected": "仅tab强调，无成就行选择",
+        "keyboardFocus": "tab及既有返回等按钮；不逐条聚焦装饰",
+        "back": "close可回decision/game；切tab不改成就或本机记录"
+      },
+      "assetIds": [
+        "IMG-BG-04",
+        "IMG-UI-01",
+        "IMG-UI-03",
+        "IMG-UI-04",
+        "IMG-UI-05",
+        "IMG-LAYER-01",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-04",
+        "SFX-09",
+        "SFX-10"
+      ]
+    },
+    {
+      "key": "relic",
+      "layer": "overlay",
+      "source": "src/view.ts:453-464",
+      "entry": "唯一现有UI调用为game博古架relic_<index>；controller可接受候选ID不等于已有开局详情入口",
+      "states": {
+        "normal": "name/rarity/description/check_bonus或本局随身家当、收起详情、外部关闭区；当前无图片",
+        "empty": "relicId为空或未知card时当前输出空overlay；不造替代物",
+        "longText": "当前宽402、外框450、top=safeTop+290且无scroll；长文有越界风险，后续目标须完整可读",
+        "longList": "单物品详情，无列表，不新增翻页",
+        "busy": "无专属busy态；详情关闭控件未绑定busy",
+        "disabled": "没有业务禁用状态；无效ID由controller拒绝",
+        "selected": "由relicId决定展示对象，不改变持有或selectedCardId",
+        "keyboardFocus": "Web先有dismissRelic外部关闭action再closeRelic；焦点不能落到下层博古架",
+        "back": "收起/外部区域/Esc pop一层；relicId在栈中已无relic时清空；主画面与博古架本体不改"
+      },
+      "assetIds": [
+        "IMG-ITEM-01",
+        "IMG-ITEM-02",
+        "IMG-ITEM-03",
+        "IMG-ITEM-04",
+        "IMG-ITEM-05",
+        "IMG-ITEM-06",
+        "IMG-ITEM-07",
+        "IMG-ITEM-08",
+        "IMG-UI-01",
+        "IMG-UI-04",
+        "SFX-01",
+        "SFX-02",
+        "SFX-03",
+        "SFX-09"
+      ]
+    },
+    {
+      "key": "ending",
+      "layer": "overlay",
+      "baseScreen": "game",
+      "source": "src/view.ts:123-131,385-423",
+      "entry": "accept首次ENDED自动插入ending；之后可从已结束advance重开报告",
+      "states": {
+        "normal": "年份年龄、死因、享寿/家资/成就、主成就、最高身份、五属性、事业、次成就与随身家当",
+        "empty": "无report则body空；无death定义显示人生终点通用文案，无primary显示普通人生；空集合不造记录",
+        "longText": "完整死因/成就/家当说明；panel_ending；主成就不在次成就重复",
+        "longList": "完整事业、成就和家当滚动；不虚构分页/分享功能",
+        "busy": "重启和header返回随busy禁用；reviewLife/homeEnding未统一绑定busy，home有controller守卫",
+        "disabled": "重启由busy禁用；open ending无报告会notice",
+        "selected": "无业务行选择态",
+        "keyboardFocus": "重启/返回历程/返回首页和header返回等已有action",
+        "back": "返回历程仅pop，保留ENDED状态；返回首页清当前人生；重启start创建新人生；重开报告不重复计完成次数"
+      },
+      "assetIds": [
+        "IMG-BG-05",
+        "IMG-UI-01",
+        "IMG-UI-03",
+        "IMG-UI-04",
+        "IMG-LAYER-01",
+        "MUS-03",
+        "SFX-01",
+        "SFX-02",
+        "SFX-09",
+        "SFX-11",
+        "FX-03"
+      ]
+    },
+    {
+      "key": "startup.loading",
+      "layer": "native_fallback",
+      "source": "tools/build-wechat.mjs:56-75; src/main.ts:5-22; index.html:14-15",
+      "entry": "宿主启动/加载分包",
+      "states": {
+        "normal": "微信showLoading（载入时空）加载分包；Web没有独立加载界面，不增加生成图加载屏",
+        "empty": "无媒体依赖",
+        "longText": "原生宿主文字，不烘焙为图片",
+        "longList": "不适用",
+        "busy": "原生加载中",
+        "disabled": "不增加伪重试/确认控件",
+        "selected": "不适用",
+        "keyboardFocus": "微信原生宿主控制；Web无新增加载焦点",
+        "back": "按现有加载完成hideLoading；不新增导航"
+      },
+      "assetIds": []
+    },
+    {
+      "key": "startup.failure",
+      "layer": "native_fallback",
+      "source": "src/main.ts:5-22; index.html:14-15; tools/build-wechat.mjs:56-75",
+      "entry": "Web启动catch/noscript；微信分包/启动catch",
+      "coverageLimit": "Web catch只覆盖执行到main.ts try后的同步初始化异常，不保证模块加载等更早失败；微信统一modal也可能由入口异常触发，不能把所有错误都判为分包失败；未运行或注入故障验证",
+      "states": {
+        "normal": "Web同步初始化catch显示startup-status，noscript提示启用JavaScript；微信hideLoading后showModal（加载失败、showCancel=false），提示关闭后重新进入，无自动或按钮内重试",
+        "empty": "图/音加载失败不能妨碍此文本兜底",
+        "longText": "原生文本完整错误说明，不依赖新图",
+        "longList": "不适用",
+        "busy": "失败不是正在加载，不造无限busy动画",
+        "disabled": "不增加商店/登录/联网修复操作",
+        "selected": "不适用",
+        "keyboardFocus": "Web role=alert/noscript；微信宿主原生弹窗",
+        "back": "保留原提示的既有确认/关闭含义，不新造重试/清档"
+      },
+      "assetIds": []
+    }
+  ],
+  "baseline": [
+    {
+      "kind": "image.background",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/scenes/home.png",
+      "logicalRuntimePath": "art/scenes/home.png",
+      "codeReferences": [
+        "src/view.ts:170-172"
+      ],
+      "trigger": "home绘制时请求，旧图当前直接绘为750 x availableHeight，不是新契约的等比cover",
+      "cancel": "离开home不再作为base绘制；图片加载成功未观察",
+      "sharedWith": [
+        "home",
+        "home上方档案/设置overlay的下层背景"
+      ],
+      "documentClaim": "licenses/media-sources.txt:15-22 声明旧原件及CC0绘制源",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 900,
+        "height": 1440,
+        "color": "RGB",
+        "bitDepth": 8
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/corn.png",
+      "logicalRuntimePath": "art/items/corn.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_MODERN_CORN是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_MODERN_CORN",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/antibiotic.png",
+      "logicalRuntimePath": "art/items/antibiotic.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_MODERN_ANTIBIOTIC是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_MODERN_ANTIBIOTIC",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/flashlight.png",
+      "logicalRuntimePath": "art/items/flashlight.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_MODERN_FLASHLIGHT是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_MODERN_FLASHLIGHT",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/calculator.png",
+      "logicalRuntimePath": "art/items/calculator.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_MODERN_CALCULATOR是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_MODERN_CALCULATOR",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/book.png",
+      "logicalRuntimePath": "art/items/book.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_NATIVE_BOOK是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_NATIVE_BOOK",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/glue.png",
+      "logicalRuntimePath": "art/items/glue.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_MODERN_GLUE是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_MODERN_GLUE",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/lighter.png",
+      "logicalRuntimePath": "art/items/lighter.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_MODERN_LIGHTER是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_MODERN_LIGHTER",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.item",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/art/items/bowl.png",
+      "logicalRuntimePath": "art/items/bowl.png",
+      "codeReferences": [
+        "src/view.ts:11-15",
+        "src/view.ts:323-337",
+        "src/view.ts:264-271"
+      ],
+      "trigger": "仅该CARD_NATIVE_BOWL是实际候选/持有博古架前5件时绘图请求；不证明每局出现",
+      "cancel": "离开相应可见UI不绘制；不能删或原位覆盖旧图",
+      "sharedWith": [
+        "cards.cardOffer (54x54)",
+        "game.博古架 (46x46)"
+      ],
+      "documentClaim": "licenses/media-sources.txt:24-28 项目代码绘图声明，未统一声称CC0",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 512,
+        "height": 512,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "meaningfulAlphaVerified": false,
+      "contentId": "CARD_NATIVE_BOWL",
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.music",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/music/home.mp3",
+      "logicalRuntimePath": "audio/music/home.mp3",
+      "codeReferences": [
+        "src/renderer.ts:145-147,159-160",
+        "src/audio.ts:184-188"
+      ],
+      "trigger": "screen==='home'，初始化也请求；解锁/前台/音量>0且资源可用才可播放",
+      "cancel": "源变化stop再换；同源不重置；后台或music=0暂停；销毁释放",
+      "sharedWith": [
+        "home",
+        "home上的普通overlay"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.music",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/music/life.mp3",
+      "logicalRuntimePath": "audio/music/life.mp3",
+      "codeReferences": [
+        "src/renderer.ts:145-147,159-160",
+        "src/audio.ts:184-188"
+      ],
+      "trigger": "screen!=='home'且view.status!=='ENDED'；解锁/前台/音量>0且资源可用才可播放",
+      "cancel": "源变化stop再换；同源不重置；后台或music=0暂停；销毁释放",
+      "sharedWith": [
+        "identity",
+        "identity上的cards",
+        "正常game及其管理/声音/详情/decision/stage等overlay"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.music",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/music/ending.mp3",
+      "logicalRuntimePath": "audio/music/ending.mp3",
+      "codeReferences": [
+        "src/renderer.ts:145-147,159-160",
+        "src/audio.ts:184-188"
+      ],
+      "trigger": "screen!=='home'且view.status==='ENDED'，不是overlay==='ending'；解锁/前台/音量>0且资源可用才可播放",
+      "cancel": "源变化stop再换；同源不重置；后台或music=0暂停；销毁释放",
+      "sharedWith": [
+        "ending报告",
+        "已结束game历程",
+        "已结束game上所有其他overlay"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.ambience",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/ambience/shanbei.mp3",
+      "logicalRuntimePath": "audio/ambience/shanbei.mp3",
+      "codeReferences": [
+        "src/renderer.ts:145-147",
+        "src/audio.ts:14-18,191-196"
+      ],
+      "trigger": "screen=game且status非ENDED且region_id=R_SHANBEI；overlay不参与判断",
+      "cancel": "非game/ENDED/未映射地区设源null；地区变更stop换源；后台/静音暂停；销毁释放",
+      "sharedWith": [
+        "game",
+        "game上的career/sound/relic/decision/stage等overlay"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.ambience",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/ambience/capital.mp3",
+      "logicalRuntimePath": "audio/ambience/capital.mp3",
+      "codeReferences": [
+        "src/renderer.ts:145-147",
+        "src/audio.ts:14-18,191-196"
+      ],
+      "trigger": "screen=game且status非ENDED且region_id=R_CAPITAL；overlay不参与判断",
+      "cancel": "非game/ENDED/未映射地区设源null；地区变更stop换源；后台/静音暂停；销毁释放",
+      "sharedWith": [
+        "game",
+        "game上的career/sound/relic/decision/stage等overlay"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.ambience",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/ambience/jiangnan.mp3",
+      "logicalRuntimePath": "audio/ambience/jiangnan.mp3",
+      "codeReferences": [
+        "src/renderer.ts:145-147",
+        "src/audio.ts:14-18,191-196"
+      ],
+      "trigger": "screen=game且status非ENDED且region_id=R_JIANGNAN；overlay不参与判断",
+      "cancel": "非game/ENDED/未映射地区设源null；地区变更stop换源；后台/静音暂停；销毁释放",
+      "sharedWith": [
+        "game",
+        "game上的career/sound/relic/decision/stage等overlay"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/tap.mp3",
+      "logicalRuntimePath": "audio/cues/tap.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "所有非disabled的renderer.invoke先unlock再playCue(tap)然后action.invoke",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "局内与局外所有普通action；range连续拖动直接setVolume不经invoke"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.7,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/reveal.mp3",
+      "logicalRuntimePath": "audio/cues/reveal.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "event日志",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "局内事件日志"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.8,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/select.mp3",
+      "logicalRuntimePath": "audio/cues/select.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208"
+      ],
+      "trigger": null,
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.75,
+      "callStatus": "no_callsite_in_src",
+      "callsiteNote": "仅枚举/路径模板/必需表存在；src未发现对应playCue调用，不称已触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/error.mp3",
+      "logicalRuntimePath": "audio/cues/error.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208"
+      ],
+      "trigger": null,
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.65,
+      "callStatus": "no_callsite_in_src",
+      "callsiteNote": "仅枚举/路径模板/必需表存在；src未发现对应playCue调用，不称已触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/choice.mp3",
+      "logicalRuntimePath": "audio/cues/choice.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "option日志",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "局内选择日志"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.75,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/gain.mp3",
+      "logicalRuntimePath": "audio/cues/gain.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "effects日志存在attribute_add/wealth且amount>0",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "局内正家资日志"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.8,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/achievement.mp3",
+      "logicalRuntimePath": "audio/cues/achievement.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "achievement日志",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "局内解锁日志，与打开旧成就页无关"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.8,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/ending.mp3",
+      "logicalRuntimePath": "audio/cues/ending.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208"
+      ],
+      "trigger": null,
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.75,
+      "callStatus": "no_callsite_in_src",
+      "callsiteNote": "仅枚举/路径模板/必需表存在；src未发现对应playCue调用，不称已触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/death.mp3",
+      "logicalRuntimePath": "audio/cues/death.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "death日志",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "局内死亡日志"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.55,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/item.mp3",
+      "logicalRuntimePath": "audio/cues/item.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208",
+        "src/renderer.ts:148-156,265-268"
+      ],
+      "trigger": "card_selected日志",
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [
+        "原选卡提交日志；不可被局外音效原位替换"
+      ],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.8,
+      "callStatus": "referenced",
+      "callsiteNote": "存在静态条件调用，未观察真实触发"
+    },
+    {
+      "kind": "audio.cue",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/audio/cues/identity.mp3",
+      "logicalRuntimePath": "audio/cues/identity.mp3",
+      "codeReferences": [
+        "src/audio.ts:3-4,19-23,199-208"
+      ],
+      "trigger": null,
+      "cancel": "若请求播放：四voice轮转先stop复用旧voice；自然结束/后台stop/effects=0 stop/销毁；换页本身不自动截断已播短音",
+      "sharedWith": [],
+      "documentClaim": "licenses/media-sources.txt:30-37 项目原创算法合成声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "codec": "MP3 MPEG Layer III v2",
+        "sampleRateHz": 22050,
+        "channels": 1,
+        "bitrateKbps": 64,
+        "durationSeconds": null
+      },
+      "cueGain": 0.8,
+      "callStatus": "no_callsite_in_src",
+      "callsiteNote": "仅枚举/路径模板/必需表存在；src未发现对应playCue调用，不称已触发"
+    },
+    {
+      "kind": "image.pixel_atlas",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/fx/FX_MING_CANDLE.png",
+      "logicalRuntimePath": "fx/FX_MING_CANDLE.png",
+      "codeReferences": [
+        "src/effects.ts:1,21-27,39-94,159-160",
+        "src/renderer.ts:148-155,247-258"
+      ],
+      "trigger": "game绘制时循环，无需日志；减少动态固定首帧；只在game base与overlay之间绘制；缺图初始化会通知但人生继续",
+      "cancel": "game绘制时循环；非game/后台不推进；不替换此局内烛火；减少动态拒绝/清活动一次性FX；销毁取消加载并清引用",
+      "sharedWith": [
+        "game",
+        "game上overlay的下层FX"
+      ],
+      "documentClaim": "licenses/media-sources.txt:9-13 旧图集原样复制声明，附pixelfx MIT/NOTICE；未核历史逐字节一致",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 560,
+        "height": 608,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "configuration": {
+        "source": "public/fx/data.json:1",
+        "fps": 20,
+        "frames": 80,
+        "durationSeconds": 4,
+        "measurement": "配置声明，非实测"
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.pixel_atlas",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/fx/FX_COLLECT_BURST.png",
+      "logicalRuntimePath": "fx/FX_COLLECT_BURST.png",
+      "codeReferences": [
+        "src/effects.ts:1,21-27,39-94,159-160",
+        "src/renderer.ts:148-155,247-258"
+      ],
+      "trigger": "正家资effects日志 -> gold；只在game base与overlay之间绘制；缺图初始化会通知但人生继续",
+      "cancel": "自然时长结束；重复同层重置elapsed；后台/非game暂停但不清空；减少动态拒绝/清活动一次性FX；销毁取消加载并清引用",
+      "sharedWith": [
+        "局内正家资FX"
+      ],
+      "documentClaim": "licenses/media-sources.txt:9-13 旧图集原样复制声明，附pixelfx MIT/NOTICE；未核历史逐字节一致",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 448,
+        "height": 756,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "configuration": {
+        "source": "public/fx/data.json:1",
+        "fps": 20,
+        "frames": 28,
+        "durationSeconds": 1.35,
+        "measurement": "配置声明，非实测"
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.pixel_atlas",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/fx/FX_COMIC_POOF.png",
+      "logicalRuntimePath": "fx/FX_COMIC_POOF.png",
+      "codeReferences": [
+        "src/effects.ts:1,21-27,39-94,159-160",
+        "src/renderer.ts:148-155,247-258"
+      ],
+      "trigger": "death日志 -> poof；只在game base与overlay之间绘制；缺图初始化会通知但人生继续",
+      "cancel": "自然时长结束；重复重置；后台/非game暂停但不清空；减少动态拒绝/清活动一次性FX；销毁取消加载并清引用",
+      "sharedWith": [
+        "局内死亡FX"
+      ],
+      "documentClaim": "licenses/media-sources.txt:9-13 旧图集原样复制声明，附pixelfx MIT/NOTICE；未核历史逐字节一致",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 560,
+        "height": 460,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "configuration": {
+        "source": "public/fx/data.json:1",
+        "fps": 15,
+        "frames": 25,
+        "durationSeconds": 1.6,
+        "measurement": "配置声明，非实测"
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "image.pixel_atlas",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/fx/FX_ACHIEVE_CONFETTI.png",
+      "logicalRuntimePath": "fx/FX_ACHIEVE_CONFETTI.png",
+      "codeReferences": [
+        "src/effects.ts:1,21-27,39-94,159-160",
+        "src/renderer.ts:148-155,247-258"
+      ],
+      "trigger": "achievement日志 -> confetti；只在game base与overlay之间绘制；缺图初始化会通知但人生继续",
+      "cancel": "自然时长结束；重复重置；后台/非game暂停但不清空；减少动态拒绝/清活动一次性FX；销毁取消加载并清引用",
+      "sharedWith": [
+        "局内成就FX"
+      ],
+      "documentClaim": "licenses/media-sources.txt:9-13 旧图集原样复制声明，附pixelfx MIT/NOTICE；未核历史逐字节一致",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "header": {
+        "width": 800,
+        "height": 1820,
+        "color": "RGBA",
+        "bitDepth": 8
+      },
+      "configuration": {
+        "source": "public/fx/data.json:1",
+        "fps": 15,
+        "frames": 52,
+        "durationSeconds": 3.4,
+        "measurement": "配置声明，非实测"
+      },
+      "callStatus": "referenced"
+    },
+    {
+      "kind": "metadata.atlas",
+      "fileExists": true,
+      "sourceFile": null,
+      "runtimeFile": "public/fx/data.json",
+      "logicalRuntimePath": "fx/data.json",
+      "codeReferences": [
+        "src/effects.ts:1,21-27,39-43,159-160"
+      ],
+      "trigger": "构造时按四个既有图集ID查配置，缺配置抛错；非媒体播放事件",
+      "cancel": "随模块/PixelEffects生命周期，不能因新局外FX重写旧ID",
+      "sharedWith": [
+        "全部四局内图集"
+      ],
+      "documentClaim": "licenses/media-sources.txt:9-13 图集及元数据旧源声明",
+      "rightsVerification": "仅仓库来源声明，未独立核验历史原件/上游/逐文件权利",
+      "runtimeTriggerObserved": false,
+      "callStatus": "referenced"
+    }
+  ],
+  "assets": [
+    {
+      "id": "IMG-BG-01",
+      "kind": "image.background",
+      "required": true,
+      "screen": [
+        "home"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 1080,
+        "height": 1920,
+        "alpha": false,
+        "fit": "等比cover居中裁切；安全区与真实文字布局优先，必要补边；禁止非等比拉伸",
+        "archiveGroup": "style",
+        "currentFileExists": false,
+        "archiveNamePlan": "img-bg-01-home-source.png",
+        "runtimeNamePlan": "img-bg-01-home.png",
+        "use": "替换首页自己的旧底景；保留代码文字、入口与临时进度提示"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "home可见且未被其他上下文替代"
+      },
+      "cancel": [
+        "离开该screen或关闭/被取代的overlay即结束显示；取消其局外装饰，不改底层screen",
+        "减少动态使用同一静态图，资源未就绪不阻塞原控件"
+      ],
+      "sharedWith": [
+        "home"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:170-191",
+          "role": "替换首页自己的旧底景；保留代码文字、入口与临时进度提示",
+          "current": "仅home已有旧图片，其余是代码绘制背景，无新素材接线"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/scenes/home.png (先完整迁移其所有消费者再决定移除)"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-BG-02",
+      "kind": "image.background",
+      "required": true,
+      "screen": [
+        "identity"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 1080,
+        "height": 1920,
+        "alpha": false,
+        "fit": "等比cover居中裁切；安全区与真实文字布局优先，必要补边；禁止非等比拉伸",
+        "archiveGroup": "images",
+        "currentFileExists": false,
+        "archiveNamePlan": "img-bg-02-identity-source.png",
+        "runtimeNamePlan": "img-bg-02-identity.png",
+        "use": "身份中性场景，不预设随机身份/人物/阶层"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "identity可见且cards尚未覆盖"
+      },
+      "cancel": [
+        "离开该screen或关闭/被取代的overlay即结束显示；取消其局外装饰，不改底层screen",
+        "减少动态使用同一静态图，资源未就绪不阻塞原控件"
+      ],
+      "sharedWith": [
+        "identity"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:194-220",
+          "role": "身份中性场景，不预设随机身份/人物/阶层",
+          "current": "仅home已有旧图片，其余是代码绘制背景，无新素材接线"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:223-321 game base"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-BG-03",
+      "kind": "image.background",
+      "required": true,
+      "screen": [
+        "cards"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 1080,
+        "height": 1920,
+        "alpha": false,
+        "fit": "等比cover居中裁切；安全区与真实文字布局优先，必要补边；禁止非等比拉伸",
+        "archiveGroup": "images",
+        "currentFileExists": false,
+        "archiveNamePlan": "img-bg-03-belongings-source.png",
+        "runtimeNamePlan": "img-bg-03-belongings.png",
+        "use": "required overlay自身的低对比背景，不把cards改成新screen"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "顶层cards可见"
+      },
+      "cancel": [
+        "离开该screen或关闭/被取代的overlay即结束显示；取消其局外装饰，不改底层screen",
+        "减少动态使用同一静态图，资源未就绪不阻塞原控件"
+      ],
+      "sharedWith": [
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:57-70,158-167",
+          "role": "required overlay自身的低对比背景，不把cards改成新screen",
+          "current": "仅home已有旧图片，其余是代码绘制背景，无新素材接线"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:223-321 game base"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-BG-04",
+      "kind": "image.background",
+      "required": true,
+      "screen": [
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 1080,
+        "height": 1920,
+        "alpha": false,
+        "fit": "等比cover居中裁切；安全区与真实文字布局优先，必要补边；禁止非等比拉伸",
+        "archiveGroup": "images",
+        "currentFileExists": false,
+        "archiveNamePlan": "img-bg-04-archive-source.png",
+        "runtimeNamePlan": "img-bg-04-archive.png",
+        "use": "只在目标overlay内裁切的共用底景/材质；sound不另造全屏背景；game下层不变"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "目标档案/管理/声音overlay可见"
+      },
+      "cancel": [
+        "离开该screen或关闭/被取代的overlay即结束显示；取消其局外装饰，不改底层screen",
+        "减少动态使用同一静态图，资源未就绪不阻塞原控件"
+      ],
+      "sharedWith": [
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:114-122,132-167,340-382,426-450",
+          "role": "只在目标overlay内裁切的共用底景/材质；sound不另造全屏背景；game下层不变",
+          "current": "仅home已有旧图片，其余是代码绘制背景，无新素材接线"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:223-321 game base"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-BG-05",
+      "kind": "image.background",
+      "required": true,
+      "screen": [
+        "ending"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 1080,
+        "height": 1920,
+        "alpha": false,
+        "fit": "等比cover居中裁切；安全区与真实文字布局优先，必要补边；禁止非等比拉伸",
+        "archiveGroup": "images",
+        "currentFileExists": false,
+        "archiveNamePlan": "img-bg-05-ending-source.png",
+        "runtimeNamePlan": "img-bg-05-ending.png",
+        "use": "报告overlay自己的中性底景；不按死因/评价预画结果，不覆盖game底图"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "ending报告可见且有真实report"
+      },
+      "cancel": [
+        "离开该screen或关闭/被取代的overlay即结束显示；取消其局外装饰，不改底层screen",
+        "减少动态使用同一静态图，资源未就绪不阻塞原控件"
+      ],
+      "sharedWith": [
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:123-131,158-167,385-423",
+          "role": "报告overlay自己的中性底景；不按死因/评价预画结果，不覆盖game底图",
+          "current": "仅home已有旧图片，其余是代码绘制背景，无新素材接线"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:223-321 game base"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-01",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-01-corn-source.png",
+        "runtimeNamePlan": "img-item-01-corn.png",
+        "subject": "高产耐旱玉米良种",
+        "contentBinding": {
+          "existingContentId": "CARD_MODERN_CORN",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_MODERN_CORN或现有relicId为CARD_MODERN_CORN时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/corn.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/corn.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-02",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-02-antibiotic-source.png",
+        "runtimeNamePlan": "img-item-02-antibiotic.png",
+        "subject": "抗生素与防疫手册",
+        "contentBinding": {
+          "existingContentId": "CARD_MODERN_ANTIBIOTIC",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_MODERN_ANTIBIOTIC或现有relicId为CARD_MODERN_ANTIBIOTIC时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/antibiotic.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/antibiotic.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-03",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-03-flashlight-source.png",
+        "runtimeNamePlan": "img-item-03-flashlight.png",
+        "subject": "手摇发电强光手电",
+        "contentBinding": {
+          "existingContentId": "CARD_MODERN_FLASHLIGHT",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_MODERN_FLASHLIGHT或现有relicId为CARD_MODERN_FLASHLIGHT时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/flashlight.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/flashlight.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-04",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-04-calculator-source.png",
+        "runtimeNamePlan": "img-item-04-calculator.png",
+        "subject": "太阳能简易计算器",
+        "contentBinding": {
+          "existingContentId": "CARD_MODERN_CALCULATOR",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_MODERN_CALCULATOR或现有relicId为CARD_MODERN_CALCULATOR时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/calculator.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/calculator.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-05",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-05-book-source.png",
+        "runtimeNamePlan": "img-item-05-book.png",
+        "subject": "旧蒙书与小杆秤",
+        "contentBinding": {
+          "existingContentId": "CARD_NATIVE_BOOK",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_NATIVE_BOOK或现有relicId为CARD_NATIVE_BOOK时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/book.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/book.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-06",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-06-glue-source.png",
+        "runtimeNamePlan": "img-item-06-glue.png",
+        "subject": "502强力胶与折叠军刀",
+        "contentBinding": {
+          "existingContentId": "CARD_MODERN_GLUE",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_MODERN_GLUE或现有relicId为CARD_MODERN_GLUE时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/glue.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/glue.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-07",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-07-lighter-source.png",
+        "runtimeNamePlan": "img-item-07-lighter.png",
+        "subject": "防风打火机与醒脑油",
+        "contentBinding": {
+          "existingContentId": "CARD_MODERN_LIGHTER",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_MODERN_LIGHTER或现有relicId为CARD_MODERN_LIGHTER时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/lighter.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/lighter.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-ITEM-08",
+      "kind": "image.item",
+      "required": true,
+      "screen": [
+        "cards",
+        "relic"
+      ],
+      "state": [
+        "normal",
+        "longText",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 768,
+        "alpha": "真实有效alpha；无白黑边或棋盘背景",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-item-08-bowl-source.png",
+        "runtimeNamePlan": "img-item-08-bowl.png",
+        "subject": "粗陶乞食破碗",
+        "contentBinding": {
+          "existingContentId": "CARD_NATIVE_BOWL",
+          "purpose": "只映射既有ID到局外图，非新游戏内容ID"
+        },
+        "composition": "略俯视三分之四、左上柔光、主体70%-80%、留边；代码绘制名称/稀有度/能力",
+        "referenceRequirement": "可无输入；批量前需一件批准物品风格，尚未提供"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅当真实候选包含CARD_NATIVE_BOWL或现有relicId为CARD_NATIVE_BOWL时显示"
+      },
+      "cancel": [
+        "换候选/离开cards/关闭详情/更换relicId移除该展示；换选仅改选择视觉，不新增撤销动作",
+        "screen=game的博古架仍走原art/items，不引用本图"
+      ],
+      "sharedWith": [
+        "cards",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:11-15,323-337",
+          "role": "cards.cardOffer只把该ID的局外展示图接到原有图位，不改selectCard行为",
+          "current": "54x54使用共享art/items/bowl.png"
+        },
+        {
+          "location": "src/view.ts:453-464",
+          "role": "relic既有详情overlay的新增局外展示图位",
+          "current": "仅文字，无image/scroll；只从博古架既有入口到达，不新增开局或管理详情入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/art/items/bowl.png",
+        "src/view.ts:264-271 博古架物品图"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-UI-01",
+      "kind": "image.texture",
+      "required": false,
+      "screen": [
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "alpha": false,
+        "tileable": true,
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-ui-01-paper-source.png",
+        "runtimeNamePlan": "img-ui-01-paper.png",
+        "acceptance": "3x3平铺接缝及实际字号对比，纯色足够则不生产/不启用"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "目标面板可见且该增强获批准"
+      },
+      "cancel": [
+        "panel关闭/销毁移除；不改变命中/布局或game的panel颜色"
+      ],
+      "sharedWith": [
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:158-167,453-464",
+          "role": "仅目标panel与relic面板的可选纸纹，不改共享Ui/ink"
+        }
+      ],
+      "doNotReplace": [
+        "src/ui.ts:1-14,81-107 shared ink/fonts/Ui"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-UI-02",
+      "kind": "image.frame",
+      "required": false,
+      "screen": [
+        "cards"
+      ],
+      "state": [
+        "normal",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 1024,
+        "alpha": "框内框外均真实透明",
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-ui-02-frame-source.png",
+        "runtimeNamePlan": "img-ui-02-frame.png",
+        "acceptance": "长文卡片不能为套框裁文；简单边框代码优先，不烘焙选中/禁用状态"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "cards中真实候选卡可见且增强获批准"
+      },
+      "cancel": [
+        "关闭cards/进入game移除；快速换选不留旧动画"
+      ],
+      "sharedWith": [
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:323-337",
+          "role": "cardOffer可选装饰框，实际选中、焦点、disabled仍代码绘制"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:264-271 博古架本体",
+        "src/ui.ts:81-99 共享按钮"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-UI-03",
+      "kind": "image.seal",
+      "required": false,
+      "screen": [
+        "achievements",
+        "career.achievements",
+        "ending"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 512,
+        "height": 512,
+        "alpha": true,
+        "archiveGroup": "images",
+        "archiveNamePlan": "img-ui-03-seal-source.png",
+        "runtimeNamePlan": "img-ui-03-seal.png",
+        "acceptance": "无文字/等级/奖励含义，不替代实际成就或锁定状态"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "对应目标页可见且增强获批准"
+      },
+      "cancel": [
+        "关闭/切tab/返回时移除；不逐条模拟解锁"
+      ],
+      "sharedWith": [
+        "achievements",
+        "career.achievements",
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:132-151,374-380,385-423",
+          "role": "成就或报告可选无字装饰；非局内解锁特效"
+        }
+      ],
+      "doNotReplace": [
+        "public/fx/FX_ACHIEVE_CONFETTI.png",
+        "public/audio/cues/achievement.mp3"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-UI-04",
+      "kind": "image.icon_batch",
+      "required": false,
+      "screen": [
+        "home",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "state": [
+        "normal",
+        "busy",
+        "disabled",
+        "selected",
+        "keyboardFocus"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 256,
+        "height": 256,
+        "alpha": true,
+        "archiveGroup": "images",
+        "independentOutputCount": 6,
+        "variants": [
+          {
+            "name": "achievements",
+            "screen": [
+              "home",
+              "achievements",
+              "career.achievements"
+            ],
+            "consumer": "homeAchievements或成就页既有标题/入口装饰",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-04-achievements-source.png",
+            "runtimeNamePlan": "img-ui-04-achievements.png"
+          },
+          {
+            "name": "statistics",
+            "screen": [
+              "home",
+              "stats"
+            ],
+            "consumer": "homeStats或统计页既有标题/入口装饰",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-04-statistics-source.png",
+            "runtimeNamePlan": "img-ui-04-statistics.png"
+          },
+          {
+            "name": "sound",
+            "screen": [
+              "home",
+              "sound"
+            ],
+            "consumer": "homeSound或声音页既有控件/标题装饰，不改gameSound入口本体",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-04-sound-source.png",
+            "runtimeNamePlan": "img-ui-04-sound.png"
+          },
+          {
+            "name": "career",
+            "screen": [
+              "career.careers",
+              "career.modern",
+              "career.relics",
+              "career.achievements"
+            ],
+            "consumer": "管理面板内既有标题/标签装饰，不改局内gameCareer或decisionCareer按钮本体",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-04-career-source.png",
+            "runtimeNamePlan": "img-ui-04-career.png"
+          },
+          {
+            "name": "back",
+            "screen": [
+              "achievements",
+              "stats",
+              "sound",
+              "career.careers",
+              "career.modern",
+              "career.relics",
+              "career.achievements",
+              "relic",
+              "ending"
+            ],
+            "consumer": "既有返回动作的装饰，不给cards新增返回",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-04-back-source.png",
+            "runtimeNamePlan": "img-ui-04-back.png"
+          },
+          {
+            "name": "close",
+            "screen": [
+              "achievements",
+              "stats",
+              "sound",
+              "career.careers",
+              "career.modern",
+              "career.relics",
+              "career.achievements",
+              "relic",
+              "ending"
+            ],
+            "consumer": "既有关闭动作的装饰，不增加关闭语义",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-04-close-source.png",
+            "runtimeNamePlan": "img-ui-04-close.png"
+          }
+        ],
+        "acceptance": "6张独立图而非拼图；简单图标代码优先，标签/焦点/语义保留，功能按钮不被图片取代"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "对应既有控件可见且该图标增强批准"
+      },
+      "cancel": [
+        "控件所在目标页关闭/销毁移除；不拦截输入或改Tab顺序"
+      ],
+      "sharedWith": [
+        "home",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:183-185,114-155,159-161,343-348,435-447,461-464",
+          "role": "仅已存在的局外入口、目标面板内部、返回关闭控件可选装饰"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:223-291 局内HUD/博古架/推进和入口本体",
+        "src/view.ts:71-113 decision/stage"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-UI-05",
+      "kind": "image.empty_state_batch",
+      "required": false,
+      "screen": [
+        "achievements",
+        "stats",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements"
+      ],
+      "state": [
+        "empty"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "outputFormat": "PNG",
+        "width": 768,
+        "height": 512,
+        "alpha": true,
+        "archiveGroup": "images",
+        "independentOutputCount": 4,
+        "variants": [
+          {
+            "name": "achievements-empty",
+            "screen": [
+              "achievements",
+              "career.achievements"
+            ],
+            "condition": "首页records.achievements.size=0或管理成就并集size=0，各用各自真实判定",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-05-achievements-empty-source.png",
+            "runtimeNamePlan": "img-ui-05-achievements-empty.png"
+          },
+          {
+            "name": "statistics-empty",
+            "screen": [
+              "stats"
+            ],
+            "condition": "records.completed=0；仍保留四项零值",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-05-statistics-empty-source.png",
+            "runtimeNamePlan": "img-ui-05-statistics-empty.png"
+          },
+          {
+            "name": "career-empty",
+            "screen": [
+              "career.careers"
+            ],
+            "condition": "player.chains.length=0",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-05-career-empty-source.png",
+            "runtimeNamePlan": "img-ui-05-career-empty.png"
+          },
+          {
+            "name": "items-empty",
+            "screen": [
+              "career.modern",
+              "career.relics"
+            ],
+            "condition": "该tab经过既有CARD_MODERN_筛选的持有集合为空",
+            "inputReference": null,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-ui-05-items-empty-source.png",
+            "runtimeNamePlan": "img-ui-05-items-empty.png"
+          }
+        ],
+        "acceptance": "4张独立图；仅无数据语义，不替代真实空文案、零值、存储warning或操作"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "上述各子图对应的真实空判定成立且增强批准"
+      },
+      "cancel": [
+        "集合变为非空、切tab或关闭时移除；不伪造数据"
+      ],
+      "sharedWith": [
+        "achievements",
+        "stats",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:132-151,366-380",
+          "role": "各真实空集合/零统计处可选插画；不新增锁定、奖励、失败或重试功能"
+        }
+      ],
+      "doNotReplace": [],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "IMG-LAYER-01",
+      "kind": "image.layer_edit_process",
+      "required": false,
+      "screen": [
+        "home",
+        "identity",
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "ending"
+      ],
+      "state": [
+        "normal"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "width": 1080,
+        "height": 1920,
+        "archiveGroup": "images",
+        "inputRequirement": "先有一张已批准且可编辑/可上传的IMG-BG-01..05完整背景；当前inputReference=null",
+        "outputCount": 2,
+        "outputs": [
+          {
+            "name": "background-plate",
+            "alpha": false,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-layer-01-background-plate-source.png"
+          },
+          {
+            "name": "foreground",
+            "alpha": true,
+            "sourceFile": null,
+            "runtimeFile": null,
+            "archiveNamePlan": "img-layer-01-foreground-source.png"
+          }
+        ],
+        "runtimeNamePlan": null,
+        "acceptance": "相同原点/尺寸/比例；叠合复原；多背景按各自素材ID归档防覆盖；不能可靠分层保留静态原图"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "已批准背景确有局外视差需求，且分层工序被授权"
+      },
+      "cancel": [
+        "减少动态或分层失败使用批准静态合成图；离开页面/后台暂停，不动game背景"
+      ],
+      "sharedWith": [
+        "IMG-BG-01",
+        "IMG-BG-02",
+        "IMG-BG-03",
+        "IMG-BG-04",
+        "IMG-BG-05"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:170-220,158-167",
+          "role": "只应用于后续选中的既有目标背景消费位置，不另开screen或动画层宿主"
+        }
+      ],
+      "doNotReplace": [
+        "src/view.ts:223-321 game base"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "MUS-01",
+      "kind": "audio.music",
+      "required": true,
+      "screen": [
+        "home"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "selected"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "durationSecondsTarget": [
+          60,
+          90
+        ],
+        "loop": true,
+        "runtimeFormat": "MP3",
+        "archiveGroup": "audio",
+        "archiveNamePlan": "MUS-01-home-master.wav",
+        "runtimeNamePlan": "MUS-01-home.mp3",
+        "referenceRequirement": "无；用户需选定主题样片",
+        "theme": "原创无歌词/人声四音动机；同主题不同编配；不模仿现成作品或在世音乐人",
+        "acceptance": "接缝、响度及耳机/扬声器实际试听；未生成/未试听不称合格"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "首页驻留；home上的普通菜单继续同曲；且已有真实手势解锁、前台、music音量>0、资源可用"
+      },
+      "cancel": [
+        "离开home上下文换相应曲；home上的档案/声音菜单不单独切歌",
+        "后台pause；恢复仅当前循环，mute暂停；销毁释放；不承诺现成crossfade"
+      ],
+      "sharedWith": [
+        "home"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/renderer.ts:145-147,159-160; src/view.ts:170-191",
+          "role": "首页驻留；home上的普通菜单继续同曲",
+          "current": "当前路由没有该素材ID；只有home/life/ending三首旧曲，按screen/status而非overlay"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/music/life.mp3",
+        "public/audio/music/ending.mp3",
+        "src/audio.ts:211-238 三路持久化"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "MUS-02",
+      "kind": "audio.music",
+      "required": true,
+      "screen": [
+        "identity",
+        "cards"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "selected"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "durationSecondsTarget": [
+          60,
+          90
+        ],
+        "loop": true,
+        "runtimeFormat": "MP3",
+        "archiveGroup": "audio",
+        "archiveNamePlan": "MUS-02-preparation-master.wav",
+        "runtimeNamePlan": "MUS-02-preparation.mp3",
+        "referenceRequirement": "已批准且允许上传的MUS-01样片；服务须支持音频参考",
+        "theme": "原创无歌词/人声四音动机；同主题不同编配；不模仿现成作品或在世音乐人",
+        "acceptance": "接缝、响度及耳机/扬声器实际试听；未生成/未试听不称合格"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "身份揭晓与选家当，直至确认成功进game；且已有真实手势解锁、前台、music音量>0、资源可用"
+      },
+      "cancel": [
+        "进入game立即交还原life；不替换public/audio/music/life.mp3",
+        "后台pause；恢复仅当前循环，mute暂停；销毁释放；不承诺现成crossfade"
+      ],
+      "sharedWith": [
+        "identity",
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/renderer.ts:145-147; src/controller.ts:115-120,130-165",
+          "role": "身份揭晓与选家当，直至确认成功进game",
+          "current": "当前路由没有该素材ID；只有home/life/ending三首旧曲，按screen/status而非overlay"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/music/life.mp3",
+        "public/audio/music/ending.mp3",
+        "src/audio.ts:211-238 三路持久化"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "MUS-03",
+      "kind": "audio.music",
+      "required": true,
+      "screen": [
+        "ending"
+      ],
+      "state": [
+        "normal",
+        "empty",
+        "longText",
+        "longList",
+        "busy",
+        "selected"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "durationSecondsTarget": [
+          60,
+          90
+        ],
+        "loop": true,
+        "runtimeFormat": "MP3",
+        "archiveGroup": "audio",
+        "archiveNamePlan": "MUS-03-ending-master.wav",
+        "runtimeNamePlan": "MUS-03-ending.mp3",
+        "referenceRequirement": "已批准且允许上传的MUS-01样片；服务须支持音频参考",
+        "theme": "原创无歌词/人声四音动机；同主题不同编配；不模仿现成作品或在世音乐人",
+        "acceptance": "接缝、响度及耳机/扬声器实际试听；未生成/未试听不称合格"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "只在结局报告上下文驻留，不把ENDED历程也替换；且已有真实手势解锁、前台、music音量>0、资源可用"
+      },
+      "cancel": [
+        "关闭报告返回ENDED历程恢复原ending；重启/首页转对应上下文；高层既有overlay延续其底层报告上下文而非另切歌",
+        "后台pause；恢复仅当前循环，mute暂停；销毁释放；不承诺现成crossfade"
+      ],
+      "sharedWith": [
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/renderer.ts:145-147; src/view.ts:123-131; src/controller.ts:339-348",
+          "role": "只在结局报告上下文驻留，不把ENDED历程也替换",
+          "current": "当前路由没有该素材ID；只有home/life/ending三首旧曲，按screen/status而非overlay"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/music/life.mp3",
+        "public/audio/music/ending.mp3",
+        "src/audio.ts:211-238 三路持久化"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-01",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "home",
+        "identity",
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.08,
+          0.15
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-01-click-master.wav",
+        "runtimeNamePlan": "SFX-01-click.mp3",
+        "activationConstraint": "普通UI反馈被专属SFX替代时不叠加；range拖动不触发",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "局外普通启用按钮，只有没有专属反馈的action使用"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "普通UI反馈被专属SFX替代时不叠加；range拖动不触发"
+      ],
+      "sharedWith": [
+        "home",
+        "identity",
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/renderer.ts:265-268; src/view.ts:179-185,343-348,440-447",
+          "role": "局外普通启用按钮，只有没有专属反馈的action使用",
+          "current": "当前全部非disabled invoke都播共享tap；未来只按目标控件上下文分流"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-02",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.1,
+          0.18
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-02-close-master.wav",
+        "runtimeNamePlan": "SFX-02-close.mp3",
+        "activationConstraint": "只有实际pop才播；cards/decision/stage拒绝close不能伪播关闭",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "成功返回/关闭目标overlay（按钮、Esc、既有relic外部区域）"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "只有实际pop才播；cards/decision/stage拒绝close不能伪播关闭"
+      ],
+      "sharedWith": [
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/controller.ts:231-241; src/view.ts:122,129-131,151-155,159-161,461-464; src/renderer.ts:396-425",
+          "role": "成功返回/关闭目标overlay（按钮、Esc、既有relic外部区域）",
+          "current": "当前按钮走tap；Esc只close；required overlays不允许关闭"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-03",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.12,
+          0.22
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-03-open-master.wav",
+        "runtimeNamePlan": "SFX-03-open.mp3",
+        "activationConstraint": "成就页若用SFX-10则不叠open；不改局内入口控件本体/日志cue",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "用户主动打开既有统计/声音/管理/详情overlay的一次反馈"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "成就页若用SFX-10则不叠open；不改局内入口控件本体/日志cue"
+      ],
+      "sharedWith": [
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:183-185,230,271,284-286,97-98; src/controller.ts:221-229,254-260",
+          "role": "用户主动打开既有统计/声音/管理/详情overlay的一次反馈",
+          "current": "当前没有open专属音；只存在这些真实入口"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-04",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.07,
+          0.13
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-04-tab-master.wav",
+        "runtimeNamePlan": "SFX-04-tab.mp3",
+        "activationConstraint": "重复同tab不冒充新切换；不改tab/selection语义",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "hub_<tab>确实切换到不同既有tab时"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "重复同tab不冒充新切换；不改tab/selection语义"
+      ],
+      "sharedWith": [
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:343-348",
+          "role": "hub_<tab>确实切换到不同既有tab时",
+          "current": "当前只是hubTab赋值+清selectedCareer+invalidate；点击仍经tap"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-05",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "identity"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.25,
+          0.4
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-05-identity-master.wav",
+        "runtimeNamePlan": "SFX-05-identity.mp3",
+        "activationConstraint": "重绘/busy finally/返回遮挡恢复不重播；失败开局不播成功揭晓",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "start成功后身份第一次可见；同次start只一次"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "重绘/busy finally/返回遮挡恢复不重播；失败开局不播成功揭晓"
+      ],
+      "sharedWith": [
+        "identity"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/controller.ts:115-126; src/view.ts:194-220; src/renderer.ts:145-156",
+          "role": "start成功后身份第一次可见；同次start只一次",
+          "current": "旧identity cue文件存在但src无调用；当前不能称已有揭晓声"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-06",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "cards"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.12,
+          0.2
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-06-select-master.wav",
+        "runtimeNamePlan": "SFX-06-select.mp3",
+        "activationConstraint": "换选只播一次新选中；不叠tap/取消；同卡不制造撤销事件",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "真实pending候选首次选中或换到不同候选，未最终提交"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "换选只播一次新选中；不叠tap/取消；同卡不制造撤销事件"
+      ],
+      "sharedWith": [
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/controller.ts:138-146; src/view.ts:323-337",
+          "role": "真实pending候选首次选中或换到不同候选，未最终提交",
+          "current": "当前selectCard始终赋值并emit，无撤销；旧select cue文件无调用"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-07",
+      "kind": "audio.ui_cue",
+      "required": false,
+      "screen": [
+        "cards"
+      ],
+      "state": [
+        "reserved_no_current_consumer"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.1,
+          0.18
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-07-deselect-master.wav",
+        "runtimeNamePlan": "SFX-07-deselect.mp3",
+        "activationConstraint": "本次不启用，不为使用素材而新增交互",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": null
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "本次不启用，不为使用素材而新增交互"
+      ],
+      "sharedWith": [
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/controller.ts:138-146",
+          "role": "仅证明无撤销行为；本次没有可用hook",
+          "current": "当前没有撤销选中消费者；该资源预留，不生成/不接入"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-08",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "cards"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.25,
+          0.4
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-08-depart-master.wav",
+        "runtimeNamePlan": "SFX-08-depart.mp3",
+        "activationConstraint": "无选中/失败/忙碌不播成功；不得为了新声抑制受保护item日志或延迟游戏命令",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "有效confirmCard提交/确认反馈的唯一局外主音；须先解清与原item日志cue的冲突"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "无选中/失败/忙碌不播成功；不得为了新声抑制受保护item日志或延迟游戏命令"
+      ],
+      "sharedWith": [
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:68-70; src/controller.ts:149-165; src/renderer.ts:148-156,265-268",
+          "role": "有效confirmCard提交/确认反馈的唯一局外主音；须先解清与原item日志cue的冲突",
+          "current": "当前confirm先tap，成功card_selected日志还可播item；没有depart专属音"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-09",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "home",
+        "identity",
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "state": [
+        "existing_failure_notice"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.12,
+          0.22
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-09-unavailable-master.wav",
+        "runtimeNamePlan": "SFX-09-unavailable.mp3",
+        "activationConstraint": "disabled命中不触发；同notice重绘不重播；game/decision/stage的原失败语义不改",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "现有真实局外操作失败/不可执行notice在目标上下文产生的一次反馈"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "disabled命中不触发；同notice重绘不重播；game/decision/stage的原失败语义不改"
+      ],
+      "sharedWith": [
+        "home",
+        "identity",
+        "cards",
+        "achievements",
+        "stats",
+        "sound",
+        "career.careers",
+        "career.modern",
+        "career.relics",
+        "career.achievements",
+        "relic",
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/controller.ts:104-124,141-143,153-155,223-225,234-247,263-265,330-336,362-366",
+          "role": "现有真实局外操作失败/不可执行notice在目标上下文产生的一次反馈",
+          "current": "旧error cue无调用；多数busy/invalid守卫静默返回，不能凭此新增notice或点击"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-10",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "achievements",
+        "career.achievements"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.2,
+          0.35
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-10-achievement-master.wav",
+        "runtimeNamePlan": "SFX-10-achievement.mp3",
+        "activationConstraint": "不逐条播、不冒充新解锁；不与open/tab/tap叠加，不改变局内achievement cue",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "用户主动进入成就页的一次展示提示，可替代该次open/tab"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "不逐条播、不冒充新解锁；不与open/tab/tap叠加，不改变局内achievement cue"
+      ],
+      "sharedWith": [
+        "achievements",
+        "career.achievements"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:184,343-348,374-380; src/controller.ts:221-229",
+          "role": "用户主动进入成就页的一次展示提示，可替代该次open/tab",
+          "current": "现有achievement cue只绑定achievement日志，不是打开旧列表"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "SFX-11",
+      "kind": "audio.ui_cue",
+      "required": true,
+      "screen": [
+        "ending"
+      ],
+      "state": [
+        "accepted_ui_event"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": "按实际声像选择，不承诺母版立体声",
+        "durationSecondsTarget": [
+          0.25,
+          0.4
+        ],
+        "runtimeFormat": "MP3",
+        "singleEvent": true,
+        "archiveGroup": "audio",
+        "archiveNamePlan": "SFX-11-ending-master.wav",
+        "runtimeNamePlan": "SFX-11-ending.mp3",
+        "activationConstraint": "重开报告/重绘不当新终局；不替换或抑制局内死亡/成就cue；关闭前未触发则丢弃不补播",
+        "referenceRequirement": "无",
+        "enabledInCurrentRuntime": false
+      },
+      "trigger": {
+        "current": null,
+        "planned": "同段人生报告首次可见时一次收束；先解清与死亡/成就日志的同时触发"
+      },
+      "cancel": [
+        "短音自然结束；前台/已解锁/effects>0/资源可用才请求",
+        "取消/关闭后丢弃未播事件，后台不补播；effects=0停止，销毁释放；不要重播过期反馈",
+        "重开报告/重绘不当新终局；不替换或抑制局内死亡/成就cue；关闭前未触发则丢弃不补播"
+      ],
+      "sharedWith": [
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/controller.ts:339-350; src/view.ts:123-131,385-423; src/renderer.ts:148-156",
+          "role": "同段人生报告首次可见时一次收束；先解清与死亡/成就日志的同时触发",
+          "current": "旧ending cue文件无调用；终局音乐按ENDED，death/achievement日志仍可播"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/cues/tap.mp3",
+        "public/audio/cues/* 局内日志触发",
+        "src/renderer.ts:148-156 原局内cue消费者"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "AMB-01",
+      "kind": "audio.ambience",
+      "required": false,
+      "screen": [
+        "home",
+        "identity",
+        "cards"
+      ],
+      "state": [
+        "normal",
+        "busy",
+        "selected"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "masterFormat": "WAV",
+        "sampleRateHz": 48000,
+        "channels": 2,
+        "durationSecondsTarget": [
+          30,
+          60
+        ],
+        "loop": true,
+        "runtimeFormat": "MP3",
+        "archiveGroup": "audio",
+        "archiveNamePlan": "AMB-01-room-master.wav",
+        "runtimeNamePlan": "AMB-01-room.mp3",
+        "acceptance": "低存在感室内底声，无可辨突发事件/人声/音乐；接缝、三路控制及音乐同播后续试听"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "home/identity/cards上下文且可选项已批准；手势解锁/前台/ambience>0"
+      },
+      "cancel": [
+        "进入game切回原地区源或结束时null；后台pause；关闭/重启重评上下文；不覆盖地区文件"
+      ],
+      "sharedWith": [
+        "home",
+        "identity",
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/renderer.ts:145-147; src/audio.ts:191-196,250-258",
+          "role": "只在home/准备上下文可选新增局外环境源；普通home菜单可继承；game保留既有地区源",
+          "current": "home/identity没有环境源；game未结束才地区环境"
+        }
+      ],
+      "doNotReplace": [
+        "public/audio/ambience/shanbei.mp3",
+        "public/audio/ambience/capital.mp3",
+        "public/audio/ambience/jiangnan.mp3"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "FX-01",
+      "kind": "video.motion_reference",
+      "required": false,
+      "screen": [
+        "home"
+      ],
+      "state": [
+        "normal"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "format": "MP4 reference only",
+        "width": 750,
+        "height": 1334,
+        "fps": 24,
+        "durationSecondsTarget": [
+          4,
+          6
+        ],
+        "archiveGroup": "motion",
+        "archiveNamePlan": "FX-01-home-motion-reference.mp4",
+        "runtimeNamePlan": null,
+        "referenceOnly": true,
+        "acceptance": "无文字、音轨、强闪/镜头位移；只帮助Canvas低幅尘光设计，不作为运行视频背景"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "离线查看参考；未来home可见时运行的是程序动效，不是此视频"
+      },
+      "cancel": [
+        "离开home/后台/销毁停程序循环；减少动态静态；参考文件不进入包"
+      ],
+      "sharedWith": [
+        "home"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:170-191; src/renderer.ts:247-258",
+          "role": "后续首页程序动效的离线设计参考；无当前视频消费者"
+        }
+      ],
+      "doNotReplace": [
+        "src/effects.ts:21-27 局内烛火及三种一次性特效"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "FX-02",
+      "kind": "video.optional_fx_reference",
+      "required": false,
+      "screen": [
+        "cards"
+      ],
+      "state": [
+        "accepted_transition"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "referenceFormat": "MP4 black-background reference",
+        "width": 512,
+        "height": 512,
+        "fps": 24,
+        "durationSecondsTarget": [
+          0.35,
+          0.55
+        ],
+        "archiveGroup": "motion",
+        "archiveNamePlan": "FX-02-depart-reference.mp4",
+        "runtimeDirectoryNamePlan": "FX-02-depart",
+        "runtimeFormat": null,
+        "programmaticDefault": true,
+        "acceptance": "只有可靠遮罩/提帧、真alpha边缘、无黑边/闪烁、平台性能及包体验证后才考虑入public/fx/outgame；当前不支持直接透明视频承诺"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "仅有效确认且cards仍可见的局外视觉窗口；可能没有足够窗口，默认程序实现且不强行展示"
+      },
+      "cancel": [
+        "自然时长后结束；cards不再为顶层、确认失败、重启或销毁时取消过时视觉和回调",
+        "screen=game即不显示FX-02，不能为播完拖延提交/盖住game；减少动态静态最终态，后台不追赶"
+      ],
+      "sharedWith": [
+        "cards"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:68-70; src/controller.ts:149-165",
+          "role": "启程局外短暂点缀",
+          "current": "没有该视频/提帧消费者；不能复用或替换局内图集来冒充"
+        }
+      ],
+      "doNotReplace": [
+        "public/fx/FX_MING_CANDLE.png",
+        "public/fx/FX_COLLECT_BURST.png",
+        "public/fx/FX_COMIC_POOF.png",
+        "public/fx/FX_ACHIEVE_CONFETTI.png"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    },
+    {
+      "id": "FX-03",
+      "kind": "video.optional_fx_reference",
+      "required": false,
+      "screen": [
+        "ending"
+      ],
+      "state": [
+        "accepted_transition"
+      ],
+      "inputReference": null,
+      "sourceFile": null,
+      "runtimeFile": null,
+      "targetSpec": {
+        "referenceFormat": "MP4 black-background reference",
+        "width": 512,
+        "height": 512,
+        "fps": 24,
+        "durationSecondsTarget": [
+          0.35,
+          0.55
+        ],
+        "archiveGroup": "motion",
+        "archiveNamePlan": "FX-03-ending-seal-reference.mp4",
+        "runtimeDirectoryNamePlan": "FX-03-ending-seal",
+        "runtimeFormat": null,
+        "programmaticDefault": true,
+        "acceptance": "只有可靠遮罩/提帧、真alpha边缘、无黑边/闪烁、平台性能及包体验证后才考虑入public/fx/outgame；当前不支持直接透明视频承诺"
+      },
+      "trigger": {
+        "current": null,
+        "planned": "同人生首次报告可见；不因重开或重绘重播"
+      },
+      "cancel": [
+        "自然时长后稳定为静态印记；ending报告关闭、被更高overlay遮挡、重启或销毁时取消过时显现和回调",
+        "仅在可见ending报告层绘制；底层screen=game不构成取消条件；减少动态直接显示静态最终态，后台不追赶、不补播过期显现"
+      ],
+      "sharedWith": [
+        "ending"
+      ],
+      "consumerLocations": [
+        {
+          "location": "src/view.ts:123-131,385-423; src/controller.ts:339-350",
+          "role": "报告无字印记一次显现",
+          "current": "没有该视频/提帧消费者；不能复用或替换局内图集来冒充"
+        }
+      ],
+      "doNotReplace": [
+        "public/fx/FX_MING_CANDLE.png",
+        "public/fx/FX_COLLECT_BURST.png",
+        "public/fx/FX_COMIC_POOF.png",
+        "public/fx/FX_ACHIEVE_CONFETTI.png"
+      ],
+      "provider": null,
+      "rights": {
+        "status": "unknown_not_cleared",
+        "commercialUse": null,
+        "referenceUpload": null
+      },
+      "approval": {
+        "status": "not_authorized",
+        "style": null,
+        "content": null
+      },
+      "status": "planned"
+    }
+  ],
+  "unresolvedIntegrationConstraints": [
+    "relic当前没有图和scroll；新增物品视觉只接既有详情overlay，不以此增加开局/管理详情入口；长文越界需后续界面实现解决",
+    "sound面板和管理从game打开时，新档案图只能在overlay范围使用，不能换下层game背景",
+    "音频只有单音乐播放器，无现成双声部crossfade；不得将目标过渡说成现有能力",
+    "MUS-03报告上下文不能直接复用status=ENDED判断；回历程仍须保留原ending曲；更高层overlay上下文识别后续接线需明确",
+    "SFX-07没有当前消费，不生成/不接入；SFX-09对应现有真实notice失败，不改变静默守卫或禁用行为",
+    "SFX-08与原card_selected:item及SFX-11与终局日志cue需要明确仲裁；不能抑制受保护局内日志cue或靠新增游戏等待解决",
+    "FX-02若成功提交与screen=game无可见局外间隔，则不得强留cards或盖住game；默认省略外部FX，不能保证完整展示窗口",
+    "tools/assets.mjs是31文件显式表，不会自动把outgame计划变必需；可选资源不得成为构建强依赖"
+  ],
+  "nextStageInputs": [
+    {
+      "input": "本阶段scope.md、manifest.json与08提示词",
+      "state": "delivered_by_this_phase"
+    },
+    {
+      "input": "A爆笑开播全项目风格及HTML参考；按Doc/UI整体风格方案.md直接执行，不再进行方向三选一",
+      "state": "approved",
+      "reference": "local/outgame-ai/02-style/bright-options/a-comic.html"
+    },
+    {
+      "input": "图像与音乐分别明确供应商、实际可用模型/能力、预算或调用额度、允许上传的参考及用途",
+      "state": "not_authorized"
+    },
+    {
+      "input": "A的HTML及两尺寸真实截图已在本地；新增媒体原件与使用/编辑/上传权利仍须明确，不能把风格批准当上传授权",
+      "state": "local_style_reference_available_new_media_not_supplied"
+    },
+    {
+      "input": "MUS-01首页主题样片用户选择；MUS-02/03需等该样片批准且工具支持音频参考",
+      "state": "not_generated"
+    },
+    {
+      "input": "下一阶段首页样板保留真实入口与临时进度提示；390x844、360x640 Web实际预览，微信/减少动态/听音证据按实际标注",
+      "state": "not_executed"
+    },
+    {
+      "input": "批量前另批准一件物品风格参考；新媒体商业许可和生成/加工证据",
+      "state": "not_approved"
+    }
+  ],
+  "verification": {
+    "performed": [
+      "静态读取指定源码与08全部条目",
+      "public目录实物枚举和许可声明对照",
+      "本地file读取13张PNG及17个MP3头部（无解码/试听）",
+      "sha256sum核对四份licenses源文件与public/licenses同名副本，逐份哈希相同",
+      "只读核对JSON结构、08的37个素材编号、12目标表面+2原生兜底及每表面9项状态；不是运行测试"
+    ],
+    "notPerformed": [
+      "构建",
+      "测试",
+      "内容校验",
+      "运行客户端/点击",
+      "Web/微信真机验证",
+      "试听/响度/循环/图像alpha内容检查",
+      "生成或外部请求",
+      "Git跟踪状态/字节级历史来源核验"
+    ],
+    "lsp": "references服务返回No language server found，使用已知文件静态读取与定向检索"
+  },
+  "baselineSummary": {
+    "homeBackgrounds": 1,
+    "sharedItemImages": 8,
+    "musicFiles": 3,
+    "regionAmbienceFiles": 3,
+    "cueFiles": 11,
+    "pixelAtlases": 4,
+    "atlasMetadata": 1,
+    "totalMediaFiles": 30,
+    "totalRequiredFilesInAssetsList": 31,
+    "referencedCueKinds": 7,
+    "cueKindsWithoutCallsites": [
+      "select",
+      "error",
+      "ending",
+      "identity"
+    ],
+    "headerEvidence": "file本地文件头：PNG尺寸/通道；MP3编码/采样率/声道/码率；非解码/试听/alpha内容验证"
+  },
+  "licenseFiles": [
+    {
+      "sourceFile": "licenses/media-sources.txt",
+      "runtimeFile": "public/licenses/media-sources.txt",
+      "fileExists": true,
+      "sha256": "92b095bba65692dc37f3c229e2a9d17616b3396a746a3552ed166c667bcf3d9f",
+      "copyMatchesSource": true,
+      "copyRule": "tools/prepare-assets.mjs:16-21 仅复制licenses直接子文件；本阶段未运行"
+    },
+    {
+      "sourceFile": "licenses/minigame-canvas-engine.MIT.txt",
+      "runtimeFile": "public/licenses/minigame-canvas-engine.MIT.txt",
+      "fileExists": true,
+      "sha256": "e1df5224ddaec61dfdeb5bb1651a189fba742a614e0daf16dc6dfba50d47d80c",
+      "copyMatchesSource": true,
+      "copyRule": "tools/prepare-assets.mjs:16-21 仅复制licenses直接子文件；本阶段未运行"
+    },
+    {
+      "sourceFile": "licenses/pixelfx.MIT.txt",
+      "runtimeFile": "public/licenses/pixelfx.MIT.txt",
+      "fileExists": true,
+      "sha256": "0a77565a50c3462831244452f129c38d2adc4fd07897cbeba8adc943f958604e",
+      "copyMatchesSource": true,
+      "copyRule": "tools/prepare-assets.mjs:16-21 仅复制licenses直接子文件；本阶段未运行"
+    },
+    {
+      "sourceFile": "licenses/pixelfx.NOTICE.txt",
+      "runtimeFile": "public/licenses/pixelfx.NOTICE.txt",
+      "fileExists": true,
+      "sha256": "d5e8a94f8d3e6044b61b92a7880c2d360a06e2e95f70e49d0cca0b2c524ee92b",
+      "copyMatchesSource": true,
+      "copyRule": "tools/prepare-assets.mjs:16-21 仅复制licenses直接子文件；本阶段未运行"
+    }
+  ],
+  "documentClaims": [
+    {
+      "document": "licenses/media-sources.txt:15-22",
+      "claim": "首页、3身份类型、3人物插画及CC0绘制源",
+      "fileEvidence": "public/art/scenes/home.png存在；public/art/identity和people当前为空；08中的新身份图仍planned",
+      "verification": "未独立核验声明中的历史相对来源或生成脚本，也未外部核权；不将来源声明视为本次权利审查结论"
+    },
+    {
+      "document": "licenses/media-sources.txt:24-28",
+      "claim": "八物品为项目原创代码绘制，不统称CC0",
+      "fileEvidence": "八PNG存在且文件头512x512 RGBA；不证明所有候选已出现或有效透明像素",
+      "verification": "原生成器与历史来源未独立核实"
+    },
+    {
+      "document": "licenses/media-sources.txt:30-37",
+      "claim": "17音频为原创算法合成，无外部样本/服务",
+      "fileEvidence": "17MP3存在；当前7种cue有src调用，4种无；头部22050Hz单声道64kbps不是新48k立体声母版",
+      "verification": "旧provenance/生成器未核实；未试听/测时长/混音"
+    },
+    {
+      "document": "Doc/Plans/非局内页面AI重制提示词/08-外部AI素材清单与完整提示词.md:3,19,49,352,359-362",
+      "claim": "36素材任务加1分层工序，尚未生成审批；outgame路径是计划",
+      "fileEvidence": "未观察到三个public/*/outgame目录；本次也不创建媒体目录或文件",
+      "verification": "清单37父条目；UI子文件是variant而非新游戏/素材编号"
+    },
+    {
+      "document": "README.md:30,89-116",
+      "claim": "Web/微信包内资源与许可结构；108行称11种提示音",
+      "fileEvidence": "tools与platform静态规则可对应包结构；11个MP3 cue文件存在，但src只有7种playCue条件调用，不声称11种都已触发",
+      "verification": "不以旧dist存在证明新资源接入；许可证副本SHA-256相同不等于旧上游来源和商用权已核准"
+    }
+  ],
+  "packagingCurrent": {
+    "requiredList": "tools/assets.mjs:7-23 明确31个必需文件，不递归发现新资源",
+    "prepare": "tools/prepare-assets.mjs:5-21 stat清单并复制licenses直接子文件，不生成媒体、不清理许可目录",
+    "web": "vite.config.ts:4-5,14-17 base=./、outDir=dist-web；src/platform.ts:123,133 资源经BASE_URL解析",
+    "wechat": "tools/build-wechat.mjs:9-14,44-47 递归复制art/audio/fx到media对应分包，licenses独立复制；src/platform.ts:84加media/",
+    "limits": {
+      "perMainOrSubpackageBytes": 4194304,
+      "totalBytes": 31457280,
+      "evidence": "tools/build-wechat.mjs:6-14,90-106，脚本门槛非实测包体"
+    },
+    "future": "后续仅按确实启用的必需资源更新显式表；可选未启用不可成为构建依赖；复制存在不等于被引用或触发",
+    "gitignore": "根.gitignore:1-4未列public/local，未查询全局excludes或现有跟踪状态"
+  }
+}

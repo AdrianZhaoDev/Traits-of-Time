@@ -1,0 +1,477 @@
+{
+  "gameName": "穿越了这次我带大喇叭逆袭",
+  "source": "User-supplied final brand, original native-resolution thumbnail retained",
+  "verification": [],
+  "home390": {
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "dpr": 2
+    },
+    "canvas": {
+      "width": 390,
+      "height": 844,
+      "pixelWidth": 780,
+      "pixelHeight": 1688
+    },
+    "documentTitle": "穿越了这次我带大喇叭逆袭",
+    "stageLabel": "穿越了这次我带大喇叭逆袭",
+    "semanticLabel": "穿越了这次我带大喇叭逆袭 · 首页",
+    "favicon": "http://127.0.0.1:5177/art/branding/avatar.png",
+    "text": [
+      "穿越人生模拟",
+      "明末人生",
+      "穿越了\n这次我带大喇叭逆袭",
+      "带上一件现代物品，\n去明朝过一生。",
+      "我要穿越",
+      "出发前，先看看你的身份。",
+      "声音",
+      "成就",
+      "统计",
+      "本局进度仅临时保留，\n关闭或刷新后不能继续。"
+    ],
+    "textNodes": [
+      {
+        "text": "穿越人生模拟",
+        "fontSize": 28,
+        "lineHeight": 42,
+        "rect": {
+          "width": 380,
+          "height": 42,
+          "left": 48,
+          "right": 428,
+          "top": 40,
+          "bottom": 82
+        }
+      },
+      {
+        "text": "明末人生",
+        "fontSize": 28,
+        "lineHeight": 42,
+        "rect": {
+          "width": 274,
+          "height": 42,
+          "left": 428,
+          "right": 702,
+          "top": 40,
+          "bottom": 82
+        }
+      },
+      {
+        "text": "穿越了\n这次我带大喇叭逆袭",
+        "fontSize": 64,
+        "lineHeight": 88,
+        "rect": {
+          "width": 654,
+          "height": 176,
+          "left": 48,
+          "right": 702,
+          "top": 292,
+          "bottom": 468
+        }
+      },
+      {
+        "text": "带上一件现代物品，\n去明朝过一生。",
+        "fontSize": 32,
+        "lineHeight": 50,
+        "rect": {
+          "width": 654,
+          "height": 100,
+          "left": 48,
+          "right": 702,
+          "top": 480,
+          "bottom": 580
+        }
+      },
+      {
+        "text": "我要穿越",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 630,
+          "height": 46,
+          "left": 60,
+          "right": 690,
+          "top": 1202,
+          "bottom": 1248
+        }
+      },
+      {
+        "text": "出发前，先看看你的身份。",
+        "fontSize": 30,
+        "lineHeight": 44,
+        "rect": {
+          "width": 654,
+          "height": 44,
+          "left": 48,
+          "right": 702,
+          "top": 1295,
+          "bottom": 1339
+        }
+      },
+      {
+        "text": "声音",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 182,
+          "height": 46,
+          "left": 60,
+          "right": 242,
+          "top": 1392,
+          "bottom": 1438
+        }
+      },
+      {
+        "text": "成就",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 182,
+          "height": 46,
+          "left": 284,
+          "right": 466,
+          "top": 1392,
+          "bottom": 1438
+        }
+      },
+      {
+        "text": "统计",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 182,
+          "height": 46,
+          "left": 508,
+          "right": 690,
+          "top": 1392,
+          "bottom": 1438
+        }
+      },
+      {
+        "text": "本局进度仅临时保留，\n关闭或刷新后不能继续。",
+        "fontSize": 30,
+        "lineHeight": 44,
+        "rect": {
+          "width": 654,
+          "height": 88,
+          "left": 48,
+          "right": 702,
+          "top": 1487,
+          "bottom": 1575
+        }
+      }
+    ],
+    "actions": [
+      {
+        "id": "startLife",
+        "label": "我要穿越",
+        "disabled": false,
+        "rect": {
+          "width": 340.08,
+          "height": 56.160000000000004,
+          "left": 24.96,
+          "right": 365.03999999999996,
+          "top": 608.9200000000001,
+          "bottom": 665.08
+        }
+      },
+      {
+        "id": "homeSound",
+        "label": "声音",
+        "disabled": false,
+        "rect": {
+          "width": 107.12,
+          "height": 49.92,
+          "left": 24.96,
+          "right": 132.08,
+          "top": 710.84,
+          "bottom": 760.76
+        }
+      },
+      {
+        "id": "homeAchievements",
+        "label": "成就",
+        "disabled": false,
+        "rect": {
+          "width": 107.12,
+          "height": 49.92,
+          "left": 141.44,
+          "right": 248.56,
+          "top": 710.84,
+          "bottom": 760.76
+        }
+      },
+      {
+        "id": "homeStats",
+        "label": "统计",
+        "disabled": false,
+        "rect": {
+          "width": 107.12,
+          "height": 49.92,
+          "left": 257.92,
+          "right": 365.04,
+          "top": 710.84,
+          "bottom": 760.76
+        }
+      }
+    ],
+    "unlocked": false
+  },
+  "home360": {
+    "viewport": {
+      "width": 360,
+      "height": 640,
+      "dpr": 3
+    },
+    "canvas": {
+      "width": 360,
+      "height": 640,
+      "pixelWidth": 1080,
+      "pixelHeight": 1920
+    },
+    "documentTitle": "穿越了这次我带大喇叭逆袭",
+    "stageLabel": "穿越了这次我带大喇叭逆袭",
+    "semanticLabel": "穿越了这次我带大喇叭逆袭 · 首页",
+    "favicon": "http://127.0.0.1:5177/art/branding/avatar.png",
+    "text": [
+      "穿越人生模拟",
+      "明末人生",
+      "穿越了\n这次我带大喇叭逆袭",
+      "带上一件现代物品，\n去明朝过一生。",
+      "我要穿越",
+      "出发前，先看看你的身份。",
+      "声音",
+      "成就",
+      "统计",
+      "本局进度仅临时保留，\n关闭或刷新后不能继续。"
+    ],
+    "textNodes": [
+      {
+        "text": "穿越人生模拟",
+        "fontSize": 28,
+        "lineHeight": 42,
+        "rect": {
+          "width": 380,
+          "height": 42,
+          "left": 48,
+          "right": 428,
+          "top": 40,
+          "bottom": 82
+        }
+      },
+      {
+        "text": "明末人生",
+        "fontSize": 28,
+        "lineHeight": 42,
+        "rect": {
+          "width": 274,
+          "height": 42,
+          "left": 428,
+          "right": 702,
+          "top": 40,
+          "bottom": 82
+        }
+      },
+      {
+        "text": "穿越了\n这次我带大喇叭逆袭",
+        "fontSize": 64,
+        "lineHeight": 88,
+        "rect": {
+          "width": 654,
+          "height": 176,
+          "left": 48,
+          "right": 702,
+          "top": 240,
+          "bottom": 416
+        }
+      },
+      {
+        "text": "带上一件现代物品，\n去明朝过一生。",
+        "fontSize": 32,
+        "lineHeight": 50,
+        "rect": {
+          "width": 654,
+          "height": 100,
+          "left": 48,
+          "right": 702,
+          "top": 428,
+          "bottom": 528
+        }
+      },
+      {
+        "text": "我要穿越",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 630,
+          "height": 46,
+          "left": 60,
+          "right": 690,
+          "top": 912,
+          "bottom": 958
+        }
+      },
+      {
+        "text": "出发前，先看看你的身份。",
+        "fontSize": 30,
+        "lineHeight": 44,
+        "rect": {
+          "width": 654,
+          "height": 44,
+          "left": 48,
+          "right": 702,
+          "top": 1005,
+          "bottom": 1049
+        }
+      },
+      {
+        "text": "声音",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 182,
+          "height": 46,
+          "left": 60,
+          "right": 242,
+          "top": 1102,
+          "bottom": 1148
+        }
+      },
+      {
+        "text": "成就",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 182,
+          "height": 46,
+          "left": 284,
+          "right": 466,
+          "top": 1102,
+          "bottom": 1148
+        }
+      },
+      {
+        "text": "统计",
+        "fontSize": 32,
+        "lineHeight": 46,
+        "rect": {
+          "width": 182,
+          "height": 46,
+          "left": 508,
+          "right": 690,
+          "top": 1102,
+          "bottom": 1148
+        }
+      },
+      {
+        "text": "本局进度仅临时保留，\n关闭或刷新后不能继续。",
+        "fontSize": 30,
+        "lineHeight": 44,
+        "rect": {
+          "width": 654,
+          "height": 88,
+          "left": 48,
+          "right": 702,
+          "top": 1197,
+          "bottom": 1285
+        }
+      }
+    ],
+    "actions": [
+      {
+        "id": "startLife",
+        "label": "我要穿越",
+        "disabled": false,
+        "rect": {
+          "width": 313.92,
+          "height": 51.839999999999996,
+          "left": 23.04,
+          "right": 336.96000000000004,
+          "top": 422.88,
+          "bottom": 474.71999999999997
+        }
+      },
+      {
+        "id": "homeSound",
+        "label": "声音",
+        "disabled": false,
+        "rect": {
+          "width": 98.88,
+          "height": 46.08,
+          "left": 23.04,
+          "right": 121.91999999999999,
+          "top": 516.96,
+          "bottom": 563.0400000000001
+        }
+      },
+      {
+        "id": "homeAchievements",
+        "label": "成就",
+        "disabled": false,
+        "rect": {
+          "width": 98.88,
+          "height": 46.08,
+          "left": 130.56,
+          "right": 229.44,
+          "top": 516.96,
+          "bottom": 563.0400000000001
+        }
+      },
+      {
+        "id": "homeStats",
+        "label": "统计",
+        "disabled": false,
+        "rect": {
+          "width": 98.88,
+          "height": 46.08,
+          "left": 238.07999999999998,
+          "right": 336.96,
+          "top": 516.96,
+          "bottom": 563.0400000000001
+        }
+      }
+    ],
+    "unlocked": false
+  },
+  "favicon": {
+    "url": "http://127.0.0.1:5177/art/branding/avatar.png",
+    "width": 38,
+    "height": 38
+  },
+  "overlayLabel": {
+    "screen": "home",
+    "overlay": "stats",
+    "label": "穿越了这次我带大喇叭逆袭 · 人生统计"
+  },
+  "builds": {
+    "typecheck": "passed",
+    "web": "passed_with_chunk_size_warning",
+    "wechat": "passed",
+    "viteWarning": "Some chunks are larger than 500 kB after minification; generated main JS 955.66 kB (gzip 187.72 kB). No chunking changes made for this branding task.",
+    "wechatTotalBytes": 4473870,
+    "requiredAssets": 32,
+    "requiredAssetBytes": 3401684,
+    "licenseNotices": 4
+  },
+  "approval": {
+    "name": "user_final",
+    "avatarIdentity": "user_final",
+    "uiStyle": "proposal_not_approved",
+    "externalMediaGeneration": "not_authorized_or_used",
+    "wechatConsoleProfile": "not_changed"
+  },
+  "observations": [
+    "Viewed actual long and short screenshots: complete two-line name, promise, four existing entrances and memory warning all visible",
+    "Real Canvas click on statistics opened original stats overlay with full-name accessible label",
+    "Favicon decoded to native 38x38 without upscaling",
+    "Web and WeChat packaged avatar files have the same SHA-256 as public source"
+  ],
+  "notVerified": [
+    "WeChat device or developer-tools runtime",
+    "WeChat public profile or store icon update",
+    "High-resolution avatar master",
+    "New UI proposal implementation",
+    "New music or auditory quality"
+  ]
+}

@@ -6,6 +6,7 @@ export const publicRoot = resolve(projectRoot, "public");
 
 const art = [
   "scenes/home.png",
+  "branding/avatar.png",
   ...["antibiotic", "book", "bowl", "calculator", "corn", "flashlight", "glue", "lighter"].map((name) => `items/${name}.png`),
 ];
 const audio = [

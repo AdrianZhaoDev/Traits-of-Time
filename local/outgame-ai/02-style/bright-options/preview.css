@@ -1,0 +1,30 @@
+/* Shared preview-only dialog. No game session, audio, storage, or runtime imports. */
+.preview-dialog {
+  --dialog-paper: #fffaf1;
+  --dialog-ink: #302b2b;
+  --dialog-border: #796857;
+  --dialog-veil: #302b2b66;
+  --dialog-action: #a92f24;
+  --dialog-action-ink: #fffaf1;
+  --dialog-focus: #245d90;
+  --dialog-font: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  width: min(340px, calc(100vw - 40px));
+  padding: 24px;
+  border: 2px solid var(--dialog-border);
+  border-radius: 16px;
+  background: var(--dialog-paper);
+  color: var(--dialog-ink);
+  font: 16px/1.65 var(--dialog-font);
+}
+.preview-dialog::backdrop { background: var(--dialog-veil); }
+.preview-dialog h2 { margin: 0 0 12px; font-size: 23px; line-height: 1.35; }
+.preview-dialog p { margin: 0 0 20px; }
+.preview-dialog button {
+  display: block; width: 100%; min-height: 48px; border: 2px solid var(--dialog-action);
+  border-radius: 8px; background: var(--dialog-action); color: var(--dialog-action-ink);
+  font: 700 16px var(--dialog-font); cursor: pointer;
+}
+.preview-dialog button:focus-visible { outline: 3px solid var(--dialog-focus); outline-offset: 4px; }
+.preview-dialog button:hover { filter: brightness(.94); }
+.preview-dialog button:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) { .preview-dialog button:active { transform: none; } }

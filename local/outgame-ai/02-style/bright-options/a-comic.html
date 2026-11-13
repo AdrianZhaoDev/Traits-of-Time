@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A 爆笑开播 · 穿越了这次我带大喇叭逆袭</title>
+<link rel="icon" href="assets/avatar.png" type="image/png">
+<link rel="stylesheet" href="preview.css">
+<style>
+/* Hallmark · macrostructure: Comic broadside · playful · anchor: tomato / butter
+ * pre-emit critique: P5 H5 E4 S5 R4 V5 · HTML style study, not Canvas implementation */
+:root {
+  color-scheme: light;
+  --paper: #fff9e9; --ink: #302826; --muted: #67594c;
+  --accent: #bf3527; --accent-ink: #fff9e9; --accent-hover: #a42b21;
+  --sun: #ffda58; --sun-soft: #fff0ac; --surface: #fffdf5;
+  --line: #d8c899; --focus: #196c8a; --disabled: #e4ddd0;
+  --font-display: "Microsoft YaHei", "PingFang SC", sans-serif;
+  --font-body: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --space-sm: 8px; --space-md: 16px; --space-lg: 24px; --space-xl: 32px;
+  --ease-out: cubic-bezier(.2,.7,.3,1); --duration: 160ms;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; overflow-x: clip; }
+body { color: var(--ink); background: var(--sun-soft); font-family: var(--font-body); }
+button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:focus-visible { outline: 3px solid var(--focus); outline-offset: 5px; }
+button:disabled { cursor: not-allowed; color: var(--muted); background: var(--disabled); }
+.stage {
+  width: 100%; max-width: 460px; min-height: 100svh; margin-inline: auto;
+  padding: max(20px, env(safe-area-inset-top)) 24px max(16px, env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; background: var(--paper); position: relative; isolation: isolate;
+}
+.stage::before { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 8px; background: var(--sun); }
+.topline { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 36px; }
+.brand { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
+.brand img { width: 32px; height: 32px; border-radius: 50%; }
+.genre { color: var(--muted); font-size: 12px; }
+.hero { flex: 1; display: flex; flex-direction: column; justify-content: center; margin-top: 24px; }
+h1 { position: relative; z-index: 1; margin: 0; font-family: var(--font-display); font-weight: 900; font-style: normal; letter-spacing: -1px; min-width: 0; overflow-wrap: anywhere; }
+h1 span { display: block; line-height: 1.13; }
+.title-start { font-size: clamp(42px, 13vw, 58px); }
+.title-middle { font-size: clamp(28px, 8vw, 36px); margin-top: 4px; }
+.title-finale { font-size: clamp(47px, 13.6vw, 60px); color: var(--accent); margin-top: 4px; text-shadow: 3px 3px var(--sun); }
+.visual { height: clamp(140px, 22svh, 188px); position: relative; margin: 4px 0 0; }
+.visual::before { content: ''; position: absolute; width: 172px; height: 172px; background: var(--sun); border-radius: 50%; right: 16px; top: 4px; }
+.megaphone { position: absolute; width: 230px; height: 164px; right: 0; top: 4px; color: var(--ink); transform: rotate(-8deg); }
+.sound-mark { position: absolute; left: 0; top: 44px; border: 2px solid var(--ink); border-radius: 6px; padding: 8px 12px; font-size: 16px; font-weight: 800; background: var(--surface); transform: rotate(-5deg); }
+.promise { font-size: 16px; line-height: 1.6; margin: 12px 0 20px; }
+.promise span { display: block; }
+.actions { padding-top: 8px; }
+.primary { width: calc(100% - 4px); height: 58px; border: 2px solid var(--ink); border-radius: 10px; background: var(--sun); color: var(--ink); font-size: 21px; font-weight: 900; box-shadow: 4px 5px 0 var(--ink); display: flex; align-items: center; justify-content: center; gap: 20px; transition: background-color var(--duration) var(--ease-out), transform var(--duration) var(--ease-out), box-shadow var(--duration) var(--ease-out); }
+.primary svg { width: 24px; height: 24px; }
+.primary:hover { background: var(--sun-soft); }
+.primary:active { transform: translate(2px,2px); box-shadow: 2px 3px 0 var(--ink); }
+.hint { margin: 14px 0 12px; color: var(--muted); font-size: 13px; text-align: center; }
+.utilities { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+.utilities button { height: 46px; border: 1.5px solid var(--ink); border-radius: 8px; color: var(--ink); background: var(--surface); font-size: 16px; font-weight: 700; transition: background-color var(--duration) var(--ease-out); }
+.utilities button:hover { background: var(--sun-soft); }
+.utilities button:active { background: var(--sun); }
+.warning { font-size: 12px; line-height: 1.65; margin: 16px 0 0; text-align: center; color: var(--muted); }
+.warning span { display: block; }
+.preview-note { margin: 12px 0 0; font-size: 11px; text-align: center; color: var(--muted); }
+@media (max-height: 700px) {
+  .stage { padding-top: 16px; padding-bottom: 12px; }
+  .hero { margin-top: 16px; }
+  .title-start { font-size: 41px; } .title-middle { font-size: 28px; } .title-finale { font-size: 46px; }
+  .visual { height: 102px; }
+  .visual::before { width: 110px; height: 110px; right: 28px; top: 0; }
+  .megaphone { width: 174px; height: 124px; top: -10px; }
+  .sound-mark { top: 28px; font-size: 14px; padding: 6px 10px; }
+  .promise { margin: 8px 0 12px; }
+  .warning { margin-top: 12px; } .preview-note { margin-top: 8px; }
+}
+.preview-dialog {
+  --dialog-paper: var(--paper); --dialog-ink: var(--ink); --dialog-border: var(--ink);
+  --dialog-action: var(--sun); --dialog-action-ink: var(--ink); --dialog-focus: var(--focus); --dialog-font: var(--font-body);
+}
+@media (max-width: 340px) { .stage { padding-inline: 20px; } .title-finale { font-size: 43px; } .genre { font-size: 11px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before { transition: none !important; animation: none !important; } .primary:active { transform: none; } }
+</style>
+<script defer src="preview.js"></script>
+</head>
+<body>
+<main class="stage" data-preview-home>
+  <header class="topline">
+    <div class="brand"><img src="assets/avatar.png" alt="已确认的红色喇叭头像" width="32" height="32"><span>穿越人生模拟</span></div>
+    <span class="genre">荒诞 · 明朝 · 你</span>
+  </header>
+  <section class="hero" aria-label="游戏介绍">
+    <h1 aria-label="穿越了这次我带大喇叭逆袭"><span class="title-start">穿越了</span><span class="title-middle">这次我带</span><span class="title-finale">大喇叭逆袭</span></h1>
+    <div class="visual" aria-hidden="true">
+      <span class="sound-mark">荒诞穿越</span>
+      <svg class="megaphone" viewBox="0 0 230 164" fill="none">
+        <path d="M78 96 89 143 115 137 109 102" fill="var(--surface)" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M32 55 76 53 158 21 158 120 76 93 32 91Z" fill="var(--accent)" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M34 57H75V91H34Z" fill="var(--surface)" stroke="currentColor" stroke-width="4"/>
+        <path d="M75 54V94" stroke="currentColor" stroke-width="4"/>
+        <ellipse cx="161" cy="70" rx="20" ry="51" fill="var(--accent)" stroke="currentColor" stroke-width="4"/>
+        <ellipse cx="164" cy="70" rx="10" ry="34" fill="var(--ink)"/>
+        <path d="M15 67H30V82H15Z" fill="var(--sun)" stroke="currentColor" stroke-width="4"/>
+        <path d="m194 41 17-12m-13 37 22-2m-27 26 19 13" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        <path d="m21 28-7-9m45 13 2-14" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="promise"><span>带上一件现代物品，</span><span>去明朝过一生。</span></p>
+  </section>
+  <div class="actions">
+    <button class="primary" type="button" data-action="start">我要穿越<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <p class="hint">出发前，先看看你的身份。</p>
+    <nav class="utilities" aria-label="首页辅助入口"><button type="button" data-action="sound">声音</button><button type="button" data-action="achievements">成就</button><button type="button" data-action="stats">统计</button></nav>
+    <p class="warning"><span>本局进度仅临时保留，</span><span>关闭或刷新后不能继续。</span></p>
+  </div>
+  <footer class="preview-note">风格预览 · 未接入游戏</footer>
+</main>
+</body>
+</html>

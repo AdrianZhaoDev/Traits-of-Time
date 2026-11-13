@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-11",
+  "phase": "02-style-brand-update",
+  "status": "final_brand_verified_A_style_approved_not_runtime_skin_cutover",
+  "gameName": "穿越了这次我带大喇叭逆袭",
+  "runtimeIdentity": {
+    "source": "src/brand.ts",
+    "sha256": "43187a4d81af5e12735aef6a753874d1ad301b7580b8844afe6fc1f5a47b02b7",
+    "homeTitle": "穿越了\n这次我带大喇叭逆袭",
+    "privatePackageName": "chuanyue-laba-nixi",
+    "updatedConsumers": ["Canvas homepage", "Web document title and main aria-label", "Renderer accessible screen and overlay names", "WeChat generated projectname and description", "Private npm package and root lockfile identity", "README and active project/prompt documents", "Media source registry"]
+  },
+  "approval": {
+    "name": "final_by_current_user_message",
+    "avatarIdentity": "final_by_current_user_message",
+    "uiDirection": "A_爆笑开播_approved_project_wide_standard",
+    "highResolutionAvatarMaster": "not_supplied",
+    "batchProduction": "not_approved",
+    "externalGeneration": "not_authorized_or_used",
+    "referenceUpload": "not_authorized_or_used"
+  },
+  "reference": {
+    "path": "local/outgame-ai/02-style/brand-update/brand-reference.png",
+    "source": "image_attached_by_user_in_current_task",
+    "width": 140,
+    "height": 106,
+    "mode": "RGB",
+    "sha256": "3c17065096ecece426120425b58269d500dbba81c9698b3c0f4ec75672a391b1",
+    "approvedUse": "local_game_brand_identity",
+    "rights": "user_supplied_and_designated_final_identity; copyright_chain_not_independently_verified; no_blanket_CC0_or_MIT_claim",
+    "externalUploads": 0
+  },
+  "avatar": {
+    "runtimeFile": "public/art/branding/avatar.png",
+    "consumer": "Web favicon; copied with art tree into both release outputs",
+    "sha256": "a1b986a9966fb56fbd1b200c6c642449433bccedd2c56092cc7cc85f65b4f4cb",
+    "width": 38,
+    "height": 38,
+    "mode": "RGB",
+    "cropBoxLeftTopRightBottomExclusive": [41,14,79,52],
+    "processing": "Pillow 13.0.0 deterministic native-resolution crop with one-pixel white margin; optimized PNG, no resizing, no AI generation",
+    "highResolution": false,
+    "webPackagedFile": "dist-web/art/branding/avatar.png",
+    "wechatPackagedFile": "dist-wechat/media/art/branding/avatar.png",
+    "allThreeHashesMatch": true,
+    "wechatConsoleIconChanged": false,
+    "limitations": "Native thumbnail suitable only for small identity use. High-resolution store/WeChat profile master and platform-console upload are not delivered or claimed."
+  },
+  "uiStyle": {
+    "path": "Doc/UI整体风格方案.md",
+    "direction": "A",
+    "name": "爆笑开播",
+    "status": "approved_design_standard_not_runtime_implementation",
+    "approvalRegistry": "local/outgame-ai/02-style/manifest.json",
+    "protectedGameplaySurfaces": "target_design_documented_runtime_unchanged_by_this_task",
+    "brandDoesNotAddMegaphoneItemOrFixedStart": true
+  },
+  "previews": [
+    { "path": "local/outgame-ai/02-style/brand-update/previews/home-390x844-dpr2.png", "cssViewport": [390,844], "dpr": 2, "canvasAndScreenshotPixels": [780,1688], "sha256": "b6c4555be5ec7f6ea4bd02abd8b3e20b90923370a9a2a3a57efd49911d4d6268" },
+    { "path": "local/outgame-ai/02-style/brand-update/previews/home-360x640-dpr3.png", "cssViewport": [360,640], "dpr": 3, "canvasAndScreenshotPixels": [1080,1920], "sha256": "060675fb64af54301534641ab62fd027e1ec64857de9df899784ec6d13ca40b3" }
+  ],
+  "verification": {
+    "rawMeasurements": "local/outgame-ai/02-style/brand-update/verification.json",
+    "rawMeasurementsSha256": "73e38194f6dd80b8e4422561a60537d4eff05c1c5de94532b6fe6fc85530d8ec",
+    "browser": "one real Chromium 155 page, sequential measured CSS viewports, not two physical devices",
+    "observed": ["Complete 12-character name displayed in two lines at both viewport sizes", "Existing promise, four homepage entrances and full memory warning visible without scrolling", "Document title, main aria-label and accessible homepage/real statistics overlay label use final name", "Real Canvas statistics click opens original overlay", "Favicon successfully decoded at native 38x38", "Actual Web release HTML and WeChat generated project configuration contain final name", "Native favicon source and both packaged copies have matching SHA-256"],
+    "commands": { "npm run typecheck": "passed", "npm run build": "passed_with_vite_chunk_warning", "npm run build:wechat": "passed" },
+    "assetPreparation": { "files": 32, "bytes": 3401684, "licenseNotices": 4 },
+    "wechatTotalBytes": 4473870,
+    "warnings": ["Vite reports chunks over 500 kB after minification; main JS 955.66 kB (gzip 187.72 kB). Chunking was not changed for a branding task."],
+    "notPerformed": ["WeChat developer-tools/device runtime", "Platform-console game name or profile icon change", "High-resolution avatar creation", "New UI proposal implementation", "New media generation or music listening", "Content validation/full tests: no production content fields changed"]
+  },
+  "mediaGenerationRequests": 0
+}

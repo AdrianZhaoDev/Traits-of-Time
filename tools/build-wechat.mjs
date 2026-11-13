@@ -78,8 +78,8 @@ if (typeof wx.loadSubpackage !== "function") {
   await writeFile(resolve(outputRoot, "game.js"), bootstrap);
   await writeFile(resolve(outputRoot, "game.json"), `${JSON.stringify({ deviceOrientation: "portrait", showStatusBar: false, subpackages }, null, 2)}\n`);
   await writeFile(resolve(outputRoot, "project.config.json"), `${JSON.stringify({
-    description: "时空词条 Layout 原生 Canvas 小游戏",
-    projectname: "Traits-of-Time-Layout",
+    description: "穿越了这次我带大喇叭逆袭 Layout 原生 Canvas 小游戏",
+    projectname: "穿越了这次我带大喇叭逆袭",
     appid: "touristappid",
     compileType: "game",
     miniprogramRoot: "./",

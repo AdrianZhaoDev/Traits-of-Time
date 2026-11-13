@@ -25,7 +25,7 @@ export interface AppSnapshot {
 }
 
 type Listener = (snapshot: AppSnapshot, logs: readonly LogEntry[]) => void;
-const MEMORY_NOTICE = '当前人生仅在内存暂存，刷新、离开或返回首页会丢失；本机只保存已完成人生记录与音量设置。';
+export const MEMORY_NOTICE = '当前人生仅在内存暂存，刷新、离开或返回首页会丢失；本机只保存已完成人生记录与音量设置。';
 const AUTOMATIC_CHECK_DELAY = 220;
 let lifetimeSequence = 0;
 

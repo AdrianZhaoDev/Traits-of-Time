@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>局外页面动效方案 · 穿越了这次我带大喇叭逆袭</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #FFF9E9;
+      --ink: #302826;
+      --muted: #67594C;
+      --accent: #BF3527;
+      --sun: #FFDA58;
+      --sun-soft: #FFF0AC;
+      --surface: #FFFDF5;
+      --line: #D8C899;
+      --focus: #196C8A;
+      --disabled: #E4DDD0;
+      --shadow: 3px 3px 0 var(--ink);
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 5% 0%, rgba(255, 218, 88, .2), transparent 28rem),
+        var(--paper);
+    }
+    button { font: inherit; color: inherit; }
+    button:focus-visible, [role="button"]:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .shell { width: min(1320px, calc(100% - 40px)); margin: 0 auto; padding: 30px 0 56px; }
+    .masthead { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+    .eyebrow { margin: 0 0 8px; color: var(--accent); font-weight: 900; font-size: 13px; letter-spacing: .07em; }
+    h1 { margin: 0; max-width: 760px; font-size: clamp(28px, 4vw, 42px); line-height: 1.16; letter-spacing: -.035em; }
+    .game-name { display: block; margin-top: 9px; color: var(--muted); font-size: 15px; font-weight: 650; letter-spacing: 0; }
+    .draft-tag { flex: none; border: 2px solid var(--ink); padding: 9px 12px; background: var(--sun); font-size: 13px; font-weight: 850; box-shadow: 2px 2px 0 var(--ink); }
+    .intro { max-width: 760px; margin: 16px 0 24px; color: var(--muted); font-size: 16px; line-height: 1.65; }
+    .intro strong { color: var(--ink); }
+    .notice {
+      display: flex; gap: 10px; align-items: flex-start; margin: 0 0 24px; padding: 12px 14px;
+      background: var(--surface); border-left: 4px solid var(--accent); font-size: 14px; line-height: 1.55;
+    }
+    .notice b { flex: none; color: var(--accent); }
+    .workspace { display: grid; grid-template-columns: 280px minmax(0, 1fr); align-items: start; gap: 24px; }
+    .scheme-list { display: grid; gap: 10px; }
+    .scheme-choice {
+      width: 100%; text-align: left; padding: 14px; background: var(--surface); border: 2px solid var(--line);
+      cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+    }
+    .scheme-choice:hover { border-color: var(--ink); }
+    .scheme-choice[aria-pressed="true"] { background: var(--sun-soft); border-color: var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+    .scheme-head { display: flex; gap: 10px; align-items: center; margin-bottom: 7px; }
+    .scheme-letter { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid var(--ink); background: var(--sun); font-weight: 900; }
+    .scheme-name { font-size: 16px; font-weight: 900; }
+    .scheme-choice p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .scheme-choice small { display: block; margin-top: 8px; color: var(--ink); font-size: 12px; font-weight: 750; }
+    .demo-panel { min-width: 0; }
+    .demo-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .scene-tabs { display: flex; gap: 7px; padding: 4px; background: #F0E7D3; border: 1px solid var(--line); }
+    .scene-tab { min-height: 42px; padding: 8px 14px; border: 2px solid transparent; background: transparent; font-weight: 800; cursor: pointer; }
+    .scene-tab[aria-selected="true"] { background: var(--surface); border-color: var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+    .motion-toggle { display: inline-flex; gap: 8px; align-items: center; min-height: 42px; padding: 7px 10px; background: var(--surface); border: 1px solid var(--line); font-size: 13px; font-weight: 750; cursor: pointer; }
+    .motion-toggle input { width: 18px; height: 18px; accent-color: var(--accent); }
+    .demo-grid { display: grid; grid-template-columns: minmax(315px, 410px) minmax(280px, 1fr); align-items: start; gap: 22px; }
+    .preview-column { min-width: 0; }
+    .preview-caption { display: flex; justify-content: space-between; align-items: center; margin: 0 0 8px; font-size: 12px; color: var(--muted); font-weight: 750; }
+    .preview-caption strong { color: var(--ink); }
+    .preview-shell { overflow: hidden; width: 100%; border: 2px solid var(--ink); border-radius: 8px; background: var(--surface); box-shadow: 4px 4px 0 var(--ink); }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; min-height: 37px; padding: 7px 12px; background: #F5EBD6; border-bottom: 1px solid var(--line); font-size: 11px; color: var(--muted); font-weight: 750; }
+    .preview-top span:last-child { color: var(--accent); }
+    .phone-screen { padding: 18px 18px 16px; }
+    .page-kicker { margin: 0 0 6px; color: var(--accent); font-size: 12px; font-weight: 900; }
+    .phone-screen h2 { margin: 0; font-size: 23px; line-height: 1.25; letter-spacing: -.025em; }
+    .screen-copy { margin: 8px 0 13px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .browse-status { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+    .browse-status strong { color: var(--ink); font-size: 13px; }
+    .candidate-list { display: grid; gap: 8px; }
+    .candidate {
+      position: relative; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: start; gap: 10px;
+      width: 100%; padding: 10px; border: 1.5px solid var(--ink); background: #FFFDF8; text-align: left; cursor: pointer;
+      transition: transform 160ms cubic-bezier(.2,.7,.3,1), background-color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+    .candidate:hover { background: #FFF9E9; }
+    .candidate.is-focused { box-shadow: 2px 2px 0 var(--ink); border-width: 2px; }
+    .candidate.is-selected { background: var(--sun-soft); border-width: 2px; }
+    .item-mark { display: grid; place-items: center; width: 40px; height: 44px; background: var(--sun); border: 1.5px solid var(--ink); font-size: 20px; font-weight: 950; }
+    .candidate-text { min-width: 0; }
+    .candidate-title { display: block; margin: 0 0 4px; font-size: 14px; line-height: 1.35; font-weight: 900; }
+    .candidate-meta { display: block; margin: 0 0 4px; color: var(--accent); font-size: 12px; font-weight: 850; }
+    .candidate-description { display: block; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .candidate-check { min-width: 37px; padding-top: 2px; color: var(--muted); font-size: 12px; font-weight: 800; text-align: right; }
+    .candidate.is-selected .candidate-check { color: var(--ink); }
+    .candidate-list[data-scheme="A"] .candidate.is-focused { transform: translateX(4px); }
+    .candidate-list[data-scheme="B"] .candidate.is-focused { transform: translateY(-3px); }
+    .candidate-list[data-scheme="C"] .candidate.is-focused { border-color: var(--accent); }
+    .candidate-list[data-scheme="C"] .candidate.is-focused::before {
+      content: ""; position: absolute; z-index: 0; inset: 0 auto 0 0; width: 4px; background: var(--sun);
+      animation: rail-in 150ms cubic-bezier(.2,.7,.3,1) both;
+    }
+    .candidate-list[data-scheme="B"] .candidate.is-focused .item-mark { box-shadow: 2px 2px 0 var(--ink); }
+    @keyframes rail-in { from { width: 0; } to { width: 4px; } }
+    .rotation-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .small-action, .primary-action, .secondary-action {
+      min-height: 44px; padding: 9px 11px; border: 1.5px solid var(--ink); background: var(--surface); font-weight: 850; cursor: pointer;
+      transition: transform 100ms ease, background-color 150ms ease;
+    }
+    .small-action:hover, .secondary-action:hover { background: var(--sun-soft); }
+    .small-action:active, .primary-action:active, .secondary-action:active { transform: translateY(1px); }
+    .primary-action { width: 100%; margin-top: 8px; background: var(--sun); box-shadow: 2px 2px 0 var(--ink); }
+    .primary-action:hover { background: var(--sun-soft); }
+    .primary-action:disabled { color: #67594C; background: var(--disabled); box-shadow: none; cursor: not-allowed; }
+    .confirm-note { min-height: 18px; margin: 8px 0 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
+    .result-label { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 10px; padding: 5px 8px; border: 1px solid var(--ink); background: var(--sun-soft); font-size: 11px; font-weight: 900; }
+    .result-dot { width: 7px; height: 7px; border-radius: 50%; background: #4B794A; }
+    .result-card-wrap { position: relative; isolation: isolate; margin: 7px 0 13px; }
+    .result-card {
+      position: relative; z-index: 2; display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 12px; align-items: start;
+      min-height: 148px; padding: 14px; border: 2px solid var(--ink); background: var(--surface); box-shadow: 3px 3px 0 var(--ink);
+      transform-origin: center; transition: border-color 150ms ease, background-color 150ms ease;
+    }
+    .result-art { display: grid; place-items: center; width: 60px; height: 70px; border: 1.5px solid var(--ink); background: var(--sun); color: var(--ink); font-size: 30px; font-weight: 950; }
+    .result-info { min-width: 0; }
+    .result-rarity { margin: 0 0 6px; color: var(--accent); font-size: 12px; font-weight: 950; letter-spacing: .04em; }
+    .result-title { margin: 0; font-size: 17px; line-height: 1.35; font-weight: 950; }
+    .result-description { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .result-card .effect-line { grid-column: 1 / -1; margin: 0; padding-top: 9px; border-top: 1px solid var(--line); font-size: 12px; font-weight: 750; }
+    .backing-card { position: absolute; z-index: 1; inset: 7px -4px -5px 7px; border: 1px solid var(--ink); background: #EBDDAD; transition: transform 250ms cubic-bezier(.2,.7,.3,1); }
+    .result-card-wrap.play-a .backing-card { transform: translate(6px, -5px) rotate(1deg); }
+    .result-card-wrap.play-b .backing-card { transform: translate(5px, -4px) rotate(-1deg); }
+    .result-card-wrap.play-b .result-card { animation: settle-b 280ms cubic-bezier(.2,.7,.3,1) both; }
+    .result-card-wrap.play-c .result-card { animation: tint-c 220ms ease-out both; }
+    .result-card-wrap.play-c::after {
+      content: ""; position: absolute; z-index: 3; inset: -2px; border: 3px solid var(--sun); pointer-events: none;
+      animation: outline-c 320ms ease-out both;
+    }
+    @keyframes settle-b { 0% { transform: translateX(5px) rotate(1deg); } 62% { transform: translateX(-2px) rotate(-.4deg); } 100% { transform: none; } }
+    @keyframes tint-c { 0% { background-color: #FFFDF5; } 50% { background-color: var(--sun-soft); } 100% { background-color: var(--surface); } }
+    @keyframes outline-c { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
+    .draw-action { width: 100%; min-height: 46px; margin-top: 2px; }
+    .draw-caption { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .explain-card { padding: 20px; border: 1.5px solid var(--line); background: var(--surface); }
+    .explain-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    .explain-top h3 { margin: 0; font-size: 22px; line-height: 1.3; }
+    .duration { flex: none; padding: 5px 7px; border: 1px solid var(--ink); background: var(--sun-soft); font-size: 11px; font-weight: 900; }
+    .explain-summary { margin: 10px 0 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .explain-section { padding-top: 13px; border-top: 1px solid var(--line); }
+    .explain-section + .explain-section { margin-top: 13px; }
+    .explain-section h4 { margin: 0 0 7px; font-size: 13px; }
+    .explain-section p, .explain-section li { color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .explain-section p { margin: 0; }
+    .explain-section ul { margin: 0; padding-left: 18px; }
+    .explain-section li + li { margin-top: 4px; }
+    .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+    .flow li { padding: 6px 8px; color: var(--ink); background: #F6EEDB; font-weight: 750; }
+    .flow li:not(:last-child)::after { content: "  →"; color: var(--accent); margin-left: 5px; }
+    .selection-callout { margin-top: 15px; padding: 12px; background: #F5EBD6; border-left: 4px solid var(--sun); font-size: 13px; line-height: 1.5; }
+    .page-foot { margin-top: 24px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    [hidden] { display: none !important; }
+
+    body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+      animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important; transition-duration: .01ms !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+    @media (max-width: 940px) {
+      .workspace { grid-template-columns: 1fr; }
+      .scheme-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .scheme-choice { height: 100%; }
+      .demo-grid { grid-template-columns: minmax(315px, 390px) minmax(250px, 1fr); }
+    }
+    @media (max-width: 680px) {
+      .shell { width: min(100% - 24px, 480px); padding-top: 20px; }
+      .masthead { display: block; }
+      .draft-tag { display: inline-block; margin-top: 13px; }
+      .scheme-list { grid-template-columns: 1fr; gap: 7px; }
+      .scheme-choice { padding: 11px 12px; }
+      .scheme-head { margin-bottom: 3px; }
+      .scheme-choice p { padding-left: 40px; }
+      .scheme-choice small { padding-left: 40px; margin-top: 4px; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .preview-column { width: min(100%, 390px); margin-inline: auto; }
+      .explain-card { padding: 16px; }
+      .demo-toolbar { align-items: stretch; }
+      .scene-tabs { flex: 1; }
+      .scene-tab { flex: 1; padding-inline: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell" id="app" data-scheme="A">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">局外页面 · 动效提案</p>
+        <h1>选卡这一步，也可以更有手感</h1>
+        <span class="game-name">穿越了这次我带大喇叭逆袭</span>
+      </div>
+      <div class="draft-tag">独立 HTML 交互样稿</div>
+    </header>
+    <p class="intro"><strong>先看清候选，再让动作有回应。</strong>试试三种短动效：开局候选始终完整可读，现代词条结果首帧可见；动画只表现浏览、选择和揭晓，不决定候选或抽取结果。</p>
+    <div class="notice" role="note">
+      <b>范围说明</b>
+      <span>当前 Canvas 的现代词条页展示本局已持有条目；下方“抽取揭晓”是按你的需求做的新流程概念预览，不代表现有页面已经支持抽取。候选和抽取结果均为样例，按钮不会连接游戏逻辑。</span>
+    </div>
+
+    <section class="workspace" aria-label="动效方案预览">
+      <nav class="scheme-list" aria-label="选择动效方案">
+        <button class="scheme-choice" data-pick-scheme="A" aria-pressed="true">
+          <span class="scheme-head"><span class="scheme-letter">A</span><span class="scheme-name">轻轮转</span></span>
+          <p>箭头或点卡浏览，焦点沿三件候选轮转。现代词条用卡套从结果卡后轻轻抽出。</p>
+          <small>轻快 · 方向感清楚</small>
+        </button>
+        <button class="scheme-choice" data-pick-scheme="B" aria-pressed="false">
+          <span class="scheme-head"><span class="scheme-letter">B</span><span class="scheme-name">卡槽拨动</span></span>
+          <p>当前候选轻抬停靠，左右按钮轮换。抽取揭晓时卡片轻移并归位。</p>
+          <small>手感更明显 · 保持克制</small>
+        </button>
+        <button class="scheme-choice" data-pick-scheme="C" aria-pressed="false">
+          <span class="scheme-head"><span class="scheme-letter">C</span><span class="scheme-name">纸面套色</span></span>
+          <p>选择时黄底和标记短暂显现。抽取结果以一圈短边线提示，不翻盖正文。</p>
+          <small>最稳 · 阅读优先</small>
+        </button>
+      </nav>
+
+      <div class="demo-panel">
+        <div class="demo-toolbar">
+          <div class="scene-tabs" role="tablist" aria-label="选择预览场景">
+            <button class="scene-tab" id="tab-opening" role="tab" aria-selected="true" aria-controls="scene-opening">开局选卡</button>
+            <button class="scene-tab" id="tab-modern" role="tab" aria-selected="false" aria-controls="scene-modern">现代词条抽取</button>
+          </div>
+          <label class="motion-toggle"><input type="checkbox" id="reduce-motion"> 减少动效预览</label>
+        </div>
+
+        <div class="demo-grid">
+          <div class="preview-column">
+            <div class="preview-caption"><strong id="preview-scheme-label">方案 A · 轻轮转</strong><span>390 CSS px 内容宽</span></div>
+            <div class="preview-shell">
+              <div class="preview-top"><span>预览 · 局外选择</span><span>明亮纸面</span></div>
+
+              <section class="phone-screen" id="scene-opening" role="tabpanel" aria-labelledby="tab-opening">
+                <p class="page-kicker">身份已揭晓 · 家当待选</p>
+                <h2>挑选开局家当</h2>
+                <p class="screen-copy">候选均可查看完整说明。轮转浏览后，点选一件再确认。</p>
+                <div class="browse-status"><strong id="browse-message" aria-live="polite">尚未选择</strong><span id="focus-position">可轮转浏览 3 件</span></div>
+                <div class="candidate-list" id="candidate-list" data-scheme="A" aria-label="开局候选家当">
+                  <button class="candidate" type="button" data-card="corn" aria-pressed="false">
+                    <span class="item-mark" aria-hidden="true">玉</span>
+                    <span class="candidate-text">
+                      <span class="candidate-title">高产耐旱玉米良种</span>
+                      <span class="candidate-meta">SSR · 现代词条</span>
+                      <span class="candidate-description">耐旱的玉米也要浇水。农桑检定+1。</span>
+                    </span>
+                    <span class="candidate-check">未选</span>
+                  </button>
+                  <button class="candidate" type="button" data-card="flashlight" aria-pressed="false">
+                    <span class="item-mark" aria-hidden="true">光</span>
+                    <span class="candidate-text">
+                      <span class="candidate-title">手摇发电强光手电</span>
+                      <span class="candidate-meta">SR · 现代词条</span>
+                      <span class="candidate-description">手摇发电，摇累了就歇会儿。夜巡检定+1。</span>
+                    </span>
+                    <span class="candidate-check">未选</span>
+                  </button>
+                  <button class="candidate" type="button" data-card="bowl" aria-pressed="false">
+                    <span class="item-mark" aria-hidden="true">碗</span>
+                    <span class="candidate-text">
+                      <span class="candidate-title">讨饭用的粗陶破碗</span>
+                      <span class="candidate-meta">N · 本土家当</span>
+                      <span class="candidate-description">碗虽然破，做买卖也得给足分量。市井检定+1。</span>
+                    </span>
+                    <span class="candidate-check">未选</span>
+                  </button>
+                </div>
+                <div class="rotation-controls">
+                  <button class="small-action" type="button" id="browse-prev" aria-label="轮转到上一件候选">上一件</button>
+                  <button class="small-action" type="button" id="browse-next" aria-label="轮转到下一件候选">下一件</button>
+                </div>
+                <button class="primary-action" type="button" id="confirm-card" disabled>确认选择</button>
+                <p class="confirm-note" id="confirm-note" aria-live="polite">初始不预选；选中后才可确认。</p>
+              </section>
+
+              <section class="phone-screen" id="scene-modern" role="tabpanel" aria-labelledby="tab-modern" hidden>
+                <p class="page-kicker">现代词条 · 抽取结果</p>
+                <h2>揭晓这一张</h2>
+                <p class="screen-copy">真实结果先确定，正文立即可读；按下方按钮只重播对应动效。</p>
+                <p class="result-label"><span class="result-dot" aria-hidden="true"></span>样例结果已确定 · 不会重新抽取</p>
+                <div class="result-card-wrap" id="result-card-wrap">
+                  <div class="backing-card" aria-hidden="true"></div>
+                  <article class="result-card" aria-label="高产耐旱玉米良种，SSR，农桑检定加一">
+                    <div class="result-art" aria-hidden="true">玉</div>
+                    <div class="result-info">
+                      <p class="result-rarity">SSR · 现代词条</p>
+                      <h3 class="result-title">高产耐旱玉米良种</h3>
+                      <p class="result-description">耐旱的玉米也要浇水。</p>
+                    </div>
+                    <p class="effect-line">农桑检定 +1</p>
+                  </article>
+                </div>
+                <button class="primary-action draw-action" id="replay-draw" type="button">重播揭晓动效</button>
+                <p class="draw-caption" id="draw-caption" aria-live="polite">当前样例已经是揭晓后的状态；重播不会改动词条或效果。</p>
+              </section>
+            </div>
+          </div>
+
+          <aside class="explain-card" aria-live="polite">
+            <div class="explain-top"><h3 id="explain-title">A · 轻轮转</h3><span class="duration" id="duration-label">选中 160ms</span></div>
+            <p class="explain-summary" id="explain-summary">用小幅位移回应轮转，当前焦点和已选状态分开表达。三件候选一直显示完整说明。</p>
+            <div class="explain-section">
+              <h4 id="flow-title">开局操作</h4>
+              <ol class="flow" id="flow-list">
+                <li>上一件 / 下一件</li><li>候选焦点移动</li><li>点选一件</li><li>确认</li>
+              </ol>
+            </div>
+            <div class="explain-section">
+              <h4>保留的规则</h4>
+              <ul>
+                <li>三件候选、名称、稀有度和说明始终完整可读。</li>
+                <li>默认不选中；浏览焦点不会代替选择，确认只提交一件。</li>
+                <li>抽取结果先由原有规则确定，动效只呈现结果，不转动概率。</li>
+              </ul>
+            </div>
+            <div class="selection-callout" id="selection-callout">适合希望选卡过程更有方向感，同时维持清晰、直接的阅读体验。</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <p class="page-foot">设计边界：项目批准的 A 视觉方向、短响应和减少动态规范仍适用。本页只用于比较概念；独立 HTML 预览不代表 Canvas 实装、平台兼容性或真机验收。可以切换方案、轮转候选、选卡并重播动效。</p>
+  </main>
+  <script>
+    const app = document.getElementById('app');
+    const schemeButtons = [...document.querySelectorAll('[data-pick-scheme]')];
+    const sceneTabs = [...document.querySelectorAll('.scene-tab')];
+    const openingPanel = document.getElementById('scene-opening');
+    const modernPanel = document.getElementById('scene-modern');
+    const candidates = [...document.querySelectorAll('.candidate')];
+    const candidateList = document.getElementById('candidate-list');
+    const confirmButton = document.getElementById('confirm-card');
+    const reduceMotion = document.getElementById('reduce-motion');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const schemeData = {
+      A: {
+        name: '轻轮转', title: 'A · 轻轮转', duration: '选中 160ms',
+        summary: '用小幅位移回应轮转，当前焦点和已选状态分开表达。三件候选一直显示完整说明。',
+        opening: ['上一件 / 下一件', '候选焦点移动', '点选一件', '确认'],
+        modern: ['结果首帧可读', '卡套从背后移开', '停在真实词条'],
+        callout: '适合希望选卡过程更有方向感，同时维持清晰、直接的阅读体验。'
+      },
+      B: {
+        name: '卡槽拨动', title: 'B · 卡槽拨动', duration: '选中 180ms',
+        summary: '焦点轻抬停靠，选择后再出现浅黄底和“已选”。抽取结果的底卡轻移后归位。',
+        opening: ['上一件 / 下一件', '当前卡槽轻抬', '点选一件', '确认'],
+        modern: ['结果首帧可读', '底卡轻移归位', '停在真实词条'],
+        callout: '三个方案里动作感最清楚，适合希望选中反馈稍微突出一些。'
+      },
+      C: {
+        name: '纸面套色', title: 'C · 纸面套色', duration: '选中 140ms',
+        summary: '不移动卡片，用短暂色底和侧边线提示当前项；抽取结果出现一圈短边线，不遮挡正文。',
+        opening: ['轮转浏览候选', '黄底短暂显现', '已选标记出现', '确认'],
+        modern: ['结果首帧可读', '边线轻亮后淡出', '停在真实词条'],
+        callout: '最安静、最偏阅读优先；适合把“抽卡感”控制在短促揭晓，不做长演出。'
+      }
+    };
+    let scheme = 'A';
+    let focusIndex = -1;
+    let selectedCard = null;
+    let scene = 'opening';
+    let replayTimer = 0;
+
+    reduceMotion.checked = prefersReduced.matches;
+    if (prefersReduced.matches) document.body.classList.add('reduce-motion');
+
+    function updateScheme() {
+      app.dataset.scheme = scheme;
+      candidateList.dataset.scheme = scheme;
+      schemeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.pickScheme === scheme)));
+      const data = schemeData[scheme];
+      document.getElementById('preview-scheme-label').textContent = `方案 ${scheme} · ${data.name}`;
+      document.getElementById('explain-title').textContent = data.title;
+      document.getElementById('duration-label').textContent = data.duration;
+      document.getElementById('explain-summary').textContent = data.summary;
+      document.getElementById('selection-callout').textContent = data.callout;
+      updateSceneExplanation();
+    }
+
+    function updateSceneExplanation() {
+      const data = schemeData[scheme];
+      const steps = scene === 'opening' ? data.opening : data.modern;
+      document.getElementById('flow-title').textContent = scene === 'opening' ? '开局操作' : '抽取揭晓';
+      const list = document.getElementById('flow-list');
+      list.replaceChildren(...steps.map(step => {
+        const item = document.createElement('li');
+        item.textContent = step;
+        return item;
+      }));
+      document.getElementById('duration-label').textContent = scene === 'opening' ? data.duration : ({ A: '反馈 250ms', B: '反馈 280ms', C: '反馈 320ms' })[scheme];
+      document.getElementById('selection-callout').textContent = scene === 'opening'
+        ? data.callout
+        : '结果先确定、文字首帧可读；不循环展示其他物品，也不靠动画长短暗示稀有度。';
+    }
+
+    function setFocus(index) {
+      focusIndex = index;
+      candidates.forEach((button, i) => button.classList.toggle('is-focused', i === focusIndex));
+      document.getElementById('focus-position').textContent = focusIndex < 0 ? '可轮转浏览 3 件' : `浏览位置 ${focusIndex + 1} / ${candidates.length}`;
+    }
+
+    function selectCard(button) {
+      selectedCard = button.dataset.card;
+      const cardName = button.querySelector('.candidate-title').textContent;
+      candidates.forEach(item => {
+        const isSelected = item === button;
+        item.classList.toggle('is-selected', isSelected);
+        item.setAttribute('aria-pressed', String(isSelected));
+        item.querySelector('.candidate-check').textContent = isSelected ? '已选' : '未选';
+      });
+      document.getElementById('browse-message').textContent = `已选：${cardName}`;
+      confirmButton.disabled = false;
+      document.getElementById('confirm-note').textContent = '可以确认；预览不会向游戏提交选择。';
+    }
+
+    function moveFocus(direction) {
+      const next = focusIndex < 0 ? (direction > 0 ? 0 : candidates.length - 1) : (focusIndex + direction + candidates.length) % candidates.length;
+      setFocus(next);
+      document.getElementById('browse-message').textContent = selectedCard ? `已选仍保留 · 正在浏览第 ${next + 1} 件` : `浏览第 ${next + 1} 件 · 尚未选定`;
+    }
+
+    function switchScene(nextScene) {
+      scene = nextScene;
+      const isOpening = scene === 'opening';
+      openingPanel.hidden = !isOpening;
+      modernPanel.hidden = isOpening;
+      sceneTabs.forEach(tab => tab.setAttribute('aria-selected', String(tab.id === `tab-${scene}`)));
+      updateSceneExplanation();
+    }
+
+    schemeButtons.forEach(button => button.addEventListener('click', () => {
+      scheme = button.dataset.pickScheme;
+      updateScheme();
+      document.getElementById('result-card-wrap').className = 'result-card-wrap';
+    }));
+    sceneTabs.forEach(tab => tab.addEventListener('click', () => switchScene(tab.id === 'tab-opening' ? 'opening' : 'modern')));
+    candidates.forEach((button, index) => {
+      button.addEventListener('click', () => { setFocus(index); selectCard(button); });
+      button.addEventListener('keydown', event => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') { event.preventDefault(); moveFocus(1); candidates[focusIndex].focus(); }
+        if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') { event.preventDefault(); moveFocus(-1); candidates[focusIndex].focus(); }
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectCard(button); }
+      });
+    });
+    document.getElementById('browse-prev').addEventListener('click', () => moveFocus(-1));
+    document.getElementById('browse-next').addEventListener('click', () => moveFocus(1));
+    confirmButton.addEventListener('click', () => {
+      if (!selectedCard) return;
+      document.getElementById('confirm-note').textContent = '样例选择已确认；这只是动效预览，没有提交到游戏。';
+    });
+    reduceMotion.addEventListener('change', () => document.body.classList.toggle('reduce-motion', reduceMotion.checked));
+    prefersReduced.addEventListener?.('change', event => {
+      if (!reduceMotion.matches) {
+        reduceMotion.checked = event.matches;
+        document.body.classList.toggle('reduce-motion', event.matches);
+      }
+    });
+
+    document.getElementById('replay-draw').addEventListener('click', () => {
+      const wrap = document.getElementById('result-card-wrap');
+      wrap.className = 'result-card-wrap';
+      window.clearTimeout(replayTimer);
+      void wrap.offsetWidth;
+      wrap.classList.add(`play-${scheme.toLowerCase()}`);
+      const durations = { A: 270, B: 300, C: 340 };
+      document.getElementById('draw-caption').textContent = `方案 ${scheme} · ${durations[scheme]}ms 反馈中；示例结果从动画开始前就可见。`;
+      replayTimer = window.setTimeout(() => {
+        wrap.className = 'result-card-wrap';
+        document.getElementById('draw-caption').textContent = '反馈结束；结果与说明仍在原位，重播不会重新抽取。';
+      }, durations[scheme]);
+    });
+
+    updateScheme();
+    setFocus(-1);
+  </script>
+</body>
+</html>

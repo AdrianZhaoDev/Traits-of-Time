@@ -1,0 +1,2707 @@
+[
+  {
+    "id": "A_PROJECT",
+    "name": "学徒出师",
+    "text": "两年手艺没白学，你已经能做出像样的活计了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "workshop_complete"
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_LONG_LIFE",
+    "name": "古稀之年",
+    "text": "乱世里活到七十岁，已经很不容易了。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 70
+    },
+    "priority": 86,
+    "category": "life"
+  },
+  {
+    "id": "A_gm_arms",
+    "name": "管库三年",
+    "text": "库里的东西和旧账都理清了，这三年管得不含糊。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_arms_done"
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_gm_water",
+    "name": "管好乡里的井",
+    "text": "这三年，你把取水轮值和井边管护都做了下来。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_water_done"
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_gm_fort",
+    "name": "合力守家园",
+    "text": "合仓修垒的事办妥了，乡邻守家也多了一份准备。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_fort_done"
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_gm_history",
+    "name": "出行有准备",
+    "text": "乱局里先备好干粮、安排照应，乡邻出行就少些慌乱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gm_history_saved"
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_JN_TOP_SCHOLAR",
+    "name": "江南苦读",
+    "text": "四年苦读有了用处，前程也不只有中举这一条路。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_JUREN"
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_JN_SILK_TYCOON",
+    "name": "织造有成",
+    "text": "工料和货账都理顺了，织造生意总算做出了些门道。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_TRADE_DONE"
+    },
+    "priority": 66,
+    "category": "milestone"
+  },
+  {
+    "id": "A_LIFE_CENTURY_TURMOIL",
+    "name": "乱世八旬",
+    "text": "乱世里走到八十岁，这份长寿已经很难得。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 80
+    },
+    "priority": 90,
+    "category": "life"
+  },
+  {
+    "id": "A_OLD_FOSSIL",
+    "name": "走过八十年",
+    "text": "八十年的人生，无论平淡还是曲折，都值得好好回望。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 80
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_EXAM_OFFICIAL",
+    "name": "读书有用处",
+    "text": "能争功名，也能靠抄写谋生，四年的书没有白读。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_IMPERIAL_EXAM_DONE"
+    },
+    "priority": 75,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_MILITARY_MERIT",
+    "name": "随营操练三年",
+    "text": "三年操练和轮值练出的本事，比嘴上逞强管用。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_MILITARY_MERIT_DONE"
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_FIREARMS",
+    "name": "修造学成",
+    "text": "你会做器件，也看得懂图稿，学到了修造手艺。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_FIREARMS_RESEARCH_DONE"
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_HEALER",
+    "name": "跟诊学成",
+    "text": "你能理清医案和药账，跟诊学来的本事也用上了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_EPIDEMIC_HEALING_DONE"
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_FORTRESS",
+    "name": "筑堡备粮",
+    "text": "修墙备粮费了不少工夫，能给乡邻多一分依靠就值得。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_FORTRESS_DEFENSE_DONE"
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_MARITIME",
+    "name": "合伙行船",
+    "text": "四年合伙运货下来，你总算摸清了一些海上生意的门道。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_CHAIN_MARITIME_TRADE_DONE"
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_WORKSHOP",
+    "name": "手艺能养家",
+    "text": "学成了手艺，家里也攒下了一份积蓄，往后的日子多些底气。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "workshop_complete"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 7
+        }
+      ]
+    },
+    "priority": 62,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_WATER_KEEPER",
+    "name": "管井有方",
+    "text": "办过井务，也有些人脉，都是在乡里立足的积累。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_done"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 6
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_STORES",
+    "name": "管库有门道",
+    "text": "库物能管好，账目也理得清，这份才干用在了实处。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_done"
+        },
+        {
+          "op": "compare",
+          "field": "intelligence",
+          "comparator": "gte",
+          "value": 6
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_SILK",
+    "name": "织造商的家底",
+    "text": "做过织造生意，也攒下了家资，这一路走得不容易。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_TRADE_DONE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_SCHOLAR",
+    "name": "读书之外有人脉",
+    "text": "这几年没白读书，你也结识了不少人，往后多了些出路。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_JUREN"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 71,
+    "category": "milestone"
+  },
+  {
+    "id": "A_LIFE_WEALTHY",
+    "name": "五十岁有积蓄",
+    "text": "人到五十岁，手里攒下了积蓄，日子也宽裕些。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 9
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 50
+        }
+      ]
+    },
+    "priority": 92,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_REFUGEE",
+    "name": "艰难谋生",
+    "text": "你出身流民，手头仍紧，能走到今天不容易。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "caste_id",
+          "value": "C_REFUGEE"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "lte",
+          "value": 1
+        },
+        {
+          "op": "compare",
+          "field": "age",
+          "comparator": "gte",
+          "value": 30
+        }
+      ]
+    },
+    "priority": 87,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_SCHOLAR",
+    "name": "诗名传开",
+    "text": "诗稿传开，又积下不少人脉，算得上是个有名的读书人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_POET_FAMOUS"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 94,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_MILITARY",
+    "name": "在军中站稳脚跟",
+    "text": "你做到了把总，也结识了不少人，最后在军中站稳了脚。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_MILITARY_OFFICER"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 94,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_MERCHANT",
+    "name": "织商家业",
+    "text": "是个织造商，也攒下了家资，生意和家计总算都有了着落。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_SILK_MERCHANT"
+        },
+        {
+          "op": "compare",
+          "field": "wealth",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 93,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_OFFICIAL",
+    "name": "有功名也有人脉",
+    "text": "你考中了举人，也结识了不少人，日子不只有读书和考试。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "is",
+          "field": "identity_id",
+          "value": "I_JUREN"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 95,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_EARLY",
+    "name": "年少离世",
+    "text": "你还没来得及长大，这一生就结束了，让人惋惜。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "lt",
+      "value": 18
+    },
+    "priority": 86,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_ORDINARY",
+    "name": "这一生",
+    "text": "无论经历过什么，这都是你在明末走过的一生。",
+    "condition": {
+      "op": "compare",
+      "field": "age",
+      "comparator": "gte",
+      "value": 0
+    },
+    "priority": 85,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_ARTISAN",
+    "name": "一生有手艺",
+    "text": "靠手艺在世上立足，做个匠人也是一条正经的人生路。",
+    "condition": {
+      "op": "is",
+      "field": "identity_id",
+      "value": "I_ARTISAN"
+    },
+    "priority": 89,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_HEALER",
+    "name": "郎中的人生",
+    "text": "以行医为业，这一生学的是医术，面对的是一个个求助的人。",
+    "condition": {
+      "op": "is",
+      "field": "identity_id",
+      "value": "I_HEALER"
+    },
+    "priority": 90,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_MARITIME",
+    "name": "海上营生",
+    "text": "以海贸为业，这段人生绕不开船期、货物与海上的风险。",
+    "condition": {
+      "op": "is",
+      "field": "identity_id",
+      "value": "I_MARITIME_MERCHANT"
+    },
+    "priority": 90,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_COMMUNITY",
+    "name": "当上坊里甲首",
+    "text": "你担任坊里甲首，常和乡邻商量事情，日子也忙了起来。",
+    "condition": {
+      "op": "is",
+      "field": "identity_id",
+      "value": "I_COMMUNITY_LEADER"
+    },
+    "priority": 89,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_WAREHOUSE",
+    "name": "管军中物资",
+    "text": "你以军资协理官的身份走到最后，负责管理军中物资。",
+    "condition": {
+      "op": "is",
+      "field": "identity_id",
+      "value": "I_WAREHOUSE_OVERSEER"
+    },
+    "priority": 89,
+    "category": "life"
+  },
+  {
+    "id": "A_LIFE_ELDER",
+    "name": "乡里的长者",
+    "text": "以乡贤族长的身份走到最后，乡里的事总得多担待一些。",
+    "condition": {
+      "op": "is",
+      "field": "identity_id",
+      "value": "I_CLAN_ELDER"
+    },
+    "priority": 90,
+    "category": "life"
+  },
+  {
+    "id": "A_gpt_conscription",
+    "name": "分清两张役票",
+    "text": "名字相近也不能混成一笔役差，你把这件事分清楚了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_conscription_mastered"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_gpt_tax",
+    "name": "查清重账",
+    "text": "一笔饷银不能算两遍，这回你把账讲明白了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_tax_mastered"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_gpt_post",
+    "name": "旧图新路标",
+    "text": "你对照旧路图查看实际路况，把驿路差事办清楚了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_post_mastered"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_gpt_market",
+    "name": "摊费有凭据",
+    "text": "一张收据也值得认真查，卖菜的人不该交糊涂钱。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_market_mastered"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_gpt_hunger",
+    "name": "核清领粮户数",
+    "text": "把领粮的户数核准了，放粮就不必只听谁喊得响。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_hunger_mastered"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_gpt_watch",
+    "name": "别名说清了",
+    "text": "同一个人用了几个名字，把来由说清楚，盘查才少些误会。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_gpt_watch_mastered"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_JN_POET_MASTER",
+    "name": "诗稿传入茶馆",
+    "text": "写出的诗有人愿意传抄，这份认可比自夸有趣多了。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_JN_POET_FAMOUS"
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_CAREER_POET",
+    "name": "写诗也结识了人",
+    "text": "诗稿有了名气，人脉也积下不少，文会上的功夫没白费。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_POET_FAMOUS"
+        },
+        {
+          "op": "compare",
+          "field": "prestige",
+          "comparator": "gte",
+          "value": 8
+        }
+      ]
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_HIST_SOUTH_HERMIT",
+    "name": "离城避险",
+    "text": "先离开眼前的险地，往后的生计再想办法，也是一种选择。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_HIST_HERMIT_SOUTH"
+    },
+    "priority": 62,
+    "category": "milestone"
+  },
+  {
+    "id": "A_LIFE_FAMILY_JOY",
+    "name": "家里添了孩子",
+    "text": "家里添了孩子，忙乱会多一些，欢喜也多了一份。",
+    "condition": {
+      "op": "has",
+      "collection": "flags",
+      "id": "F_LIFE_HAS_CHILD"
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_FINGER_BOND",
+    "name": "用胶和刀都要小心",
+    "text": "胶和刀各有用处，用错了都可能伤人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_FINGER_BOND"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_DEATH_GLUE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_DEATH_KNIFE"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_MAGISTRATE_BOOTS",
+    "name": "官靴被粘住了",
+    "text": "退堂还要先清鞋底，这回的胶确实用错了地方。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_MAGISTRATE_BOOTS"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_GOLDEN_CICADA",
+    "name": "围着闹蝉看热闹",
+    "text": "一只蝉就能引来半条街的孩子，小玩意儿也有小乐趣。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_BIRD_TRAP"
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_PORCELAIN_MASTER",
+    "name": "补好瓷碗当摆件",
+    "text": "碎瓷碗补好了，可以留下来摆着，但别再拿它盛饭。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_PORCELAIN_MASTER"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_SIEGE_DEFENSE",
+    "name": "修门搭把手",
+    "text": "知道胶该用在哪儿，修门时也能帮上实在的忙。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_SIEGE_DEFENSE"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_AMBER_PILL",
+    "name": "旧胶不是药",
+    "text": "剩下的胶和旧管各有用途，认清材料，别当成药就好。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_AMBER_PILL"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_OLD_TUBE"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_GLUE_WAR_SHIP_SEAL",
+    "name": "木样帮忙修船",
+    "text": "你给船匠备好了合适的木样，帮上了修船的忙。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_SHIP_RESCUED"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_FAST_2"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_CRAFT_CHIEF",
+    "name": "手艺经得起验",
+    "text": "图纸和试样都通过复核，工坊也认可了你的手艺。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_BREAK_SUCCESS"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_DEFENSE_HERO",
+    "name": "修补手艺有人接",
+    "text": "胶会用完，传给徒弟的修补手艺还能接着用。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_DONE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_SWISS_GUNSMITH_REFORM"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_GLUE_REPAIR_DYNASTY",
+    "name": "一起编好修造手册",
+    "text": "你们把少见的误用也写进手册，给后来的人留下了参考。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_GLUE"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_GLUE_CRITICAL"
+            },
+            {
+              "op": "any",
+              "conditions": [
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_MOD_GLUE_DONE"
+                },
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_MOD_GLUE_FAST_DONE"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_BEARD_SINGE",
+    "name": "火机和绿瓶别乱用",
+    "text": "火机和绿瓶各有用处，用错了都可能伤人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_BEARD_SINGE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_OIL_SMART_KID"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_DEATH_OIL"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_SMOKE_SPELL",
+    "name": "公堂点烛",
+    "text": "点烛靠的是燃料，不是奇术，能说明白也很要紧。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_SMOKE_SPELL"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_WILD_BEAST",
+    "name": "火机也有做不到的事",
+    "text": "火机能点火，也能提神，但遇上别的麻烦还得另想办法。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_OIL_MOSQUITO_SHIELD"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_DEATH_FIRE"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_RAIN_BEACON",
+    "name": "雨中续火",
+    "text": "雨天还能续上火，靠的是事先护住了干料。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_RAIN_BEACON"
+        }
+      ]
+    },
+    "priority": 36,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_CANNON_FUSE",
+    "name": "风雪送火种",
+    "text": "你把备用火种和干料送到了，守备的人也能接着用。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_CANNON_FUSE"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_STEEL_WHEEL",
+    "name": "老手的经验",
+    "text": "旧物总有用尽的时候，教给后辈的经验还能接着用。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_STEEL_WHEEL"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_OIL_BOTTLE_HEIRLOOM"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 44,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_LIGHTER_NIGHT_AMBUSH",
+    "name": "夜路接应",
+    "text": "查清路线再带队，夜里的接应也能办得稳当。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_NIGHT_AMBUSH"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_FAST_DONE"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 66,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_ROYAL_ALCHEMY",
+    "name": "把护火办法写下来",
+    "text": "你把护火经验记下来，接班的人就能照着做。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_STEP_3"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_CHIEF_FLINT",
+    "name": "风雪护粮",
+    "text": "你和全队一起在风雪中接应粮车。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_BREAK_SUCCESS"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_LIGHTER_REWRITE_DYNASTY",
+    "name": "人和粮都到了",
+    "text": "人和粮车都接到了，还余下半囊干料，这一趟办得漂亮。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_LIGHTER"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_LIGHTER_CRITICAL"
+            },
+            {
+              "op": "any",
+              "conditions": [
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_MOD_LIGHTER_DONE"
+                },
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_MOD_LIGHTER_FAST_DONE"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 86,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_CLOUDY_PAUSE",
+    "name": "下雨改用算盘",
+    "text": "阴雨天你改用纸笔和算盘，也把账认真算清了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_CLOUDY_PAUSE"
+        }
+      ]
+    },
+    "priority": 23,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_DIVINE_FORTUNE",
+    "name": "算数不算命",
+    "text": "算得快是本事，把每笔钱粮的来由弄清楚也同样要紧。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_OPEN"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_UPSIDE_DOWN",
+    "name": "算账别忘看路",
+    "text": "账要算明白，脚下也要看清，窄路上更不能分心。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_UPSIDE_DOWN"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_DEATH_MISUSE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_DEATH_AUDIT"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 27,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_CORRUPT_CLERK",
+    "name": "工钱要有凭据",
+    "text": "工钱与粮袋有凭有据地对上，问账才有底气。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_CORRUPT_CLERK"
+        }
+      ]
+    },
+    "priority": 38,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_BORDER_SUPPLY",
+    "name": "逐袋核军粮",
+    "text": "称过的粮有签单可查，这样的军需账才经得起问。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_BORDER_SUPPLY"
+        }
+      ]
+    },
+    "priority": 42,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_PUZZLE_BOX",
+    "name": "老账房教人复核",
+    "text": "你教后辈算账，也告诉他们计算器用不了时该怎么办。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_SENIOR"
+        }
+      ]
+    },
+    "priority": 46,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_TAX_REFORM",
+    "name": "税单有副本",
+    "text": "正本淋坏，还有副本能对账，平日留底的工夫没白费。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_TAX_REFORM"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_FAST_2"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_MINISTRY_HUB",
+    "name": "公账讲明白",
+    "text": "每笔钱花到哪里都能查，街坊不用围着糊涂账猜来猜去。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_STEP_3"
+        }
+      ]
+    },
+    "priority": 74,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_SIEGE_LOGISTICS",
+    "name": "分粮有准数",
+    "text": "现粮有多少就按多少分，安排清楚，也能少些争抢。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_SIEGE_LOGISTICS"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_FAST_DONE"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CALCULATOR_PERFECT_TREASURY",
+    "name": "旧漏单也查清",
+    "text": "隔年的漏单也对上了，这份清账的功夫值得留给后人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CALCULATOR"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_MOD_CALCULATOR_CRITICAL"
+            },
+            {
+              "op": "any",
+              "conditions": [
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_MOD_CALCULATOR_DONE"
+                },
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_MOD_CALCULATOR_FAST_DONE"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NATIVE_BOWL_CONGEE",
+    "name": "破碗也能盛热粥",
+    "text": "碗虽然缺了一角，还是稳稳盛住了热粥，这顿饭有着落了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NATIVE_BOWL_SAVED"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NATIVE_BOOK_PETITION",
+    "name": "凭据办实事",
+    "text": "把凭票和实物核实，读过的道理才真正帮得上乡邻。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NATIVE_BOOK_SAVED"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOOK_IMPLEMENTED"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NATIVE_SCALES_CUNNING",
+    "name": "买米不短斤",
+    "text": "能认米单，也肯核实分量，少给的米才有办法讨回来。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NATIVE_SCALES_SAVED"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CORN_DEATH_THEFT",
+    "name": "护粮遇难",
+    "text": "你带着粮种赶路时遇上抢夺，最终遇难，让人惋惜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_DEATH_THEFT"
+        }
+      ]
+    },
+    "priority": 20,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CORN_DEATH_RUMOUR",
+    "name": "争执时失足",
+    "text": "你因争论玉米要不要浇水而跌进沟里，最终没能生还。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_DEATH_RUMOUR"
+        }
+      ]
+    },
+    "priority": 21,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CORN_DEATH_HUNGER",
+    "name": "未等到收成",
+    "text": "你没等到新粮，也没等到接济，最终因饥饿去世。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_DEATH_HUNGER"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CORN_SENIOR",
+    "name": "教后生试种玉米",
+    "text": "年纪长了，田里的经验还能教给后生，不必事事亲手做。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_SENIOR"
+        }
+      ]
+    },
+    "priority": 30,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CORN_TRIAL",
+    "name": "先试种再推广",
+    "text": "先把小田种明白，扩种才有依据，耐旱也不是不用水。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_TRIAL"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CORN_STORE",
+    "name": "仓粮分清楚",
+    "text": "种粮和口粮各记清楚，眼前的饭和来年的种才都顾得上。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_STORE"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CORN_RELIEF",
+    "name": "按当地水土教人种玉米",
+    "text": "按当地的土和水讲种法，也顾眼前的口粮，这样推广才稳妥。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_RELIEF"
+        }
+      ]
+    },
+    "priority": 60,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CORN_ESCORT",
+    "name": "结伴护粮",
+    "text": "种粮要护住，同行的老幼也要照应，这趟路得一起走。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_ESCORT"
+        }
+      ]
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CORN_SUCCESS",
+    "name": "种法传到邻县",
+    "text": "种法传到了邻县，靠的是试田记下的经验，不是一句丰收保证。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_SUCCESS"
+        }
+      ]
+    },
+    "priority": 75,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_CORN_LEGACY",
+    "name": "乡邻一起编种植手册",
+    "text": "各地试田记录互相印证，你们一起把种法刻印成册，留给后来人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_CORN"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_LEGACY"
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_HEALER_OPEN",
+    "name": "开始学照护",
+    "text": "救人不能只靠这一盒药，照护常识也得学。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_OPEN"
+        }
+      ]
+    },
+    "priority": 20,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_DEATH_DELAY",
+    "name": "未等到救治",
+    "text": "你没能及时求医，最终因病去世，让人惋惜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_DEATH_DELAY"
+        }
+      ]
+    },
+    "priority": 21,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_DEATH_ROBBERY",
+    "name": "携药途中遇难",
+    "text": "你带着药盒出门时遇到抢夺，最终没能脱身。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_DEATH_ROBBERY"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_SENIOR",
+    "name": "教后生照护常识",
+    "text": "你把洗手、饮水和求医常识教给后辈，也帮上了人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_SENIOR"
+        }
+      ]
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_BOUNDARY",
+    "name": "先看病情再用药",
+    "text": "先请郎中辨清病情，不乱分有限的药，才是对求助的人负责。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_BOUNDARY"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_HYGIENE",
+    "name": "饮水和清洁用具分开",
+    "text": "饮水和清洗用具要分开，这些小事也值得认真做好。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_HYGIENE"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_HEALER_RELIEF",
+    "name": "救助要有人搭把手",
+    "text": "救助不能只靠一个人，有帮手才能照应得过来。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_RELIEF"
+        }
+      ]
+    },
+    "priority": 60,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_HEALER_FAST_DONE",
+    "name": "忙而不乱",
+    "text": "药量有限，大家分工后，乱局里的救助才能继续。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_FAST_DONE"
+        }
+      ]
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_HEALER_SPREAD",
+    "name": "把照护办法传出去",
+    "text": "照护办法获准推广，更多地方可以照着安排救助。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_SPREAD"
+        }
+      ]
+    },
+    "priority": 75,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_HEALER_LEGACY",
+    "name": "一起编好照护手册",
+    "text": "几处郎中一起校订手册，把照护经验留给后来人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_ANTIBIOTIC"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_LEGACY"
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_DEATH_ROBBERY",
+    "name": "追灯途中遇难",
+    "text": "你刚开始夜查，就在追赶抢灯的人时遇难了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_DEATH_ROBBERY"
+        }
+      ]
+    },
+    "priority": 20,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_DEATH_CLAIMS",
+    "name": "倒下的货架",
+    "text": "争抢中货架突然倒下，这一生就此结束，令人惋惜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_DEATH_CLAIMS"
+        }
+      ]
+    },
+    "priority": 21,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_DEATH_MISSTEP",
+    "name": "夜路失足",
+    "text": "夜路上失足落入暗沟，这一生就此结束，实在可惜。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_DEATH_MISSTEP"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_SENIOR",
+    "name": "教会后生摇灯",
+    "text": "你教会后辈摇灯巡路，终于有人能接班。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_SENIOR"
+        }
+      ]
+    },
+    "priority": 30,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_EVIDENCE",
+    "name": "查事先求证",
+    "text": "查事肯下细功夫，总比一见动静就急着下结论稳妥。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_EVIDENCE"
+        }
+      ]
+    },
+    "priority": 31,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_PATROL",
+    "name": "巡夜轮着来",
+    "text": "一人摇累了就换人，巡夜本来就该一起分担。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_PATROL"
+        }
+      ]
+    },
+    "priority": 32,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_ESCORT",
+    "name": "夜路有照应",
+    "text": "结伴赶夜路，能互相照应，确实比一个人硬撑稳妥。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_ESCORT"
+        }
+      ]
+    },
+    "priority": 60,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_FAST_DONE",
+    "name": "乱局中护送乡邻",
+    "text": "夜路难走，你还是把乡邻护送到了巷外。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_FAST_DONE"
+        }
+      ]
+    },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_BREAK_SUCCESS",
+    "name": "夜查有结果",
+    "text": "肯查证，也肯跑腿，夜里的追查终于有了结果。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_BREAK_SUCCESS"
+        }
+      ]
+    },
+    "priority": 75,
+    "category": "milestone"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_BREAK_CRITICAL",
+    "name": "旧案新线索",
+    "text": "旧案也有了新线索，前后的奔走没有白费。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_MODERN_FLASHLIGHT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_BREAK_CRITICAL"
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOWL_FIRST_PRICE",
+    "name": "价钱分量要清楚",
+    "text": "把价钱和分量弄明白，做生意才有底气。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_OPEN"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOWL_KEYS_LESSON",
+    "name": "街头谋生不容易",
+    "text": "街头谋生不容易，一次失算或意外都可能让日子更难。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOWL_BLIND_BUY"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOWL_DEATH_TERRITORY"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOWL_HONEST_STALL",
+    "name": "明码实价做生意",
+    "text": "价钱写明白，分量给足，小摊也能做成公道生意。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_HONEST"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOWL_SHOP",
+    "name": "小本生意",
+    "text": "踏实干活攒下回头客，小本生意也能慢慢做起来。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_SHOP_RUN"
+        }
+      ]
+    },
+    "priority": 40,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOWL_OLD_CUSTOMERS",
+    "name": "老掌柜传经验",
+    "text": "做生意的经验肯教给后辈，年纪长了也有自己的用处。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_SENIOR"
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOWL_STREET_ROOF",
+    "name": "生意也顾街坊",
+    "text": "几年的小生意做下来，还能照应街坊的生计，这份经营就值得。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOWL_DONE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOWL_NEIGHBOR_RELIEF"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 68,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOWL_CAPITAL_AID",
+    "name": "乱局里不涨价",
+    "text": "你没有趁缺粮涨价，还帮街坊修好雨棚。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_FAST_DONE"
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOWL_TYCOON",
+    "name": "修好街沟方便摆摊",
+    "text": "街坊合力修好了街沟，你也照常做生意，方便了大家摆摊。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_BREAK_SUCCESS"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOWL_COMMON_HOME",
+    "name": "修街后还留有余钱",
+    "text": "修好了街沟，还留住了周转钱，这份家业经营得稳当。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOWL"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_CRITICAL"
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOOK_FIRST_WORD",
+    "name": "识字会算账",
+    "text": "你把识字和算账用在日常买卖里，读书的用处就在眼前。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_OPEN"
+        }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOOK_SCALE_BOUNDARY",
+    "name": "称重不能验成色",
+    "text": "小秤能称分量，不能验成色，这点分清楚就少些想当然。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_SCALE_BOUNDARY"
+        }
+      ]
+    },
+    "priority": 25,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOOK_EXAM_DELAY",
+    "name": "读书也会遇上意外",
+    "text": "书读得再熟，也可能被卷入麻烦或遇上意外，谁都没法预料所有事。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOOK_EXAM_DEFERRED"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOOK_DEATH_BRIDGE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOOK_DEATH_CART"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 28,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOOK_LOCAL_ACCOUNTS",
+    "name": "换银先称重再验成色",
+    "text": "先称分量，再请懂行人验成色，换银就不能省这一步。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_ACCOUNTS"
+        }
+      ]
+    },
+    "priority": 35,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOOK_OLD_TEACHER",
+    "name": "教后生识字查账",
+    "text": "你年纪大了，仍能把识字和查账的本事教给后生。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "all",
+          "conditions": [
+            {
+              "op": "compare",
+              "field": "age",
+              "comparator": "gte",
+              "value": 46
+            },
+            {
+              "op": "any",
+              "conditions": [
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_NAT_BOOK_SENIOR"
+                },
+                {
+                  "op": "has",
+                  "collection": "flags",
+                  "id": "F_NAT_BOOK_TAUGHT"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 45,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_NAT_BOOK_CLEAN_PRACTICE",
+    "name": "把账交代清楚",
+    "text": "经手的事有凭有据，后来的人也查得明白，这份做法值得留下。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOOK_DONE"
+            },
+            {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_NAT_BOOK_FAST_DONE"
+            }
+          ]
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOOK_PRACTICAL_OFFICIAL",
+    "name": "功名用在实处",
+    "text": "你有功名，也肯核实眼前的事，读的书总算派上了用场。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_BREAK_SUCCESS"
+        }
+      ]
+    },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_NAT_BOOK_LEGACY",
+    "name": "留下办事手册",
+    "text": "你理清了多年的错单，把办事办法写进手册，留给后来人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "cards",
+          "id": "CARD_NATIVE_BOOK"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_CRITICAL"
+        }
+      ]
+    },
+    "priority": 90,
+    "category": "milestone"
+  }
+]

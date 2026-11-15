@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>重大抉择交互提案 · HTML 预览</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fff9e9;
+      --surface: #fffdf5;
+      --ink: #302826;
+      --muted: #67594c;
+      --accent: #bf3527;
+      --sun: #ffda58;
+      --sun-soft: #fff0ac;
+      --line: #d8c899;
+      --focus: #196c8a;
+      --disabled: #e4ddd0;
+      --radius: 10px;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+      color: var(--ink);
+      background: #f0eadc;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; background: #f0eadc; }
+    button, summary { font: inherit; }
+    button { color: inherit; }
+    .studio { max-width: 1240px; margin: 0 auto; padding: 26px 28px 40px; }
+    .studio-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 18px; }
+    .eyebrow { margin: 0 0 7px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+    h1 { margin: 0; font-size: clamp(22px, 3vw, 30px); line-height: 1.2; }
+    .head-note { max-width: 420px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .workbench { display: grid; grid-template-columns: minmax(320px, 1fr) 410px minmax(270px, .8fr); align-items: start; gap: 22px; }
+    .panel { background: rgba(255,253,245,.75); border: 1px solid rgba(48,40,38,.12); border-radius: 14px; padding: 18px; }
+    .panel h2 { margin: 0 0 9px; font-size: 16px; }
+    .panel p { color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .prototype-tag { display: inline-flex; align-items: center; min-height: 38px; margin-bottom: 11px; padding: 7px 12px; border: 1px solid var(--ink); border-radius: 8px; background: var(--sun-soft); font-size: 12px; font-weight: 850; }
+    .scheme-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 12px; }
+    .tab {
+      min-height: 48px; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--surface);
+      padding: 8px 10px; text-align: left; cursor: pointer; font-size: 12px; font-weight: 750;
+      transition: background-color 140ms ease, color 140ms ease;
+    }
+    .tab small { display: block; margin-top: 3px; font-size: 10px; font-weight: 600; opacity: .76; }
+    .tab[aria-selected="true"] { background: var(--sun-soft); box-shadow: inset 0 -3px 0 var(--ink); }
+    .tab:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .device {
+      width: min(100%, 410px); margin: 0 auto; padding: 9px; background: var(--ink); border-radius: 34px;
+      box-shadow: 0 14px 26px rgba(48,40,38,.18);
+    }
+    .screen {
+      height: min(82dvh, 844px); min-height: 660px; display: block; position: relative;
+      overflow: hidden; background: var(--paper); border-radius: 26px; isolation: isolate;
+    }
+    .game-backdrop { position: absolute; inset: 0; z-index: 0; padding: 55px 20px 24px; background: var(--paper); }
+    .backdrop-head { display: flex; justify-content: space-between; align-items: center; color: var(--ink); font-size: 13px; }
+    .backdrop-head span { color: var(--muted); font-size: 10px; }
+    .backdrop-attributes { display: flex; gap: 7px; margin-top: 24px; padding: 12px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .backdrop-attributes i { height: 7px; flex: 1; background: #d7caa9; border-radius: 8px; }
+    .backdrop-log { margin-top: 22px; padding: 16px 14px; min-height: 220px; background: var(--surface); border-left: 2px solid var(--line); }
+    .backdrop-log i { display: block; width: 94%; height: 7px; margin-bottom: 13px; background: #dfd5bf; border-radius: 6px; }
+    .backdrop-log i:nth-child(2), .backdrop-log i:nth-child(5) { width: 73%; }
+    .backdrop-log i:nth-child(4) { width: 86%; margin-top: 30px; }
+    .backdrop-log.has-outcome { min-height: 220px; border: 1px solid var(--line); border-radius: 8px; }
+    .backdrop-log.has-outcome b { display: block; margin-bottom: 12px; color: var(--ink); font-size: 16px; }
+    .backdrop-log.has-outcome p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .backdrop-log.has-outcome span { display: inline-block; margin-top: 16px; color: var(--accent); font-size: 11px; font-weight: 800; }
+    .backdrop-action { position: absolute; left: 20px; right: 20px; bottom: 42px; min-height: 48px; display: grid; place-items: center; border: 2px solid #a89f8c; border-radius: 9px; background: var(--disabled); color: var(--muted); font-size: 13px; font-weight: 800; }
+    .screen-veil { position: absolute; inset: 0; z-index: 1; background: rgba(48,40,38,.48); transition: opacity 400ms ease; }
+    .decision-modal { position: absolute; z-index: 2; top: 50%; left: 50%; width: min(calc(100% - 64px), 320px); height: min(370px, calc(100% - 76px)); max-height: calc(100% - 76px); transform: translate(-50%, -50%); display: flex; flex-direction: column; overflow: hidden; border: 1.5px solid var(--ink); border-radius: 13px; background: var(--paper); box-shadow: 4px 5px 0 rgba(48,40,38,.35); transition: opacity 400ms ease, transform 400ms ease; }
+    .screen.is-transitioning .screen-veil { opacity: 0; pointer-events: none; }
+    .screen.is-transitioning .decision-modal { opacity: 0; transform: translate(-50%, calc(-50% - 6px)); pointer-events: none; }
+    .modal-header { flex: 0 0 auto; padding: 12px 16px 0; }
+    .modal-header .decision-label { justify-content: flex-start; margin-bottom: 7px; }
+    .modal-header .event-title { font-size: 21px; margin-bottom: 5px; }
+    .modal-header .event-copy { margin-bottom: 0; font-size: 13px; }
+    .system-bar { position: absolute; z-index: 3; inset: 0 0 auto; height: 37px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; font-size: 10px; font-weight: 800; }
+    .camera { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 76px; height: 23px; border-radius: 20px; background: #111; }
+    .sys-icons { display: flex; align-items: center; gap: 5px; }
+    .sys-dot { width: 5px; height: 5px; background: var(--ink); border-radius: 50%; }
+    .content { flex: 1; min-height: 0; overflow: hidden; padding: 5px 16px 10px; }
+    .decision-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .decision-label strong { color: var(--accent); font-size: 12px; letter-spacing: .04em; }
+    .decision-label span { color: var(--muted); font-size: 11px; }
+    .event-title { margin: 0 0 8px; color: var(--accent); font-size: 25px; line-height: 1.25; font-weight: 900; }
+    .event-copy { max-width: 34em; margin: 0 0 19px; font-size: 15px; line-height: 1.65; }
+    .section-label { display: flex; justify-content: space-between; align-items: center; margin: 7px 0 8px; }
+    .section-label b { font-size: 13px; }
+    .section-label span { color: var(--muted); font-size: 11px; }
+    .route-list { display: grid; gap: 9px; }
+    .route-card {
+      display: block; width: 100%; min-height: 78px; position: relative; text-align: left; cursor: pointer;
+      padding: 9px 11px; border: 1.5px solid var(--ink); border-radius: 9px; background: var(--surface);
+      transition: background-color 140ms ease, border-color 140ms ease;
+    }
+    .route-card { min-height: 62px; }
+    .route-card:hover { background: #fff8dc; }
+    .route-card[aria-pressed="true"] { background: var(--sun-soft); border-width: 2px; }
+    .route-top { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+    .route-name { font-size: 15px; line-height: 1.35; font-weight: 850; }
+    .selected-mark { flex: none; padding: 3px 6px; border-radius: 5px; background: var(--sun); font-size: 10px; line-height: 1.2; font-weight: 900; }
+    .risk { flex: none; font-size: 10px; font-weight: 800; padding: 4px 7px; border: 1px solid currentColor; border-radius: 999px; }
+    .risk.safe { color: #355b39; background: #eff5e8; }
+    .risk.normal { color: #75500a; background: #fff2c6; }
+    .route-meta { display: flex; flex-wrap: wrap; gap: 5px 12px; margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+    .route-meta b { color: var(--ink); font-weight: 800; }
+    .route-card .checkmark { display: none; position: absolute; right: 12px; bottom: 10px; font-size: 10px; font-weight: 900; }
+    .route-card[aria-pressed="true"] .checkmark { display: block; }
+    .route-card:disabled { background: var(--disabled); color: var(--muted); cursor: not-allowed; border-color: #a99e8c; }
+    .route-card:disabled .risk { opacity: .72; }
+    .locked-note { display: block; margin-top: 7px; color: var(--accent); font-size: 11px; line-height: 1.45; }
+    .rule-details { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 9px; }
+    .rule-details summary { min-height: 38px; display: flex; align-items: center; cursor: pointer; color: var(--ink); font-size: 12px; font-weight: 800; }
+    .rule-details p { margin: 4px 0 7px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .detail-box { margin: 10px 0 4px; padding: 11px 12px; border-left: 3px solid var(--accent); background: #fffdf5; }
+    .detail-heading { margin: 0 0 5px; font-size: 12px; font-weight: 900; }
+    .detail-box p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--muted); }
+    .result-box { margin: 12px 0 2px; padding: 13px; border: 1.5px solid var(--ink); border-radius: 9px; background: var(--sun-soft); }
+    .result-box b { display: block; margin-bottom: 5px; font-size: 13px; }
+    .result-box p { margin: 0; font-size: 13px; line-height: 1.55; }
+    .empty-state { padding: 18px 12px; background: #fffdf5; border-radius: 8px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .bottom-actions { flex: 0 0 auto; padding: 8px 16px max(9px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(48,40,38,.14); background: var(--paper); }
+    .primary {
+      width: 100%; min-height: 50px; border: 2px solid var(--ink); border-radius: 9px; background: var(--sun); color: var(--ink);
+      box-shadow: 3px 4px 0 var(--ink); font-size: 14px; font-weight: 900; cursor: pointer;
+      transition: transform 100ms ease, box-shadow 100ms ease, background-color 140ms ease;
+    }
+    .primary:active:not(:disabled) { transform: translate(1px, 2px); box-shadow: 1px 2px 0 var(--ink); }
+    .primary:disabled { background: var(--disabled); box-shadow: none; color: #67594c; cursor: not-allowed; }
+    .bottom-actions { display: flex; justify-content: center; padding: 9px 12px 12px; }
+    .bottom-actions:empty { display: none; }
+    .bottom-actions .primary { width: min(78%, 230px); min-height: 42px; height: 42px; border-radius: 999px; box-shadow: 2px 3px 0 var(--ink); }
+    .bottom-actions .primary:active:not(:disabled) { transform: translateY(1px); box-shadow: 1px 2px 0 var(--ink); }
+    .manage {
+      width: 100%; min-height: 36px; margin-top: 5px; border: 0; background: transparent;
+      color: var(--muted); font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+    }
+    .commit-hint { margin: 0 0 8px; text-align: center; color: var(--muted); font-size: 11px; }
+    .home-indicator { position: absolute; z-index: 3; left: 50%; bottom: 5px; width: 92px; height: 4px; transform: translateX(-50%); background: var(--ink); border-radius: 10px; }
+    .screen.has-overlay::after { content: ""; position: absolute; inset: 0; z-index: 4; background: rgba(48,40,38,.28); }
+    .manage-sheet { position: absolute; inset: auto 0 0; z-index: 5; padding: 20px 20px 22px; background: var(--surface); border-top: 2px solid var(--ink); border-radius: 18px 18px 0 0; box-shadow: 0 -7px 24px rgba(48,40,38,.14); }
+    .manage-sheet h3 { margin: 0 0 8px; font-size: 18px; }
+    .manage-sheet p { margin: 0 0 14px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .secondary {
+      min-height: 44px; width: 100%; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--surface); font-weight: 800; cursor: pointer;
+    }
+    .device-caption { text-align: center; color: var(--muted); font-size: 11px; margin: 10px 0 0; }
+    .sim-controls { display: grid; gap: 10px; }
+    .control-label { display: block; margin-bottom: 7px; font-size: 12px; color: var(--muted); font-weight: 800; }
+    .year-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .year-btn { min-height: 44px; padding: 6px; background: var(--surface); border: 1.5px solid var(--ink); border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 800; }
+    .year-btn[aria-pressed="true"] { background: var(--sun-soft); }
+    .scheme-name { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 17px; }
+    .badge-recommend { display: inline-block; padding: 4px 7px; background: var(--sun); border: 1px solid var(--ink); border-radius: 5px; font-size: 10px; font-weight: 900; }
+    .spec-copy { min-height: 96px; margin-top: 0; }
+    .steps { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .steps li { display: grid; grid-template-columns: 24px 1fr; gap: 9px; align-items: start; font-size: 12px; line-height: 1.5; }
+    .step-no { width: 23px; height: 23px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 900; }
+    .source-note { margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .live-note { min-height: 41px; margin-top: 10px; padding: 9px 10px; border-radius: 7px; background: #fffdf5; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .live-note strong { color: var(--ink); }
+    .mode-compare .route-list { gap: 0; border-top: 1px solid var(--line); }
+    .mode-compare .route-card { min-height: 64px; padding: 9px 2px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+    .mode-compare .route-card:hover { background: rgba(255,240,172,.5); }
+    .mode-compare .route-card[aria-pressed="true"] { padding-left: 9px; padding-right: 9px; border-left: 3px solid var(--ink); background: var(--sun-soft); }
+    .mode-story .story-lead { display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; margin: 0 0 15px; padding: 10px; background: #fffdf5; border-radius: 8px; }
+    .bottle { width: 31px; height: 39px; position: relative; margin: 0 auto; border: 2px solid var(--ink); border-radius: 7px 7px 6px 6px; background: #c5d6a3; }
+    .bottle::before { content: ""; position: absolute; width: 13px; height: 8px; left: 7px; top: -8px; border: 2px solid var(--ink); border-bottom: 0; border-radius: 3px 3px 0 0; background: var(--sun); }
+    .bottle::after { content: ""; position: absolute; width: 17px; height: 8px; left: 5px; top: 14px; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+    .story-lead p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .mode-story .route-card { min-height: 70px; padding: 11px 12px; }
+    .direct-tag { display: inline-block; margin-top: 7px; color: var(--accent); font-size: 10px; font-weight: 800; }
+    .status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; background: #fffdf5; border-radius: 99px; color: var(--muted); font-size: 10px; }
+    .status-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #5c7b3a; }
+    @media (max-width: 1040px) {
+      .studio { max-width: 900px; }
+      .workbench { grid-template-columns: minmax(0, 1fr) 410px; }
+      .spec-panel { grid-column: 1 / -1; }
+      .spec-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+      .spec-inner .source-note { grid-column: 1 / -1; }
+    }
+    @media (max-width: 720px) {
+      .studio { padding: 18px 12px 26px; }
+      .studio-head { display: block; margin-bottom: 13px; }
+      .head-note { margin-top: 8px; }
+      .workbench { display: flex; flex-direction: column; gap: 12px; }
+      .preview-panel { order: 0; width: 100%; padding: 12px; }
+      .spec-panel { order: 1; width: 100%; }
+      .device { width: min(100%, 410px); padding: 0; border-radius: 22px; }
+      .screen { height: min(74dvh, 760px); min-height: min(630px, 74dvh); border-radius: 22px; }
+      .decision-modal { height: min(370px, calc(100% - 76px)); max-height: calc(100% - 76px); }
+      .panel { padding: 15px; }
+    }
+    @media (max-width: 390px) {
+      .tab { padding: 7px 6px; font-size: 11px; }
+      .tab small { font-size: 9px; }
+      .content { padding-left: 16px; padding-right: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .screen.is-transitioning .decision-modal { transform: translate(-50%, -50%); }
+    }
+  </style>
+</head>
+<body>
+  <main class="studio">
+    <header class="studio-head">
+      <div>
+        <p class="eyebrow">INTERACTION STUDY · 01</p>
+        <h1>重大抉择 · 方案 A</h1>
+      </div>
+      <p class="head-note">点击路线后弹窗用约 400ms 淡出并轻轻上移；完全收起后再缓冲 0.7 秒，开始所选路线进度。</p>
+    </header>
+
+    <div class="workbench">
+      <section class="panel preview-panel" aria-label="手机界面预览">
+        <div class="prototype-tag">方案 A · 点击路线直接选择</div>
+        <div class="device">
+          <section class="screen" id="phone-screen">
+            <div class="game-backdrop" aria-hidden="true">
+              <div class="backdrop-head"><b>人生推演</b><span>当前经历</span></div>
+              <div class="backdrop-attributes"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="backdrop-log" id="backdrop-log"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="backdrop-action">继续推进</div>
+            </div>
+            <div class="screen-veil" aria-hidden="true"></div>
+            <div class="system-bar"><span>人生推演</span><div class="camera" aria-hidden="true"></div><div class="sys-icons" aria-hidden="true"><i class="sys-dot"></i><i class="sys-dot"></i><i class="sys-dot"></i></div></div>
+            <section class="decision-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+              <header class="modal-header" id="modal-header"></header>
+              <div class="content" id="screen-content"></div>
+              <footer class="bottom-actions" id="screen-footer"></footer>
+            </section>
+            <div class="home-indicator" aria-hidden="true"></div>
+          </section>
+        </div>
+        <p class="device-caption">400ms 关闭动效 · 700ms 缓冲 · 开始推进</p>
+      </section>
+
+      <aside class="panel spec-panel" aria-live="polite">
+        <div class="spec-inner">
+          <section class="sim-controls">
+            <h2>预览情境</h2>
+            <div>
+              <span class="control-label">开局年份（用于演示路线可用性）</span>
+              <div class="year-switch" role="group" aria-label="切换开局年份">
+                <button class="year-btn" data-year="regular" aria-pressed="true">常规年份</button>
+                <button class="year-btn" data-year="emergency" aria-pressed="false">1643 / 1644</button>
+              </div>
+            </div>
+            <div class="live-note" id="live-note" aria-live="polite"></div>
+          </section>
+          <section>
+            <div class="scheme-name"><span>路线卡 · 点击即选</span><span class="badge-recommend">建议优先</span></div>
+            <p class="spec-copy">只显示当前可选路线。点选后弹窗淡出并轻微上移，约 400ms 收起；再缓冲 0.7 秒，开始推进所选路线。</p>
+            <ul class="steps">
+              <li><span class="step-no">1</span><span>不可选路线不显示；可选路线显示行动和属性变化。</span></li>
+              <li><span class="step-no">2</span><span>点选即提交，弹窗收起并暂时锁住输入。</span></li>
+              <li><span class="step-no">3</span><span>关闭动画结束后缓冲约 0.7 秒，再开始路线进度。</span></li>
+            </ul>
+          </section>
+      <p class="source-note">路线和属性变化来自当前「绿瓶不是糖」配置。背景为版式示意；预览只模拟选择反馈，不提交游戏数据。</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const normalRoutes = [
+      { id: 'invest', name: '跟长辈学用火', gains: ['体魄 +3', '气数 +2'], outcome: '长辈收好火机，先教你辨认干燥的引火料；醒脑油则另放一处。' },
+      { id: 'support', name: '帮家人分干料', gains: ['体魄 +1', '气数 +1'], outcome: '家人负责用火，你帮着分好干料，慢慢熟悉护火的准备工作。' },
+      { id: 'withdraw', name: '不学护火，去玩耍', gains: ['人脉 +1'], outcome: '你把绿瓶放回高柜，不跟着学护火，安心去玩。' },
+    ];
+    const emergencyRoutes = [
+      { id: 'invest_late', name: '跟长辈护送火种', gains: ['体魄 +3', '气数 +2'], outcome: '长辈负责护住火种，你跟着辨认干料，准备应急时使用。' },
+      { id: 'support_late', name: '帮家人准备干料', gains: ['体魄 +1', '气数 +1'], outcome: '你替家人包好急用的干料，火机仍由大人保管。' },
+      { id: 'withdraw', name: '不学护火，去玩耍', gains: ['人脉 +1'], outcome: '你把绿瓶放回高柜，不跟着学护火，安心去玩。' },
+    ];
+    const state = { year: 'regular', selected: null, confirmed: null, transitioning: false };
+    let closeTimer = null;
+    let bufferTimer = null;
+    const content = document.getElementById('screen-content');
+    const footer = document.getElementById('screen-footer');
+    const screen = document.getElementById('phone-screen');
+    const popup = document.querySelector('.decision-modal');
+    const modalHeader = document.getElementById('modal-header');
+    const yearName = () => state.year === 'emergency' ? '1643 / 1644 开局' : '常规年份';
+    const routes = () => state.year === 'emergency' ? emergencyRoutes : normalRoutes;
+    const route = id => routes().find(item => item.id === id);
+    const gainsMarkup = item => item.gains.map(gain => `<b>${gain}</b>`).join('<span aria-hidden="true">·</span>');
+    const cardMarkup = item => `<button class="route-card" type="button" data-route="${item.id}" aria-pressed="${state.selected === item.id}" ${state.confirmed ? 'disabled' : ''}>
+      <span class="route-top"><span class="route-name">${item.name}</span>${state.selected === item.id ? '<span class="selected-mark">✓ 已选</span>' : ''}</span>
+      <span class="route-meta">${gainsMarkup(item)}</span></button>`;
+    function render() {
+      const list = routes();
+      screen.classList.toggle('is-transitioning', state.transitioning || Boolean(state.confirmed));
+      const popupHidden = state.transitioning || Boolean(state.confirmed);
+      popup.setAttribute('aria-hidden', String(popupHidden));
+      popup.inert = popupHidden;
+      document.querySelectorAll('.year-btn').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.year === state.year)));
+      document.getElementById('live-note').innerHTML = `<strong>当前：</strong>${yearName()}。${state.year === 'emergency' ? '常规学习路线不可用，应急路线开放。' : '显示常规学习、协助和退出路线。'}`;
+      const backdropLog = document.getElementById('backdrop-log');
+      if (state.confirmed) {
+        const chosen = route(state.confirmed);
+        backdropLog.className = 'backdrop-log has-outcome';
+        backdropLog.innerHTML = `<b>${chosen.name}</b><p>${chosen.outcome}</p><span>后续内容开始推进</span>`;
+        document.querySelector('.backdrop-head span').textContent = '路线进度';
+        content.innerHTML = '';
+        footer.innerHTML = '';
+        return;
+      }
+      backdropLog.className = 'backdrop-log';
+      backdropLog.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i>';
+      document.querySelector('.backdrop-head span').textContent = '当前经历';
+      modalHeader.innerHTML = `<div class="decision-label"><strong>重大抉择</strong></div><h2 class="event-title" id="modal-title">绿瓶不是糖</h2>`;
+      content.innerHTML = `<div class="route-list">${list.map(cardMarkup).join('')}</div>`;
+      footer.innerHTML = '';
+    }
+    document.querySelector('.year-switch').addEventListener('click', event => {
+      const button = event.target.closest('[data-year]');
+      if (!button) return;
+      if (closeTimer !== null) clearTimeout(closeTimer);
+      if (bufferTimer !== null) clearTimeout(bufferTimer);
+      closeTimer = null;
+      bufferTimer = null;
+      state.year = button.dataset.year;
+      state.selected = null; state.confirmed = null; state.transitioning = false;
+      render();
+    });
+    screen.addEventListener('click', event => {
+      const routeButton = event.target.closest('[data-route]');
+      if (routeButton && !routeButton.disabled && !state.transitioning && !state.confirmed) {
+        const selectedId = routeButton.dataset.route;
+        state.selected = selectedId;
+        state.transitioning = true;
+        render();
+        closeTimer = setTimeout(() => {
+          closeTimer = null;
+          bufferTimer = setTimeout(() => {
+            state.confirmed = selectedId;
+            state.transitioning = false;
+            bufferTimer = null;
+            render();
+          }, 700);
+        }, 400);
+      }
+    });
+    render();
+  </script>
+</body>
+</html>

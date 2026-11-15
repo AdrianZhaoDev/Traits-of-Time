@@ -1,0 +1,106 @@
+[
+  {
+    "id": "CARD_MODERN_CORN",
+    "name": "高产耐旱玉米良种",
+    "description": "耐旱的玉米也要浇水。\n农桑检定+1。",
+    "rarity": "SSR",
+    "tags": [
+      "modern"
+    ],
+    "check_bonus": {
+      "tag": "farming",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_MODERN_ANTIBIOTIC",
+    "name": "抗生素与防疫手册",
+    "description": "药量有限，要按病情使用。\n防疫检定+1，不保证治愈。",
+    "rarity": "SSR",
+    "tags": [
+      "modern"
+    ],
+    "check_bonus": {
+      "tag": "medicine",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_MODERN_FLASHLIGHT",
+    "name": "手摇发电强光手电",
+    "description": "手摇发电，摇累了就歇会儿。\n夜巡检定+1。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ],
+    "check_bonus": {
+      "tag": "night_patrol",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_MODERN_CALCULATOR",
+    "name": "太阳能简易计算器",
+    "description": "能帮你算账，但证据和实物还得查。\n清账检定+1。",
+    "rarity": "SR",
+    "tags": [
+      "modern"
+    ],
+    "check_bonus": {
+      "tag": "accounting",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_NATIVE_BOOK",
+    "name": "旧蒙书与小杆秤",
+    "description": "读书识字，还能用小秤核分量。\n经世检定+1，不保证考中。",
+    "rarity": "SR",
+    "tags": [
+      "native"
+    ],
+    "check_bonus": {
+      "tag": "practical_learning",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_MODERN_GLUE",
+    "name": "502强力胶与折叠军刀",
+    "description": "胶水只能修小件，不能用在高温处或承重部位。\n工艺检定+1。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ],
+    "check_bonus": {
+      "tag": "crafting",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_MODERN_LIGHTER",
+    "name": "防风打火机与醒脑油",
+    "description": "燃料有限，先备好干料，别反复空按火机。\n行军检定+1。",
+    "rarity": "R",
+    "tags": [
+      "modern"
+    ],
+    "check_bonus": {
+      "tag": "marching",
+      "amount": 1
+    }
+  },
+  {
+    "id": "CARD_NATIVE_BOWL",
+    "name": "讨饭用的粗陶破碗",
+    "description": "碗虽然破，做买卖也得给足分量。\n市井检定+1。",
+    "rarity": "N",
+    "tags": [
+      "native"
+    ],
+    "check_bonus": {
+      "tag": "street_trade",
+      "amount": 1
+    }
+  }
+]

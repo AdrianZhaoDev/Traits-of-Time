@@ -1,0 +1,1157 @@
+[
+  {
+    "id": "CHAIN_IMPERIAL_EXAM",
+    "name": "崇祯年间科举备考",
+    "commitment": "这条路要走四年，开始时先花1点家资，平时会自动读书。最后可以参加一次考核，争取参加乡试或接抄写活养家；你也可以退出备考，去教邻童识字。如果考核没通过、你受了重伤或道路被封，这次事业会停下；退出不退已付的家资，学会的本事还在。",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_IMPERIAL_EXAM_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "备考中断了，已付的家资不退，学会的读写和写文章本事还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_3"
+      },
+      {
+        "after_years": 4,
+        "event_id": "E_CHAIN_IMPERIAL_EXAM_4"
+      }
+    ],
+    "completion": {
+      "text": "这几年学会的读写和写文章本事，能用来教人识字或接抄写活。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_IMPERIAL_EXAM_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MILITARY_MERIT",
+    "name": "从军操练",
+    "commitment": "这条路要走三年，不收费用，平时会自动操练和轮值。最后可以参加考核，争取军职或编轮值册养家；你也可以退出评定，去教乡邻避险。如果考核没通过、你受了重伤或道路被封，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_MILITARY_MERIT_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "营里的训练中断了，练出的体力和守备经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MILITARY_MERIT_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MILITARY_MERIT_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_MILITARY_MERIT_3"
+      }
+    ],
+    "completion": {
+      "text": "你学会的操练和守备本事，离开军营后也能用上。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_MILITARY_MERIT_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_FIREARMS_RESEARCH",
+    "name": "神机营学修火器",
+    "commitment": "这条路要走四年，开始时先花1点家资，平时会自动学修火器。作坊事故中连续两次没通过考核，可能丧命。最后可以参加考核，争取成为匠人或靠修器养家；你也可以退出评定，去带徒弟。如果考核没通过、你受了重伤或工坊被毁，这次事业会停下；退出不退已付家资，学会的本事还在。",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_FIREARMS_RESEARCH_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_WORKSHOP_LOST"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "工坊学艺中断了，已付的家资不退，学会的手艺还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_2"
+      },
+      {
+        "after_years": 4,
+        "event_id": "E_CHAIN_FIREARMS_RESEARCH_3"
+      }
+    ],
+    "completion": {
+      "text": "你从认旧火铳到试做器件，学会了不少修造手艺。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_FIREARMS_RESEARCH_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_EPIDEMIC_HEALING",
+    "name": "跟郎中学医",
+    "commitment": "这条路要走三年，不收费用，平时会自动跟着郎中看诊。最后可以参加考核，争取行医身份或靠整理药账养家；你也可以退出评定，去教乡邻防病。如果考核没通过、你受了重伤或流落他乡，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_EPIDEMIC_HEALING_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "跟诊中断了，学会的辨药和照护方法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_EPIDEMIC_HEALING_3"
+      }
+    ],
+    "completion": {
+      "text": "跟诊时记下的药名和照护方法，之后也能帮上别人。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_EPIDEMIC_HEALING_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_FORTRESS_DEFENSE",
+    "name": "修墙备粮守乡",
+    "commitment": "这条路要走三年，开始时先花1点家资，平时会自动管粮仓和修墙。最后可以参加考核，争取当上族老或靠管账养家；你也可以退出评定，去教乡邻避险。如果考核没通过、你受了重伤或流落他乡，这次事业会停下；退出不退已付家资，学会的本事还在。",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_FORTRESS_DEFENSE_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "修墙备粮的差事中断了，已付的家资不退，管仓和修墙的经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_CHAIN_FORTRESS_DEFENSE_3"
+      }
+    ],
+    "completion": {
+      "text": "你学会了修墙、管仓和安排轮值，也积累了帮乡邻防险的经验。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_FORTRESS_DEFENSE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MARITIME_TRADE",
+    "name": "合伙出海运货",
+    "commitment": "这条路要走四年，开始时先付3点家资，之后不再收费。第二年遇到风浪时会有一次考核，没通过也不会中断合伙。最后可以参加考核，争取成为海商或留在岸上核账；你也可以退伙，去教同行认货。远航交货失败最多损失2点家资；如果最后考核没通过、你受了重伤或道路被封，这次事业会停下。退出不退本钱，学会的本事还在。",
+    "priority": 25,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_CHAIN_MARITIME_TRADE_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "合伙运货中断了，已付的本钱不退，经营和核账经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MARITIME_TRADE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MARITIME_TRADE_2"
+      },
+      {
+        "after_years": 4,
+        "event_id": "E_CHAIN_MARITIME_TRADE_3"
+      }
+    ],
+    "completion": {
+      "text": "四年合伙结束了，你也学会了运货、核账和安排交货。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_CHAIN_MARITIME_TRADE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_WORKSHOP",
+    "name": "工坊学手艺",
+    "commitment": "这条路要走两年，不收费用，平时会自动认工具、练手艺。最后可以参加考核，争取出师成为匠人或接修补活养家；你也可以退出评定，留下来带新人。如果考核没通过、你受了重伤或工坊被毁，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_WORKSHOP_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_WORKSHOP_LOST"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "工坊学艺中断了，已经学会的手艺仍能用来接活。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_3"
+      }
+    ],
+    "completion": {
+      "text": "你熟悉了工坊里的工具和做活的次序。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "workshop_complete"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_JN_EXAM",
+    "name": "书院备考乡试",
+    "commitment": "这条路要走四年，不收费用，平时会自动温习。第二年要参加院试，没通过就会中断。第四年可以参加考核，争取通过乡试或接抄书活养家；你也可以退出备考，去教后生。如果最后考核没通过、你受了重伤或道路被封，这次事业也会停下；退出后，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_EXAM_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "书院备考中断了，学会的读写和写文章本事还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_JN_EXAM_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_JN_EXAM_2"
+      },
+      {
+        "after_years": 4,
+        "event_id": "E_JN_EXAM_3"
+      }
+    ],
+    "completion": {
+      "text": "四年里练出的读写本事，不只在考场上有用。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_JN_JUREN"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_JN_TRADE",
+    "name": "学织布做买卖",
+    "commitment": "这条路要走三年，不收费用，平时会自动学织布。最后可以参加考核，争取成为丝商或留在机房织布养家；你也可以退出评定，去教乡邻织布。如果考核没通过、你受了重伤或道路被封，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_JN_TRADE_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "机房学艺中断了，学会的织造和核价经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_JN_TRADE_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_JN_TRADE_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_JN_TRADE_3"
+      }
+    ],
+    "completion": {
+      "text": "你比入门时更熟悉织机，也学会了核算布价。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_JN_TRADE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_arms",
+    "name": "卫所清点军械",
+    "commitment": "这条路要走三年，开始时不收费用，平时会自动清点军械、修理木架。作坊事故中连续两次没通过考核，可能丧命。最后可以参加考核，争取担任协理官或靠修架养家；你也可以退出评定，去教后辈。如果考核没通过、你受了重伤或工坊被毁，这次事业会停下；退出不退此前花费，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_arms_abort"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_WORKSHOP_LOST"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "库房差事中断了，此前花的钱不退，清点和修架的本事还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_arms_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_arms_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_arms_3"
+      }
+    ],
+    "completion": {
+      "text": "管了三年库房后，你更熟悉军械、账册和修理木架。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_arms_done"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_water",
+    "name": "管井安排轮值",
+    "commitment": "这条路要走三年，不收费用，井边轮值和管护会自动安排。第三年交接管井工作时要接受一次考核；这项差事不会改变身份，也不能用它争取名位或转行。如果考核没通过、你受了重伤或流落他乡，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_water_abort"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "井边轮值和管护中断了，学会的分工和管护方法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_water_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_water_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_water_3"
+      }
+    ],
+    "completion": {
+      "text": "三年下来，你熟悉了井边轮值和日常管护，之后也用得上这些经验。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_water_done"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_gm_fort",
+    "name": "合仓管粮巡夜",
+    "commitment": "这条路要走三年，不收费用，平时会自动清点合仓粮食、安排巡夜。最后可以参加考核，争取当上坊里甲首或靠记账养家；你还可以退出评定，去教乡邻避险。如果考核没通过、你受了重伤或流落他乡，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_gm_fort_abort"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "合仓差事中断了，学会的管仓和排班方法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_gm_fort_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_gm_fort_2"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_gm_fort_3"
+      }
+    ],
+    "completion": {
+      "text": "做过合仓、管粮和巡夜安排后，你积累了不少经验。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_gm_fort_done"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_MENTOR",
+    "name": "带徒弟学手艺",
+    "commitment": "这条路要走两年，不收费用，平时会自动带徒弟做活。最后要拿徒弟做好的成品接受考核，身份不会改变。如果考核没通过、你受了重伤或流落他乡，这次事业会停下；退出后，原有本事和学到的经验都会保留。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MENTOR_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        }
+      ]
+    },
+    "interrupt_text": "带徒中断了，你原有的手艺和教人的经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_MENTOR_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_MENTOR_2"
+      }
+    ],
+    "completion": {
+      "text": "带徒的这两年，也让你重新理清了熟手活的要点。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MENTOR_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CH_STUDY",
+    "name": "借书学读写",
+    "commitment": "这条路要走两年，不收费用；你可以替学堂打扫院子换书看，平时会自动学习读写。最后要核对借书账并接受考核，身份不会改变。如果考核没通过或流落他乡，这次事业会停下；退出后，学会的本事还在。",
+    "priority": 20,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_STUDY_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        }
+      ]
+    },
+    "interrupt_text": "借书学习中断了，认过的字和练过的账还可以接着用。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_CHAIN_STUDY_1"
+      },
+      {
+        "after_years": 2,
+        "event_id": "E_CHAIN_STUDY_2"
+      }
+    ],
+    "completion": {
+      "text": "你认了书里的字，也练习了记账，这些本事之后还能用来做事。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_STUDY_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_CORN_KING",
+    "name": "试种玉米，帮乡邻",
+    "commitment": "这条路要走六年，开始不收费。第1、3、6年会进入试田、合仓和接济乡邻的任务，到时需要选择做法。你可以请乡邻代办，也可以退出；受重伤或流落他乡会让这次事业停下，学会的经验仍保留。玉米耐旱也需要浇水；走冒险路线时，考核没通过可能丧命。如果从1643年或1644年开始游戏，会改走甲申护粮任务。",
+    "priority": 40,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CORN_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        }
+      ]
+    },
+    "interrupt_text": "试田和合仓事务中断了，记下的水土情况和留种经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_CORN_TRIAL"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_CORN_STORE"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_CORN_RELIEF"
+      }
+    ],
+    "completion": {
+      "text": "你试种了几季，记住了本地的水土，也学会了怎样留种。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_CORN_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_HEALER_SAGE",
+    "name": "跟诊学照护",
+    "commitment": "这条路要走六年，开始不收费。第1、3、6年会进入用药、清洁和协作照护任务，到时需要选择做法。用药数量有限；交出整板药后，你只保留手册。你可以退出；受重伤或道路被封也会让这次事业停下，学会的经验仍保留。冒险自诊或独自带药遇袭时，考核没通过可能丧命。如果从1643年或1644年开始游戏，会改走甲申救助任务。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_HEALER_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "协诊中断了，药片不能随意分发，学会的照护方法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_HEALER_NODE_1"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_HEALER_NODE_2"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_HEALER_NODE_3"
+      }
+    ],
+    "completion": {
+      "text": "你学会了照手册分工，也知道什么时候该请郎中，不能只靠药盒行事。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_HEALER_MAIN_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+    "name": "摇灯查案和护送",
+    "commitment": "这条路要走六年，开始不收费。第1、3、6年会进入搜证、夜巡和护送任务，到时需要选择做法。手电需要手摇发电；走冒险路线时，考核没通过可能丧命。你可以退出；受重伤或道路被封也会让这次事业停下，学会的经验仍保留。如果从1643年或1644年开始游戏，会改走甲申照路任务。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_FLASHLIGHT_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "夜查和护送中断了，学会的查证和巡路方法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_FLASHLIGHT_EVIDENCE"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_FLASHLIGHT_PATROL"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_FLASHLIGHT_ESCORT"
+      }
+    ],
+    "completion": {
+      "text": "你学会了查证、巡路，也会和同伴轮流摇灯、分工护送。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_FLASHLIGHT_MAIN_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_CALCULATOR_FINANCE",
+    "name": "追查错账",
+    "commitment": "这条路要走八年，开始不收费；第1、3、6、8年会自动推进清账任务。最后可以参加核账考核，也可以保管底单帮助乡邻，或退出。独自追账时，连续两次没通过考核可能丧命。如果最后考核没通过、你受了重伤、流落他乡或道路被封，这次事业会停下；学会的本事仍保留。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_CALCULATOR_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "清账差事中断了，学会的核账方法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_CALCULATOR_CORRUPT"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_CALCULATOR_SUPPLY"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_CALCULATOR_MINISTRY"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_MOD_CALCULATOR_SSR_TREASURY"
+      }
+    ],
+    "completion": {
+      "text": "核过这几年的账后，你更懂得怎样对照算式、凭据和实物。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_CALCULATOR_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_GLUE_ARTISAN",
+    "name": "用胶修补小件",
+    "commitment": "这条路要走八年，开始不收费；第1、3、6、8年会推进画图、试样和修补任务。胶水不能用在餐具、高温部位或承重处。最后可以参加成品考核，也可以照图帮乡邻修小件，或退出。如果最终考核没通过、你受了重伤、流落他乡或道路被封，这次事业会停下；学会的本事仍保留。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_GLUE_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "修补和试样中断了，学会的工序和材料用法还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_GLUE_PORCELAIN_MASTER"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_SWISS_CHIEF"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_SWISS_GUNSMITH"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_MOD_SWISS_BOOK"
+      }
+    ],
+    "completion": {
+      "text": "你做过木样和图纸，也分清了哪些地方能修，哪些不能用胶。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_GLUE_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_MOD_LIGHTER_VETERAN",
+    "name": "护火护送粮队",
+    "commitment": "这条路要走八年，开始不收费；第1、3、6、8年会推进随队护火任务。火机燃料有限，用完后事业会停下。最后可以参加粮道交接考核，也可以交出火种先保护队伍，或退出。如果最后考核没通过、你受了重伤、流落他乡或道路被封，这次事业也会停下；学会的本事仍保留。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_MOD_LIGHTER_FUEL_EMPTY"
+        }
+      ]
+    },
+    "interrupt_text": "随队护火中断了，学会的省火和探路经验还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_MOD_OIL_FOLK_DOCTOR"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_MOD_LIGHTER_ARMY_REFORM"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_MOD_LIGHTER_PALACE_PRESENT"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_MOD_LIGHTER_DYNASTY_MIRACLE"
+      }
+    ],
+    "completion": {
+      "text": "跟队护火八年后，你更会节省燃料、探路和安排轮值。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_MOD_LIGHTER_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_NAT_BOWL_TYCOON",
+    "name": "摆摊明价、合伙修街",
+    "commitment": "这条路要走六年，开始不收费；第1、3、6年会自动学习经营。最后可以参加修棚和核账考核，也可以继续按明码标价做生意、帮助乡邻，或退出。不先查地契就买空宅，必须成年且有至少4点家资，并先花4点家资；后续连续两次没通过考核可能丧命。如果最终考核没通过、你受了重伤、流落他乡或道路被封，这次事业会停下；学会的本事仍保留。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOWL_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "摆摊经营中断了，积累的经验和信誉还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_NAT_BOWL_STALL"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_NAT_BOWL_SHOP"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_NAT_BOWL_STREET"
+      }
+    ],
+    "completion": {
+      "text": "做了六年小生意后，你更会明写货价、算工钱和留足周转钱。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_NAT_BOWL_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "CHAIN_NAT_SCHOLAR_MINISTER",
+    "name": "读书核账办实事",
+    "commitment": "这条路要走八年，开始不收费；第1、3、6、8年会推进核账和办事任务。最后可以参加考核，也可以先核米账帮助乡邻，或退出。运书途中遇险时会有救援考核；救援没通过可能丧命。如果最终考核没通过、你受了重伤、流落他乡或道路被封，这次事业会停下；学会的本事仍保留。",
+    "priority": 80,
+    "interrupt_condition": {
+      "op": "any",
+      "conditions": [
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_NAT_BOOK_ABORT"
+        },
+        {
+          "op": "has",
+          "collection": "injuries",
+          "id": "INJ_SEVERE"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_DISPLACED"
+        },
+        {
+          "op": "has",
+          "collection": "flags",
+          "id": "F_ERA_ROADS_CLOSED"
+        }
+      ]
+    },
+    "interrupt_text": "实务差事中断了，读写、核账和查实物的本事还在。",
+    "nodes": [
+      {
+        "after_years": 1,
+        "event_id": "E_NATIVE_SCALES_CUNNING"
+      },
+      {
+        "after_years": 3,
+        "event_id": "E_NATIVE_SCALES_SILVER"
+      },
+      {
+        "after_years": 6,
+        "event_id": "E_NATIVE_BOOK_PETITION"
+      },
+      {
+        "after_years": 8,
+        "event_id": "E_NAT_BOOK_GOVERNANCE"
+      }
+    ],
+    "completion": {
+      "text": "经过这些年的练习，你学会了把读写、核账和核对实物结合起来做事。",
+      "effects": [
+        {
+          "type": "flag_add",
+          "id": "F_NAT_BOOK_DONE"
+        }
+      ],
+      "next_stage_id": null
+    }
+  }
+]

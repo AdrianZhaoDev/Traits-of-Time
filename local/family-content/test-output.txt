@@ -1,0 +1,768 @@
+
+> chuanyue-laba-nixi@1.0.0 test
+> node --import ./tools/register-typescript.mjs --test
+
+TAP version 13
+# Subtest: production schema and semantic references
+ok 1 - production schema and semantic references
+  ---
+  duration_ms: 167.675957
+  type: 'test'
+  ...
+# Subtest: automatic scheduler executes marriage, bereavement, remarriage without choices
+ok 2 - automatic scheduler executes marriage, bereavement, remarriage without choices
+  ---
+  duration_ms: 19.108379
+  type: 'test'
+  ...
+# Subtest: automatic D20 stages use real seeded rolls and branch effects; natural 1/20 are respected
+ok 3 - automatic D20 stages use real seeded rolls and branch effects; natural 1/20 are respected
+  ---
+  duration_ms: 69.126487
+  type: 'test'
+  ...
+# Subtest: automatic death ends once, preserves final state, rejects future years
+ok 4 - automatic death ends once, preserves final state, rejects future years
+  ---
+  duration_ms: 11.120545
+  type: 'test'
+  ...
+# Subtest: complete production lives retain one-to-five successful major choices across deterministic strategies
+not ok 5 - complete production lives retain one-to-five successful major choices across deterministic strategies
+  ---
+  duration_ms: 2410.001964
+  type: 'test'
+  location: '/mnt/c/Users/admin/Documents/pppp/tests/engine.test.mjs:93:1'
+  failureType: 'testCodeFailure'
+  error: 'seed=16, strategy=normal, choices=6'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/c/Users/admin/Documents/pppp/tests/engine.test.mjs:116:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: heirless ending checks current children, not only a historical heirless flag
+ok 6 - heirless ending checks current children, not only a historical heirless flag
+  ---
+  duration_ms: 61.311571
+  type: 'test'
+  ...
+# Subtest: family milestones do not end a life, while life-category awards wait until death
+ok 7 - family milestones do not end a life, while life-category awards wait until death
+  ---
+  duration_ms: 22.754223
+  type: 'test'
+  ...
+# Subtest: new family top-level IDs do not collide anywhere in production; stages are event-local
+ok 8 - new family top-level IDs do not collide anywhere in production; stages are event-local
+  ---
+  duration_ms: 5.924856
+  type: 'test'
+  ...
+# Subtest: family additions add zero choices, career starts, or consumed choice-budget flags
+ok 9 - family additions add zero choices, career starts, or consumed choice-budget flags
+  ---
+  duration_ms: 1.886224
+  type: 'test'
+  ...
+# Subtest: only newly introduced family flag reads require production producers
+ok 10 - only newly introduced family flag reads require production producers
+  ---
+  duration_ms: 13.092468
+  type: 'test'
+  ...
+# Subtest: family fields use the approved vocabulary and no forbidden wording
+ok 11 - family fields use the approved vocabulary and no forbidden wording
+  ---
+  duration_ms: 1.969191
+  type: 'test'
+  ...
+# Subtest: all added deaths are connected to real production events
+ok 12 - all added deaths are connected to real production events
+  ---
+  duration_ms: 6.321734
+  type: 'test'
+  ...
+# Subtest: native loader fingerprint equals canonical SHA256 of the complete bundle
+ok 13 - native loader fingerprint equals canonical SHA256 of the complete bundle
+  ---
+  duration_ms: 179.03062
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_MATCH
+ok 14 - production family event executes through real scheduler: E_FAM_MAR_MATCH
+  ---
+  duration_ms: 27.436367
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_READY
+ok 15 - production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_READY
+  ---
+  duration_ms: 17.315547
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_SHORT
+ok 16 - production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_SHORT
+  ---
+  duration_ms: 16.972346
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_SIMPLE_MATCH
+ok 17 - production family event executes through real scheduler: E_FAM_MAR_SIMPLE_MATCH
+  ---
+  duration_ms: 21.48746
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_POOR
+ok 18 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_POOR
+  ---
+  duration_ms: 14.701872
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_MODEST
+ok 19 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_MODEST
+  ---
+  duration_ms: 15.830344
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_WELL_OFF
+ok 20 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_WELL_OFF
+  ---
+  duration_ms: 16.883232
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_WEDDING
+ok 21 - production family event executes through real scheduler: E_FAM_MAR_HIGH_WEDDING
+  ---
+  duration_ms: 15.294069
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_NEIGHBOR
+ok 22 - production family event executes through real scheduler: E_FAM_MAR_HIGH_NEIGHBOR
+  ---
+  duration_ms: 16.561857
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_DEFER
+ok 23 - production family event executes through real scheduler: E_FAM_MAR_HIGH_DEFER
+  ---
+  duration_ms: 16.127599
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_RISK
+ok 24 - production family event executes through real scheduler: E_FAM_MAR_HIGH_RISK
+  ---
+  duration_ms: 12.9784
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_CONCUBINE
+ok 25 - production family event executes through real scheduler: E_FAM_MAR_CONCUBINE
+  ---
+  duration_ms: 37.580203
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WIDOWED
+ok 26 - production family event executes through real scheduler: E_FAM_MAR_WIDOWED
+  ---
+  duration_ms: 12.965502
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_REMARRIAGE
+ok 27 - production family event executes through real scheduler: E_FAM_MAR_REMARRIAGE
+  ---
+  duration_ms: 13.18606
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_POOR_TOGETHER
+ok 28 - production family event executes through real scheduler: E_FAM_MAR_POOR_TOGETHER
+  ---
+  duration_ms: 11.60282
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_POOR_WORK
+ok 29 - production family event executes through real scheduler: E_FAM_MAR_POOR_WORK
+  ---
+  duration_ms: 40.066354
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_LEGACY_FIRST
+ok 30 - production family event executes through real scheduler: E_FAM_MAR_LEGACY_FIRST
+  ---
+  duration_ms: 12.349872
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_LEGACY_REMARRIAGE
+ok 31 - production family event executes through real scheduler: E_FAM_MAR_LEGACY_REMARRIAGE
+  ---
+  duration_ms: 17.542784
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_RECOGNIZE_LEGACY
+ok 32 - production family event executes through real scheduler: E_FAM_CHILD_RECOGNIZE_LEGACY
+  ---
+  duration_ms: 10.980305
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN
+ok 33 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN
+  ---
+  duration_ms: 10.363495
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_FEAST
+ok 34 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_FEAST
+  ---
+  duration_ms: 11.708124
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN
+ok 35 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN
+  ---
+  duration_ms: 11.148343
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST
+ok 36 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST
+  ---
+  duration_ms: 10.238207
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_PLAIN
+ok 37 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_PLAIN
+  ---
+  duration_ms: 10.370828
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_FEAST
+ok 38 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_FEAST
+  ---
+  duration_ms: 11.212061
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN
+ok 39 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN
+  ---
+  duration_ms: 10.389158
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_FEAST
+ok 40 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_FEAST
+  ---
+  duration_ms: 10.020802
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE
+ok 41 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE
+  ---
+  duration_ms: 10.729105
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE
+ok 42 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE
+  ---
+  duration_ms: 9.961632
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_WIFE
+ok 43 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_WIFE
+  ---
+  duration_ms: 9.783638
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE
+ok 44 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE
+  ---
+  duration_ms: 10.979883
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_WIFE
+ok 45 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_WIFE
+  ---
+  duration_ms: 10.455441
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE
+ok 46 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE
+  ---
+  duration_ms: 10.51698
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_WIFE
+ok 47 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_WIFE
+  ---
+  duration_ms: 11.599446
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE
+ok 48 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE
+  ---
+  duration_ms: 10.321327
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_EARLY
+ok 49 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_EARLY
+  ---
+  duration_ms: 11.822048
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_LATE
+ok 50 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_LATE
+  ---
+  duration_ms: 11.660197
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_THIRD_EARLY
+ok 51 - production family event executes through real scheduler: E_FAM_CHILD_THIRD_EARLY
+  ---
+  duration_ms: 9.983511
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_THIRD_LATE
+ok 52 - production family event executes through real scheduler: E_FAM_CHILD_THIRD_LATE
+  ---
+  duration_ms: 9.726891
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SCHOOL
+ok 53 - production family event executes through real scheduler: E_FAM_CHILD_SCHOOL
+  ---
+  duration_ms: 9.920009
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_MARRIAGE
+ok 54 - production family event executes through real scheduler: E_FAM_CHILD_MARRIAGE
+  ---
+  duration_ms: 10.197635
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SUCCESS
+ok 55 - production family event executes through real scheduler: E_FAM_CHILD_SUCCESS
+  ---
+  duration_ms: 10.040026
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_FIRST
+ok 56 - production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_FIRST
+  ---
+  duration_ms: 9.881954
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_SECOND
+ok 57 - production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_SECOND
+  ---
+  duration_ms: 10.738784
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_INFANT_LOSS
+ok 58 - production family event executes through real scheduler: E_FAM_CHILD_INFANT_LOSS
+  ---
+  duration_ms: 9.49011
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_FIRST
+ok 59 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_FIRST
+  ---
+  duration_ms: 9.178181
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_SECOND
+ok 60 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_SECOND
+  ---
+  duration_ms: 10.814955
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_THIRD
+ok 61 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_THIRD
+  ---
+  duration_ms: 9.941367
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_EARLY
+ok 62 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_EARLY
+  ---
+  duration_ms: 9.261494
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_MIDDLE
+ok 63 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_MIDDLE
+  ---
+  duration_ms: 11.599104
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_LATE
+ok 64 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_LATE
+  ---
+  duration_ms: 10.092099
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_EARLY
+ok 65 - production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_EARLY
+  ---
+  duration_ms: 9.960368
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_LATE
+ok 66 - production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_LATE
+  ---
+  duration_ms: 11.475759
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIVE_GENERATIONS
+ok 67 - production family event executes through real scheduler: E_FAM_CHILD_FIVE_GENERATIONS
+  ---
+  duration_ms: 9.426362
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_ENJOY_GRANDCHILD
+ok 68 - production family event executes through real scheduler: E_FAM_CHILD_ENJOY_GRANDCHILD
+  ---
+  duration_ms: 10.574813
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_HELP
+ok 69 - production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_HELP
+  ---
+  duration_ms: 10.494352
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_DECLINE
+ok 70 - production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_DECLINE
+  ---
+  duration_ms: 9.334146
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_HELP
+ok 71 - production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_HELP
+  ---
+  duration_ms: 10.057564
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_DECLINE
+ok 72 - production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_DECLINE
+  ---
+  duration_ms: 9.480822
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE
+ok 73 - production family event executes through real scheduler: E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE
+  ---
+  duration_ms: 10.73354
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HEIRLESS
+ok 74 - production family event executes through real scheduler: E_FAM_WEALTH_HEIRLESS
+  ---
+  duration_ms: 10.464126
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_LARGE
+ok 75 - production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_LARGE
+  ---
+  duration_ms: 9.478954
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_MODEST
+ok 76 - production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_MODEST
+  ---
+  duration_ms: 10.964821
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HOUSEHOLD_DISPUTE
+ok 77 - production family event executes through real scheduler: E_FAM_WEALTH_HOUSEHOLD_DISPUTE
+  ---
+  duration_ms: 9.320575
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND
+ok 78 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND
+  ---
+  duration_ms: 10.594553
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_FIRST_PAY
+ok 79 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_FIRST_PAY
+  ---
+  duration_ms: 11.162023
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_GATHER_FIREWOOD
+ok 80 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_GATHER_FIREWOOD
+  ---
+  duration_ms: 9.462318
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_ON_THE_ROAD
+ok 81 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_ON_THE_ROAD
+  ---
+  duration_ms: 9.73997
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FELLOW_TRAVELER
+ok 82 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FELLOW_TRAVELER
+  ---
+  duration_ms: 10.607266
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FIRST_WORK
+ok 83 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FIRST_WORK
+  ---
+  duration_ms: 9.772245
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY
+ok 84 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY
+  ---
+  duration_ms: 9.305526
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_FAMILY_DEBT
+ok 85 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_FAMILY_DEBT
+  ---
+  duration_ms: 9.065022
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_REPAY_DEBT
+ok 86 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_REPAY_DEBT
+  ---
+  duration_ms: 10.443983
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_TRADING_PARTNER
+ok 87 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_TRADING_PARTNER
+  ---
+  duration_ms: 9.593815
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_ILLNESS
+ok 88 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_ILLNESS
+  ---
+  duration_ms: 28.942117
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_ROAD_RECOLLECTION
+ok 89 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_ROAD_RECOLLECTION
+  ---
+  duration_ms: 9.721584
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_FRIEND_GONE
+ok 90 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_FRIEND_GONE
+  ---
+  duration_ms: 28.580941
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_MENDING_TAUGHT
+ok 91 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_MENDING_TAUGHT
+  ---
+  duration_ms: 11.256205
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_GRANDCHILD_STORY
+ok 92 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_GRANDCHILD_STORY
+  ---
+  duration_ms: 9.231547
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_EMPTY_POT
+ok 93 - production family event executes through real scheduler: E_FAM_LIFE_POOR_EMPTY_POT
+  ---
+  duration_ms: 9.497496
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_WARM_FIRE
+ok 94 - production family event executes through real scheduler: E_FAM_LIFE_POOR_WARM_FIRE
+  ---
+  duration_ms: 9.702434
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_BOWL_SOUP
+ok 95 - production family event executes through real scheduler: E_FAM_LIFE_POOR_BOWL_SOUP
+  ---
+  duration_ms: 10.481881
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_SHARE_WATER
+ok 96 - production family event executes through real scheduler: E_FAM_LIFE_POOR_SHARE_WATER
+  ---
+  duration_ms: 9.40094
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_CROWDED_ALONE
+ok 97 - production family event executes through real scheduler: E_FAM_LIFE_RICH_CROWDED_ALONE
+  ---
+  duration_ms: 10.548682
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_ECHO
+ok 98 - production family event executes through real scheduler: E_FAM_LIFE_RICH_ECHO
+  ---
+  duration_ms: 10.412236
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_EMPTY_TEA
+ok 99 - production family event executes through real scheduler: E_FAM_LIFE_RICH_EMPTY_TEA
+  ---
+  duration_ms: 10.462311
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_CONFIDANT
+ok 100 - production family event executes through real scheduler: E_FAM_LIFE_RICH_CONFIDANT
+  ---
+  duration_ms: 10.126676
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_OLD_AGE
+ok 101 - production family event executes through real scheduler: E_FAM_END_OLD_AGE
+  ---
+  duration_ms: 29.950331
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_HOUSE_FIRE
+ok 102 - production family event executes through real scheduler: E_FAM_END_HOUSE_FIRE
+  ---
+  duration_ms: 88.695596
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_OVERWORK
+ok 103 - production family event executes through real scheduler: E_FAM_END_OVERWORK
+  ---
+  duration_ms: 136.42093
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_CLAN_CROSS_FIRE
+ok 104 - production family event executes through real scheduler: E_FAM_END_CLAN_CROSS_FIRE
+  ---
+  duration_ms: 234.476869
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_FAMILY_SHELTER
+ok 105 - production family event executes through real scheduler: E_FAM_END_FAMILY_SHELTER
+  ---
+  duration_ms: 227.159839
+  type: 'test'
+  ...
+# Subtest: poor and wealthy family content remains selectable against the full production random pool
+ok 106 - poor and wealthy family content remains selectable against the full production random pool
+  ---
+  duration_ms: 506.104152
+  type: 'test'
+  ...
+# Subtest: new initial marriages block old marriage entries; old marriages have an automatic adoption route
+ok 107 - new initial marriages block old marriage entries; old marriages have an automatic adoption route
+  ---
+  duration_ms: 362.179613
+  type: 'test'
+  ...
+# Subtest: actual family widowhood removes current marriage and remarriage preserves bereavement history
+ok 108 - actual family widowhood removes current marriage and remarriage preserves bereavement history
+  ---
+  duration_ms: 23.614023
+  type: 'test'
+  ...
+# Subtest: legacy children are adopted without another birth and conservatively excluded from early adulthood
+ok 109 - legacy children are adopted without another birth and conservatively excluded from early adulthood
+  ---
+  duration_ms: 14.240885
+  type: 'test'
+  ...
+# Subtest: new first birth synchronizes legacy state and cannot produce an adult in the following year
+ok 110 - new first birth synchronizes legacy state and cannot produce an adult in the following year
+  ---
+  duration_ms: 24.372298
+  type: 'test'
+  ...
+# Subtest: child deaths retain birth milestones and block repeated death and live-child marriage
+ok 111 - child deaths retain birth milestones and block repeated death and live-child marriage
+  ---
+  duration_ms: 32.46539
+  type: 'test'
+  ...
+# Subtest: age seventy and two births alone never award five living generations
+ok 112 - age seventy and two births alone never award five living generations
+  ---
+  duration_ms: 11.768613
+  type: 'test'
+  ...
+# Subtest: estate division needs living adult children and the appropriate wealth tier
+ok 113 - estate division needs living adult children and the appropriate wealth tier
+  ---
+  duration_ms: 30.376664
+  type: 'test'
+  ...
+# Subtest: five generations require actual sequential births across a single engine lifetime
+ok 114 - five generations require actual sequential births across a single engine lifetime
+  ---
+  duration_ms: 24.193051
+  type: 'test'
+  ...
+# Subtest: grandchild companionship requires a real birth and supports a late-born infant
+ok 115 - grandchild companionship requires a real birth and supports a late-born infant
+  ---
+  duration_ms: 10.513116
+  type: 'test'
+  ...
+# Subtest: infant loss never invents a surviving birth milestone or kills an existing child
+ok 116 - infant loss never invents a surviving birth milestone or kills an existing child
+  ---
+  duration_ms: 10.279573
+  type: 'test'
+  ...
+# Subtest: priority filters lower-priority events before weighted sampling
+ok 117 - priority filters lower-priority events before weighted sampling
+  ---
+  duration_ms: 44.92193
+  type: 'test'
+  ...
+# Subtest: scheduler rejects exhausted occurrences, inclusive cooldown, and impossible probability
+ok 118 - scheduler rejects exhausted occurrences, inclusive cooldown, and impossible probability
+  ---
+  duration_ms: 34.38786
+  type: 'test'
+  ...
+# Subtest: family annual draw respects the original one-event random budget
+ok 119 - family annual draw respects the original one-event random budget
+  ---
+  duration_ms: 36.201091
+  type: 'test'
+  ...
+# Subtest: validator rejects unknown event fields rather than silently accepting dead configuration
+ok 120 - validator rejects unknown event fields rather than silently accepting dead configuration
+  ---
+  duration_ms: 159.58549
+  type: 'test'
+  ...
+# Subtest: validator rejects a dangling death reference
+ok 121 - validator rejects a dangling death reference
+  ---
+  duration_ms: 148.817017
+  type: 'test'
+  ...
+# Subtest: validator rejects a dangling local D20 stage and duplicate event ID
+ok 122 - validator rejects a dangling local D20 stage and duplicate event ID
+  ---
+  duration_ms: 104.56719
+  type: 'test'
+  ...
+# Subtest: condition combinations distinguish history flags from current family state
+ok 123 - condition combinations distinguish history flags from current family state
+  ---
+  duration_ms: 0.351597
+  type: 'test'
+  ...
+1..123
+# tests 123
+# suites 0
+# pass 122
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3675.057209

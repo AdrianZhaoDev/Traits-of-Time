@@ -1,0 +1,37 @@
+{
+  "seed": 16,
+  "strategy": "normal",
+  "choices": 6,
+  "logs": [
+    {
+      "id": "E_START_FORTRESS_DEFENSE",
+      "age": 60,
+      "option": "start"
+    },
+    {
+      "id": "E_MOD_HEALER_NODE_1",
+      "age": 61,
+      "option": "study"
+    },
+    {
+      "id": "E_MOD_HEALER_NODE_2",
+      "age": 63,
+      "option": "train"
+    },
+    {
+      "id": "E_CHAIN_FORTRESS_DEFENSE_3",
+      "age": 63,
+      "option": "qualify"
+    },
+    {
+      "id": "E_HIST_1645_YANGZHOU_FATE",
+      "age": 64,
+      "option": "leave_early"
+    },
+    {
+      "id": "E_MOD_HEALER_NODE_3",
+      "age": 66,
+      "option": "organize"
+    }
+  ]
+}

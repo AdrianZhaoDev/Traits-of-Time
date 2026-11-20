@@ -1,0 +1,654 @@
+{
+  "fingerprint": "e0bc9db4f16fe7da115fe6af711dd121bd89b2ed7d5dc60e6fc0bbbed251d9d2",
+  "summary": [
+    {
+      "seed": 0,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1644,
+      "end": 1692,
+      "years": 49,
+      "captures": [
+        {
+          "file": "normal-0-entry.json",
+          "year": 1653,
+          "age": 52,
+          "route": {
+            "route_id": "ordinary",
+            "phase": "realization",
+            "entered_year": 1653,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-0-stage.json",
+          "year": 1654,
+          "age": 53,
+          "pending": "stage",
+          "route": {
+            "route_id": "ordinary",
+            "phase": "realization",
+            "entered_year": 1653,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-0-settlement.json",
+          "year": 1663,
+          "age": 62,
+          "route": {
+            "route_id": "ordinary",
+            "phase": "settlement",
+            "entered_year": 1653,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1635,
+      "end": 1645,
+      "years": 11,
+      "captures": [
+        {
+          "file": "normal-2-entry.json",
+          "year": 1644,
+          "age": 28,
+          "route": {
+            "route_id": "struggling",
+            "phase": "realization",
+            "entered_year": 1644,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-2-option.json",
+          "year": 1645,
+          "age": 29,
+          "pending": "option",
+          "route": {
+            "route_id": "struggling",
+            "phase": "realization",
+            "entered_year": 1644,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-2-stage.json",
+          "year": 1645,
+          "age": 29,
+          "pending": "stage",
+          "route": {
+            "route_id": "struggling",
+            "phase": "realization",
+            "entered_year": 1644,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 6,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1643,
+      "end": 1717,
+      "years": 75,
+      "captures": [
+        {
+          "file": "normal-6-stage.json",
+          "year": 1652,
+          "age": 12,
+          "pending": "stage",
+          "route": {
+            "route_id": null,
+            "phase": null,
+            "entered_year": null,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-6-entry.json",
+          "year": 1652,
+          "age": 12,
+          "route": {
+            "route_id": "hardship",
+            "phase": "realization",
+            "entered_year": 1652,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-6-option.json",
+          "year": 1653,
+          "age": 13,
+          "pending": "option",
+          "route": {
+            "route_id": "hardship",
+            "phase": "realization",
+            "entered_year": 1652,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-6-settlement.json",
+          "year": 1662,
+          "age": 22,
+          "route": {
+            "route_id": "hardship",
+            "phase": "expansion",
+            "entered_year": 1652,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1641,
+      "end": 1706,
+      "years": 66,
+      "captures": [
+        {
+          "file": "normal-8-entry.json",
+          "year": 1650,
+          "age": 45,
+          "route": {
+            "route_id": "prosperous_free",
+            "phase": "realization",
+            "entered_year": 1650,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-8-stage.json",
+          "year": 1655,
+          "age": 50,
+          "pending": "stage",
+          "route": {
+            "route_id": "prosperous_free",
+            "phase": "expansion",
+            "entered_year": 1650,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-8-settlement.json",
+          "year": 1660,
+          "age": 55,
+          "route": {
+            "route_id": "prosperous_free",
+            "phase": "settlement",
+            "entered_year": 1650,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 28,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1645,
+      "end": 1740,
+      "years": 96,
+      "captures": [
+        {
+          "file": "normal-28-stage.json",
+          "year": 1654,
+          "age": 13,
+          "pending": "stage",
+          "route": {
+            "route_id": null,
+            "phase": null,
+            "entered_year": null,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-entry.json",
+          "year": 1654,
+          "age": 13,
+          "pending": "stage",
+          "route": {
+            "route_id": "ordinary",
+            "phase": "realization",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-settlement.json",
+          "year": 1664,
+          "age": 23,
+          "route": {
+            "route_id": "ordinary",
+            "phase": "expansion",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-year-1682.json",
+          "year": 1682,
+          "age": 41,
+          "route": {
+            "route_id": "ordinary",
+            "phase": "expansion",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-year-1698.json",
+          "year": 1698,
+          "age": 57,
+          "route": {
+            "route_id": "ordinary",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-year-1701.json",
+          "year": 1701,
+          "age": 60,
+          "route": {
+            "route_id": "ordinary",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-year-1721.json",
+          "year": 1721,
+          "age": 80,
+          "pending": "stage",
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1708,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-28-year-1725.json",
+          "year": 1725,
+          "age": 84,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1708,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 39,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1645,
+      "end": 1696,
+      "years": 52,
+      "captures": [
+        {
+          "file": "normal-39-stage.json",
+          "year": 1654,
+          "age": 47,
+          "pending": "stage",
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "realization",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-39-entry.json",
+          "year": 1654,
+          "age": 47,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "realization",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-39-settlement.json",
+          "year": 1664,
+          "age": 57,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-39-year-1669.json",
+          "year": 1669,
+          "age": 62,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-39-year-1672.json",
+          "year": 1672,
+          "age": 65,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-39-year-1675.json",
+          "year": 1675,
+          "age": 68,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-39-year-1678.json",
+          "year": 1678,
+          "age": 71,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "settlement",
+            "entered_year": 1654,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 45,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1640,
+      "end": 1718,
+      "years": 79,
+      "captures": [
+        {
+          "file": "normal-45-entry.json",
+          "year": 1649,
+          "age": 30,
+          "route": {
+            "route_id": "prosperous_free",
+            "phase": "realization",
+            "entered_year": 1649,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-45-stage.json",
+          "year": 1658,
+          "age": 39,
+          "pending": "stage",
+          "route": {
+            "route_id": "prosperous_free",
+            "phase": "expansion",
+            "entered_year": 1649,
+            "candidate_route_id": "prosperous_power",
+            "candidate_years": 1
+          }
+        },
+        {
+          "file": "normal-45-settlement.json",
+          "year": 1659,
+          "age": 40,
+          "route": {
+            "route_id": "prosperous_free",
+            "phase": "expansion",
+            "entered_year": 1649,
+            "candidate_route_id": "prosperous_power",
+            "candidate_years": 2
+          }
+        },
+        {
+          "file": "normal-45-year-1664.json",
+          "year": 1664,
+          "age": 45,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "expansion",
+            "entered_year": 1660,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-45-year-1667.json",
+          "year": 1667,
+          "age": 48,
+          "route": {
+            "route_id": "prosperous_power",
+            "phase": "expansion",
+            "entered_year": 1660,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 46,
+      "strategy": "normal",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1631,
+      "end": 1680,
+      "years": 50,
+      "captures": [
+        {
+          "file": "normal-46-option.json",
+          "year": 1640,
+          "age": 34,
+          "pending": "option",
+          "route": {
+            "route_id": "poor_renowned",
+            "phase": "realization",
+            "entered_year": 1640,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-46-stage.json",
+          "year": 1640,
+          "age": 34,
+          "pending": "stage",
+          "route": {
+            "route_id": "poor_renowned",
+            "phase": "realization",
+            "entered_year": 1640,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-46-entry.json",
+          "year": 1640,
+          "age": 34,
+          "route": {
+            "route_id": "poor_renowned",
+            "phase": "realization",
+            "entered_year": 1640,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "normal-46-settlement.json",
+          "year": 1650,
+          "age": 44,
+          "pending": "stage",
+          "route": {
+            "route_id": "poor_renowned",
+            "phase": "expansion",
+            "entered_year": 1640,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    },
+    {
+      "seed": 76,
+      "strategy": "cautious",
+      "source": "natural production GameSession; first offered card; simulation strategy RNG; no state mutation",
+      "start": 1629,
+      "end": 1710,
+      "years": 82,
+      "captures": [
+        {
+          "file": "cautious-76-entry.json",
+          "year": 1638,
+          "age": 16,
+          "route": {
+            "route_id": "struggling",
+            "phase": "realization",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-stage.json",
+          "year": 1641,
+          "age": 19,
+          "pending": "stage",
+          "route": {
+            "route_id": "struggling",
+            "phase": "realization",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-option.json",
+          "year": 1644,
+          "age": 22,
+          "pending": "option",
+          "route": {
+            "route_id": "struggling",
+            "phase": "expansion",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-settlement.json",
+          "year": 1648,
+          "age": 26,
+          "pending": "stage",
+          "route": {
+            "route_id": "struggling",
+            "phase": "expansion",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-year-1698.json",
+          "year": 1698,
+          "age": 76,
+          "route": {
+            "route_id": "struggling",
+            "phase": "settlement",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-year-1702.json",
+          "year": 1702,
+          "age": 80,
+          "pending": "stage",
+          "route": {
+            "route_id": "struggling",
+            "phase": "settlement",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-year-1706.json",
+          "year": 1706,
+          "age": 84,
+          "route": {
+            "route_id": "struggling",
+            "phase": "settlement",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        },
+        {
+          "file": "cautious-76-year-1710.json",
+          "year": 1710,
+          "age": 88,
+          "pending": "stage",
+          "route": {
+            "route_id": "struggling",
+            "phase": "settlement",
+            "entered_year": 1638,
+            "candidate_route_id": null,
+            "candidate_years": 0
+          }
+        }
+      ]
+    }
+  ]
+}

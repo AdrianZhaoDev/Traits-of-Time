@@ -1,0 +1,2822 @@
+{
+  "all": {
+    "n": 348,
+    "old_gap_p90": 3,
+    "causal_gap_p90": 28,
+    "active_causal_gap_p90": 15,
+    "total_lives": 400,
+    "early_deaths": 52,
+    "end_age_p50": 79,
+    "choices_min": 1,
+    "choices_max": 5,
+    "over_six": [
+      {
+        "seed": 0,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 2,
+        "strategy": "normal",
+        "gap": 13
+      },
+      {
+        "seed": 3,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 4,
+        "strategy": "normal",
+        "gap": 24
+      },
+      {
+        "seed": 5,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 6,
+        "strategy": "normal",
+        "gap": 21
+      },
+      {
+        "seed": 7,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 9,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 12,
+        "strategy": "normal",
+        "gap": 18
+      },
+      {
+        "seed": 14,
+        "strategy": "normal",
+        "gap": 43
+      },
+      {
+        "seed": 15,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "normal",
+        "gap": 21
+      },
+      {
+        "seed": 20,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 21,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 22,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 23,
+        "strategy": "normal",
+        "gap": 12
+      },
+      {
+        "seed": 24,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 27,
+        "strategy": "normal",
+        "gap": 19
+      },
+      {
+        "seed": 28,
+        "strategy": "normal",
+        "gap": 50
+      },
+      {
+        "seed": 29,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 30,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 34,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 36,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 37,
+        "strategy": "normal",
+        "gap": 24
+      },
+      {
+        "seed": 39,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 41,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 43,
+        "strategy": "normal",
+        "gap": 24
+      },
+      {
+        "seed": 44,
+        "strategy": "normal",
+        "gap": 27
+      },
+      {
+        "seed": 45,
+        "strategy": "normal",
+        "gap": 31
+      },
+      {
+        "seed": 46,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 48,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 49,
+        "strategy": "normal",
+        "gap": 10
+      },
+      {
+        "seed": 50,
+        "strategy": "normal",
+        "gap": 23
+      },
+      {
+        "seed": 51,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 52,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "normal",
+        "gap": 18
+      },
+      {
+        "seed": 54,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 55,
+        "strategy": "normal",
+        "gap": 50
+      },
+      {
+        "seed": 56,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 58,
+        "strategy": "normal",
+        "gap": 32
+      },
+      {
+        "seed": 61,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 63,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 66,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 67,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 70,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 71,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 74,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 79,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 80,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 81,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 84,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 86,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 87,
+        "strategy": "normal",
+        "gap": 23
+      },
+      {
+        "seed": 88,
+        "strategy": "normal",
+        "gap": 33
+      },
+      {
+        "seed": 91,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 94,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 96,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 99,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 0,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 2,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 3,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 4,
+        "strategy": "cautious",
+        "gap": 45
+      },
+      {
+        "seed": 5,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 6,
+        "strategy": "cautious",
+        "gap": 20
+      },
+      {
+        "seed": 7,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 9,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 10,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 11,
+        "strategy": "cautious",
+        "gap": 21
+      },
+      {
+        "seed": 12,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 14,
+        "strategy": "cautious",
+        "gap": 42
+      },
+      {
+        "seed": 15,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 19,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 20,
+        "strategy": "cautious",
+        "gap": 11
+      },
+      {
+        "seed": 21,
+        "strategy": "cautious",
+        "gap": 19
+      },
+      {
+        "seed": 22,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 23,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 24,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 26,
+        "strategy": "cautious",
+        "gap": 30
+      },
+      {
+        "seed": 27,
+        "strategy": "cautious",
+        "gap": 13
+      },
+      {
+        "seed": 28,
+        "strategy": "cautious",
+        "gap": 28
+      },
+      {
+        "seed": 29,
+        "strategy": "cautious",
+        "gap": 8
+      },
+      {
+        "seed": 30,
+        "strategy": "cautious",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "cautious",
+        "gap": 20
+      },
+      {
+        "seed": 34,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 36,
+        "strategy": "cautious",
+        "gap": 19
+      },
+      {
+        "seed": 37,
+        "strategy": "cautious",
+        "gap": 48
+      },
+      {
+        "seed": 39,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "cautious",
+        "gap": 12
+      },
+      {
+        "seed": 41,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 42,
+        "strategy": "cautious",
+        "gap": 11
+      },
+      {
+        "seed": 43,
+        "strategy": "cautious",
+        "gap": 23
+      },
+      {
+        "seed": 44,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 45,
+        "strategy": "cautious",
+        "gap": 32
+      },
+      {
+        "seed": 46,
+        "strategy": "cautious",
+        "gap": 8
+      },
+      {
+        "seed": 47,
+        "strategy": "cautious",
+        "gap": 13
+      },
+      {
+        "seed": 48,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 49,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 50,
+        "strategy": "cautious",
+        "gap": 23
+      },
+      {
+        "seed": 51,
+        "strategy": "cautious",
+        "gap": 8
+      },
+      {
+        "seed": 52,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 54,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 55,
+        "strategy": "cautious",
+        "gap": 25
+      },
+      {
+        "seed": 56,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 57,
+        "strategy": "cautious",
+        "gap": 32
+      },
+      {
+        "seed": 58,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 59,
+        "strategy": "cautious",
+        "gap": 27
+      },
+      {
+        "seed": 60,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 65,
+        "strategy": "cautious",
+        "gap": 9
+      },
+      {
+        "seed": 66,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 67,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 68,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 69,
+        "strategy": "cautious",
+        "gap": 39
+      },
+      {
+        "seed": 70,
+        "strategy": "cautious",
+        "gap": 26
+      },
+      {
+        "seed": 71,
+        "strategy": "cautious",
+        "gap": 9
+      },
+      {
+        "seed": 72,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 74,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 75,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 76,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 79,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 80,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 81,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 82,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 83,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 84,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 86,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 87,
+        "strategy": "cautious",
+        "gap": 21
+      },
+      {
+        "seed": 88,
+        "strategy": "cautious",
+        "gap": 26
+      },
+      {
+        "seed": 89,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 90,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 91,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 93,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 94,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 96,
+        "strategy": "cautious",
+        "gap": 19
+      },
+      {
+        "seed": 98,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 99,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 2,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 3,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 4,
+        "strategy": "risky",
+        "gap": 31
+      },
+      {
+        "seed": 5,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 7,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 9,
+        "strategy": "risky",
+        "gap": 15
+      },
+      {
+        "seed": 10,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 11,
+        "strategy": "risky",
+        "gap": 40
+      },
+      {
+        "seed": 12,
+        "strategy": "risky",
+        "gap": 18
+      },
+      {
+        "seed": 14,
+        "strategy": "risky",
+        "gap": 43
+      },
+      {
+        "seed": 15,
+        "strategy": "risky",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 19,
+        "strategy": "risky",
+        "gap": 18
+      },
+      {
+        "seed": 21,
+        "strategy": "risky",
+        "gap": 20
+      },
+      {
+        "seed": 23,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 25,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 26,
+        "strategy": "risky",
+        "gap": 33
+      },
+      {
+        "seed": 27,
+        "strategy": "risky",
+        "gap": 13
+      },
+      {
+        "seed": 28,
+        "strategy": "risky",
+        "gap": 25
+      },
+      {
+        "seed": 29,
+        "strategy": "risky",
+        "gap": 11
+      },
+      {
+        "seed": 30,
+        "strategy": "risky",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 34,
+        "strategy": "risky",
+        "gap": 10
+      },
+      {
+        "seed": 36,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 37,
+        "strategy": "risky",
+        "gap": 31
+      },
+      {
+        "seed": 39,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "risky",
+        "gap": 12
+      },
+      {
+        "seed": 41,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 43,
+        "strategy": "risky",
+        "gap": 23
+      },
+      {
+        "seed": 44,
+        "strategy": "risky",
+        "gap": 15
+      },
+      {
+        "seed": 45,
+        "strategy": "risky",
+        "gap": 34
+      },
+      {
+        "seed": 48,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 52,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 54,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 56,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 57,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 58,
+        "strategy": "risky",
+        "gap": 32
+      },
+      {
+        "seed": 59,
+        "strategy": "risky",
+        "gap": 28
+      },
+      {
+        "seed": 60,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 61,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 63,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 64,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 65,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 66,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 67,
+        "strategy": "risky",
+        "gap": 12
+      },
+      {
+        "seed": 68,
+        "strategy": "risky",
+        "gap": 25
+      },
+      {
+        "seed": 69,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 71,
+        "strategy": "risky",
+        "gap": 10
+      },
+      {
+        "seed": 72,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 75,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 79,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 80,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 84,
+        "strategy": "risky",
+        "gap": 50
+      },
+      {
+        "seed": 87,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 88,
+        "strategy": "risky",
+        "gap": 32
+      },
+      {
+        "seed": 89,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 90,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 91,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 92,
+        "strategy": "risky",
+        "gap": 32
+      },
+      {
+        "seed": 96,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 99,
+        "strategy": "risky",
+        "gap": 12
+      },
+      {
+        "seed": 2,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 3,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 4,
+        "strategy": "career",
+        "gap": 31
+      },
+      {
+        "seed": 5,
+        "strategy": "career",
+        "gap": 7
+      },
+      {
+        "seed": 7,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 9,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 10,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 11,
+        "strategy": "career",
+        "gap": 40
+      },
+      {
+        "seed": 12,
+        "strategy": "career",
+        "gap": 18
+      },
+      {
+        "seed": 14,
+        "strategy": "career",
+        "gap": 43
+      },
+      {
+        "seed": 15,
+        "strategy": "career",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 19,
+        "strategy": "career",
+        "gap": 18
+      },
+      {
+        "seed": 20,
+        "strategy": "career",
+        "gap": 23
+      },
+      {
+        "seed": 21,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 26,
+        "strategy": "career",
+        "gap": 33
+      },
+      {
+        "seed": 27,
+        "strategy": "career",
+        "gap": 13
+      },
+      {
+        "seed": 28,
+        "strategy": "career",
+        "gap": 18
+      },
+      {
+        "seed": 29,
+        "strategy": "career",
+        "gap": 12
+      },
+      {
+        "seed": 30,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 34,
+        "strategy": "career",
+        "gap": 25
+      },
+      {
+        "seed": 36,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 37,
+        "strategy": "career",
+        "gap": 31
+      },
+      {
+        "seed": 39,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "career",
+        "gap": 12
+      },
+      {
+        "seed": 41,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 43,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 44,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 45,
+        "strategy": "career",
+        "gap": 31
+      },
+      {
+        "seed": 46,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 47,
+        "strategy": "career",
+        "gap": 13
+      },
+      {
+        "seed": 48,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 50,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 51,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 52,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 54,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 55,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 56,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 57,
+        "strategy": "career",
+        "gap": 38
+      },
+      {
+        "seed": 58,
+        "strategy": "career",
+        "gap": 32
+      },
+      {
+        "seed": 59,
+        "strategy": "career",
+        "gap": 28
+      },
+      {
+        "seed": 60,
+        "strategy": "career",
+        "gap": 38
+      },
+      {
+        "seed": 61,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 63,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 64,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 65,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 66,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 67,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 68,
+        "strategy": "career",
+        "gap": 25
+      },
+      {
+        "seed": 69,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 72,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 75,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 77,
+        "strategy": "career",
+        "gap": 19
+      },
+      {
+        "seed": 79,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 83,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 87,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 88,
+        "strategy": "career",
+        "gap": 32
+      },
+      {
+        "seed": 89,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 90,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 91,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 92,
+        "strategy": "career",
+        "gap": 33
+      },
+      {
+        "seed": 94,
+        "strategy": "career",
+        "gap": 7
+      },
+      {
+        "seed": 96,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 99,
+        "strategy": "career",
+        "gap": 12
+      }
+    ],
+    "overdue_windows": 0
+  },
+  "normal": {
+    "n": 83,
+    "old_gap_p90": 3,
+    "causal_gap_p90": 24,
+    "active_causal_gap_p90": 13,
+    "total_lives": 100,
+    "early_deaths": 17,
+    "end_age_p50": 76,
+    "choices_min": 1,
+    "choices_max": 5,
+    "over_six": [
+      {
+        "seed": 0,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 2,
+        "strategy": "normal",
+        "gap": 13
+      },
+      {
+        "seed": 3,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 4,
+        "strategy": "normal",
+        "gap": 24
+      },
+      {
+        "seed": 5,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 6,
+        "strategy": "normal",
+        "gap": 21
+      },
+      {
+        "seed": 7,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 9,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 12,
+        "strategy": "normal",
+        "gap": 18
+      },
+      {
+        "seed": 14,
+        "strategy": "normal",
+        "gap": 43
+      },
+      {
+        "seed": 15,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "normal",
+        "gap": 21
+      },
+      {
+        "seed": 20,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 21,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 22,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 23,
+        "strategy": "normal",
+        "gap": 12
+      },
+      {
+        "seed": 24,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 27,
+        "strategy": "normal",
+        "gap": 19
+      },
+      {
+        "seed": 28,
+        "strategy": "normal",
+        "gap": 50
+      },
+      {
+        "seed": 29,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 30,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 34,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 36,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 37,
+        "strategy": "normal",
+        "gap": 24
+      },
+      {
+        "seed": 39,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 41,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 43,
+        "strategy": "normal",
+        "gap": 24
+      },
+      {
+        "seed": 44,
+        "strategy": "normal",
+        "gap": 27
+      },
+      {
+        "seed": 45,
+        "strategy": "normal",
+        "gap": 31
+      },
+      {
+        "seed": 46,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 48,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 49,
+        "strategy": "normal",
+        "gap": 10
+      },
+      {
+        "seed": 50,
+        "strategy": "normal",
+        "gap": 23
+      },
+      {
+        "seed": 51,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 52,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "normal",
+        "gap": 18
+      },
+      {
+        "seed": 54,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 55,
+        "strategy": "normal",
+        "gap": 50
+      },
+      {
+        "seed": 56,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 58,
+        "strategy": "normal",
+        "gap": 32
+      },
+      {
+        "seed": 61,
+        "strategy": "normal",
+        "gap": 8
+      },
+      {
+        "seed": 63,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 66,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 67,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 70,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 71,
+        "strategy": "normal",
+        "gap": 15
+      },
+      {
+        "seed": 74,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 79,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 80,
+        "strategy": "normal",
+        "gap": 22
+      },
+      {
+        "seed": 81,
+        "strategy": "normal",
+        "gap": 11
+      },
+      {
+        "seed": 84,
+        "strategy": "normal",
+        "gap": 20
+      },
+      {
+        "seed": 86,
+        "strategy": "normal",
+        "gap": 17
+      },
+      {
+        "seed": 87,
+        "strategy": "normal",
+        "gap": 23
+      },
+      {
+        "seed": 88,
+        "strategy": "normal",
+        "gap": 33
+      },
+      {
+        "seed": 91,
+        "strategy": "normal",
+        "gap": 9
+      },
+      {
+        "seed": 94,
+        "strategy": "normal",
+        "gap": 7
+      },
+      {
+        "seed": 96,
+        "strategy": "normal",
+        "gap": 16
+      },
+      {
+        "seed": 99,
+        "strategy": "normal",
+        "gap": 22
+      }
+    ],
+    "overdue_windows": 0
+  },
+  "cautious": {
+    "n": 91,
+    "old_gap_p90": 3,
+    "causal_gap_p90": 26,
+    "active_causal_gap_p90": 15,
+    "total_lives": 100,
+    "early_deaths": 9,
+    "end_age_p50": 80,
+    "choices_min": 1,
+    "choices_max": 4,
+    "over_six": [
+      {
+        "seed": 0,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 2,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 3,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 4,
+        "strategy": "cautious",
+        "gap": 45
+      },
+      {
+        "seed": 5,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 6,
+        "strategy": "cautious",
+        "gap": 20
+      },
+      {
+        "seed": 7,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 9,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 10,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 11,
+        "strategy": "cautious",
+        "gap": 21
+      },
+      {
+        "seed": 12,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 14,
+        "strategy": "cautious",
+        "gap": 42
+      },
+      {
+        "seed": 15,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 19,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 20,
+        "strategy": "cautious",
+        "gap": 11
+      },
+      {
+        "seed": 21,
+        "strategy": "cautious",
+        "gap": 19
+      },
+      {
+        "seed": 22,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 23,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 24,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 26,
+        "strategy": "cautious",
+        "gap": 30
+      },
+      {
+        "seed": 27,
+        "strategy": "cautious",
+        "gap": 13
+      },
+      {
+        "seed": 28,
+        "strategy": "cautious",
+        "gap": 28
+      },
+      {
+        "seed": 29,
+        "strategy": "cautious",
+        "gap": 8
+      },
+      {
+        "seed": 30,
+        "strategy": "cautious",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "cautious",
+        "gap": 20
+      },
+      {
+        "seed": 34,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 36,
+        "strategy": "cautious",
+        "gap": 19
+      },
+      {
+        "seed": 37,
+        "strategy": "cautious",
+        "gap": 48
+      },
+      {
+        "seed": 39,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "cautious",
+        "gap": 12
+      },
+      {
+        "seed": 41,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 42,
+        "strategy": "cautious",
+        "gap": 11
+      },
+      {
+        "seed": 43,
+        "strategy": "cautious",
+        "gap": 23
+      },
+      {
+        "seed": 44,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 45,
+        "strategy": "cautious",
+        "gap": 32
+      },
+      {
+        "seed": 46,
+        "strategy": "cautious",
+        "gap": 8
+      },
+      {
+        "seed": 47,
+        "strategy": "cautious",
+        "gap": 13
+      },
+      {
+        "seed": 48,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 49,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 50,
+        "strategy": "cautious",
+        "gap": 23
+      },
+      {
+        "seed": 51,
+        "strategy": "cautious",
+        "gap": 8
+      },
+      {
+        "seed": 52,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 54,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 55,
+        "strategy": "cautious",
+        "gap": 25
+      },
+      {
+        "seed": 56,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 57,
+        "strategy": "cautious",
+        "gap": 32
+      },
+      {
+        "seed": 58,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 59,
+        "strategy": "cautious",
+        "gap": 27
+      },
+      {
+        "seed": 60,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 65,
+        "strategy": "cautious",
+        "gap": 9
+      },
+      {
+        "seed": 66,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 67,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 68,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 69,
+        "strategy": "cautious",
+        "gap": 39
+      },
+      {
+        "seed": 70,
+        "strategy": "cautious",
+        "gap": 26
+      },
+      {
+        "seed": 71,
+        "strategy": "cautious",
+        "gap": 9
+      },
+      {
+        "seed": 72,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 74,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 75,
+        "strategy": "cautious",
+        "gap": 17
+      },
+      {
+        "seed": 76,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 79,
+        "strategy": "cautious",
+        "gap": 24
+      },
+      {
+        "seed": 80,
+        "strategy": "cautious",
+        "gap": 22
+      },
+      {
+        "seed": 81,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 82,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 83,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 84,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 86,
+        "strategy": "cautious",
+        "gap": 18
+      },
+      {
+        "seed": 87,
+        "strategy": "cautious",
+        "gap": 21
+      },
+      {
+        "seed": 88,
+        "strategy": "cautious",
+        "gap": 26
+      },
+      {
+        "seed": 89,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 90,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 91,
+        "strategy": "cautious",
+        "gap": 10
+      },
+      {
+        "seed": 93,
+        "strategy": "cautious",
+        "gap": 15
+      },
+      {
+        "seed": 94,
+        "strategy": "cautious",
+        "gap": 7
+      },
+      {
+        "seed": 96,
+        "strategy": "cautious",
+        "gap": 19
+      },
+      {
+        "seed": 98,
+        "strategy": "cautious",
+        "gap": 16
+      },
+      {
+        "seed": 99,
+        "strategy": "cautious",
+        "gap": 17
+      }
+    ],
+    "overdue_windows": 0
+  },
+  "risky": {
+    "n": 84,
+    "old_gap_p90": 3,
+    "causal_gap_p90": 31,
+    "active_causal_gap_p90": 13,
+    "total_lives": 100,
+    "early_deaths": 16,
+    "end_age_p50": 82,
+    "choices_min": 1,
+    "choices_max": 5,
+    "over_six": [
+      {
+        "seed": 2,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 3,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 4,
+        "strategy": "risky",
+        "gap": 31
+      },
+      {
+        "seed": 5,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 7,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 9,
+        "strategy": "risky",
+        "gap": 15
+      },
+      {
+        "seed": 10,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 11,
+        "strategy": "risky",
+        "gap": 40
+      },
+      {
+        "seed": 12,
+        "strategy": "risky",
+        "gap": 18
+      },
+      {
+        "seed": 14,
+        "strategy": "risky",
+        "gap": 43
+      },
+      {
+        "seed": 15,
+        "strategy": "risky",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 19,
+        "strategy": "risky",
+        "gap": 18
+      },
+      {
+        "seed": 21,
+        "strategy": "risky",
+        "gap": 20
+      },
+      {
+        "seed": 23,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 25,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 26,
+        "strategy": "risky",
+        "gap": 33
+      },
+      {
+        "seed": 27,
+        "strategy": "risky",
+        "gap": 13
+      },
+      {
+        "seed": 28,
+        "strategy": "risky",
+        "gap": 25
+      },
+      {
+        "seed": 29,
+        "strategy": "risky",
+        "gap": 11
+      },
+      {
+        "seed": 30,
+        "strategy": "risky",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 34,
+        "strategy": "risky",
+        "gap": 10
+      },
+      {
+        "seed": 36,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 37,
+        "strategy": "risky",
+        "gap": 31
+      },
+      {
+        "seed": 39,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "risky",
+        "gap": 12
+      },
+      {
+        "seed": 41,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 43,
+        "strategy": "risky",
+        "gap": 23
+      },
+      {
+        "seed": 44,
+        "strategy": "risky",
+        "gap": 15
+      },
+      {
+        "seed": 45,
+        "strategy": "risky",
+        "gap": 34
+      },
+      {
+        "seed": 48,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 52,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 54,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 56,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 57,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 58,
+        "strategy": "risky",
+        "gap": 32
+      },
+      {
+        "seed": 59,
+        "strategy": "risky",
+        "gap": 28
+      },
+      {
+        "seed": 60,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 61,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 63,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 64,
+        "strategy": "risky",
+        "gap": 24
+      },
+      {
+        "seed": 65,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 66,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 67,
+        "strategy": "risky",
+        "gap": 12
+      },
+      {
+        "seed": 68,
+        "strategy": "risky",
+        "gap": 25
+      },
+      {
+        "seed": 69,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 71,
+        "strategy": "risky",
+        "gap": 10
+      },
+      {
+        "seed": 72,
+        "strategy": "risky",
+        "gap": 8
+      },
+      {
+        "seed": 75,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 79,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 80,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 84,
+        "strategy": "risky",
+        "gap": 50
+      },
+      {
+        "seed": 87,
+        "strategy": "risky",
+        "gap": 22
+      },
+      {
+        "seed": 88,
+        "strategy": "risky",
+        "gap": 32
+      },
+      {
+        "seed": 89,
+        "strategy": "risky",
+        "gap": 17
+      },
+      {
+        "seed": 90,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 91,
+        "strategy": "risky",
+        "gap": 9
+      },
+      {
+        "seed": 92,
+        "strategy": "risky",
+        "gap": 32
+      },
+      {
+        "seed": 96,
+        "strategy": "risky",
+        "gap": 16
+      },
+      {
+        "seed": 99,
+        "strategy": "risky",
+        "gap": 12
+      }
+    ],
+    "overdue_windows": 0
+  },
+  "career": {
+    "n": 90,
+    "old_gap_p90": 3,
+    "causal_gap_p90": 31,
+    "active_causal_gap_p90": 14,
+    "total_lives": 100,
+    "early_deaths": 10,
+    "end_age_p50": 82,
+    "choices_min": 1,
+    "choices_max": 5,
+    "over_six": [
+      {
+        "seed": 2,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 3,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 4,
+        "strategy": "career",
+        "gap": 31
+      },
+      {
+        "seed": 5,
+        "strategy": "career",
+        "gap": 7
+      },
+      {
+        "seed": 7,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 8,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 9,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 10,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 11,
+        "strategy": "career",
+        "gap": 40
+      },
+      {
+        "seed": 12,
+        "strategy": "career",
+        "gap": 18
+      },
+      {
+        "seed": 14,
+        "strategy": "career",
+        "gap": 43
+      },
+      {
+        "seed": 15,
+        "strategy": "career",
+        "gap": 7
+      },
+      {
+        "seed": 18,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 19,
+        "strategy": "career",
+        "gap": 18
+      },
+      {
+        "seed": 20,
+        "strategy": "career",
+        "gap": 23
+      },
+      {
+        "seed": 21,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 26,
+        "strategy": "career",
+        "gap": 33
+      },
+      {
+        "seed": 27,
+        "strategy": "career",
+        "gap": 13
+      },
+      {
+        "seed": 28,
+        "strategy": "career",
+        "gap": 18
+      },
+      {
+        "seed": 29,
+        "strategy": "career",
+        "gap": 12
+      },
+      {
+        "seed": 30,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 32,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 33,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 34,
+        "strategy": "career",
+        "gap": 25
+      },
+      {
+        "seed": 36,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 37,
+        "strategy": "career",
+        "gap": 31
+      },
+      {
+        "seed": 39,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 40,
+        "strategy": "career",
+        "gap": 12
+      },
+      {
+        "seed": 41,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 43,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 44,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 45,
+        "strategy": "career",
+        "gap": 31
+      },
+      {
+        "seed": 46,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 47,
+        "strategy": "career",
+        "gap": 13
+      },
+      {
+        "seed": 48,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 50,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 51,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 52,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 53,
+        "strategy": "career",
+        "gap": 17
+      },
+      {
+        "seed": 54,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 55,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 56,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 57,
+        "strategy": "career",
+        "gap": 38
+      },
+      {
+        "seed": 58,
+        "strategy": "career",
+        "gap": 32
+      },
+      {
+        "seed": 59,
+        "strategy": "career",
+        "gap": 28
+      },
+      {
+        "seed": 60,
+        "strategy": "career",
+        "gap": 38
+      },
+      {
+        "seed": 61,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 63,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 64,
+        "strategy": "career",
+        "gap": 24
+      },
+      {
+        "seed": 65,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 66,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 67,
+        "strategy": "career",
+        "gap": 15
+      },
+      {
+        "seed": 68,
+        "strategy": "career",
+        "gap": 25
+      },
+      {
+        "seed": 69,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 72,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 75,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 77,
+        "strategy": "career",
+        "gap": 19
+      },
+      {
+        "seed": 79,
+        "strategy": "career",
+        "gap": 9
+      },
+      {
+        "seed": 83,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 87,
+        "strategy": "career",
+        "gap": 20
+      },
+      {
+        "seed": 88,
+        "strategy": "career",
+        "gap": 32
+      },
+      {
+        "seed": 89,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 90,
+        "strategy": "career",
+        "gap": 16
+      },
+      {
+        "seed": 91,
+        "strategy": "career",
+        "gap": 8
+      },
+      {
+        "seed": 92,
+        "strategy": "career",
+        "gap": 33
+      },
+      {
+        "seed": 94,
+        "strategy": "career",
+        "gap": 7
+      },
+      {
+        "seed": 96,
+        "strategy": "career",
+        "gap": 22
+      },
+      {
+        "seed": 99,
+        "strategy": "career",
+        "gap": 12
+      }
+    ],
+    "overdue_windows": 0
+  }
+}

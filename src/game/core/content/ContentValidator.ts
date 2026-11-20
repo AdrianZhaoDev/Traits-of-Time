@@ -93,6 +93,8 @@ class SemanticValidator {
       case 'has':
         if (condition.collection !== 'flags') {
           this.reference(condition.collection === 'completed_chains' || condition.collection === 'active_chains' ? 'chains' : condition.collection, condition.id, file, `${path}/id`);
+        } else if (condition.id.startsWith('LATE_ROUTE_') && !this.content.rules.late_life?.routes.some(route => `LATE_ROUTE_${route.id}` === condition.id)) {
+          this.issue(file, `${path}/id`, 'MISSING_REFERENCE', `后期路线不存在：${condition.id}。`);
         }
         break;
       case 'is':
@@ -116,6 +118,7 @@ class SemanticValidator {
       switch (effect.type) {
         case 'flag_add':
         case 'flag_remove': {
+          if (effect.id.startsWith('LATE_ROUTE_')) this.issue(file, effectPath, 'INVALID_COMBINATION', '后期路线标记由当前状态生成，不能作为持久标记修改。');
           const previous = flags.get(effect.id);
           if (previous && previous !== effect.type) this.issue(file, effectPath, 'INVALID_COMBINATION', '同一结果不能同时添加和移除同一标记。');
           flags.set(effect.id, effect.type);
@@ -237,7 +240,24 @@ class SemanticValidator {
     const { min, max, base } = rules.attributes;
     if (min >= max || base < min || base > max || !Number.isFinite(max - min)) this.issue('rules.json', '/attributes', 'INVALID_COMBINATION', '属性范围必须 min < max，base 在范围内且跨度有限。');
     if (rules.check.modifier_min > rules.check.modifier_max) this.issue('rules.json', '/check', 'INVALID_COMBINATION', '检定修正下界不能大于上界。');
+    if (rules.check.dynamic_raw_minimum.attribute_step <= 0) this.issue('rules.json', '/check/dynamic_raw_minimum/attribute_step', 'INVALID_COMBINATION', '动态原骰门槛的属性步长必须大于零。');
+    if (rules.check.luck_bonus_thresholds.some((threshold, index, thresholds) => index > 0 && threshold <= thresholds[index - 1]!)) {
+      this.issue('rules.json', '/check/luck_bonus_thresholds', 'INVALID_COMBINATION', '气数加值阈值必须严格递增。');
+    }
     if (rules.luck.factor_min > rules.luck.factor_max) this.issue('rules.json', '/luck', 'INVALID_COMBINATION', '运气因子下界不能大于上界。');
+    if (rules.late_life) {
+      const late = rules.late_life;
+      if (late.start_years > late.expansion_years || late.expansion_years > late.settlement_years) {
+        this.issue('rules.json', '/late_life', 'INVALID_COMBINATION', '后期阶段年份必须依次递增。');
+      }
+      this.unique(late.routes, 'rules.json', '/late_life/routes');
+      if (late.routes[late.routes.length - 1]?.entry_condition) this.issue('rules.json', '/late_life/routes', 'INVALID_COMBINATION', '最后一条路线必须是不设进入条件的普通退路。');
+      late.routes.forEach((route, index) => {
+        if (index < late.routes.length - 1 && !route.entry_condition) this.issue('rules.json', `/late_life/routes/${index}`, 'INVALID_COMBINATION', '无条件路线必须排在最后。');
+        this.condition(route.entry_condition, 'rules.json', `/late_life/routes/${index}/entry_condition`);
+        this.condition(route.retain_condition, 'rules.json', `/late_life/routes/${index}/retain_condition`);
+      });
+    }
     this.reference('pools', rules.opening.pool_id, 'rules.json', '/opening/pool_id');
     if (rules.opening.year_min > rules.opening.year_max) this.issue('rules.json', '/opening', 'INVALID_COMBINATION', '开局年份下界不能大于上界。');
     this.uniform(rules.opening.year_min, rules.opening.year_max, 'rules.json', '/opening');
@@ -262,12 +282,46 @@ class SemanticValidator {
     }
   }
 
+  private followUps(): void {
+    const groups = new Map<string, { trigger: Extract<Event['trigger'], { kind: 'follow_up' }>; index: number }>();
+    this.content.events.forEach((event, index) => {
+      const trigger = event.trigger;
+      if (trigger.kind !== 'follow_up') return;
+      const path = `/${index}/trigger`;
+      if (!this.content.rules.late_life) this.issue('events.json', path, 'INVALID_COMBINATION', '后续事件需要后期规则。');
+      if (trigger.earliest > trigger.latest) this.issue('events.json', path, 'INVALID_COMBINATION', '后续窗口的最早年份不能晚于最迟年份。');
+      if (trigger.after_group !== null && trigger.latest === 0) this.issue('events.json', path, 'INVALID_COMBINATION', '后续组每年最多兑现一组，依赖前组的窗口不能只在同一年。');
+      const previous = groups.get(trigger.group_id);
+      if (!previous) groups.set(trigger.group_id, { trigger, index });
+      else if (trigger.after_group !== previous.trigger.after_group || trigger.earliest !== previous.trigger.earliest || trigger.latest !== previous.trigger.latest) {
+        this.issue('events.json', path, 'INVALID_COMBINATION', '同一后续组的锚点和窗口必须一致。');
+      }
+    });
+    for (const [id, group] of groups) {
+      const visited = new Set<string>();
+      let current: string | null = id;
+      while (current !== null) {
+        if (visited.has(current)) {
+          this.issue('events.json', `/${group.index}/trigger/after_group`, 'INVALID_GRAPH', '后续事件组的锚点不能形成循环。');
+          break;
+        }
+        visited.add(current);
+        const next = groups.get(current);
+        if (!next) {
+          this.issue('events.json', `/${group.index}/trigger/after_group`, 'MISSING_REFERENCE', `后续事件组锚点不存在：${current}。`);
+          break;
+        }
+        current = next.trigger.after_group;
+      }
+    }
+  }
+
   private starts(): void {
     if (!this.backgroundConditionsValid) return;
     const { rules, era, regions, castes } = this.content;
     // Non-starting fields are unreachable: condition validation above rejects them.
     const context: ConditionContext = {
-      age: 0, calendar_year: era.start_year, start_year: era.start_year, region_id: '', caste_id: '', identity_id: '', timeline: 'historical',
+      age: 0, calendar_year: era.start_year, start_year: era.start_year, years_elapsed: 0, region_id: '', caste_id: '', identity_id: '', timeline: 'historical',
       physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
       cards: [], flags: [], injuries: [], completed_chains: [], active_chains: [],
     };
@@ -354,6 +408,7 @@ class SemanticValidator {
       }
     });
     content.events.forEach((event, index) => this.event(event, index));
+    this.followUps();
     content.chains.forEach((chain, index) => {
       const path = `/${index}`;
       this.condition(chain.interrupt_condition, 'chains.json', `${path}/interrupt_condition`);

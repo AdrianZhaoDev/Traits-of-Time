@@ -1,0 +1,245 @@
+[
+  {
+    "id": "E_FAM_END_OLD_AGE",
+    "title": "家中安睡",
+    "text": "上了年纪后，你渐渐没了力气，伴侣为你掖好被角，坐在床边。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 80 },
+        { "op": "compare", "field": "physique", "comparator": "lte", "value": 3 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 3, "priority": 0, "trigger_probability": 0.12, "cooldown_years": 10, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "这一夜，你在家中安静地离世。",
+      "effects": [{ "type": "death", "id": "D_FAM_END_OLD_AGE" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_END_HOUSE_FIRE",
+    "title": "夜里失火",
+    "text": "夜里灶间起火，浓烟涌进屋内，你和伴侣从睡梦中惊醒。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 25 },
+        { "op": "compare", "field": "physique", "comparator": "lte", "value": 3 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 2, "priority": 0, "trigger_probability": 0.08, "cooldown_years": 10, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "邻居赶来破门，你得在浓烟中撑到有人接应。",
+      "effects": [],
+      "next_stage_id": "S_FAM_END_HOUSE_FIRE_ESCAPE"
+    },
+    "stages": [
+      {
+        "id": "S_FAM_END_HOUSE_FIRE_ESCAPE",
+        "text": "烟越来越浓，你要辨清门口的方向，跟上前来接应的邻居。",
+        "check": { "attribute": "physique", "dc": 11, "modifier": 0 },
+        "success": {
+          "text": "你和伴侣跟着邻居退到街上，总算躲过了这场火。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你被浓烟呛得站不稳，邻居扶住你，继续寻找出口。",
+          "effects": [],
+          "next_stage_id": "S_FAM_END_HOUSE_FIRE_RESCUE"
+        }
+      },
+      {
+        "id": "S_FAM_END_HOUSE_FIRE_RESCUE",
+        "text": "邻居正带你往门边走，你还得撑住这最后一段路。",
+        "check": { "attribute": "physique", "dc": 9, "modifier": 0 },
+        "success": {
+          "text": "你被邻居扶出火场，伴侣也已退到安全处。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "烟雾封住退路，邻居没能及时带你出去。",
+          "effects": [{ "type": "death", "id": "D_FAM_END_HOUSE_FIRE" }],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_FAM_END_OVERWORK",
+    "title": "积劳病倒",
+    "text": "你一直忙着手头的事，近来病得起不了身，伴侣请来郎中。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 50 },
+        { "op": "compare", "field": "physique", "comparator": "lte", "value": 2 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        {
+          "op": "any",
+          "conditions": [
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_MILITARY_MERIT" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_FIREARMS_RESEARCH" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_EPIDEMIC_HEALING" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_FORTRESS_DEFENSE" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_MARITIME_TRADE" },
+            { "op": "has", "collection": "active_chains", "id": "CH_WORKSHOP" },
+            { "op": "has", "collection": "active_chains", "id": "CH_JN_TRADE" },
+            { "op": "has", "collection": "active_chains", "id": "CH_gm_arms" },
+            { "op": "has", "collection": "active_chains", "id": "CH_gm_water" },
+            { "op": "has", "collection": "active_chains", "id": "CH_gm_fort" }
+          ]
+        }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 2, "priority": 0, "trigger_probability": 0.08, "cooldown_years": 10, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "郎中查看病情，叮嘱家人先让你静养。",
+      "effects": [],
+      "next_stage_id": "S_FAM_END_OVERWORK_RECOVER"
+    },
+    "stages": [
+      {
+        "id": "S_FAM_END_OVERWORK_RECOVER",
+        "text": "家人守着你服药歇息，还要看这一夜病情能否缓和。",
+        "check": { "attribute": "physique", "dc": 11, "modifier": 0 },
+        "success": {
+          "text": "病情渐渐稳定，你得先歇上一阵，才能再操心别的事。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你的病情仍在加重，家人又请郎中继续救治。",
+          "effects": [],
+          "next_stage_id": "S_FAM_END_OVERWORK_RESCUE"
+        }
+      },
+      {
+        "id": "S_FAM_END_OVERWORK_RESCUE",
+        "text": "郎中留下来照看，伴侣守在床边，盼你能撑过去。",
+        "check": { "attribute": "physique", "dc": 9, "modifier": 0 },
+        "success": {
+          "text": "熬过这阵病势，你终于缓了过来，仍需安心休养。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "郎中尽力救治，你还是没能挺过这场病。",
+          "effects": [{ "type": "death", "id": "D_FAM_END_OVERWORK" }],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_FAM_END_CLAN_CROSS_FIRE",
+    "title": "祠前纷争",
+    "text": "你和伴侣经过祠前，恰逢两族因田界发生械斗，你在混乱中被误伤。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 25 },
+        { "op": "compare", "field": "physique", "comparator": "lte", "value": 3 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 2, "priority": 0, "trigger_probability": 0.06, "cooldown_years": 10, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "伴侣扶你躲开人群，邻人赶来请郎中查看伤势。",
+      "effects": [],
+      "next_stage_id": "S_FAM_END_CLAN_CROSS_FIRE_RECOVER"
+    },
+    "stages": [
+      {
+        "id": "S_FAM_END_CLAN_CROSS_FIRE_RECOVER",
+        "text": "郎中处理伤处，你要先撑过眼前这阵虚弱。",
+        "check": { "attribute": "physique", "dc": 11, "modifier": 0 },
+        "success": {
+          "text": "伤势暂时稳住，你在伴侣陪同下回家歇息。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你的情况仍不稳定，郎中留下继续救治。",
+          "effects": [],
+          "next_stage_id": "S_FAM_END_CLAN_CROSS_FIRE_RESCUE"
+        }
+      },
+      {
+        "id": "S_FAM_END_CLAN_CROSS_FIRE_RESCUE",
+        "text": "伴侣守在一旁，郎中继续设法稳住伤势。",
+        "check": { "attribute": "physique", "dc": 9, "modifier": 0 },
+        "success": {
+          "text": "救治后你终于缓过气来，往后还要好好养伤。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "伤势没能稳住，你终究没能活下来。",
+          "effects": [{ "type": "death", "id": "D_FAM_END_CLAN_CROSS_FIRE" }],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_FAM_END_FAMILY_SHELTER",
+    "title": "屋梁骤坠",
+    "text": "家中梁架突然倒落，你和伴侣正在屋里，退路一时被堵。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 30 },
+        { "op": "compare", "field": "physique", "comparator": "lte", "value": 3 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 2, "priority": 0, "trigger_probability": 0.06, "cooldown_years": 10, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你护着伴侣躲开落梁，自己却受了伤；邻人赶来，把你们扶出屋子。",
+      "effects": [],
+      "next_stage_id": "S_FAM_END_FAMILY_SHELTER_RECOVER"
+    },
+    "stages": [
+      {
+        "id": "S_FAM_END_FAMILY_SHELTER_RECOVER",
+        "text": "邻人请来郎中，你要撑住，等他处理伤处。",
+        "check": { "attribute": "physique", "dc": 11, "modifier": 0 },
+        "success": {
+          "text": "郎中处理了伤处，你和伴侣在邻家歇息，暂时脱离危险。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你的伤势仍在加重，郎中留下继续救治。",
+          "effects": [],
+          "next_stage_id": "S_FAM_END_FAMILY_SHELTER_RESCUE"
+        }
+      },
+      {
+        "id": "S_FAM_END_FAMILY_SHELTER_RESCUE",
+        "text": "伴侣守在身边，郎中继续设法救治，盼你撑过这阵伤势。",
+        "check": { "attribute": "physique", "dc": 9, "modifier": 0 },
+        "success": {
+          "text": "伤势终于稳住，你和伴侣向帮忙的邻人道了谢。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "救治没能挽回你的性命，伴侣和邻人陪着你走完最后一程。",
+          "effects": [{ "type": "death", "id": "D_FAM_END_FAMILY_SHELTER" }],
+          "next_stage_id": null
+        }
+      }
+    ]
+  }
+]

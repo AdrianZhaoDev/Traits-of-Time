@@ -2,7 +2,7 @@
   {
     "id": "CARD_MODERN_CORN",
     "name": "高产耐旱玉米良种",
-    "description": "耐旱不等于不用浇水。\n农桑检定+1。",
+    "description": "良种可先试种一小块，再和乡邻商量种法；耐旱也要浇水、花时间照看。",
     "rarity": "SSR",
     "tags": [
       "modern"
@@ -15,7 +15,7 @@
   {
     "id": "CARD_MODERN_ANTIBIOTIC",
     "name": "抗生素与防疫手册",
-    "description": "药量有限，要对症使用。\n防疫检定+1，不保证治愈。",
+    "description": "手册帮忙安排防疫照护，也可请郎中辨症；药量有限，用药要对症，不能保证治愈。",
     "rarity": "SSR",
     "tags": [
       "modern"
@@ -28,7 +28,7 @@
   {
     "id": "CARD_MODERN_FLASHLIGHT",
     "name": "手摇发电强光手电",
-    "description": "手摇发电，摇累了也得歇一歇。\n夜巡检定+1。",
+    "description": "手摇发电，夜巡能照路、帮着找线索；摇累了得歇，照清楚不等于查明真相。",
     "rarity": "SR",
     "tags": [
       "modern"
@@ -41,7 +41,7 @@
   {
     "id": "CARD_MODERN_CALCULATOR",
     "name": "太阳能简易计算器",
-    "description": "能帮你算账，证据和实物还得查。\n清账检定+1。",
+    "description": "借光算账快，工钱、粮账都能核算；光线不足可能黑屏，凭据和实物还得核对。",
     "rarity": "SR",
     "tags": [
       "modern"
@@ -67,7 +67,7 @@
   {
     "id": "CARD_MODERN_GLUE",
     "name": "502强力胶与折叠军刀",
-    "description": "胶水可修小件，不能粘高温或承重部位。\n工艺检定+1。",
+    "description": "胶水可修小件，军刀能比量旧件、修整木样；胶不能用在食具、高温或承重处。",
     "rarity": "R",
     "tags": [
       "modern"
@@ -80,7 +80,7 @@
   {
     "id": "CARD_MODERN_LIGHTER",
     "name": "防风打火机与醒脑油",
-    "description": "燃料有限，点火前备好干料，别反复空按。\n行军检定+1。",
+    "description": "赶路可用火机备火种，醒脑油也能帮忙提神；燃料和油都有限，点火前备好干料、别反复空按，醒脑油不能喝。",
     "rarity": "R",
     "tags": [
       "modern"

@@ -1,0 +1,81 @@
+[
+  {
+    "name": "cautious-76-year-1702",
+    "year": 1702,
+    "logs": [
+      {
+        "seq": 411,
+        "age": 80,
+        "calendar_year": 1702,
+        "type": "event",
+        "source_id": "E_LL_PASS_RETURN_OWN",
+        "message": "一件日用坏了，你换上先前清点时留下的备用物。",
+        "data": {
+          "event_instance_id": "life:e0bc9db4f16fe7da115fe6af711dd121bd89b2ed7d5dc60e6fc0bbbed251d9d2:76:event:112"
+        }
+      },
+      {
+        "seq": 412,
+        "age": 80,
+        "calendar_year": 1702,
+        "type": "effects",
+        "source_id": "E_LL_PASS_RETURN_OWN",
+        "message": "眼前还能照常使用，坏掉的那件收在一旁，能不能修还得再看。",
+        "data": {
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_LL_PASS_OWN"
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LL_OWN_THINGS_ORDERED"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "normal-28-year-1725",
+    "year": 1725,
+    "logs": [
+      {
+        "seq": 401,
+        "age": 84,
+        "calendar_year": 1725,
+        "type": "event",
+        "source_id": "E_LL_LIVING_RETURN_COMFORT",
+        "message": "帮忙料理的人按先前说好的时辰来，照你的清单把日用带齐。",
+        "data": {
+          "event_instance_id": "life:e0bc9db4f16fe7da115fe6af711dd121bd89b2ed7d5dc60e6fc0bbbed251d9d2:28:event:109"
+        }
+      },
+      {
+        "seq": 402,
+        "age": 84,
+        "calendar_year": 1725,
+        "type": "effects",
+        "source_id": "E_LL_LIVING_RETURN_COMFORT",
+        "message": "你不用整天等人，也没有被替你决定该买什么；身体的限制仍不会因此消失。",
+        "data": {
+          "effects": [
+            {
+              "type": "flag_remove",
+              "id": "F_LL_LIVING_COMFORT"
+            },
+            {
+              "type": "flag_add",
+              "id": "F_LL_LIVING_CARE_ON_TIME"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "normal-2-option",
+    "freezeResumeUnchanged": true,
+    "pending": "AWAITING_OPTION"
+  }
+]

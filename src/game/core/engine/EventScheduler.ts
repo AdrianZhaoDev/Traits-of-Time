@@ -1,5 +1,5 @@
-import type { ContentBundle, Event } from '../types/content.generated';
-import type { CandidateLog, PlayerState, QueueEntry, RunState } from '../types/schema';
+import type { ContentBundle, Event, FollowUpTrigger } from '../types/content.generated';
+import type { CandidateLog, LogData, PlayerState, QueueEntry, RunState } from '../types/schema';
 import type { RandomSource } from './RandomSource';
 import { probabilityPasses, sampleWeighted } from './WeightedSampler';
 import { conditionContext, evaluateCondition } from './ConditionEvaluator';
@@ -87,4 +87,51 @@ export function scheduleHistory(content: ContentBundle, player: PlayerState, run
   return content.events.filter(event => event.trigger.kind === 'historical' && event.trigger.year === player.calendar_year && !run.processed_history.includes(event.id))
     .sort((a, b) => (b.trigger.kind === 'historical' ? b.trigger.priority : 0) - (a.trigger.kind === 'historical' ? a.trigger.priority : 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
     .map(event => ({ event_id: event.id, chain_instance_id: null }));
+}
+
+/** One follow-up per year, independently of the ordinary random-event allowance. */
+export function scheduleFollowUps(content: ContentBundle, player: PlayerState, run: RunState,
+  available: (event: Event) => boolean, log: (data: LogData['follow_up']) => void): QueueEntry[] {
+  const rules = content.rules.late_life;
+  if (!rules || player.calendar_year - player.start_year < rules.start_years) return [];
+  type FollowUpEvent = Event & { trigger: FollowUpTrigger };
+  const groups = new Map<string, FollowUpEvent[]>();
+  for (const event of content.events) {
+    if (event.trigger.kind !== 'follow_up' || Object.hasOwn(run.follow_up_groups, event.trigger.group_id)) continue;
+    const list = groups.get(event.trigger.group_id) ?? [];
+    list.push(event as FollowUpEvent);
+    groups.set(event.trigger.group_id, list);
+  }
+  const context = conditionContext(player, run.timeline);
+  const due: { data: LogData['follow_up']; best: FollowUpEvent | null }[] = [];
+  for (const [group_id, events] of groups) {
+    const trigger = events[0]!.trigger;
+    const anchor = trigger.after_group === null ? player.start_year + rules.start_years : run.follow_up_groups[trigger.after_group];
+    if (anchor === undefined) continue;
+    const earliest = anchor + trigger.earliest, latest = anchor + trigger.latest;
+    if (player.calendar_year < earliest) continue;
+    const candidates = events.sort((a, b) => b.trigger.priority - a.trigger.priority || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)).map(event => {
+      const reason = event.trigger.fallback && player.calendar_year < latest ? 'BEFORE_FALLBACK'
+        : !evaluateCondition(event.condition, context) ? 'CONDITION_NOT_MET'
+        : !available(event) ? 'NO_AVAILABLE_OPTION' : null;
+      return { event, info: { event_id: event.id, eligible: reason === null, reason } };
+    });
+    const best = candidates.find(candidate => candidate.info.eligible)?.event ?? null;
+    due.push({ best, data: { group_id, anchor_year: anchor, earliest_year: earliest, latest_year: latest,
+      status: player.calendar_year > latest ? 'overdue' : 'no_candidate', selected_event_id: null,
+      candidates: candidates.map(candidate => candidate.info.eligible && best && candidate.event.id !== best.id
+        ? { ...candidate.info, eligible: false, reason: candidate.event.trigger.priority < best.trigger.priority ? 'LOWER_PRIORITY' : 'TIE_BREAK' }
+        : candidate.info) } });
+  }
+  due.sort((a, b) => a.data.latest_year - b.data.latest_year || (b.best?.trigger.priority ?? -1) - (a.best?.trigger.priority ?? -1)
+    || ((a.best?.id ?? a.data.group_id) < (b.best?.id ?? b.data.group_id) ? -1 : (a.best?.id ?? a.data.group_id) > (b.best?.id ?? b.data.group_id) ? 1 : 0));
+  const chosen = due.find(group => group.best !== null);
+  for (const group of due) {
+    if (group === chosen) {
+      group.data.status = 'selected';
+      group.data.selected_event_id = group.best!.id;
+    } else if (group.best && player.calendar_year <= group.data.latest_year) group.data.status = 'deferred';
+    log(group.data);
+  }
+  return chosen ? [{ event_id: chosen.best!.id, chain_instance_id: null }] : [];
 }

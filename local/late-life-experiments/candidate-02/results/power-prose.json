@@ -1,0 +1,224 @@
+{
+  "seed": 39,
+  "strategy": "normal",
+  "source": "natural_production_seed",
+  "initial": {
+    "era_id": "ERA_MING_END",
+    "start_age": 38,
+    "age": 47,
+    "max_lifespan": 89,
+    "start_year": 1645,
+    "calendar_year": 1654,
+    "region_id": "R_CAPITAL",
+    "caste_id": "C_GENTRY",
+    "identity_id": "I_CLAN_ELDER",
+    "highest_identity_id": "I_CLAN_ELDER",
+    "attributes": {
+      "physique": 12,
+      "intelligence": 14,
+      "wealth": 6,
+      "prestige": 6,
+      "luck": 3
+    },
+    "cards": [
+      "CARD_MODERN_GLUE"
+    ],
+    "flags": [
+      "F_MOD_GLUE_MAGISTRATE_BOOTS",
+      "F_MOD_GLUE_OPEN",
+      "F_LIFE_ROUTE_LEARNING",
+      "F_LIFE_DIRECTION_TURN_USED",
+      "F_MOD_GLUE_PORCELAIN_MASTER",
+      "F_MOD_GLUE_STEP_1",
+      "F_MOD_SWISS_ARSENAL_CHIEF",
+      "F_MOD_GLUE_STEP_2",
+      "F_FAM_LIFE_MENDING",
+      "F_PRESTIGE_BREAKTHROUGH",
+      "F_MOD_SWISS_GUNSMITH_REFORM",
+      "F_MOD_GLUE_STEP_3",
+      "F_MOD_GLUE_SETBACK",
+      "F_MOD_GLUE_ABORT",
+      "F_INTEL_BREAKTHROUGH",
+      "F_LL_FATE_POWER"
+    ],
+    "injuries": [],
+    "chains": [
+      {
+        "instance_id": "life:simulation:39:chain:1",
+        "chain_id": "CHAIN_MOD_GLUE_ARTISAN",
+        "started_year": 1645,
+        "next_due_year": null,
+        "node_index": 3,
+        "status": "interrupted",
+        "interruption_reason": "修补和试样的事务中断了，学会的工序和材料用法仍然保留。"
+      }
+    ],
+    "achievements": [
+      "A_MOD_GLUE_MAGISTRATE_BOOTS",
+      "A_MOD_GLUE_PORCELAIN_MASTER"
+    ],
+    "late_life": {
+      "route_id": "prosperous_power",
+      "phase": "realization",
+      "entered_year": 1654,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    }
+  },
+  "events": [
+    {
+      "seq": 58,
+      "age": 47,
+      "calendar_year": 1654,
+      "type": "event",
+      "source_id": "E_LL_FATE_POWER",
+      "message": "议事的人把位置留给你，几份安排都等你看过才定。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:15"
+      }
+    },
+    {
+      "seq": 83,
+      "age": 52,
+      "calendar_year": 1659,
+      "type": "event",
+      "source_id": "E_LL_ITEM_NEIGHBORHOOD",
+      "message": "常去的粮铺改了开门日，邻人把新日子告诉你，免得白跑一趟。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:21"
+      }
+    },
+    {
+      "seq": 99,
+      "age": 55,
+      "calendar_year": 1662,
+      "type": "event",
+      "source_id": "E_LL_RETURN_POWER",
+      "message": "先前约好由你看过再办的事，如今送来结果，次序果然照着约定。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:25"
+      }
+    },
+    {
+      "seq": 112,
+      "age": 58,
+      "calendar_year": 1665,
+      "type": "event",
+      "source_id": "E_LL_ITEM_RETURN_NEIGHBORHOOD",
+      "message": "粮铺仍按新日子开门。你赶上那一天，没再空着手折回。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:29"
+      }
+    },
+    {
+      "seq": 120,
+      "age": 59,
+      "calendar_year": 1666,
+      "type": "event",
+      "source_id": "E_LL_DIRECTION_CONTINUE",
+      "message": "当初选定的方向已有了各自的安排，接下来的事仍要看眼下的境况。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:31"
+      }
+    },
+    {
+      "seq": 132,
+      "age": 62,
+      "calendar_year": 1669,
+      "type": "event",
+      "source_id": "E_LL_BREAD_WEALTHY",
+      "message": "粮价有变，熟悉的粮铺先来问你要不要照旧留货。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:35"
+      }
+    },
+    {
+      "seq": 144,
+      "age": 65,
+      "calendar_year": 1672,
+      "type": "event",
+      "source_id": "E_LL_BREAD_RETURN_WEALTHY",
+      "message": "粮铺照先前的约定留了货，等你得空时才来回话。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:39"
+      }
+    },
+    {
+      "seq": 159,
+      "age": 68,
+      "calendar_year": 1675,
+      "type": "event",
+      "source_id": "E_LL_WORK_WEALTHY",
+      "message": "曾按约替你留货的掌柜介绍了一家布铺。铺子愿把料样送来，让你不必赶到集上挑选。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:43"
+      }
+    },
+    {
+      "seq": 171,
+      "age": 71,
+      "calendar_year": 1678,
+      "type": "event",
+      "source_id": "E_LL_WORK_RETURN_WEALTHY",
+      "message": "布铺依约把几种料样和价钱送来，你在家便能比较，不必挤着赶集。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:47"
+      }
+    },
+    {
+      "seq": 187,
+      "age": 75,
+      "calendar_year": 1682,
+      "type": "event",
+      "source_id": "E_LL_RELATION_NEIGHBOR",
+      "message": "邻人见你要搬日用，说有需要时可以借他家的推车，用完还回就好。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:52"
+      }
+    },
+    {
+      "seq": 201,
+      "age": 78,
+      "calendar_year": 1685,
+      "type": "event",
+      "source_id": "E_LL_RELATION_RETURN_NEIGHBOR",
+      "message": "你要搬日用，邻人照先前说好的把推车借来，还帮着把东西送到门口。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:56"
+      }
+    },
+    {
+      "seq": 216,
+      "age": 81,
+      "calendar_year": 1688,
+      "type": "event",
+      "source_id": "E_LL_HOME_WEALTHY",
+      "message": "住处要整修，替你张罗的人先来问：哪一处该保留，哪一处要改。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:60"
+      }
+    },
+    {
+      "seq": 228,
+      "age": 84,
+      "calendar_year": 1691,
+      "type": "event",
+      "source_id": "E_LL_HOME_RETURN_WEALTHY",
+      "message": "整修的人依照先前记下的意思，把你要求保留的地方留了出来。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:64"
+      }
+    },
+    {
+      "seq": 240,
+      "age": 87,
+      "calendar_year": 1694,
+      "type": "event",
+      "source_id": "E_LL_CARE_OTHER",
+      "message": "你按眼下的体力安排日常，把要紧的事和歇息的时间错开。",
+      "data": {
+        "event_instance_id": "life:simulation:39:event:68"
+      }
+    }
+  ]
+}

@@ -1,0 +1,875 @@
+{
+  "classification": "Nonexclusive observed event mechanisms, not proof of counterfactual eligibility",
+  "clusters": {
+    "other_requires_event_review": [
+      {
+        "seed": 22,
+        "strategy": "normal",
+        "begin": 1646,
+        "end": 1652
+      },
+      {
+        "seed": 28,
+        "strategy": "normal",
+        "begin": 1677,
+        "end": 1684
+      },
+      {
+        "seed": 22,
+        "strategy": "cautious",
+        "begin": 1646,
+        "end": 1652
+      },
+      {
+        "seed": 76,
+        "strategy": "cautious",
+        "begin": 1664,
+        "end": 1670
+      }
+    ],
+    "healthy_care_maintenance": [
+      {
+        "seed": 28,
+        "strategy": "normal",
+        "begin": 1689,
+        "end": 1695
+      },
+      {
+        "seed": 60,
+        "strategy": "career",
+        "begin": 1675,
+        "end": 1681
+      }
+    ],
+    "state_change_or_relationship_loss": [
+      {
+        "seed": 60,
+        "strategy": "cautious",
+        "begin": 1659,
+        "end": 1666
+      }
+    ],
+    "work_without_completed_career_or_supplier": [
+      {
+        "seed": 92,
+        "strategy": "risky",
+        "begin": 1656,
+        "end": 1665
+      }
+    ]
+  },
+  "cases": [
+    {
+      "seed": 22,
+      "strategy": "normal",
+      "start_age": 56,
+      "begin": 1646,
+      "end": 1652,
+      "mechanisms": [
+        "other_requires_event_review"
+      ],
+      "events": [
+        {
+          "year": 1650,
+          "event_id": "E_LL_ITEM_NEIGHBORHOOD",
+          "text": "常去的粮铺改了开门日，邻人把新日子告诉你，免得白跑一趟。",
+          "wealth": 2,
+          "identity": "I_REFUGEE",
+          "flags": [
+            "debt",
+            "F_MOD_LIGHTER_STEEL_WHEEL",
+            "F_MOD_LIGHTER_OPEN",
+            "F_MOD_LIGHTER_SENIOR",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_MOD_LIGHTER_ROYAL_ALCHEMY",
+            "F_MOD_LIGHTER_STEP_3",
+            "F_HIST_PLAGUE_RECOVER",
+            "F_MOD_LIGHTER_ABORT",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LL_FATE_ORDINARY",
+            "F_ERA_DISPLACED_RECOVERED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:22:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1636,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 28,
+      "strategy": "normal",
+      "start_age": 4,
+      "begin": 1677,
+      "end": 1684,
+      "mechanisms": [
+        "other_requires_event_review"
+      ],
+      "events": [
+        {
+          "year": 1679,
+          "event_id": "E_LL_RELATION_SPOUSE",
+          "text": "伴侣和你商量，家中要紧的收据和联络人的消息放在一起，免得有急事时谁也找不到。",
+          "wealth": 6,
+          "identity": "I_HOUSEHOLD",
+          "flags": [
+            "F_MOD_FLASHLIGHT_OPEN",
+            "F_MOD_FLASHLIGHT_EVIDENCE",
+            "F_MOD_FLASHLIGHT_PATROL",
+            "F_FAM_LIFE_CHILD_FIREWOOD",
+            "F_MOD_FLASHLIGHT_ESCORT",
+            "F_MOD_FLASHLIGHT_READY",
+            "F_MOD_FLASHLIGHT_MAIN_DONE",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_MOD_FLASHLIGHT_BREAK_SAFE",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_STUDY_STARTED",
+            "F_STUDY_DONE",
+            "F_FAM_LIFE_MENDING",
+            "F_LL_RESERVE_USED",
+            "F_LL_ITEM_SPREAD",
+            "F_LIFE_MARRIED",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_FAM_MARRIED",
+            "F_LIFE_HAS_CHILD",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_GIRL",
+            "F_FAM_CHILD_1_LEGITIMATE",
+            "F_FAM_CHILD_1_BIRTH_18_26",
+            "F_LL_SUPPLIER_TRUST",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_INTEL_BREAKTHROUGH",
+            "F_LL_METHOD_COMPARED",
+            "F_FAM_CHILD_SCHOOLED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:28:chain:1",
+              "chain_id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+              "started_year": 1645,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "completed",
+              "interruption_reason": null
+            },
+            {
+              "instance_id": "life:simulation:28:chain:2",
+              "chain_id": "CH_STUDY",
+              "started_year": 1652,
+              "next_due_year": null,
+              "node_index": 2,
+              "status": "completed",
+              "interruption_reason": null
+            }
+          ]
+        },
+        {
+          "year": 1682,
+          "event_id": "E_LL_RELATION_RETURN_WIDOWED",
+          "text": "伴侣离世后，当初两人共同收好的凭据仍在，却少了能一起核对的人。",
+          "wealth": 5,
+          "identity": "I_HOUSEHOLD",
+          "flags": [
+            "F_MOD_FLASHLIGHT_OPEN",
+            "F_MOD_FLASHLIGHT_EVIDENCE",
+            "F_MOD_FLASHLIGHT_PATROL",
+            "F_FAM_LIFE_CHILD_FIREWOOD",
+            "F_MOD_FLASHLIGHT_ESCORT",
+            "F_MOD_FLASHLIGHT_READY",
+            "F_MOD_FLASHLIGHT_MAIN_DONE",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_MOD_FLASHLIGHT_BREAK_SAFE",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_STUDY_STARTED",
+            "F_STUDY_DONE",
+            "F_FAM_LIFE_MENDING",
+            "F_LL_RESERVE_USED",
+            "F_LL_ITEM_SPREAD",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_LIFE_HAS_CHILD",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_GIRL",
+            "F_FAM_CHILD_1_LEGITIMATE",
+            "F_FAM_CHILD_1_BIRTH_18_26",
+            "F_LL_SUPPLIER_TRUST",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_INTEL_BREAKTHROUGH",
+            "F_LL_METHOD_COMPARED",
+            "F_FAM_CHILD_SCHOOLED",
+            "F_LL_RELATION_SPOUSE",
+            "F_FAM_WIDOWED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:28:chain:1",
+              "chain_id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+              "started_year": 1645,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "completed",
+              "interruption_reason": null
+            },
+            {
+              "instance_id": "life:simulation:28:chain:2",
+              "chain_id": "CH_STUDY",
+              "started_year": 1652,
+              "next_due_year": null,
+              "node_index": 2,
+              "status": "completed",
+              "interruption_reason": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 28,
+      "strategy": "normal",
+      "start_age": 4,
+      "begin": 1689,
+      "end": 1695,
+      "mechanisms": [
+        "healthy_care_maintenance"
+      ],
+      "events": [
+        {
+          "year": 1691,
+          "event_id": "E_LL_CARE_OTHER",
+          "text": "你按眼下的体力安排日常，把要紧的事和歇息的时间错开。",
+          "wealth": 5,
+          "identity": "I_HOUSEHOLD",
+          "flags": [
+            "F_MOD_FLASHLIGHT_OPEN",
+            "F_MOD_FLASHLIGHT_EVIDENCE",
+            "F_MOD_FLASHLIGHT_PATROL",
+            "F_FAM_LIFE_CHILD_FIREWOOD",
+            "F_MOD_FLASHLIGHT_ESCORT",
+            "F_MOD_FLASHLIGHT_READY",
+            "F_MOD_FLASHLIGHT_MAIN_DONE",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_MOD_FLASHLIGHT_BREAK_SAFE",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_STUDY_STARTED",
+            "F_STUDY_DONE",
+            "F_FAM_LIFE_MENDING",
+            "F_LL_RESERVE_USED",
+            "F_LL_ITEM_SPREAD",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_LIFE_HAS_CHILD",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_GIRL",
+            "F_FAM_CHILD_1_LEGITIMATE",
+            "F_FAM_CHILD_1_BIRTH_18_26",
+            "F_LL_SUPPLIER_TRUST",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_INTEL_BREAKTHROUGH",
+            "F_LL_METHOD_COMPARED",
+            "F_FAM_CHILD_SCHOOLED",
+            "F_FAM_WIDOWED",
+            "F_LL_FAMILY_RECORDS_ALONE",
+            "F_LL_HOME_ORDERED",
+            "F_FAM_WEALTH_OFFICE_HANDLED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:28:chain:1",
+              "chain_id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+              "started_year": 1645,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "completed",
+              "interruption_reason": null
+            },
+            {
+              "instance_id": "life:simulation:28:chain:2",
+              "chain_id": "CH_STUDY",
+              "started_year": 1652,
+              "next_due_year": null,
+              "node_index": 2,
+              "status": "completed",
+              "interruption_reason": null
+            }
+          ]
+        },
+        {
+          "year": 1694,
+          "event_id": "E_LL_CARE_RETURN_OTHER",
+          "text": "前些日子约好搭手的事按次办完，你也留出了歇息时间。",
+          "wealth": 5,
+          "identity": "I_HOUSEHOLD",
+          "flags": [
+            "F_MOD_FLASHLIGHT_OPEN",
+            "F_MOD_FLASHLIGHT_EVIDENCE",
+            "F_MOD_FLASHLIGHT_PATROL",
+            "F_FAM_LIFE_CHILD_FIREWOOD",
+            "F_MOD_FLASHLIGHT_ESCORT",
+            "F_MOD_FLASHLIGHT_READY",
+            "F_MOD_FLASHLIGHT_MAIN_DONE",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_MOD_FLASHLIGHT_BREAK_SAFE",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_STUDY_STARTED",
+            "F_STUDY_DONE",
+            "F_FAM_LIFE_MENDING",
+            "F_LL_RESERVE_USED",
+            "F_LL_ITEM_SPREAD",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_LIFE_HAS_CHILD",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_GIRL",
+            "F_FAM_CHILD_1_LEGITIMATE",
+            "F_FAM_CHILD_1_BIRTH_18_26",
+            "F_LL_SUPPLIER_TRUST",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_INTEL_BREAKTHROUGH",
+            "F_LL_METHOD_COMPARED",
+            "F_FAM_CHILD_SCHOOLED",
+            "F_FAM_WIDOWED",
+            "F_LL_FAMILY_RECORDS_ALONE",
+            "F_LL_HOME_ORDERED",
+            "F_FAM_WEALTH_OFFICE_HANDLED",
+            "F_LL_CARE_OTHER"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:28:chain:1",
+              "chain_id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+              "started_year": 1645,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "completed",
+              "interruption_reason": null
+            },
+            {
+              "instance_id": "life:simulation:28:chain:2",
+              "chain_id": "CH_STUDY",
+              "started_year": 1652,
+              "next_due_year": null,
+              "node_index": 2,
+              "status": "completed",
+              "interruption_reason": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 22,
+      "strategy": "cautious",
+      "start_age": 56,
+      "begin": 1646,
+      "end": 1652,
+      "mechanisms": [
+        "other_requires_event_review"
+      ],
+      "events": [
+        {
+          "year": 1650,
+          "event_id": "E_LL_ITEM_NEIGHBORHOOD",
+          "text": "常去的粮铺改了开门日，邻人把新日子告诉你，免得白跑一趟。",
+          "wealth": 2,
+          "identity": "I_REFUGEE",
+          "flags": [
+            "debt",
+            "F_MOD_LIGHTER_STEEL_WHEEL",
+            "F_MOD_LIGHTER_OPEN",
+            "F_MOD_LIGHTER_SENIOR",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_MOD_LIGHTER_ROYAL_ALCHEMY",
+            "F_MOD_LIGHTER_STEP_3",
+            "F_HIST_PLAGUE_RECOVER",
+            "F_MOD_LIGHTER_ABORT",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LL_FATE_ORDINARY",
+            "F_ERA_DISPLACED_RECOVERED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:22:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1636,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 60,
+      "strategy": "cautious",
+      "start_age": 4,
+      "begin": 1659,
+      "end": 1666,
+      "mechanisms": [
+        "state_change_or_relationship_loss"
+      ],
+      "events": [
+        {
+          "year": 1661,
+          "event_id": "E_LL_WORK_POOR",
+          "text": "你打听能做的短工，管事说眼下人已够了，只能把你的名字记在后面。",
+          "wealth": 1,
+          "identity": "I_WORKER",
+          "flags": [
+            "F_MOD_OIL_SMART_KID",
+            "F_MOD_LIGHTER_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_FAM_LIFE_CHILD_FIREWOOD",
+            "F_MOD_LIGHTER_ROYAL_ALCHEMY",
+            "F_MOD_LIGHTER_STEP_3",
+            "F_MOD_LIGHTER_ABORT",
+            "F_MOD_LIGHTER_OIL_SAVED",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_ERA_DISPLACED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LIFE_MARRIED",
+            "F_LL_MENDED_CLOTHES",
+            "F_FAM_MARRIED",
+            "F_INTEL_BREAKTHROUGH",
+            "F_LL_NEIGHBOR_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_LIFE_HAS_CHILD",
+            "F_LL_FOOD_INSECURE",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_BIRTH_LEGACY"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:60:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1631,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        },
+        {
+          "year": 1664,
+          "event_id": "E_LL_WORK_RETURN_RECOVERED",
+          "text": "先前候补的短工没轮到你，如今手头已有了些周转。",
+          "wealth": 2,
+          "identity": "I_WORKER",
+          "flags": [
+            "F_MOD_OIL_SMART_KID",
+            "F_MOD_LIGHTER_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_FAM_LIFE_CHILD_FIREWOOD",
+            "F_MOD_LIGHTER_ROYAL_ALCHEMY",
+            "F_MOD_LIGHTER_STEP_3",
+            "F_MOD_LIGHTER_ABORT",
+            "F_MOD_LIGHTER_OIL_SAVED",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_ERA_DISPLACED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LIFE_MARRIED",
+            "F_LL_MENDED_CLOTHES",
+            "F_FAM_MARRIED",
+            "F_INTEL_BREAKTHROUGH",
+            "F_LL_NEIGHBOR_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_LIFE_HAS_CHILD",
+            "F_LL_FOOD_INSECURE",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_BIRTH_LEGACY",
+            "F_LL_WORK_POOR"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:60:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1631,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 76,
+      "strategy": "cautious",
+      "start_age": 7,
+      "begin": 1664,
+      "end": 1670,
+      "mechanisms": [
+        "other_requires_event_review"
+      ],
+      "events": [
+        {
+          "year": 1665,
+          "event_id": "E_LL_RELATION_SPOUSE",
+          "text": "伴侣和你商量，家中要紧的收据和联络人的消息放在一起，免得有急事时谁也找不到。",
+          "wealth": 2,
+          "identity": "I_REFUGEE",
+          "flags": [
+            "F_MOD_GLUE_FINGER_BOND",
+            "F_MOD_GLUE_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_MOD_GLUE_PORCELAIN_MASTER",
+            "F_MOD_GLUE_STEP_1",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_SWISS_ARSENAL_CHIEF",
+            "F_MOD_GLUE_STEP_2",
+            "F_FAM_LIFE_RECEIVED_SOUP",
+            "F_MOD_SWISS_GUNSMITH_REFORM",
+            "F_MOD_GLUE_STEP_3",
+            "F_MOD_GLUE_ABORT",
+            "F_INTEL_BREAKTHROUGH",
+            "F_FAM_LIFE_TRAVELED",
+            "F_HIST_PLAGUE_RECOVER",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LL_MENDED_CLOTHES",
+            "F_LL_NEIGHBOR_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_ERA_DISPLACED_RECOVERED",
+            "F_FAM_LIFE_MENDING",
+            "F_LIFE_MARRIED",
+            "F_FAM_MARRIED",
+            "F_LIFE_HAS_CHILD",
+            "F_LL_FOOD_RECOVERED",
+            "F_LL_REPAIR_NOTES_PASSED",
+            "F_LL_CAREER_ACKNOWLEDGED",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_BIRTH_LEGACY"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:76:chain:1",
+              "chain_id": "CHAIN_MOD_GLUE_ARTISAN",
+              "started_year": 1629,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "修补和试样的事务中断了，学会的工序和材料用法仍然保留。"
+            }
+          ]
+        },
+        {
+          "year": 1668,
+          "event_id": "E_LL_RELATION_RETURN_WIDOWED",
+          "text": "伴侣离世后，当初两人共同收好的凭据仍在，却少了能一起核对的人。",
+          "wealth": 2,
+          "identity": "I_REFUGEE",
+          "flags": [
+            "F_MOD_GLUE_FINGER_BOND",
+            "F_MOD_GLUE_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_MOD_GLUE_PORCELAIN_MASTER",
+            "F_MOD_GLUE_STEP_1",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_SWISS_ARSENAL_CHIEF",
+            "F_MOD_GLUE_STEP_2",
+            "F_FAM_LIFE_RECEIVED_SOUP",
+            "F_MOD_SWISS_GUNSMITH_REFORM",
+            "F_MOD_GLUE_STEP_3",
+            "F_MOD_GLUE_ABORT",
+            "F_INTEL_BREAKTHROUGH",
+            "F_FAM_LIFE_TRAVELED",
+            "F_HIST_PLAGUE_RECOVER",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LL_MENDED_CLOTHES",
+            "F_LL_NEIGHBOR_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_ERA_DISPLACED_RECOVERED",
+            "F_FAM_LIFE_MENDING",
+            "F_LIFE_HAS_CHILD",
+            "F_LL_FOOD_RECOVERED",
+            "F_LL_REPAIR_NOTES_PASSED",
+            "F_LL_CAREER_ACKNOWLEDGED",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_BIRTH_LEGACY",
+            "F_LL_RELATION_SPOUSE",
+            "F_FAM_WIDOWED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:76:chain:1",
+              "chain_id": "CHAIN_MOD_GLUE_ARTISAN",
+              "started_year": 1629,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "修补和试样的事务中断了，学会的工序和材料用法仍然保留。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 92,
+      "strategy": "risky",
+      "start_age": 4,
+      "begin": 1656,
+      "end": 1665,
+      "mechanisms": [
+        "work_without_completed_career_or_supplier"
+      ],
+      "events": [
+        {
+          "year": 1659,
+          "event_id": "E_LL_WORK_NO_CAREER",
+          "text": "眼下没有合适的事可交接，原先的日用仍要照着实际情况安排。",
+          "wealth": 2,
+          "identity": "I_WORKER",
+          "flags": [
+            "F_MOD_OIL_SMART_KID",
+            "F_MOD_LIGHTER_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_OIL_TEARS",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_ROUTE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_MOD_LIGHTER_OIL_SAVED",
+            "F_MOD_LIGHTER_ROYAL_ALCHEMY",
+            "F_MOD_LIGHTER_STEP_3",
+            "F_MOD_LIGHTER_SETBACK",
+            "F_MOD_LIGHTER_ABORT",
+            "F_MOD_OIL_MOSQUITO_SHIELD",
+            "F_FAM_LIFE_RECEIVED_SOUP",
+            "F_HIST_FLOOD_SURVIVE",
+            "F_FAM_LIFE_EARLY_FRIEND",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_YANGZHOU_NEIGHBORS",
+            "F_LL_MENDED_CLOTHES",
+            "F_LL_NEIGHBOR_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_FAM_MAR_BETROTHAL_FAILED",
+            "F_FAM_LIFE_TRAVELED",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_LL_FOOD_RECOVERED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:92:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1628,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        },
+        {
+          "year": 1662,
+          "event_id": "E_LL_WORK_RETURN_NO_CAREER",
+          "text": "你用先前记下的消息安排行程，有些事情当日办完，有些还得另找时间。",
+          "wealth": 2,
+          "identity": "I_WORKER",
+          "flags": [
+            "F_MOD_OIL_SMART_KID",
+            "F_MOD_LIGHTER_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_OIL_TEARS",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_ROUTE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_MOD_LIGHTER_OIL_SAVED",
+            "F_MOD_LIGHTER_ROYAL_ALCHEMY",
+            "F_MOD_LIGHTER_STEP_3",
+            "F_MOD_LIGHTER_SETBACK",
+            "F_MOD_LIGHTER_ABORT",
+            "F_MOD_OIL_MOSQUITO_SHIELD",
+            "F_FAM_LIFE_RECEIVED_SOUP",
+            "F_HIST_FLOOD_SURVIVE",
+            "F_FAM_LIFE_EARLY_FRIEND",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_YANGZHOU_NEIGHBORS",
+            "F_LL_MENDED_CLOTHES",
+            "F_LL_NEIGHBOR_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_FAM_MAR_BETROTHAL_FAILED",
+            "F_FAM_LIFE_TRAVELED",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_LL_FOOD_RECOVERED",
+            "F_LL_WORK_NO_CAREER"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:92:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1628,
+              "next_due_year": null,
+              "node_index": 3,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 60,
+      "strategy": "career",
+      "start_age": 4,
+      "begin": 1675,
+      "end": 1681,
+      "mechanisms": [
+        "healthy_care_maintenance"
+      ],
+      "events": [
+        {
+          "year": 1677,
+          "event_id": "E_LL_CARE_OTHER",
+          "text": "你按眼下的体力安排日常，把要紧的事和歇息的时间错开。",
+          "wealth": 3,
+          "identity": "I_WORKER",
+          "flags": [
+            "F_MOD_OIL_SMART_KID",
+            "F_MOD_LIGHTER_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_MOD_LIGHTER_FUEL_EMPTY",
+            "F_FAM_LIFE_EARLY_FRIEND",
+            "F_FAM_LIFE_RECEIVED_SOUP",
+            "F_MOD_LIGHTER_OIL_SAVED",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LL_MENDED_CLOTHES",
+            "F_LL_FRIEND_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_FAM_MARRIED",
+            "F_LIFE_MARRIED",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_LL_SUPPLIER_TRUST",
+            "F_FAM_LIFE_MENDING",
+            "F_LIFE_HAS_CHILD",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_BOY",
+            "F_FAM_CHILD_1_LEGITIMATE",
+            "F_FAM_CHILD_1_BIRTH_27_39",
+            "F_LL_FIREWOOD_CONTACT",
+            "F_ERA_DISPLACED_RECOVERED",
+            "F_FAM_WEALTH_OFFICE_HANDLED",
+            "F_LL_FRIEND_TRUST",
+            "F_LL_HOME_ORDERED"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:60:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1631,
+              "next_due_year": null,
+              "node_index": 2,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        },
+        {
+          "year": 1680,
+          "event_id": "E_LL_CARE_RETURN_OTHER",
+          "text": "前些日子约好搭手的事按次办完，你也留出了歇息时间。",
+          "wealth": 3,
+          "identity": "I_WORKER",
+          "flags": [
+            "F_MOD_OIL_SMART_KID",
+            "F_MOD_LIGHTER_OPEN",
+            "F_LIFE_ROUTE_LEARNING",
+            "F_LIFE_DIRECTION_TURN_USED",
+            "F_MOD_LIGHTER_FIRE_TENDED",
+            "F_MOD_LIGHTER_STEP_1",
+            "F_CHAIN_OIL_COMPLETE",
+            "F_MOD_LIGHTER_CHIEF_FLINT",
+            "F_MOD_LIGHTER_STEP_2",
+            "F_MOD_LIGHTER_FUEL_EMPTY",
+            "F_FAM_LIFE_EARLY_FRIEND",
+            "F_FAM_LIFE_RECEIVED_SOUP",
+            "F_MOD_LIGHTER_OIL_SAVED",
+            "F_LIFE_HISTORICAL_TURN_USED",
+            "F_HIST_HERMIT_SOUTH",
+            "F_LL_MENDED_CLOTHES",
+            "F_LL_FRIEND_CONTACT",
+            "F_LL_DIRECTION_CONTINUED",
+            "F_FAM_MARRIED",
+            "F_LIFE_MARRIED",
+            "F_PRESTIGE_BREAKTHROUGH",
+            "F_LL_SUPPLIER_TRUST",
+            "F_FAM_LIFE_MENDING",
+            "F_LIFE_HAS_CHILD",
+            "F_FAM_CHILD_1",
+            "F_FAM_CHILD_1_BOY",
+            "F_FAM_CHILD_1_LEGITIMATE",
+            "F_FAM_CHILD_1_BIRTH_27_39",
+            "F_LL_FIREWOOD_CONTACT",
+            "F_ERA_DISPLACED_RECOVERED",
+            "F_FAM_WEALTH_OFFICE_HANDLED",
+            "F_LL_FRIEND_TRUST",
+            "F_LL_HOME_ORDERED",
+            "F_LL_CARE_OTHER",
+            "F_MOD_OIL_BOTTLE_HEIRLOOM",
+            "F_MOD_LIGHTER_OIL_EMPTY"
+          ],
+          "chains": [
+            {
+              "instance_id": "life:simulation:60:chain:1",
+              "chain_id": "CHAIN_MOD_LIGHTER_VETERAN",
+              "started_year": 1631,
+              "next_due_year": null,
+              "node_index": 2,
+              "status": "interrupted",
+              "interruption_reason": "随队护火的差事中断了，省火和探路的经验仍然保留。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

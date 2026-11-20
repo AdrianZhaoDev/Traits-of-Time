@@ -1,0 +1,11 @@
+{
+  "id": "0de64d29-6430-4e34-b4b1-fbfbaa68f532",
+  "ok": true,
+  "result": {
+    "result": "{\"overlay\":\"saveFailure\",\"unchanged\":true}",
+    "origin": "http://localhost:5179/local/recovery-edges/harness.html"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

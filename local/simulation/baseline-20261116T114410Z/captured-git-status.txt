@@ -1,0 +1,56 @@
+ M .gitignore
+ M Doc/Plans/非局内页面AI重制提示词/00-使用说明与执行顺序.md
+ M Doc/Plans/非局内页面AI重制提示词/01-范围盘点与素材契约.md
+ M Doc/Plans/非局内页面AI重制提示词/02-首页样板与风格定稿.md
+ M Doc/Plans/非局内页面AI重制提示词/06-资源接入与发布整理.md
+ M Doc/modern-relic-build-chains.md
+ M Doc/文案设计与风格规范.md
+ D Doc/机制与数值诊断_0.7.1.md
+ M Doc/游戏完整制作文档.md
+ M Doc/游戏开发技能使用指南.md
+ M README.md
+ M assets/resources/data/ming_end/achievements.json
+ M assets/resources/data/ming_end/chains.json
+ M assets/resources/data/ming_end/deaths.json
+ M assets/resources/data/ming_end/events.json
+ D local/life-readability-preview.html
+ M local/outgame-ai/01-inventory/manifest.json
+ M local/outgame-ai/01-inventory/scope.md
+ M local/outgame-ai/02-style/bright-options/README.md
+ M local/outgame-ai/02-style/bright-options/a-comic.html
+ D local/outgame-ai/02-style/bright-options/assets/avatar.png
+ M local/outgame-ai/02-style/bright-options/b-film.html
+ M local/outgame-ai/02-style/bright-options/c-daylight.html
+ M local/outgame-ai/02-style/bright-options/index.html
+ M local/outgame-ai/02-style/bright-options/manifest.json
+ M local/outgame-ai/02-style/manifest.json
+ M package.json
+ D public/art/scenes/home.png
+ D public/audio/cues/ending.mp3
+ D public/audio/cues/error.mp3
+ D public/audio/cues/identity.mp3
+ D public/audio/cues/select.mp3
+ D public/licenses/media-sources.txt
+ D public/licenses/minigame-canvas-engine.MIT.txt
+ D public/licenses/pixelfx.MIT.txt
+ D public/licenses/pixelfx.NOTICE.txt
+ M src/audio.ts
+ M src/controller.ts
+ D src/game/application/NativeContentLoader.ts
+ M src/web.css
+ D tokens.css
+ D tools/assets.mjs
+ M tools/build-wechat.mjs
+ M tools/prepare-assets.mjs
+ M vite.config.ts
+?? Doc/archive/
+?? Doc/家庭内容交付.md
+?? local/family-content/
+?? local/ui-previews/
+?? src/game/application/StaticContentLoader.ts
+?? src/tokens.css
+?? tests/
+?? tools/asset-manifest.mjs
+?? tools/content-io.mjs
+?? tools/register-typescript.mjs
+?? tools/validate-content.mjs

@@ -1,0 +1,484 @@
+[
+  {
+    "id": "E_FAM_MAR_MATCH",
+    "title": "媒人上门",
+    "text": "媒人来打听婚事，想介绍你与一位邻里相识的人见面。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 15, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "见面之后，你们都愿意继续往来，便请媒人替两家说合。",
+      "effects": [ { "type": "flag_add", "id": "F_FAM_MAR_MATCHED" } ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_BETROTHAL_READY",
+    "title": "下聘定亲",
+    "text": "两家谈好了婚事，媒人挑个日子，陪你送聘礼过去。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 2 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 35, "priority": 0, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你送上备好的布帛，两家依礼往来，也商定了婚期。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_MATCHED" },
+        { "type": "flag_add", "id": "F_FAM_MAR_WEDDING_READY" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_BETROTHAL_SHORT",
+    "title": "聘礼难凑",
+    "text": "家里凑不齐先前商量的聘礼，你只好请媒人把难处说清楚。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "wealth", "comparator": "lt", "value": 2 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 35, "priority": 0, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "聘礼没能凑齐，对方家里婉拒了这门亲事，媒人也只好作罢。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_MATCHED" },
+        { "type": "flag_add", "id": "F_FAM_MAR_BETROTHAL_FAILED" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_SIMPLE_MATCH",
+    "title": "另结简亲",
+    "text": "先前的亲事告吹后，媒人又介绍了另一位邻家女子，你们见面后愿意继续往来。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 35, "priority": 0, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "两家商定不收聘礼，从简筹办婚事，你们都松了口气。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_add", "id": "F_FAM_MAR_WEDDING_READY" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_WEDDING_POOR",
+    "title": "简简单单成家",
+    "text": "婚期到了，两家把能借的桌凳凑齐，请熟识的邻里来见证。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 45, "priority": 0, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "婚礼虽从简，你们还是热热闹闹地成了家，邻里也送来了祝福。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_LIFE_MARRIED" },
+        { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_WEDDING_MODEST",
+    "title": "良辰成亲",
+    "text": "婚期到了，两家张罗了几桌饭，请亲友来见证这门亲事。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "wealth", "comparator": "gt", "value": 1 },
+        { "op": "compare", "field": "wealth", "comparator": "lt", "value": 4 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 45, "priority": 0, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们在亲友的祝福中结为夫妻，往后的日子有了商量的人。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_LIFE_MARRIED" },
+        { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_WEDDING_WELL_OFF",
+    "title": "亲友贺婚",
+    "text": "婚期到了，家里摆好席面，远近亲友陆续赶来道贺。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 4 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 45, "priority": 0, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们在宾客的见证下成了家，两边亲友也借机熟识起来。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_LIFE_MARRIED" },
+        { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_HIGH_WEDDING",
+    "title": "高门结亲",
+    "text": "你的名声传到一户殷实人家，双方见过面，都愿意结这门亲。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 4 },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_HIGH_DEFERRED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 15, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们成亲后，岳家给了安家资助，亲友交往也多了，往后难免有应酬。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_LIFE_MARRIED" },
+        { "type": "flag_add", "id": "F_FAM_HIGH_MARRIAGE" },
+        { "type": "flag_add", "id": "F_FAM_MAR_HIGH_RISK" },
+        { "type": "attribute_add", "attribute": "prestige", "amount": 2 },
+        { "type": "attribute_add", "attribute": "wealth", "amount": 2 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_HIGH_NEIGHBOR",
+    "title": "与邻家结亲",
+    "text": "你的名声引来高门探问，邻家也托人说亲，两边都把心意说得明白。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+        { "op": "compare", "field": "wealth", "comparator": "gt", "value": 1 },
+        { "op": "compare", "field": "wealth", "comparator": "lt", "value": 4 },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_HIGH_DEFERRED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 15, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你与相熟的邻家人情投意合，两家从简办了婚事，平静过起日子。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_LIFE_MARRIED" },
+        { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_HIGH_DEFER",
+    "title": "婚事暂缓",
+    "text": "高门托人来探问婚事，你顾虑家中生计，请媒人先代为致谢。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_MATCHED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_WEDDING_READY" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MAR_HIGH_DEFERRED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 15, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "这一次的高门提议就此作罢，你仍可等以后再商量自己的婚事。",
+      "effects": [ { "type": "flag_add", "id": "F_FAM_MAR_HIGH_DEFERRED" } ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_HIGH_RISK",
+    "title": "岳家风波",
+    "text": "岳家的一桩铺面纠纷传开，牵连到两家往来的人情。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "flags", "id": "F_FAM_HIGH_MARRIAGE" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MAR_HIGH_RISK" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 1 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 10, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你出面帮忙周旋，又贴补了一笔家资，才把眼前的争执平息。",
+      "effects": [
+        { "type": "attribute_add", "attribute": "wealth", "amount": -1 },
+        { "type": "flag_remove", "id": "F_FAM_MAR_HIGH_RISK" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_CONCUBINE",
+    "title": "商议纳妾",
+    "text": "当地有纳妾的风俗。经媒人传话，你与妻子、愿意入门的女子商量日后安排。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 18 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_CONCUBINE" } },
+        { "op": "any", "conditions": [
+          { "op": "compare", "field": "wealth", "comparator": "gte", "value": 6 },
+          { "op": "compare", "field": "prestige", "comparator": "gte", "value": 6 }
+        ] }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 8, "priority": 0, "trigger_probability": 0.45, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "商量妥当后，她入了门；你须负担她的衣食住所，家中开销和人情周旋也重了。",
+      "effects": [
+        { "type": "flag_add", "id": "F_FAM_CONCUBINE" },
+        { "type": "flag_add", "id": "F_FAM_MAR_CONCUBINE_ALIVE" },
+        { "type": "attribute_add", "attribute": "wealth", "amount": -1 },
+        { "type": "attribute_add", "attribute": "prestige", "amount": -1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_WIDOWED",
+    "title": "痛失伴侣",
+    "text": "妻子病重，家里请来郎中照看，病情却迟迟没有好转。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 3, "priority": 0, "trigger_probability": 0.6, "cooldown_years": 0, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "她最终没能熬过这场病。你料理了后事，也记下她交代的家事。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_add", "id": "F_FAM_WIDOWED" },
+        { "type": "flag_remove", "id": "F_FAM_MARRIED" },
+        { "type": "flag_remove", "id": "F_LIFE_MARRIED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_MATCHED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_HIGH_RISK" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_REMARRIAGE",
+    "title": "再结良缘",
+    "text": "邻里介绍了一位也愿意重新组建家庭的人，你们慢慢商量起以后的日子。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 28, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们结为夫妻，也谈妥各自亲人需要照应时该怎样分担。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_MATCHED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_HIGH_RISK" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_LIFE_MARRIED" },
+        { "type": "flag_add", "id": "F_FAM_REMARRIED" },
+        { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_POOR_TOGETHER",
+    "title": "灯下同坐",
+    "text": "家里剩下的米不多，你们商量好明日的饭食，一起坐在灯下补衣裳。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 12, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 4, "max_occurrences": 3, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你穿针，她理线，一件旧衣裳补好了，两人也说了会儿心里话。",
+      "effects": [],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_POOR_WORK",
+    "title": "一同赶工",
+    "text": "街坊托你们赶制一批布袋，还送来针线，省得你们再去找材料。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 5, "priority": 0, "trigger_probability": 0.3, "cooldown_years": 0, "max_occurrences": 1, "rare": true },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们轮流赶工，按时交了布袋，所得工钱给家里添了一点积蓄。",
+      "effects": [ { "type": "attribute_add", "attribute": "wealth", "amount": 1 } ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_LEGACY_FIRST",
+    "title": "成家之后",
+    "text": "成家后，你和妻子翻出家用账目，商量往后怎样安排日子。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 50, "priority": 1, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们把眼前的开销和家务分担说清楚，往后也好彼此照应。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_MATCHED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_MAR_LEGACY_REMARRIAGE",
+    "title": "重新安家",
+    "text": "再成家后，你和妻子坐下来，商量两人今后的家用和家务。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "has", "collection": "flags", "id": "F_LIFE_MARRIED" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 50, "priority": 1, "trigger_probability": 1, "cooldown_years": 0, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们把各自能做的事一一说妥，新家的日子渐渐安定下来。",
+      "effects": [
+        { "type": "flag_remove", "id": "F_FAM_MAR_BETROTHAL_FAILED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_MATCHED" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_WEDDING_READY" },
+        { "type": "flag_remove", "id": "F_FAM_MAR_HIGH_RISK" },
+        { "type": "flag_add", "id": "F_FAM_MARRIED" },
+        { "type": "flag_add", "id": "F_FAM_REMARRIED" }
+      ],
+      "next_stage_id": null
+    }
+  }
+]

@@ -1,0 +1,22 @@
+玉米选择预算修复交付
+
+文件：budget-corn.json。对象包含 7 个完整事件替换、1 个完整事业链替换及逐 ID 修改原因；未直接修改生产文件。家庭内容不在本交付范围。
+
+自动节点及互斥：
+- E_MOD_CORN_TRIAL、E_MOD_CORN_STORE、E_MOD_CORN_RELIEF：保留原第一项安全 outcome 的全部文字、旗帜和各自才干/人脉 +3，移除其他选项及迁走的阶段。
+- E_MOD_CORN_FAST_INVENTORY、E_MOD_CORN_FAST_DISTRIBUTE、E_MOD_CORN_FAST_ESCORT：同样完整保留原第一项 outcome 和原 1644 年优先级 950/949/948。盘粮仍设置 F_MOD_CORN_ABORT，分粮和护送仍依次要求 F_MOD_CORN_FAST_ONE、F_MOD_CORN_FAST_TWO；护送仍生产 F_MOD_CORN_ESCORT、F_MOD_CORN_READY 和 F_MOD_CORN_PRACTICE。
+- 三个普通节点均明确排除 start_year 1643–1644；快进只允许这两年开局。尤其 1643 年开局时，1644 年先处理到期事业节点、后处理历史事件，不能仅依赖历史盘粮设置的 F_MOD_CORN_ABORT 阻止普通试田先结算。排除后普通链先因条件不符而中断，再由历史快进接续；1644 年开局的盘粮仍会以原 F_MOD_CORN_ABORT 中断已启动的普通链。两条路线不会同时领取普通及快进的 +3。
+- 自动节点均不扣家资、不结算死亡；弱版托人做法因已被原首项正常进展覆盖而删除。玩家原有手动放弃事业的引擎入口不变。
+
+重大菜单与原阶段来源：
+- E_MOD_CORN_BREAKTHROUGH 保持原时间线、年份、持卡、F_MOD_CORN_READY、随机触发设置及原推广门槛；追加 not F_LIFE_HISTORICAL_TURN_USED，全部六个选项先增加该共享旗帜。此前历史选择已消费旗帜时，不再出现玉米重大菜单；玉米选择后也不会再出现共享该旗帜的历史重大菜单。
+- corn_promote 的原才干≥12、人脉≥8、F_MOD_CORN_PRACTICE 门槛与 promote 阶段 farming DC 24、原骰下限10、自然20、所有成功/失败效果不变；corn_safe 的原接济效果不变。
+- corn_trial_risk -> E_MOD_CORN_TRIAL_hazard：合并原 E_MOD_CORN_TRIAL/hazard 和 E_MOD_CORN_FAST_ESCORT/hazard 的同类独行抢粮危险，保留前者的 DC 16、脱险损失1家资、失败先加 F_MOD_CORN_DEATH_THEFT 再触发 D_MOD_CORN_THEFT。选项要求普通 F_MOD_CORN_TRIAL 或快进 F_MOD_CORN_ESCORT，外层统一要求持卡和 READY，因此两条路线均能主动选择并触发原死因。阶段成功不再重复增加 F_MOD_CORN_TRIAL：普通路线的自动试田已生产，快进路线并未试田，不能错误发放试田成就；快进原成功所写的 ESCORT/READY/PRACTICE 则均已由自动护送生产。
+- corn_store_risk -> E_MOD_CORN_STORE_hazard：来自原合仓阶段，选项要求 F_MOD_CORN_STORE；原 DC 16、脱险旗帜和损失1家资、F_MOD_CORN_DEATH_RUMOUR 及 D_MOD_CORN_RUMOUR 均保留。
+- corn_relief_risk -> E_MOD_CORN_RELIEF_hazard：来自原济邻阶段，选项要求 F_MOD_CORN_RELIEF；原 DC 16、脱险旗帜和损失1家资、F_MOD_CORN_DEATH_HUNGER 及 D_MOD_CORN_HUNGER 均保留。
+- corn_withdraw 将原济邻的停止推广移到重大菜单，仍设置 F_MOD_CORN_ABORT；原主动放弃事业不受影响。三个危险和退出均须玩家显式选择，成本只在相应检定后发生；不重复发放已自动获得的成长。菜单文案事先说明可能死亡和损失。
+- 既有成就生产：F_MOD_CORN_TRIAL、F_MOD_CORN_STORE、F_MOD_CORN_RELIEF 由各普通自动节点生产；F_MOD_CORN_ESCORT 由快进护送生产；三个死亡旗帜由各危险失败生产；F_MOD_CORN_SUCCESS/F_MOD_CORN_LEGACY 仍由原推广成功/自然20生产。不新增成就、死因、家族旗帜或物品消耗。
+
+事业链 CHAIN_MOD_CORN_KING 仅改 commitment 以说明自动进展、重大选择和退出；nodes、completion、interrupt_condition、interrupt_text 均保留。原事件/事业链 ID 不变；迁移阶段按来源事件 ID 作前缀，突破原 promote ID 不变。
+
+交由统一验收：检查内容格式和依赖、完整测试、选择预算模拟；覆盖 1643/1644 年普通与快进互斥、两路共同抢粮危险、三种危险原骰1的死亡/旗帜、各成功后的成本、历史共享旗帜各选项均消费及已消费时不出现、无卡无法选风险、普通及快进推广自然20。历史事件优先于随机突破：首都甲申历史重大菜单可能先消费共享旗帜，属于预期互斥，不应通过取消门槛让两者叠加。本代理未运行测试、构建、lint 或格式化。

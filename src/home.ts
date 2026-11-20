@@ -1,7 +1,8 @@
 /** Approved A: a bright comic broadside, with program-drawn text and a static brand prop. */
-import { MEMORY_NOTICE, type AppSnapshot, type GameController } from './controller';
+import { STORAGE_NOTICE, type AppSnapshot, type GameController } from './controller';
 import { HOME_TITLE } from './brand';
 import type { GamePlatform } from './platform';
+import { formatCollectionProgress } from './game/presentation/CollectionProgress';
 import { Ui, fonts, ink } from './ui';
 
 const [titleStart, titleMiddle, titleFinale] = HOME_TITLE.split('\n') as [string, string, string];
@@ -11,7 +12,7 @@ export function buildHome(ui: Ui, snapshot: AppSnapshot, height: number, control
   const gutter = ui.px(ui.viewportWidth <= 340 ? 20 : 24);
   const width = 750 - gutter * 2;
   const compact = height * ui.viewportWidth / 750 < 700;
-  const hasNotice = snapshot.notice !== '' && snapshot.notice !== MEMORY_NOTICE;
+  const hasNotice = snapshot.notice !== '' && snapshot.notice !== STORAGE_NOTICE;
   const topPadding = ui.px(compact ? 16 : 20);
   const headerHeight = ui.px(24);
   const heroGap = ui.px(compact ? 16 : 24);
@@ -34,9 +35,20 @@ export function buildHome(ui: Ui, snapshot: AppSnapshot, height: number, control
   const warningGap = ui.px(compact ? 12 : 16);
   const warningLine = ui.px(22);
   const bottomPadding = ui.px(compact ? 16 : 20);
+  const extraAction = !snapshot.readOnlyReason && (snapshot.saveStatus === 'ready' || snapshot.saveStatus === 'damaged' || snapshot.saveStatus === 'incompatible');
+  const achievementText = snapshot.collection.achievements.total
+    ? `成就 ${snapshot.collection.achievements.collected}/${snapshot.collection.achievements.total}` : '成就暂无可收集条目';
+  const deathText = snapshot.collection.deaths.total
+    ? `死因 ${snapshot.collection.deaths.collected}/${snapshot.collection.deaths.total}` : '死因暂无可收集条目';
+  const progressText = `${formatCollectionProgress('图鉴收集', snapshot.collection.total)}\n${achievementText} · ${deathText}`;
+  const rewardText = snapshot.records.inheritanceAvailable
+    ? snapshot.legacyInheritanceChoice ? '原先选好的传承还在，可继续或改选属性。' : '下局可选一项属性 +1，受上限限制。'
+    : '';
+  const rewardHeight = rewardText ? ui.px(52) : 0;
+  const progressHeight = ui.px(22) * 2 + ui.px(12);
   const fixedHeight = topPadding + headerHeight + heroGap + startLine + middleLine + finaleLine
     + titleGap * 2 + illustrationGap + promiseGap + promiseLine * 2 + actionsGap + primaryHeight
-    + hintGap + hintLine + utilitiesGap + utilityHeight + warningGap + warningLine * 2 + bottomPadding;
+    + (extraAction ? utilitiesGap + utilityHeight : 0) + hintGap + hintLine + utilitiesGap + utilityHeight + warningGap + warningLine * 2 + bottomPadding + rewardHeight + progressHeight;
   // Short screens spend less on the illustration and whitespace, never on readable type or targets.
   const illustrationHeight = Math.max(ui.px(64), Math.min(ui.px(hasNotice ? 64 : compact ? 102 : 188), height - fixedHeight));
   const spareHeight = hasNotice ? 0 : Math.max(0, height - fixedHeight - illustrationHeight);
@@ -66,32 +78,45 @@ export function buildHome(ui: Ui, snapshot: AppSnapshot, height: number, control
   const promise = ui.text('带上一件现代物品，\n去明朝过一生。', width, {
     fontSize: ui.px(16), lineHeight: promiseLine, height: promiseLine * 2, marginTop: promiseGap,
   });
-  const notice = hasNotice ? ui.text(snapshot.notice, width, {
+  const notice = (hasNotice ? ui.text(snapshot.notice, width, {
     fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.accent, marginTop: ui.px(12),
-  }) : '';
+  }) : '') + (snapshot.readOnlyReason && snapshot.notice !== snapshot.readOnlyReason ? ui.text(snapshot.readOnlyReason, width, {
+    fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.accent, marginTop: ui.px(12),
+  }) : '');
   const entryGap = ui.px(8);
   const entryWidth = Math.floor((width - entryGap * 2) / 3);
-  const actions = ui.button('startLife', snapshot.busy ? '正在揭晓身份…' : '我要穿越', width,
-    () => controller.start(), {
+  const primaryLabel = snapshot.readOnlyReason ? (snapshot.saveStatus === 'ready' ? '查看已完成人生' : '重新读取记录')
+    : snapshot.saveStatus === 'ready' ? '继续人生' : snapshot.saveStatus === 'empty' ? '我要穿越' : '重新读取存档';
+  const actions = ui.button('startLife', snapshot.busy ? '正在揭晓身份…' : primaryLabel, width,
+    () => snapshot.saveStatus === 'ready' ? controller.continueLife() : snapshot.readOnlyReason ? controller.retryStorage() : snapshot.saveStatus === 'empty' ? controller.start() : controller.retryStorage(), {
       primary: true, disabled: snapshot.busy, height: primaryHeight, fontSize: ui.px(21),
-    }) + ui.text('出发前，先看看你的身份。', width, {
+    }) + (rewardText ? ui.text(rewardText, width, { fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(8) }) : '')
+    + (extraAction ? ui.button('restartLife', '重新开始', width, () => controller.start(), {
+      height: utilityHeight, marginTop: utilitiesGap, disabled: snapshot.busy,
+    }) : '') + ui.text(snapshot.readOnlyReason ? '本页面仅可查看已完成人生。' : snapshot.saveStatus === 'empty' ? '出发前，先看看你的身份。' : '继续前会先核对本机存档。', width, {
       fontSize: ui.px(13), lineHeight: hintLine, height: hintLine, color: ink.muted,
       textAlign: 'center', marginTop: hintGap,
     }) + ui.row(
       ui.button('homeSound', '声音', entryWidth, () => controller.open('sound'), { height: utilityHeight })
-      + ui.view(ui.button('homeAchievements', '成就', entryWidth, () => controller.open('achievements'), {
+      + ui.view(ui.button('homeAchievements', '图鉴', entryWidth, () => controller.open('achievements'), {
         height: utilityHeight,
       }), { marginLeft: entryGap })
       + ui.view(ui.button('homeStats', '统计', width - entryWidth * 2 - entryGap * 2, () => controller.open('stats'), {
         height: utilityHeight,
       }), { marginLeft: entryGap }), width, { height: utilityHeight, marginTop: utilitiesGap })
-    + ui.text('本局进度仅临时保留，\n关闭或刷新后不能继续。', width, {
+    + ui.text(progressText, width, { fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.muted, marginTop: utilitiesGap })
+    + ui.text(snapshot.readOnlyReason ? '当前为只读模式，\n不能开始或覆盖人生。' : snapshot.saveStatus === 'incompatible' ? '旧存档与当前版本不兼容，\n重开前会再次确认。'
+      : snapshot.saveStatus === 'damaged' ? '本机存档无法读取，\n重开前会再次确认。'
+        : snapshot.saveStatus === 'unavailable' ? '本机存储不可用，\n请先重新读取。'
+          : '人生保存在本机，\n清除本机数据后无法恢复。', width, {
       fontSize: ui.px(14), lineHeight: warningLine, height: warningLine * 2, color: ink.muted,
       textAlign: 'center', marginTop: warningGap,
     });
   const content = ui.view(
     ui.gap(topPadding) + header + ui.gap(heroGap + heroTopExtra) + title + illustration + promise + notice
-    + ui.gap(actionsGap + heroBottomExtra) + actions + ui.gap(bottomPadding), { width, minHeight: height });
+    + ui.gap(actionsGap + heroBottomExtra) + actions
+    + (snapshot.records.warning ? ui.text(snapshot.records.warning, width, { fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.accent, marginTop: ui.px(12) }) : '')
+    + ui.gap(bottomPadding), { width, minHeight: height });
   return ui.view('', {
     position: 'absolute', left: 0, top: 0, width: 750, height: ui.px(6), backgroundColor: ink.sun,
   }) + ui.scroll(content, width, height, 'homeScroll', { marginLeft: gutter });

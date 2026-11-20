@@ -1,13 +1,20 @@
 /**
- * 明末人生模拟器 - 日志结构化解析与折页卡片聚合器
- * 核心职责：
- * 1. 拦截引擎分开发出的 event 起因与 effects 结果，聚合成单张折页卡片，杜绝日志重复平铺
- * 2. 提取【词条】朱砂印章标识与正文描述
- * 3. 提炼属性数值变动的直观文案
+ * 将真实事件实例的日志按顺序组成故事，无法证明关联的日志独立保留。
+ * 同时提供旧折页字段，供尚未使用有序段落的调用方读取。
  */
 import { EnumMapper } from './EnumMapper';
 export interface FoldItemData {
   age?: number;
+  calendarYear?: number;
+  backgroundId?: string;
+  segments?: {
+    kind: 'intro' | 'action' | 'dice' | 'outcome' | 'death' | 'achievement' | 'effects';
+    text?: string;
+    details?: string[];
+    achievementId?: string;
+    effectsText?: string[];
+    stampTag?: string;
+  }[];
   id?: string;
   eventId?: string;
   cardId?: string;
@@ -28,11 +35,14 @@ export interface EngineRawLog {
   type: string;
   seq?: number;
   age?: number;
+  calendar_year?: number;
   message: string;
   source_id?: string;
   metadata?: Record<string, unknown>;
   data?: Record<string, unknown>;
 }
+
+type FoldSegment = NonNullable<FoldItemData['segments']>[number];
 export class LogParser {
   private static readonly STAMP_REGEX = /^【(.+?)】(.*)$/;
 
@@ -41,219 +51,198 @@ export class LogParser {
    */
   public static parseBatch(logs: readonly EngineRawLog[] | EngineRawLog[]): FoldItemData[] {
     const items: FoldItemData[] = [];
-    let pendingEventItem: FoldItemData | null = null;
-    let pendingSourceId: string | undefined = undefined;
-    let lastIntroText: string | null = null;
-    let currentAge: number | undefined;
-    const addItem = (item: FoldItemData): void => {
-      if (item.age === undefined) item.age = currentAge;
+    const eventItems = new Map<string, FoldItemData>();
+    // Real engine logs have a sequence on every entry. With partial legacy data,
+    // preserve the supplied order rather than inventing positions for missing seqs.
+    const needsSorting = logs.every(log => Number.isSafeInteger(log.seq)) &&
+      logs.some((log, index) => index > 0 && log.seq! < logs[index - 1]!.seq!);
+    const ordered = needsSorting ? [...logs].sort((a, b) => a.seq! - b.seq!) : logs;
+    const payloadOf = (log: EngineRawLog): Record<string, unknown> | undefined => log.metadata ?? log.data;
+    const instanceOf = (log: EngineRawLog): string | undefined => {
+      const id = payloadOf(log)?.event_instance_id;
+      return typeof id === 'string' && id.length > 0 ? id : undefined;
+    };
+    const append = (current: string | undefined, text: string | undefined, separator = '\n'): string | undefined =>
+      text ? current ? `${current}${separator}${text}` : text : current;
+
+    const addSegment = (item: FoldItemData, segment: FoldSegment, feedbackKey?: string): void => {
+      item.segments!.push(segment);
+      switch (segment.kind) {
+        case 'intro': item.introText = append(item.introText, segment.text) ?? ''; break;
+        case 'action': case 'dice': item.actionText = append(item.actionText, segment.text, ' · '); break;
+        case 'outcome': case 'death':
+          item.outcomeText = append(item.outcomeText, segment.text);
+          if (segment.stampTag) item.stampTag = segment.stampTag;
+          if (segment.kind === 'death') item.type = 'death';
+          break;
+        case 'effects':
+          if (segment.effectsText?.length) {
+            (item.effectsText ??= []).push(...segment.effectsText);
+            item.effectsSummary = item.effectsText;
+          }
+          break;
+        case 'achievement':
+          if (segment.achievementId) (item.achievementIds ??= []).push(segment.achievementId);
+          if (feedbackKey) (item.achievementFeedbackKeys ??= []).push(feedbackKey);
+          break;
+      }
+    };
+    const makeItem = (log: EngineRawLog, index: number, type = log.type): FoldItemData => {
+      const item: FoldItemData = {
+        id: `${type}_${log.seq === undefined ? 'index' : 'seq'}_${log.seq ?? index}_${index}`,
+        age: log.age,
+        calendarYear: log.calendar_year,
+        eventId: log.source_id,
+        introText: '',
+        type,
+        segments: [],
+      };
       items.push(item);
+      return item;
+    };
+    const eventItem = (log: EngineRawLog, index: number, instanceId: string): FoldItemData => {
+      const key = JSON.stringify([log.calendar_year ?? null, instanceId]);
+      let item = eventItems.get(key);
+      // An independent visible record must not move behind a later stage.
+      // Continue the instance in a new fold when its previous fold is no longer last.
+      if (!item || items[items.length - 1] !== item) {
+        item = makeItem(log, index, 'event');
+        item.id = `event_${key}_${log.seq ?? index}_${index}`;
+        eventItems.set(key, item);
+      }
+      if (log.type === 'event' || log.type === 'option' || log.type === 'dice') {
+        const payloadEventId = payloadOf(log)?.event_id;
+        item.eventId = log.source_id || (typeof payloadEventId === 'string' ? payloadEventId : item.eventId);
+      }
+      return item;
     };
 
-    for (const log of logs) {
-      currentAge = log.age;
-      // 过滤系统状态码与内部跳过日志（不生成卡片）
+    let previous: EngineRawLog | undefined;
+    for (let index = 0; index < ordered.length; index++) {
+      const log = ordered[index]!;
+      const preceding = previous;
+      previous = log;
       if (
-        log.type === 'skip' ||
-        log.type === 'draw' ||
-        log.type === 'ending' ||
-        log.message === 'CONDITION_NOT_MET' ||
+        log.type === 'skip' || log.type === 'draw' || log.type === 'late_life' ||
+        log.type === 'follow_up' || log.type === 'ending' ||
         (typeof log.message === 'string' && log.message.includes('CONDITION_NOT_MET'))
-      ) {
-        continue;
-      }
+      ) continue;
 
-      const payload = log.metadata ?? log.data;
-      if (log.type === 'card_selected') {
-        if (pendingEventItem) addItem(pendingEventItem);
-        pendingEventItem = null;
-        pendingSourceId = undefined;
-        const cardId = typeof payload?.card_id === 'string' ? payload.card_id : undefined;
-        addItem({ id: `card_${cardId ?? ''}`, cardId, introText: this.sanitizeText(log.message), type: 'card_selected' });
-        continue;
-      }
-      if (log.type === 'event') {
-        // 拦截连续重复的起因文本
-        if (log.message && log.message === lastIntroText) {
-          continue;
-        }
-        lastIntroText = log.message;
-
-        // 如果之前有暂存未匹配 effects 的 event，先推入结果
-        if (pendingEventItem) {
-          addItem(pendingEventItem);
-          pendingEventItem = null;
-          pendingSourceId = undefined;
-        }
-
-        const eventInstanceId = (payload?.event_instance_id as string) || (payload?.event_id as string);
-        const sourceId = log.source_id || eventInstanceId;
-        const id = eventInstanceId || sourceId || `evt_${Date.now()}_${Math.random()}`;
-        pendingSourceId = sourceId;
-        const cleanedIntro = this.sanitizeText(log.message);
-        pendingEventItem = {
-          id,
-          eventId: log.source_id || (typeof payload?.event_id === 'string' ? payload.event_id : undefined) || eventInstanceId,
-          introText: cleanedIntro,
-          type: 'event',
-        };
-      } else if (log.type === 'option') {
-        // 玩家行动（白字）：合并进同一个事件卡片
-        const cleanedOpt = this.sanitizeText(log.message);
-        if (pendingEventItem) {
-          pendingEventItem.actionText = cleanedOpt;
-        } else {
-          const id = `act_${Date.now()}_${Math.random()}`;
-          pendingSourceId = log.source_id;
-          pendingEventItem = {
-            id,
-            eventId: log.source_id,
-            introText: '',
-            actionText: cleanedOpt,
-            type: 'event',
-          };
-        }
-      } else if (log.type === 'dice') {
-        // 阶段检定描述（如粮棚旧墙碎土避险检定等）：合并为 actionText
-        const cleanedDice = this.sanitizeText(log.message);
-        if (pendingEventItem) {
-          pendingEventItem.actionText = pendingEventItem.actionText ? `${pendingEventItem.actionText} · ${cleanedDice}` : cleanedDice;
-        } else {
-          const id = `dice_${Date.now()}_${Math.random()}`;
-          pendingSourceId = log.source_id;
-          pendingEventItem = {
-            id,
-            eventId: log.source_id,
-            introText: '',
-            actionText: cleanedDice,
-            type: 'event',
-          };
-        }
-      } else if (log.type === 'effects') {
-        // 尝试解析是否包含【词条】
-        const parsed = this.parseStamp(log.message);
-        const effectsText = this.extractEffectsSummary(payload);
-        const effectSourceId = log.source_id;
-        const relicFlags = Array.isArray(payload?.effects)
-          ? payload.effects.filter((effect): effect is { type: string; id: string } =>
-            !!effect && typeof effect === 'object' && effect.type === 'flag_add' && typeof effect.id === 'string')
-            .map(effect => effect.id)
-          : [];
-        const feedbackKey = log.seq === undefined ? undefined : `effects_${log.seq}`;
-
-        const canMerge =
-          pendingEventItem &&
-          (!effectSourceId || !pendingSourceId || effectSourceId === pendingSourceId || pendingEventItem.eventId === effectSourceId);
-
-        if (canMerge && pendingEventItem) {
-          // 合并到前一个起因/行动事件中，形成同一年起因+行动+结果一体折页
-          pendingEventItem.outcomeText = parsed.text;
-          pendingEventItem.stampTag = parsed.stamp;
-          pendingEventItem.effectsText = effectsText;
-          pendingEventItem.effectsSummary = effectsText;
-          pendingEventItem.relicFlags = relicFlags;
-          pendingEventItem.feedbackKey = feedbackKey;
-          addItem(pendingEventItem);
-          pendingEventItem = null;
-          pendingSourceId = undefined;
-        } else {
-          // 独立结果项
-          const id = `eff_${Date.now()}_${Math.random()}`;
-          addItem({
-            id,
-            eventId: effectSourceId,
-            relicFlags,
-            feedbackKey,
-            introText: '',
-            outcomeText: parsed.text,
-            stampTag: parsed.stamp,
-            effectsText,
-            effectsSummary: effectsText,
-            type: 'effects',
-          });
-        }
-      } else if (log.type === 'death') {
-        // 将死因合入当前事件；结算概览由主界面单独展示，避免重复评语。
-        const parsed = this.parseStamp(log.message);
-        const stampTag = parsed.stamp || '人生结束';
-        const deathText = parsed.text;
-        const orphanedAchievement = items[items.length - 1]?.type === 'achievement' ? items.pop() : undefined;
-        if (pendingEventItem) {
-          pendingEventItem.outcomeText = deathText;
-          pendingEventItem.stampTag = stampTag;
-          pendingEventItem.type = 'death';
-          if (orphanedAchievement) {
-            pendingEventItem.achievementIds = orphanedAchievement.achievementIds;
-            pendingEventItem.achievementFeedbackKeys = orphanedAchievement.achievementFeedbackKeys;
+      const payload = payloadOf(log);
+      const instanceId = instanceOf(log);
+      if (log.type === 'event' || log.type === 'option' || log.type === 'dice') {
+        const item = instanceId ? eventItem(log, index, instanceId) : makeItem(log, index, 'event');
+        let text = this.sanitizeText(log.message);
+        if (log.type === 'dice' && typeof payload?.raw === 'number' && Number.isFinite(payload.raw)) {
+          // The controller may already have formatted the die and result. Do not
+          // claim a special critical branch without the stage definition.
+          const formattedDie = new RegExp(`（原骰\\s*${payload.raw}(?:，[^）]*)?）$`);
+          if (!formattedDie.test(text)) {
+            const result = typeof payload.success === 'boolean' ? `，${payload.success ? '成功' : '失败'}` : '';
+            text += `（原骰 ${payload.raw}${result}）`;
           }
-          addItem(pendingEventItem);
-          pendingEventItem = null;
-          pendingSourceId = undefined;
-        } else {
-          const id = `death_${Date.now()}_${Math.random()}`;
-          addItem({
-            id,
-            eventId: log.source_id,
-            achievementIds: orphanedAchievement?.achievementIds,
-            achievementFeedbackKeys: orphanedAchievement?.achievementFeedbackKeys,
-            introText: '',
-            outcomeText: deathText,
-            stampTag,
-            type: 'death',
-          });
         }
-      } else if (log.type === 'achievement') {
-        if (pendingEventItem) {
-          addItem(pendingEventItem);
-          pendingEventItem = null;
-          pendingSourceId = undefined;
-        }
-        const achievementId = typeof payload?.achievement_id === 'string'
-          ? payload.achievement_id
-          : log.source_id;
-        const feedbackKey = log.seq === undefined
-          ? achievementId ?? `achievement_${Date.now()}_${Math.random()}`
-          : `achievement_${log.seq}`;
-        const previous = items[items.length - 1];
-        if (achievementId && previous && ['event', 'effects', 'chain', 'death'].includes(previous.type)) {
-          previous.achievementIds = [...(previous.achievementIds ?? []), achievementId];
-          previous.achievementFeedbackKeys = [...(previous.achievementFeedbackKeys ?? []), feedbackKey];
-          continue;
-        }
-        addItem({
-          id: `achievement_${achievementId ?? ''}`,
-          eventId: achievementId,
-          achievementIds: achievementId ? [achievementId] : [],
-          achievementFeedbackKeys: [feedbackKey],
-          introText: '',
-          type: 'achievement',
-        });
-      } else {
-        // 其它日志 (history, system, chain, achievement 等)
-        if (pendingEventItem) {
-          addItem(pendingEventItem);
-          pendingEventItem = null;
-          pendingSourceId = undefined;
-        }
-
+        const segment: FoldSegment = { kind: log.type === 'event' ? 'intro' : log.type === 'option' ? 'action' : 'dice', text };
+        if (log.type === 'dice') segment.details = this.describeDice(payload);
+        addSegment(item, segment);
+      } else if (log.type === 'effects') {
+        // GameEngine logs event/option/dice and its immediate applyOutcome in the
+        // same command, with no intervening record. A source ID alone is never
+        // sufficient; require the full, consecutive engine context as well.
+        const precedingInstance = preceding && instanceOf(preceding);
+        const synchronousOutcome = preceding && precedingInstance &&
+          ['event', 'option', 'dice'].includes(preceding.type) &&
+          preceding.seq !== undefined && log.seq === preceding.seq + 1 &&
+          log.calendar_year !== undefined && log.calendar_year === preceding.calendar_year &&
+          log.age !== undefined && log.age === preceding.age &&
+          !!log.source_id && log.source_id === preceding.source_id && Array.isArray(payload?.effects);
+        const associatedId = instanceId ?? (synchronousOutcome ? precedingInstance : undefined);
+        const item = associatedId ? eventItem(log, index, associatedId) : makeItem(log, index);
         const parsed = this.parseStamp(log.message);
-        addItem({
-          id: `log_${Date.now()}_${Math.random()}`,
-          eventId: log.source_id,
-          feedbackKey: log.seq === undefined ? undefined : `log_${log.seq}`,
-          introText: parsed.stamp ? '' : parsed.text,
-          outcomeText: parsed.stamp ? parsed.text : undefined,
-          stampTag: parsed.stamp,
-          type: log.type,
-        });
+        const effectsText = this.describeEffects(this.extractEffectsSummary(payload), parsed.text);
+        if (parsed.text || parsed.stamp) addSegment(item, { kind: 'outcome', text: parsed.text, stampTag: parsed.stamp });
+        if (effectsText?.length) addSegment(item, { kind: 'effects', effectsText });
+        if (Array.isArray(payload?.effects)) {
+          const flags = payload.effects.filter((effect): effect is { type: string; id: string } =>
+            !!effect && typeof effect === 'object' && effect.type === 'flag_add' && typeof effect.id === 'string')
+            .map(effect => effect.id);
+          if (flags.length) (item.relicFlags ??= []).push(...flags);
+        }
+        if (log.seq !== undefined) item.feedbackKey = `effects_${log.seq}`;
+      } else if (log.type === 'achievement') {
+        const item = instanceId ? eventItem(log, index, instanceId) : makeItem(log, index);
+        const achievementId = typeof payload?.achievement_id === 'string' ? payload.achievement_id : log.source_id;
+        const feedbackKey = `achievement_${log.seq ?? `index_${index}`}`;
+        addSegment(item, { kind: 'achievement', achievementId, text: this.sanitizeText(log.message) }, feedbackKey);
+      } else if (log.type === 'death') {
+        const item = instanceId ? eventItem(log, index, instanceId) : makeItem(log, index);
+        const parsed = this.parseStamp(log.message);
+        addSegment(item, { kind: 'death', text: parsed.text, stampTag: parsed.stamp || '人生结束' });
+      } else if (log.type === 'card_selected') {
+        const item = makeItem(log, index);
+        item.cardId = typeof payload?.card_id === 'string' ? payload.card_id : undefined;
+        addSegment(item, { kind: 'intro', text: this.sanitizeText(log.message) });
+      } else {
+        const item = makeItem(log, index);
+        if (log.type === 'opening' && typeof payload?.background_id === 'string') item.backgroundId = payload.background_id;
+        item.feedbackKey = log.seq === undefined ? undefined : `log_${log.seq}`;
+        const parsed = this.parseStamp(log.message);
+        addSegment(item, parsed.stamp
+          ? { kind: 'outcome', text: parsed.text, stampTag: parsed.stamp }
+          : { kind: 'intro', text: parsed.text });
       }
     }
-
-    if (pendingEventItem) {
-      addItem(pendingEventItem);
-    }
-
     return items;
+  }
+
+  /** Read the executed check only from the logged result, never from a new roll. */
+  private static describeDice(payload?: Record<string, unknown>): string[] | undefined {
+    if (!payload) return undefined;
+    const details: string[] = [];
+    const addNumber = (key: string, label: string, signed = false): void => {
+      const value = payload[key];
+      if (typeof value !== 'number' || !Number.isFinite(value)) return;
+      details.push(`${label} ${signed && value > 0 ? '+' : ''}${value}`);
+    };
+    const attribute = payload.check_attribute;
+    const attributeLabel = typeof attribute === 'string' && ['physique', 'intelligence', 'wealth', 'prestige'].includes(attribute)
+      ? `${EnumMapper.translateStat(attribute).name}值` : '检定属性值';
+    addNumber('raw', '原骰');
+    addNumber('attribute_value', attributeLabel);
+    addNumber('modifier_before', '修正（限幅前）', true);
+    addNumber('modifier_after', '修正（限幅后）', true);
+    addNumber('luck_value', '气数');
+    addNumber('luck_bonus', '气数加成', true);
+    addNumber('dc', '难度');
+    if (payload.effective_raw_minimum === null) details.push('原骰下限 无');
+    else addNumber('effective_raw_minimum', '原骰下限');
+    if (typeof payload.success_probability === 'number' && Number.isFinite(payload.success_probability)) {
+      details.push(`成功率 ${Math.round(payload.success_probability * 100)}%`);
+    }
+    if (typeof payload.critical_probability === 'number' && Number.isFinite(payload.critical_probability)) {
+      details.push(`满足大成功条件的概率 ${Math.round(payload.critical_probability * 100)}%`);
+    }
+    if (typeof payload.success === 'boolean') details.push(`本次检定 ${payload.success ? '成功' : '失败'}`);
+    if (typeof payload.critical_success === 'boolean') details.push(`大成功条件 ${payload.critical_success ? '满足' : '未满足'}`);
+    return details.length ? details : undefined;
+  }
+
+  /** Keep configured amounts distinct from unobserved, potentially clamped changes. */
+  private static describeEffects(effects: string[] | undefined, narrative: string): string[] | undefined {
+    if (!effects?.length) return effects;
+    const remaining = new Map<string, number>();
+    return effects.map(effect => {
+      let count = remaining.get(effect);
+      if (count === undefined) {
+        const clauses = narrative.split(/[，,。；;！!？?\n]/).map(clause => clause.trim());
+        const escaped = effect.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        count = clauses.filter(clause => clause === effect).length;
+        count += [...narrative.matchAll(new RegExp(`[（(]${escaped}[）)]`, 'g'))].length;
+      }
+      remaining.set(effect, Math.max(0, count - 1));
+      if (count > 0) return `${effect.slice(0, effect.lastIndexOf(' '))}实际变化可能受上下限限制`;
+      return `${effect}（实际变化可能受上下限限制）`;
+    });
   }
 
   /**
@@ -313,6 +302,7 @@ export class LogParser {
         if (!isNaN(amount) && amount !== 0) {
           const statInfo = EnumMapper.translateStat(effectObj.attribute);
           const sign = amount > 0 ? `+${amount}` : `${amount}`;
+          // The display layer labels configured changes as potentially clamped.
           summaries.push(`${statInfo.name} ${sign}`);
         }
       }

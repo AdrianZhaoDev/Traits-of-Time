@@ -1,0 +1,14 @@
+{
+  "id": "de74dc8d-da48-448b-b03f-b08975d99368",
+  "ok": true,
+  "result": {
+    "clicked": "@e3",
+    "effects": {
+      "settled": true,
+      "page": "unchanged"
+    }
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

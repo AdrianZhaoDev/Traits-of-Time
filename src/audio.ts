@@ -1,7 +1,7 @@
 import type { GamePlatform } from "./platform";
 
 export type AudioChannel = "music" | "effects" | "ambience";
-export type AudioCue = "tap" | "reveal" | "select" | "error" | "choice" | "gain" | "achievement" | "ending" | "death" | "item" | "identity";
+export type AudioCue = "tap" | "reveal" | "choice" | "gain" | "achievement" | "death" | "item";
 export interface AudioSettings {
   music: number;
   effects: number;
@@ -17,8 +17,8 @@ const AMBIENCE: Readonly<Record<string, string>> = {
   R_JIANGNAN: "jiangnan",
 };
 const CUE_GAIN: Readonly<Record<AudioCue, number>> = {
-  tap: 0.7, reveal: 0.8, select: 0.75, error: 0.65, choice: 0.75, gain: 0.8,
-  achievement: 0.8, ending: 0.75, death: 0.55, item: 0.8, identity: 0.8,
+  tap: 0.7, reveal: 0.8, choice: 0.75, gain: 0.8,
+  achievement: 0.8, death: 0.55, item: 0.8,
 };
 const VOICE_COUNT = 4;
 

@@ -1,0 +1,603 @@
+{
+  "note": "Paired samples are not independent across strategies; new choices and automatic checks alter RNG consumption. No causal claim follows from a changed death.",
+  "changed": [
+    {
+      "strategy": "normal",
+      "seed": 12,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1701,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1686,
+        "death": "D_WAR_CHAOS"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 16,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1650,
+        "death": "D_EPIDEMIC"
+      },
+      "experiment": {
+        "year": 1663,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 19,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1640,
+        "death": "D_MOD_FLASHLIGHT_ROBBERY"
+      },
+      "experiment": {
+        "year": 1692,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 28,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1726,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1740,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 31,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1663,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 38,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1662,
+        "death": "D_STARVATION"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 49,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1710,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1682,
+        "death": "D_FAM_END_HOUSE_FIRE"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 51,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1689,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1663,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 61,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1719,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1679,
+        "death": "D_FAM_END_FAMILY_SHELTER"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 74,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1645,
+        "death": "D_EPIDEMIC"
+      },
+      "experiment": {
+        "year": 1682,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 84,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1739,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1664,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 12,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1701,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1696,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 16,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1650,
+        "death": "D_EPIDEMIC"
+      },
+      "experiment": {
+        "year": 1663,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 19,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1692,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1687,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 28,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1735,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1717,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 29,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1701,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1697,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 38,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1662,
+        "death": "D_EPIDEMIC"
+      },
+      "experiment": {
+        "year": 1708,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 51,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1689,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1663,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 61,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1719,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 72,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1699,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1657,
+        "death": "D_WAR_CHAOS"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 74,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1682,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1654,
+        "death": "D_DROWNING"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 82,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1688,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1709,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 83,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1700,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1652,
+        "death": "D_DROWNING"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 84,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1739,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1728,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 85,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1709,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1653,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 19,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1692,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_EPIDEMIC"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 28,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1726,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1713,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 29,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1701,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1686,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 38,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1714,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_STARVATION"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 49,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1710,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_PRISON_CORVEE"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 61,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1719,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1679,
+        "death": "D_FAM_END_FAMILY_SHELTER"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 62,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1700,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1640,
+        "death": "D_MOD_FLASHLIGHT_MISSTEP"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 72,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1670,
+        "death": "D_STARVATION"
+      },
+      "experiment": {
+        "year": 1699,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 74,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1640,
+        "death": "D_MOD_FLASHLIGHT_MISSTEP"
+      },
+      "experiment": {
+        "year": 1682,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 79,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1659,
+        "death": "D_WAR_CHAOS"
+      },
+      "experiment": {
+        "year": 1686,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 86,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1679,
+        "death": "D_SENIOR_DECLINE"
+      },
+      "experiment": {
+        "year": 1700,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 12,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1701,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1686,
+        "death": "D_WAR_CHAOS"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 19,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1654,
+        "death": "D_WAR_CHAOS"
+      },
+      "experiment": {
+        "year": 1692,
+        "death": "D_OLD_AGE"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 28,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1740,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1720,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 29,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1701,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1684,
+        "death": "D_SENIOR_DECLINE"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 31,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1663,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1653,
+        "death": "D_BANDIT"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 38,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1714,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_STARVATION"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 49,
+      "card": "CARD_MODERN_CORN",
+      "baseline": {
+        "year": 1710,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1656,
+        "death": "D_BANDIT"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 72,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1699,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1662,
+        "death": "D_FREEZING"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 83,
+      "card": "CARD_MODERN_FLASHLIGHT",
+      "baseline": {
+        "year": 1700,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1658,
+        "death": "D_STARVATION"
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 86,
+      "card": "CARD_MODERN_ANTIBIOTIC",
+      "baseline": {
+        "year": 1700,
+        "death": "D_OLD_AGE"
+      },
+      "experiment": {
+        "year": 1652,
+        "death": "D_EPIDEMIC"
+      }
+    }
+  ]
+}

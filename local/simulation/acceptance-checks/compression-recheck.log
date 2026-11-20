@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: codec preserves full JSON and works without Buffer, TextEncoder, TextDecoder or streams
+ok 1 - codec preserves full JSON and works without Buffer, TextEncoder, TextDecoder or streams
+  ---
+  duration_ms: 89.714348
+  type: 'test'
+  ...
+# Subtest: portable UTF-8 handles Unicode boundaries and rejects malformed byte sequences
+ok 2 - portable UTF-8 handles Unicode boundaries and rejects malformed byte sequences
+  ---
+  duration_ms: 0.722042
+  type: 'test'
+  ...
+# Subtest: deduplication recreates independent JSON objects and rejects forged expansion graphs
+ok 3 - deduplication recreates independent JSON objects and rejects forged expansion graphs
+  ---
+  duration_ms: 1.665838
+  type: 'test'
+  ...
+# Subtest: compressed inherited offers retain the full replay and idempotent command history
+ok 4 - compressed inherited offers retain the full replay and idempotent command history
+  ---
+  duration_ms: 181.57012
+  type: 'test'
+  ...
+# Subtest: legacy v1 restores, next write uses v2, and the legacy slot remains a recoverable backup
+ok 5 - legacy v1 restores, next write uses v2, and the legacy slot remains a recoverable backup
+  ---
+  duration_ms: 423.489812
+  type: 'test'
+  ...
+# Subtest: checksum, invalid base64, truncated data and length violations fall back to the other slot
+ok 6 - checksum, invalid base64, truncated data and length violations fall back to the other slot
+  ---
+  duration_ms: 1019.788249
+  type: 'test'
+  ...
+# Subtest: two damaged slots require explicit consent before replacement
+ok 7 - two damaged slots require explicit consent before replacement
+  ---
+  duration_ms: 182.361727
+  type: 'test'
+  ...
+# Subtest: v2 still enforces strict replay and refuses incompatible newer versions without consent
+ok 8 - v2 still enforces strict replay and refuses incompatible newer versions without consent
+  ---
+  duration_ms: 544.0447
+  type: 'test'
+  ...
+# Subtest: simulated wx and browser quotas retain the active slot on write or readback failure
+ok 9 - simulated wx and browser quotas retain the active slot on write or readback failure
+  ---
+  duration_ms: 484.90031
+  type: 'test'
+  ...
+# Subtest: unreadable storage remains unavailable and cannot be overwritten
+ok 10 - unreadable storage remains unavailable and cannot be overwritten
+  ---
+  duration_ms: 21.67039
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3938.674189

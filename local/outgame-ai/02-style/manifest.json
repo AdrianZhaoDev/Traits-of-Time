@@ -34,7 +34,7 @@
     "newGeneratedArtApproved": false,
     "batchProductionApproved": false,
     "approvedReferences": [
-      { "path": "local/outgame-ai/02-style/bright-options/a-comic.html", "role": "approved_layout_color_type_line_button_reference_not_game_client", "sha256": "981ea4fd81a274333aea3283de7eb0900f7b9085d89f227275d6f9244345770f" },
+      { "path": "local/outgame-ai/02-style/bright-options/a-comic.html", "role": "approved_layout_color_type_line_button_reference_not_game_client", "sha256": "cf4a1d708dcb46fc4fc1605783b52a4be0361fbc4c1ca06c01e8dabdb91c3329" },
       { "path": "local/outgame-ai/02-style/bright-options/previews/a-comic-390x844-dpr2.png", "role": "actual_HTML_reference_screenshot", "cssViewport": [390,844], "dpr": 2, "pixels": [780,1688], "sha256": "77b437c6c8bc37609d0af77d0eeb55316d31be58f5120a8c76cf7e66c27d0313" },
       { "path": "local/outgame-ai/02-style/bright-options/previews/a-comic-360x640-dpr3.png", "role": "actual_HTML_reference_screenshot", "cssViewport": [360,640], "dpr": 3, "pixels": [1080,1920], "sha256": "10fe642a496a076c499a963df0b86c7879b1bcab768fbe735124469b65366828" }
     ]
@@ -86,9 +86,9 @@
   "verification": {
     "referenceMeasurements": "local/outgame-ai/02-style/bright-options/verification.json",
     "referenceMeasurementsSha256": "5b771439b342cd8b506ed2ba2bbb68c1c6425f2d1242c04b1c79312c88ebd952",
-    "referenceSelection": "pages[id=A] and contrast[id=A]; raw capture-time approval context is not the current approval registry",
+    "referenceSelection": "pages[id=A] and contrast[id=A]; raw capture-time approval context is not the current approval registry; measurements and screenshots predate avatar URL changes",
     "narrative": "local/outgame-ai/02-style/verification.md",
     "noNewRuntimeVerificationClaim": true,
-    "notPerformedByThisTask": ["Canvas cutover", "new external media generation or uploads", "new music listening", "WeChat/device verification", "runtime builds, typecheck, full tests or content validation"]
+    "notPerformedByThisTask": ["browser recheck after avatar URL cleanup", "Canvas cutover", "new external media generation or uploads", "new music listening", "WeChat/device verification", "runtime builds, typecheck, full tests or content validation"]
   }
 }

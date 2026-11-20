@@ -1,0 +1,11 @@
+{
+  "id": "f95ad0dd-3e06-4048-b0d7-5a646bf13d12",
+  "ok": true,
+  "result": {
+    "result": "{\"expected\":{\"logs\":[{\"age\":25,\"calendar_year\":1700,\"data\":{\"attribute_value\":0,\"critical_probability\":0.1,\"critical_success\":true,\"dc\":20,\"effective_raw_minimum\":null,\"event_instance_id\":\"life:ebc1bd8ac87e6910a38eae4f9e62f2c433998cf3b7be0c728d8434e36c500ab7:9:event:1\",\"luck_bonus\":2,\"luck_value\":20,\"modifier_after\":3,\"modifier_before\":8,\"raw\":19,\"stage_id\":\"S_DICE\",\"success\":true,\"success_probability\":0.3},\"message\":\"气数独立加成与原骰19分支\",\"seq\":6,\"source_id\":\"E_DICE_SURFACE\",\"type\":\"dice\"},{\"age\":25,\"calendar_year\":1700,\"data\":{\"effects\":[]},\"message\":\"普通成功：无额外奖励\",\"seq\":7,\"source_id\":\"E_DICE_SURFACE\",\"type\":\"effects\"},{\"age\":25,\"calendar_year\":1700,\"data\":{\"timeline\":\"fictional\"},\"message\":\"架空推演\",\"seq\":8,\"source_id\":\"ERA_MING_END\",\"type\":\"history_switch\"},{\"age\":25,\"calendar_year\":1700,\"data\":{\"candidates\":[],\"selected_event_id\":null},\"message\":\"这一年没发生什么大事，日子照常过。\",\"seq\":9,\"source_id\":\"random\",\"type\":\"draw\"}],\"ok\":true,\"pending\":null,\"state\":{\"active_event\":null,\"pending\":null,\"player\":{\"achievements\":[],\"age\":25,\"attributes\":{\"intelligence\":0,\"luck\":20,\"physique\":3,\"prestige\":3,\"wealth\":3},\"calendar_year\":1700,\"cards\":[\"CARD_MODERN_GLUE\"],\"caste_id\":\"C_REFUGEE\",\"chains\":[],\"era_id\":\"ERA_MING_END\",\"flags\":[],\"highest_identity_id\":\"I_REFUGEE\",\"identity_id\":\"I_REFUGEE\",\"injuries\":[],\"max_lifespan\":87,\"region_id\":\"R_SHANBEI\",\"start_age\":25,\"start_year\":1700},\"revision\":3,\"status\":\"READY\",\"timeline\":\"fictional\",\"year_phase\":\"complete\"}},\"pending\":{\"check\":{\"attribute\":\"intelligence\",\"attribute_value\":0,\"critical_probability\":0.1,\"dc\":20,\"effective_raw_minimum\":null,\"luck_bonus\":2,\"luck_value\":20,\"modifier\":3,\"modifier_after\":3,\"modifier_before\":8,\"success_probability\":0.3},\"event_id\":\"E_DICE_SURFACE\",\"event_instance_id\":\"life:ebc1bd8ac87e6910a38eae4f9e62f2c433998cf3b7be0c728d8434e36c500ab7:9:event:1\",\"kind\":\"stage\",\"stage_id\":\"S_DICE\",\"text\":\"气数独立加成与原骰19分支\"},\"seed\":9}",
+    "origin": "http://localhost:5179/"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

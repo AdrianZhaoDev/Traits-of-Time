@@ -1,0 +1,5 @@
+
+> chuanyue-laba-nixi@1.0.0 test
+> node --import ./tools/register-typescript.mjs --test
+
+TAP version 13

@@ -84,7 +84,7 @@ export class Ui {
 
   control(id: string, label: string, children: string, style: Style,
     invoke: () => unknown, options: Partial<Pick<UiAction, 'disabled' | 'pressed' | 'primary' | 'kind' | 'value' | 'setValue'>> = {}): string {
-    this.actions.push({ id, label, invoke, disabled: false, ...options });
+    this.actions.push({ id, label, invoke, ...options, disabled: options.disabled ?? false });
     return this.view(children, {
       borderWidth: this.px(1.5), borderColor: ink.text,
       backgroundColor: options.disabled ? ink.disabled : ink.surface,

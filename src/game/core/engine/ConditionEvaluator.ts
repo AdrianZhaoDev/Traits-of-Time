@@ -2,12 +2,13 @@ import type { Condition } from '../types/content.generated';
 import type { PlayerState, Timeline } from '../types/schema';
 
 export interface ConditionContext {
-  age: number; calendar_year: number; start_year: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;
+  age: number; calendar_year: number; start_year: number; years_elapsed: number; physique: number; intelligence: number; wealth: number; prestige: number; luck: number;
   region_id: string; caste_id: string; identity_id: string; timeline: Timeline;
   cards: readonly string[]; flags: readonly string[]; injuries: readonly string[]; completed_chains: readonly string[]; active_chains: readonly string[];
 }
 export function conditionContext(player: PlayerState, timeline: Timeline): ConditionContext {
-  const dynamicFlags = new Set(player.flags);
+  const dynamicFlags = new Set(player.flags.filter(flag => !flag.startsWith('LATE_ROUTE_')));
+  if (player.late_life?.route_id) dynamicFlags.add(`LATE_ROUTE_${player.late_life.route_id}`);
   // Physique Tiers
   if (player.attributes.physique <= 1) dynamicFlags.add('TIER_PHYSIQUE_FRAIL');
   else if (player.attributes.physique >= 7) dynamicFlags.add('TIER_PHYSIQUE_MIGHTY');
@@ -26,6 +27,7 @@ export function conditionContext(player: PlayerState, timeline: Timeline): Condi
     age: player.age,
     calendar_year: player.calendar_year,
     start_year: player.start_year,
+    years_elapsed: player.calendar_year - player.start_year,
     region_id: player.region_id,
     caste_id: player.caste_id,
     identity_id: player.identity_id,

@@ -1,0 +1,179 @@
+{
+  "seed": 29,
+  "fingerprint": "7cd0d89e7ca7738f5591a0a97c2e300b7b30903b7b942de593d0be492a8a58b1",
+  "snapshots": [
+    {
+      "label": "year-10",
+      "years_elapsed": 9,
+      "age": 45,
+      "status": "READY",
+      "json_utf8_bytes": 979592,
+      "json_utf16_bytes": 1939784,
+      "double_slot_json_utf8_bytes": 1959184,
+      "gzip_bytes": 89830,
+      "gzip_base64_chars": 119776,
+      "double_slot_gzip_base64_chars": 239552,
+      "slots": [
+        {
+          "key": "time-travel.current-life.a.v1",
+          "value_utf8_bytes": 28654,
+          "value_utf16_bytes": 57308
+        },
+        {
+          "key": "time-travel.current-life.b.v1",
+          "value_utf8_bytes": 28654,
+          "value_utf16_bytes": 57308
+        }
+      ],
+      "two_slot_utf8_bytes_including_keys": 57366,
+      "two_slot_utf16_bytes_including_keys": 114732,
+      "quotaModels": {
+        "wechat_utf8_1mib_per_key_10mib_total": true,
+        "wechat_utf16_1mib_per_key_10mib_total": true,
+        "web_utf16_5mib_total": true
+      },
+      "replay_commands": 23,
+      "export_ms": 6.380351000000019,
+      "stringify_ms": 7.470160999999962,
+      "parse_ms": 4.283441000000039,
+      "restore_ms": 242.231855,
+      "gzip_ms": 9.35971799999993,
+      "codec_encode_ms": 49.254144,
+      "codec_decode_ms": 25.843577000000096,
+      "first_slot_write_ms": 44.41707199999996,
+      "second_slot_write_ms": 35.24346000000014,
+      "store_read_without_validation_ms": 21.660315999999966,
+      "store_read_with_strict_restore_ms": 252.6583559999999
+    },
+    {
+      "label": "year-40",
+      "years_elapsed": 39,
+      "age": 75,
+      "status": "READY",
+      "json_utf8_bytes": 3680862,
+      "json_utf16_bytes": 7321804,
+      "double_slot_json_utf8_bytes": 7361724,
+      "gzip_bytes": 316837,
+      "gzip_base64_chars": 422452,
+      "double_slot_gzip_base64_chars": 844904,
+      "slots": [
+        {
+          "key": "time-travel.current-life.a.v1",
+          "value_utf8_bytes": 61858,
+          "value_utf16_bytes": 123716
+        },
+        {
+          "key": "time-travel.current-life.b.v1",
+          "value_utf8_bytes": 61858,
+          "value_utf16_bytes": 123716
+        }
+      ],
+      "two_slot_utf8_bytes_including_keys": 123774,
+      "two_slot_utf16_bytes_including_keys": 247548,
+      "quotaModels": {
+        "wechat_utf8_1mib_per_key_10mib_total": true,
+        "wechat_utf16_1mib_per_key_10mib_total": true,
+        "web_utf16_5mib_total": true
+      },
+      "replay_commands": 60,
+      "export_ms": 25.23643600000014,
+      "stringify_ms": 21.187361999999666,
+      "parse_ms": 12.70347000000038,
+      "restore_ms": 542.3347929999995,
+      "gzip_ms": 31.073844999999892,
+      "codec_encode_ms": 114.75579700000071,
+      "codec_decode_ms": 23.977723999999398,
+      "first_slot_write_ms": 118.83052000000043,
+      "second_slot_write_ms": 121.63505199999963,
+      "store_read_without_validation_ms": 25.74069000000054,
+      "store_read_with_strict_restore_ms": 658.1822140000004
+    },
+    {
+      "label": "before-old-age",
+      "years_elapsed": 55,
+      "age": 91,
+      "status": "READY",
+      "json_utf8_bytes": 5113403,
+      "json_utf16_bytes": 10175806,
+      "double_slot_json_utf8_bytes": 10226806,
+      "gzip_bytes": 437660,
+      "gzip_base64_chars": 583548,
+      "double_slot_gzip_base64_chars": 1167096,
+      "slots": [
+        {
+          "key": "time-travel.current-life.a.v1",
+          "value_utf8_bytes": 78442,
+          "value_utf16_bytes": 156884
+        },
+        {
+          "key": "time-travel.current-life.b.v1",
+          "value_utf8_bytes": 78442,
+          "value_utf16_bytes": 156884
+        }
+      ],
+      "two_slot_utf8_bytes_including_keys": 156942,
+      "two_slot_utf16_bytes_including_keys": 313884,
+      "quotaModels": {
+        "wechat_utf8_1mib_per_key_10mib_total": true,
+        "wechat_utf16_1mib_per_key_10mib_total": true,
+        "web_utf16_5mib_total": true
+      },
+      "replay_commands": 78,
+      "export_ms": 47.625780000000304,
+      "stringify_ms": 29.529029999999693,
+      "parse_ms": 17.933289999999943,
+      "restore_ms": 737.1148800000001,
+      "gzip_ms": 43.51027200000044,
+      "codec_encode_ms": 153.05070599999908,
+      "codec_decode_ms": 23.7483400000001,
+      "first_slot_write_ms": 140.8543669999999,
+      "second_slot_write_ms": 140.92330399999992,
+      "store_read_without_validation_ms": 24.71003799999926,
+      "store_read_with_strict_restore_ms": 708.3263000000006
+    },
+    {
+      "label": "ended",
+      "years_elapsed": 56,
+      "age": 92,
+      "status": "ENDED",
+      "json_utf8_bytes": 5128308,
+      "json_utf16_bytes": 10203716,
+      "double_slot_json_utf8_bytes": 10256616,
+      "gzip_bytes": 440407,
+      "gzip_base64_chars": 587212,
+      "double_slot_gzip_base64_chars": 1174424,
+      "slots": [
+        {
+          "key": "time-travel.current-life.a.v1",
+          "value_utf8_bytes": 79102,
+          "value_utf16_bytes": 158204
+        },
+        {
+          "key": "time-travel.current-life.b.v1",
+          "value_utf8_bytes": 79102,
+          "value_utf16_bytes": 158204
+        }
+      ],
+      "two_slot_utf8_bytes_including_keys": 158262,
+      "two_slot_utf16_bytes_including_keys": 316524,
+      "quotaModels": {
+        "wechat_utf8_1mib_per_key_10mib_total": true,
+        "wechat_utf16_1mib_per_key_10mib_total": true,
+        "web_utf16_5mib_total": true
+      },
+      "replay_commands": 79,
+      "export_ms": 41.646192999998675,
+      "stringify_ms": 33.51492700000017,
+      "parse_ms": 16.404363999999987,
+      "restore_ms": 715.4853940000012,
+      "gzip_ms": 47.08011299999998,
+      "codec_encode_ms": 173.53140499999972,
+      "codec_decode_ms": 31.410775999998805,
+      "first_slot_write_ms": 169.18723500000124,
+      "second_slot_write_ms": 155.8512439999995,
+      "store_read_without_validation_ms": 26.592752000000473,
+      "store_read_with_strict_restore_ms": 795.0755969999991
+    }
+  ],
+  "note": "In-memory quota models only, no real device, browser, platform overhead or other saved keys; slots include complete envelopes and totals include keys."
+}

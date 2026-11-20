@@ -1,0 +1,11 @@
+{
+  "id": "273f7ffc-1b37-48f8-881f-4b71de575fcf",
+  "ok": true,
+  "result": {
+    "result": "{\"cleared\":true,\"storageNative\":true}",
+    "origin": "http://localhost:5179/local/recovery-edges/harness.html"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

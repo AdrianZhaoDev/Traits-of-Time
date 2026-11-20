@@ -1,0 +1,11 @@
+{
+  "id": "fc4a3977-7176-46cb-83a2-5b6247a2b791",
+  "ok": false,
+  "error": {
+    "code": "browser_eval_error",
+    "message": "ReferenceError: layoutGame is not defined\n    at <anonymous>:1:214"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

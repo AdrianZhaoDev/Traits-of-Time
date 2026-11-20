@@ -2,3 +2,18 @@ node_modules/
 dist-web/
 dist-wechat/
 *.tsbuildinfo
+local/agent-sprite-forge-venv*/
+/.omp/skills
+
+# Large simulation traces are checked in as lossless .jsonl.gz archives.
+/local/simulation/casual-final-20261118.jsonl
+/local/late-life-final/final/four-strategies.jsonl
+/local/late-life-final/four-strategies.jsonl
+/local/late-life-experiments/candidate-01/results/four-strategies.jsonl
+/local/late-life-experiments/candidate-02/results/four-strategies.jsonl
+/local/late-life-experiments/candidate-03/results/four-strategies.jsonl
+/local/late-life-experiments/candidate-04/results/four-strategies.jsonl
+/local/late-life-baseline/20261117T094505Z/results/evidence.jsonl
+
+# Some experiment snapshots use a machine-local symlink instead of a directory.
+/local/**/node_modules

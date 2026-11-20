@@ -1,0 +1,7782 @@
+{
+  "fingerprint": "5e66783576abd7d895b95d66bb4022ddfab6ef709a171c11c3d51c3a74555c0f",
+  "arrays": {
+    "events": {
+      "baseline": 356,
+      "production": 448,
+      "added": 92,
+      "baselineHash": "653f84f40ccf356caac8f58c8870fd8efbf45b720faf72a695a88e6a841e1076",
+      "prefixHash": "653f84f40ccf356caac8f58c8870fd8efbf45b720faf72a695a88e6a841e1076",
+      "ids": [
+        "E_FAM_MAR_MATCH",
+        "E_FAM_MAR_BETROTHAL_READY",
+        "E_FAM_MAR_BETROTHAL_SHORT",
+        "E_FAM_MAR_SIMPLE_MATCH",
+        "E_FAM_MAR_WEDDING_POOR",
+        "E_FAM_MAR_WEDDING_MODEST",
+        "E_FAM_MAR_WEDDING_WELL_OFF",
+        "E_FAM_MAR_HIGH_WEDDING",
+        "E_FAM_MAR_HIGH_NEIGHBOR",
+        "E_FAM_MAR_HIGH_DEFER",
+        "E_FAM_MAR_HIGH_RISK",
+        "E_FAM_MAR_CONCUBINE",
+        "E_FAM_MAR_WIDOWED",
+        "E_FAM_MAR_REMARRIAGE",
+        "E_FAM_MAR_POOR_TOGETHER",
+        "E_FAM_MAR_POOR_WORK",
+        "E_FAM_MAR_LEGACY_FIRST",
+        "E_FAM_MAR_LEGACY_REMARRIAGE",
+        "E_FAM_CHILD_RECOGNIZE_LEGACY",
+        "E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN",
+        "E_FAM_CHILD_FIRST_BOY_EARLY_FEAST",
+        "E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN",
+        "E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST",
+        "E_FAM_CHILD_FIRST_BOY_LATE_PLAIN",
+        "E_FAM_CHILD_FIRST_BOY_LATE_FEAST",
+        "E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN",
+        "E_FAM_CHILD_FIRST_GIRL_LATE_FEAST",
+        "E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE",
+        "E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE",
+        "E_FAM_CHILD_SECOND_BOY_EARLY_WIFE",
+        "E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE",
+        "E_FAM_CHILD_SECOND_GIRL_LATE_WIFE",
+        "E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE",
+        "E_FAM_CHILD_SECOND_BOY_LATE_WIFE",
+        "E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE",
+        "E_FAM_CHILD_SECOND_LEGACY_EARLY",
+        "E_FAM_CHILD_SECOND_LEGACY_LATE",
+        "E_FAM_CHILD_THIRD_EARLY",
+        "E_FAM_CHILD_THIRD_LATE",
+        "E_FAM_CHILD_SCHOOL",
+        "E_FAM_CHILD_MARRIAGE",
+        "E_FAM_CHILD_SUCCESS",
+        "E_FAM_CHILD_SPENDTHRIFT_FIRST",
+        "E_FAM_CHILD_SPENDTHRIFT_SECOND",
+        "E_FAM_CHILD_INFANT_LOSS",
+        "E_FAM_CHILD_BEREAVED_FIRST",
+        "E_FAM_CHILD_BEREAVED_SECOND",
+        "E_FAM_CHILD_BEREAVED_THIRD",
+        "E_FAM_CHILD_GRANDCHILD_EARLY",
+        "E_FAM_CHILD_GRANDCHILD_MIDDLE",
+        "E_FAM_CHILD_GRANDCHILD_LATE",
+        "E_FAM_CHILD_GREAT_GRANDCHILD_EARLY",
+        "E_FAM_CHILD_GREAT_GRANDCHILD_LATE",
+        "E_FAM_CHILD_FIVE_GENERATIONS",
+        "E_FAM_CHILD_ENJOY_GRANDCHILD",
+        "E_FAM_WEALTH_RELATIVE_HELP",
+        "E_FAM_WEALTH_RELATIVE_DECLINE",
+        "E_FAM_WEALTH_OFFICE_HELP",
+        "E_FAM_WEALTH_OFFICE_DECLINE",
+        "E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE",
+        "E_FAM_WEALTH_HEIRLESS",
+        "E_FAM_WEALTH_ESTATE_LARGE",
+        "E_FAM_WEALTH_ESTATE_MODEST",
+        "E_FAM_WEALTH_HOUSEHOLD_DISPUTE",
+        "E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND",
+        "E_FAM_LIFE_CHILD_FIRST_PAY",
+        "E_FAM_LIFE_CHILD_GATHER_FIREWOOD",
+        "E_FAM_LIFE_YOUNG_ON_THE_ROAD",
+        "E_FAM_LIFE_YOUNG_FELLOW_TRAVELER",
+        "E_FAM_LIFE_YOUNG_FIRST_WORK",
+        "E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY",
+        "E_FAM_LIFE_MIDDLE_FAMILY_DEBT",
+        "E_FAM_LIFE_MIDDLE_REPAY_DEBT",
+        "E_FAM_LIFE_MIDDLE_TRADING_PARTNER",
+        "E_FAM_LIFE_MIDDLE_ILLNESS",
+        "E_FAM_LIFE_ELDER_ROAD_RECOLLECTION",
+        "E_FAM_LIFE_ELDER_FRIEND_GONE",
+        "E_FAM_LIFE_ELDER_MENDING_TAUGHT",
+        "E_FAM_LIFE_ELDER_GRANDCHILD_STORY",
+        "E_FAM_LIFE_POOR_EMPTY_POT",
+        "E_FAM_LIFE_POOR_WARM_FIRE",
+        "E_FAM_LIFE_POOR_BOWL_SOUP",
+        "E_FAM_LIFE_POOR_SHARE_WATER",
+        "E_FAM_LIFE_RICH_CROWDED_ALONE",
+        "E_FAM_LIFE_RICH_ECHO",
+        "E_FAM_LIFE_RICH_EMPTY_TEA",
+        "E_FAM_LIFE_RICH_CONFIDANT",
+        "E_FAM_END_OLD_AGE",
+        "E_FAM_END_HOUSE_FIRE",
+        "E_FAM_END_OVERWORK",
+        "E_FAM_END_CLAN_CROSS_FIRE",
+        "E_FAM_END_FAMILY_SHELTER"
+      ]
+    },
+    "chains": {
+      "baseline": 22,
+      "production": 22,
+      "added": 0,
+      "baselineHash": "e66dc693217dc26cec7292382a26908691a283ef5241d797a80d416528142dac",
+      "prefixHash": "e66dc693217dc26cec7292382a26908691a283ef5241d797a80d416528142dac",
+      "ids": []
+    },
+    "achievements": {
+      "baseline": 125,
+      "production": 137,
+      "added": 12,
+      "baselineHash": "c8ad27476342d5ec26fb182b391b08118595e6f0675d4f909b459b5af8b84d92",
+      "prefixHash": "c8ad27476342d5ec26fb182b391b08118595e6f0675d4f909b459b5af8b84d92",
+      "ids": [
+        "A_FAM_HOME_AND_CAREER",
+        "A_FAM_SON_AND_DAUGHTER",
+        "A_FAM_FIVE_GENERATIONS",
+        "A_FAM_CHILD_WELL_TAUGHT",
+        "A_FAM_HIGH_MARRIAGE",
+        "A_FAM_REMARRIED",
+        "A_FAM_GRANDCHILD",
+        "A_FAM_HEIR",
+        "A_FAM_HEIRLESS",
+        "A_FAM_BEREAVED_CHILD",
+        "A_FAM_CHILD_MARRIED",
+        "A_FAM_LIFE_TOGETHER"
+      ]
+    },
+    "deaths": {
+      "baseline": 31,
+      "production": 36,
+      "added": 5,
+      "baselineHash": "f32b9ed25648fa364ae327428a975a4a1d968df46c036f8025acfb76e9d49802",
+      "prefixHash": "f32b9ed25648fa364ae327428a975a4a1d968df46c036f8025acfb76e9d49802",
+      "ids": [
+        "D_FAM_END_OLD_AGE",
+        "D_FAM_END_HOUSE_FIRE",
+        "D_FAM_END_OVERWORK",
+        "D_FAM_END_CLAN_CROSS_FIRE",
+        "D_FAM_END_FAMILY_SHELTER"
+      ]
+    }
+  },
+  "addedChoices": 0,
+  "eventFields": [
+    {
+      "id": "E_FAM_MAR_MATCH",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_MATCHED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_WEDDING_READY"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "见面之后，你们都愿意继续往来，便请媒人替两家说合。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_MATCHED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_BETROTHAL_READY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 35,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你送上备好的布帛，两家依礼往来，也商定了婚期。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_BETROTHAL_SHORT",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 35,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lt",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "聘礼没能凑齐，对方家里婉拒了这门亲事，媒人也只好作罢。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_SIMPLE_MATCH",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 35,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_MATCHED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_WEDDING_READY"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "两家商定不收聘礼，从简筹办婚事，你们都松了口气。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_WEDDING_POOR",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 45,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "婚礼虽从简，你们还是热热闹闹地成了家，邻里也送来了祝福。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_WEDDING_MODEST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 45,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gt",
+            "value": 1
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lt",
+            "value": 4
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们在亲友的祝福中结为夫妻，往后的日子有了商量的人。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_WEDDING_WELL_OFF",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 45,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 4
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们在宾客的见证下成了家，两边亲友也借机熟识起来。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_HIGH_WEDDING",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 4
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_MATCHED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_WEDDING_READY"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_HIGH_DEFERRED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们成亲后，岳家给了安家资助，亲友交往也多了，往后难免有应酬。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_HIGH_MARRIAGE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_HIGH_RISK"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 2
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 2
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_HIGH_NEIGHBOR",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gt",
+            "value": 1
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lt",
+            "value": 4
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_MATCHED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_WEDDING_READY"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_HIGH_DEFERRED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你与相熟的邻家人情投意合，两家从简办了婚事，平静过起日子。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_HIGH_DEFER",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_MATCHED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_WEDDING_READY"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MAR_HIGH_DEFERRED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "这一次的高门提议就此作罢，你仍可等以后再商量自己的婚事。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_HIGH_DEFERRED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_HIGH_RISK",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 10,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_HIGH_MARRIAGE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_HIGH_RISK"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 1
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你出面帮忙周旋，又贴补了一笔家资，才把眼前的争执平息。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_HIGH_RISK"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_CONCUBINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 8,
+        "priority": 0,
+        "trigger_probability": 0.45,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CONCUBINE"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "compare",
+                "field": "wealth",
+                "comparator": "gte",
+                "value": 6
+              },
+              {
+                "op": "compare",
+                "field": "prestige",
+                "comparator": "gte",
+                "value": 6
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "商量妥当后，她入了门；你须负担她的衣食住所，家中开销和人情周旋也重了。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CONCUBINE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MAR_CONCUBINE_ALIVE"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": -1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_WIDOWED",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 3,
+        "priority": 0,
+        "trigger_probability": 0.6,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "她最终没能熬过这场病。你料理了后事，也记下她交代的家事。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_WIDOWED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_HIGH_RISK"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_REMARRIAGE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 28,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_WIDOWED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_MARRIED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们结为夫妻，也谈妥各自亲人需要照应时该怎样分担。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_HIGH_RISK"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_REMARRIED"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_POOR_TOGETHER",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 12,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 4,
+        "max_occurrences": 3,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你穿针，她理线，一件旧衣裳补好了，两人也说了会儿心里话。",
+        "effects": [],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_POOR_WORK",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 5,
+        "priority": 0,
+        "trigger_probability": 0.3,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们轮流赶工，按时交了布袋，所得工钱给家里添了一点积蓄。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_LEGACY_FIRST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 50,
+        "priority": 1,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们把眼前的开销和家务分担说清楚，往后也好彼此照应。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_MAR_LEGACY_REMARRIAGE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 50,
+        "priority": 1,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_LIFE_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_WIDOWED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_MARRIED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们把各自能做的事一一说妥，新家的日子渐渐安定下来。",
+        "effects": [
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_BETROTHAL_FAILED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_MATCHED"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_WEDDING_READY"
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_MAR_HIGH_RISK"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_REMARRIED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_RECOGNIZE_LEGACY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 35,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "一家人的衣物归置妥当，柜子里也腾出了空处。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "孩子睡着后，你和妻子终于能坐下来歇一会儿。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_18_26"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_BOY_EARLY_FEAST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "满月那天，你们摆了桌酒，亲友登门道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_18_26"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "孩子睡着后，你和妻子终于能坐下来歇一会儿。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_18_26"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "满月那天，你们摆了桌酒，亲友登门道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_18_26"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_BOY_LATE_PLAIN",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "孩子睡着后，你和妻子终于能坐下来歇一会儿。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_27_39"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_BOY_LATE_FEAST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "满月那天，你们摆了桌酒，亲友登门道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_27_39"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "孩子睡着后，你和妻子终于能坐下来歇一会儿。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_27_39"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIRST_GIRL_LATE_FEAST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "满月那天，你们摆了桌酒，亲友登门道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_LIFE_HAS_CHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_BIRTH_27_39"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "如今儿女都有了，大人们忙着给小女儿添衣。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_18_26"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_CONCUBINE_ALIVE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "儿女都平安，一家人给新生的女儿添了衣裳。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_18_26"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_CONCUBINE_BORN"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_BOY_EARLY_WIFE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "如今儿女都有了，大人们忙着给小儿子添衣。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_18_26"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_CONCUBINE_ALIVE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "儿女都平安，一家人给新生的儿子添了衣裳。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_18_26"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_CONCUBINE_BORN"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_GIRL_LATE_WIFE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "如今儿女都有了，大人们忙着给小女儿添衣。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_27_39"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_CONCUBINE_ALIVE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "儿女都平安，一家人给新生的女儿添了衣裳。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_27_39"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_CONCUBINE_BORN"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_BOY_LATE_WIFE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "如今儿女都有了，大人们忙着给小儿子添衣。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_27_39"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MAR_CONCUBINE_ALIVE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "儿女都平安，一家人给新生的儿子添了衣裳。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_27_39"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_CONCUBINE_BORN"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_LEGACY_EARLY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "衣裳洗净晒好，新添的孩子也有了换洗的衣服。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_18_26"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SECOND_LEGACY_LATE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "衣裳洗净晒好，新添的孩子也有了换洗的衣服。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_BIRTH_27_39"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_THIRD_EARLY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 26
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_3"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你收好衣物，又腾出地方安置新生的孩子。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_3"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_3_BIRTH_18_26"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_THIRD_LATE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 27
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_3"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你收好衣物，又腾出地方安置新生的孩子。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_3"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_3_BIRTH_27_39"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SCHOOL",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 30
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_SCHOOLED"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 33
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 46
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 47
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "夫子教孩子读了第一篇书，也讲起乡里读书人盼着科考的事。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SCHOOLED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_MARRIAGE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 45
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 1
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_MARRIED"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 58
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "两人拜过堂，你拿出一份积蓄置办了婚事。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_MARRIED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SUCCESS",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 50
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_SUCCESS"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "compare",
+                "field": "intelligence",
+                "comparator": "gte",
+                "value": 8
+              },
+              {
+                "op": "compare",
+                "field": "wealth",
+                "comparator": "gte",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "家里添了进项，邻里也夸孩子办事可靠。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 2
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SUCCESS"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SPENDTHRIFT_FIRST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 6
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_BOY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_SPENDTHRIFT"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你替他补上欠款，自己原想添的新衣只好作罢。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -2
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SPENDTHRIFT"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_SPENDTHRIFT_SECOND",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 6
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_GIRL"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_SON_AND_DAUGHTER"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_SPENDTHRIFT"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你替他补上欠款，自己原想添的新衣只好作罢。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -2
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_SPENDTHRIFT"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_INFANT_LOSS",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 1,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 39
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_3"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "孩子没能挺过来，成了全家人的遗憾。",
+        "effects": [],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_BEREAVED_FIRST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_BEREAVED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你收起孩子留下的衣物，久久没有说话。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_1_DEAD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_BEREAVED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_BEREAVED_SECOND",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_BEREAVED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你收起孩子留下的衣物，久久没有说话。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_2_DEAD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_BEREAVED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_BEREAVED_THIRD",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_3"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_3_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_BEREAVED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你收起孩子留下的衣物，久久没有说话。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_3_DEAD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_BEREAVED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_GRANDCHILD_EARLY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 50
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_GRANDCHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你见到刚出生的小家伙，家人围在一旁轻声道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_GRANDCHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_GRANDCHILD_BIRTH_LE50"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_GRANDCHILD_MIDDLE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 51
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_GRANDCHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你见到刚出生的小家伙，家人围在一旁轻声道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_GRANDCHILD"
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_GRANDCHILD_BIRTH_51_60"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_GRANDCHILD_LATE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 61
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 63
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_GRANDCHILD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你见到刚出生的小家伙，家人围在一旁轻声道喜。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_GRANDCHILD"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_GREAT_GRANDCHILD_EARLY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 68
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 75
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_GRANDCHILD"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_GRANDCHILD_BIRTH_LE50"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_GREAT_BIRTH_LE75"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你见到了新生的曾孙辈，孩子们轮流帮忙照看。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_GREAT_BIRTH_LE75"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_GREAT_GRANDCHILD_LATE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 78
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 80
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_GRANDCHILD"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_GRANDCHILD_BIRTH_51_60"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_GREAT_BIRTH_LE80"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你见到了新生的曾孙辈，孩子们轮流帮忙照看。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_GREAT_BIRTH_LE80"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_FIVE_GENERATIONS",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 30,
+        "priority": 1,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_GRANDCHILD"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_FIVE_GENERATIONS"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_GREAT_BIRTH_LE75"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 93
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_GREAT_BIRTH_LE80"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 98
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "五代人围坐一处，你接过襁褓，仔细看了看新生的孩子。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_FIVE_GENERATIONS"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_CHILD_ENJOY_GRANDCHILD",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_GRANDCHILD"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_GRANDCHILD_ENJOYED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "看着孙辈，你不自觉地笑了。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "luck",
+            "amount": 1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_CHILD_GRANDCHILD_ENJOYED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_RELATIVE_HELP",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WEALTH_RELIEF_HANDLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你拿出一笔钱应急，说好不急着催还。亲戚感激地收下，记住了这份情。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_WEALTH_RELIEF_HANDLED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_RELATIVE_DECLINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 6
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lt",
+            "value": 8
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WEALTH_RELIEF_HANDLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你盘算过家中开支，婉拒了借钱，转而帮亲戚打听能暂借粮食的人家。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_WEALTH_RELIEF_HANDLED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_OFFICE_HELP",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome",
+        "stages"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "gte",
+            "value": 10
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WEALTH_OFFICE_HANDLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你答应按规矩代递自荐书，不许诺录用，也不替他作保。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_WEALTH_OFFICE_HANDLED"
+          }
+        ],
+        "next_stage_id": "S_FAM_WEALTH_OFFICE_DELIVER"
+      },
+      "stages": [
+        {
+          "id": "S_FAM_WEALTH_OFFICE_DELIVER",
+          "text": "你得问清官署收件的规矩，把自荐书递到该收的人手里。",
+          "check": {
+            "attribute": "intelligence",
+            "dc": 14,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你把自荐书交到官署，对方收下了。能否有人过目、是否任用，仍没有定论。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你没能把自荐书递成，亲戚以为你不够尽心，往来冷淡了一些。",
+            "effects": [
+              {
+                "type": "attribute_add",
+                "attribute": "prestige",
+                "amount": -1
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_FAM_WEALTH_OFFICE_DECLINE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "lt",
+            "value": 10
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WEALTH_OFFICE_HANDLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你解释自己没有合适的门路，婉拒代递。亲戚虽没争辩，心里还是有些失望。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": -1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_WEALTH_OFFICE_HANDLED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "compare",
+                "field": "wealth",
+                "comparator": "gte",
+                "value": 6
+              },
+              {
+                "op": "compare",
+                "field": "prestige",
+                "comparator": "gte",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_HIGH_MARRIAGE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_WIDOWED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你向岳家说明自己无法作保，几位亲眷虽不再催促，往来却冷淡了些。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": -1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_HEIRLESS",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 50
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_HAS_CHILD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_HEIRLESS"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "屋里安静下来，你把账册收好，打算以后再想清楚该将家当托付给谁。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_HEIRLESS"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_ESTATE_LARGE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 55
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 10
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 58
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_ESTATE_SETTLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你给两名子女分出一笔家资，契据写得清楚，亲友也愿意多来往。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -2
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_ESTATE_SETTLED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_ESTATE_MODEST",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 25,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 55
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 1
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lt",
+            "value": 10
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "compare",
+                "field": "wealth",
+                "comparator": "gte",
+                "value": 6
+              },
+              {
+                "op": "compare",
+                "field": "prestige",
+                "comparator": "gte",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_LEGACY"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 58
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_ESTATE_SETTLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你将能分出的家资分给两人，各自再谋生计；亲友称赞账目说得明白。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          },
+          {
+            "type": "flag_add",
+            "id": "F_FAM_ESTATE_SETTLED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_WEALTH_HOUSEHOLD_DISPUTE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.8,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 44
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 1
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "compare",
+                "field": "wealth",
+                "comparator": "gte",
+                "value": 6
+              },
+              {
+                "op": "compare",
+                "field": "prestige",
+                "comparator": "gte",
+                "value": 6
+              }
+            ]
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CONCUBINE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_1_LEGITIMATE"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_CHILD_2_CONCUBINE_BORN"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_1_DEAD"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_CHILD_2_DEAD"
+            }
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_1_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_18_26"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 44
+                  }
+                ]
+              },
+              {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "has",
+                    "collection": "flags",
+                    "id": "F_FAM_CHILD_2_BIRTH_27_39"
+                  },
+                  {
+                    "op": "compare",
+                    "field": "age",
+                    "comparator": "gte",
+                    "value": 57
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_ESTATE_SETTLED"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你请人核账、誊写契据，花去一笔家资，争执才暂时平息。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 7
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 14
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你们一起把竹条重新系好，轮流举着风车跑了半条巷子。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_EARLY_FRIEND"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_CHILD_FIRST_PAY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 10
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 8
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_LIFE_ROUTE_LIVELIHOOD"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你第一次拿到自己挣的工钱，小心收好，预备替家里买米。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_CHILD_GATHER_FIREWOOD",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.75,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 7
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 17
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 5
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你抱回一捆垒在灶边，晚饭总算能把火续上。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_CHILD_FIREWOOD"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_YOUNG_ON_THE_ROAD",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 30
+          }
+        ]
+      },
+      "outcome": {
+        "text": "第二天你向同乡打听乡里的近况，心里踏实了些。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_TRAVELED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_YOUNG_FELLOW_TRAVELER",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 30
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你把水囊递过去，两人商定往后有难互相照应。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_EARLY_FRIEND"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_YOUNG_FIRST_WORK",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 17
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 32
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你缝牢裂口，数清件数按期交活，掌柜如数付了工钱。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_MENDING"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 18
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 34
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_EARLY_FRIEND"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "朋友陪你找东家对过账，少给的那份工钱补回来了。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_MIDDLE_FAMILY_DEBT",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 35
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 59
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_LIFE_RICE_DEBT"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你记下欠账，先把粮扛回家；米钱还得以后慢慢还。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_RICE_DEBT"
+          },
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_MIDDLE_REPAY_DEBT",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 35
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_RICE_DEBT"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你交还粮钱，存下的钱少了一些，也不用再为这笔旧账发愁。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "wealth",
+            "amount": -1
+          },
+          {
+            "type": "flag_remove",
+            "id": "F_FAM_LIFE_RICE_DEBT"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_MIDDLE_TRADING_PARTNER",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 35
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 59
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你帮他把裂口缝牢，两人把布捡齐，赶上了开市。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_MENDING"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_MIDDLE_ILLNESS",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 16,
+        "priority": 0,
+        "trigger_probability": 0.55,
+        "cooldown_years": 8,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 35
+          },
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "lte",
+            "value": 59
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "gte",
+            "value": 1
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你不再逞强，把手里的活先放下，身子还得慢慢养。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "physique",
+            "amount": -1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_ELDER_ROAD_RECOLLECTION",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_TRAVELED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "听说邻家后生也要出门，你提醒他先问好落脚的地方，他认真谢了你。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_ELDER_FRIEND_GONE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 15,
+        "priority": 0,
+        "trigger_probability": 0.55,
+        "cooldown_years": 8,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_EARLY_FRIEND"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_LIFE_FRIEND_LOST"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你把信折好收起，想起从前彼此照应的日子。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_FRIEND_LOST"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_ELDER_MENDING_TAUGHT",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_MENDING"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你放慢针脚，一针一针教他；邻居照着补好，谢过了你。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_MENDING_TAUGHT"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_ELDER_GRANDCHILD_STORY",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 60
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_GRANDCHILD"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "那时邻里合力疏通街上的积水，你至今还记得他们的名字。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_GRANDCHILD_STORY"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_POOR_EMPTY_POT",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 16,
+        "priority": 0,
+        "trigger_probability": 0.6,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 16
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "gte",
+            "value": 1
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你先喝了热水歇下，腹中空着，第二天还得再去问。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "physique",
+            "amount": -1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_POOR_WARM_FIRE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.75,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 10
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你顺手替邻人续上炉火，烤干湿鞋；他叮嘱你冷了还可以来。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_POOR_BOWL_SOUP",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.75,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你双手捧碗喝下，谢过摊主，寒意暂时缓了些。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_RECEIVED_SOUP"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_POOR_SHARE_WATER",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 5,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 12
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "lte",
+            "value": 1
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_RECEIVED_SOUP"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你分给他半碗热水，茶摊主又让他到棚里躲风，向你点了点头。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "prestige",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_RICH_CROWDED_ALONE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 20,
+        "priority": 0,
+        "trigger_probability": 0.7,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 25
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 8
+          }
+        ]
+      },
+      "outcome": {
+        "text": "离席时你把想说的话咽回去，独自回房歇着。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_RICH_LONELY"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_RICH_ECHO",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 16,
+        "priority": 0,
+        "trigger_probability": 0.6,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 25
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "compare",
+            "field": "prestige",
+            "comparator": "gte",
+            "value": 6
+          }
+        ]
+      },
+      "outcome": {
+        "text": "账房随后核对出差额，你才知道应先把账算清，再听旁人夸。",
+        "effects": [
+          {
+            "type": "attribute_add",
+            "attribute": "intelligence",
+            "amount": 1
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_RICH_EMPTY_TEA",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 25
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 8
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你一一答复，散席时才发觉，自己的心事一个字也没说。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_RICH_LONELY"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_LIFE_RICH_CONFIDANT",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 18,
+        "priority": 0,
+        "trigger_probability": 0.65,
+        "cooldown_years": 6,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 25
+          },
+          {
+            "op": "compare",
+            "field": "wealth",
+            "comparator": "gte",
+            "value": 8
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_EARLY_FRIEND"
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_LIFE_RICH_LONELY"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "has",
+              "collection": "flags",
+              "id": "F_FAM_LIFE_FRIEND_LOST"
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "朋友听完才讲自己的难处，你们坐了许久，谁也没急着托对方办事。",
+        "effects": [
+          {
+            "type": "flag_add",
+            "id": "F_FAM_LIFE_CONFIDED"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_END_OLD_AGE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 3,
+        "priority": 0,
+        "trigger_probability": 0.12,
+        "cooldown_years": 10,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 80
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "lte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "这一夜，你在家中安静地离世。",
+        "effects": [
+          {
+            "type": "death",
+            "id": "D_FAM_END_OLD_AGE"
+          }
+        ],
+        "next_stage_id": null
+      },
+      "stages": []
+    },
+    {
+      "id": "E_FAM_END_HOUSE_FIRE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome",
+        "stages"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 0.08,
+        "cooldown_years": 10,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 25
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "lte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "邻居赶来破门，你得在浓烟中撑到有人接应。",
+        "effects": [],
+        "next_stage_id": "S_FAM_END_HOUSE_FIRE_ESCAPE"
+      },
+      "stages": [
+        {
+          "id": "S_FAM_END_HOUSE_FIRE_ESCAPE",
+          "text": "烟越来越浓，你要辨清门口的方向，跟上前来接应的邻居。",
+          "check": {
+            "attribute": "physique",
+            "dc": 11,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你和伴侣跟着邻居退到街上，总算躲过了这场火。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你被浓烟呛得站不稳，邻居扶住你，继续寻找出口。",
+            "effects": [],
+            "next_stage_id": "S_FAM_END_HOUSE_FIRE_RESCUE"
+          }
+        },
+        {
+          "id": "S_FAM_END_HOUSE_FIRE_RESCUE",
+          "text": "邻居正带你往门边走，你还得撑住这最后一段路。",
+          "check": {
+            "attribute": "physique",
+            "dc": 9,
+            "modifier": 0
+          },
+          "success": {
+            "text": "你被邻居扶出火场，伴侣也已退到安全处。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "烟雾封住退路，邻居没能及时带你出去。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_FAM_END_HOUSE_FIRE"
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_FAM_END_OVERWORK",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome",
+        "stages"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 0.08,
+        "cooldown_years": 10,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 50
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "lte",
+            "value": 2
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CHAIN_MILITARY_MERIT"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CHAIN_FIREARMS_RESEARCH"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CHAIN_EPIDEMIC_HEALING"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CHAIN_FORTRESS_DEFENSE"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CHAIN_MARITIME_TRADE"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CH_WORKSHOP"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CH_JN_TRADE"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CH_gm_arms"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CH_gm_water"
+              },
+              {
+                "op": "has",
+                "collection": "active_chains",
+                "id": "CH_gm_fort"
+              }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "郎中查看病情，叮嘱家人先让你静养。",
+        "effects": [],
+        "next_stage_id": "S_FAM_END_OVERWORK_RECOVER"
+      },
+      "stages": [
+        {
+          "id": "S_FAM_END_OVERWORK_RECOVER",
+          "text": "家人守着你服药歇息，还要看这一夜病情能否缓和。",
+          "check": {
+            "attribute": "physique",
+            "dc": 11,
+            "modifier": 0
+          },
+          "success": {
+            "text": "病情渐渐稳定，你得先歇上一阵，才能再操心别的事。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你的病情仍在加重，家人又请郎中继续救治。",
+            "effects": [],
+            "next_stage_id": "S_FAM_END_OVERWORK_RESCUE"
+          }
+        },
+        {
+          "id": "S_FAM_END_OVERWORK_RESCUE",
+          "text": "郎中留下来照看，伴侣守在床边，盼你能撑过去。",
+          "check": {
+            "attribute": "physique",
+            "dc": 9,
+            "modifier": 0
+          },
+          "success": {
+            "text": "熬过这阵病势，你终于缓了过来，仍需安心休养。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "郎中尽力救治，你还是没能挺过这场病。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_FAM_END_OVERWORK"
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_FAM_END_CLAN_CROSS_FIRE",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome",
+        "stages"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 0.06,
+        "cooldown_years": 10,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 25
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "lte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "伴侣扶你躲开人群，邻人赶来请郎中查看伤势。",
+        "effects": [],
+        "next_stage_id": "S_FAM_END_CLAN_CROSS_FIRE_RECOVER"
+      },
+      "stages": [
+        {
+          "id": "S_FAM_END_CLAN_CROSS_FIRE_RECOVER",
+          "text": "郎中处理伤处，你要先撑过眼前这阵虚弱。",
+          "check": {
+            "attribute": "physique",
+            "dc": 11,
+            "modifier": 0
+          },
+          "success": {
+            "text": "伤势暂时稳住，你在伴侣陪同下回家歇息。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你的情况仍不稳定，郎中留下继续救治。",
+            "effects": [],
+            "next_stage_id": "S_FAM_END_CLAN_CROSS_FIRE_RESCUE"
+          }
+        },
+        {
+          "id": "S_FAM_END_CLAN_CROSS_FIRE_RESCUE",
+          "text": "伴侣守在一旁，郎中继续设法稳住伤势。",
+          "check": {
+            "attribute": "physique",
+            "dc": 9,
+            "modifier": 0
+          },
+          "success": {
+            "text": "救治后你终于缓过气来，往后还要好好养伤。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "伤势没能稳住，你终究没能活下来。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_FAM_END_CLAN_CROSS_FIRE"
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_FAM_END_FAMILY_SHELTER",
+      "fields": [
+        "id",
+        "title",
+        "text",
+        "condition",
+        "trigger",
+        "interaction",
+        "outcome",
+        "stages"
+      ],
+      "trigger": {
+        "kind": "random",
+        "weight": 2,
+        "priority": 0,
+        "trigger_probability": 0.06,
+        "cooldown_years": 10,
+        "max_occurrences": 1,
+        "rare": true
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "compare",
+            "field": "age",
+            "comparator": "gte",
+            "value": 30
+          },
+          {
+            "op": "compare",
+            "field": "physique",
+            "comparator": "lte",
+            "value": 3
+          },
+          {
+            "op": "has",
+            "collection": "flags",
+            "id": "F_FAM_MARRIED"
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你护着伴侣躲开落梁，自己却受了伤；邻人赶来，把你们扶出屋子。",
+        "effects": [],
+        "next_stage_id": "S_FAM_END_FAMILY_SHELTER_RECOVER"
+      },
+      "stages": [
+        {
+          "id": "S_FAM_END_FAMILY_SHELTER_RECOVER",
+          "text": "邻人请来郎中，你要撑住，等他处理伤处。",
+          "check": {
+            "attribute": "physique",
+            "dc": 11,
+            "modifier": 0
+          },
+          "success": {
+            "text": "郎中处理了伤处，你和伴侣在邻家歇息，暂时脱离危险。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你的伤势仍在加重，郎中留下继续救治。",
+            "effects": [],
+            "next_stage_id": "S_FAM_END_FAMILY_SHELTER_RESCUE"
+          }
+        },
+        {
+          "id": "S_FAM_END_FAMILY_SHELTER_RESCUE",
+          "text": "伴侣守在身边，郎中继续设法救治，盼你撑过这阵伤势。",
+          "check": {
+            "attribute": "physique",
+            "dc": 9,
+            "modifier": 0
+          },
+          "success": {
+            "text": "伤势终于稳住，你和伴侣向帮忙的邻人道了谢。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "救治没能挽回你的性命，伴侣和邻人陪着你走完最后一程。",
+            "effects": [
+              {
+                "type": "death",
+                "id": "D_FAM_END_FAMILY_SHELTER"
+              }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    }
+  ]
+}

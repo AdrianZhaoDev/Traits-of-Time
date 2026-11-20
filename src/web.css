@@ -1,6 +1,6 @@
 /* Hallmark · macrostructure: Game workspace · tone: bright comic · anchor hue: tomato
  * Approved A host surface; the shared Canvas remains the only visual game UI. */
-@import '../tokens.css';
+@import './tokens.css';
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow-x: clip; }
 body {

@@ -1,0 +1,163 @@
+{
+  "attributes": {
+    "min": 0,
+    "max": 20,
+    "base": 3
+  },
+  "age_bands": [
+    {
+      "id": "child",
+      "min": 3,
+      "max": 10,
+      "weight": 25,
+      "modifiers": {
+        "physique": -2,
+        "intelligence": 0,
+        "wealth": -2,
+        "prestige": -2,
+        "luck": 0
+      }
+    },
+    {
+      "id": "youth",
+      "min": 11,
+      "max": 20,
+      "weight": 30,
+      "modifiers": {
+        "physique": 0,
+        "intelligence": 0,
+        "wealth": -1,
+        "prestige": -1,
+        "luck": 0
+      }
+    },
+    {
+      "id": "adult",
+      "min": 21,
+      "max": 45,
+      "weight": 30,
+      "modifiers": {
+        "physique": 1,
+        "intelligence": 1,
+        "wealth": 1,
+        "prestige": 1,
+        "luck": 0
+      }
+    },
+    {
+      "id": "senior",
+      "min": 46,
+      "max": 65,
+      "weight": 15,
+      "modifiers": {
+        "physique": -1,
+        "intelligence": 2,
+        "wealth": 0,
+        "prestige": 2,
+        "luck": 0
+      }
+    }
+  ],
+  "lifespan": {
+    "min": 70,
+    "max": 105,
+    "min_remaining_years": 3
+  },
+  "check": {
+    "modifier_min": -3,
+    "modifier_max": 3,
+    "dynamic_raw_minimum": {
+      "attribute_base": 12,
+      "attribute_step": 2,
+      "floor": 6
+    },
+    "luck_bonus_thresholds": [10, 20],
+    "critical_luck_minimum": 15,
+    "critical_luck_raw": 19
+  },
+  "luck": {
+    "factor_min": 0.8,
+    "factor_max": 1.2
+  },
+  "opening": {
+    "pool_id": "POOL_NATIVE_LIFE",
+    "year_min": 1628,
+    "year_max": 1645
+  },
+  "events": {
+    "per_year": 1,
+    "automatic_ratio": 0.8
+  },
+  "chains": {
+    "max_active": 2
+  },
+  "late_life": {
+    "start_years": 9,
+    "expansion_years": 14,
+    "settlement_years": 19,
+    "settlement_age": 55,
+    "confirmation_years": 3,
+    "routes": [
+      {
+        "id": "prosperous_power",
+        "entry_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"gte","value":6},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}
+        ]},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"gte","value":4},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}
+        ]}
+      },
+      {
+        "id": "prosperous_free",
+        "entry_condition": {"op":"compare","field":"wealth","comparator":"gte","value":6},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"gte","value":4},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}}
+        ]}
+      },
+      {
+        "id": "respected",
+        "entry_condition": {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"lt","value":6},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}
+        ]}
+      },
+      {
+        "id": "poor_renowned",
+        "entry_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"lte","value":1},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_JUREN"},{"op":"has","collection":"flags","id":"F_JN_POET_FAMOUS"},{"op":"has","collection":"flags","id":"F_MOD_GLUE_BREAK_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_CORN_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_FLASHLIGHT_BREAK_SUCCESS"}]}
+        ]},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"lte","value":3},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}}
+        ]}
+      },
+      {
+        "id": "hardship",
+        "entry_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"lte","value":1},{"op":"compare","field":"physique","comparator":"lte","value":2}]},
+        "retain_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"lte","value":3},{"op":"compare","field":"physique","comparator":"lte","value":4},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_JUREN"},{"op":"has","collection":"flags","id":"F_JN_POET_FAMOUS"},{"op":"has","collection":"flags","id":"F_MOD_GLUE_BREAK_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_CORN_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_FLASHLIGHT_BREAK_SUCCESS"}]}}
+        ]}
+      },
+      {
+        "id": "struggling",
+        "entry_condition": {"op":"compare","field":"wealth","comparator":"lte","value":1},
+        "retain_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"lte","value":3},{"op":"compare","field":"physique","comparator":"gt","value":2},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_JUREN"},{"op":"has","collection":"flags","id":"F_JN_POET_FAMOUS"},{"op":"has","collection":"flags","id":"F_MOD_GLUE_BREAK_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_CORN_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_FLASHLIGHT_BREAK_SUCCESS"}]}}
+        ]}
+      },
+      {
+        "id": "ordinary",
+        "retain_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"gt","value":1},{"op":"compare","field":"wealth","comparator":"lt","value":6},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}}
+        ]}
+      }
+    ]
+  }
+}

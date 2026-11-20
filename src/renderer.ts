@@ -8,10 +8,12 @@ import { GameViewBuilder } from './view';
 import { ink, type UiAction, type UiScene } from './ui';
 import { HomeBackdrop } from './home';
 
-const screenLabels: Record<string, string> = {
-  home: '首页', identity: '确认身份', game: '人生推演', cards: '家当三选一',
+const screenLabels: Record<AppSnapshot['screen'] | NonNullable<AppSnapshot['overlay']>, string> = {
+  home: '首页', identity: '确认身份', game: '人生推演', cards: '挑选家当',
   decision: '重大抉择', stage: '检定', career: '管理事业', ending: '人生总结',
-  stats: '人生统计', achievements: '生涯成就', sound: '声音设置', relic: '物品详情',
+  stats: '人生统计', achievements: '人生图鉴', sound: '声音设置', relic: '物品详情',
+  cardPool: '替换候选家当', restart: '确认重新开始', saveFailure: '存档未确认',
+  inheritance: '选择下局传承', forfeitInheritance: '确认放弃传承',
 };
 
 type TouchName = 'touchstart' | 'touchmove' | 'touchend' | 'touchcancel';
@@ -21,7 +23,10 @@ interface TouchInput {
   touches: { identifier: number; pageX: number; pageY: number; clientX: number; clientY: number; timeStamp: number }[];
   changedTouches: TouchInput['touches'];
 }
-interface Gesture { action: UiAction; id: number; x: number; y: number; start: number; last: number; ended: boolean }
+interface Gesture {
+  action: UiAction; id: number; x: number; y: number; start: number; last: number; ended: boolean;
+  bounds: { left: number; right: number; top: number; bottom: number } | null;
+}
 interface WechatInput {
   onTouchStart(callback: (event: TouchInput) => void): void;
   onTouchMove(callback: (event: TouchInput) => void): void;
@@ -64,7 +69,6 @@ export class GameRenderer {
   private disposed = false;
   private gesture: Gesture | null = null;
   private pointerId: number | null = null;
-  private lastFolds = 0;
   private latestRequested = false;
   private previousLayer = '';
   private focusId: string | null = null;
@@ -99,8 +103,7 @@ export class GameRenderer {
     this.homeBackdrop = new HomeBackdrop(platform);
     this.view = new GameViewBuilder(controller, this.audio, platform, () => { this.pendingRender = true; }, () => {
       this.latestRequested = true;
-      const scroll = this.baseLayout.getElementById('history');
-      if (scroll instanceof ScrollView) scroll.scrollTo(0, Math.max(0, scroll.scrollHeight - scroll.layoutBox.height), !this.reducedMotion?.matches);
+      this.pendingRender = true;
     });
     this.resize();
     this.installInput();
@@ -110,6 +113,7 @@ export class GameRenderer {
       this.visible = visible;
       if (!visible) {
         this.cancelGesture();
+        this.controller.pauseAutomatic();
         this.baseLayout.ticker.stop();
         this.overlayLayout.ticker.stop();
       } else {
@@ -128,9 +132,7 @@ export class GameRenderer {
       this.state = snapshot;
       if (this.live && snapshot.notice !== previous.notice) this.live.textContent = snapshot.notice;
       this.pendingRender = true;
-      if (snapshot.overlay && snapshot.overlay !== previous.overlay) {
-        if (snapshot.overlay !== 'stage') this.cancelGesture();
-      }
+      if (snapshot.overlay && snapshot.overlay !== previous.overlay) this.cancelGesture();
       if (snapshot.view?.status === 'ENDED' || snapshot.view?.status === 'AWAITING_OPTION') this.cancelGesture();
       this.audio.playMusic(snapshot.screen === 'home' ? 'home' : snapshot.view?.status === 'ENDED' ? 'ending' : 'life');
       this.audio.playAmbience(snapshot.screen === 'game' && snapshot.view?.status !== 'ENDED' ? snapshot.view?.player.region_id ?? null : null);
@@ -174,7 +176,7 @@ export class GameRenderer {
   private renderScene(layout: Layout, context: CanvasRenderingContext2D, scene: UiScene, newest: boolean): void {
     if (this.feedback?.layout === layout) this.clearFeedback();
     const positions = new Map<string, number>();
-    for (const id of scene.scrollIds) {
+    for (const id of new Set([...scene.scrollIds, 'history', 'compactGame'])) {
       const previous = layout.getElementById(id);
       if (previous instanceof ScrollView) positions.set(id, previous.scrollTop);
     }
@@ -189,11 +191,14 @@ export class GameRenderer {
       element.on('click', () => { this.invoke(action); });
     }
     // The scroller initializes after the first layout tick; restore offsets then.
+    const scrollers = scene.scrollIds.map(id => ({ id, scroll: layout.getElementById(id) }));
     layout.ticker.next(() => {
-      for (const id of scene.scrollIds) {
-        const scroll = layout.getElementById(id);
-        if (!(scroll instanceof ScrollView)) continue;
-        const top = id === 'history' && newest ? Math.max(0, scroll.scrollHeight - scroll.layoutBox.height) : positions.get(id) ?? 0;
+      for (const { id, scroll } of scrollers) {
+        if (!(scroll instanceof ScrollView) || layout.getElementById(id) !== scroll) continue;
+        const reading = id === 'history' || id === 'compactGame';
+        const previousReading = positions.get('history') ?? positions.get('compactGame');
+        const top = reading && newest ? Math.max(0, scroll.scrollHeight - scroll.layoutBox.height)
+          : positions.get(id) ?? (reading ? previousReading : undefined) ?? 0;
         scroll.scrollTo(0, top, false);
       }
     });
@@ -205,8 +210,7 @@ export class GameRenderer {
       const now = Date.now();
       if (this.pendingRender) {
         this.pendingRender = false;
-        const newest = this.latestRequested || this.state.folds.length !== this.lastFolds;
-        this.lastFolds = this.state.folds.length;
+        const newest = this.latestRequested;
         this.latestRequested = false;
         this.baseScene = this.view.base(this.state, this.height, this.safeTop, this.safeBottom);
         this.renderScene(this.baseLayout, this.baseContext, this.baseScene, newest);
@@ -224,11 +228,7 @@ export class GameRenderer {
         }
         this.syncAccessibility();
       }
-      if (this.gesture?.action.kind === 'seal' && !this.gesture.ended && now - this.gesture.start > 350 && now - this.gesture.last > 220
-        && !this.state.busy && !this.state.overlay && this.state.view?.status === 'READY') {
-        this.gesture.last = now;
-        void this.controller.advance();
-      }
+      this.advanceHeldYear(now);
       const context = this.platform.context;
       context.setTransform(this.platform.canvas.width / 750, 0, 0, this.platform.canvas.height / this.height, 0, 0);
       context.clearRect(0, 0, 750, this.height);
@@ -249,6 +249,19 @@ export class GameRenderer {
     }
     this.frameId = requestAnimationFrame(this.frame);
   };
+
+  private advanceHeldYear(now: number): void {
+    const gesture = this.gesture;
+    if (!gesture || gesture.action.kind !== 'seal' || gesture.ended) return;
+    if (this.state.overlay || this.state.view?.status === 'AWAITING_OPTION' || this.state.view?.status === 'ENDED') {
+      this.cancelGesture();
+      return;
+    }
+    if (now - gesture.start > 350 && now - gesture.last > 220 && !this.state.busy && this.state.view?.status === 'READY') {
+      gesture.last = now;
+      void this.controller.advance();
+    }
+  }
 
   private invoke(action: UiAction): void {
     if (action.disabled) return;
@@ -330,7 +343,12 @@ export class GameRenderer {
       this.pressY = point.y;
       this.showFeedback(action, true);
       if (action?.kind) {
-        this.gesture = { action, id: point.id, x: point.x, y: point.y, start: Date.now(), last: Date.now(), ended: this.state.view?.status === 'ENDED' };
+        const layout = this.state.overlay ? this.overlayLayout : this.baseLayout;
+        const element = layout.getElementById(action.id);
+        const rect = element ? layout.getElementViewportRect(element) : null;
+        const bounds = rect ? { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom } : null;
+        this.gesture = { action, id: point.id, x: point.x, y: point.y, start: Date.now(), last: Date.now(),
+          ended: this.state.view?.status === 'ENDED', bounds };
         if (action.kind === 'seal') {
           if (!this.gesture.ended) this.invoke(action);
         } else this.updateRange(point.x);
@@ -341,7 +359,9 @@ export class GameRenderer {
     if (this.gesture) {
       if (name === 'touchmove') {
         if (this.gesture.action.kind === 'range') this.updateRange(point.x);
-        else if (Math.abs(point.x - this.gesture.x) > 32 || Math.abs(point.y - this.gesture.y) > 32) this.cancelGesture();
+        else if (Math.abs(point.x - this.gesture.x) > 32 || Math.abs(point.y - this.gesture.y) > 32
+          || (this.gesture.bounds && (point.x < this.gesture.bounds.left || point.x > this.gesture.bounds.right
+            || point.y < this.gesture.bounds.top || point.y > this.gesture.bounds.bottom))) this.cancelGesture();
       } else if (name === 'touchend') {
         const gesture = this.gesture;
         if (gesture.action.kind === 'range') this.updateRange(point.x);
@@ -378,8 +398,10 @@ export class GameRenderer {
       const wx = host.wx ?? host.GameGlobal?.wx;
       if (!wx) throw new Error('微信触摸接口不可用。');
       const bind = (name: TouchName): ((event: TouchInput) => void) => event => {
-        const touch = event.changedTouches[0] ?? event.touches[0];
+        const touch = this.pointerId === null ? event.changedTouches[0] ?? event.touches[0]
+          : event.changedTouches.find(item => item.identifier === this.pointerId);
         if (touch) this.route(name, event, { x: touch.clientX ?? touch.pageX, y: touch.clientY ?? touch.pageY, id: touch.identifier ?? 0 });
+        else if (name === 'touchcancel' && event.changedTouches.length === 0) this.cancelGesture();
       };
       const start = bind('touchstart'); const move = bind('touchmove');
       const end = bind('touchend'); const cancel = bind('touchcancel');
@@ -417,14 +439,20 @@ export class GameRenderer {
       scroll.scrollTo(0, Math.max(0, scroll.scrollTop + event.deltaY * 750 / this.platform.getViewport().width), false);
       event.preventDefault();
     };
-    const blur = (): void => { this.cancelGesture(); this.focusId = null; };
-    const leave = (): void => { if (this.pointerId === null) this.clearFeedback(); };
+    const blur = (): void => { this.cancelGesture(); this.controller.pauseAutomatic(); this.focusId = null; };
+    const leave = (event: PointerEvent): void => {
+      if (this.pointerId === event.pointerId && this.gesture?.action.kind === 'seal') this.cancelGesture();
+      else if (this.pointerId === null) this.clearFeedback();
+    };
+    const lostCapture = (event: PointerEvent): void => { if (this.pointerId === event.pointerId) this.cancelGesture(); };
     canvas.addEventListener('pointerleave', leave);
+    canvas.addEventListener('lostpointercapture', lostCapture);
     canvas.addEventListener('wheel', wheel, { passive: false });
     window.addEventListener('blur', blur);
     this.cleanups.push(() => {
       for (const [name, callback] of handlers) canvas.removeEventListener(name, callback);
       canvas.removeEventListener('pointerleave', leave);
+      canvas.removeEventListener('lostpointercapture', lostCapture);
       canvas.removeEventListener('wheel', wheel);
       window.removeEventListener('blur', blur);
     });
@@ -536,6 +564,14 @@ export class GameRenderer {
     const box = element.layoutBox;
     const inset = Math.ceil(3 * this.cssScale);
     context.save();
+    // The focus ring is composited above Layout; honor the same scroll clips as the control.
+    for (let parent = element.parent; parent; parent = parent.parent) {
+      if (!(parent instanceof ScrollView)) continue;
+      const clip = parent.layoutBox;
+      context.beginPath();
+      context.rect(clip.absoluteX, clip.absoluteY, clip.width, clip.height);
+      context.clip();
+    }
     context.strokeStyle = ink.focus;
     context.lineWidth = inset;
     context.strokeRect(box.absoluteX + inset, box.absoluteY + inset, box.width - 2 * inset, box.height - 2 * inset);
@@ -547,6 +583,7 @@ export class GameRenderer {
     this.disposed = true;
     cancelAnimationFrame(this.frameId);
     this.cancelGesture();
+    this.controller.pauseAutomatic();
     for (const cleanup of this.cleanups) cleanup();
     this.audio.dispose(); this.effects.dispose(); this.homeBackdrop.dispose();
     this.baseLayout.clearAll(); this.overlayLayout.clearAll();

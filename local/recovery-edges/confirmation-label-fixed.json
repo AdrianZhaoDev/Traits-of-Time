@@ -1,0 +1,33 @@
+{
+  "id": "f6052ad2-70e2-4fdf-b2ed-2dfc10d37fc3",
+  "ok": true,
+  "result": {
+    "origin": "http://localhost:5179/local/recovery-edges/harness.html",
+    "refs": {
+      "e36": {
+        "name": "",
+        "role": "Canvas"
+      },
+      "e37": {
+        "name": "返回",
+        "role": "button"
+      },
+      "e38": {
+        "name": "确认放弃本次传承",
+        "role": "button"
+      },
+      "e39": {
+        "name": "返回，不放弃",
+        "role": "button"
+      }
+    },
+    "removedRefs": [],
+    "snapshot": "- main\n  - Canvas [ref=e36] focusable [tabindex]\n  - dialog \"穿越了这次我带大喇叭逆袭 · 确认放弃传承\"\n    - log\n      - StaticText \"确认放弃传承 返回 人生存档或传承、记录尚未确认，推进已停止。请检查本机空间和权限后重新读取。 无法确定传承开局是否保存。确认放弃后，这次传承将被永久消耗，不会补发；本机人生存档不会因此删除。若能恢复原存档，请先返回并重新读取。以后重新开始仍会单独确认是否覆盖人生。 确认放弃本次传承 返回，不放弃\"\n    - generic\n      - button \"返回\" [ref=e37]\n      - button \"确认放弃本次传承\" [ref=e38]\n      - button \"返回，不放弃\" [ref=e39]\n    - status",
+    "browserPageId": "5e8e3a1f-7d66-4951-8fab-2a7dafb455ba",
+    "url": "http://localhost:5179/local/recovery-edges/harness.html",
+    "title": "localhost:5179/local/recovery-edges/harness.html?mode=pending"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

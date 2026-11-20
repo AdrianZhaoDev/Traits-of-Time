@@ -1,0 +1,2698 @@
+
+> chuanyue-laba-nixi@1.0.0 test
+> node --import ./tools/register-typescript.mjs --test
+
+TAP version 13
+# Subtest: production schema and semantic references
+ok 1 - production schema and semantic references
+  ---
+  duration_ms: 143.782114
+  type: 'test'
+  ...
+# Subtest: automatic scheduler executes marriage, bereavement, remarriage without choices
+ok 2 - automatic scheduler executes marriage, bereavement, remarriage without choices
+  ---
+  duration_ms: 16.776148
+  type: 'test'
+  ...
+# Subtest: automatic D20 stages use real seeded rolls and branch effects; natural 1/20 are respected
+ok 3 - automatic D20 stages use real seeded rolls and branch effects; natural 1/20 are respected
+  ---
+  duration_ms: 66.246597
+  type: 'test'
+  ...
+# Subtest: automatic death ends once, preserves final state, rejects future years
+ok 4 - automatic death ends once, preserves final state, rejects future years
+  ---
+  duration_ms: 10.468973
+  type: 'test'
+  ...
+# Subtest: complete production lives retain one-to-five successful major choices across deterministic strategies
+not ok 5 - complete production lives retain one-to-five successful major choices across deterministic strategies
+  ---
+  duration_ms: 47306.082713
+  type: 'test'
+  location: '/mnt/c/Users/admin/Documents/pppp/tests/engine.test.mjs:93:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    [{"seed":16,"strategy":"normal","choices":[{"id":"E_START_IMPERIAL_EXAM","age":60,"option":"start"},{"id":"E_MOD_HEALER_NODE_1","age":61,"option":"study"},{"id":"E_MOD_HEALER_NODE_2","age":63,"option":"train"},{"id":"E_CHAIN_IMPERIAL_EXAM_4","age":64,"option":"qualify"},{"id":"E_HIST_1645_YANGZHOU_FATE","age":64,"option":"leave_early"},{"id":"E_MOD_HEALER_NODE_3","age":66,"option":"organize"}]},{"seed":19,"strategy":"normal","choices":[{"id":"E_START_EPIDEMIC_HEALING","age":21,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":22,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":24,"option":"flashlight_rota"},{"id":"E_CHAIN_EPIDEMIC_HEALING_3","age":24,"option":"qualify"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":27,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":31,"option":"flashlight_break_brain"}]},{"seed":23,"strategy":"normal","choices":[{"id":"E_MOD_CORN_FAST_INVENTORY","age":35,"option":"corn_invest"},{"id":"E_MOD_CORN_FAST_DISTRIBUTE","age":35,"option":"corn_invest"},{"id":"E_MOD_CORN_FAST_ESCORT","age":35,"option":"corn_invest"},{"id":"E_HIST_BEIPING_1644","age":35,"option":"flee_south"},{"id":"E_MOD_CORN_BREAKTHROUGH","age":35,"option":"corn_promote"},{"id":"E_START_IMPERIAL_EXAM","age":36,"option":"start"},{"id":"E_CHAIN_IMPERIAL_EXAM_4","age":40,"option":"qualify"}]},{"seed":31,"strategy":"normal","choices":[{"id":"E_START_EPIDEMIC_HEALING","age":58,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":59,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":61,"option":"flashlight_rota"},{"id":"E_CHAIN_EPIDEMIC_HEALING_3","age":61,"option":"qualify"},{"id":"E_HIST_BEIPING_1644","age":63,"option":"flee_south"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":64,"option":"flashlight_escort"}]},{"seed":35,"strategy":"normal","choices":[{"id":"E_START_FIREARMS_RESEARCH","age":44,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":45,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_FAST_FRAUD","age":45,"option":"flashlight_fast_fraud_invest"},{"id":"E_MOD_FLASHLIGHT_FAST_ROTA","age":45,"option":"flashlight_fast_rota_invest"},{"id":"E_MOD_FLASHLIGHT_FAST_EXIT","age":45,"option":"flashlight_fast_exit_invest"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":45,"option":"flashlight_break_brain"},{"id":"E_CHAIN_FIREARMS_RESEARCH_3","age":48,"option":"qualify"}]},{"seed":46,"strategy":"normal","choices":[{"id":"E_START_IMPERIAL_EXAM","age":25,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":26,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":28,"option":"flashlight_rota"},{"id":"E_CHAIN_IMPERIAL_EXAM_4","age":29,"option":"qualify"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":31,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":34,"option":"flashlight_break_brain"}]},{"seed":51,"strategy":"normal","choices":[{"id":"E_START_FORTRESS_DEFENSE","age":22,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":23,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":25,"option":"flashlight_rota"},{"id":"E_CHAIN_FORTRESS_DEFENSE_3","age":25,"option":"qualify"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":28,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":28,"option":"flashlight_break_brain"},{"id":"E_HIST_BEIPING_1644","age":29,"option":"flee_south"}]},{"seed":65,"strategy":"normal","choices":[{"id":"E_START_FIREARMS_RESEARCH","age":36,"option":"start"},{"id":"E_MOD_CORN_TRIAL","age":37,"option":"corn_invest"},{"id":"E_MOD_CORN_STORE","age":39,"option":"corn_invest"},{"id":"E_CHAIN_FIREARMS_RESEARCH_3","age":40,"option":"qualify"},{"id":"E_MOD_CORN_RELIEF","age":42,"option":"corn_invest"},{"id":"E_MOD_CORN_BREAKTHROUGH","age":42,"option":"corn_promote"}]},{"seed":84,"strategy":"normal","choices":[{"id":"E_HIST_1645_YANGZHOU_FATE","age":10,"option":"leave_early"},{"id":"E_MOD_HEALER_NODE_1","age":11,"option":"study"},{"id":"E_SOC_YOUTH_APPRENTICE","age":11,"option":"workshop_path"},{"id":"E_MOD_HEALER_NODE_2","age":13,"option":"train"},{"id":"E_CHAIN_3","age":13,"option":"qualify"},{"id":"E_MOD_HEALER_NODE_3","age":16,"option":"organize"}]},{"seed":86,"strategy":"normal","choices":[{"id":"E_START_FORTRESS_DEFENSE","age":42,"option":"start"},{"id":"E_MOD_HEALER_NODE_1","age":43,"option":"study"},{"id":"E_MOD_HEALER_NODE_2","age":45,"option":"train"},{"id":"E_CHAIN_FORTRESS_DEFENSE_3","age":45,"option":"qualify"},{"id":"E_MOD_HEALER_NODE_3","age":48,"option":"organize"},{"id":"E_MOD_HEALER_BREAKTHROUGH","age":48,"option":"spread"}]},{"seed":23,"strategy":"cautious","choices":[{"id":"E_MOD_CORN_FAST_INVENTORY","age":35,"option":"corn_invest"},{"id":"E_MOD_CORN_FAST_DISTRIBUTE","age":35,"option":"corn_invest"},{"id":"E_MOD_CORN_FAST_ESCORT","age":35,"option":"corn_invest"},{"id":"E_HIST_BEIPING_1644","age":35,"option":"flee_south"},{"id":"E_MOD_CORN_BREAKTHROUGH","age":35,"option":"corn_safe"},{"id":"E_START_IMPERIAL_EXAM","age":36,"option":"decline"}]},{"seed":35,"strategy":"cautious","choices":[{"id":"E_START_FIREARMS_RESEARCH","age":44,"option":"decline"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":45,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_FAST_FRAUD","age":45,"option":"flashlight_fast_fraud_invest"},{"id":"E_MOD_FLASHLIGHT_FAST_ROTA","age":45,"option":"flashlight_fast_rota_invest"},{"id":"E_MOD_FLASHLIGHT_FAST_EXIT","age":45,"option":"flashlight_fast_exit_invest"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":45,"option":"flashlight_break_safe"}]},{"seed":51,"strategy":"cautious","choices":[{"id":"E_START_FORTRESS_DEFENSE","age":22,"option":"decline"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":23,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":25,"option":"flashlight_rota"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":28,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":28,"option":"flashlight_break_safe"},{"id":"E_HIST_BEIPING_1644","age":29,"option":"flee_south"}]},{"seed":62,"strategy":"cautious","choices":[{"id":"E_PROJECT","age":12,"option":"decline"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":13,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":15,"option":"flashlight_rota"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":18,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":22,"option":"flashlight_break_safe"},{"id":"E_HIST_1645_YANGZHOU_FATE","age":27,"option":"leave_early"}]},{"seed":74,"strategy":"cautious","choices":[{"id":"E_PROJECT","age":26,"option":"decline"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":27,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":29,"option":"flashlight_rota"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":32,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":38,"option":"flashlight_break_safe"},{"id":"E_HIST_1645_YANGZHOU_FATE","age":43,"option":"leave_early"}]},{"seed":82,"strategy":"cautious","choices":[{"id":"E_PROJECT","age":13,"option":"decline"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":14,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":16,"option":"flashlight_rota"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":19,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":24,"option":"flashlight_break_safe"},{"id":"E_HIST_1645_YANGZHOU_FATE","age":29,"option":"leave_early"}]},{"seed":85,"strategy":"cautious","choices":[{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":9,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":11,"option":"flashlight_rota"},{"id":"E_PROJECT","age":11,"option":"decline"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":14,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":14,"option":"flashlight_break_safe"},{"id":"E_HIST_BEIPING_1644","age":15,"option":"flee_south"}]},{"seed":13,"strategy":"risky","choices":[{"id":"E_START_EPIDEMIC_HEALING","age":58,"option":"start"},{"id":"E_MOD_HEALER_NODE_1","age":59,"option":"delay"},{"id":"E_HIST_BEIPING_1644","age":60,"option":"protect_refugees"},{"id":"E_MOD_HEALER_NODE_2","age":61,"option":"train"},{"id":"E_CHAIN_EPIDEMIC_HEALING_3","age":61,"option":"qualify"},{"id":"E_MOD_HEALER_NODE_3","age":64,"option":"showoff"}]},{"seed":23,"strategy":"risky","choices":[{"id":"E_MOD_CORN_FAST_INVENTORY","age":35,"option":"corn_delegate"},{"id":"E_MOD_CORN_FAST_DISTRIBUTE","age":35,"option":"corn_delegate"},{"id":"E_MOD_CORN_FAST_ESCORT","age":35,"option":"corn_risk"},{"id":"E_HIST_BEIPING_1644","age":35,"option":"protect_refugees"},{"id":"E_MOD_CORN_BREAKTHROUGH","age":35,"option":"corn_safe"},{"id":"E_START_EPIDEMIC_HEALING","age":36,"option":"start"},{"id":"E_CHAIN_EPIDEMIC_HEALING_3","age":39,"option":"qualify"}]},{"seed":16,"strategy":"career","choices":[{"id":"E_START_IMPERIAL_EXAM","age":60,"option":"start"},{"id":"E_MOD_HEALER_NODE_1","age":61,"option":"study"},{"id":"E_MOD_HEALER_NODE_2","age":63,"option":"train"},{"id":"E_CHAIN_IMPERIAL_EXAM_4","age":64,"option":"qualify"},{"id":"E_HIST_1645_YANGZHOU_FATE","age":64,"option":"leave_early"},{"id":"E_MOD_HEALER_NODE_3","age":66,"option":"organize"}]},{"seed":19,"strategy":"career","choices":[{"id":"E_START_EPIDEMIC_HEALING","age":21,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":22,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":24,"option":"flashlight_rota"},{"id":"E_CHAIN_EPIDEMIC_HEALING_3","age":24,"option":"qualify"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":27,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":31,"option":"flashlight_break_brain"}]},{"seed":23,"strategy":"career","choices":[{"id":"E_MOD_CORN_FAST_INVENTORY","age":35,"option":"corn_invest"},{"id":"E_MOD_CORN_FAST_DISTRIBUTE","age":35,"option":"corn_invest"},{"id":"E_MOD_CORN_FAST_ESCORT","age":35,"option":"corn_invest"},{"id":"E_HIST_BEIPING_1644","age":35,"option":"flee_south"},{"id":"E_MOD_CORN_BREAKTHROUGH","age":35,"option":"corn_promote"},{"id":"E_START_IMPERIAL_EXAM","age":36,"option":"start"},{"id":"E_CHAIN_IMPERIAL_EXAM_4","age":40,"option":"qualify"}]},{"seed":31,"strategy":"career","choices":[{"id":"E_START_EPIDEMIC_HEALING","age":58,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":59,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":61,"option":"flashlight_rota"},{"id":"E_CHAIN_EPIDEMIC_HEALING_3","age":61,"option":"qualify"},{"id":"E_HIST_BEIPING_1644","age":63,"option":"flee_south"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":64,"option":"flashlight_escort"}]},{"seed":35,"strategy":"career","choices":[{"id":"E_START_FIREARMS_RESEARCH","age":44,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":45,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_FAST_FRAUD","age":45,"option":"flashlight_fast_fraud_invest"},{"id":"E_MOD_FLASHLIGHT_FAST_ROTA","age":45,"option":"flashlight_fast_rota_invest"},{"id":"E_MOD_FLASHLIGHT_FAST_EXIT","age":45,"option":"flashlight_fast_exit_invest"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":45,"option":"flashlight_break_brain"},{"id":"E_CHAIN_FIREARMS_RESEARCH_3","age":48,"option":"qualify"}]},{"seed":46,"strategy":"career","choices":[{"id":"E_START_IMPERIAL_EXAM","age":25,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":26,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":28,"option":"flashlight_rota"},{"id":"E_CHAIN_IMPERIAL_EXAM_4","age":29,"option":"qualify"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":31,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":34,"option":"flashlight_break_brain"}]},{"seed":51,"strategy":"career","choices":[{"id":"E_START_FORTRESS_DEFENSE","age":22,"option":"start"},{"id":"E_MOD_FLASHLIGHT_EVIDENCE","age":23,"option":"flashlight_study"},{"id":"E_MOD_FLASHLIGHT_PATROL","age":25,"option":"flashlight_rota"},{"id":"E_CHAIN_FORTRESS_DEFENSE_3","age":25,"option":"qualify"},{"id":"E_MOD_FLASHLIGHT_ESCORT","age":28,"option":"flashlight_escort"},{"id":"E_MOD_FLASHLIGHT_BREAKTHROUGH","age":28,"option":"flashlight_break_brain"},{"id":"E_HIST_BEIPING_1644","age":29,"option":"flee_south"}]},{"seed":65,"strategy":"career","choices":[{"id":"E_START_FIREARMS_RESEARCH","age":36,"option":"start"},{"id":"E_MOD_CORN_TRIAL","age":37,"option":"corn_invest"},{"id":"E_MOD_CORN_STORE","age":39,"option":"corn_invest"},{"id":"E_CHAIN_FIREARMS_RESEARCH_3","age":40,"option":"qualify"},{"id":"E_MOD_CORN_RELIEF","age":42,"option":"corn_invest"},{"id":"E_MOD_CORN_BREAKTHROUGH","age":42,"option":"corn_promote"}]},{"seed":84,"strategy":"career","choices":[{"id":"E_HIST_1645_YANGZHOU_FATE","age":10,"option":"leave_early"},{"id":"E_MOD_HEALER_NODE_1","age":11,"option":"study"},{"id":"E_SOC_YOUTH_APPRENTICE","age":11,"option":"workshop_path"},{"id":"E_MOD_HEALER_NODE_2","age":13,"option":"train"},{"id":"E_CHAIN_3","age":13,"option":"qualify"},{"id":"E_MOD_HEALER_NODE_3","age":16,"option":"organize"}]},{"seed":86,"strategy":"career","choices":[{"id":"E_START_FORTRESS_DEFENSE","age":42,"option":"start"},{"id":"E_MOD_HEALER_NODE_1","age":43,"option":"study"},{"id":"E_MOD_HEALER_NODE_2","age":45,"option":"train"},{"id":"E_CHAIN_FORTRESS_DEFENSE_3","age":45,"option":"qualify"},{"id":"E_MOD_HEALER_NODE_3","age":48,"option":"organize"},{"id":"E_MOD_HEALER_BREAKTHROUGH","age":48,"option":"spread"}]}]
+    + actual - expected
+    
+    + [
+    +   {
+    +     choices: [
+    +       {
+    +         age: 60,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'study'
+    +       },
+    +       {
+    +         age: 63,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_CHAIN_IMPERIAL_EXAM_4',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       },
+    +       {
+    +         age: 66,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'organize'
+    +       }
+    +     ],
+    +     seed: 16,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 21,
+    +         id: 'E_START_EPIDEMIC_HEALING',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 22,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 24,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 24,
+    +         id: 'E_CHAIN_EPIDEMIC_HEALING_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 27,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 31,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       }
+    +     ],
+    +     seed: 19,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_INVENTORY',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_DISTRIBUTE',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_ESCORT',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_BREAKTHROUGH',
+    +         option: 'corn_promote'
+    +       },
+    +       {
+    +         age: 36,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 40,
+    +         id: 'E_CHAIN_IMPERIAL_EXAM_4',
+    +         option: 'qualify'
+    +       }
+    +     ],
+    +     seed: 23,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 58,
+    +         id: 'E_START_EPIDEMIC_HEALING',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 59,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_CHAIN_EPIDEMIC_HEALING_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 63,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       }
+    +     ],
+    +     seed: 31,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 44,
+    +         id: 'E_START_FIREARMS_RESEARCH',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_FRAUD',
+    +         option: 'flashlight_fast_fraud_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_ROTA',
+    +         option: 'flashlight_fast_rota_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_EXIT',
+    +         option: 'flashlight_fast_exit_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       },
+    +       {
+    +         age: 48,
+    +         id: 'E_CHAIN_FIREARMS_RESEARCH_3',
+    +         option: 'qualify'
+    +       }
+    +     ],
+    +     seed: 35,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 25,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 26,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_CHAIN_IMPERIAL_EXAM_4',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 31,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 34,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       }
+    +     ],
+    +     seed: 46,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 22,
+    +         id: 'E_START_FORTRESS_DEFENSE',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 23,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 25,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 25,
+    +         id: 'E_CHAIN_FORTRESS_DEFENSE_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       }
+    +     ],
+    +     seed: 51,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 36,
+    +         id: 'E_START_FIREARMS_RESEARCH',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 37,
+    +         id: 'E_MOD_CORN_TRIAL',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 39,
+    +         id: 'E_MOD_CORN_STORE',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 40,
+    +         id: 'E_CHAIN_FIREARMS_RESEARCH_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 42,
+    +         id: 'E_MOD_CORN_RELIEF',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 42,
+    +         id: 'E_MOD_CORN_BREAKTHROUGH',
+    +         option: 'corn_promote'
+    +       }
+    +     ],
+    +     seed: 65,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 10,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       },
+    +       {
+    +         age: 11,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'study'
+    +       },
+    +       {
+    +         age: 11,
+    +         id: 'E_SOC_YOUTH_APPRENTICE',
+    +         option: 'workshop_path'
+    +       },
+    +       {
+    +         age: 13,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 13,
+    +         id: 'E_CHAIN_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 16,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'organize'
+    +       }
+    +     ],
+    +     seed: 84,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 42,
+    +         id: 'E_START_FORTRESS_DEFENSE',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 43,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'study'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_CHAIN_FORTRESS_DEFENSE_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 48,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'organize'
+    +       },
+    +       {
+    +         age: 48,
+    +         id: 'E_MOD_HEALER_BREAKTHROUGH',
+    +         option: 'spread'
+    +       }
+    +     ],
+    +     seed: 86,
+    +     strategy: 'normal'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_INVENTORY',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_DISTRIBUTE',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_ESCORT',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_BREAKTHROUGH',
+    +         option: 'corn_safe'
+    +       },
+    +       {
+    +         age: 36,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'decline'
+    +       }
+    +     ],
+    +     seed: 23,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 44,
+    +         id: 'E_START_FIREARMS_RESEARCH',
+    +         option: 'decline'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_FRAUD',
+    +         option: 'flashlight_fast_fraud_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_ROTA',
+    +         option: 'flashlight_fast_rota_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_EXIT',
+    +         option: 'flashlight_fast_exit_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_safe'
+    +       }
+    +     ],
+    +     seed: 35,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 22,
+    +         id: 'E_START_FORTRESS_DEFENSE',
+    +         option: 'decline'
+    +       },
+    +       {
+    +         age: 23,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 25,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_safe'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       }
+    +     ],
+    +     seed: 51,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 12,
+    +         id: 'E_PROJECT',
+    +         option: 'decline'
+    +       },
+    +       {
+    +         age: 13,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 15,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 18,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 22,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_safe'
+    +       },
+    +       {
+    +         age: 27,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       }
+    +     ],
+    +     seed: 62,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 26,
+    +         id: 'E_PROJECT',
+    +         option: 'decline'
+    +       },
+    +       {
+    +         age: 27,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 32,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 38,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_safe'
+    +       },
+    +       {
+    +         age: 43,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       }
+    +     ],
+    +     seed: 74,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 13,
+    +         id: 'E_PROJECT',
+    +         option: 'decline'
+    +       },
+    +       {
+    +         age: 14,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 16,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 19,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 24,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_safe'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       }
+    +     ],
+    +     seed: 82,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 9,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 11,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 11,
+    +         id: 'E_PROJECT',
+    +         option: 'decline'
+    +       },
+    +       {
+    +         age: 14,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 14,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_safe'
+    +       },
+    +       {
+    +         age: 15,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       }
+    +     ],
+    +     seed: 85,
+    +     strategy: 'cautious'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 58,
+    +         id: 'E_START_EPIDEMIC_HEALING',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 59,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'delay'
+    +       },
+    +       {
+    +         age: 60,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'protect_refugees'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_CHAIN_EPIDEMIC_HEALING_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'showoff'
+    +       }
+    +     ],
+    +     seed: 13,
+    +     strategy: 'risky'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_INVENTORY',
+    +         option: 'corn_delegate'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_DISTRIBUTE',
+    +         option: 'corn_delegate'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_ESCORT',
+    +         option: 'corn_risk'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'protect_refugees'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_BREAKTHROUGH',
+    +         option: 'corn_safe'
+    +       },
+    +       {
+    +         age: 36,
+    +         id: 'E_START_EPIDEMIC_HEALING',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 39,
+    +         id: 'E_CHAIN_EPIDEMIC_HEALING_3',
+    +         option: 'qualify'
+    +       }
+    +     ],
+    +     seed: 23,
+    +     strategy: 'risky'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 60,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'study'
+    +       },
+    +       {
+    +         age: 63,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_CHAIN_IMPERIAL_EXAM_4',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       },
+    +       {
+    +         age: 66,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'organize'
+    +       }
+    +     ],
+    +     seed: 16,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 21,
+    +         id: 'E_START_EPIDEMIC_HEALING',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 22,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 24,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 24,
+    +         id: 'E_CHAIN_EPIDEMIC_HEALING_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 27,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 31,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       }
+    +     ],
+    +     seed: 19,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_INVENTORY',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_DISTRIBUTE',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_FAST_ESCORT',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       },
+    +       {
+    +         age: 35,
+    +         id: 'E_MOD_CORN_BREAKTHROUGH',
+    +         option: 'corn_promote'
+    +       },
+    +       {
+    +         age: 36,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 40,
+    +         id: 'E_CHAIN_IMPERIAL_EXAM_4',
+    +         option: 'qualify'
+    +       }
+    +     ],
+    +     seed: 23,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 58,
+    +         id: 'E_START_EPIDEMIC_HEALING',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 59,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 61,
+    +         id: 'E_CHAIN_EPIDEMIC_HEALING_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 63,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       },
+    +       {
+    +         age: 64,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       }
+    +     ],
+    +     seed: 31,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 44,
+    +         id: 'E_START_FIREARMS_RESEARCH',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_FRAUD',
+    +         option: 'flashlight_fast_fraud_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_ROTA',
+    +         option: 'flashlight_fast_rota_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_FAST_EXIT',
+    +         option: 'flashlight_fast_exit_invest'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       },
+    +       {
+    +         age: 48,
+    +         id: 'E_CHAIN_FIREARMS_RESEARCH_3',
+    +         option: 'qualify'
+    +       }
+    +     ],
+    +     seed: 35,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 25,
+    +         id: 'E_START_IMPERIAL_EXAM',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 26,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_CHAIN_IMPERIAL_EXAM_4',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 31,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 34,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       }
+    +     ],
+    +     seed: 46,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 22,
+    +         id: 'E_START_FORTRESS_DEFENSE',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 23,
+    +         id: 'E_MOD_FLASHLIGHT_EVIDENCE',
+    +         option: 'flashlight_study'
+    +       },
+    +       {
+    +         age: 25,
+    +         id: 'E_MOD_FLASHLIGHT_PATROL',
+    +         option: 'flashlight_rota'
+    +       },
+    +       {
+    +         age: 25,
+    +         id: 'E_CHAIN_FORTRESS_DEFENSE_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_ESCORT',
+    +         option: 'flashlight_escort'
+    +       },
+    +       {
+    +         age: 28,
+    +         id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH',
+    +         option: 'flashlight_break_brain'
+    +       },
+    +       {
+    +         age: 29,
+    +         id: 'E_HIST_BEIPING_1644',
+    +         option: 'flee_south'
+    +       }
+    +     ],
+    +     seed: 51,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 36,
+    +         id: 'E_START_FIREARMS_RESEARCH',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 37,
+    +         id: 'E_MOD_CORN_TRIAL',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 39,
+    +         id: 'E_MOD_CORN_STORE',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 40,
+    +         id: 'E_CHAIN_FIREARMS_RESEARCH_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 42,
+    +         id: 'E_MOD_CORN_RELIEF',
+    +         option: 'corn_invest'
+    +       },
+    +       {
+    +         age: 42,
+    +         id: 'E_MOD_CORN_BREAKTHROUGH',
+    +         option: 'corn_promote'
+    +       }
+    +     ],
+    +     seed: 65,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 10,
+    +         id: 'E_HIST_1645_YANGZHOU_FATE',
+    +         option: 'leave_early'
+    +       },
+    +       {
+    +         age: 11,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'study'
+    +       },
+    +       {
+    +         age: 11,
+    +         id: 'E_SOC_YOUTH_APPRENTICE',
+    +         option: 'workshop_path'
+    +       },
+    +       {
+    +         age: 13,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 13,
+    +         id: 'E_CHAIN_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 16,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'organize'
+    +       }
+    +     ],
+    +     seed: 84,
+    +     strategy: 'career'
+    +   },
+    +   {
+    +     choices: [
+    +       {
+    +         age: 42,
+    +         id: 'E_START_FORTRESS_DEFENSE',
+    +         option: 'start'
+    +       },
+    +       {
+    +         age: 43,
+    +         id: 'E_MOD_HEALER_NODE_1',
+    +         option: 'study'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_MOD_HEALER_NODE_2',
+    +         option: 'train'
+    +       },
+    +       {
+    +         age: 45,
+    +         id: 'E_CHAIN_FORTRESS_DEFENSE_3',
+    +         option: 'qualify'
+    +       },
+    +       {
+    +         age: 48,
+    +         id: 'E_MOD_HEALER_NODE_3',
+    +         option: 'organize'
+    +       },
+    +       {
+    +         age: 48,
+    +         id: 'E_MOD_HEALER_BREAKTHROUGH',
+    +         option: 'spread'
+    +       }
+    +     ],
+    +     seed: 86,
+    +     strategy: 'career'
+    +   }
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0:
+      seed: 16
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 60
+          option: 'start'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 61
+          option: 'study'
+        2:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 63
+          option: 'train'
+        3:
+          id: 'E_CHAIN_IMPERIAL_EXAM_4'
+          age: 64
+          option: 'qualify'
+        4:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 64
+          option: 'leave_early'
+        5:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 66
+          option: 'organize'
+    1:
+      seed: 19
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_EPIDEMIC_HEALING'
+          age: 21
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 22
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 24
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_EPIDEMIC_HEALING_3'
+          age: 24
+          option: 'qualify'
+        4:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 27
+          option: 'flashlight_escort'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 31
+          option: 'flashlight_break_brain'
+    2:
+      seed: 23
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_MOD_CORN_FAST_INVENTORY'
+          age: 35
+          option: 'corn_invest'
+        1:
+          id: 'E_MOD_CORN_FAST_DISTRIBUTE'
+          age: 35
+          option: 'corn_invest'
+        2:
+          id: 'E_MOD_CORN_FAST_ESCORT'
+          age: 35
+          option: 'corn_invest'
+        3:
+          id: 'E_HIST_BEIPING_1644'
+          age: 35
+          option: 'flee_south'
+        4:
+          id: 'E_MOD_CORN_BREAKTHROUGH'
+          age: 35
+          option: 'corn_promote'
+        5:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 36
+          option: 'start'
+        6:
+          id: 'E_CHAIN_IMPERIAL_EXAM_4'
+          age: 40
+          option: 'qualify'
+    3:
+      seed: 31
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_EPIDEMIC_HEALING'
+          age: 58
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 59
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 61
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_EPIDEMIC_HEALING_3'
+          age: 61
+          option: 'qualify'
+        4:
+          id: 'E_HIST_BEIPING_1644'
+          age: 63
+          option: 'flee_south'
+        5:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 64
+          option: 'flashlight_escort'
+    4:
+      seed: 35
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_FIREARMS_RESEARCH'
+          age: 44
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 45
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_FAST_FRAUD'
+          age: 45
+          option: 'flashlight_fast_fraud_invest'
+        3:
+          id: 'E_MOD_FLASHLIGHT_FAST_ROTA'
+          age: 45
+          option: 'flashlight_fast_rota_invest'
+        4:
+          id: 'E_MOD_FLASHLIGHT_FAST_EXIT'
+          age: 45
+          option: 'flashlight_fast_exit_invest'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 45
+          option: 'flashlight_break_brain'
+        6:
+          id: 'E_CHAIN_FIREARMS_RESEARCH_3'
+          age: 48
+          option: 'qualify'
+    5:
+      seed: 46
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 25
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 26
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 28
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_IMPERIAL_EXAM_4'
+          age: 29
+          option: 'qualify'
+        4:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 31
+          option: 'flashlight_escort'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 34
+          option: 'flashlight_break_brain'
+    6:
+      seed: 51
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_FORTRESS_DEFENSE'
+          age: 22
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 23
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 25
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_FORTRESS_DEFENSE_3'
+          age: 25
+          option: 'qualify'
+        4:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 28
+          option: 'flashlight_escort'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 28
+          option: 'flashlight_break_brain'
+        6:
+          id: 'E_HIST_BEIPING_1644'
+          age: 29
+          option: 'flee_south'
+    7:
+      seed: 65
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_FIREARMS_RESEARCH'
+          age: 36
+          option: 'start'
+        1:
+          id: 'E_MOD_CORN_TRIAL'
+          age: 37
+          option: 'corn_invest'
+        2:
+          id: 'E_MOD_CORN_STORE'
+          age: 39
+          option: 'corn_invest'
+        3:
+          id: 'E_CHAIN_FIREARMS_RESEARCH_3'
+          age: 40
+          option: 'qualify'
+        4:
+          id: 'E_MOD_CORN_RELIEF'
+          age: 42
+          option: 'corn_invest'
+        5:
+          id: 'E_MOD_CORN_BREAKTHROUGH'
+          age: 42
+          option: 'corn_promote'
+    8:
+      seed: 84
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 10
+          option: 'leave_early'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 11
+          option: 'study'
+        2:
+          id: 'E_SOC_YOUTH_APPRENTICE'
+          age: 11
+          option: 'workshop_path'
+        3:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 13
+          option: 'train'
+        4:
+          id: 'E_CHAIN_3'
+          age: 13
+          option: 'qualify'
+        5:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 16
+          option: 'organize'
+    9:
+      seed: 86
+      strategy: 'normal'
+      choices:
+        0:
+          id: 'E_START_FORTRESS_DEFENSE'
+          age: 42
+          option: 'start'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 43
+          option: 'study'
+        2:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 45
+          option: 'train'
+        3:
+          id: 'E_CHAIN_FORTRESS_DEFENSE_3'
+          age: 45
+          option: 'qualify'
+        4:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 48
+          option: 'organize'
+        5:
+          id: 'E_MOD_HEALER_BREAKTHROUGH'
+          age: 48
+          option: 'spread'
+    10:
+      seed: 23
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_MOD_CORN_FAST_INVENTORY'
+          age: 35
+          option: 'corn_invest'
+        1:
+          id: 'E_MOD_CORN_FAST_DISTRIBUTE'
+          age: 35
+          option: 'corn_invest'
+        2:
+          id: 'E_MOD_CORN_FAST_ESCORT'
+          age: 35
+          option: 'corn_invest'
+        3:
+          id: 'E_HIST_BEIPING_1644'
+          age: 35
+          option: 'flee_south'
+        4:
+          id: 'E_MOD_CORN_BREAKTHROUGH'
+          age: 35
+          option: 'corn_safe'
+        5:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 36
+          option: 'decline'
+    11:
+      seed: 35
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_START_FIREARMS_RESEARCH'
+          age: 44
+          option: 'decline'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 45
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_FAST_FRAUD'
+          age: 45
+          option: 'flashlight_fast_fraud_invest'
+        3:
+          id: 'E_MOD_FLASHLIGHT_FAST_ROTA'
+          age: 45
+          option: 'flashlight_fast_rota_invest'
+        4:
+          id: 'E_MOD_FLASHLIGHT_FAST_EXIT'
+          age: 45
+          option: 'flashlight_fast_exit_invest'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 45
+          option: 'flashlight_break_safe'
+    12:
+      seed: 51
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_START_FORTRESS_DEFENSE'
+          age: 22
+          option: 'decline'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 23
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 25
+          option: 'flashlight_rota'
+        3:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 28
+          option: 'flashlight_escort'
+        4:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 28
+          option: 'flashlight_break_safe'
+        5:
+          id: 'E_HIST_BEIPING_1644'
+          age: 29
+          option: 'flee_south'
+    13:
+      seed: 62
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_PROJECT'
+          age: 12
+          option: 'decline'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 13
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 15
+          option: 'flashlight_rota'
+        3:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 18
+          option: 'flashlight_escort'
+        4:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 22
+          option: 'flashlight_break_safe'
+        5:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 27
+          option: 'leave_early'
+    14:
+      seed: 74
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_PROJECT'
+          age: 26
+          option: 'decline'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 27
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 29
+          option: 'flashlight_rota'
+        3:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 32
+          option: 'flashlight_escort'
+        4:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 38
+          option: 'flashlight_break_safe'
+        5:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 43
+          option: 'leave_early'
+    15:
+      seed: 82
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_PROJECT'
+          age: 13
+          option: 'decline'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 14
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 16
+          option: 'flashlight_rota'
+        3:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 19
+          option: 'flashlight_escort'
+        4:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 24
+          option: 'flashlight_break_safe'
+        5:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 29
+          option: 'leave_early'
+    16:
+      seed: 85
+      strategy: 'cautious'
+      choices:
+        0:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 9
+          option: 'flashlight_study'
+        1:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 11
+          option: 'flashlight_rota'
+        2:
+          id: 'E_PROJECT'
+          age: 11
+          option: 'decline'
+        3:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 14
+          option: 'flashlight_escort'
+        4:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 14
+          option: 'flashlight_break_safe'
+        5:
+          id: 'E_HIST_BEIPING_1644'
+          age: 15
+          option: 'flee_south'
+    17:
+      seed: 13
+      strategy: 'risky'
+      choices:
+        0:
+          id: 'E_START_EPIDEMIC_HEALING'
+          age: 58
+          option: 'start'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 59
+          option: 'delay'
+        2:
+          id: 'E_HIST_BEIPING_1644'
+          age: 60
+          option: 'protect_refugees'
+        3:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 61
+          option: 'train'
+        4:
+          id: 'E_CHAIN_EPIDEMIC_HEALING_3'
+          age: 61
+          option: 'qualify'
+        5:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 64
+          option: 'showoff'
+    18:
+      seed: 23
+      strategy: 'risky'
+      choices:
+        0:
+          id: 'E_MOD_CORN_FAST_INVENTORY'
+          age: 35
+          option: 'corn_delegate'
+        1:
+          id: 'E_MOD_CORN_FAST_DISTRIBUTE'
+          age: 35
+          option: 'corn_delegate'
+        2:
+          id: 'E_MOD_CORN_FAST_ESCORT'
+          age: 35
+          option: 'corn_risk'
+        3:
+          id: 'E_HIST_BEIPING_1644'
+          age: 35
+          option: 'protect_refugees'
+        4:
+          id: 'E_MOD_CORN_BREAKTHROUGH'
+          age: 35
+          option: 'corn_safe'
+        5:
+          id: 'E_START_EPIDEMIC_HEALING'
+          age: 36
+          option: 'start'
+        6:
+          id: 'E_CHAIN_EPIDEMIC_HEALING_3'
+          age: 39
+          option: 'qualify'
+    19:
+      seed: 16
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 60
+          option: 'start'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 61
+          option: 'study'
+        2:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 63
+          option: 'train'
+        3:
+          id: 'E_CHAIN_IMPERIAL_EXAM_4'
+          age: 64
+          option: 'qualify'
+        4:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 64
+          option: 'leave_early'
+        5:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 66
+          option: 'organize'
+    20:
+      seed: 19
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_EPIDEMIC_HEALING'
+          age: 21
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 22
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 24
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_EPIDEMIC_HEALING_3'
+          age: 24
+          option: 'qualify'
+        4:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 27
+          option: 'flashlight_escort'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 31
+          option: 'flashlight_break_brain'
+    21:
+      seed: 23
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_MOD_CORN_FAST_INVENTORY'
+          age: 35
+          option: 'corn_invest'
+        1:
+          id: 'E_MOD_CORN_FAST_DISTRIBUTE'
+          age: 35
+          option: 'corn_invest'
+        2:
+          id: 'E_MOD_CORN_FAST_ESCORT'
+          age: 35
+          option: 'corn_invest'
+        3:
+          id: 'E_HIST_BEIPING_1644'
+          age: 35
+          option: 'flee_south'
+        4:
+          id: 'E_MOD_CORN_BREAKTHROUGH'
+          age: 35
+          option: 'corn_promote'
+        5:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 36
+          option: 'start'
+        6:
+          id: 'E_CHAIN_IMPERIAL_EXAM_4'
+          age: 40
+          option: 'qualify'
+    22:
+      seed: 31
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_EPIDEMIC_HEALING'
+          age: 58
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 59
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 61
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_EPIDEMIC_HEALING_3'
+          age: 61
+          option: 'qualify'
+        4:
+          id: 'E_HIST_BEIPING_1644'
+          age: 63
+          option: 'flee_south'
+        5:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 64
+          option: 'flashlight_escort'
+    23:
+      seed: 35
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_FIREARMS_RESEARCH'
+          age: 44
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 45
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_FAST_FRAUD'
+          age: 45
+          option: 'flashlight_fast_fraud_invest'
+        3:
+          id: 'E_MOD_FLASHLIGHT_FAST_ROTA'
+          age: 45
+          option: 'flashlight_fast_rota_invest'
+        4:
+          id: 'E_MOD_FLASHLIGHT_FAST_EXIT'
+          age: 45
+          option: 'flashlight_fast_exit_invest'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 45
+          option: 'flashlight_break_brain'
+        6:
+          id: 'E_CHAIN_FIREARMS_RESEARCH_3'
+          age: 48
+          option: 'qualify'
+    24:
+      seed: 46
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_IMPERIAL_EXAM'
+          age: 25
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 26
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 28
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_IMPERIAL_EXAM_4'
+          age: 29
+          option: 'qualify'
+        4:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 31
+          option: 'flashlight_escort'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 34
+          option: 'flashlight_break_brain'
+    25:
+      seed: 51
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_FORTRESS_DEFENSE'
+          age: 22
+          option: 'start'
+        1:
+          id: 'E_MOD_FLASHLIGHT_EVIDENCE'
+          age: 23
+          option: 'flashlight_study'
+        2:
+          id: 'E_MOD_FLASHLIGHT_PATROL'
+          age: 25
+          option: 'flashlight_rota'
+        3:
+          id: 'E_CHAIN_FORTRESS_DEFENSE_3'
+          age: 25
+          option: 'qualify'
+        4:
+          id: 'E_MOD_FLASHLIGHT_ESCORT'
+          age: 28
+          option: 'flashlight_escort'
+        5:
+          id: 'E_MOD_FLASHLIGHT_BREAKTHROUGH'
+          age: 28
+          option: 'flashlight_break_brain'
+        6:
+          id: 'E_HIST_BEIPING_1644'
+          age: 29
+          option: 'flee_south'
+    26:
+      seed: 65
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_FIREARMS_RESEARCH'
+          age: 36
+          option: 'start'
+        1:
+          id: 'E_MOD_CORN_TRIAL'
+          age: 37
+          option: 'corn_invest'
+        2:
+          id: 'E_MOD_CORN_STORE'
+          age: 39
+          option: 'corn_invest'
+        3:
+          id: 'E_CHAIN_FIREARMS_RESEARCH_3'
+          age: 40
+          option: 'qualify'
+        4:
+          id: 'E_MOD_CORN_RELIEF'
+          age: 42
+          option: 'corn_invest'
+        5:
+          id: 'E_MOD_CORN_BREAKTHROUGH'
+          age: 42
+          option: 'corn_promote'
+    27:
+      seed: 84
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_HIST_1645_YANGZHOU_FATE'
+          age: 10
+          option: 'leave_early'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 11
+          option: 'study'
+        2:
+          id: 'E_SOC_YOUTH_APPRENTICE'
+          age: 11
+          option: 'workshop_path'
+        3:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 13
+          option: 'train'
+        4:
+          id: 'E_CHAIN_3'
+          age: 13
+          option: 'qualify'
+        5:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 16
+          option: 'organize'
+    28:
+      seed: 86
+      strategy: 'career'
+      choices:
+        0:
+          id: 'E_START_FORTRESS_DEFENSE'
+          age: 42
+          option: 'start'
+        1:
+          id: 'E_MOD_HEALER_NODE_1'
+          age: 43
+          option: 'study'
+        2:
+          id: 'E_MOD_HEALER_NODE_2'
+          age: 45
+          option: 'train'
+        3:
+          id: 'E_CHAIN_FORTRESS_DEFENSE_3'
+          age: 45
+          option: 'qualify'
+        4:
+          id: 'E_MOD_HEALER_NODE_3'
+          age: 48
+          option: 'organize'
+        5:
+          id: 'E_MOD_HEALER_BREAKTHROUGH'
+          age: 48
+          option: 'spread'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/c/Users/admin/Documents/pppp/tests/engine.test.mjs:132:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# {"strategy":"normal","lives":100,"choicesMin":1,"choicesMax":7,"choicesP50":4,"choicesP90":5,"earlyDeathsBefore40":19,"familyEvents":717,"deaths":{"D_OLD_AGE":69,"D_FREEZING":3,"D_EPIDEMIC":7,"D_STARVATION":4,"D_MOD_FLASHLIGHT_MISSTEP":4,"D_WAR_CHAOS":3,"D_SENIOR_DECLINE":6,"D_MOD_LIGHTER_GAS_BURST":3,"D_BANDIT":1}}
+# {"strategy":"cautious","lives":100,"choicesMin":1,"choicesMax":6,"choicesP50":4,"choicesP90":5,"earlyDeathsBefore40":18,"familyEvents":754,"deaths":{"D_STARVATION":3,"D_OLD_AGE":69,"D_FREEZING":1,"D_SENIOR_DECLINE":4,"D_EPIDEMIC":5,"D_WAR_CHAOS":10,"D_CHARLATAN":1,"D_BANDIT":1,"D_POISON":1,"D_MOD_LIGHTER_GAS_BURST":4,"D_MOD_OIL_DRINK":1}}
+# {"strategy":"risky","lives":100,"choicesMin":1,"choicesMax":7,"choicesP50":4,"choicesP90":5,"earlyDeathsBefore40":25,"familyEvents":631,"deaths":{"D_OLD_AGE":65,"D_MOD_FLASHLIGHT_ROBBERY":8,"D_EPIDEMIC":5,"D_MOD_HEALER_ROBBERY":2,"D_MOD_HEALER_DELAY":3,"D_MOD_FLASHLIGHT_CLAIMS":4,"D_MOD_CORN_RUMOUR":2,"D_MOD_FLASHLIGHT_MISSTEP":2,"D_MOD_LIGHTER_GAS_BURST":2,"D_FREEZING":1,"D_MOD_CORN_HUNGER":1,"D_MOD_CORN_THEFT":2,"D_STARVATION":1,"D_CRISIS":1,"D_SENIOR_DECLINE":1}}
+# {"strategy":"career","lives":100,"choicesMin":1,"choicesMax":7,"choicesP50":4,"choicesP90":5,"earlyDeathsBefore40":19,"familyEvents":717,"deaths":{"D_OLD_AGE":69,"D_FREEZING":3,"D_EPIDEMIC":7,"D_STARVATION":4,"D_MOD_FLASHLIGHT_MISSTEP":4,"D_WAR_CHAOS":3,"D_SENIOR_DECLINE":6,"D_MOD_LIGHTER_GAS_BURST":3,"D_BANDIT":1}}
+# Subtest: heirless ending checks current children, not only a historical heirless flag
+ok 6 - heirless ending checks current children, not only a historical heirless flag
+  ---
+  duration_ms: 58.452564
+  type: 'test'
+  ...
+# Subtest: family milestones do not end a life, while life-category awards wait until death
+ok 7 - family milestones do not end a life, while life-category awards wait until death
+  ---
+  duration_ms: 17.292441
+  type: 'test'
+  ...
+# Subtest: new family top-level IDs do not collide anywhere in production; stages are event-local
+ok 8 - new family top-level IDs do not collide anywhere in production; stages are event-local
+  ---
+  duration_ms: 6.894017
+  type: 'test'
+  ...
+# Subtest: family additions add zero choices, career starts, or consumed choice-budget flags
+ok 9 - family additions add zero choices, career starts, or consumed choice-budget flags
+  ---
+  duration_ms: 2.762901
+  type: 'test'
+  ...
+# Subtest: only newly introduced family flag reads require production producers
+ok 10 - only newly introduced family flag reads require production producers
+  ---
+  duration_ms: 17.93297
+  type: 'test'
+  ...
+# Subtest: family fields use the approved vocabulary and no forbidden wording
+ok 11 - family fields use the approved vocabulary and no forbidden wording
+  ---
+  duration_ms: 2.674364
+  type: 'test'
+  ...
+# Subtest: all added deaths are connected to real production events
+ok 12 - all added deaths are connected to real production events
+  ---
+  duration_ms: 5.551817
+  type: 'test'
+  ...
+# Subtest: native loader fingerprint equals canonical SHA256 of the complete bundle
+ok 13 - native loader fingerprint equals canonical SHA256 of the complete bundle
+  ---
+  duration_ms: 176.918661
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_MATCH
+ok 14 - production family event executes through real scheduler: E_FAM_MAR_MATCH
+  ---
+  duration_ms: 30.534394
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_READY
+ok 15 - production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_READY
+  ---
+  duration_ms: 18.586559
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_SHORT
+ok 16 - production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_SHORT
+  ---
+  duration_ms: 22.368144
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_SIMPLE_MATCH
+ok 17 - production family event executes through real scheduler: E_FAM_MAR_SIMPLE_MATCH
+  ---
+  duration_ms: 22.238836
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_POOR
+ok 18 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_POOR
+  ---
+  duration_ms: 15.105409
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_MODEST
+ok 19 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_MODEST
+  ---
+  duration_ms: 12.122126
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_WELL_OFF
+ok 20 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_WELL_OFF
+  ---
+  duration_ms: 13.249316
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_WEDDING
+ok 21 - production family event executes through real scheduler: E_FAM_MAR_HIGH_WEDDING
+  ---
+  duration_ms: 12.809916
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_NEIGHBOR
+ok 22 - production family event executes through real scheduler: E_FAM_MAR_HIGH_NEIGHBOR
+  ---
+  duration_ms: 13.439332
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_DEFER
+ok 23 - production family event executes through real scheduler: E_FAM_MAR_HIGH_DEFER
+  ---
+  duration_ms: 11.157956
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_RISK
+ok 24 - production family event executes through real scheduler: E_FAM_MAR_HIGH_RISK
+  ---
+  duration_ms: 12.772014
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_CONCUBINE
+ok 25 - production family event executes through real scheduler: E_FAM_MAR_CONCUBINE
+  ---
+  duration_ms: 43.805435
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WIDOWED
+ok 26 - production family event executes through real scheduler: E_FAM_MAR_WIDOWED
+  ---
+  duration_ms: 14.720418
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_REMARRIAGE
+ok 27 - production family event executes through real scheduler: E_FAM_MAR_REMARRIAGE
+  ---
+  duration_ms: 15.172317
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_POOR_TOGETHER
+ok 28 - production family event executes through real scheduler: E_FAM_MAR_POOR_TOGETHER
+  ---
+  duration_ms: 12.419922
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_POOR_WORK
+ok 29 - production family event executes through real scheduler: E_FAM_MAR_POOR_WORK
+  ---
+  duration_ms: 43.449457
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_LEGACY_FIRST
+ok 30 - production family event executes through real scheduler: E_FAM_MAR_LEGACY_FIRST
+  ---
+  duration_ms: 10.937344
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_LEGACY_REMARRIAGE
+ok 31 - production family event executes through real scheduler: E_FAM_MAR_LEGACY_REMARRIAGE
+  ---
+  duration_ms: 11.659076
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_RECOGNIZE_LEGACY
+ok 32 - production family event executes through real scheduler: E_FAM_CHILD_RECOGNIZE_LEGACY
+  ---
+  duration_ms: 11.608443
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN
+ok 33 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN
+  ---
+  duration_ms: 11.126478
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_FEAST
+ok 34 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_FEAST
+  ---
+  duration_ms: 10.776208
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN
+ok 35 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN
+  ---
+  duration_ms: 14.712657
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST
+ok 36 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST
+  ---
+  duration_ms: 10.948645
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_PLAIN
+ok 37 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_PLAIN
+  ---
+  duration_ms: 9.868486
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_FEAST
+ok 38 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_FEAST
+  ---
+  duration_ms: 11.854673
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN
+ok 39 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN
+  ---
+  duration_ms: 11.409022
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_FEAST
+ok 40 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_FEAST
+  ---
+  duration_ms: 10.465308
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE
+ok 41 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE
+  ---
+  duration_ms: 11.815783
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE
+ok 42 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE
+  ---
+  duration_ms: 10.469988
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_WIFE
+ok 43 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_WIFE
+  ---
+  duration_ms: 11.993833
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE
+ok 44 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE
+  ---
+  duration_ms: 10.845388
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_WIFE
+ok 45 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_WIFE
+  ---
+  duration_ms: 11.448699
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE
+ok 46 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE
+  ---
+  duration_ms: 11.762868
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_WIFE
+ok 47 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_WIFE
+  ---
+  duration_ms: 14.006456
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE
+ok 48 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE
+  ---
+  duration_ms: 10.012674
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_EARLY
+ok 49 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_EARLY
+  ---
+  duration_ms: 10.173982
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_LATE
+ok 50 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_LATE
+  ---
+  duration_ms: 11.036854
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_THIRD_EARLY
+ok 51 - production family event executes through real scheduler: E_FAM_CHILD_THIRD_EARLY
+  ---
+  duration_ms: 10.2987
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_THIRD_LATE
+ok 52 - production family event executes through real scheduler: E_FAM_CHILD_THIRD_LATE
+  ---
+  duration_ms: 10.107188
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SCHOOL
+ok 53 - production family event executes through real scheduler: E_FAM_CHILD_SCHOOL
+  ---
+  duration_ms: 9.726856
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_MARRIAGE
+ok 54 - production family event executes through real scheduler: E_FAM_CHILD_MARRIAGE
+  ---
+  duration_ms: 11.368963
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SUCCESS
+ok 55 - production family event executes through real scheduler: E_FAM_CHILD_SUCCESS
+  ---
+  duration_ms: 9.855001
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_FIRST
+ok 56 - production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_FIRST
+  ---
+  duration_ms: 10.694113
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_SECOND
+ok 57 - production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_SECOND
+  ---
+  duration_ms: 11.485459
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_INFANT_LOSS
+ok 58 - production family event executes through real scheduler: E_FAM_CHILD_INFANT_LOSS
+  ---
+  duration_ms: 9.871744
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_FIRST
+ok 59 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_FIRST
+  ---
+  duration_ms: 10.733464
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_SECOND
+ok 60 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_SECOND
+  ---
+  duration_ms: 11.561926
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_THIRD
+ok 61 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_THIRD
+  ---
+  duration_ms: 9.518977
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_EARLY
+ok 62 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_EARLY
+  ---
+  duration_ms: 10.306894
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_MIDDLE
+ok 63 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_MIDDLE
+  ---
+  duration_ms: 10.860441
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_LATE
+ok 64 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_LATE
+  ---
+  duration_ms: 9.653264
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_EARLY
+ok 65 - production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_EARLY
+  ---
+  duration_ms: 10.155679
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_LATE
+ok 66 - production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_LATE
+  ---
+  duration_ms: 10.528585
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIVE_GENERATIONS
+ok 67 - production family event executes through real scheduler: E_FAM_CHILD_FIVE_GENERATIONS
+  ---
+  duration_ms: 10.209119
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_ENJOY_GRANDCHILD
+ok 68 - production family event executes through real scheduler: E_FAM_CHILD_ENJOY_GRANDCHILD
+  ---
+  duration_ms: 11.023591
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_HELP
+ok 69 - production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_HELP
+  ---
+  duration_ms: 10.526459
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_DECLINE
+ok 70 - production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_DECLINE
+  ---
+  duration_ms: 11.069115
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_HELP
+ok 71 - production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_HELP
+  ---
+  duration_ms: 11.267543
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_DECLINE
+ok 72 - production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_DECLINE
+  ---
+  duration_ms: 9.900453
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE
+ok 73 - production family event executes through real scheduler: E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE
+  ---
+  duration_ms: 12.239504
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HEIRLESS
+ok 74 - production family event executes through real scheduler: E_FAM_WEALTH_HEIRLESS
+  ---
+  duration_ms: 11.258599
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_LARGE
+ok 75 - production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_LARGE
+  ---
+  duration_ms: 10.465522
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_MODEST
+ok 76 - production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_MODEST
+  ---
+  duration_ms: 12.243696
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HOUSEHOLD_DISPUTE
+ok 77 - production family event executes through real scheduler: E_FAM_WEALTH_HOUSEHOLD_DISPUTE
+  ---
+  duration_ms: 11.049188
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND
+ok 78 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND
+  ---
+  duration_ms: 9.682629
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_FIRST_PAY
+ok 79 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_FIRST_PAY
+  ---
+  duration_ms: 11.652441
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_GATHER_FIREWOOD
+ok 80 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_GATHER_FIREWOOD
+  ---
+  duration_ms: 10.210885
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_ON_THE_ROAD
+ok 81 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_ON_THE_ROAD
+  ---
+  duration_ms: 10.477217
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FELLOW_TRAVELER
+ok 82 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FELLOW_TRAVELER
+  ---
+  duration_ms: 12.364424
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FIRST_WORK
+ok 83 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FIRST_WORK
+  ---
+  duration_ms: 11.300389
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY
+ok 84 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY
+  ---
+  duration_ms: 10.092195
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_FAMILY_DEBT
+ok 85 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_FAMILY_DEBT
+  ---
+  duration_ms: 12.57294
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_REPAY_DEBT
+ok 86 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_REPAY_DEBT
+  ---
+  duration_ms: 9.938706
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_TRADING_PARTNER
+ok 87 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_TRADING_PARTNER
+  ---
+  duration_ms: 10.109712
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_ILLNESS
+ok 88 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_ILLNESS
+  ---
+  duration_ms: 30.870823
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_ROAD_RECOLLECTION
+ok 89 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_ROAD_RECOLLECTION
+  ---
+  duration_ms: 14.540617
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_FRIEND_GONE
+ok 90 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_FRIEND_GONE
+  ---
+  duration_ms: 38.460396
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_MENDING_TAUGHT
+ok 91 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_MENDING_TAUGHT
+  ---
+  duration_ms: 13.182236
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_GRANDCHILD_STORY
+ok 92 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_GRANDCHILD_STORY
+  ---
+  duration_ms: 11.891708
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_EMPTY_POT
+ok 93 - production family event executes through real scheduler: E_FAM_LIFE_POOR_EMPTY_POT
+  ---
+  duration_ms: 9.710293
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_WARM_FIRE
+ok 94 - production family event executes through real scheduler: E_FAM_LIFE_POOR_WARM_FIRE
+  ---
+  duration_ms: 11.971857
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_BOWL_SOUP
+ok 95 - production family event executes through real scheduler: E_FAM_LIFE_POOR_BOWL_SOUP
+  ---
+  duration_ms: 11.650554
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_SHARE_WATER
+ok 96 - production family event executes through real scheduler: E_FAM_LIFE_POOR_SHARE_WATER
+  ---
+  duration_ms: 9.888908
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_CROWDED_ALONE
+ok 97 - production family event executes through real scheduler: E_FAM_LIFE_RICH_CROWDED_ALONE
+  ---
+  duration_ms: 10.708283
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_ECHO
+ok 98 - production family event executes through real scheduler: E_FAM_LIFE_RICH_ECHO
+  ---
+  duration_ms: 11.381567
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_EMPTY_TEA
+ok 99 - production family event executes through real scheduler: E_FAM_LIFE_RICH_EMPTY_TEA
+  ---
+  duration_ms: 9.941354
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_CONFIDANT
+ok 100 - production family event executes through real scheduler: E_FAM_LIFE_RICH_CONFIDANT
+  ---
+  duration_ms: 11.616578
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_OLD_AGE
+ok 101 - production family event executes through real scheduler: E_FAM_END_OLD_AGE
+  ---
+  duration_ms: 32.846593
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_HOUSE_FIRE
+ok 102 - production family event executes through real scheduler: E_FAM_END_HOUSE_FIRE
+  ---
+  duration_ms: 102.377838
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_OVERWORK
+ok 103 - production family event executes through real scheduler: E_FAM_END_OVERWORK
+  ---
+  duration_ms: 153.836151
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_CLAN_CROSS_FIRE
+ok 104 - production family event executes through real scheduler: E_FAM_END_CLAN_CROSS_FIRE
+  ---
+  duration_ms: 252.0668
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_FAMILY_SHELTER
+ok 105 - production family event executes through real scheduler: E_FAM_END_FAMILY_SHELTER
+  ---
+  duration_ms: 259.929621
+  type: 'test'
+  ...
+# Subtest: poor and wealthy family content remains selectable against the full production random pool
+ok 106 - poor and wealthy family content remains selectable against the full production random pool
+  ---
+  duration_ms: 520.247583
+  type: 'test'
+  ...
+# Subtest: new initial marriages block old marriage entries; old marriages have an automatic adoption route
+ok 107 - new initial marriages block old marriage entries; old marriages have an automatic adoption route
+  ---
+  duration_ms: 375.502871
+  type: 'test'
+  ...
+# Subtest: actual family widowhood removes current marriage and remarriage preserves bereavement history
+ok 108 - actual family widowhood removes current marriage and remarriage preserves bereavement history
+  ---
+  duration_ms: 24.668667
+  type: 'test'
+  ...
+# Subtest: legacy children are adopted without another birth and conservatively excluded from early adulthood
+ok 109 - legacy children are adopted without another birth and conservatively excluded from early adulthood
+  ---
+  duration_ms: 15.352166
+  type: 'test'
+  ...
+# Subtest: new first birth synchronizes legacy state and cannot produce an adult in the following year
+ok 110 - new first birth synchronizes legacy state and cannot produce an adult in the following year
+  ---
+  duration_ms: 24.861588
+  type: 'test'
+  ...
+# Subtest: child deaths retain birth milestones and block repeated death and live-child marriage
+ok 111 - child deaths retain birth milestones and block repeated death and live-child marriage
+  ---
+  duration_ms: 36.105276
+  type: 'test'
+  ...
+# Subtest: age seventy and two births alone never award five living generations
+ok 112 - age seventy and two births alone never award five living generations
+  ---
+  duration_ms: 12.502964
+  type: 'test'
+  ...
+# Subtest: estate division needs living adult children and the appropriate wealth tier
+ok 113 - estate division needs living adult children and the appropriate wealth tier
+  ---
+  duration_ms: 32.895087
+  type: 'test'
+  ...
+# Subtest: five generations require actual sequential births across a single engine lifetime
+ok 114 - five generations require actual sequential births across a single engine lifetime
+  ---
+  duration_ms: 25.108758
+  type: 'test'
+  ...
+# Subtest: grandchild companionship requires a real birth and supports a late-born infant
+ok 115 - grandchild companionship requires a real birth and supports a late-born infant
+  ---
+  duration_ms: 10.008967
+  type: 'test'
+  ...
+# Subtest: infant loss never invents a surviving birth milestone or kills an existing child
+ok 116 - infant loss never invents a surviving birth milestone or kills an existing child
+  ---
+  duration_ms: 10.911857
+  type: 'test'
+  ...
+# Subtest: priority filters lower-priority events before weighted sampling
+ok 117 - priority filters lower-priority events before weighted sampling
+  ---
+  duration_ms: 41.950989
+  type: 'test'
+  ...
+# Subtest: scheduler rejects exhausted occurrences, inclusive cooldown, and impossible probability
+ok 118 - scheduler rejects exhausted occurrences, inclusive cooldown, and impossible probability
+  ---
+  duration_ms: 29.406306
+  type: 'test'
+  ...
+# Subtest: family annual draw respects the original one-event random budget
+ok 119 - family annual draw respects the original one-event random budget
+  ---
+  duration_ms: 28.951074
+  type: 'test'
+  ...
+# Subtest: validator rejects unknown event fields rather than silently accepting dead configuration
+ok 120 - validator rejects unknown event fields rather than silently accepting dead configuration
+  ---
+  duration_ms: 157.840495
+  type: 'test'
+  ...
+# Subtest: validator rejects a dangling death reference
+ok 121 - validator rejects a dangling death reference
+  ---
+  duration_ms: 132.150938
+  type: 'test'
+  ...
+# Subtest: validator rejects a dangling local D20 stage and duplicate event ID
+ok 122 - validator rejects a dangling local D20 stage and duplicate event ID
+  ---
+  duration_ms: 105.905542
+  type: 'test'
+  ...
+# Subtest: condition combinations distinguish history flags from current family state
+ok 123 - condition combinations distinguish history flags from current family state
+  ---
+  duration_ms: 0.335895
+  type: 'test'
+  ...
+1..123
+# tests 123
+# suites 0
+# pass 122
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48591.780449

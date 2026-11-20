@@ -1,0 +1,423 @@
+{
+  "events": [
+    {
+      "id": "E_MOD_HEALER_NODE_1",
+      "title": "有限的药片",
+      "text": "邻居端着碗来排队求药，郎中拦住大家：药片不多，得先看病症能不能用。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你跟着郎中逐个核对病症，弄清哪些情况能用药、哪些不能。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_HEALER_BOUNDARY" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_HEALER_NODE_2",
+      "title": "饮水和洗具分开",
+      "text": "临时照护处挤满了人，连清洗用的盆也拿来盛饮水。得先把照护和清洁安排好。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你跟郎中划分照护区域，分清哪些锅盆盛饮水，哪些用来清洗。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_HEALER_HYGIENE" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": "S_HYGIENE"
+      },
+      "stages": [
+        {
+          "id": "S_HYGIENE",
+          "text": "你对着桌边的手册，向郎中说明照护次序。",
+          "check": { "attribute": "intelligence", "dc": 16, "modifier": 0, "tag": "medicine" },
+          "success": {
+            "text": "你把照护次序和分工说清了，郎中将清单贴到门板上。",
+            "effects": [{ "type": "attribute_add", "attribute": "prestige", "amount": 1 }],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你把一处清洗顺序写反了，郎中带你重新排好，照护继续。",
+            "effects": [],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_MOD_HEALER_NODE_3",
+      "title": "先安排救助",
+      "text": "病家挤到门口，想买包治百病的药。可照护处既缺人手又缺饮水，这点药也得有人管。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你请郎中辨症、管药，再排好大家轮班照护的名册。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_HEALER_RELIEF" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 },
+          { "type": "flag_add", "id": "F_MOD_HEALER_READY" }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_HEALER_FAST_1",
+      "title": "京师分诊",
+      "text": "京师病家托人求药，病单堆满桌面。原来的跟诊安排得暂停，先帮郎中分清轻重缓急。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 950 },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你照着手册跟诊，记好病情交接，药片仍交郎中掌管。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_HEALER_ABORT" },
+          { "type": "flag_add", "id": "F_MOD_HEALER_FAST_TRIAGE" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+          { "op": "is", "field": "timeline", "value": "historical" },
+          { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+          { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+        ]
+      }
+    },
+    {
+      "id": "E_MOD_HEALER_FAST_2",
+      "title": "救助点缺饮水",
+      "text": "京师救助点缺干净饮水，送水车和清洗用具混在一处。得先分开放，再安排人手交接。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 949 },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你先核实送水车的来处，再安排分区存放和交接。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_HEALER_FAST_WATER" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": "S_WATER"
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+              { "op": "is", "field": "timeline", "value": "historical" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          },
+          { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_FAST_TRIAGE" }
+        ]
+      },
+      "stages": [
+        {
+          "id": "S_WATER",
+          "text": "送水和清洗用具都要交接，你得按名册说清每桶水从哪里来。",
+          "check": { "attribute": "intelligence", "dc": 16, "modifier": 0, "tag": "medicine" },
+          "success": {
+            "text": "你把水具清洗、交接的安排说清，大家都知道自己该用哪只桶。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_HEALER_FAST_WATER" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你漏记了一桶水的来处，只好另取清水，照护仍继续进行。",
+            "effects": [{ "type": "flag_add", "id": "F_MOD_HEALER_FAST_WATER" }],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_MOD_HEALER_FAST_3",
+      "title": "安排救助交接",
+      "text": "病家还在求药，照护的帮手也等着接班。救助处催你把用药和照护的事交代清楚。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 948 },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你核清药品和手册的交接，请郎中管药，再按名册安排帮手。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_HEALER_FAST_DONE" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 },
+          { "type": "flag_add", "id": "F_MOD_HEALER_READY" }
+        ],
+        "next_stage_id": null
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+              { "op": "is", "field": "timeline", "value": "historical" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          },
+          { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_FAST_WATER" }
+        ]
+      }
+    },
+    {
+      "id": "E_MOD_HEALER_BREAKTHROUGH",
+      "title": "照护下一步",
+      "text": "救助手册传到邻县，照护接下来如何安排？交出整板药后只留手册；腹痛拖延求医或独自携药遇险，均可能丧命。",
+      "trigger": {
+        "kind": "random", "weight": 100, "priority": 940, "trigger_probability": 1,
+        "cooldown_years": 0, "max_occurrences": 1, "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "spread",
+          "text": "请郎中推广照护",
+          "unavailable_text": "需持抗生素与防疫手册，处于历史线1640年或以后，已做好推广准备，且才干≥12、人脉≥8。",
+          "risk": "high",
+          "outcome": {
+            "text": "你先核对人手和物资，再请郎中一起试行照护章程。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "S_SPREAD"
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+              { "op": "is", "field": "timeline", "value": "historical" },
+              { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+              { "op": "compare", "field": "intelligence", "comparator": "gte", "value": 12 },
+              { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+              { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_READY" }
+            ]
+          }
+        },
+        {
+          "id": "safe",
+          "text": "继续照护乡邻",
+          "unavailable_text": "需持抗生素与防疫手册，已做好推广准备，且处于历史线1640年或以后。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你暂不向外推广，留下来用现有的人手和饮水照护乡邻。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_add", "id": "F_MOD_HEALER_LOCAL" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "use_course",
+          "text": "交出整板药施治",
+          "unavailable_text": "需持抗生素与防疫手册，并留有未交付的整板药；药用完仍可跟诊照护。",
+          "risk": "normal",
+          "outcome": {
+            "text": "郎中核对病症和剂量后接过整板药，往后你只留手册继续帮忙。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_remove", "id": "F_MOD_HEALER_COURSE_AVAILABLE" },
+              { "type": "flag_add", "id": "F_MOD_HEALER_COURSE_USED" }
+            ],
+            "next_stage_id": null
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_COURSE_AVAILABLE" }
+            ]
+          }
+        },
+        {
+          "id": "delay",
+          "text": "腹痛时仍坚持自诊",
+          "unavailable_text": "需持抗生素与防疫手册，并已跟诊核对用药。",
+          "risk": "high",
+          "outcome": {
+            "text": "你腹痛仍坚持自行判断，再不及时求助，可能有性命危险。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "S_MOD_HEALER_BREAK_DELAY_RESCUE"
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_BOUNDARY" }
+            ]
+          }
+        },
+        {
+          "id": "showoff",
+          "text": "独自带药走夜路",
+          "unavailable_text": "需持抗生素与防疫手册、留有未交出的整板药，并已安排协诊救助或京师交接。",
+          "risk": "high",
+          "outcome": {
+            "text": "你从郎中处取回未交出的药盒，独走夜路，引来有人争抢；若找不到接应，可能丧命。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "S_MOD_HEALER_BREAK_ROBBERY_ESCAPE"
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_COURSE_AVAILABLE" },
+              {
+                "op": "any",
+                "conditions": [
+                  { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_RELIEF" },
+                  { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_FAST_DONE" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "withdraw",
+          "text": "交册暂停协诊",
+          "unavailable_text": "暂时无法交册退出。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你交出手册抄本，暂停协助郎中看诊。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_add", "id": "F_MOD_HEALER_ABORT" },
+              { "type": "attribute_add", "attribute": "intelligence", "amount": 1 }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+          { "op": "is", "field": "timeline", "value": "historical" },
+          { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+          { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_READY" },
+          { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_HISTORICAL_TURN_USED" } }
+        ]
+      },
+      "stages": [
+        {
+          "id": "S_SPREAD",
+          "text": "你得把人手、饮水用具和交接办法逐项核清，看看能否长期照护。",
+          "check": { "attribute": "intelligence", "dc": 24, "modifier": 0, "tag": "medicine", "raw_minimum": 10 },
+          "success": {
+            "text": "照护章程获准推广，郎中仍逐个辨别病症，按实际情况管药。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_HEALER_SPREAD" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 2 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "试行时人手不够，你停止扩张，退回原处继续照护。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_HEALER_SETBACK" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": -1 }
+            ],
+            "next_stage_id": null
+          },
+          "critical_success": {
+            "text": "多地郎中一起校订照护章程，整理成册，供各处照着安排救助。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_HEALER_LEGACY" },
+              { "type": "flag_add", "id": "F_MOD_HEALER_SPREAD" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "S_MOD_HEALER_BREAK_DELAY_RESCUE",
+          "text": "你翻开手册，得尽快认出危险征兆，找人来帮忙。",
+          "check": { "attribute": "intelligence", "dc": 18, "modifier": 0, "tag": "medicine" },
+          "success": {
+            "text": "你查到危险征兆，及时请郎中接手，保住了性命。",
+            "effects": [{ "type": "flag_add", "id": "F_MOD_HEALER_BOUNDARY" }],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你没能及时求到援助，拖延了救治，最终病重身亡。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_HEALER_DEATH_DELAY" },
+              { "type": "death", "id": "D_MOD_HEALER_DELAY" }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "S_MOD_HEALER_BREAK_ROBBERY_ESCAPE",
+          "text": "拦路的人争抢药盒，你得讲清药不能乱用，再设法求助。",
+          "check": { "attribute": "intelligence", "dc": 18, "modifier": 0, "tag": "medicine" },
+          "success": {
+            "text": "你说明这药只能用于特定病症，趁对方迟疑，求来了接应。",
+            "effects": [],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "接应没能及时赶到，你困在争抢中，最终丧命。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_HEALER_DEATH_ROBBERY" },
+              { "type": "death", "id": "D_MOD_HEALER_ROBBERY" }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    }
+  ],
+  "chains": [
+    {
+      "id": "CHAIN_MOD_HEALER_SAGE",
+      "name": "医圣守册",
+      "commitment": "历时六年，起步免费，第1、3、6年自动学习用药范围、清洁和协作照护，清洁时仍需检定。重大抉择可推广照护、交药、冒险或暂停；整板药交出后只留手册，自诊或独自带药遇险可能丧命。可手动放弃进行中的事业，重伤或道路封闭也会中断；已学经验保留。1643至1644年开局改走甲申自动救助任务。",
+      "priority": 80,
+      "interrupt_condition": {
+        "op": "any",
+        "conditions": [
+          { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_ABORT" },
+          { "op": "has", "collection": "injuries", "id": "INJ_SEVERE" },
+          { "op": "has", "collection": "flags", "id": "F_ERA_ROADS_CLOSED" }
+        ]
+      },
+      "interrupt_text": "协诊暂告中断，有限的药片不能随意分发，学会的照护方法仍然保留。",
+      "nodes": [
+        { "after_years": 1, "event_id": "E_MOD_HEALER_NODE_1" },
+        { "after_years": 3, "event_id": "E_MOD_HEALER_NODE_2" },
+        { "after_years": 6, "event_id": "E_MOD_HEALER_NODE_3" }
+      ],
+      "completion": {
+        "text": "你学会了照册分工，也知道何时必须请郎中，不能只凭药盒行事。",
+        "effects": [{ "type": "flag_add", "id": "F_MOD_HEALER_MAIN_DONE" }],
+        "next_stage_id": null
+      }
+    }
+  ],
+  "reasons": {
+    "E_MOD_HEALER_NODE_1": "普通跟诊改为原第一项的自动结果，药品消费、自诊危险和退出移至重大菜单，不额外花选择预算。",
+    "E_MOD_HEALER_NODE_2": "保留第一项和真实S_HYGIENE检定，自动完成清洁照护进展。",
+    "E_MOD_HEALER_NODE_3": "保留第一项的救助、准备与成长结果，携药独行危险移至重大菜单。",
+    "E_MOD_HEALER_FAST_1": "晚开局保留原第一项自动分诊、中断普通链及快进标记；交药集中到重大菜单。",
+    "E_MOD_HEALER_FAST_2": "保留原第一项自动分区及真实S_WATER检定，延续快进依赖。",
+    "E_MOD_HEALER_FAST_3": "保留原第一项自动完成交接与准备；快进和普通独行危险合并至重大菜单。",
+    "E_MOD_HEALER_BREAKTHROUGH": "与历史重大事件共用一次选择；保留推广原门槛及D20，迁入真实交药、主动自诊、携药独行和退出，死亡检定及成就标记仍可到达。",
+    "CHAIN_MOD_HEALER_SAGE": "仅修订承诺文本，准确描述自动进展、集中抉择、检定、消耗与中断；节点、完成和中断配置不变。"
+  }
+}

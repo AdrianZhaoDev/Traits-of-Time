@@ -1,0 +1,7 @@
+
+> chuanyue-laba-nixi@1.0.0 validate:content
+> node --import ./tools/register-typescript.mjs tools/validate-content.mjs --content assets/resources/data/ming_end
+
+sha256Json=3fbd76453f3522a347e3c4961adbe7201f4a1a149b27b889012524674c673f46
+StaticContentLoader fingerprint matches
+{"ok":true,"issues":0,"counts":{"events":617,"chains":22,"achievements":137,"deaths":36}}

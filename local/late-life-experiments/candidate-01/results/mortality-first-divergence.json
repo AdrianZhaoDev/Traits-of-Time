@@ -1,0 +1,529 @@
+[
+  {
+    "strategy": "normal",
+    "seed": 16,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_START_IMPERIAL_EXAM"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_SICK_SAGE_STRATEGY"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 20,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1643,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1643,
+        "type": "event",
+        "event": "E_FAM_MAR_MATCH"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 33,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_MOD_OIL_HEATSTROKE_RESCUE"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 38,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1637,
+        "type": "event",
+        "event": "E_SOC_YOUTH_APPRENTICE"
+      },
+      "candidate": {
+        "year": 1637,
+        "type": "event",
+        "event": "E_SOC_CHANCE_FERRY"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 41,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_MOD_SWISS_PINCH"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 59,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1636,
+        "type": "event",
+        "event": "E_SOC_YOUTH_APPRENTICE"
+      },
+      "candidate": {
+        "year": 1636,
+        "type": "event",
+        "event": "E_MOD_SWISS_MISUSE"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 62,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_FAM_LIFE_CHILD_GATHER_FIREWOOD"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 73,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_NATIVE_CRISIS_BANDIT"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 89,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 90,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1639,
+        "type": "event",
+        "event": "E_START_EPIDEMIC_HEALING"
+      },
+      "candidate": {
+        "year": 1639,
+        "type": "event",
+        "event": "E_MOD_SWISS_PEN"
+      }
+    }
+  },
+  {
+    "strategy": "normal",
+    "seed": 99,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1632,
+        "type": "event",
+        "event": "E_START_FORTRESS_DEFENSE"
+      },
+      "candidate": {
+        "year": 1632,
+        "type": "event",
+        "event": "E_MOD_OIL_COURT_TEARS"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 16,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_START_IMPERIAL_EXAM"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_SICK_SAGE_STRATEGY"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 20,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1643,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1643,
+        "type": "event",
+        "event": "E_FAM_MAR_MATCH"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 33,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_MOD_OIL_HEATSTROKE_RESCUE"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 38,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1637,
+        "type": "event",
+        "event": "E_SOC_YOUTH_APPRENTICE"
+      },
+      "candidate": {
+        "year": 1637,
+        "type": "event",
+        "event": "E_SOC_CHANCE_FERRY"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 62,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_FAM_LIFE_CHILD_GATHER_FIREWOOD"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 71,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1633,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1633,
+        "type": "event",
+        "event": "E_FAM_LIFE_YOUNG_ON_THE_ROAD"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 75,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_START_EPIDEMIC_HEALING"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_MOD_SWISS_PEN"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 88,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1632,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1632,
+        "type": "event",
+        "event": "E_LIFE_Y_BORROW_GRAIN"
+      }
+    }
+  },
+  {
+    "strategy": "cautious",
+    "seed": 89,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND"
+      }
+    }
+  },
+  {
+    "strategy": "risky",
+    "seed": 1,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1645,
+        "type": "event",
+        "event": "E_START_FIREARMS_RESEARCH"
+      },
+      "candidate": {
+        "year": 1645,
+        "type": "event",
+        "event": "E_LIFE_S_HEALTH_POTION"
+      }
+    }
+  },
+  {
+    "strategy": "risky",
+    "seed": 35,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1643,
+        "type": "event",
+        "event": "E_START_FIREARMS_RESEARCH"
+      },
+      "candidate": {
+        "year": 1643,
+        "type": "event",
+        "event": "E_NATIVE_CRISIS_EPIDEMIC"
+      }
+    }
+  },
+  {
+    "strategy": "risky",
+    "seed": 38,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1637,
+        "type": "event",
+        "event": "E_SOC_YOUTH_APPRENTICE"
+      },
+      "candidate": {
+        "year": 1637,
+        "type": "event",
+        "event": "E_SOC_CHANCE_FERRY"
+      }
+    }
+  },
+  {
+    "strategy": "risky",
+    "seed": 62,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_FAM_LIFE_CHILD_GATHER_FIREWOOD"
+      }
+    }
+  },
+  {
+    "strategy": "risky",
+    "seed": 70,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1636,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1636,
+        "type": "event",
+        "event": "E_MOD_OIL_EXAM_AWAKE"
+      }
+    }
+  },
+  {
+    "strategy": "career",
+    "seed": 16,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_START_IMPERIAL_EXAM"
+      },
+      "candidate": {
+        "year": 1641,
+        "type": "event",
+        "event": "E_SICK_SAGE_STRATEGY"
+      }
+    }
+  },
+  {
+    "strategy": "career",
+    "seed": 62,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1630,
+        "type": "event",
+        "event": "E_FAM_LIFE_CHILD_GATHER_FIREWOOD"
+      }
+    }
+  },
+  {
+    "strategy": "career",
+    "seed": 70,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1636,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1636,
+        "type": "event",
+        "event": "E_MOD_OIL_EXAM_AWAKE"
+      }
+    }
+  },
+  {
+    "strategy": "career",
+    "seed": 71,
+    "change": "new_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1633,
+        "type": "event",
+        "event": "E_SOC_YOUTH_APPRENTICE"
+      },
+      "candidate": {
+        "year": 1633,
+        "type": "event",
+        "event": "E_HIGH_INTEL_BREAKTHROUGH"
+      }
+    }
+  },
+  {
+    "strategy": "career",
+    "seed": 73,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_PROJECT"
+      },
+      "candidate": {
+        "year": 1640,
+        "type": "event",
+        "event": "E_FAM_LIFE_POOR_BOWL_SOUP"
+      }
+    }
+  },
+  {
+    "strategy": "career",
+    "seed": 84,
+    "change": "avoided_early_death",
+    "first_difference": {
+      "baseline": {
+        "year": 1646,
+        "type": "event",
+        "event": "E_SOC_YOUTH_APPRENTICE"
+      },
+      "candidate": {
+        "year": 1646,
+        "type": "event",
+        "event": "E_NATIVE_CRISIS_STARVATION"
+      }
+    }
+  }
+]

@@ -1,0 +1,9 @@
+portrait {"x":0,"y":0,"width":360,"height":640,"dpr":3}
+selected pool_CARD_MODERN_CORN
+decision: touch drag, management/restart cancellation and return to same choice option_start
+landscape decision {"x":90,"y":0,"width":460,"height":360,"dpr":1}
+old year opened historyYear_1628_0
+emulated touch hold/release 崇祯二年 · 岁次己巳|声音|26 岁|体魄 崇祯四年 · 岁次辛未|声音|28 岁|体魄
+390×844 ending ["人生报告","返回","初来乍到","1628年，25岁开始这段人生。 开局身份：当家子弟。 你分管家里的日用钱粮，家境虽好，却没有官职。 携带家当：高产耐旱玉米良种。","这一路","1633年，30岁：考卷写完了，功名等人评。 选择：递卷争取功名。 结果：你递上考卷，等考官评定文章。 检定通过：考官翻到最后一页，评定即将落笔。 结果：文章过关，你的名字进了举人名册。","人生终点","1681年，78岁离世。 死因：暮年病逝。 倒春寒里病情加重，你在家人的陪伴下离世。 获得的成就：有功名也有人脉、读书有用处、子女成家、种谱下乡、仓粮分清楚、先试种再推广、添丁添热闹、种法还得再试。","本局新收集：成就 4 项 · 死因 0 种","先试种再推广、仓粮分清楚、种谱下乡、种法还得再试"]
+inheritance +1 wealth confirmed, new identity ["你将来到明朝","年份","1644 年","年龄","40 岁","身份","流民","地区","京师直隶","阶层","赤贫流民","本局传承：开局家资 +1（受属性上限限制），当前初值 3。"]
+No browser exceptions.

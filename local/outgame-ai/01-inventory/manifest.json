@@ -5,6 +5,7 @@
   "inventoryDate": "2026-11-11",
   "status": "planned",
   "evidenceLevel": "static_source_and_local_file_headers_only",
+  "snapshotNotice": "本清单记录 2026-11-11 静态盘点；文件存在性、代码引用和许可副本路径均是当时状态。当前必需资源及发布方式以 tools/asset-manifest.mjs、构建脚本和根目录 README.md 为准。",
   "promptDocument": "Doc/Plans/非局内页面AI重制提示词/08-外部AI素材清单与完整提示词.md",
   "styleDecision": {
     "direction": "A",

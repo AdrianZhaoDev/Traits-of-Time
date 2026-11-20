@@ -1,0 +1,1881 @@
+{
+  "baseline-report": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "all",
+        "n": 400,
+        "early": 49,
+        "survivors": 351,
+        "zero": 0.7863247863247863,
+        "choices": {
+          "n": 351,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 351,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 21
+        },
+        "wholeProgressGap": {
+          "n": 400,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 21
+        },
+        "budget": {
+          "n": 400,
+          "p50": 3,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 313,
+        "unspentZero": 0.7603833865814696,
+        "categoryOpen": 153,
+        "categoryOpenZero": 0.5098039215686274
+      },
+      {
+        "strategy": "normal",
+        "n": 100,
+        "early": 16,
+        "survivors": 84,
+        "zero": 0.7857142857142857,
+        "choices": {
+          "n": 84,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 84,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 16
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 5,
+          "p90": 11,
+          "min": 0,
+          "max": 16
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 79,
+        "unspentZero": 0.7721518987341772,
+        "categoryOpen": 32,
+        "categoryOpenZero": 0.4375
+      },
+      {
+        "strategy": "cautious",
+        "n": 100,
+        "early": 12,
+        "survivors": 88,
+        "zero": 0.7386363636363636,
+        "choices": {
+          "n": 88,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 88,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 20
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 20
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 4
+        },
+        "unspent": 88,
+        "unspentZero": 0.7386363636363636,
+        "categoryOpen": 49,
+        "categoryOpenZero": 0.5306122448979592
+      },
+      {
+        "strategy": "risky",
+        "n": 100,
+        "early": 11,
+        "survivors": 89,
+        "zero": 0.8202247191011236,
+        "choices": {
+          "n": 89,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 89,
+          "p50": 7,
+          "p90": 12,
+          "min": 0,
+          "max": 21
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 21
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 70,
+        "unspentZero": 0.7714285714285715,
+        "categoryOpen": 35,
+        "categoryOpenZero": 0.5428571428571428
+      },
+      {
+        "strategy": "career",
+        "n": 100,
+        "early": 10,
+        "survivors": 90,
+        "zero": 0.8,
+        "choices": {
+          "n": 90,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 90,
+          "p50": 8,
+          "p90": 11,
+          "min": 2,
+          "max": 21
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 21
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 76,
+        "unspentZero": 0.7631578947368421,
+        "categoryOpen": 37,
+        "categoryOpenZero": 0.5135135135135135
+      }
+    ],
+    "deaths": {
+      "D_OLD_AGE": 299,
+      "D_CRISIS": 3,
+      "D_BANDIT": 3,
+      "D_EPIDEMIC": 31,
+      "D_MOD_FLASHLIGHT_ROBBERY": 1,
+      "D_SENIOR_DECLINE": 14,
+      "D_MOD_SWISS_BLADE_SEVER": 2,
+      "D_STARVATION": 9,
+      "D_WAR_CHAOS": 13,
+      "D_MOD_FLASHLIGHT_MISSTEP": 4,
+      "D_MOD_LIGHTER_GAS_BURST": 9,
+      "D_CHARLATAN": 1,
+      "D_MOD_GLUE_LIP_SEAL": 1,
+      "D_FREEZING": 7,
+      "D_DROWNING": 1,
+      "D_PRISON_CORVEE": 1,
+      "D_MOD_OIL_DRINK": 1
+    },
+    "chains": {
+      "CHAIN_FORTRESS_DEFENSE:started:null": 17,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 12,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:started:null": 60,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 22,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 19,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:completed:null": 50,
+      "CHAIN_MOD_GLUE_ARTISAN:started:null": 129,
+      "CHAIN_MOD_GLUE_ARTISAN:interrupted:修补和试样的事务中断了，学会的工序和材料用法仍然保留。": 86,
+      "CHAIN_MOD_GLUE_ARTISAN:completed:null": 37,
+      "CHAIN_MARITIME_TRADE:started:null": 5,
+      "CHAIN_MARITIME_TRADE:completed:null": 5,
+      "CHAIN_FORTRESS_DEFENSE:interrupted:修墙备粮的差事中断了。预付费用不退，过去管仓修墙的经验仍在。": 5,
+      "CHAIN_MOD_HEALER_SAGE:started:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:started:null": 36,
+      "CHAIN_EPIDEMIC_HEALING:completed:null": 28,
+      "CHAIN_MOD_HEALER_SAGE:completed:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:interrupted:跟诊学习中断了，辨药和照护的经验不会因此失去。": 8,
+      "CH_WORKSHOP:started:null": 46,
+      "CH_WORKSHOP:completed:null": 36,
+      "CHAIN_MOD_LIGHTER_VETERAN:started:null": 72,
+      "CHAIN_MOD_LIGHTER_VETERAN:interrupted:随队护火的差事中断了，省火和探路的经验仍然保留。": 41,
+      "CHAIN_MOD_CORN_KING:started:null": 28,
+      "CHAIN_MOD_CORN_KING:interrupted:试田和合仓事务中断了，过去记下的水土、留种经验仍在。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:started:null": 27,
+      "CHAIN_MOD_CALCULATOR_FINANCE:interrupted:清账差事中断了，已经学会的核账方法仍然保留。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:completed:null": 11,
+      "CHAIN_MOD_CORN_KING:completed:null": 18,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 10,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:interrupted:CONDITION_NOT_MET": 4,
+      "CHAIN_FIREARMS_RESEARCH:interrupted:工坊学艺中断了，预付费用不退，学会的手艺仍然保留。": 3,
+      "CH_STUDY:started:null": 32,
+      "CH_STUDY:completed:null": 28,
+      "CHAIN_IMPERIAL_EXAM:started:null": 16,
+      "CHAIN_IMPERIAL_EXAM:completed:null": 15,
+      "CHAIN_IMPERIAL_EXAM:interrupted:这次赶考中断了。预付费用不退，已经学会的读写和文章本事仍然保留。": 1,
+      "CH_STUDY:interrupted:借书学习中断了，已经认下的字和练过的账，往后仍能用。": 4,
+      "CHAIN_MOD_LIGHTER_VETERAN:completed:null": 23
+    },
+    "breakthroughs": {
+      "E_MOD_CALCULATOR_BREAKTHROUGH": 13,
+      "E_MOD_FLASHLIGHT_BREAKTHROUGH": 30,
+      "E_MOD_CORN_BREAKTHROUGH": 12,
+      "E_MOD_LIGHTER_BREAKTHROUGH": 14,
+      "E_MOD_HEALER_BREAKTHROUGH": 4
+    },
+    "coverage": {
+      "low_card_samples": [],
+      "low_age_band_samples": [],
+      "low_start_year_samples": [
+        "1628"
+      ]
+    }
+  },
+  "pacing-report": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "all",
+        "n": 400,
+        "early": 49,
+        "survivors": 351,
+        "zero": 0.7891737891737892,
+        "choices": {
+          "n": 351,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 351,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 24
+        },
+        "wholeProgressGap": {
+          "n": 400,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 24
+        },
+        "budget": {
+          "n": 400,
+          "p50": 3,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 313,
+        "unspentZero": 0.7635782747603834,
+        "categoryOpen": 127,
+        "categoryOpenZero": 0.41732283464566927
+      },
+      {
+        "strategy": "normal",
+        "n": 100,
+        "early": 16,
+        "survivors": 84,
+        "zero": 0.7976190476190477,
+        "choices": {
+          "n": 84,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 84,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 16
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 5,
+          "p90": 11,
+          "min": 0,
+          "max": 16
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 79,
+        "unspentZero": 0.7848101265822784,
+        "categoryOpen": 25,
+        "categoryOpenZero": 0.32
+      },
+      {
+        "strategy": "cautious",
+        "n": 100,
+        "early": 12,
+        "survivors": 88,
+        "zero": 0.7386363636363636,
+        "choices": {
+          "n": 88,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 88,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 20
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 6,
+          "p90": 10,
+          "min": 0,
+          "max": 20
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 4
+        },
+        "unspent": 88,
+        "unspentZero": 0.7386363636363636,
+        "categoryOpen": 42,
+        "categoryOpenZero": 0.4523809523809524
+      },
+      {
+        "strategy": "risky",
+        "n": 100,
+        "early": 11,
+        "survivors": 89,
+        "zero": 0.8202247191011236,
+        "choices": {
+          "n": 89,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 89,
+          "p50": 7,
+          "p90": 12,
+          "min": 0,
+          "max": 24
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 24
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 70,
+        "unspentZero": 0.7714285714285715,
+        "categoryOpen": 29,
+        "categoryOpenZero": 0.4482758620689655
+      },
+      {
+        "strategy": "career",
+        "n": 100,
+        "early": 10,
+        "survivors": 90,
+        "zero": 0.8,
+        "choices": {
+          "n": 90,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 90,
+          "p50": 7,
+          "p90": 11,
+          "min": 1,
+          "max": 21
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 21
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 76,
+        "unspentZero": 0.7631578947368421,
+        "categoryOpen": 31,
+        "categoryOpenZero": 0.41935483870967744
+      }
+    ],
+    "deaths": {
+      "D_OLD_AGE": 281,
+      "D_CRISIS": 3,
+      "D_BANDIT": 5,
+      "D_WAR_CHAOS": 14,
+      "D_EPIDEMIC": 35,
+      "D_SENIOR_DECLINE": 18,
+      "D_MOD_SWISS_BLADE_SEVER": 2,
+      "D_FAM_END_HOUSE_FIRE": 1,
+      "D_FAM_END_FAMILY_SHELTER": 2,
+      "D_MOD_FLASHLIGHT_MISSTEP": 4,
+      "D_MOD_LIGHTER_GAS_BURST": 9,
+      "D_CHARLATAN": 1,
+      "D_MOD_GLUE_LIP_SEAL": 1,
+      "D_STARVATION": 10,
+      "D_FREEZING": 8,
+      "D_DROWNING": 3,
+      "D_PRISON_CORVEE": 2,
+      "D_MOD_OIL_DRINK": 1
+    },
+    "chains": {
+      "CHAIN_FORTRESS_DEFENSE:started:null": 17,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 12,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:started:null": 60,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 22,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 19,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:completed:null": 50,
+      "CHAIN_MOD_GLUE_ARTISAN:started:null": 129,
+      "CHAIN_MOD_GLUE_ARTISAN:interrupted:修补和试样的事务中断了，学会的工序和材料用法仍然保留。": 86,
+      "CHAIN_MOD_GLUE_ARTISAN:completed:null": 37,
+      "CHAIN_MARITIME_TRADE:started:null": 5,
+      "CHAIN_MARITIME_TRADE:completed:null": 5,
+      "CHAIN_FORTRESS_DEFENSE:interrupted:修墙备粮的差事中断了。预付费用不退，过去管仓修墙的经验仍在。": 5,
+      "CHAIN_MOD_HEALER_SAGE:started:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:started:null": 36,
+      "CHAIN_EPIDEMIC_HEALING:completed:null": 28,
+      "CHAIN_MOD_HEALER_SAGE:completed:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:interrupted:跟诊学习中断了，辨药和照护的经验不会因此失去。": 8,
+      "CH_WORKSHOP:started:null": 45,
+      "CH_WORKSHOP:completed:null": 35,
+      "CHAIN_MOD_LIGHTER_VETERAN:started:null": 72,
+      "CHAIN_MOD_LIGHTER_VETERAN:interrupted:随队护火的差事中断了，省火和探路的经验仍然保留。": 41,
+      "CHAIN_MOD_CORN_KING:started:null": 28,
+      "CHAIN_MOD_CORN_KING:interrupted:试田和合仓事务中断了，过去记下的水土、留种经验仍在。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:started:null": 27,
+      "CHAIN_MOD_CALCULATOR_FINANCE:interrupted:清账差事中断了，已经学会的核账方法仍然保留。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:completed:null": 11,
+      "CHAIN_MOD_CORN_KING:completed:null": 18,
+      "CH_STUDY:started:null": 33,
+      "CH_STUDY:completed:null": 29,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 10,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:interrupted:CONDITION_NOT_MET": 4,
+      "CHAIN_FIREARMS_RESEARCH:interrupted:工坊学艺中断了，预付费用不退，学会的手艺仍然保留。": 3,
+      "CHAIN_IMPERIAL_EXAM:started:null": 16,
+      "CHAIN_IMPERIAL_EXAM:completed:null": 15,
+      "CHAIN_IMPERIAL_EXAM:interrupted:这次赶考中断了。预付费用不退，已经学会的读写和文章本事仍然保留。": 1,
+      "CH_STUDY:interrupted:借书学习中断了，已经认下的字和练过的账，往后仍能用。": 4,
+      "CHAIN_MOD_LIGHTER_VETERAN:completed:null": 23
+    },
+    "breakthroughs": {
+      "E_MOD_FLASHLIGHT_BREAKTHROUGH": 46,
+      "E_MOD_CALCULATOR_BREAKTHROUGH": 13,
+      "E_MOD_HEALER_BREAKTHROUGH": 8,
+      "E_MOD_CORN_BREAKTHROUGH": 20,
+      "E_MOD_LIGHTER_BREAKTHROUGH": 14
+    },
+    "coverage": {
+      "low_card_samples": [],
+      "low_age_band_samples": [],
+      "low_start_year_samples": [
+        "1628"
+      ]
+    }
+  },
+  "pacing-isolated": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "normal",
+        "n": 100,
+        "early": 16,
+        "survivors": 84,
+        "zero": 0.7976190476190477,
+        "choices": {
+          "n": 84,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 84,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 16
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 79,
+        "unspentZero": 0.7848101265822784,
+        "categoryOpen": 25,
+        "categoryOpenZero": 0.32
+      },
+      {
+        "strategy": "cautious",
+        "n": 100,
+        "early": 12,
+        "survivors": 88,
+        "zero": 0.7386363636363636,
+        "choices": {
+          "n": 88,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 88,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 20
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 4
+        },
+        "unspent": 88,
+        "unspentZero": 0.7386363636363636,
+        "categoryOpen": 42,
+        "categoryOpenZero": 0.4523809523809524
+      },
+      {
+        "strategy": "risky",
+        "n": 100,
+        "early": 11,
+        "survivors": 89,
+        "zero": 0.8202247191011236,
+        "choices": {
+          "n": 89,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 89,
+          "p50": 8,
+          "p90": 12,
+          "min": 0,
+          "max": 21
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 70,
+        "unspentZero": 0.7714285714285715,
+        "categoryOpen": 29,
+        "categoryOpenZero": 0.4482758620689655
+      },
+      {
+        "strategy": "career",
+        "n": 100,
+        "early": 10,
+        "survivors": 90,
+        "zero": 0.8,
+        "choices": {
+          "n": 90,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 90,
+          "p50": 8,
+          "p90": 12,
+          "min": 2,
+          "max": 21
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 76,
+        "unspentZero": 0.7631578947368421,
+        "categoryOpen": 31,
+        "categoryOpenZero": 0.41935483870967744
+      }
+    ],
+    "deaths": {
+      "D_OLD_AGE": 289,
+      "D_CRISIS": 3,
+      "D_BANDIT": 3,
+      "D_EPIDEMIC": 33,
+      "D_MOD_FLASHLIGHT_ROBBERY": 1,
+      "D_SENIOR_DECLINE": 20,
+      "D_MOD_SWISS_BLADE_SEVER": 2,
+      "D_STARVATION": 8,
+      "D_FAM_END_HOUSE_FIRE": 2,
+      "D_WAR_CHAOS": 13,
+      "D_MOD_FLASHLIGHT_MISSTEP": 4,
+      "D_MOD_LIGHTER_GAS_BURST": 9,
+      "D_CHARLATAN": 1,
+      "D_MOD_GLUE_LIP_SEAL": 1,
+      "D_FREEZING": 8,
+      "D_DROWNING": 1,
+      "D_PRISON_CORVEE": 1,
+      "D_MOD_OIL_DRINK": 1
+    },
+    "chains": {
+      "CHAIN_FORTRESS_DEFENSE:started:null": 17,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 12,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:started:null": 60,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 22,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 19,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:completed:null": 50,
+      "CHAIN_MOD_GLUE_ARTISAN:started:null": 129,
+      "CHAIN_MOD_GLUE_ARTISAN:interrupted:修补和试样的事务中断了，学会的工序和材料用法仍然保留。": 86,
+      "CHAIN_MOD_GLUE_ARTISAN:completed:null": 37,
+      "CHAIN_MARITIME_TRADE:started:null": 5,
+      "CHAIN_MARITIME_TRADE:completed:null": 5,
+      "CHAIN_FORTRESS_DEFENSE:interrupted:修墙备粮的差事中断了。预付费用不退，过去管仓修墙的经验仍在。": 5,
+      "CHAIN_MOD_HEALER_SAGE:started:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:started:null": 36,
+      "CHAIN_EPIDEMIC_HEALING:completed:null": 28,
+      "CHAIN_MOD_HEALER_SAGE:completed:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:interrupted:跟诊学习中断了，辨药和照护的经验不会因此失去。": 8,
+      "CH_WORKSHOP:started:null": 45,
+      "CH_WORKSHOP:completed:null": 35,
+      "CHAIN_MOD_LIGHTER_VETERAN:started:null": 72,
+      "CHAIN_MOD_LIGHTER_VETERAN:interrupted:随队护火的差事中断了，省火和探路的经验仍然保留。": 41,
+      "CHAIN_MOD_CORN_KING:started:null": 28,
+      "CHAIN_MOD_CORN_KING:interrupted:试田和合仓事务中断了，过去记下的水土、留种经验仍在。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:started:null": 27,
+      "CHAIN_MOD_CALCULATOR_FINANCE:interrupted:清账差事中断了，已经学会的核账方法仍然保留。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:completed:null": 11,
+      "CHAIN_MOD_CORN_KING:completed:null": 18,
+      "CH_STUDY:started:null": 33,
+      "CH_STUDY:completed:null": 29,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 10,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:interrupted:CONDITION_NOT_MET": 4,
+      "CHAIN_FIREARMS_RESEARCH:interrupted:工坊学艺中断了，预付费用不退，学会的手艺仍然保留。": 3,
+      "CHAIN_IMPERIAL_EXAM:started:null": 16,
+      "CHAIN_IMPERIAL_EXAM:completed:null": 15,
+      "CHAIN_IMPERIAL_EXAM:interrupted:这次赶考中断了。预付费用不退，已经学会的读写和文章本事仍然保留。": 1,
+      "CH_STUDY:interrupted:借书学习中断了，已经认下的字和练过的账，往后仍能用。": 4,
+      "CHAIN_MOD_LIGHTER_VETERAN:completed:null": 23
+    },
+    "breakthroughs": {
+      "E_MOD_FLASHLIGHT_BREAKTHROUGH": 46,
+      "E_MOD_CALCULATOR_BREAKTHROUGH": 13,
+      "E_MOD_HEALER_BREAKTHROUGH": 8,
+      "E_MOD_CORN_BREAKTHROUGH": 20,
+      "E_MOD_LIGHTER_BREAKTHROUGH": 14
+    }
+  },
+  "acceptance": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "all",
+        "n": 400,
+        "early": 49,
+        "survivors": 351,
+        "zero": 0.7891737891737892,
+        "choices": {
+          "n": 351,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 351,
+          "p50": 7,
+          "p90": 12,
+          "min": 0,
+          "max": 24
+        },
+        "wholeProgressGap": {
+          "n": 400,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 24
+        },
+        "budget": {
+          "n": 400,
+          "p50": 3,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 308,
+        "unspentZero": 0.7597402597402597,
+        "categoryOpen": 122,
+        "categoryOpenZero": 0.39344262295081966
+      },
+      {
+        "strategy": "normal",
+        "n": 100,
+        "early": 16,
+        "survivors": 84,
+        "zero": 0.7976190476190477,
+        "choices": {
+          "n": 84,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 84,
+          "p50": 6,
+          "p90": 12,
+          "min": 0,
+          "max": 19
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 5,
+          "p90": 12,
+          "min": 0,
+          "max": 19
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 78,
+        "unspentZero": 0.782051282051282,
+        "categoryOpen": 24,
+        "categoryOpenZero": 0.2916666666666667
+      },
+      {
+        "strategy": "cautious",
+        "n": 100,
+        "early": 12,
+        "survivors": 88,
+        "zero": 0.7386363636363636,
+        "choices": {
+          "n": 88,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 88,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 20
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 20
+        },
+        "budget": {
+          "n": 100,
+          "p50": 3,
+          "p90": 4,
+          "min": 1,
+          "max": 4
+        },
+        "unspent": 88,
+        "unspentZero": 0.7386363636363636,
+        "categoryOpen": 42,
+        "categoryOpenZero": 0.4523809523809524
+      },
+      {
+        "strategy": "risky",
+        "n": 100,
+        "early": 11,
+        "survivors": 89,
+        "zero": 0.8202247191011236,
+        "choices": {
+          "n": 89,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 89,
+          "p50": 8,
+          "p90": 12,
+          "min": 0,
+          "max": 24
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 7,
+          "p90": 12,
+          "min": 0,
+          "max": 24
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 68,
+        "unspentZero": 0.7647058823529411,
+        "categoryOpen": 27,
+        "categoryOpenZero": 0.4074074074074074
+      },
+      {
+        "strategy": "career",
+        "n": 100,
+        "early": 10,
+        "survivors": 90,
+        "zero": 0.8,
+        "choices": {
+          "n": 90,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 90,
+          "p50": 7,
+          "p90": 11,
+          "min": 1,
+          "max": 21
+        },
+        "wholeProgressGap": {
+          "n": 100,
+          "p50": 7,
+          "p90": 11,
+          "min": 0,
+          "max": 21
+        },
+        "budget": {
+          "n": 100,
+          "p50": 4,
+          "p90": 5,
+          "min": 1,
+          "max": 5
+        },
+        "unspent": 74,
+        "unspentZero": 0.7567567567567568,
+        "categoryOpen": 29,
+        "categoryOpenZero": 0.3793103448275862
+      }
+    ],
+    "deaths": {
+      "D_OLD_AGE": 281,
+      "D_CRISIS": 3,
+      "D_BANDIT": 5,
+      "D_WAR_CHAOS": 14,
+      "D_EPIDEMIC": 35,
+      "D_SENIOR_DECLINE": 18,
+      "D_MOD_SWISS_BLADE_SEVER": 2,
+      "D_FAM_END_HOUSE_FIRE": 1,
+      "D_FAM_END_FAMILY_SHELTER": 2,
+      "D_MOD_FLASHLIGHT_MISSTEP": 4,
+      "D_MOD_LIGHTER_GAS_BURST": 9,
+      "D_CHARLATAN": 1,
+      "D_MOD_GLUE_LIP_SEAL": 1,
+      "D_STARVATION": 10,
+      "D_FREEZING": 8,
+      "D_DROWNING": 3,
+      "D_PRISON_CORVEE": 2,
+      "D_MOD_OIL_DRINK": 1
+    },
+    "chains": {
+      "CHAIN_FORTRESS_DEFENSE:started:null": 17,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 14,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:started:null": 60,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 21,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 18,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:completed:null": 50,
+      "CHAIN_MOD_GLUE_ARTISAN:started:null": 129,
+      "CHAIN_MOD_GLUE_ARTISAN:interrupted:修补和试样的事务中断了，学会的工序和材料用法仍然保留。": 78,
+      "CHAIN_MOD_GLUE_ARTISAN:completed:null": 45,
+      "CHAIN_MARITIME_TRADE:started:null": 5,
+      "CHAIN_MARITIME_TRADE:completed:null": 5,
+      "CHAIN_FORTRESS_DEFENSE:interrupted:修墙备粮的差事中断了。预付费用不退，过去管仓修墙的经验仍在。": 3,
+      "CHAIN_MOD_HEALER_SAGE:started:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:started:null": 36,
+      "CHAIN_EPIDEMIC_HEALING:completed:null": 28,
+      "CHAIN_MOD_HEALER_SAGE:completed:null": 20,
+      "CHAIN_EPIDEMIC_HEALING:interrupted:跟诊学习中断了，辨药和照护的经验不会因此失去。": 8,
+      "CH_WORKSHOP:started:null": 45,
+      "CH_WORKSHOP:completed:null": 35,
+      "CHAIN_MOD_LIGHTER_VETERAN:started:null": 72,
+      "CHAIN_MOD_LIGHTER_VETERAN:interrupted:随队护火的差事中断了，省火和探路的经验仍然保留。": 41,
+      "CHAIN_MOD_CORN_KING:started:null": 28,
+      "CHAIN_MOD_CORN_KING:interrupted:试田和合仓事务中断了，过去记下的水土、留种经验仍在。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:started:null": 27,
+      "CHAIN_MOD_CALCULATOR_FINANCE:interrupted:清账差事中断了，已经学会的核账方法仍然保留。": 10,
+      "CHAIN_MOD_CALCULATOR_FINANCE:completed:null": 11,
+      "CHAIN_MOD_CORN_KING:completed:null": 18,
+      "CH_STUDY:started:null": 33,
+      "CH_STUDY:completed:null": 29,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 10,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:interrupted:CONDITION_NOT_MET": 4,
+      "CHAIN_FIREARMS_RESEARCH:interrupted:工坊学艺中断了，预付费用不退，学会的手艺仍然保留。": 3,
+      "CHAIN_IMPERIAL_EXAM:started:null": 16,
+      "CHAIN_IMPERIAL_EXAM:completed:null": 15,
+      "CHAIN_IMPERIAL_EXAM:interrupted:这次赶考中断了。预付费用不退，已经学会的读写和文章本事仍然保留。": 1,
+      "CH_STUDY:interrupted:借书学习中断了，已经认下的字和练过的账，往后仍能用。": 4,
+      "CHAIN_MOD_LIGHTER_VETERAN:completed:null": 23,
+      "CHAIN_MILITARY_MERIT:started:null": 1,
+      "CHAIN_MILITARY_MERIT:completed:null": 1
+    },
+    "breakthroughs": {
+      "E_MOD_FLASHLIGHT_BREAKTHROUGH": 46,
+      "E_MOD_CALCULATOR_BREAKTHROUGH": 13,
+      "E_MOD_HEALER_BREAKTHROUGH": 8,
+      "E_MOD_CORN_BREAKTHROUGH": 20,
+      "E_MOD_LIGHTER_BREAKTHROUGH": 14
+    },
+    "coverage": {
+      "low_card_samples": [],
+      "low_age_band_samples": [],
+      "low_start_year_samples": [
+        "1628"
+      ]
+    }
+  },
+  "acceptance-CORN": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "all",
+        "n": 32,
+        "early": 5,
+        "survivors": 27,
+        "zero": 0.8148148148148148,
+        "choices": {
+          "n": 27,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 27,
+          "p50": 6,
+          "p90": 14,
+          "min": 0,
+          "max": 14
+        },
+        "wholeProgressGap": {
+          "n": 32,
+          "p50": 5,
+          "p90": 14,
+          "min": 1,
+          "max": 14
+        },
+        "budget": {
+          "n": 32,
+          "p50": 2,
+          "p90": 3,
+          "min": 1,
+          "max": 3
+        },
+        "unspent": 27,
+        "unspentZero": 0.8148148148148148,
+        "categoryOpen": 5,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "normal",
+        "n": 8,
+        "early": 1,
+        "survivors": 7,
+        "zero": 0.7142857142857143,
+        "choices": {
+          "n": 7,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 7,
+          "p50": 6,
+          "p90": 14,
+          "min": 2,
+          "max": 14
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 3,
+          "p90": 14,
+          "min": 1,
+          "max": 14
+        },
+        "budget": {
+          "n": 8,
+          "p50": 2,
+          "p90": 3,
+          "min": 2,
+          "max": 3
+        },
+        "unspent": 7,
+        "unspentZero": 0.7142857142857143,
+        "categoryOpen": 2,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "cautious",
+        "n": 8,
+        "early": 2,
+        "survivors": 6,
+        "zero": 0.8333333333333334,
+        "choices": {
+          "n": 6,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 6,
+          "p50": 6,
+          "p90": 13,
+          "min": 1,
+          "max": 13
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 13,
+          "min": 1,
+          "max": 13
+        },
+        "budget": {
+          "n": 8,
+          "p50": 2,
+          "p90": 2,
+          "min": 1,
+          "max": 2
+        },
+        "unspent": 6,
+        "unspentZero": 0.8333333333333334,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "risky",
+        "n": 8,
+        "early": 1,
+        "survivors": 7,
+        "zero": 0.8571428571428571,
+        "choices": {
+          "n": 7,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 7,
+          "p50": 4,
+          "p90": 14,
+          "min": 0,
+          "max": 14
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 2,
+          "p90": 14,
+          "min": 1,
+          "max": 14
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 2,
+          "max": 3
+        },
+        "unspent": 7,
+        "unspentZero": 0.8571428571428571,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "career",
+        "n": 8,
+        "early": 1,
+        "survivors": 7,
+        "zero": 0.8571428571428571,
+        "choices": {
+          "n": 7,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 7,
+          "p50": 6,
+          "p90": 12,
+          "min": 4,
+          "max": 12
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 12,
+          "min": 3,
+          "max": 12
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 1,
+          "max": 3
+        },
+        "unspent": 7,
+        "unspentZero": 0.8571428571428571,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      }
+    ],
+    "deaths": {
+      "D_FREEZING": 2,
+      "D_OLD_AGE": 7,
+      "D_EPIDEMIC": 4,
+      "D_SENIOR_DECLINE": 11,
+      "D_PRISON_CORVEE": 1,
+      "D_STARVATION": 3,
+      "D_DROWNING": 1,
+      "D_WAR_CHAOS": 2,
+      "D_BANDIT": 1
+    },
+    "chains": {
+      "CHAIN_MOD_CORN_KING:started:null": 32,
+      "CHAIN_MOD_CORN_KING:interrupted:试田和合仓事务中断了，过去记下的水土、留种经验仍在。": 6,
+      "CH_WORKSHOP:started:null": 5,
+      "CH_WORKSHOP:completed:null": 4,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 3,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 3,
+      "CHAIN_MOD_CORN_KING:completed:null": 22,
+      "CH_STUDY:started:null": 6,
+      "CH_STUDY:completed:null": 6,
+      "CHAIN_MOD_CORN_KING:interrupted:CONDITION_NOT_MET": 4,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 1,
+      "CHAIN_FORTRESS_DEFENSE:started:null": 3,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 3,
+      "CHAIN_MILITARY_MERIT:started:null": 2,
+      "CHAIN_MILITARY_MERIT:completed:null": 2,
+      "CHAIN_IMPERIAL_EXAM:started:null": 1,
+      "CHAIN_IMPERIAL_EXAM:completed:null": 1
+    },
+    "breakthroughs": {
+      "E_MOD_CORN_BREAKTHROUGH": 24
+    },
+    "coverage": {
+      "low_card_samples": [
+        "CARD_MODERN_ANTIBIOTIC",
+        "CARD_MODERN_FLASHLIGHT",
+        "CARD_MODERN_CALCULATOR",
+        "CARD_MODERN_GLUE",
+        "CARD_MODERN_LIGHTER"
+      ],
+      "low_age_band_samples": [
+        "child",
+        "adult",
+        "senior"
+      ],
+      "low_start_year_samples": [
+        "1628",
+        "1629",
+        "1630",
+        "1631",
+        "1632",
+        "1633",
+        "1634",
+        "1635",
+        "1636",
+        "1637",
+        "1638",
+        "1639",
+        "1640",
+        "1641",
+        "1642",
+        "1643",
+        "1644",
+        "1645"
+      ]
+    }
+  },
+  "acceptance-ANTIBIOTIC": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "all",
+        "n": 32,
+        "early": 0,
+        "survivors": 32,
+        "zero": 0.84375,
+        "choices": {
+          "n": 32,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 32,
+          "p50": 5,
+          "p90": 10,
+          "min": 0,
+          "max": 17
+        },
+        "wholeProgressGap": {
+          "n": 32,
+          "p50": 5,
+          "p90": 10,
+          "min": 2,
+          "max": 17
+        },
+        "budget": {
+          "n": 32,
+          "p50": 2,
+          "p90": 3,
+          "min": 2,
+          "max": 3
+        },
+        "unspent": 32,
+        "unspentZero": 0.84375,
+        "categoryOpen": 5,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "normal",
+        "n": 8,
+        "early": 0,
+        "survivors": 8,
+        "zero": 0.75,
+        "choices": {
+          "n": 8,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 17,
+          "min": 1,
+          "max": 17
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 17,
+          "min": 2,
+          "max": 17
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 2,
+          "max": 3
+        },
+        "unspent": 8,
+        "unspentZero": 0.75,
+        "categoryOpen": 2,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "cautious",
+        "n": 8,
+        "early": 0,
+        "survivors": 8,
+        "zero": 0.875,
+        "choices": {
+          "n": 8,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 10,
+          "min": 2,
+          "max": 10
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 10,
+          "min": 2,
+          "max": 10
+        },
+        "budget": {
+          "n": 8,
+          "p50": 2,
+          "p90": 2,
+          "min": 2,
+          "max": 2
+        },
+        "unspent": 8,
+        "unspentZero": 0.875,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "risky",
+        "n": 8,
+        "early": 0,
+        "survivors": 8,
+        "zero": 0.875,
+        "choices": {
+          "n": 8,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 8,
+          "p50": 6,
+          "p90": 17,
+          "min": 1,
+          "max": 17
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 6,
+          "p90": 17,
+          "min": 2,
+          "max": 17
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 2,
+          "max": 3
+        },
+        "unspent": 8,
+        "unspentZero": 0.875,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "career",
+        "n": 8,
+        "early": 0,
+        "survivors": 8,
+        "zero": 0.875,
+        "choices": {
+          "n": 8,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 8,
+          "min": 0,
+          "max": 8
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 8,
+          "min": 2,
+          "max": 8
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 2,
+          "max": 3
+        },
+        "unspent": 8,
+        "unspentZero": 0.875,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      }
+    ],
+    "deaths": {
+      "D_SENIOR_DECLINE": 8,
+      "D_OLD_AGE": 13,
+      "D_EPIDEMIC": 3,
+      "D_BANDIT": 1,
+      "D_STARVATION": 3,
+      "D_WAR_CHAOS": 2,
+      "D_FREEZING": 1,
+      "D_FAM_END_OLD_AGE": 1
+    },
+    "chains": {
+      "CHAIN_MOD_HEALER_SAGE:started:null": 32,
+      "CHAIN_MOD_HEALER_SAGE:interrupted:协诊暂告中断，有限的药片不能随意分发，学会的照护方法仍然保留。": 4,
+      "CHAIN_EPIDEMIC_HEALING:started:null": 2,
+      "CHAIN_EPIDEMIC_HEALING:interrupted:跟诊学习中断了，辨药和照护的经验不会因此失去。": 2,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 3,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 3,
+      "CHAIN_MOD_HEALER_SAGE:completed:null": 24,
+      "CH_STUDY:started:null": 7,
+      "CH_STUDY:completed:null": 7,
+      "CHAIN_MILITARY_MERIT:started:null": 3,
+      "CHAIN_MILITARY_MERIT:interrupted:营中历练就此中断，练出的体力和熟悉的守备经验都还在。": 3,
+      "CHAIN_MOD_HEALER_SAGE:interrupted:CONDITION_NOT_MET": 4,
+      "CH_WORKSHOP:started:null": 3,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 1,
+      "CHAIN_FORTRESS_DEFENSE:started:null": 3,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 3,
+      "CH_WORKSHOP:completed:null": 2,
+      "CHAIN_IMPERIAL_EXAM:started:null": 1,
+      "CHAIN_IMPERIAL_EXAM:completed:null": 1
+    },
+    "breakthroughs": {
+      "E_MOD_HEALER_BREAKTHROUGH": 24
+    },
+    "coverage": {
+      "low_card_samples": [
+        "CARD_MODERN_CORN",
+        "CARD_MODERN_FLASHLIGHT",
+        "CARD_MODERN_CALCULATOR",
+        "CARD_MODERN_GLUE",
+        "CARD_MODERN_LIGHTER"
+      ],
+      "low_age_band_samples": [
+        "child",
+        "adult",
+        "senior"
+      ],
+      "low_start_year_samples": [
+        "1628",
+        "1629",
+        "1630",
+        "1631",
+        "1632",
+        "1633",
+        "1634",
+        "1635",
+        "1636",
+        "1637",
+        "1638",
+        "1639",
+        "1640",
+        "1641",
+        "1642",
+        "1643",
+        "1644",
+        "1645"
+      ]
+    }
+  },
+  "acceptance-FLASHLIGHT": {
+    "definitions": {
+      "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+      "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+      "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+      "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+      "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+      "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+      "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+    },
+    "rows": [
+      {
+        "strategy": "all",
+        "n": 32,
+        "early": 9,
+        "survivors": 23,
+        "zero": 0.9565217391304348,
+        "choices": {
+          "n": 23,
+          "p50": 0,
+          "p90": 0,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 23,
+          "p50": 6,
+          "p90": 11,
+          "min": 0,
+          "max": 11
+        },
+        "wholeProgressGap": {
+          "n": 32,
+          "p50": 4,
+          "p90": 10,
+          "min": 0,
+          "max": 11
+        },
+        "budget": {
+          "n": 32,
+          "p50": 2,
+          "p90": 3,
+          "min": 1,
+          "max": 3
+        },
+        "unspent": 23,
+        "unspentZero": 0.9565217391304348,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "normal",
+        "n": 8,
+        "early": 2,
+        "survivors": 6,
+        "zero": 0.8333333333333334,
+        "choices": {
+          "n": 6,
+          "p50": 0,
+          "p90": 1,
+          "min": 0,
+          "max": 1
+        },
+        "progressGap": {
+          "n": 6,
+          "p50": 6,
+          "p90": 11,
+          "min": 2,
+          "max": 11
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 3,
+          "p90": 11,
+          "min": 0,
+          "max": 11
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 1,
+          "max": 3
+        },
+        "unspent": 6,
+        "unspentZero": 0.8333333333333334,
+        "categoryOpen": 1,
+        "categoryOpenZero": 0
+      },
+      {
+        "strategy": "cautious",
+        "n": 8,
+        "early": 2,
+        "survivors": 6,
+        "zero": 1,
+        "choices": {
+          "n": 6,
+          "p50": 0,
+          "p90": 0,
+          "min": 0,
+          "max": 0
+        },
+        "progressGap": {
+          "n": 6,
+          "p50": 5,
+          "p90": 10,
+          "min": 2,
+          "max": 10
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 5,
+          "p90": 10,
+          "min": 0,
+          "max": 10
+        },
+        "budget": {
+          "n": 8,
+          "p50": 2,
+          "p90": 2,
+          "min": 1,
+          "max": 2
+        },
+        "unspent": 6,
+        "unspentZero": 1,
+        "categoryOpen": 0,
+        "categoryOpenZero": null
+      },
+      {
+        "strategy": "risky",
+        "n": 8,
+        "early": 3,
+        "survivors": 5,
+        "zero": 1,
+        "choices": {
+          "n": 5,
+          "p50": 0,
+          "p90": 0,
+          "min": 0,
+          "max": 0
+        },
+        "progressGap": {
+          "n": 5,
+          "p50": 6,
+          "p90": 10,
+          "min": 0,
+          "max": 10
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 2,
+          "p90": 10,
+          "min": 1,
+          "max": 10
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 1,
+          "max": 3
+        },
+        "unspent": 5,
+        "unspentZero": 1,
+        "categoryOpen": 0,
+        "categoryOpenZero": null
+      },
+      {
+        "strategy": "career",
+        "n": 8,
+        "early": 2,
+        "survivors": 6,
+        "zero": 1,
+        "choices": {
+          "n": 6,
+          "p50": 0,
+          "p90": 0,
+          "min": 0,
+          "max": 0
+        },
+        "progressGap": {
+          "n": 6,
+          "p50": 5,
+          "p90": 11,
+          "min": 2,
+          "max": 11
+        },
+        "wholeProgressGap": {
+          "n": 8,
+          "p50": 4,
+          "p90": 11,
+          "min": 2,
+          "max": 11
+        },
+        "budget": {
+          "n": 8,
+          "p50": 3,
+          "p90": 3,
+          "min": 1,
+          "max": 3
+        },
+        "unspent": 6,
+        "unspentZero": 1,
+        "categoryOpen": 0,
+        "categoryOpenZero": null
+      }
+    ],
+    "deaths": {
+      "D_FREEZING": 2,
+      "D_OLD_AGE": 10,
+      "D_SENIOR_DECLINE": 9,
+      "D_EPIDEMIC": 5,
+      "D_PRISON_CORVEE": 1,
+      "D_DROWNING": 1,
+      "D_STARVATION": 2,
+      "D_MOD_FLASHLIGHT_MISSTEP": 1,
+      "D_WAR_CHAOS": 1
+    },
+    "chains": {
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:started:null": 32,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:interrupted:这次夜查与护送中断了，过去学到的查证和巡路方法仍在。": 4,
+      "CH_WORKSHOP:started:null": 5,
+      "CH_WORKSHOP:completed:null": 4,
+      "CHAIN_FIREARMS_RESEARCH:started:null": 3,
+      "CHAIN_FIREARMS_RESEARCH:completed:null": 2,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:completed:null": 22,
+      "CH_STUDY:started:null": 6,
+      "CH_STUDY:completed:null": 6,
+      "CHAIN_MILITARY_MERIT:started:null": 3,
+      "CHAIN_MILITARY_MERIT:interrupted:营中历练就此中断，练出的体力和熟悉的守备经验都还在。": 1,
+      "CHAIN_MOD_FLASHLIGHT_DETECTIVE:interrupted:CONDITION_NOT_MET": 4,
+      "CH_WORKSHOP:interrupted:工坊里没法继续学艺了，已经学会的手艺仍可用来做活。": 1,
+      "CHAIN_FORTRESS_DEFENSE:started:null": 3,
+      "CHAIN_FORTRESS_DEFENSE:completed:null": 3,
+      "CHAIN_MILITARY_MERIT:completed:null": 2,
+      "CHAIN_EPIDEMIC_HEALING:started:null": 1,
+      "CHAIN_EPIDEMIC_HEALING:completed:null": 1,
+      "CHAIN_FIREARMS_RESEARCH:interrupted:工坊学艺中断了，预付费用不退，学会的手艺仍然保留。": 1
+    },
+    "breakthroughs": {
+      "E_MOD_FLASHLIGHT_BREAKTHROUGH": 20
+    },
+    "coverage": {
+      "low_card_samples": [
+        "CARD_MODERN_CORN",
+        "CARD_MODERN_ANTIBIOTIC",
+        "CARD_MODERN_CALCULATOR",
+        "CARD_MODERN_GLUE",
+        "CARD_MODERN_LIGHTER"
+      ],
+      "low_age_band_samples": [
+        "child",
+        "adult",
+        "senior"
+      ],
+      "low_start_year_samples": [
+        "1628",
+        "1629",
+        "1630",
+        "1631",
+        "1632",
+        "1633",
+        "1634",
+        "1635",
+        "1636",
+        "1637",
+        "1638",
+        "1639",
+        "1640",
+        "1641",
+        "1642",
+        "1643",
+        "1644",
+        "1645"
+      ]
+    }
+  }
+}

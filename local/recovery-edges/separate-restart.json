@@ -1,0 +1,11 @@
+{
+  "id": "0f22f4b4-3be8-419e-b303-c32c8644519a",
+  "ok": true,
+  "result": {
+    "result": "{\"overlay\":\"restart\",\"text\":\"穿越人生模拟 荒诞 · 明朝 · 你 穿越了 这次我带 大喇叭逆袭 带上一件现代物品， 去明朝过一生。 图鉴收集 0/173 · 0.0% 成就 0/137 · 死因 0/36 继续人生 重新开始 继续前会先核对本机存档。 声音 图鉴 统计 人生保存在本机， 清除本机数据后无法恢复。\\n继续人生重新开始声音图鉴统计\",\"unchanged\":true}",
+    "origin": "http://localhost:5179/local/recovery-edges/harness.html"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

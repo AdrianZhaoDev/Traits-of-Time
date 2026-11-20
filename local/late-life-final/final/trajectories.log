@@ -1,0 +1,11 @@
+{
+  selected: [
+    'long_lived',
+    'poor',
+    'interrupted',
+    'young_plus_nine',
+    'prosperous',
+    'poor_renowned'
+  ],
+  missing: []
+}

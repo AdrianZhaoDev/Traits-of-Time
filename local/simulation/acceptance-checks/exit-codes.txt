@@ -1,0 +1,13 @@
+validate 0
+typecheck 0
+test 1
+build 0
+wechat 0
+compression-recheck 0
+selection-recheck 0
+selection-typecheck 0
+final-build 0
+final-wechat 0
+label-final-typecheck 0
+label-final-build 0
+label-final-build:wechat 0

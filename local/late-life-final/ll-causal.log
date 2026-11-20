@@ -1,0 +1,11 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+[Error: ENOMEM: not enough memory, read] {
+  errno: -12,
+  code: 'ENOMEM',
+  syscall: 'read'
+}
+
+Node.js v22.22.1

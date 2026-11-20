@@ -1,0 +1,1570 @@
+
+> chuanyue-laba-nixi@1.0.0 test
+> node --import ./tools/register-typescript.mjs --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: codec preserves full JSON and works without Buffer, TextEncoder, TextDecoder or streams
+ok 1 - codec preserves full JSON and works without Buffer, TextEncoder, TextDecoder or streams
+  ---
+  duration_ms: 207.374856
+  type: 'test'
+  ...
+# Subtest: portable UTF-8 handles Unicode boundaries and rejects malformed byte sequences
+ok 2 - portable UTF-8 handles Unicode boundaries and rejects malformed byte sequences
+  ---
+  duration_ms: 1.215293
+  type: 'test'
+  ...
+# Subtest: deduplication recreates independent JSON objects and rejects forged expansion graphs
+ok 3 - deduplication recreates independent JSON objects and rejects forged expansion graphs
+  ---
+  duration_ms: 3.129418
+  type: 'test'
+  ...
+# Subtest: compressed inherited offers retain the full replay and idempotent command history
+ok 4 - compressed inherited offers retain the full replay and idempotent command history
+  ---
+  duration_ms: 422.78358
+  type: 'test'
+  ...
+# Subtest: legacy v1 restores, next write uses v2, and the legacy slot remains a recoverable backup
+ok 5 - legacy v1 restores, next write uses v2, and the legacy slot remains a recoverable backup
+  ---
+  duration_ms: 724.797893
+  type: 'test'
+  ...
+# Subtest: checksum, invalid base64, truncated data and length violations fall back to the other slot
+ok 6 - checksum, invalid base64, truncated data and length violations fall back to the other slot
+  ---
+  duration_ms: 1804.688988
+  type: 'test'
+  ...
+# Subtest: two damaged slots require explicit consent before replacement
+ok 7 - two damaged slots require explicit consent before replacement
+  ---
+  duration_ms: 316.176373
+  type: 'test'
+  ...
+# Subtest: v2 still enforces strict replay and refuses incompatible newer versions without consent
+ok 8 - v2 still enforces strict replay and refuses incompatible newer versions without consent
+  ---
+  duration_ms: 1072.153864
+  type: 'test'
+  ...
+# Subtest: simulated wx and browser quotas retain the active slot on write or readback failure
+ok 9 - simulated wx and browser quotas retain the active slot on write or readback failure
+  ---
+  duration_ms: 795.221537
+  type: 'test'
+  ...
+# Subtest: unreadable storage remains unavailable and cannot be overwritten
+ok 10 - unreadable storage remains unavailable and cannot be overwritten
+  ---
+  duration_ms: 33.271657
+  type: 'test'
+  ...
+# Subtest: dynamic raw gate yields the approved success rates and only applies when configured
+ok 11 - dynamic raw gate yields the approved success rates and only applies when configured
+  ---
+  duration_ms: 2.472611
+  type: 'test'
+  ...
+# Subtest: luck thresholds are independent of both modifier caps and affect actual rolls
+ok 12 - luck thresholds are independent of both modifier caps and affect actual rolls
+  ---
+  duration_ms: 0.657707
+  type: 'test'
+  ...
+# Subtest: natural 1 and 20 take precedence; 19 is critical only after a normal success with enough luck
+ok 13 - natural 1 and 20 take precedence; 19 is critical only after a normal success with enough luck
+  ---
+  duration_ms: 2.650497
+  type: 'test'
+  ...
+# Subtest: preview probabilities agree with all twenty individually resolved outcomes
+ok 14 - preview probabilities agree with all twenty individually resolved outcomes
+  ---
+  duration_ms: 20.169488
+  type: 'test'
+  ...
+# Subtest: increasing the strategy attribute never reduces success chance across gate types
+ok 15 - increasing the strategy attribute never reduces success chance across gate types
+  ---
+  duration_ms: 1.244908
+  type: 'test'
+  ...
+# Subtest: dynamic and luck mechanics honor configured rule parameters
+ok 16 - dynamic and luck mechanics honor configured rule parameters
+  ---
+  duration_ms: 0.556636
+  type: 'test'
+  ...
+# Subtest: schema and semantic validation reject malformed dynamic and luck settings
+ok 17 - schema and semantic validation reject malformed dynamic and luck settings
+  ---
+  duration_ms: 69.777626
+  type: 'test'
+  ...
+# Subtest: production schema and semantic references
+ok 18 - production schema and semantic references
+  ---
+  duration_ms: 260.758598
+  type: 'test'
+  ...
+# Subtest: automatic scheduler executes marriage, bereavement, remarriage without choices
+ok 19 - automatic scheduler executes marriage, bereavement, remarriage without choices
+  ---
+  duration_ms: 33.239279
+  type: 'test'
+  ...
+# Subtest: automatic D20 stages use real seeded rolls and branch effects; natural 1/20 are respected
+ok 20 - automatic D20 stages use real seeded rolls and branch effects; natural 1/20 are respected
+  ---
+  duration_ms: 149.21507
+  type: 'test'
+  ...
+# Subtest: automatic death ends once, preserves final state, rejects future years
+ok 21 - automatic death ends once, preserves final state, rejects future years
+  ---
+  duration_ms: 23.877553
+  type: 'test'
+  ...
+# Subtest: complete production lives retain one-to-five successful major choices across deterministic strategies
+ok 22 - complete production lives retain one-to-five successful major choices across deterministic strategies
+  ---
+  duration_ms: 69815.982321
+  type: 'test'
+  ...
+# {"strategy":"normal","lives":100,"choicesMin":1,"choicesMax":5,"choicesP50":3,"choicesP90":4,"earlyDeathsBefore40":19,"familyEvents":685,"deaths":{"D_OLD_AGE":70,"D_EPIDEMIC":5,"D_FREEZING":4,"D_STARVATION":6,"D_WAR_CHAOS":4,"D_SENIOR_DECLINE":3,"D_MOD_FLASHLIGHT_MISSTEP":3,"D_PRISON_CORVEE":1,"D_MOD_LIGHTER_GAS_BURST":3,"D_BANDIT":1}}
+# {"strategy":"cautious","lives":100,"choicesMin":1,"choicesMax":4,"choicesP50":3,"choicesP90":4,"earlyDeathsBefore40":19,"familyEvents":788,"deaths":{"D_STARVATION":1,"D_OLD_AGE":70,"D_FREEZING":1,"D_SENIOR_DECLINE":7,"D_WAR_CHAOS":7,"D_EPIDEMIC":7,"D_CHARLATAN":1,"D_MOD_LIGHTER_GAS_BURST":3,"D_BANDIT":1,"D_MOD_OIL_DRINK":1,"D_DROWNING":1}}
+# {"strategy":"risky","lives":100,"choicesMin":1,"choicesMax":5,"choicesP50":3,"choicesP90":4,"earlyDeathsBefore40":18,"familyEvents":760,"deaths":{"D_OLD_AGE":72,"D_EPIDEMIC":6,"D_SENIOR_DECLINE":4,"D_MOD_FLASHLIGHT_MISSTEP":7,"D_WAR_CHAOS":2,"D_PRISON_CORVEE":1,"D_MOD_LIGHTER_GAS_BURST":3,"D_FAM_END_FAMILY_SHELTER":1,"D_STARVATION":2,"D_CRISIS":1,"D_FREEZING":1}}
+# {"strategy":"career","lives":100,"choicesMin":1,"choicesMax":5,"choicesP50":3,"choicesP90":4,"earlyDeathsBefore40":19,"familyEvents":685,"deaths":{"D_OLD_AGE":70,"D_EPIDEMIC":5,"D_FREEZING":4,"D_STARVATION":6,"D_WAR_CHAOS":4,"D_SENIOR_DECLINE":3,"D_MOD_FLASHLIGHT_MISSTEP":3,"D_PRISON_CORVEE":1,"D_MOD_LIGHTER_GAS_BURST":3,"D_BANDIT":1}}
+# Subtest: heirless ending checks current children, not only a historical heirless flag
+ok 23 - heirless ending checks current children, not only a historical heirless flag
+  ---
+  duration_ms: 104.674888
+  type: 'test'
+  ...
+# Subtest: family milestones do not end a life, while life-category awards wait until death
+ok 24 - family milestones do not end a life, while life-category awards wait until death
+  ---
+  duration_ms: 28.645387
+  type: 'test'
+  ...
+# Subtest: new family top-level IDs do not collide anywhere in production; stages are event-local
+ok 25 - new family top-level IDs do not collide anywhere in production; stages are event-local
+  ---
+  duration_ms: 7.644198
+  type: 'test'
+  ...
+# Subtest: family additions add zero choices, career starts, or consumed choice-budget flags
+ok 26 - family additions add zero choices, career starts, or consumed choice-budget flags
+  ---
+  duration_ms: 4.033518
+  type: 'test'
+  ...
+# Subtest: only newly introduced family flag reads require production producers
+ok 27 - only newly introduced family flag reads require production producers
+  ---
+  duration_ms: 27.601927
+  type: 'test'
+  ...
+# Subtest: family fields use the approved vocabulary and no forbidden wording
+ok 28 - family fields use the approved vocabulary and no forbidden wording
+  ---
+  duration_ms: 3.119735
+  type: 'test'
+  ...
+# Subtest: all added deaths are connected to real production events
+ok 29 - all added deaths are connected to real production events
+  ---
+  duration_ms: 13.218216
+  type: 'test'
+  ...
+# Subtest: native loader fingerprint equals canonical SHA256 of the complete bundle
+ok 30 - native loader fingerprint equals canonical SHA256 of the complete bundle
+  ---
+  duration_ms: 444.01764
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_MATCH
+ok 31 - production family event executes through real scheduler: E_FAM_MAR_MATCH
+  ---
+  duration_ms: 47.75464
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_READY
+ok 32 - production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_READY
+  ---
+  duration_ms: 35.73671
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_SHORT
+ok 33 - production family event executes through real scheduler: E_FAM_MAR_BETROTHAL_SHORT
+  ---
+  duration_ms: 26.10181
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_SIMPLE_MATCH
+ok 34 - production family event executes through real scheduler: E_FAM_MAR_SIMPLE_MATCH
+  ---
+  duration_ms: 35.48424
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_POOR
+ok 35 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_POOR
+  ---
+  duration_ms: 33.017332
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_MODEST
+ok 36 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_MODEST
+  ---
+  duration_ms: 26.773413
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WEDDING_WELL_OFF
+ok 37 - production family event executes through real scheduler: E_FAM_MAR_WEDDING_WELL_OFF
+  ---
+  duration_ms: 29.744732
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_WEDDING
+ok 38 - production family event executes through real scheduler: E_FAM_MAR_HIGH_WEDDING
+  ---
+  duration_ms: 21.53518
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_NEIGHBOR
+ok 39 - production family event executes through real scheduler: E_FAM_MAR_HIGH_NEIGHBOR
+  ---
+  duration_ms: 23.075501
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_DEFER
+ok 40 - production family event executes through real scheduler: E_FAM_MAR_HIGH_DEFER
+  ---
+  duration_ms: 36.601011
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_HIGH_RISK
+ok 41 - production family event executes through real scheduler: E_FAM_MAR_HIGH_RISK
+  ---
+  duration_ms: 29.500156
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_CONCUBINE
+ok 42 - production family event executes through real scheduler: E_FAM_MAR_CONCUBINE
+  ---
+  duration_ms: 75.258272
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_WIDOWED
+ok 43 - production family event executes through real scheduler: E_FAM_MAR_WIDOWED
+  ---
+  duration_ms: 25.274688
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_REMARRIAGE
+ok 44 - production family event executes through real scheduler: E_FAM_MAR_REMARRIAGE
+  ---
+  duration_ms: 27.054648
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_POOR_TOGETHER
+ok 45 - production family event executes through real scheduler: E_FAM_MAR_POOR_TOGETHER
+  ---
+  duration_ms: 27.89545
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_POOR_WORK
+ok 46 - production family event executes through real scheduler: E_FAM_MAR_POOR_WORK
+  ---
+  duration_ms: 68.118416
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_LEGACY_FIRST
+ok 47 - production family event executes through real scheduler: E_FAM_MAR_LEGACY_FIRST
+  ---
+  duration_ms: 25.833277
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_MAR_LEGACY_REMARRIAGE
+ok 48 - production family event executes through real scheduler: E_FAM_MAR_LEGACY_REMARRIAGE
+  ---
+  duration_ms: 27.874541
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_RECOGNIZE_LEGACY
+ok 49 - production family event executes through real scheduler: E_FAM_CHILD_RECOGNIZE_LEGACY
+  ---
+  duration_ms: 24.57187
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN
+ok 50 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN
+  ---
+  duration_ms: 25.624851
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_FEAST
+ok 51 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_EARLY_FEAST
+  ---
+  duration_ms: 26.965545
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN
+ok 52 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN
+  ---
+  duration_ms: 25.647069
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST
+ok 53 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST
+  ---
+  duration_ms: 24.494466
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_PLAIN
+ok 54 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_PLAIN
+  ---
+  duration_ms: 25.322627
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_FEAST
+ok 55 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_BOY_LATE_FEAST
+  ---
+  duration_ms: 22.05699
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN
+ok 56 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN
+  ---
+  duration_ms: 22.08478
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_FEAST
+ok 57 - production family event executes through real scheduler: E_FAM_CHILD_FIRST_GIRL_LATE_FEAST
+  ---
+  duration_ms: 25.254998
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE
+ok 58 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE
+  ---
+  duration_ms: 24.64972
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE
+ok 59 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE
+  ---
+  duration_ms: 24.777123
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_WIFE
+ok 60 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_WIFE
+  ---
+  duration_ms: 27.045194
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE
+ok 61 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE
+  ---
+  duration_ms: 20.563552
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_WIFE
+ok 62 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_WIFE
+  ---
+  duration_ms: 26.089324
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE
+ok 63 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE
+  ---
+  duration_ms: 24.977483
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_WIFE
+ok 64 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_WIFE
+  ---
+  duration_ms: 22.008206
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE
+ok 65 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE
+  ---
+  duration_ms: 24.850937
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_EARLY
+ok 66 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_EARLY
+  ---
+  duration_ms: 22.38462
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_LATE
+ok 67 - production family event executes through real scheduler: E_FAM_CHILD_SECOND_LEGACY_LATE
+  ---
+  duration_ms: 21.780901
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_THIRD_EARLY
+ok 68 - production family event executes through real scheduler: E_FAM_CHILD_THIRD_EARLY
+  ---
+  duration_ms: 25.408258
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_THIRD_LATE
+ok 69 - production family event executes through real scheduler: E_FAM_CHILD_THIRD_LATE
+  ---
+  duration_ms: 23.286498
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SCHOOL
+ok 70 - production family event executes through real scheduler: E_FAM_CHILD_SCHOOL
+  ---
+  duration_ms: 22.162426
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_MARRIAGE
+ok 71 - production family event executes through real scheduler: E_FAM_CHILD_MARRIAGE
+  ---
+  duration_ms: 21.808966
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SUCCESS
+ok 72 - production family event executes through real scheduler: E_FAM_CHILD_SUCCESS
+  ---
+  duration_ms: 22.286163
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_FIRST
+ok 73 - production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_FIRST
+  ---
+  duration_ms: 20.139303
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_SECOND
+ok 74 - production family event executes through real scheduler: E_FAM_CHILD_SPENDTHRIFT_SECOND
+  ---
+  duration_ms: 16.466518
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_INFANT_LOSS
+ok 75 - production family event executes through real scheduler: E_FAM_CHILD_INFANT_LOSS
+  ---
+  duration_ms: 26.582491
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_FIRST
+ok 76 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_FIRST
+  ---
+  duration_ms: 19.417894
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_SECOND
+ok 77 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_SECOND
+  ---
+  duration_ms: 20.661874
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_THIRD
+ok 78 - production family event executes through real scheduler: E_FAM_CHILD_BEREAVED_THIRD
+  ---
+  duration_ms: 23.20012
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_EARLY
+ok 79 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_EARLY
+  ---
+  duration_ms: 20.321766
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_MIDDLE
+ok 80 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_MIDDLE
+  ---
+  duration_ms: 17.40973
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_LATE
+ok 81 - production family event executes through real scheduler: E_FAM_CHILD_GRANDCHILD_LATE
+  ---
+  duration_ms: 25.953601
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_EARLY
+ok 82 - production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_EARLY
+  ---
+  duration_ms: 25.94077
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_LATE
+ok 83 - production family event executes through real scheduler: E_FAM_CHILD_GREAT_GRANDCHILD_LATE
+  ---
+  duration_ms: 24.174821
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_FIVE_GENERATIONS
+ok 84 - production family event executes through real scheduler: E_FAM_CHILD_FIVE_GENERATIONS
+  ---
+  duration_ms: 23.547612
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_CHILD_ENJOY_GRANDCHILD
+ok 85 - production family event executes through real scheduler: E_FAM_CHILD_ENJOY_GRANDCHILD
+  ---
+  duration_ms: 19.996681
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_HELP
+ok 86 - production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_HELP
+  ---
+  duration_ms: 14.494262
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_DECLINE
+ok 87 - production family event executes through real scheduler: E_FAM_WEALTH_RELATIVE_DECLINE
+  ---
+  duration_ms: 25.694603
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_HELP
+ok 88 - production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_HELP
+  ---
+  duration_ms: 25.596758
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_DECLINE
+ok 89 - production family event executes through real scheduler: E_FAM_WEALTH_OFFICE_DECLINE
+  ---
+  duration_ms: 23.896011
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE
+ok 90 - production family event executes through real scheduler: E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE
+  ---
+  duration_ms: 26.686906
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HEIRLESS
+ok 91 - production family event executes through real scheduler: E_FAM_WEALTH_HEIRLESS
+  ---
+  duration_ms: 24.837965
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_LARGE
+ok 92 - production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_LARGE
+  ---
+  duration_ms: 18.299971
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_MODEST
+ok 93 - production family event executes through real scheduler: E_FAM_WEALTH_ESTATE_MODEST
+  ---
+  duration_ms: 21.883835
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_WEALTH_HOUSEHOLD_DISPUTE
+ok 94 - production family event executes through real scheduler: E_FAM_WEALTH_HOUSEHOLD_DISPUTE
+  ---
+  duration_ms: 23.35793
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND
+ok 95 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND
+  ---
+  duration_ms: 21.574956
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_FIRST_PAY
+ok 96 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_FIRST_PAY
+  ---
+  duration_ms: 21.489919
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_CHILD_GATHER_FIREWOOD
+ok 97 - production family event executes through real scheduler: E_FAM_LIFE_CHILD_GATHER_FIREWOOD
+  ---
+  duration_ms: 25.647333
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_ON_THE_ROAD
+ok 98 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_ON_THE_ROAD
+  ---
+  duration_ms: 19.389896
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FELLOW_TRAVELER
+ok 99 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FELLOW_TRAVELER
+  ---
+  duration_ms: 18.482512
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FIRST_WORK
+ok 100 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FIRST_WORK
+  ---
+  duration_ms: 24.363567
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY
+ok 101 - production family event executes through real scheduler: E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY
+  ---
+  duration_ms: 23.662133
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_FAMILY_DEBT
+ok 102 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_FAMILY_DEBT
+  ---
+  duration_ms: 20.177974
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_REPAY_DEBT
+ok 103 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_REPAY_DEBT
+  ---
+  duration_ms: 22.776254
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_TRADING_PARTNER
+ok 104 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_TRADING_PARTNER
+  ---
+  duration_ms: 21.665548
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_ILLNESS
+ok 105 - production family event executes through real scheduler: E_FAM_LIFE_MIDDLE_ILLNESS
+  ---
+  duration_ms: 59.194315
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_ROAD_RECOLLECTION
+ok 106 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_ROAD_RECOLLECTION
+  ---
+  duration_ms: 22.734581
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_FRIEND_GONE
+ok 107 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_FRIEND_GONE
+  ---
+  duration_ms: 55.162416
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_MENDING_TAUGHT
+ok 108 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_MENDING_TAUGHT
+  ---
+  duration_ms: 17.682446
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_ELDER_GRANDCHILD_STORY
+ok 109 - production family event executes through real scheduler: E_FAM_LIFE_ELDER_GRANDCHILD_STORY
+  ---
+  duration_ms: 17.954862
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_EMPTY_POT
+ok 110 - production family event executes through real scheduler: E_FAM_LIFE_POOR_EMPTY_POT
+  ---
+  duration_ms: 22.112627
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_WARM_FIRE
+ok 111 - production family event executes through real scheduler: E_FAM_LIFE_POOR_WARM_FIRE
+  ---
+  duration_ms: 18.991336
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_BOWL_SOUP
+ok 112 - production family event executes through real scheduler: E_FAM_LIFE_POOR_BOWL_SOUP
+  ---
+  duration_ms: 17.973463
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_POOR_SHARE_WATER
+ok 113 - production family event executes through real scheduler: E_FAM_LIFE_POOR_SHARE_WATER
+  ---
+  duration_ms: 24.947368
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_CROWDED_ALONE
+ok 114 - production family event executes through real scheduler: E_FAM_LIFE_RICH_CROWDED_ALONE
+  ---
+  duration_ms: 25.078462
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_ECHO
+ok 115 - production family event executes through real scheduler: E_FAM_LIFE_RICH_ECHO
+  ---
+  duration_ms: 15.082326
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_EMPTY_TEA
+ok 116 - production family event executes through real scheduler: E_FAM_LIFE_RICH_EMPTY_TEA
+  ---
+  duration_ms: 21.102456
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_LIFE_RICH_CONFIDANT
+ok 117 - production family event executes through real scheduler: E_FAM_LIFE_RICH_CONFIDANT
+  ---
+  duration_ms: 19.979345
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_OLD_AGE
+ok 118 - production family event executes through real scheduler: E_FAM_END_OLD_AGE
+  ---
+  duration_ms: 58.079164
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_HOUSE_FIRE
+ok 119 - production family event executes through real scheduler: E_FAM_END_HOUSE_FIRE
+  ---
+  duration_ms: 191.027148
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_OVERWORK
+ok 120 - production family event executes through real scheduler: E_FAM_END_OVERWORK
+  ---
+  duration_ms: 294.471755
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_CLAN_CROSS_FIRE
+ok 121 - production family event executes through real scheduler: E_FAM_END_CLAN_CROSS_FIRE
+  ---
+  duration_ms: 499.507778
+  type: 'test'
+  ...
+# Subtest: production family event executes through real scheduler: E_FAM_END_FAMILY_SHELTER
+ok 122 - production family event executes through real scheduler: E_FAM_END_FAMILY_SHELTER
+  ---
+  duration_ms: 608.106988
+  type: 'test'
+  ...
+# Subtest: poor and wealthy family content remains selectable against the full production random pool
+ok 123 - poor and wealthy family content remains selectable against the full production random pool
+  ---
+  duration_ms: 1148.030082
+  type: 'test'
+  ...
+# Subtest: new initial marriages block old marriage entries; old marriages have an automatic adoption route
+ok 124 - new initial marriages block old marriage entries; old marriages have an automatic adoption route
+  ---
+  duration_ms: 668.42602
+  type: 'test'
+  ...
+# Subtest: actual family widowhood removes current marriage and remarriage preserves bereavement history
+ok 125 - actual family widowhood removes current marriage and remarriage preserves bereavement history
+  ---
+  duration_ms: 55.859359
+  type: 'test'
+  ...
+# Subtest: legacy children are adopted without another birth and conservatively excluded from early adulthood
+ok 126 - legacy children are adopted without another birth and conservatively excluded from early adulthood
+  ---
+  duration_ms: 31.423898
+  type: 'test'
+  ...
+# Subtest: new first birth synchronizes legacy state and cannot produce an adult in the following year
+ok 127 - new first birth synchronizes legacy state and cannot produce an adult in the following year
+  ---
+  duration_ms: 62.264107
+  type: 'test'
+  ...
+# Subtest: child deaths retain birth milestones and block repeated death and live-child marriage
+ok 128 - child deaths retain birth milestones and block repeated death and live-child marriage
+  ---
+  duration_ms: 74.455802
+  type: 'test'
+  ...
+# Subtest: age seventy and two births alone never award five living generations
+ok 129 - age seventy and two births alone never award five living generations
+  ---
+  duration_ms: 28.668032
+  type: 'test'
+  ...
+# Subtest: estate division needs living adult children and the appropriate wealth tier
+ok 130 - estate division needs living adult children and the appropriate wealth tier
+  ---
+  duration_ms: 78.084626
+  type: 'test'
+  ...
+# Subtest: five generations require actual sequential births across a single engine lifetime
+ok 131 - five generations require actual sequential births across a single engine lifetime
+  ---
+  duration_ms: 49.895239
+  type: 'test'
+  ...
+# Subtest: grandchild companionship requires a real birth and supports a late-born infant
+ok 132 - grandchild companionship requires a real birth and supports a late-born infant
+  ---
+  duration_ms: 24.163467
+  type: 'test'
+  ...
+# Subtest: infant loss never invents a surviving birth milestone or kills an existing child
+ok 133 - infant loss never invents a surviving birth milestone or kills an existing child
+  ---
+  duration_ms: 23.272817
+  type: 'test'
+  ...
+# Subtest: CARD_MODERN_CORN: complete life keeps explicit choices and annual causal evidence
+ok 134 - CARD_MODERN_CORN: complete life keeps explicit choices and annual causal evidence
+  ---
+  duration_ms: 500.23478
+  type: 'test'
+  ...
+# Subtest: CARD_MODERN_ANTIBIOTIC: complete life keeps explicit choices and annual causal evidence
+ok 135 - CARD_MODERN_ANTIBIOTIC: complete life keeps explicit choices and annual causal evidence
+  ---
+  duration_ms: 80.304846
+  type: 'test'
+  ...
+# Subtest: CARD_MODERN_FLASHLIGHT: complete life keeps explicit choices and annual causal evidence
+ok 136 - CARD_MODERN_FLASHLIGHT: complete life keeps explicit choices and annual causal evidence
+  ---
+  duration_ms: 168.50115
+  type: 'test'
+  ...
+# Subtest: CARD_MODERN_CALCULATOR: complete life keeps explicit choices and annual causal evidence
+ok 137 - CARD_MODERN_CALCULATOR: complete life keeps explicit choices and annual causal evidence
+  ---
+  duration_ms: 426.586028
+  type: 'test'
+  ...
+# Subtest: CARD_MODERN_GLUE: complete life keeps explicit choices and annual causal evidence
+ok 138 - CARD_MODERN_GLUE: complete life keeps explicit choices and annual causal evidence
+  ---
+  duration_ms: 359.088795
+  type: 'test'
+  ...
+# Subtest: CARD_MODERN_LIGHTER: complete life keeps explicit choices and annual causal evidence
+ok 139 - CARD_MODERN_LIGHTER: complete life keeps explicit choices and annual causal evidence
+  ---
+  duration_ms: 357.715893
+  type: 'test'
+  ...
+# Subtest: scheduled late-life continuations cannot introduce forced death or lifespan reduction
+ok 140 - scheduled late-life continuations cannot introduce forced death or lifespan reduction
+  ---
+  duration_ms: 2.985601
+  type: 'test'
+  ...
+# Subtest: age 3: late-life recovery repeats neither effects nor choices
+not ok 141 - age 3: late-life recovery repeats neither effects nor choices
+  ---
+  duration_ms: 219.308686
+  type: 'test'
+  location: '/mnt/c/Users/admin/Documents/pppp/tests/late-life-content.test.mjs:43:32'
+  failureType: 'testCodeFailure'
+  error: 'fixture must exercise late-life recovery'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/c/Users/admin/Documents/pppp/tests/late-life-content.test.mjs:72:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: age 30: late-life recovery repeats neither effects nor choices
+ok 142 - age 30: late-life recovery repeats neither effects nor choices
+  ---
+  duration_ms: 5445.135402
+  type: 'test'
+  ...
+# Subtest: age 65: late-life recovery repeats neither effects nor choices
+ok 143 - age 65: late-life recovery repeats neither effects nor choices
+  ---
+  duration_ms: 4147.315976
+  type: 'test'
+  ...
+# Subtest: route consumer: wealth with power
+ok 144 - route consumer: wealth with power
+  ---
+  duration_ms: 20.351415
+  type: 'test'
+  ...
+# Subtest: route consumer: wealth without power
+ok 145 - route consumer: wealth without power
+  ---
+  duration_ms: 17.409111
+  type: 'test'
+  ...
+# Subtest: route consumer: power without wealth
+ok 146 - route consumer: power without wealth
+  ---
+  duration_ms: 18.379289
+  type: 'test'
+  ...
+# Subtest: route consumer: poor with earned renown
+ok 147 - route consumer: poor with earned renown
+  ---
+  duration_ms: 20.203536
+  type: 'test'
+  ...
+# Subtest: route consumer: failed unemployed
+ok 148 - route consumer: failed unemployed
+  ---
+  duration_ms: 18.142077
+  type: 'test'
+  ...
+# Subtest: route consumer: frail and poor
+ok 149 - route consumer: frail and poor
+  ---
+  duration_ms: 18.32888
+  type: 'test'
+  ...
+# Subtest: route consumer: ordinary means
+ok 150 - route consumer: ordinary means
+  ---
+  duration_ms: 17.755994
+  type: 'test'
+  ...
+# Subtest: wealth fluctuations retain route while sustained loss changes it without erasing achievements
+ok 151 - wealth fluctuations retain route while sustained loss changes it without erasing achievements
+  ---
+  duration_ms: 20.836032
+  type: 'test'
+  ...
+# Subtest: past friendship opens its follow-up without making isolation a moral failure
+ok 152 - past friendship opens its follow-up without making isolation a moral failure
+  ---
+  duration_ms: 16.664333
+  type: 'test'
+  ...
+# Subtest: interrupted careers retain earned work and ordinary coverage across a long annual timeline
+ok 153 - interrupted careers retain earned work and ordinary coverage across a long annual timeline
+  ---
+  duration_ms: 18.127505
+  type: 'test'
+  ...
+# Subtest: causal reporting maps real production prerequisites and downstream events
+ok 154 - causal reporting maps real production prerequisites and downstream events
+  ---
+  duration_ms: 5.634616
+  type: 'test'
+  ...
+# Subtest: entry routes use real identity, independent wealth, accomplishments and frailty
+ok 155 - entry routes use real identity, independent wealth, accomplishments and frailty
+  ---
+  duration_ms: 244.32653
+  type: 'test'
+  ...
+# Subtest: route retention withstands small losses, cancels transient changes and confirms sustained ones
+ok 156 - route retention withstands small losses, cancels transient changes and confirms sustained ones
+  ---
+  duration_ms: 29.927861
+  type: 'test'
+  ...
+# Subtest: follow-up choice waits for eligibility, survives restore, and anchors its next real year
+ok 157 - follow-up choice waits for eligibility, survives restore, and anchors its next real year
+  ---
+  duration_ms: 99.637409
+  type: 'test'
+  ...
+# Subtest: ineligible choice does not consume its automatic fallback before the deadline
+ok 158 - ineligible choice does not consume its automatic fallback before the deadline
+  ---
+  duration_ms: 37.106855
+  type: 'test'
+  ...
+# Subtest: overlapping deadlines obey the annual cap and expose the deferred late fulfillment
+ok 159 - overlapping deadlines obey the annual cap and expose the deferred late fulfillment
+  ---
+  duration_ms: 30.076071
+  type: 'test'
+  ...
+# Subtest: automatic follow-up checks resume from a saved stage with identical seeded dice
+ok 160 - automatic follow-up checks resume from a saved stage with identical seeded dice
+  ---
+  duration_ms: 41.657777
+  type: 'test'
+  ...
+# Subtest: an unsatisfied deadline is diagnosed and never silently marked fulfilled
+ok 161 - an unsatisfied deadline is diagnosed and never silently marked fulfilled
+  ---
+  duration_ms: 30.6456
+  type: 'test'
+  ...
+# Subtest: invalid follow-up windows, missing anchors and cycles are content errors
+ok 162 - invalid follow-up windows, missing anchors and cycles are content errors
+  ---
+  duration_ms: 276.98114
+  type: 'test'
+  ...
+# Subtest: each attribute inheritance adds only its clamped point without changing the random stream
+not ok 163 - each attribute inheritance adds only its clamped point without changing the random stream
+  ---
+  duration_ms: 50.354635
+  type: 'test'
+  location: '/mnt/c/Users/admin/Documents/pppp/tests/meta-loop-engine.test.mjs:68:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    6 !== 5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 6
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/c/Users/admin/Documents/pppp/tests/meta-loop-engine.test.mjs:72:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: inherited card occupies one of at most three unique positive-weight candidates
+ok 164 - inherited card occupies one of at most three unique positive-weight candidates
+  ---
+  duration_ms: 665.494562
+  type: 'test'
+  ...
+# Subtest: inheritance respects the attribute cap and the actual positive-weight pool size
+ok 165 - inheritance respects the attribute cap and the actual positive-weight pool size
+  ---
+  duration_ms: 371.967006
+  type: 'test'
+  ...
+# Subtest: inheritance input has an exact shape and is copied into both run and replay
+ok 166 - inheritance input has an exact shape and is copied into both run and replay
+  ---
+  duration_ms: 546.633377
+  type: 'test'
+  ...
+# Subtest: replay validation accepts exactly the seed-only or valid inheritance initialization forms
+ok 167 - replay validation accepts exactly the seed-only or valid inheritance initialization forms
+  ---
+  duration_ms: 46.563859
+  type: 'test'
+  ...
+# Subtest: engine saves restore all inheritance modes and produce identical subsequent command results
+ok 168 - engine saves restore all inheritance modes and produce identical subsequent command results
+  ---
+  duration_ms: 1375.670803
+  type: 'test'
+  ...
+# Subtest: session replay preserves reward and command hashes before and after card selection
+ok 169 - session replay preserves reward and command hashes before and after card selection
+  ---
+  duration_ms: 3037.470582
+  type: 'test'
+  ...
+# Subtest: the inherited slot can be replaced, remains replayable and selects only one card
+ok 170 - the inherited slot can be replaced, remains replayable and selects only one card
+  ---
+  duration_ms: 186.364086
+  type: 'test'
+  ...
+# Subtest: changed inheritance, candidate lists and replay initialization cannot be restored
+ok 171 - changed inheritance, candidate lists and replay initialization cannot be restored
+  ---
+  duration_ms: 884.811566
+  type: 'test'
+  ...
+# Subtest: v4 life saves are rejected without changing their input or overwriting stored current lives
+ok 172 - v4 life saves are rejected without changing their input or overwriting stored current lives
+  ---
+  duration_ms: 219.497094
+  type: 'test'
+  ...
+# Subtest: older inheritance rule saves remain explicitly incompatible and are not overwritten
+ok 173 - older inheritance rule saves remain explicitly incompatible and are not overwritten
+  ---
+  duration_ms: 111.803894
+  type: 'test'
+  ...
+# Subtest: v1 migrates lazily, deduplicates lives and achievements, and awards one consumable inheritance
+ok 174 - v1 migrates lazily, deduplicates lives and achievements, and awards one consumable inheritance
+  ---
+  duration_ms: 6.105391
+  type: 'test'
+  ...
+# Subtest: empty legacy records grant nothing; an empty valid v2 takes precedence over v1
+ok 175 - empty legacy records grant nothing; an empty valid v2 takes precedence over v1
+  ---
+  duration_ms: 0.346399
+  type: 'test'
+  ...
+# Subtest: a v2 reward without a recorded source gets a stable legacy identity
+ok 176 - a v2 reward without a recorded source gets a stable legacy identity
+  ---
+  duration_ms: 0.347587
+  type: 'test'
+  ...
+# Subtest: migration persists a source-bound claim without rewriting the legacy key
+ok 177 - migration persists a source-bound claim without rewriting the legacy key
+  ---
+  duration_ms: 0.485383
+  type: 'test'
+  ...
+# Subtest: v2 validation rejects malformed data without falling back to v1 or overwriting it
+ok 178 - v2 validation rejects malformed data without falling back to v1 or overwriting it
+  ---
+  duration_ms: 2.18375
+  type: 'test'
+  ...
+# Subtest: legacy validation accepts its old shape but protects malformed legacy data
+ok 179 - legacy validation accepts its old shape but protects malformed legacy data
+  ---
+  duration_ms: 0.887557
+  type: 'test'
+  ...
+# Subtest: read exceptions protect original data and block uncertain changes
+ok 180 - read exceptions protect original data and block uncertain changes
+  ---
+  duration_ms: 0.419161
+  type: 'test'
+  ...
+# Subtest: an unconfirmed completed record blocks further writes until reloaded and re-recorded
+ok 181 - an unconfirmed completed record blocks further writes until reloaded and re-recorded
+  ---
+  duration_ms: 0.440932
+  type: 'test'
+  ...
+# Subtest: reservation and consumption recover both sides of uncertain writes
+ok 182 - reservation and consumption recover both sides of uncertain writes
+  ---
+  duration_ms: 1.106987
+  type: 'test'
+  ...
+# Subtest: a pending claim is released only when absence is certain and is bound to its source
+ok 183 - a pending claim is released only when absence is certain and is bound to its source
+  ---
+  duration_ms: 1.019293
+  type: 'test'
+  ...
+# Subtest: explicit forfeiture consumes only a pending claim and never touches a later reward
+ok 184 - explicit forfeiture consumes only a pending claim and never touches a later reward
+  ---
+  duration_ms: 0.371654
+  type: 'test'
+  ...
+# Subtest: forfeiture write failures remain blocked until an authoritative reload
+ok 185 - forfeiture write failures remain blocked until an authoritative reload
+  ---
+  duration_ms: 0.436793
+  type: 'test'
+  ...
+# Subtest: forfeiture readback mismatch stops until the stored claim is reread
+ok 186 - forfeiture readback mismatch stops until the stored claim is reread
+  ---
+  duration_ms: 0.288313
+  type: 'test'
+  ...
+# Subtest: an unreadable record key never advertises a stale pending claim
+ok 187 - an unreadable record key never advertises a stale pending claim
+  ---
+  duration_ms: 0.355937
+  type: 'test'
+  ...
+# Subtest: readback mismatch is a failure even when setItem returned successfully
+ok 188 - readback mismatch is a failure even when setItem returned successfully
+  ---
+  duration_ms: 0.29285
+  type: 'test'
+  ...
+# Subtest: malformed v3 claims cannot be overwritten or misinterpreted as available
+ok 189 - malformed v3 claims cannot be overwritten or misinterpreted as available
+  ---
+  duration_ms: 0.444157
+  type: 'test'
+  ...
+# Subtest: progress counts only known IDs, floors to one decimal and weights totals by catalog size
+ok 190 - progress counts only known IDs, floors to one decimal and weights totals by catalog size
+  ---
+  duration_ms: 0.906979
+  type: 'test'
+  ...
+# Subtest: production achievement hints cover exactly the catalog and contain no internal IDs
+ok 191 - production achievement hints cover exactly the catalog and contain no internal IDs
+  ---
+  duration_ms: 0.986994
+  type: 'test'
+  ...
+# Subtest: valid v2 preserves unknown IDs and explicitly unknown deaths across writes
+ok 192 - valid v2 preserves unknown IDs and explicitly unknown deaths across writes
+  ---
+  duration_ms: 0.361167
+  type: 'test'
+  ...
+# Subtest: inheritance selection is cancellable, validated, consumed once and survives durable resume
+ok 193 - inheritance selection is cancellable, validated, consumed once and survives durable resume
+  ---
+  duration_ms: 1255.672094
+  type: 'test'
+  ...
+# Subtest: completed lives collect once, retain report navigation, and reward both restart paths
+ok 194 - completed lives collect once, retain report navigation, and reward both restart paths
+  ---
+  duration_ms: 10005.620218
+  type: 'test'
+  ...
+# Subtest: read-only view shows a completed life without reconciling or writing its pending claim
+ok 195 - read-only view shows a completed life without reconciling or writing its pending claim
+  ---
+  duration_ms: 2426.890383
+  type: 'test'
+  ...
+# Subtest: read-only mode does not resume an unfinished life or start a new one
+ok 196 - read-only mode does not resume an unfinished life or start a new one
+  ---
+  duration_ms: 484.473312
+  type: 'test'
+  ...
+# Subtest: codex exposes all hints, conceals uncollected commentary and separates tab scrolling
+ok 197 - codex exposes all hints, conceals uncollected commentary and separates tab scrolling
+  ---
+  duration_ms: 289.258264
+  type: 'test'
+  ...
+# Subtest: failed current-life persistence blocks play and safely releases the reservation on retry
+ok 198 - failed current-life persistence blocks play and safely releases the reservation on retry
+  ---
+  duration_ms: 159.45913
+  type: 'test'
+  ...
+# Subtest: inherited candidate can be freely replaced and the consumed reward stays consumed after reload
+ok 199 - inherited candidate can be freely replaced and the consumed reward stays consumed after reload
+  ---
+  duration_ms: 513.141603
+  type: 'test'
+  ...
+# Subtest: an unreadable records key blocks starting until it can be read again
+ok 200 - an unreadable records key blocks starting until it can be read again
+  ---
+  duration_ms: 150.118485
+  type: 'test'
+  ...
+# Subtest: every claim write boundary survives restart without duplicated or silently lost inheritance
+ok 201 - every claim write boundary survives restart without duplicated or silently lost inheritance
+  ---
+  duration_ms: 5387.733419
+  type: 'test'
+  ...
+# Subtest: a damaged new slot cannot make a fallback life release an uncertain claim
+ok 202 - a damaged new slot cannot make a fallback life release an uncertain claim
+  ---
+  duration_ms: 1241.178114
+  type: 'test'
+  ...
+# Subtest: abandoning an uncertain claim requires confirmation and preserves both life slots
+ok 203 - abandoning an uncertain claim requires confirmation and preserves both life slots
+  ---
+  duration_ms: 1573.339861
+  type: 'test'
+  ...
+# Subtest: forfeiture write failures recover before or after the durable write without changing life slots
+ok 204 - forfeiture write failures recover before or after the durable write without changing life slots
+  ---
+  duration_ms: 2661.34484
+  type: 'test'
+  ...
+# Subtest: a target repaired during forfeit confirmation is normally reconciled instead
+ok 205 - a target repaired during forfeit confirmation is normally reconciled instead
+  ---
+  duration_ms: 1193.558058
+  type: 'test'
+  ...
+# Subtest: a repaired target with a failed normal commit stays blocked instead of being forfeited
+ok 206 - a repaired target with a failed normal commit stays blocked instead of being forfeited
+  ---
+  duration_ms: 1327.763774
+  type: 'test'
+  ...
+# Subtest: a claim proven absent during confirmation is released instead of forfeited
+ok 207 - a claim proven absent during confirmation is released instead of forfeited
+  ---
+  duration_ms: 1260.989063
+  type: 'test'
+  ...
+# Subtest: settlement failure recovers the saved ending and awards its next reward exactly once
+ok 208 - settlement failure recovers the saved ending and awards its next reward exactly once
+  ---
+  duration_ms: 3796.553301
+  type: 'test'
+  ...
+# Subtest: CORN/1634: real normal or fast progression reaches exactly one explicit breakthrough
+ok 209 - CORN/1634: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 267.410845
+  type: 'test'
+  ...
+# Subtest: CORN/1643: real normal or fast progression reaches exactly one explicit breakthrough
+ok 210 - CORN/1643: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 121.763177
+  type: 'test'
+  ...
+# Subtest: CORN/1644: real normal or fast progression reaches exactly one explicit breakthrough
+ok 211 - CORN/1644: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 118.833188
+  type: 'test'
+  ...
+# Subtest: HEALER/1634: real normal or fast progression reaches exactly one explicit breakthrough
+ok 212 - HEALER/1634: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 180.951097
+  type: 'test'
+  ...
+# Subtest: HEALER/1643: real normal or fast progression reaches exactly one explicit breakthrough
+ok 213 - HEALER/1643: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 145.127301
+  type: 'test'
+  ...
+# Subtest: HEALER/1644: real normal or fast progression reaches exactly one explicit breakthrough
+ok 214 - HEALER/1644: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 135.876397
+  type: 'test'
+  ...
+# Subtest: FLASHLIGHT/1634: real normal or fast progression reaches exactly one explicit breakthrough
+ok 215 - FLASHLIGHT/1634: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 172.044688
+  type: 'test'
+  ...
+# Subtest: FLASHLIGHT/1643: real normal or fast progression reaches exactly one explicit breakthrough
+ok 216 - FLASHLIGHT/1643: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 125.301043
+  type: 'test'
+  ...
+# Subtest: FLASHLIGHT/1644: real normal or fast progression reaches exactly one explicit breakthrough
+ok 217 - FLASHLIGHT/1644: real normal or fast progression reaches exactly one explicit breakthrough
+  ---
+  duration_ms: 113.071734
+  type: 'test'
+  ...
+# Subtest: CORN: migrated lethal outcomes remain reachable only after an explicit choice
+ok 218 - CORN: migrated lethal outcomes remain reachable only after an explicit choice
+  ---
+  duration_ms: 2208.518937
+  type: 'test'
+  ...
+# Subtest: HEALER: migrated lethal outcomes remain reachable only after an explicit choice
+ok 219 - HEALER: migrated lethal outcomes remain reachable only after an explicit choice
+  ---
+  duration_ms: 884.23546
+  type: 'test'
+  ...
+# Subtest: FLASHLIGHT: migrated lethal outcomes remain reachable only after an explicit choice
+ok 220 - FLASHLIGHT: migrated lethal outcomes remain reachable only after an explicit choice
+  ---
+  duration_ms: 891.275368
+  type: 'test'
+  ...
+# Subtest: all eighteen modern progress nodes are automatic and never consume the major choice quota
+ok 221 - all eighteen modern progress nodes are automatic and never consume the major choice quota
+  ---
+  duration_ms: 3.945349
+  type: 'test'
+  ...
+# Subtest: every modern breakthrough option consumes the same historical quota before any stage
+ok 222 - every modern breakthrough option consumes the same historical quota before any stage
+  ---
+  duration_ms: 20.59914
+  type: 'test'
+  ...
+# Subtest: medicine exhaustion is reachable only beneath an explicit healer choice
+ok 223 - medicine exhaustion is reachable only beneath an explicit healer choice
+  ---
+  duration_ms: 1.614051
+  type: 'test'
+  ...
+# Subtest: all random and historical choices structurally spend a shared budget; chain choices occur only at endpoints
+ok 224 - all random and historical choices structurally spend a shared budget; chain choices occur only at endpoints
+  ---
+  duration_ms: 2.083475
+  type: 'test'
+  ...
+# Subtest: replacement is a legal, idempotent, deterministic engine command, not a story choice
+ok 225 - replacement is a legal, idempotent, deterministic engine command, not a story choice
+  ---
+  duration_ms: 142.556316
+  type: 'test'
+  ...
+# Subtest: directed inheritance occupies one of at most three unique offers and all remain replaceable
+ok 226 - directed inheritance occupies one of at most three unique offers and all remain replaceable
+  ---
+  duration_ms: 194.387185
+  type: 'test'
+  ...
+# Subtest: card drafts restore without locking and legacy cursors remain readable
+ok 227 - card drafts restore without locking and legacy cursors remain readable
+  ---
+  duration_ms: 437.433109
+  type: 'test'
+  ...
+# Subtest: both platform slots survive restart, fall back after corruption, and retain incompatible generations
+ok 228 - both platform slots survive restart, fall back after corruption, and retain incompatible generations
+  ---
+  duration_ms: 599.634998
+  type: 'test'
+  ...
+# Subtest: a failed write stops the session and can be explicitly restored without losing the prior offer
+ok 229 - a failed write stops the session and can be explicitly restored without losing the prior offer
+  ---
+  duration_ms: 699.122389
+  type: 'test'
+  ...
+# Subtest: controller reloads replaced offers, pauses, and asks before overwriting
+ok 230 - controller reloads replaced offers, pauses, and asks before overwriting
+  ---
+  duration_ms: 1942.352465
+  type: 'test'
+  ...
+# Subtest: pending previews use projected luck and a successful 19 chooses critical only when that branch exists
+ok 231 - pending previews use projected luck and a successful 19 chooses critical only when that branch exists
+  ---
+  duration_ms: 76.044452
+  type: 'test'
+  ...
+# Subtest: controller blocks after a failed write and retry restores the last durable offer paused
+ok 232 - controller blocks after a failed write and retry restores the last durable offer paused
+  ---
+  duration_ms: 686.353886
+  type: 'test'
+  ...
+# Subtest: draft selection write failures stop play and recover only the durable selection
+ok 233 - draft selection write failures stop play and recover only the durable selection
+  ---
+  duration_ms: 1305.891298
+  type: 'test'
+  ...
+# Subtest: a pending stage and death report restore paused, and the report is recorded only once
+ok 234 - a pending stage and death report restore paused, and the report is recorded only once
+  ---
+  duration_ms: 59.982384
+  type: 'test'
+  ...
+# Subtest: saved automatic advancement authorization is revoked on restore
+ok 235 - saved automatic advancement authorization is revoked on restore
+  ---
+  duration_ms: 28.577605
+  type: 'test'
+  ...
+# Subtest: Web session ownership admits one writer and leaves other pages read-only
+ok 236 - Web session ownership admits one writer and leaves other pages read-only
+  ---
+  duration_ms: 1.149165
+  type: 'test'
+  ...
+# Subtest: a read-only controller never writes current-life or completion records
+ok 237 - a read-only controller never writes current-life or completion records
+  ---
+  duration_ms: 1081.472696
+  type: 'test'
+  ...
+# Subtest: priority filters lower-priority events before weighted sampling
+ok 238 - priority filters lower-priority events before weighted sampling
+  ---
+  duration_ms: 81.795848
+  type: 'test'
+  ...
+# Subtest: scheduler rejects exhausted occurrences, inclusive cooldown, and impossible probability
+ok 239 - scheduler rejects exhausted occurrences, inclusive cooldown, and impossible probability
+  ---
+  duration_ms: 57.749814
+  type: 'test'
+  ...
+# Subtest: family annual draw respects the original one-event random budget
+ok 240 - family annual draw respects the original one-event random budget
+  ---
+  duration_ms: 56.265952
+  type: 'test'
+  ...
+# Subtest: strategies use only available options with deterministic ties and independent random index
+ok 241 - strategies use only available options with deterministic ties and independent random index
+  ---
+  duration_ms: 4.843306
+  type: 'test'
+  ...
+# Subtest: gap and nearest-rank summaries count exposed years without duplication
+ok 242 - gap and nearest-rank summaries count exposed years without duplication
+  ---
+  duration_ms: 0.582433
+  type: 'test'
+  ...
+# Subtest: fictional late breakthroughs retain earned gates, shared budget and nonfatal advancement
+ok 243 - fictional late breakthroughs retain earned gates, shared budget and nonfatal advancement
+  ---
+  duration_ms: 137.249177
+  type: 'test'
+  ...
+# Subtest: earned handoffs use relative elapsed years, completed or fast-track work, and no lethal outcomes
+ok 244 - earned handoffs use relative elapsed years, completed or fast-track work, and no lethal outcomes
+  ---
+  duration_ms: 37.823334
+  type: 'test'
+  ...
+# Subtest: natural opening seed 27 can carry earned corn development into fictional years
+ok 245 - natural opening seed 27 can carry earned corn development into fictional years
+  ---
+  duration_ms: 451.462426
+  type: 'test'
+  ...
+# Subtest: causal evidence leaves existing state-change gap semantics independently inspectable
+ok 246 - causal evidence leaves existing state-change gap semantics independently inspectable
+  ---
+  duration_ms: 435.172395
+  type: 'test'
+  ...
+# Subtest: bookkeeping and isolated arrangements do not manufacture causal progress
+ok 247 - bookkeeping and isolated arrangements do not manufacture causal progress
+  ---
+  duration_ms: 3.241249
+  type: 'test'
+  ...
+# Subtest: actual later consequences credit both ends once, not repeated annual arrangements
+ok 248 - actual later consequences credit both ends once, not repeated annual arrangements
+  ---
+  duration_ms: 0.445474
+  type: 'test'
+  ...
+# Subtest: unearned arrangements cannot count even when a similarly named consequence occurs
+ok 249 - unearned arrangements cannot count even when a similarly named consequence occurs
+  ---
+  duration_ms: 0.612588
+  type: 'test'
+  ...
+# Subtest: validator rejects unknown event fields rather than silently accepting dead configuration
+ok 250 - validator rejects unknown event fields rather than silently accepting dead configuration
+  ---
+  duration_ms: 212.722123
+  type: 'test'
+  ...
+# Subtest: validator rejects a dangling death reference
+ok 251 - validator rejects a dangling death reference
+  ---
+  duration_ms: 262.376291
+  type: 'test'
+  ...
+# Subtest: validator rejects a dangling local D20 stage and duplicate event ID
+ok 252 - validator rejects a dangling local D20 stage and duplicate event ID
+  ---
+  duration_ms: 229.04482
+  type: 'test'
+  ...
+# Subtest: condition combinations distinguish history flags from current family state
+ok 253 - condition combinations distinguish history flags from current family state
+  ---
+  duration_ms: 0.379017
+  type: 'test'
+  ...
+1..253
+# tests 253
+# suites 0
+# pass 251
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 71539.031062

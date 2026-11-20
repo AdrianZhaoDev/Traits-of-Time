@@ -1,0 +1,104 @@
+[
+  {
+    "card": "CARD_MODERN_ANTIBIOTIC",
+    "n": 3,
+    "seeds": [
+      27,
+      28,
+      29
+    ],
+    "choices": [
+      1,
+      2,
+      3
+    ],
+    "early_deaths": 1,
+    "overdue_windows": 0,
+    "continuous_years": true
+  },
+  {
+    "card": "CARD_MODERN_CALCULATOR",
+    "n": 3,
+    "seeds": [
+      27,
+      28,
+      29
+    ],
+    "choices": [
+      4,
+      3,
+      5
+    ],
+    "early_deaths": 0,
+    "overdue_windows": 0,
+    "continuous_years": true
+  },
+  {
+    "card": "CARD_MODERN_CORN",
+    "n": 3,
+    "seeds": [
+      27,
+      28,
+      29
+    ],
+    "choices": [
+      2,
+      3,
+      3
+    ],
+    "early_deaths": 0,
+    "overdue_windows": 0,
+    "continuous_years": true
+  },
+  {
+    "card": "CARD_MODERN_FLASHLIGHT",
+    "n": 3,
+    "seeds": [
+      27,
+      28,
+      29
+    ],
+    "choices": [
+      2,
+      3,
+      3
+    ],
+    "early_deaths": 0,
+    "overdue_windows": 0,
+    "continuous_years": true
+  },
+  {
+    "card": "CARD_MODERN_GLUE",
+    "n": 3,
+    "seeds": [
+      27,
+      28,
+      29
+    ],
+    "choices": [
+      4,
+      3,
+      4
+    ],
+    "early_deaths": 0,
+    "overdue_windows": 0,
+    "continuous_years": true
+  },
+  {
+    "card": "CARD_MODERN_LIGHTER",
+    "n": 3,
+    "seeds": [
+      27,
+      28,
+      29
+    ],
+    "choices": [
+      2,
+      3,
+      4
+    ],
+    "early_deaths": 0,
+    "overdue_windows": 0,
+    "continuous_years": true
+  }
+]

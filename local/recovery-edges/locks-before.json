@@ -1,0 +1,11 @@
+{
+  "id": "88a71454-7e52-4bab-8f5e-5bf682342fbf",
+  "ok": true,
+  "result": {
+    "result": "{\"locks\":\"undefined\",\"snapshot\":{\"activeInheritance\":null,\"busy\":false,\"collection\":{\"achievements\":{\"collected\":0,\"percent\":0,\"total\":137},\"deaths\":{\"collected\":0,\"percent\":0,\"total\":36},\"total\":{\"collected\":0,\"percent\":0,\"total\":173}},\"ending\":null,\"folds\":[],\"newCollection\":null,\"notice\":\"当前环境不支持安全的单页面存档锁。请使用支持 Web Locks 的浏览器，通过 HTTPS 或 localhost 访问；本页面只能查看已完成人生和记录。\",\"overlay\":null,\"readOnlyReason\":\"当前环境不支持安全的单页面存档锁。请使用支持 Web Locks 的浏览器，通过 HTTPS 或 localhost 访问；本页面只能查看已完成人生和记录。\",\"records\":{\"achievements\":{},\"completed\":0,\"deaths\":{},\"inheritanceAvailable\":false,\"inheritancePending\":false,\"longest\":0,\"unknownDeaths\":0,\"warning\":\"\",\"years\":0},\"relicId\":null,\"replacementTarget\":null,\"saveBlocked\":false,\"saveStatus\":\"ready\",\"screen\":\"home\",\"selectedCardId\":null,\"selectedInheritance\":null,\"view\":null}}",
+    "origin": "http://localhost:5179/local/recovery-edges/harness.html"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

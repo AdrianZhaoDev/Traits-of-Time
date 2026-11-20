@@ -1,0 +1,273 @@
+
+normal seed=39 1669–1678
+1669 age=62 I_CLAN_ELDER {"physique":11,"intelligence":16,"wealth":7,"prestige":6,"luck":3}
+event E_LL_BREAD_POWER 先前同你议过事的人报来几处破损的取水路，请你看哪一处应先安排人手。
+effects E_LL_BREAD_POWER 你让他们先修最难通行的一处，也把参加商议和出力的人记进名册。
+event E_SOC_REPUTE_PETITION 两家为水渠的事请你评理，才一开口，就又抢着争辩起来。
+effects E_SOC_REPUTE_PETITION 你让两家轮流说，终于听清他们争的是哪一段水渠。
+1670 age=63 I_CLAN_ELDER {"physique":11,"intelligence":16,"wealth":7,"prestige":6,"luck":3}
+event E_FAM_LIFE_ELDER_MENDING_TAUGHT 邻居拿来一只破粮袋，请你教他怎样缝住裂口。
+effects E_FAM_LIFE_ELDER_MENDING_TAUGHT 你放慢针脚，一针一针教他；邻居照着补好，谢过了你。
+1671 age=64 I_CLAN_ELDER {"physique":11,"intelligence":16,"wealth":7,"prestige":6,"luck":3}
+event E_SOC_SENIOR_GARDEN 小园种菊刚冒绿芽，隔墙邻人只关心能不能吃。
+effects E_SOC_SENIOR_GARDEN 你解释这畦是种菊花的，邻人仍觉得拿来种菜更合算。
+1672 age=65 I_CLAN_ELDER {"physique":11,"intelligence":16,"wealth":7,"prestige":6,"luck":3}
+event E_LL_BREAD_RETURN_POWER 依照先前商量的次序，那处取水路修通了，挑水的人不必再绕远。
+effects E_LL_BREAD_RETURN_POWER 办事的人来回报结果，邻里知道是你牵头安排，也看见名册上其他出力的人。
+event E_MOD_GLUE_OLD_TUBE 你把瘪胶管摆上桌，徒弟问起修补的事，你拿它讲解材料该怎么用。
+effects E_MOD_GLUE_OLD_TUBE 旧胶管留作样本，你借它教徒弟分清哪些材料能粘、哪些不能粘。
+achievement A_MOD_GLUE_AMBER_PILL 剩下的胶和旧管各有用途，认清材料，别当成药就好。
+1673 age=66 I_CLAN_ELDER {"physique":11,"intelligence":16,"wealth":7,"prestige":6,"luck":3}
+event E_FAM_WEALTH_RELATIVE_DECLINE 远房亲戚前些日子求过一次周转，如今旧债又到期，再来商量借钱。
+effects E_FAM_WEALTH_RELATIVE_DECLINE 你盘算过家中开支，婉拒了借钱，转而帮亲戚打听能暂借粮食的人家。
+1674 age=67 I_CLAN_ELDER {"physique":11,"intelligence":17,"wealth":7,"prestige":6,"luck":3}
+event E_LIFE_S_HEALTH_POTION 游医把药效夸得很好，你打开药包，却闻到不对劲的气味。
+effects E_LIFE_S_HEALTH_POTION 你把药包交给郎中，请他先查验药材和来路。
+dice E_LIFE_S_HEALTH_POTION 郎中查验药包，你得把先前的疑点说清楚。
+effects E_LIFE_S_HEALTH_POTION 你和郎中辨出劣药，换了合适的药，也记住了不能轻信夸口。
+1675 age=68 I_CLAN_ELDER {"physique":11,"intelligence":17,"wealth":7,"prestige":6,"luck":3}
+event E_LL_WORK_REPAIR_NOTES 有学徒听说你早年画过农具修补图，来问受热的地方为什么不能靠胶固定。
+effects E_LL_WORK_REPAIR_NOTES 你照当年留下的工序说明局限：受热和承重部位要由匠人另行核验。
+event E_LIFE_S_CHESS_ANGER 棋友又想伸手悔棋，被你拦住后，开始抱怨凳子坐着不舒服。
+effects E_LIFE_S_CHESS_ANGER 这一盘输了，他仍怪凳子不好；说起赢棋的那盘，却只夸自己。
+1676 age=69 I_CLAN_ELDER {"physique":11,"intelligence":17,"wealth":7,"prestige":6,"luck":3}
+event E_FAM_MAR_BETROTHAL_READY 两家谈好了婚事，媒人挑个日子，陪你送聘礼过去。
+effects E_FAM_MAR_BETROTHAL_READY 你送上备好的布帛，两家依礼往来，也商定了婚期。
+1677 age=70 I_CLAN_ELDER {"physique":11,"intelligence":17,"wealth":7,"prestige":6,"luck":3}
+event E_SOC_REPUTE_PETITION 两家为水渠的事请你评理，才一开口，就又抢着争辩起来。
+effects E_SOC_REPUTE_PETITION 你让两家轮流说，终于听清他们争的是哪一段水渠。
+1678 age=71 I_CLAN_ELDER {"physique":11,"intelligence":17,"wealth":7,"prestige":6,"luck":3}
+event E_LL_WORK_RETURN_REPAIR_NOTES 请教过你的学徒拿着农具工序图回来，已把不能用胶的受热处另行标明。
+effects E_LL_WORK_RETURN_REPAIR_NOTES 工坊接手的人能看见材料边界，承重和受热处仍须自己核验；这张图没有把胶当作万能材料。
+event E_LIFE_S_CHESS_ANGER 棋友又想伸手悔棋，被你拦住后，开始抱怨凳子坐着不舒服。
+effects E_LIFE_S_CHESS_ANGER 这一盘输了，他仍怪凳子不好；说起赢棋的那盘，却只夸自己。
+
+normal seed=45 1664–1667
+1664 age=45 I_CLAN_ELDER {"physique":10,"intelligence":13,"wealth":7,"prestige":5,"luck":3}
+event E_LL_BREAD_WEALTHY 粮价有变，熟悉的粮铺愿意按你方便的时辰送粮，不必差人一直守在铺前。
+effects E_LL_BREAD_WEALTHY 你们说好送到后按分量结账，不必先交一大笔订钱。
+event E_HIST_FICT_1661_COASTAL_MOVE 迁界令让沿海人家搬入内地，新棚刚搭好就遇上大风，瓦片散了一地。
+effects E_HIST_FICT_1661_COASTAL_MOVE 你帮邻居认回各家的散瓦，也分清了挂在棚里的腊鸭是谁家的。
+1665 age=46 I_CLAN_ELDER {"physique":10,"intelligence":13,"wealth":7,"prestige":5,"luck":3}
+event E_FICTIONAL 说书人讲崇祯旧事，一座城竟换了三个名字。
+effects E_FICTIONAL 你指出前后矛盾，他咳一声，说这段重讲。
+1666 age=47 I_CLAN_ELDER {"physique":10,"intelligence":15,"wealth":7,"prestige":5,"luck":3}
+event E_LIFE_ROUTE_LEARNING 家人搬来一摞账单，请你用这些年学会的读写本事帮着核账。
+effects E_LIFE_ROUTE_LEARNING 账上的字你都认得，还得再查清银钱的来去。
+dice E_LIFE_ROUTE_LEARNING 账里夹着旧欠条，你得分清谁欠谁，再核清数目。
+effects E_LIFE_ROUTE_LEARNING 你把账目理清，也更熟悉了读写和核账的办法。
+1667 age=48 I_CLAN_ELDER {"physique":10,"intelligence":15,"wealth":7,"prestige":5,"luck":3}
+event E_LL_BREAD_RETURN_WEALTHY 粮铺照先前说定的时辰把粮送来，你不用再派人挤在铺前等。
+effects E_LL_BREAD_RETURN_WEALTHY 双方照约核过分量再结账，送货的人也记住了你方便的时辰。
+event E_LIFE_S_CHESS_ANGER 棋友又想伸手悔棋，被你拦住后，开始抱怨凳子坐着不舒服。
+effects E_LIFE_S_CHESS_ANGER 这一盘输了，他仍怪凳子不好；说起赢棋的那盘，却只夸自己。
+
+cautious seed=76 1653–1662
+1653 age=31 I_REFUGEE {"physique":8,"intelligence":11,"wealth":1,"prestige":4,"luck":3}
+event E_LL_BREAD_POOR 粮价涨了，铺子不再给你添新赊账，你只好先缩减饭食。
+effects E_LL_BREAD_POOR 你把剩下的口粮分作更小的份，接下来几顿得算着吃。
+event E_FAM_MAR_LEGACY_FIRST 成家后，你和妻子翻出家用账目，商量往后怎样安排日子。
+effects E_FAM_MAR_LEGACY_FIRST 你们把眼前的开销和家务分担说清楚，往后也好彼此照应。
+1654 age=32 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":4,"luck":3}
+event E_FAM_MAR_POOR_WORK 街坊托你们赶制一批布袋，还送来针线，省得你们再去找材料。
+effects E_FAM_MAR_POOR_WORK 你们轮流赶工，按时交了布袋，所得工钱给家里添了一点积蓄。
+1655 age=33 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":4,"luck":3}
+event E_LIFE_CHILD_BIRTH 家里添了孩子，哭声一响，大人们便都围了过来。
+effects E_LIFE_CHILD_BIRTH 孩子还不会说话，全家却已经忙着照顾他了。
+achievement A_LIFE_FAMILY_JOY 家里添了孩子，忙乱会多一些，欢喜也多了一份。
+1656 age=34 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":4,"luck":3}
+event E_LL_BREAD_RETURN_RECOVERED 先前不得不缩减口粮，如今手头比那时宽松了些。
+effects E_LL_BREAD_RETURN_RECOVERED 你不必再把每一顿都缩到最少，不过往后的日用仍要看现有家资安排。
+event E_HIST_FICT_1648_REGISTRATION 各府重造黄册，差役把邻人的名字写成了菜名。
+effects E_HIST_FICT_1648_REGISTRATION 你圈出名字里的错字，帮邻人核对清楚。
+1657 age=35 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":5,"luck":3}
+event E_LIFE_M_CLAN_FEUD 族人为田埂的位置争执不下，各房只好找来祖传旧册。
+effects E_LIFE_M_CLAN_FEUD 旧册被放到桌子中间，几房都等你看看上面怎么记。
+dice E_LIFE_M_CLAN_FEUD 各房说的田埂位置不同，你得依据旧册从中调解。
+effects E_LIFE_M_CLAN_FEUD 你照旧册讲清各房的田埂，族人停下争吵，称赞你公道。
+1658 age=36 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":5,"luck":3}
+event E_LIFE_SICK_RECOVERY 病后刚有些胃口，你盯着汤面，家人盯着你。
+effects E_LIFE_SICK_RECOVERY 你开始惦记吃的了，不过身体还没养好，仍得慢慢休息。
+1659 age=37 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":5,"luck":3}
+event E_LL_WORK_REPAIR_NOTES 有学徒听说你早年画过农具修补图，来问受热的地方为什么不能靠胶固定。
+effects E_LL_WORK_REPAIR_NOTES 你照当年留下的工序说明局限：受热和承重部位要由匠人另行核验。
+event E_LIFE_SICK_TOOTHACHE 牙疼请来郎中，你嘴上说不怕，手把衣角攥成了团。
+effects E_LIFE_SICK_TOOTHACHE 牙疼缓了一些，你才松开攥紧的衣角。
+1660 age=38 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":5,"luck":3}
+event E_LIFE_FICT_CLAN_TEMPLE 宗祠里积下许多旧账，族人整理时，还从账页间翻出一只书虫。
+effects E_LIFE_FICT_CLAN_TEMPLE 你们把账页整理归位，也清走了夹在里面的书虫。
+1661 age=39 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":5,"luck":3}
+event E_HIST_YANGZHOU_COUNTRY_FOLLOW 新乡邻找你一起做农活，见你认错了锄头，便耐心教你辨认。
+effects E_HIST_YANGZHOU_COUNTRY_FOLLOW 你渐渐熟悉了乡间生活，也记住了常用农具的名字。
+1662 age=40 I_REFUGEE {"physique":8,"intelligence":11,"wealth":2,"prestige":5,"luck":3}
+event E_LL_WORK_RETURN_REPAIR_NOTES 请教过你的学徒拿着农具工序图回来，已把不能用胶的受热处另行标明。
+effects E_LL_WORK_RETURN_REPAIR_NOTES 工坊接手的人能看见材料边界，承重和受热处仍须自己核验；这张图没有把胶当作万能材料。
+event E_LIFE_M_PAWN_SHOP 掌柜夸一只旧铜炉是古物，你翻过底部，却见刻字很新。
+effects E_LIFE_M_PAWN_SHOP 你把炉子放回柜上，掌柜改口说图个好看。
+
+cautious seed=76 1690–1710
+1690 age=68 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_LL_VOICE_NAMED_POOR 接手过你经验的人又来请教；你把知道的说清，自己却还得为柴米盘算。
+effects E_LL_VOICE_NAMED_POOR 来人答应把你的提醒告诉同行，但这次请教没有约定报酬。
+event E_SOC_SENIOR_STORIES 晚辈听你讲萨尔浒的旧闻，问得十分仔细，连桌上的茶凉了都没顾上。
+effects E_SOC_SENIOR_STORIES 你只讲听说过的旧闻，后生听得起劲，还想知道后面发生了什么。
+1691 age=69 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_HIGH_PRESTIGE_CALL 几家人为修路的地界争执不下，乡绅请你来帮着商量。
+effects E_HIGH_PRESTIGE_CALL 你把地界讲清楚，几家人终于同意一起动工。
+1692 age=70 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_LIFE_S_DEEP_MOUNTAIN 亲友抱怨买盐要绕远路，你翻出一张旧地图，想看看还有没有近道。
+effects E_LIFE_S_DEEP_MOUNTAIN 图上确实画着一条近道，只是不知如今还能不能走。
+dice E_LIFE_S_DEEP_MOUNTAIN 核对旧图上的桥和岔口，判断买盐的近道是否还通。
+effects E_LIFE_S_DEEP_MOUNTAIN 你认出一条仍能走的近道，亲友称赞你熟悉道路。
+1693 age=71 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_FAM_WEALTH_OFFICE_DECLINE 亲戚拿着一份求官的自荐书登门，托你设法替他递进官署。
+effects E_FAM_WEALTH_OFFICE_DECLINE 你解释自己没有合适的门路，婉拒代递。亲戚虽没争辩，心里还是有些失望。
+1694 age=72 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_LL_VOICE_RETURN_NAMED 来请教的人把你的提醒转告了同行，也说清这经验从何而来。
+effects E_LL_VOICE_RETURN_NAMED 你的本事得到了尊重；当初那次请教没有报酬，也没凭空替你解决生计。
+event E_HIST_FICT_1690_PEACE_PROSPERITY 运河码头重开，茶摊摊主说自家酸梅露曾进过前朝御膳房。
+effects E_HIST_FICT_1690_PEACE_PROSPERITY 你听摊主讲完来历，自己端起了那碗酸梅露。
+1695 age=73 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_POOR_SAGE_REPUTE 你在乡里颇受敬重，邻人常来夸赞，家里却快没米了。
+effects E_POOR_SAGE_REPUTE 客人说了不少好话，可等他们走后，你仍找不出能下锅的粮食。
+1696 age=74 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_FAM_MAR_POOR_TOGETHER 家里剩下的米不多，你们商量好明日的饭食，一起坐在灯下补衣裳。
+effects E_FAM_MAR_POOR_TOGETHER 你穿针，她理线，一件旧衣裳补好了，两人也说了会儿心里话。
+1697 age=75 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_SOC_POOR_FUEL 运煤车的轮子卡在石缝里，你上前帮忙挪开石头。
+effects E_SOC_POOR_FUEL 煤车终于能走了，你拍着身上的煤灰，看着骡子把车拉走。
+1698 age=76 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_LL_PASS_OWN 你清点日常用的东西，把眼下最常用的几件放到容易取到的地方。
+effects E_LL_PASS_OWN 旧物没有凭空变多，但需要时不必再翻遍整个包袱。
+event E_FAM_LIFE_ELDER_MENDING_TAUGHT 邻居拿来一只破粮袋，请你教他怎样缝住裂口。
+effects E_FAM_LIFE_ELDER_MENDING_TAUGHT 你放慢针脚，一针一针教他；邻居照着补好，谢过了你。
+1699 age=77 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_SOC_STRONG_CART 大车陷进泥坑，骡子拉不动了，只好靠人帮着推。
+effects E_SOC_STRONG_CART 你和众人合力把车推出泥坑，骡子这才继续拉车上路。
+1700 age=78 I_REFUGEE {"physique":7,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_SOC_POOR_BASKET 你编的柳筐能装货，却歪向一边，放在地上也立不稳。
+effects E_SOC_POOR_BASKET 你重新理齐歪斜的部分，柳筐总算能放稳了。
+1701 age=79 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":7,"luck":3}
+event E_FAM_LIFE_POOR_EMPTY_POT 锅底摸不出一把米了，你去寻活，却没能在天黑前找到工。
+effects E_FAM_LIFE_POOR_EMPTY_POT 你先喝了热水歇下，腹中空着，第二天还得再去问。
+1702 age=80 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_LL_PASS_RETURN_OWN 先前放好的常用东西果然派上用场，急着用时就在手边。
+effects E_LL_PASS_RETURN_OWN 你没有白费力气翻找，也知道剩下的东西还够用多久。
+achievement A_OLD_FOSSIL 八十年的人生，无论平淡还是曲折，都值得好好回望。
+event E_gpt_watch 关卡盘查时翻出几张旧凭据，同一个人竟被写成了三个名字。
+effects E_gpt_watch 差役把凭据摊在桌上，要等店家前来核实后才能放行。
+dice E_gpt_watch 凭据上的做工和投宿日期不一致，你得先按日子排清楚。
+effects E_gpt_watch 你按日期排好了凭据，还要请店家确认上面的几个别名。
+dice E_gpt_watch 店家已经到场，你得和他一起讲清凭据上的几个名字。
+effects E_gpt_watch 你当面讲清了收据上的别名，店家也称赞你办事利索。
+achievement A_gpt_watch 同一个人用了几个名字，把来由说清楚，盘查才少些误会。
+1703 age=81 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_NATIVE_CRISIS_PRISON_CORVEE 差役拿着欠税单上门，说若交不清，就要把你收押服役。
+effects E_NATIVE_CRISIS_PRISON_CORVEE 你翻出旧账和凭据，希望能在被带走前讲清欠税的事。
+dice E_NATIVE_CRISIS_PRISON_CORVEE 核对旧账和凭据，向差役说明情况，争取免于收押。
+effects E_NATIVE_CRISIS_PRISON_CORVEE 账据加上街坊作证，差役收了锁链转身离开。
+1704 age=82 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_SOC_CAPITAL_MARKET 旧货摊上有面铜镜，你拿来一照，鼻子竟被照得歪歪扭扭。
+effects E_SOC_CAPITAL_MARKET 家人拉着你离开摊子，你还忍不住回头看那面镜子。
+1705 age=83 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_WORK 工坊的转轴忽然卡住，众人停下活计，围过来查找原因。
+effects E_WORK 你取出卡在轴里的木屑，转轴总算能动了。
+1706 age=84 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_LL_LIVING_OTHER 你重新安排身边的东西，把近来常用的留在最顺手的地方。
+effects E_LL_LIVING_OTHER 往后要用时不用总托人寻找，余下的东西仍照原样收着。
+event E_LIFE_S_PEACE_DREAM 你梦见天下太平，终于不用为了避乱四处赶路。
+effects E_LIFE_S_PEACE_DREAM 醒来窗外还下着雨，梦里的清闲留着慢慢回味。
+1707 age=85 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_HIST_YANGZHOU_COUNTRY_FOLLOW 新乡邻找你一起做农活，见你认错了锄头，便耐心教你辨认。
+effects E_HIST_YANGZHOU_COUNTRY_FOLLOW 你渐渐熟悉了乡间生活，也记住了常用农具的名字。
+1708 age=86 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_SOC_CHANCE_PURSE 你捡到一块腰牌，等失主来领，对方赶得满头大汗。
+effects E_SOC_CHANCE_PURSE 你还了腰牌，对方汗还没擦干，便又摆起了架子。
+1709 age=87 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_LIFE_FICT_HERB_MEDICINE 街坊围坐着聊养身偏方，天气冷，你先找来棉被裹上。
+effects E_LIFE_FICT_HERB_MEDICINE 偏方还没聊出名堂，大家倒先添了衣裳，裹紧棉被。
+1710 age=88 I_REFUGEE {"physique":6,"intelligence":13,"wealth":1,"prestige":8,"luck":3}
+event E_LL_LIVING_RETURN_OTHER 先前整理过的东西仍放在手边，需要时能直接找到。
+effects E_LL_LIVING_RETURN_OTHER 日子不因这一件小事大变，但你省下了四处寻物的麻烦。
+event E_SENIOR_HEALTH_CRISIS 你刚说自己身子还硬朗，倒春寒一来，却病倒了。
+effects E_SENIOR_HEALTH_CRISIS 你咳嗽了一夜，儿孙都担心起你的身体。
+dice E_SENIOR_HEALTH_CRISIS 这一夜病得不轻，你能不能熬过去，还得看体魄。
+effects E_SENIOR_HEALTH_CRISIS 这回没能熬过寒夜，你在家人陪伴下离世。
+death D_SENIOR_DECLINE 倒春寒里病情加重，你在家人的陪伴下离世。
+ending A_LIFE_CENTURY_TURMOIL 乱世里走到八十岁，这份长寿已经很难得。
+
+normal seed=28 1691–1701
+1691 age=50 I_HOUSEHOLD {"physique":1,"intelligence":19,"wealth":5,"prestige":13,"luck":3}
+event E_LL_CARE_WEAK_MODEST 身子不济，手头还能负担日用，你和愿意搭手的人商量怎么摆放东西、何时帮忙采购。
+effects E_LL_CARE_WEAK_MODEST 你说清常用的东西该放在哪里，采购也约了方便的日子；对方不是随叫随到，事情仍由你决定。
+event E_LIFE_CHILD_SUCCESS 孩子读书的喜报送到家，你高兴得连门槛都仔细擦了一遍。
+effects E_LIFE_CHILD_SUCCESS 邻里轮番道喜，你嘴上谦虚，却不自觉地坐得越来越端正。
+1692 age=51 I_HOUSEHOLD {"physique":1,"intelligence":19,"wealth":5,"prestige":13,"luck":3}
+event E_LIFE_SICK_TOOTHACHE 牙疼请来郎中，你嘴上说不怕，手把衣角攥成了团。
+effects E_LIFE_SICK_TOOTHACHE 牙疼缓了一些，你才松开攥紧的衣角。
+1693 age=52 I_HOUSEHOLD {"physique":1,"intelligence":19,"wealth":5,"prestige":13,"luck":3}
+event E_LIFE_FICT_HERB_MEDICINE 街坊围坐着聊养身偏方，天气冷，你先找来棉被裹上。
+effects E_LIFE_FICT_HERB_MEDICINE 偏方还没聊出名堂，大家倒先添了衣裳，裹紧棉被。
+1694 age=53 I_HOUSEHOLD {"physique":1,"intelligence":19,"wealth":5,"prestige":13,"luck":3}
+event E_LL_CARE_RETURN_WEAK_MODEST 常用的东西按先前说好的摆在近处，约好搭手的人也依你的清单带来日用。
+effects E_LL_CARE_RETURN_WEAK_MODEST 你取日常物件更方便了；遇上搬重物这样的事，仍要看当时的体力和别人是否有空。
+event E_LIFE_FICT_CLAN_TEMPLE 宗祠里积下许多旧账，族人整理时，还从账页间翻出一只书虫。
+effects E_LIFE_FICT_CLAN_TEMPLE 你们把账页整理归位，也清走了夹在里面的书虫。
+1695 age=54 I_HOUSEHOLD {"physique":1,"intelligence":19,"wealth":5,"prestige":13,"luck":3}
+event E_LIFE_SENIOR_GRANDCHILD 小孙辈围着椅子要你陪着玩，你想歇会儿，他们却还舍不得走。
+effects E_LIFE_SENIOR_GRANDCHILD 故事讲了三遍，孩子还点头，倒是你先困了。
+1696 age=55 I_HOUSEHOLD {"physique":1,"intelligence":20,"wealth":5,"prestige":13,"luck":3}
+late_life ERA_MING_END 
+event E_CRISIS 溃兵堵住官道，商客纷纷退到路边，暂时找不到通路。
+effects E_CRISIS 你和众人停下脚步，等前面的人退开。
+dice E_CRISIS 人群不断往回挤，你得看清草坡上哪里能绕过去。
+effects E_CRISIS 你认准空隙绕过人群，也记住了下次先留意退路。
+1697 age=56 I_HOUSEHOLD {"physique":1,"intelligence":20,"wealth":4,"prestige":13,"luck":3}
+event E_FAM_CHILD_MARRIAGE 孩子与心上人商定婚期，两家开始张罗婚事。
+effects E_FAM_CHILD_MARRIAGE 两人拜过堂，你拿出一份积蓄置办了婚事。
+achievement A_FAM_CHILD_MARRIED 孩子也有了自己的家庭，做父母的又多了一份牵挂。
+1698 age=57 I_HOUSEHOLD {"physique":1,"intelligence":20,"wealth":4,"prestige":13,"luck":3}
+event E_LL_CREDIT_OTHER 近来的事情没有一桩能替你包办日后的用度，眼前还得逐件安排。
+effects E_LL_CREDIT_OTHER 你把能确定的时辰记下，余下的等消息，不强求一时都有着落。
+event E_LIFE_S_OLD_MEMORY 后生听你讲天启旧事，追问最多的却是当年饭价。
+effects E_LIFE_S_OLD_MEMORY 讲旧事只说自己记得的，没见过的再热闹也不编。
+1699 age=58 I_HOUSEHOLD {"physique":1,"intelligence":20,"wealth":5,"prestige":13,"luck":3}
+event E_LIFE_FICT_LAND_PURCHASE 一处荒庄售价很低，地契上还标着泉水，你想去看看实地。
+effects E_LIFE_FICT_LAND_PURCHASE 你带着旧契到了荒庄，准备核对水源和地界。
+dice E_LIFE_FICT_LAND_PURCHASE 对照地契核实水源与田界，确认这笔买卖是否可靠。
+effects E_LIFE_FICT_LAND_PURCHASE 你核清地界，做成了一笔小买卖，赚到些钱。
+1700 age=59 I_HOUSEHOLD {"physique":1,"intelligence":20,"wealth":5,"prestige":13,"luck":3}
+event E_LIFE_S_CHESS_ANGER 棋友又想伸手悔棋，被你拦住后，开始抱怨凳子坐着不舒服。
+effects E_LIFE_S_CHESS_ANGER 这一盘输了，他仍怪凳子不好；说起赢棋的那盘，却只夸自己。
+1701 age=60 I_HOUSEHOLD {"physique":1,"intelligence":20,"wealth":5,"prestige":13,"luck":3}
+event E_LL_CREDIT_RETURN_OTHER 先前记下的时辰派上了用场，你等到回话，知道接下来该找谁。
+effects E_LL_CREDIT_RETURN_OTHER 日子仍要逐件安排，这次至少不必对着空门一直等。
+event E_FAM_CHILD_GRANDCHILD_MIDDLE 成了家的孩子送来喜讯，家里又添了新生的孙辈。
+effects E_FAM_CHILD_GRANDCHILD_MIDDLE 你见到刚出生的小家伙，家人围在一旁轻声道喜。
+achievement A_FAM_GRANDCHILD 家中的日子一代代往前走，你也迎来了孙辈。
+
+normal seed=28 1721–1725
+1721 age=80 I_CLAN_ELDER {"physique":1,"intelligence":20,"wealth":6,"prestige":15,"luck":3}
+event E_LL_LIVING_COMFORT 身子使不上力，你有余力安排人帮忙料理日用，来人先问你什么时候方便。
+effects E_LL_LIVING_COMFORT 你说清要哪些东西、哪些事自己决定；对方约好按你的时辰来。
+achievement A_OLD_FOSSIL 八十年的人生，无论平淡还是曲折，都值得好好回望。
+event E_CRISIS 溃兵堵住官道，商客纷纷退到路边，暂时找不到通路。
+effects E_CRISIS 你和众人停下脚步，等前面的人退开。
+dice E_CRISIS 人群不断往回挤，你得看清草坡上哪里能绕过去。
+effects E_CRISIS 你认准空隙绕过人群，也记住了下次先留意退路。
+1722 age=81 I_CLAN_ELDER {"physique":1,"intelligence":20,"wealth":6,"prestige":15,"luck":3}
+event E_LIFE_S_HEALTH_POTION 游医把药效夸得很好，你打开药包，却闻到不对劲的气味。
+effects E_LIFE_S_HEALTH_POTION 你把药包交给郎中，请他先查验药材和来路。
+dice E_LIFE_S_HEALTH_POTION 郎中查验药包，你得把先前的疑点说清楚。
+effects E_LIFE_S_HEALTH_POTION 郎中暂时辨不清药材，先留下药包，继续核对来路。
+1723 age=82 I_CLAN_ELDER {"physique":1,"intelligence":20,"wealth":6,"prestige":15,"luck":3}
+event E_SOC_REPUTE_REFERRAL 你替工坊引荐一位老匠人，双方刚见面，就谈起了尺寸和图纸。
+effects E_SOC_REPUTE_REFERRAL 他们对着图纸越聊越投机，你这个中间人反而插不上话了。
+1724 age=83 I_CLAN_ELDER {"physique":1,"intelligence":20,"wealth":6,"prestige":15,"luck":3}
+event E_SOC_PRESTIGE_MEDIATE 被拖欠军饷的军户堵住院门，双方请你评理，却仍在吵个不停。
+effects E_SOC_PRESTIGE_MEDIATE 你摊开欠饷簿，让双方先核对数目，暂时止住了争吵。
+1725 age=84 I_CLAN_ELDER {"physique":1,"intelligence":20,"wealth":6,"prestige":15,"luck":3}
+event E_LL_LIVING_RETURN_COMFORT 帮忙料理的人按先前说好的时辰来，照你的清单把日用带齐。
+effects E_LL_LIVING_RETURN_COMFORT 你不用整天等人，也没有被替你决定该买什么；身体的限制仍不会因此消失。
+event E_TRAIT 邻家误收了你的破袄，好在上面有一块很容易认出的花补丁。
+effects E_TRAIT 你凭着花补丁认回破袄，险些让它留在抹布堆里。

@@ -75,7 +75,8 @@ function wechatPlatform(runtime: WechatRuntime): GamePlatform {
     storage: {
       getItem(key) {
         const value = runtime.getStorageSync(key);
-        return typeof value === "string" && value !== "" ? value : null;
+        if (value === "" || value === null || value === undefined) return null;
+        return typeof value === "string" ? value : JSON.stringify(value) ?? String(value);
       },
       setItem(key, value) {
         runtime.setStorageSync(key, value);
@@ -168,4 +169,24 @@ export function createPlatform(canvas?: HTMLCanvasElement): GamePlatform {
       };
     },
   };
+}
+
+export type WebSessionLock = { release: () => void; reason: null } | { release: null; reason: string };
+
+/** The held lock covers all current-life and lifetime-record access by this page. */
+export function acquireWebSessionLock(locks: LockManager | undefined): Promise<WebSessionLock> {
+  if (!locks) return Promise.resolve({ release: null, reason: '当前环境不支持安全的单页面存档锁。请使用支持 Web Locks 的浏览器，通过 HTTPS 或 localhost 访问；本页面只能查看已完成人生和记录。' });
+  return new Promise(resolve => {
+    try {
+      void locks.request('time-travel.life-writer', { mode: 'exclusive', ifAvailable: true }, lock => {
+        if (!lock) {
+          resolve({ release: null, reason: '另一个页面正在使用本机存档。本页面只能查看已完成人生和记录；关闭其他页面后刷新即可继续。' });
+          return;
+        }
+        return new Promise<void>(release => resolve({ release: () => release(), reason: null }));
+      }).catch(() => resolve({ release: null, reason: '无法取得本机存档锁。本页面只能查看已完成人生和记录；请检查浏览器权限后刷新。' }));
+    } catch {
+      resolve({ release: null, reason: '无法取得本机存档锁。本页面只能查看已完成人生和记录；请检查浏览器权限后刷新。' });
+    }
+  });
 }

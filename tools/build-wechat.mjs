@@ -1,7 +1,7 @@
 import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 import { build } from "esbuild";
-import { projectRoot, publicRoot } from "./assets.mjs";
+import { projectRoot, publicRoot } from "./asset-manifest.mjs";
 
 const outputRoot = resolve(projectRoot, "dist-wechat");
 const packageLimit = 4 * 1024 * 1024;
@@ -44,7 +44,7 @@ try {
   for (const group of ["art", "audio", "fx"]) {
     await cp(resolve(publicRoot, group), resolve(outputRoot, "media", group), { recursive: true });
   }
-  await cp(resolve(publicRoot, "licenses"), resolve(outputRoot, "licenses"), { recursive: true });
+  await cp(resolve(projectRoot, "licenses"), resolve(outputRoot, "licenses"), { recursive: true });
 
   // Directory subpackages require game.js even when they contain only resources.
   for (const entry of subpackages) {

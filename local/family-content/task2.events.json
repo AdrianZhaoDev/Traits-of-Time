@@ -1,0 +1,670 @@
+[
+  {
+    "id": "E_FAM_CHILD_RECOGNIZE_LEGACY",
+    "title": "家里的旧衣",
+    "text": "收拾柜子时，你翻出给孩子做的旧衣，仔细叠好放回去。",
+    "condition": {"op":"all","conditions":[
+      {"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}}
+    ]},
+    "trigger": {"kind":"random","weight":35,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"一家人的衣物归置妥当，柜子里也腾出了空处。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_LEGACY"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_BOY_EARLY_PLAIN",
+    "title": "初为人父",
+    "text": "妻子生下了长子，你小心地把孩子抱在怀里。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},
+      {"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"compare","field":"wealth","comparator":"lte","value":2},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"孩子睡着后，你和妻子终于能坐下来歇一会儿。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BOY"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_18_26"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_BOY_EARLY_FEAST",
+    "title": "长子满月",
+    "text": "妻子生下了长子，你抱着孩子轻声哄他，盼他平安满月。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},
+      {"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"compare","field":"wealth","comparator":"gte","value":3},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"满月那天，你们摆了桌酒，亲友登门道喜。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BOY"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_18_26"},{"type":"attribute_add","attribute":"prestige","amount":1}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_GIRL_EARLY_PLAIN",
+    "title": "初为人父",
+    "text": "妻子生下了长女，你小心地把孩子抱在怀里。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},
+      {"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"compare","field":"wealth","comparator":"lte","value":2},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"孩子睡着后，你和妻子终于能坐下来歇一会儿。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_GIRL"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_18_26"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_GIRL_EARLY_FEAST",
+    "title": "长女满月",
+    "text": "妻子生下了长女，你抱着孩子轻声哄她，盼她平安满月。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},
+      {"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"compare","field":"wealth","comparator":"gte","value":3},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"满月那天，你们摆了桌酒，亲友登门道喜。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_GIRL"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_18_26"},{"type":"attribute_add","attribute":"prestige","amount":1}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_BOY_LATE_PLAIN",
+    "title": "初为人父",
+    "text": "妻子生下了长子，你小心地把孩子抱在怀里。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},
+      {"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"compare","field":"wealth","comparator":"lte","value":2},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"孩子睡着后，你和妻子终于能坐下来歇一会儿。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BOY"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_27_39"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_BOY_LATE_FEAST",
+    "title": "长子满月",
+    "text": "妻子生下了长子，你抱着孩子轻声哄他，盼他平安满月。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},
+      {"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"compare","field":"wealth","comparator":"gte","value":3},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"满月那天，你们摆了桌酒，亲友登门道喜。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BOY"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_27_39"},{"type":"attribute_add","attribute":"prestige","amount":1}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_GIRL_LATE_PLAIN",
+    "title": "初为人父",
+    "text": "妻子生下了长女，你小心地把孩子抱在怀里。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},
+      {"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"compare","field":"wealth","comparator":"lte","value":2},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"孩子睡着后，你和妻子终于能坐下来歇一会儿。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_GIRL"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_27_39"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIRST_GIRL_LATE_FEAST",
+    "title": "长女满月",
+    "text": "妻子生下了长女，你抱着孩子轻声哄她，盼她平安满月。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},
+      {"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"compare","field":"wealth","comparator":"gte","value":3},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_LIFE_HAS_CHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"满月那天，你们摆了桌酒，亲友登门道喜。","effects":[
+      {"type":"flag_add","id":"F_LIFE_HAS_CHILD"},{"type":"flag_add","id":"F_FAM_CHILD_1"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_GIRL"},{"type":"flag_add","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"type":"flag_add","id":"F_FAM_CHILD_1_BIRTH_27_39"},{"type":"attribute_add","attribute":"prestige","amount":1}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_GIRL_EARLY_WIFE",
+    "title": "儿女双全",
+    "text": "家里已有一个儿子，妻子又平安生下女儿。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BOY"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"如今儿女都有了，大人们忙着给小女儿添衣。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_18_26"},
+      {"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_GIRL_EARLY_CONCUBINE",
+    "title": "儿女双全",
+    "text": "家里已有一个儿子，这回妾生下了女儿。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_MAR_CONCUBINE_ALIVE"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BOY"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":20,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"儿女都平安，一家人给新生的女儿添了衣裳。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_18_26"},
+      {"type":"flag_add","id":"F_FAM_CHILD_2_CONCUBINE_BORN"},{"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_BOY_EARLY_WIFE",
+    "title": "儿女双全",
+    "text": "家里已有一个女儿，妻子又平安生下儿子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_GIRL"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"如今儿女都有了，大人们忙着给小儿子添衣。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_18_26"},
+      {"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_BOY_EARLY_CONCUBINE",
+    "title": "儿女双全",
+    "text": "家里已有一个女儿，这回妾生下了儿子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_MAR_CONCUBINE_ALIVE"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_GIRL"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":20,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"儿女都平安，一家人给新生的儿子添了衣裳。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_18_26"},
+      {"type":"flag_add","id":"F_FAM_CHILD_2_CONCUBINE_BORN"},{"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_GIRL_LATE_WIFE",
+    "title": "儿女双全",
+    "text": "家里已有一个儿子，妻子又平安生下女儿。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BOY"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"如今儿女都有了，大人们忙着给小女儿添衣。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_27_39"},
+      {"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_GIRL_LATE_CONCUBINE",
+    "title": "儿女双全",
+    "text": "家里已有一个儿子，这回妾生下了女儿。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_MAR_CONCUBINE_ALIVE"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BOY"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":20,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"儿女都平安，一家人给新生的女儿添了衣裳。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_27_39"},
+      {"type":"flag_add","id":"F_FAM_CHILD_2_CONCUBINE_BORN"},{"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_BOY_LATE_WIFE",
+    "title": "儿女双全",
+    "text": "家里已有一个女儿，妻子又平安生下儿子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_GIRL"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"如今儿女都有了，大人们忙着给小儿子添衣。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_27_39"},
+      {"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_BOY_LATE_CONCUBINE",
+    "title": "儿女双全",
+    "text": "家里已有一个女儿，这回妾生下了儿子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_MAR_CONCUBINE_ALIVE"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_GIRL"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_LEGITIMATE"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":20,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"儿女都平安，一家人给新生的儿子添了衣裳。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_27_39"},
+      {"type":"flag_add","id":"F_FAM_CHILD_2_CONCUBINE_BORN"},{"type":"flag_add","id":"F_FAM_CHILD_SON_AND_DAUGHTER"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_LEGACY_EARLY",
+    "title": "家中再添一口",
+    "text": "家里又添了一个孩子，你赶紧找出从前做的小衣裳。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_LEGACY"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"衣裳洗净晒好，新添的孩子也有了换洗的衣服。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_18_26"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SECOND_LEGACY_LATE",
+    "title": "家中再添一口",
+    "text": "家里又添了一个孩子，你赶紧找出从前做的小衣裳。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_LEGACY"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"衣裳洗净晒好，新添的孩子也有了换洗的衣服。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2"},{"type":"flag_add","id":"F_FAM_CHILD_2_BIRTH_27_39"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_THIRD_EARLY",
+    "title": "又添新丁",
+    "text": "家里再添了一个孩子，屋里的衣物一时堆得满满当当。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":26},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_2"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_3"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你收好衣物，又腾出地方安置新生的孩子。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_3"},{"type":"flag_add","id":"F_FAM_CHILD_3_BIRTH_18_26"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_THIRD_LATE",
+    "title": "又添新丁",
+    "text": "家里再添了一个孩子，屋里的衣物一时堆得满满当当。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":27},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_2"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_3"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你收好衣物，又腾出地方安置新生的孩子。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_3"},{"type":"flag_add","id":"F_FAM_CHILD_3_BIRTH_27_39"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SCHOOL",
+    "title": "请夫子开蒙",
+    "text": "家里有了余力，你请来夫子，教孩子从头认字。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":30},{"op":"compare","field":"wealth","comparator":"gte","value":3},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_SCHOOLED"}},
+      {"op":"any","conditions":[
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_18_26"},{"op":"compare","field":"age","comparator":"gte","value":33}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_27_39"},{"op":"compare","field":"age","comparator":"gte","value":46}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_LEGACY"},{"op":"compare","field":"age","comparator":"gte","value":47}]}
+      ]}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"夫子教孩子读了第一篇书，也讲起乡里读书人盼着科考的事。","effects":[{"type":"flag_add","id":"F_FAM_CHILD_SCHOOLED"}],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_MARRIAGE",
+    "title": "孩子成家",
+    "text": "孩子与心上人商定婚期，两家开始张罗婚事。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":45},{"op":"compare","field":"wealth","comparator":"gte","value":1},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_MARRIED"}},
+      {"op":"any","conditions":[
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_18_26"},{"op":"compare","field":"age","comparator":"gte","value":44}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_27_39"},{"op":"compare","field":"age","comparator":"gte","value":57}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_LEGACY"},{"op":"compare","field":"age","comparator":"gte","value":58}]}
+      ]}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"两人拜过堂，你拿出一份积蓄置办了婚事。","effects":[
+      {"type":"attribute_add","attribute":"wealth","amount":-1},{"type":"flag_add","id":"F_FAM_CHILD_MARRIED"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SUCCESS",
+    "title": "孩子有了出息",
+    "text": "第二个孩子用你教的方法独自做成生意，拿着账目回来报喜。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":50},{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_SUCCESS"}},
+      {"op":"any","conditions":[{"op":"compare","field":"intelligence","comparator":"gte","value":8},{"op":"compare","field":"wealth","comparator":"gte","value":6}]},
+      {"op":"any","conditions":[
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_BIRTH_18_26"},{"op":"compare","field":"age","comparator":"gte","value":44}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_BIRTH_27_39"},{"op":"compare","field":"age","comparator":"gte","value":57}]}
+      ]}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"家里添了进项，邻里也夸孩子办事可靠。","effects":[
+      {"type":"attribute_add","attribute":"wealth","amount":2},{"type":"attribute_add","attribute":"prestige","amount":1},
+      {"type":"flag_add","id":"F_FAM_CHILD_SUCCESS"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SPENDTHRIFT_FIRST",
+    "title": "儿子的亏空",
+    "text": "成年儿子爱摆阔，请客买华服花过了头，连账都付不清。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"wealth","comparator":"gte","value":6},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BOY"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_SPENDTHRIFT"}},
+      {"op":"any","conditions":[
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_18_26"},{"op":"compare","field":"age","comparator":"gte","value":44}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_BIRTH_27_39"},{"op":"compare","field":"age","comparator":"gte","value":57}]}
+      ]}
+    ]},
+    "trigger": {"kind":"random","weight":15,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你替他补上欠款，自己原想添的新衣只好作罢。","effects":[
+      {"type":"attribute_add","attribute":"wealth","amount":-2},{"type":"flag_add","id":"F_FAM_CHILD_SPENDTHRIFT"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_SPENDTHRIFT_SECOND",
+    "title": "儿子的亏空",
+    "text": "成年儿子爱摆阔，请客买华服花过了头，连账都付不清。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"wealth","comparator":"gte","value":6},{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1_GIRL"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_SON_AND_DAUGHTER"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_SPENDTHRIFT"}},
+      {"op":"any","conditions":[
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_BIRTH_18_26"},{"op":"compare","field":"age","comparator":"gte","value":44}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_BIRTH_27_39"},{"op":"compare","field":"age","comparator":"gte","value":57}]}
+      ]}
+    ]},
+    "trigger": {"kind":"random","weight":15,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你替他补上欠款，自己原想添的新衣只好作罢。","effects":[
+      {"type":"attribute_add","attribute":"wealth","amount":-2},{"type":"flag_add","id":"F_FAM_CHILD_SPENDTHRIFT"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_INFANT_LOSS",
+    "title": "未及长大",
+    "text": "这次新生的孩子病得很重，一家人守在身边。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":18},{"op":"compare","field":"age","comparator":"lte","value":39},
+      {"op":"has","collection":"flags","id":"F_FAM_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_3"}}
+    ]},
+    "trigger": {"kind":"random","weight":1,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":true},
+    "interaction": "automatic",
+    "outcome": {"text":"孩子没能挺过来，成了全家人的遗憾。","effects":[],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_BEREAVED_FIRST",
+    "title": "白发送黑发",
+    "text": "最年长的孩子病逝，你料理了孩子的后事。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":60},{"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_BEREAVED"}}
+    ]},
+    "trigger": {"kind":"random","weight":2,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":true},
+    "interaction": "automatic",
+    "outcome": {"text":"你收起孩子留下的衣物，久久没有说话。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_1_DEAD"},{"type":"flag_add","id":"F_FAM_CHILD_BEREAVED"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_BEREAVED_SECOND",
+    "title": "白发送黑发",
+    "text": "第二个孩子成年后病逝，你为孩子料理了后事。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":60},{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_2_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_BEREAVED"}}
+    ]},
+    "trigger": {"kind":"random","weight":2,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":true},
+    "interaction": "automatic",
+    "outcome": {"text":"你收起孩子留下的衣物，久久没有说话。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_2_DEAD"},{"type":"flag_add","id":"F_FAM_CHILD_BEREAVED"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_BEREAVED_THIRD",
+    "title": "白发送黑发",
+    "text": "第三个孩子成年后病逝，你为孩子料理了后事。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":60},{"op":"has","collection":"flags","id":"F_FAM_CHILD_3"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_3_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_BEREAVED"}}
+    ]},
+    "trigger": {"kind":"random","weight":2,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":true},
+    "interaction": "automatic",
+    "outcome": {"text":"你收起孩子留下的衣物，久久没有说话。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_3_DEAD"},{"type":"flag_add","id":"F_FAM_CHILD_BEREAVED"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_GRANDCHILD_EARLY",
+    "title": "添了孙辈",
+    "text": "成了家的孩子送来喜讯，家里又添了新生的孙辈。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"lte","value":50},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你见到刚出生的小家伙，家人围在一旁轻声道喜。","effects":[
+      {"type":"flag_add","id":"F_FAM_GRANDCHILD"},{"type":"flag_add","id":"F_FAM_CHILD_GRANDCHILD_BIRTH_LE50"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_GRANDCHILD_MIDDLE",
+    "title": "添了孙辈",
+    "text": "成了家的孩子送来喜讯，家里又添了新生的孙辈。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":51},{"op":"compare","field":"age","comparator":"lte","value":60},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你见到刚出生的小家伙，家人围在一旁轻声道喜。","effects":[
+      {"type":"flag_add","id":"F_FAM_GRANDCHILD"},{"type":"flag_add","id":"F_FAM_CHILD_GRANDCHILD_BIRTH_51_60"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_GRANDCHILD_LATE",
+    "title": "添了孙辈",
+    "text": "成了家的孩子送来喜讯，家里又添了新生的孙辈。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":61},{"op":"compare","field":"age","comparator":"lte","value":63},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_CHILD_MARRIED"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你见到刚出生的小家伙，家人围在一旁轻声道喜。","effects":[
+      {"type":"flag_add","id":"F_FAM_GRANDCHILD"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_GREAT_GRANDCHILD_EARLY",
+    "title": "曾孙辈出生",
+    "text": "已经长大的孙辈传来喜讯，家里又添了一个孩子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":68},{"op":"compare","field":"age","comparator":"lte","value":75},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_GRANDCHILD_BIRTH_LE50"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_GREAT_BIRTH_LE75"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你见到了新生的曾孙辈，孩子们轮流帮忙照看。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_GREAT_BIRTH_LE75"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_GREAT_GRANDCHILD_LATE",
+    "title": "曾孙辈出生",
+    "text": "已经长大的孙辈传来喜讯，家里又添了一个孩子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":78},{"op":"compare","field":"age","comparator":"lte","value":80},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"},
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_GRANDCHILD_BIRTH_51_60"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_GREAT_BIRTH_LE80"}}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"你见到了新生的曾孙辈，孩子们轮流帮忙照看。","effects":[
+      {"type":"flag_add","id":"F_FAM_CHILD_GREAT_BIRTH_LE80"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_FIVE_GENERATIONS",
+    "title": "五世同堂",
+    "text": "曾孙辈家添了孩子，你、子女、孙辈和曾孙辈齐聚，迎接新生的玄孙辈。",
+    "condition": {"op":"all","conditions":[
+      {"op":"has","collection":"flags","id":"F_FAM_CHILD_1"},{"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_1_DEAD"}},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_FIVE_GENERATIONS"}},
+      {"op":"any","conditions":[
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_GREAT_BIRTH_LE75"},{"op":"compare","field":"age","comparator":"gte","value":93}]},
+        {"op":"all","conditions":[{"op":"has","collection":"flags","id":"F_FAM_CHILD_GREAT_BIRTH_LE80"},{"op":"compare","field":"age","comparator":"gte","value":98}]}
+      ]}
+    ]},
+    "trigger": {"kind":"random","weight":30,"priority":1,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"五代人围坐一处，你接过襁褓，仔细看了看新生的孩子。","effects":[
+      {"type":"flag_add","id":"F_FAM_FIVE_GENERATIONS"}
+    ],"next_stage_id":null}
+  },
+  {
+    "id": "E_FAM_CHILD_ENJOY_GRANDCHILD",
+    "title": "含饴弄孙",
+    "text": "你拿了点心，坐在孙辈身边陪孩子。",
+    "condition": {"op":"all","conditions":[
+      {"op":"compare","field":"age","comparator":"gte","value":60},{"op":"has","collection":"flags","id":"F_FAM_CHILD_2"},
+      {"op":"has","collection":"flags","id":"F_FAM_GRANDCHILD"},
+      {"op":"not","condition":{"op":"has","collection":"flags","id":"F_FAM_CHILD_GRANDCHILD_ENJOYED"}}
+    ]},
+    "trigger": {"kind":"random","weight":25,"priority":0,"trigger_probability":1,"cooldown_years":0,"max_occurrences":1,"rare":false},
+    "interaction": "automatic",
+    "outcome": {"text":"看着孙辈，你不自觉地笑了。","effects":[
+      {"type":"attribute_add","attribute":"luck","amount":1},{"type":"flag_add","id":"F_FAM_CHILD_GRANDCHILD_ENJOYED"}
+    ],"next_stage_id":null}
+  }
+]

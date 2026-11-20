@@ -1,12 +1,16 @@
 import type { Card, Event, Achievement } from './game/core/types/content.generated';
 import { EnumMapper } from './game/presentation/EnumMapper';
 import type { FoldItemData } from './game/presentation/LogParser';
-import { MEMORY_NOTICE, type GameController, type AppSnapshot } from './controller';
+import { STORAGE_NOTICE, type GameController, type AppSnapshot } from './controller';
 import type { GamePlatform } from './platform';
 import { GameAudio, type AudioChannel } from './audio';
-import { formatWealth, optionDetails, yearHeading } from './presenters';
+import { cardPresentation, checkDetails, formatWealth, matchesTimeline, optionDetails, stageMayKill, yearHeading } from './presenters';
 import { Ui, ink, fonts, type UiScene } from './ui';
 import { buildHome } from './home';
+import { ACHIEVEMENT_CATALOG, DEATH_CATALOG, type CatalogEntry, type CatalogKind } from './game/presentation/CollectionCatalog';
+import { CollectionGoalStore } from './game/presentation/CollectionGoal';
+import { buildEndingRecap } from './game/presentation/EndingRecap';
+import { formatCollectionProgress } from './game/presentation/CollectionProgress';
 
 const attributes = ['physique', 'wealth', 'intelligence', 'prestige', 'luck'] as const;
 const itemArt: Record<string, string> = {
@@ -15,18 +19,29 @@ const itemArt: Record<string, string> = {
   CARD_MODERN_GLUE: 'glue', CARD_MODERN_LIGHTER: 'lighter',
   CARD_NATIVE_BOWL: 'bowl', CARD_NATIVE_BOOK: 'book',
 };
-type HubTab = 'careers' | 'modern' | 'relics' | 'achievements';
+type HubTab = 'careers' | 'relics' | 'achievements';
 
 export class GameViewBuilder {
   private readonly cards: Map<string, Card>;
   private readonly events: Map<string, Event>;
   private readonly achievements: Map<string, Achievement>;
   private hubTab: HubTab = 'careers';
+  private codexTab: 'achievements' | 'deaths' = 'achievements';
+  private codexScope: 'current' | 'history' = 'current';
+  private codexStatus: 'all' | 'collected' | 'uncollected' = 'all';
+  private codexCard = 'all';
+  private choosingCodexCard = false;
+  private readonly collectionGoal: CollectionGoalStore;
   private selectedCareer: string | null = null;
+  private readonly expandedChecks = new Set<string>();
+  private readonly expandedDice = new Set<string>();
+  private readonly expandedYears = new Set<number>();
+  private readonly seenYearCounts = new Map<number, number>();
 
   constructor(private readonly controller: GameController, private readonly audio: GameAudio,
     private readonly platform: GamePlatform, private readonly invalidate: () => void,
     private readonly latest: () => void) {
+    this.collectionGoal = new CollectionGoalStore(platform.storage);
     this.cards = new Map(controller.bundle.cards.map(card => [card.id, card]));
     this.events = new Map(controller.bundle.events.map(event => [event.id, event]));
     this.achievements = new Map(controller.bundle.achievements.map(achievement => [achievement.id, achievement]));
@@ -35,6 +50,12 @@ export class GameViewBuilder {
   base(snapshot: AppSnapshot, height: number, safeTop: number, safeBottom: number): UiScene {
     const ui = new Ui(this.platform.getViewport().width);
     const available = Math.max(0, height - safeTop - safeBottom);
+    if (snapshot.screen !== 'game') {
+      this.expandedChecks.clear();
+      this.expandedDice.clear();
+      this.expandedYears.clear();
+      this.seenYearCounts.clear();
+    }
     const content = snapshot.screen === 'home' ? buildHome(ui, snapshot, available, this.controller)
       : snapshot.screen === 'identity' ? this.identity(ui, snapshot, available)
         : this.game(ui, snapshot, available);
@@ -51,10 +72,12 @@ export class GameViewBuilder {
     if (name === 'relic') return this.relic(ui, snapshot, height, safeTop, safeBottom);
     const inner = this.modalContentWidth(ui);
     const headings = {
-      cards: '挑选开局家当', decision: '重大抉择', stage: '当前检定', career: '人生管理',
-      ending: '人生报告', stats: '人生统计', achievements: '生涯成就', sound: '声音设置',
+      cards: '挑选开局家当', cardPool: '替换候选家当', decision: '重大抉择', stage: '当前检定', career: '人生管理',
+      ending: '人生报告', stats: '人生统计', achievements: '人生图鉴', sound: '声音设置',
+      restart: '确认重新开始', saveFailure: '存储尚未确认',
+      inheritance: '选择下局传承', forfeitInheritance: '确认放弃传承',
     };
-    const close = name !== 'cards' && name !== 'decision' && name !== 'stage';
+    const close = name !== 'cards' && name !== 'decision' && name !== 'stage' && name !== 'saveFailure';
     const header = this.modalHeader(ui, headings[name], inner, close, snapshot.busy);
     const notice = this.notice(ui, snapshot, inner);
     const gap = ui.px(8);
@@ -65,14 +88,17 @@ export class GameViewBuilder {
     let footerHeight = buttonHeight;
 
     if (name === 'cards') {
-      body = ui.text('三选一，只能带一件。选定后，本局不能更换。', inner, {
+      body = ui.text(`${snapshot.view?.pending?.kind === 'card' ? snapshot.view.pending.cards.length : 0} 件候选，只能带一件。确认前可免费替换任意候选，选定后本局不能更换。`, inner, {
         color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginBottom: ui.px(16),
       });
       const pending = snapshot.view?.pending;
       if (pending?.kind === 'card') {
         for (const id of pending.cards) {
           const card = this.cards.get(id);
-          if (card) body += this.cardOffer(ui, card, snapshot, inner);
+          if (card) body += this.cardOffer(ui, card, snapshot, inner)
+            + ui.view(ui.button('replace_' + id, '替换「' + card.name + '」', inner,
+              () => this.controller.openCardPool(id), { height: buttonHeight, disabled: snapshot.busy }),
+            { marginBottom: ui.px(16) });
         }
       }
       footerHeight = primaryHeight;
@@ -81,9 +107,65 @@ export class GameViewBuilder {
       () => this.controller.confirmCard(), {
         primary: true, height: primaryHeight, disabled: snapshot.busy || !snapshot.selectedCardId,
       });
-    } else if (name === 'decision') {
+    } else if (name === 'inheritance') {
+      body = ui.text('选择一项属性，下一局开局时 +1，受属性上限限制；只生效一次，不累加。取消不会使用传承。', inner,
+        { color: ink.muted, marginBottom: ui.px(16) });
+      const legacy = snapshot.selectedInheritance?.kind === 'extra_card' ? snapshot.selectedInheritance : null;
+      if (legacy) {
+        body += ui.text(`你此前选了「${this.cards.get(legacy.card_id)?.name ?? '旧版指定家当'}」。原方案仍只占一个候选，家当可免费更换；也可以改选属性。`, inner,
+          { color: ink.accent, marginBottom: ui.px(16) });
+        if (snapshot.legacyInheritanceChoice === 'pending') body += ui.button('continueLegacyInheritance', '按原方案继续', inner,
+          () => this.controller.continueLegacyInheritance(), { disabled: snapshot.busy, marginTop: gap });
+        else body += ui.text('已选择按原方案继续。', inner, { fontWeight: '700' });
+        body += ui.button('changeLegacyInheritance', '改选属性', inner,
+          () => this.controller.changeLegacyInheritance(), { disabled: snapshot.busy, marginTop: gap }) + ui.gap(ui.px(16));
+      }
+      if (!legacy) for (const attribute of attributes) {
+        const bonus = { kind: 'attribute' as const, attribute };
+        const label = EnumMapper.translateStat(attribute).name + ' +1';
+        const selected = snapshot.selectedInheritance?.kind === 'attribute' && snapshot.selectedInheritance.attribute === attribute;
+        const padding = ui.px(12), border = ui.px(2), width = inner - 2 * (padding + border);
+        body += ui.control('inheritance_' + attribute, label,
+          ui.text(label + (selected ? ' · 已选' : ''), width, { fontWeight: '800' })
+            + ui.text(`开局${EnumMapper.translateStat(attribute).name} +1，受属性上限限制。`, width, { marginTop: gap }),
+          { width: inner, padding, minHeight: ui.px(44), marginBottom: ui.px(12), borderWidth: border,
+            borderColor: ink.text, borderRadius: ui.px(8), backgroundColor: snapshot.busy ? ink.disabled : selected ? ink.sunSoft : ink.surface },
+          () => this.controller.selectInheritance(bonus), { disabled: snapshot.busy, pressed: selected });
+      }
+      if (snapshot.records.warning) body += ui.text(snapshot.records.warning, inner, { color: ink.accent });
+      footerHeight = primaryHeight;
+      footer = ui.button('confirmInheritance', '确认传承，揭晓身份', inner, () => this.controller.confirmInheritance(),
+        { primary: true, height: primaryHeight, disabled: snapshot.busy || !snapshot.selectedInheritance || snapshot.legacyInheritanceChoice === 'pending' });
+    } else if (name === 'cardPool') {
       const pending = snapshot.view?.pending;
-      if (pending?.kind === 'option') {
+      const pool = this.controller.bundle.pools.find(item => item.id === this.controller.bundle.rules.opening.pool_id);
+      const target = snapshot.replacementTarget ? this.cards.get(snapshot.replacementTarget) : null;
+      body = ui.text(`替换「${target?.name ?? ''}」；已在候选中的家当不能重复选择。`, inner, {
+        color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginBottom: ui.px(16),
+      });
+      for (const id of [...new Set((pool?.entries ?? []).filter(entry => entry.weight > 0).map(entry => entry.card_id))]) {
+        const card = this.cards.get(id);
+        if (!card || pending?.kind !== 'card') continue;
+        const offered = pending.cards.includes(id);
+        const padding = ui.px(12);
+        const border = ui.px(2);
+        const width = inner - 2 * (padding + border);
+        const presentation = cardPresentation(card);
+        body += ui.control('pool_' + id, card.name + (offered ? ' · 已在候选中' : ' · 替换候选'),
+          ui.text(card.name + (offered ? ' · 已在候选中' : ''), width, { fontWeight: '800' })
+            + ui.text(card.rarity, width, { color: ink.muted, marginTop: gap })
+            + (presentation.direction ? ui.text(presentation.direction, width, { marginTop: gap }) : '')
+            + ui.text(card.description, width, { marginTop: gap })
+            + (presentation.effect ? ui.text(presentation.effect, width, { color: ink.muted, marginTop: gap }) : ''),
+          { width: inner, minHeight: ui.px(44), padding, marginBottom: ui.px(12), borderWidth: border,
+            borderColor: ink.text, borderRadius: ui.px(8), backgroundColor: offered || snapshot.busy ? ink.disabled : ink.surface },
+          () => this.controller.replaceCardOffer(id), { disabled: offered || snapshot.busy });
+      }
+      footer = ui.button('closeCardPool', '返回候选', inner, () => this.controller.close(), { height: buttonHeight });
+    } else if (name === 'decision') {
+      const view = snapshot.view;
+      const pending = view?.pending;
+      if (view && pending?.kind === 'option') {
         const event = this.events.get(pending.event_id);
         if (event?.interaction === 'choice') {
           body = ui.text(event.title ?? '当下抉择', inner, {
@@ -91,7 +173,7 @@ export class GameViewBuilder {
           }) + ui.text(event.text, inner, { marginBottom: ui.px(20) });
           for (const option of event.options) {
             const status = pending.options.find(entry => entry.id === option.id);
-            if (!status) continue;
+            if (!status || (!status.available && matchesTimeline(option.condition, view.timeline) === false)) continue;
             const padding = ui.px(12);
             const border = ui.px(1.5);
             const contentWidth = inner - 2 * (padding + border);
@@ -108,6 +190,19 @@ export class GameViewBuilder {
               borderWidth: border, borderColor: ink.text, borderRadius: ui.px(8),
               backgroundColor: snapshot.busy || !status.available ? ink.disabled : ink.surface,
             }, () => this.controller.choose(option.id), { disabled: snapshot.busy || !status.available });
+            if (status.checks.length) {
+              const key = `${pending.event_instance_id}:option:${option.id}`;
+              const expanded = this.expandedChecks.has(key);
+              body += ui.button('check_' + option.id, `检定怎么算 · ${expanded ? '收起' : '展开'}`, inner,
+                () => { if (expanded) this.expandedChecks.delete(key); else this.expandedChecks.add(key); this.invalidate(); },
+                { pressed: expanded, height: buttonHeight });
+              if (expanded) {
+                const stage = event.stages?.find(item => item.id === option.outcome.next_stage_id);
+                body += ui.text(status.checks.flatMap(check => checkDetails(check, !!stage?.critical_success)).join('\n'), inner,
+                  { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap });
+              }
+              body += ui.gap(ui.px(12));
+            }
           }
         }
       }
@@ -117,6 +212,8 @@ export class GameViewBuilder {
       const pending = snapshot.view?.pending;
       if (pending?.kind === 'stage') {
         const check = pending.check;
+        const event = this.events.get(pending.event_id);
+        const stage = event?.stages?.find(item => item.id === pending.stage_id);
         body = ui.text(pending.text, inner, { marginBottom: ui.px(20) })
           + ui.text(EnumMapper.translateStat(check.attribute).name + '检定', inner, {
             fontSize: ui.px(18), lineHeight: ui.px(28), fontWeight: '700',
@@ -124,18 +221,25 @@ export class GameViewBuilder {
             fontSize: ui.px(36), lineHeight: ui.px(48), fontWeight: '800', marginTop: gap,
           }) + ui.text('真实成功率，结果由本次检定决定。', inner, {
             color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginBottom: ui.px(16),
-          }) + this.summaryRow(ui, '当前属性', String(check.attribute_value), inner)
-          + this.summaryRow(ui, '检定修正', this.signed(check.modifier_after), inner)
-          + this.summaryRow(ui, '难度', String(check.dc), inner)
-          + ui.text(`原修正 ${this.signed(check.modifier_before)}；本次生效修正 ${this.signed(check.modifier_after)}。\n检定加成也受修正上限限制。`, inner, {
-            color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(16),
           });
+        if (event && stage && stageMayKill(event, stage)) body += ui.text('风险：本次检定的后续结果可能导致死亡。', inner,
+          { color: ink.accent, fontSize: ui.px(14), lineHeight: ui.px(22), marginBottom: ui.px(16) });
+        const key = `${pending.event_instance_id}:stage:${pending.stage_id}`;
+        const expanded = this.expandedChecks.has(key);
+        body += ui.button('stageCheckDetails', `检定怎么算 · ${expanded ? '收起' : '展开'}`, inner,
+          () => { if (expanded) this.expandedChecks.delete(key); else this.expandedChecks.add(key); this.invalidate(); },
+          { pressed: expanded, height: buttonHeight });
+        if (expanded) body += ui.text(checkDetails(check, !!stage?.critical_success).join('\n'), inner,
+          { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap });
       }
       footerHeight = primaryHeight;
       footer = ui.button('resolveStage', snapshot.busy ? '正在检定…' : '继续检定', inner,
         () => this.controller.resolveStage(), { primary: true, height: primaryHeight, disabled: snapshot.busy });
     } else if (name === 'career') {
       body = this.career(ui, snapshot, inner);
+      body += ui.button('restartLife', snapshot.readOnlyReason ? '只读模式不可重新开始' : '重新开始', inner,
+        () => this.controller.start(), { marginTop: ui.px(16), height: buttonHeight,
+          disabled: snapshot.busy || snapshot.saveBlocked || !!snapshot.readOnlyReason });
       if (this.hubTab === 'careers') {
         const selected = snapshot.view?.player.chains.find(chain => chain.instance_id === this.selectedCareer && chain.status === 'active');
         const warning = '退出后已付费用不退，\n已学本事保留。';
@@ -154,8 +258,8 @@ export class GameViewBuilder {
       body = this.ending(ui, snapshot, inner);
       footerHeight = primaryHeight + gap + buttonHeight;
       const half = Math.floor((inner - gap) / 2);
-      footer = ui.button('restartEnding', '重启人生', inner, () => this.controller.start(), {
-        primary: true, height: primaryHeight, disabled: snapshot.busy,
+      footer = ui.button('restartEnding', snapshot.readOnlyReason ? '只读模式不可重启' : snapshot.records.inheritanceAvailable ? '选择传承，再来一局' : '重启人生', inner, () => this.controller.start(), {
+        primary: true, height: primaryHeight, disabled: snapshot.busy || !!snapshot.readOnlyReason,
       }) + ui.row(
         ui.button('reviewLife', '返回历程', half, () => this.controller.close(), { height: buttonHeight })
           + ui.view(ui.button('homeEnding', '返回首页', inner - half - gap,
@@ -163,21 +267,17 @@ export class GameViewBuilder {
         inner, { marginTop: gap });
     } else if (name === 'stats' || name === 'achievements') {
       const stats = snapshot.records;
-      body = ui.text(`已完成 ${stats.completed} 段人生 · 获得 ${stats.achievements.size} 项成就`, inner, {
+      body = ui.text(`已完成 ${stats.completed} 段人生 · 当前收集 ${snapshot.collection.achievements.collected} 项成就 · ${snapshot.collection.deaths.collected} 种死因`, inner, {
         color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginBottom: ui.px(16),
       });
       if (name === 'stats') {
         for (const [label, value] of [
           ['完成的人生', stats.completed + ' 次'], ['最长寿命', stats.longest + ' 岁'],
-          ['累计经历', stats.years + ' 年'], ['已获成就', stats.achievements.size + ' 项'],
+          ['累计经历', stats.years + ' 年'], ['当前已获成就', snapshot.collection.achievements.collected + ' 项'],
+          ['当前已收集死因', snapshot.collection.deaths.collected + ' 种'],
         ]) body += this.summaryRow(ui, label, value, inner);
       } else {
-        for (const id of stats.achievements) {
-          const achievement = this.achievements.get(id);
-          if (achievement) body += this.entry(ui, achievement.name, achievement.text, inner,
-            EnumMapper.achievementMeta(achievement));
-        }
-        if (!stats.achievements.size) body += this.entry(ui, '还没有解锁成就', '完成一段人生后，成就会留在这里。', inner);
+        body = this.codex(ui, snapshot, inner);
       }
       body += ui.text('仅统计本机完成的人生；当前未结束的进度不计入。', inner, {
         color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(20),
@@ -189,9 +289,38 @@ export class GameViewBuilder {
     } else if (name === 'sound') {
       body = this.sound(ui, inner);
       footer = ui.button('closeSound', '返回', inner, () => this.controller.close(), { height: buttonHeight });
+    } else if (name === 'restart') {
+      body = ui.text(snapshot.saveStatus === 'incompatible'
+        ? '本机旧存档与当前版本不兼容。重新开始会逐步覆盖旧存档，无法再用它继续。'
+        : snapshot.saveStatus === 'damaged' ? '本机存档无法读取。重新开始会逐步覆盖原存档。'
+          : '重新开始会逐步覆盖本机当前人生，之后不能继续这局。', inner);
+      footerHeight = primaryHeight + gap + buttonHeight;
+      footer = ui.button('confirmRestart', '确认重新开始', inner, () => this.controller.confirmRestart(), {
+        primary: true, height: primaryHeight, disabled: snapshot.busy,
+      }) + ui.button('cancelRestart', '保留当前存档', inner, () => this.controller.close(), {
+        height: buttonHeight, marginTop: gap, disabled: snapshot.busy,
+      });
+    } else if (name === 'saveFailure') {
+      body = ui.text('人生存档或传承、记录尚未确认，自动推进已停止。请检查空间和权限，或恢复损坏的存档，再重新读取。若无法判断传承开局是否保存，传承会保持待确认，不能自动重开。恢复后会暂停。', inner);
+      footer = ui.button('retryStorage', '重新读取本机存档', inner, () => this.controller.retryStorage(), {
+        primary: true, height: buttonHeight, disabled: snapshot.busy,
+      });
+      if (snapshot.records.inheritancePending && !snapshot.readOnlyReason) {
+        footerHeight = buttonHeight * 2 + gap;
+        footer += ui.button('openForfeitInheritance', '无法恢复？放弃本次传承', inner,
+          () => this.controller.openForfeitInheritance(), { height: buttonHeight, marginTop: gap, disabled: snapshot.busy });
+      }
+    } else if (name === 'forfeitInheritance') {
+      body = ui.text('无法确定传承开局是否保存。确认放弃后，这次传承将被永久消耗，不会补发；本机人生存档不会因此删除。若能恢复原存档，请先返回并重新读取。以后重新开始仍会单独确认是否覆盖人生。', inner);
+      footerHeight = primaryHeight + gap + buttonHeight;
+      footer = ui.button('confirmForfeitInheritance', '确认放弃本次传承', inner, () => this.controller.confirmForfeitInheritance(), {
+        primary: true, height: primaryHeight, disabled: snapshot.busy,
+      }) + ui.button('cancelForfeitInheritance', '返回，不放弃', inner, () => this.controller.close(), {
+        height: buttonHeight, marginTop: gap, disabled: snapshot.busy,
+      });
     }
 
-    return this.modal(ui, name, header, notice + body, footer,
+    return this.modal(ui, name === 'achievements' ? `achievements_${this.codexTab}` : name, header, notice + body, footer,
       footerHeight, height, safeTop, safeBottom);
   }
 
@@ -209,6 +338,11 @@ export class GameViewBuilder {
       ['身份', EnumMapper.translateIdentity(player.identity_id)],
       ['地区', EnumMapper.translateRegion(player.region_id)], ['阶层', EnumMapper.translateCaste(player.caste_id)],
     ]) body += this.summaryRow(ui, label, value, width);
+    const bonus = snapshot.activeInheritance;
+    if (bonus) body += ui.text(bonus.kind === 'attribute'
+      ? `本局传承：开局${EnumMapper.translateStat(bonus.attribute).name} +1（受属性上限限制），当前初值 ${player.attributes[bonus.attribute]}。`
+      : `本局传承：已将「${this.cards.get(bonus.card_id)?.name ?? '指定家当'}」放入候选，确认前仍可更换。`,
+      width, { fontWeight: '700', marginTop: ui.px(16) });
     body += ui.text('年份、年龄和身份已经揭晓。接下来，从本局候选家当中选一件带入人生。', width,
       { color: ink.muted, marginTop: ui.px(24), marginBottom: ui.px(24) })
       + ui.button('revealCards', '挑选本局家当', width, () => this.controller.revealCards(),
@@ -231,11 +365,9 @@ export class GameViewBuilder {
     const heading = yearHeading(view);
     const yearHeight = this.textHeight(ui, heading, yearWidth, 18, 27, '800');
     const topHeight = Math.max(ui.px(44), yearHeight);
-    const identity = `${player.age} 岁 · 身份：${EnumMapper.translateIdentity(player.identity_id)} · 第${player.calendar_year - player.start_year + 1}年`;
-    const location = `地区：${EnumMapper.translateRegion(player.region_id)} · 阶层：${EnumMapper.translateCaste(player.caste_id)}`;
+    const identity = `${player.age} 岁`;
     const identityHeight = this.textHeight(ui, identity, width, 14, 22);
-    const locationHeight = this.textHeight(ui, location, width, 13, 21);
-    const headerHeight = ui.px(8) + topHeight + gap + identityHeight + locationHeight + ui.px(8);
+    const headerHeight = ui.px(8) + topHeight + gap + identityHeight + ui.px(8);
     const art = card && itemArt[card.id];
     const item = card ? ui.view(ui.control('heldItem', card.name + ' · ' + card.rarity + ' · 查看详情',
       art ? ui.image(this.platform.asset('art/items/' + art + '.png'), ui.px(32), ui.px(32))
@@ -247,8 +379,7 @@ export class GameViewBuilder {
         fontWeight: '800', color: ink.text }) + item
         + ui.view(ui.button('gameSound', '声音', soundWidth, () => this.controller.open('sound'),
           { height: ui.px(44), fontSize: ui.px(14) }), { marginLeft: gap }), width, { height: topHeight })
-      + ui.text(identity, width, { fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap })
-      + ui.text(location, width, { fontSize: ui.px(13), lineHeight: ui.px(21), color: ink.muted }),
+      + ui.text(identity, width, { fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap }),
       { width: 750, height: headerHeight, paddingLeft: gutter, paddingRight: gutter, paddingTop: ui.px(8),
         backgroundColor: ink.paper });
     const statWidth = Math.floor(width / attributes.length);
@@ -271,32 +402,79 @@ export class GameViewBuilder {
     const compact = height < headerHeight + statHeight + ui.px(8) + footerHeight + ui.px(80);
     const readingWidth = width;
     let logs = this.notice(ui, snapshot, readingWidth);
-    for (const item of snapshot.folds) logs += this.fold(ui, item, readingWidth);
+    let due: (typeof player.chains)[number] | undefined;
+    let activeCareers = 0;
+    for (const chain of player.chains) {
+      if (chain.status !== 'active') continue;
+      activeCareers++;
+      if (chain.next_due_year === null) continue;
+      if (!due || chain.next_due_year < due.next_due_year!
+        || (chain.next_due_year === due.next_due_year && chain.instance_id < due.instance_id)) due = chain;
+    }
+    if (due) {
+      const name = this.controller.bundle.chains.find(chain => chain.id === due.chain_id)?.name ?? '进行中的事业';
+      const text = `${name} · ${due.next_due_year! <= player.calendar_year ? '等待本年进展' : `下次进展 ${due.next_due_year} 年`}`;
+      logs += ui.control('nearestCareer', text + ' · 管理事业',
+        ui.text(text + ' · 管理事业', readingWidth - ui.px(24), { fontSize: ui.px(14), lineHeight: ui.px(22), fontWeight: '700' }),
+        { width: readingWidth, minHeight: ui.px(44), padding: ui.px(12), marginBottom: ui.px(16), backgroundColor: snapshot.busy ? ink.disabled : ink.sunSoft },
+        () => { this.hubTab = 'careers'; this.selectedCareer = null; this.controller.open('career'); },
+        { disabled: snapshot.busy });
+    }
+    logs += this.history(ui, snapshot.folds, player.calendar_year, readingWidth);
     if (!snapshot.folds.length) logs += ui.text('选择家当后，这段人生就此展开。', readingWidth, { color: ink.muted });
     const history = ui.view(logs, { width: 750, padding: gutter, paddingBottom: ui.px(24) });
     const stream = compact ? history : ui.scroll(history, 750, centerHeight, 'history');
     const blocked = snapshot.busy || view.status === 'AWAITING_CARD' || view.status === 'AWAITING_OPTION' || view.status === 'AWAITING_STAGE';
     const ended = view.status === 'ENDED';
-    const activeCareers = player.chains.filter(chain => chain.status === 'active').length;
-    const smallWidth = Math.floor((width - 2 * gap) / 3);
+    const smallWidth = Math.floor((width - gap) / 2);
     const footer = ui.view(
-      ui.button('advance', ended ? '人生已结束 · 查看结局' : snapshot.busy ? '流年推演中…' : '推进流年 · 按住快进', width,
+      ui.button('advance', ended ? '人生已结束 · 查看结局' : snapshot.busy ? '流年推演中…' : '推进一年 · 按住连续', width,
         () => ended ? this.controller.open('ending') : this.controller.advance(),
         { kind: 'seal', height: ui.px(56), disabled: blocked, fontSize: ui.px(16) })
-      + ui.row(ui.button('gameCareer', `事业 (${activeCareers})`, smallWidth,
+      + ui.row(ui.button('gameCareer', `管理 (${activeCareers})`, smallWidth,
         () => { this.hubTab = 'careers'; this.selectedCareer = null; this.controller.open('career'); },
         { height: ui.px(48), fontSize: ui.px(14), disabled: snapshot.busy || view.status === 'AWAITING_CARD' })
-        + ui.view(ui.button('restartLife', '重启人生', smallWidth, () => this.controller.start(),
-          { height: ui.px(48), fontSize: ui.px(14), disabled: snapshot.busy }), { marginLeft: gap })
-        + ui.view(ui.button('latest', '查看最新', width - 2 * smallWidth - 2 * gap, this.latest,
+        + ui.view(ui.button('latest', '查看最新', width - smallWidth - gap, this.latest,
           { height: ui.px(48), fontSize: ui.px(14) }), { marginLeft: gap }), width, { marginTop: gap }),
       { width: 750, height: footerHeight, padding: gutter, paddingTop: ui.px(8), backgroundColor: ink.paper,
         borderTopWidth: 1, borderColor: ink.line });
+    if (compact && height >= footerHeight + ui.px(44)) {
+      return ui.scroll(ui.view(header + statBar + history, { width: 750 }), 750, height - footerHeight, 'compactGame') + footer;
+    }
     const content = header + statBar + stream + footer;
     return compact ? ui.scroll(ui.view(content, { width: 750 }), 750, height, 'compactGame') : content;
   }
 
-  private fold(ui: Ui, item: FoldItemData, width: number): string {
+  private history(ui: Ui, folds: readonly FoldItemData[], currentYear: number, width: number): string {
+    const groups: { year: number | undefined; items: FoldItemData[] }[] = [];
+    for (const item of folds) {
+      const previous = groups[groups.length - 1];
+      if (previous && previous.year === item.calendarYear) previous.items.push(item);
+      else groups.push({ year: item.calendarYear, items: [item] });
+    }
+    let result = '';
+    for (const [index, group] of groups.entries()) {
+      const year = group.year;
+      if (year === undefined || year === currentYear) {
+        result += ui.text(year === undefined ? '年份未记录' : `${year} 年 · 本年`, width,
+          { fontWeight: '800', marginBottom: ui.px(12) });
+        for (const [itemIndex, item] of group.items.entries()) result += this.fold(ui, item, width, `${index}_${itemIndex}`);
+        continue;
+      }
+      const expanded = this.expandedYears.has(year);
+      const unread = group.items.length > (this.seenYearCounts.get(year) ?? 0);
+      const label = `${year} 年 · ${group.items.length} 条${unread ? ' · 有新记录' : ''} · ${expanded ? '收起' : '展开'}`;
+      result += ui.button(`historyYear_${year}_${index}`, label, width, () => {
+        if (expanded) this.expandedYears.delete(year);
+        else { this.expandedYears.add(year); this.seenYearCounts.set(year, group.items.length); }
+        this.invalidate();
+      }, { pressed: expanded, height: ui.px(48) }) + ui.gap(ui.px(8));
+      if (expanded) for (const [itemIndex, item] of group.items.entries()) result += this.fold(ui, item, width, `${index}_${itemIndex}`);
+    }
+    return result;
+  }
+
+  private fold(ui: Ui, item: FoldItemData, width: number, slot: string): string {
     const event = item.eventId ? this.events.get(item.eventId) : undefined;
     const death = item.type === 'death';
     const label = death ? '人生终点' : item.type === 'opening' ? '初来人世'
@@ -306,18 +484,49 @@ export class GameViewBuilder {
       fontSize: ui.px(13), lineHeight: ui.px(21), color: death ? ink.accent : ink.muted,
       fontWeight: '700', marginBottom: ui.px(8),
     });
-    if (item.introText) content += ui.text(item.introText, width);
-    if (item.actionText) content += ui.text('你的行动：' + item.actionText, width, { color: ink.muted, marginTop: ui.px(8) });
-    if (item.outcomeText) content += ui.text(item.outcomeText, width, { color: death ? ink.accent : ink.text, marginTop: ui.px(8) });
-    if (item.stampTag) content += ui.text('【' + item.stampTag + '】', width, { fontWeight: '700', marginTop: ui.px(8) });
-    for (const change of item.effectsText ?? item.effectsSummary ?? []) content += ui.text(change, width, {
-      fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.muted, marginTop: ui.px(4),
-    });
-    for (const id of item.achievementIds ?? []) {
-      const earned = this.achievements.get(id);
-      if (earned) content += ui.text('解锁成就：' + earned.name, width, {
-        fontSize: ui.px(14), lineHeight: ui.px(22), fontWeight: '700', marginTop: ui.px(8),
+    if (item.segments) {
+      for (const [segmentIndex, segment] of item.segments.entries()) {
+        const earned = segment.kind === 'achievement' && segment.achievementId ? this.achievements.get(segment.achievementId) : undefined;
+        if (segment.kind === 'achievement') {
+          if (earned) content += ui.text('解锁成就：' + earned.name, width, {
+            fontSize: ui.px(14), lineHeight: ui.px(22), fontWeight: '700', marginTop: ui.px(8),
+          });
+          else if (segment.achievementId && !segment.text) content += ui.text('未收录成就：' + segment.achievementId, width, { marginTop: ui.px(8) });
+        }
+        if (segment.stampTag && segment.stampTag !== earned?.name) content += ui.text('【' + segment.stampTag + '】', width, { fontWeight: '700', marginTop: ui.px(8) });
+        const namePrefix = earned ? `【${earned.name}】` : '';
+        const text = namePrefix && segment.text?.startsWith(namePrefix) ? segment.text.slice(namePrefix.length).trim() : segment.text;
+        if (text && text !== earned?.name) content += ui.text((segment.kind === 'action' ? '你的行动：' : '') + text, width, {
+          color: segment.kind === 'death' ? ink.accent : segment.kind === 'action' || segment.kind === 'dice' ? ink.muted : ink.text,
+          marginTop: ui.px(8),
+        });
+        if (segment.kind === 'dice' && segment.details?.length) {
+          const key = `${item.id ?? slot}:${segmentIndex}`;
+          const expanded = this.expandedDice.has(key);
+          content += ui.button(`diceDetails_${slot}_${segmentIndex}`, `检定详情 · ${expanded ? '收起' : '展开'}`, width,
+            () => { if (expanded) this.expandedDice.delete(key); else this.expandedDice.add(key); this.invalidate(); },
+            { pressed: expanded, marginTop: ui.px(8), height: ui.px(44) });
+          if (expanded) content += ui.text(segment.details.join('\n'), width,
+            { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(8) });
+        }
+        for (const change of segment.effectsText ?? []) content += ui.text(change, width, {
+          fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.muted, marginTop: ui.px(4),
+        });
+      }
+    } else {
+      if (item.introText) content += ui.text(item.introText, width);
+      if (item.actionText) content += ui.text('你的行动：' + item.actionText, width, { color: ink.muted, marginTop: ui.px(8) });
+      if (item.outcomeText) content += ui.text(item.outcomeText, width, { color: death ? ink.accent : ink.text, marginTop: ui.px(8) });
+      if (item.stampTag) content += ui.text('【' + item.stampTag + '】', width, { fontWeight: '700', marginTop: ui.px(8) });
+      for (const change of item.effectsText ?? item.effectsSummary ?? []) content += ui.text(change, width, {
+        fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.muted, marginTop: ui.px(4),
       });
+      for (const id of item.achievementIds ?? []) {
+        const earned = this.achievements.get(id);
+        content += ui.text(earned ? '解锁成就：' + earned.name : '未收录成就：' + id, width, {
+          fontSize: ui.px(14), lineHeight: ui.px(22), fontWeight: '700', marginTop: ui.px(8),
+        });
+      }
     }
     return ui.view(content, { width, paddingBottom: ui.px(20), marginBottom: ui.px(20),
       borderBottomWidth: 1, borderColor: ink.line });
@@ -331,14 +540,16 @@ export class GameViewBuilder {
     const inner = width - 2 * (padding + border);
     const artWidth = ui.px(40);
     const titleWidth = art ? inner - artWidth - ui.px(12) : inner;
+    const presentation = cardPresentation(card);
     return ui.control('card_' + card.id, card.name + ' · ' + card.rarity,
       ui.row((art ? ui.image(this.platform.asset('art/items/' + art + '.png'), artWidth, artWidth,
         { marginRight: ui.px(12) }) : '')
         + ui.text(card.name, titleWidth, { fontWeight: '800', fontSize: ui.px(18), lineHeight: ui.px(28) }), inner)
       + ui.text(card.rarity + (selected ? ' · 已选' : ' · 点击选择'), inner, {
         color: ink.muted, fontSize: ui.px(13), lineHeight: ui.px(21), marginTop: ui.px(8),
-      }) + ui.text(card.description, inner, { marginTop: ui.px(8) })
-      + (card.check_bonus ? ui.text('检定修正 +' + card.check_bonus.amount + '（受修正上限限制）', inner,
+      }) + (presentation.direction ? ui.text(presentation.direction, inner, { marginTop: ui.px(8) }) : '')
+      + ui.text(card.description, inner, { marginTop: ui.px(8) })
+      + (presentation.effect ? ui.text(presentation.effect, inner,
         { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(8) }) : ''),
       { width, padding, marginBottom: ui.px(12), backgroundColor: snapshot.busy ? ink.disabled : selected ? ink.sunSoft : ink.surface,
         borderColor: ink.text, borderWidth: border, borderRadius: ui.px(8) },
@@ -349,16 +560,14 @@ export class GameViewBuilder {
     const player = snapshot.view?.player;
     if (!player) return '';
     const gap = ui.px(8);
-    const half = Math.floor((width - gap) / 2);
-    const tabs: [HubTab, string][] = [['careers', '事业'], ['modern', '现代词条'], ['relics', '家当'], ['achievements', '生涯成就']];
-    let body = '';
-    for (let index = 0; index < tabs.length; index += 2) {
-      body += ui.row(tabs.slice(index, index + 2).map(([id, label], column) => ui.view(
-        ui.button('hub_' + id, (id === this.hubTab ? '✓ ' : '') + label, column ? width - half - gap : half,
-          () => { this.hubTab = id; this.selectedCareer = null; this.invalidate(); },
-          { fontSize: ui.px(14), pressed: id === this.hubTab }), { marginLeft: column ? gap : 0 })).join(''),
-      width, { marginBottom: gap });
-    }
+    const third = Math.floor((width - 2 * gap) / 3);
+    const tabs: [HubTab, string][] = [['careers', '事业'], ['relics', '家当'], ['achievements', '生涯成就']];
+    let body = ui.row(tabs.map(([id, label], index) => ui.view(
+      ui.button('hub_' + id, (id === this.hubTab ? '✓ ' : '') + label,
+        index === 2 ? width - 2 * third - 2 * gap : third,
+        () => { this.hubTab = id; this.selectedCareer = null; this.invalidate(); },
+        { fontSize: ui.px(14), pressed: id === this.hubTab }), { marginLeft: index ? gap : 0 })).join(''),
+    width, { marginBottom: gap });
     body += ui.gap(ui.px(12));
     if (this.hubTab === 'careers') {
       for (const chain of player.chains) {
@@ -372,7 +581,7 @@ export class GameViewBuilder {
         const content = ui.text(definition.name, inner, { fontWeight: '700' })
           + ui.text(active ? selected ? '进行中 · 已选' : '进行中 · 点击选择' : chain.status === 'completed' ? '已完成' : '已中断',
             inner, { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap })
-          + ui.text(`进展 ${chain.node_index}/${definition.nodes.length}` + (active && chain.next_due_year ? ` · 下次 ${chain.next_due_year} 年` : ''),
+          + ui.text(`进展 ${chain.node_index}/${definition.nodes.length}` + (active && chain.next_due_year !== null ? ` · 下次 ${chain.next_due_year} 年` : ''),
             inner, { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: gap })
           + (definition.commitment ? ui.text(definition.commitment, inner, { marginTop: gap }) : '');
         body += active ? ui.control('career_' + chain.instance_id, '选择：' + definition.name, content,
@@ -382,36 +591,169 @@ export class GameViewBuilder {
           : ui.view(content, { width, paddingBottom: ui.px(16), marginBottom: ui.px(16), borderBottomWidth: 1, borderColor: ink.line });
       }
       if (!player.chains.length) body += this.entry(ui, '暂无事业记录', '选择一条事业路线后，会在这里看到进展。', width);
-    } else if (this.hubTab === 'modern' || this.hubTab === 'relics') {
-      const cards = player.cards.map(id => this.cards.get(id)).filter((card): card is Card => Boolean(card))
-        .filter(card => this.hubTab === 'modern' ? card.id.startsWith('CARD_MODERN_') : !card.id.startsWith('CARD_MODERN_'));
-      for (const card of cards) body += this.entry(ui, card.name, card.description, width, card.rarity);
-      if (!cards.length) body += this.entry(ui, this.hubTab === 'modern' ? '尚无现代词条' : '尚未获得家当', '本局实际持有的物品会记在这里。', width);
+    } else if (this.hubTab === 'relics') {
+      for (const id of player.cards) {
+        const card = this.cards.get(id);
+        if (!card) { body += this.entry(ui, '未识别的家当', `原始 ID：${id}`, width); continue; }
+        const presentation = cardPresentation(card);
+        body += this.entry(ui, card.name, [presentation.direction, card.description, presentation.effect].filter(Boolean).join('\n'), width, card.rarity);
+      }
+      if (!player.cards.length) body += this.entry(ui, '尚未获得家当', '本局实际持有的物品会记在这里。', width);
     } else {
       const ids = new Set([...snapshot.records.achievements, ...player.achievements, ...snapshot.ending?.achievements ?? []]);
       if (snapshot.ending?.primary_achievement_id) ids.add(snapshot.ending.primary_achievement_id);
       for (const id of ids) {
         const achievement = this.achievements.get(id);
-        if (achievement) body += this.entry(ui, achievement.name, achievement.text, width, EnumMapper.achievementMeta(achievement));
+        if (achievement) body += this.entry(ui, achievement.name, achievement.text, width,
+          EnumMapper.achievementMeta(achievement) + (ACHIEVEMENT_CATALOG[id]?.status === 'current' ? '' : ' · 历史档案'));
+        else body += this.entry(ui, '旧版条目，无法解析名称', `原始 ID：${id}`, width, '历史档案 · 已收集');
       }
       if (!ids.size) body += this.entry(ui, '尚无成就记录', '本机记录、本局与终局获得的成就会汇总在这里。', width);
     }
     return body;
   }
 
+  private codex(ui: Ui, snapshot: AppSnapshot, width: number): string {
+    const { collection, records } = snapshot;
+    const gap = ui.px(8), half = Math.floor((width - gap) / 2);
+    let body = ui.text(formatCollectionProgress('当前总收集', collection.total), width, { fontWeight: '800' })
+      + ui.text(`${formatCollectionProgress('成就', collection.achievements)}\n${formatCollectionProgress('死因', collection.deaths)}`, width,
+        { color: ink.muted, marginTop: gap })
+      + (collection.total.total ? ui.view(ui.view('', { width: width * collection.total.percent / 100, height: ui.px(4), backgroundColor: ink.sun }),
+        { width, height: ui.px(4), backgroundColor: ink.disabled, marginTop: gap, marginBottom: ui.px(16) }) : ui.gap(ui.px(16)))
+      + ui.row((['achievements', 'deaths'] as const).map((tab, index) => ui.view(
+        ui.button('codex_' + tab, tab === 'achievements' ? '成就' : '死因', index ? width - half - gap : half,
+          () => { this.codexTab = tab; this.invalidate(); }, { pressed: this.codexTab === tab }),
+        { marginLeft: index ? gap : 0 })).join(''), width, { marginBottom: gap })
+      + ui.row((['current', 'history'] as const).map((scope, index) => ui.view(
+        ui.button('codex_scope_' + scope, scope === 'current' ? '当前可收集' : '历史与待核实', index ? width - half - gap : half,
+          () => { this.codexScope = scope; this.invalidate(); }, { pressed: this.codexScope === scope }),
+        { marginLeft: index ? gap : 0 })).join(''), width, { marginBottom: ui.px(16) });
+
+    const goal = this.collectionGoal.goal;
+    if (goal) {
+      const catalog = goal.kind === 'achievements' ? ACHIEVEMENT_CATALOG : DEATH_CATALOG;
+      const item = this.controller.bundle[goal.kind].find(entry => entry.id === goal.id);
+      const info = catalog[goal.id];
+      const collected = records[goal.kind].has(goal.id);
+      const state = collected ? '已达成' : item && info?.status === 'current' && info.hint ? '可以留意' : '当前版本暂不可追';
+      body += ui.text(`收集目标：${item?.name ?? `旧版条目 ${goal.id}`} · ${state}`, width, { fontWeight: '700' });
+      const cardNames = info?.cardIds.map(id => this.cards.get(id)?.name).filter((name): name is string => !!name) ?? [];
+      if (cardNames.length) body += ui.text(`关联家当：${cardNames.join('、')}`, width, { color: ink.muted, marginTop: gap });
+      if (!collected && state === '可以留意' && info?.hint) body += ui.text(info.hint, width, { color: ink.muted, marginTop: gap });
+      body += ui.button('clearCollectionGoal', '清除目标', width, () => {
+        this.collectionGoal.set(null, !snapshot.readOnlyReason);
+        this.invalidate();
+      }, { marginTop: gap, disabled: !!snapshot.readOnlyReason });
+    } else body += ui.text('可以选一个收集目标；只是提醒，不改变事件和奖励。', width, { color: ink.muted });
+    if (this.collectionGoal.warning) body += ui.text(this.collectionGoal.warning, width, { color: ink.accent, marginTop: gap });
+    body += ui.gap(ui.px(16));
+
+    const states = [['all', '全部状态'], ['collected', '已收集'], ['uncollected', '未收集']] as const;
+    const third = Math.floor((width - 2 * gap) / 3);
+    body += ui.row(states.map(([state, label], index) => ui.view(
+      ui.button('codex_status_' + state, label, index === 2 ? width - 2 * (third + gap) : third,
+        () => { this.codexStatus = state; this.invalidate(); }, { pressed: this.codexStatus === state }),
+      { marginLeft: index ? gap : 0 })).join(''), width, { marginBottom: gap });
+    const cardLabel = this.codexCard === 'all' ? '全部' : this.codexCard === 'none' ? '无特定家当／关联未明'
+      : this.cards.get(this.codexCard)?.name ?? '关联未明';
+    body += ui.button('codex_choose_card', `家当：${cardLabel}`, width, () => {
+      this.choosingCodexCard = !this.choosingCodexCard;
+      this.invalidate();
+    }, { marginTop: gap });
+    if (this.choosingCodexCard) {
+      const choices = [['all', '全部家当'], ['none', '无特定家当／关联未明'],
+        ...this.controller.bundle.cards.map(card => [card.id, card.name])] as const;
+      for (const [id, label] of choices) body += ui.button('codex_card_' + id, label, width, () => {
+        this.codexCard = id;
+        this.choosingCodexCard = false;
+        this.invalidate();
+      }, { marginTop: gap, pressed: this.codexCard === id });
+    }
+    body += ui.text('当前目录只计已核实可获得的条目；历史记录和待核实条目不计入完成率。人生结算类成就只收录最终称号。', width,
+      { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(16), marginBottom: ui.px(16) });
+    if (records.unknownDeaths) body += ui.text(`有 ${records.unknownDeaths} 段旧人生未记录死因，旧成就已保留。`, width,
+      { color: ink.muted, marginBottom: ui.px(16) });
+
+    const catalog = this.codexTab === 'achievements' ? ACHIEVEMENT_CATALOG : DEATH_CATALOG;
+    const items = this.codexTab === 'achievements'
+      ? [...this.controller.bundle.achievements].sort((a, b) => Number(a.category === 'life') - Number(b.category === 'life'))
+      : this.controller.bundle.deaths;
+    const knownIds = new Set(items.map(item => item.id));
+    const entries = [...items.map(item => ({ id: item.id, name: item.name, text: item.text })),
+      ...[...records[this.codexTab]].filter(id => !knownIds.has(id)).map(id => ({ id, name: '旧版条目，名称暂不可用', text: '' }))];
+    let shown = 0;
+    for (const item of entries) {
+      const info: CatalogEntry | undefined = catalog[item.id];
+      const current = info?.status === 'current' && knownIds.has(item.id);
+      const collected = records[this.codexTab].has(item.id);
+      if ((this.codexScope === 'current') !== current) continue;
+      if ((this.codexStatus === 'collected' && !collected) || (this.codexStatus === 'uncollected' && collected)) continue;
+      if ((this.codexCard === 'none' && info?.cardIds.length) || (this.codexCard !== 'all' && this.codexCard !== 'none' && !info?.cardIds.includes(this.codexCard))) continue;
+      shown++;
+      const achievement = this.achievements.get(item.id);
+      const status = current ? (collected ? '已收集' : '未收集')
+        : `${collected ? '历史已收集' : info?.status === 'unavailable' ? '当前版本暂不可收集' : '可达性待核实'} · 不计入完成率`;
+      const meta = [achievement ? EnumMapper.achievementMeta(achievement) : '', status].filter(Boolean).join(' · ');
+      const text = collected ? item.text : current ? info?.hint ?? '' : '';
+      body += this.entry(ui, item.name, text, width, meta);
+      if (!knownIds.has(item.id)) body += ui.text(`原始 ID：${item.id}`, width, { color: ink.muted, marginBottom: gap });
+      if (current && !collected && info?.hint) {
+        const selected = goal?.kind === this.codexTab && goal.id === item.id;
+        const kind: CatalogKind = this.codexTab;
+        body += ui.button('codex_goal_' + item.id, selected ? `「${item.name}」已设为目标` : `设「${item.name}」为目标`, width, () => {
+          this.collectionGoal.set({ kind, id: item.id }, !snapshot.readOnlyReason);
+          this.invalidate();
+        }, { disabled: selected || !!snapshot.readOnlyReason }) + ui.gap(ui.px(16));
+      }
+    }
+    if (!shown) body += ui.text(this.codexScope === 'current' && !collection[this.codexTab].total
+      ? '暂无可收集条目' : '没有符合筛选条件的条目。', width);
+    return body;
+  }
+
   private ending(ui: Ui, snapshot: AppSnapshot, width: number): string {
     const report = snapshot.ending;
     if (!report) return '';
-    const death = this.controller.bundle.deaths.find(item => item.id === report.death_id);
+    const recap = buildEndingRecap(this.controller.bundle, report, snapshot.view?.player ?? null, snapshot.logs);
     const primary = report.primary_achievement_id ? this.achievements.get(report.primary_achievement_id) : undefined;
-    let body = ui.text(`${report.start_year}—${report.end_year} · ${report.start_age}—${report.end_age} 岁 · 历经 ${report.years_played} 年`,
-      width, { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginBottom: ui.px(20) })
-      + this.entry(ui, death?.name ?? '人生终点', death?.text ?? '这段人生走到了终点。', width)
+    const achievementIds = new Set([...report.achievements, ...report.milestone_achievement_ids, ...report.anecdote_achievement_ids,
+      ...(report.primary_achievement_id ? [report.primary_achievement_id] : [])]);
+    const opening = snapshot.logs.find(log => log.type === 'opening' && log.calendar_year === report.start_year && log.age === report.start_age);
+    const background = opening?.type === 'opening'
+      ? this.controller.bundle.era.backgrounds.find(item => item.id === opening.data.background_id) : undefined;
+    const openingIdentity = background && this.controller.bundle.era.identities.some(item => item.id === background.identity_id);
+    let body = this.entry(ui, '初来乍到', recap.start + (openingIdentity ? '' : '\n开局身份没有可确认的记录。'), width)
+      + this.entry(ui, '这一路', recap.experience, width)
+      + this.entry(ui, '人生终点', recap.ending, width);
+    const recordedDeath = snapshot.logs.some(log => log.type === 'death' && log.data.death_id === report.death_id && !!log.message.trim());
+    if (!recordedDeath) {
+      const death = this.controller.bundle.deaths.find(item => item.id === report.death_id);
+      body += this.entry(ui, death ? '死因说明 · ' + death.name : '未识别的死因',
+        death?.text ?? `原始 ID：${report.death_id}`, width);
+    }
+    const fresh = snapshot.newCollection;
+    body += ui.text(`本局新收集：成就 ${fresh?.achievements.length ?? 0} 项 · 死因 ${fresh?.deaths.length ?? 0} 种`, width, { fontWeight: '800' });
+    const names = [...(fresh?.achievements ?? []).map(id => this.achievements.get(id)?.name),
+      ...(fresh?.deaths ?? []).map(id => this.controller.bundle.deaths.find(item => item.id === id)?.name)].filter(Boolean);
+    body += ui.text(names.length ? names.join('、') : '本局没有新增图鉴条目。', width, { marginTop: ui.px(8) })
+      + ui.text(formatCollectionProgress('当前总收集', snapshot.collection.total), width, { marginTop: ui.px(8) });
+    if (snapshot.records.inheritanceAvailable) body += ui.text('已获得一次下局传承', width, { fontWeight: '700', marginTop: ui.px(8) });
+    if (snapshot.records.warning) body += ui.text(snapshot.records.warning, width, { color: ink.accent, marginTop: ui.px(8) });
+    const suggestion = this.controller.bundle.achievements.find(item =>
+      item.category !== 'life' && !snapshot.records.achievements.has(item.id)
+        && ACHIEVEMENT_CATALOG[item.id]?.status === 'current' && ACHIEVEMENT_CATALOG[item.id]?.hint);
+    if (suggestion) body += ui.text(`下局可以留意「${suggestion.name}」：${ACHIEVEMENT_CATALOG[suggestion.id].hint}`, width,
+      { color: ink.muted, marginTop: ui.px(16) });
+    body += ui.button('endingCodex', '查看图鉴', width, () => this.controller.open('achievements'), { marginTop: ui.px(16) })
+      + ui.gap(ui.px(20))
       + this.summaryRow(ui, '享寿', report.end_age + ' 岁', width)
       + this.summaryRow(ui, '积累家资', formatWealth(report.final_attributes.wealth), width)
-      + this.summaryRow(ui, '达成成就', report.achievements.length + ' 项', width)
+      + this.summaryRow(ui, '达成成就', achievementIds.size + ' 项', width)
       + ui.gap(ui.px(20))
-      + this.entry(ui, primary?.name ?? '普通人生', primary?.text ?? '', width, primary ? EnumMapper.achievementMeta(primary) : '')
+      + this.entry(ui, primary?.name ?? (report.primary_achievement_id ? '未识别的人生称号' : '暂无人生结算称号'),
+        primary?.text ?? (report.primary_achievement_id ? `原始 ID：${report.primary_achievement_id}` : ''), width,
+        primary ? EnumMapper.achievementMeta(primary) : '')
       + this.summaryRow(ui, '最高身份', EnumMapper.translateIdentity(report.highest_identity_id), width);
     for (const key of attributes) body += this.summaryRow(ui, EnumMapper.translateStat(key).name,
       key === 'wealth' ? formatWealth(report.final_attributes[key]) : String(report.final_attributes[key]), width);
@@ -423,10 +765,11 @@ export class GameViewBuilder {
         if (name) body += ui.text(status + ' · ' + name, width, { color: ink.muted, marginBottom: ui.px(8) });
       }
     }
-    for (const id of report.achievements) {
+    for (const id of achievementIds) {
       if (id === report.primary_achievement_id) continue;
       const earned = this.achievements.get(id);
       if (earned) body += this.entry(ui, earned.name, earned.text, width, EnumMapper.achievementMeta(earned));
+      else body += this.entry(ui, '未识别的成就', `原始 ID：${id}`, width);
     }
     for (const id of snapshot.view?.player.cards ?? []) {
       const card = this.cards.get(id);
@@ -467,7 +810,7 @@ export class GameViewBuilder {
     }
     body += ui.button('muteAll', channels.every(([channel]) => settings[channel] === 0) ? '恢复全部声音' : '全部静音', width,
       () => { this.audio.toggleMute(); this.invalidate(); })
-      + ui.text('设置保存在本机。切到后台时，声音与快进会暂停。\n键盘可用 Tab 切换、方向键调音量、Esc 返回。', width,
+      + ui.text('设置保存在本机。切到后台时，声音与连续推进会暂停。\n键盘可用 Tab 切换、方向键调音量、Esc 返回。', width,
         { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22), marginTop: ui.px(20) });
     return body;
   }
@@ -478,11 +821,10 @@ export class GameViewBuilder {
     const width = this.modalContentWidth(ui);
     const header = this.modalHeader(ui, '物品详情', width, false, false);
     const art = itemArt[card.id];
+    const presentation = cardPresentation(card);
     const body = this.notice(ui, snapshot, width)
       + (art ? ui.image(this.platform.asset('art/items/' + art + '.png'), ui.px(72), ui.px(72), { marginBottom: ui.px(16) }) : '')
-      + this.entry(ui, card.name, card.description, width, card.rarity)
-      + ui.text(card.check_bonus ? '对应检定修正 +' + card.check_bonus.amount + '。\n这项加成也受检定修正上限限制。' : '本局随身家当', width,
-        { color: ink.muted, fontSize: ui.px(14), lineHeight: ui.px(22) });
+      + this.entry(ui, card.name, [presentation.direction, card.description, presentation.effect].filter(Boolean).join('\n'), width, card.rarity);
     return this.modal(ui, 'relic', header, body,
       ui.button('closeRelic', '收起详情', width, () => this.controller.close()), ui.px(48), height, safeTop, safeBottom, true);
   }
@@ -503,12 +845,11 @@ export class GameViewBuilder {
   }
 
   private notice(ui: Ui, snapshot: AppSnapshot, width: number): string {
-    return snapshot.notice && snapshot.notice !== MEMORY_NOTICE ? ui.text(snapshot.notice, width, {
+    return snapshot.notice && snapshot.notice !== STORAGE_NOTICE ? ui.text(snapshot.notice, width, {
       fontSize: ui.px(14), lineHeight: ui.px(22), color: ink.accent, marginBottom: ui.px(16),
     }) : '';
   }
 
-  private signed(value: number): string { return (value >= 0 ? '+' : '') + value; }
 
   private modalContentWidth(ui: Ui): number {
     return 750 - 2 * (ui.px(12) + ui.px(16) + ui.px(2));

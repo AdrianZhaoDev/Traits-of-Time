@@ -1,0 +1,31 @@
+{
+  "id": "4931ae8a-91b5-4ccd-9c86-dc9378cd9b86",
+  "ok": true,
+  "result": {
+    "origin": "http://localhost:5179/",
+    "refs": {
+      "e1": {
+        "name": "穿越了这次我带大喇叭逆袭",
+        "role": "main"
+      },
+      "e2": {
+        "name": "游戏画布，按 Tab 使用键盘操作",
+        "role": "Canvas"
+      },
+      "e5": {
+        "name": "继续检定",
+        "role": "button"
+      }
+    },
+    "removedRefs": [
+      "@e4"
+    ],
+    "snapshot": "- main \"穿越了这次我带大喇叭逆袭\" [ref=e1]\n  - Canvas \"游戏画布，按 Tab 使用键盘操作\" [ref=e2] clickable [cursor:pointer, tabindex]\n  - dialog \"穿越了这次我带大喇叭逆袭 · 检定\"\n    - log\n      - StaticText \"当前检定 气数独立加成与原骰19分支 才干检定 30% 真实成功率，结果由本次检定决定。 当前属性 0 修正（限幅后） +3 气数加成 +2（气数 20） 原骰下限 无 难度 20 特殊大成功率 10% 限幅前修正 +8；气数加成单独计算。自然 1 失败，自然 20 成功。 继续检定\"\n    - button \"继续检定\" [ref=e5]\n    - status",
+    "browserPageId": "2794e4d1-1c13-455a-be1e-4aa9942ccb40",
+    "url": "http://localhost:5179/",
+    "title": "穿越了这次我带大喇叭逆袭"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

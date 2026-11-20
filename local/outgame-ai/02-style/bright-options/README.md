@@ -15,18 +15,18 @@
 ## 操作与身份边界
 
 - HTML 保留完整游戏名“穿越了这次我带大喇叭逆袭”、核心说明、四入口与临时进度提示。点击按钮只打开风格说明弹层，不启动人生，不读写真实记录、音量或存档。
-- 喇叭是品牌识别，不新增固定开局物、奖励、图鉴或能力。`assets/avatar.png` 为已确认 38×38 小头像的原样复制，不能冒充高清母版；简单矢量喇叭用于构图，不替代最终品牌头像。
-- 风格已批准，正式 Canvas 客户端尚未按 A 完成换肤；全项目规范不是本次已实现的界面清单。
+- 喇叭是品牌识别，不新增固定开局物、奖励、图鉴或能力。页面直接使用仓库中的 `public/art/branding/avatar.png`，即已确认的 38×38 小头像，不能冒充高清母版；简单矢量喇叭用于构图，不替代最终品牌头像。
+- 风格已批准，正式 Canvas 客户端已按 A 接入；当前运行状态以根目录 `README.md` 为准，本目录的 HTML 和截图仍只是风格参考。
 - 没有外部图片／视频／音乐／音效请求或参考上传，没有新音乐试听。生成与上传仍需供应商及预算／额度的明确授权。
 
 ## 本地打开
 
-可直接在浏览器打开 `a-comic.html`。需要 HTTP 时，在仓库根目录执行：
+可直接在浏览器打开 `a-comic.html` 或同目录其他 HTML。需要 HTTP 时，在仓库根目录执行（服务根目录必须包含 `public/`）：
 
 ```bash
-python3 -m http.server 5196 --bind 127.0.0.1 --directory local/outgame-ai/02-style/bright-options
+python3 -m http.server 5196 --bind 127.0.0.1 --directory .
 ```
 
-访问 `http://127.0.0.1:5196/a-comic.html`。该服务只显示视觉参考，不是正式游戏服务器。
+访问 `http://127.0.0.1:5196/local/outgame-ai/02-style/bright-options/a-comic.html`；对比页为 `http://127.0.0.1:5196/local/outgame-ai/02-style/bright-options/index.html`。该服务仅绑定本机，但会提供整个仓库的文件（包括隐藏文件）；用完请停止，且不要将它作为正式游戏服务器。
 
-实际原始测量位于 `verification.json`，其中保存测量时的页面与审批上下文；当前选择与批准状态以 `manifest.json` 为准。测量文件没有改写成新的 Canvas 或微信验收证据。
+实际原始测量位于 `verification.json`，其中保存测量时的页面与审批上下文；当前选择与批准状态以 `manifest.json` 为准。截图和测量早于头像引用路径调整，测量文件没有改写成本次浏览器、Canvas 或微信验收证据。

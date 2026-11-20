@@ -1,0 +1,19 @@
+
+> chuanyue-laba-nixi@1.0.0 build:wechat
+> npm run prepare:assets && node tools/build-wechat.mjs
+
+
+> chuanyue-laba-nixi@1.0.0 prepare:assets
+> node tools/prepare-assets.mjs
+
+已校验 27 个本地素材（2537945 字节）。
+
+  dist-wechat/runtime/application.js  1.3mb ⚠️
+
+⚡ Done in 339ms
+main: 10491 bytes / 4194304 bytes
+runtime: 1392632 bytes / 4194304 bytes
+art: 832456 bytes / 4194304 bytes
+audio: 1072183 bytes / 4194304 bytes
+fx: 633558 bytes / 4194304 bytes
+微信小游戏已生成：dist-wechat（总计 3941320 字节）。导入该目录；发布前替换 touristappid。

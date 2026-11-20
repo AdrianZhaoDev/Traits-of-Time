@@ -1,0 +1,7 @@
+captured_utc=20261117T094505Z
+node=v22.22.1
+dependency_path=./node_modules
+dependency_manifest=DEPENDENCIES.sha256
+original_simulator=tools/simulate.ts
+baseline_results=results/original.jsonl
+enriched_results=results/evidence.jsonl

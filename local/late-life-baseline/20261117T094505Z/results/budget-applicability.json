@@ -1,0 +1,1059 @@
+{
+  "definitions": {
+    "state_applicable": "Event and at least one option conditions hold in a yearly end-state; costs, weights, cooldowns and death timing still require scheduler review.",
+    "time_locked": "Removing only calendar/elapsed conditions opens an otherwise earned random-choice path; not automatic entitlement to another choice.",
+    "formal_budget": "No matching random-choice path in observed yearly end-states; chain endpoints are represented by actual late choices."
+  },
+  "categories": {
+    "used_late_opportunity": 74,
+    "formal_budget_without_matching_path": 48
+  },
+  "rows": [
+    {
+      "strategy": "normal",
+      "seed": 2,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 3,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 8,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 9,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 11,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 15,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 19,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 24,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 36,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 40,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 42,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 46,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 52,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 60,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 62,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 66,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_LIGHTER_BREAKTHROUGH": [
+          1638,
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 67,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 69,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 74,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1637,
+          1638,
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "normal",
+      "seed": 81,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 89,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 93,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 94,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "normal",
+      "seed": 98,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 2,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 3,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 4,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 7,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 8,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 9,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 10,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 11,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 14,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 15,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 19,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 24,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 25,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 36,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 37,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 39,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 40,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 42,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 44,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 46,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 52,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 53,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 58,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 59,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 60,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 62,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 66,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 67,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 68,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 69,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 70,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 74,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1637,
+          1638,
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 76,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 81,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 82,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1638,
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "cautious",
+      "seed": 87,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 93,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 94,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 96,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 97,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 98,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "cautious",
+      "seed": 99,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 3,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 8,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 10,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 11,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 15,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 19,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 28,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 36,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 37,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 40,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 44,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 46,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 52,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 60,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 62,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 64,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 66,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 68,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 69,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 71,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 74,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1637,
+          1638,
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "risky",
+      "seed": 87,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 89,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 92,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 93,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 94,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "risky",
+      "seed": 96,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 2,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 3,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 10,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 11,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 15,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 19,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 28,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 36,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_LIGHTER_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 37,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 40,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 44,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 46,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 52,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 55,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 60,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 62,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 64,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 66,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 67,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 68,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 69,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 71,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 74,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {
+        "E_MOD_FLASHLIGHT_BREAKTHROUGH": [
+          1637,
+          1638,
+          1639
+        ]
+      }
+    },
+    {
+      "strategy": "career",
+      "seed": 87,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 89,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 92,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 93,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 94,
+      "late_choices": 1,
+      "category": "used_late_opportunity",
+      "applicable": {},
+      "time_locked": {}
+    },
+    {
+      "strategy": "career",
+      "seed": 96,
+      "late_choices": 0,
+      "category": "formal_budget_without_matching_path",
+      "applicable": {},
+      "time_locked": {}
+    }
+  ]
+}

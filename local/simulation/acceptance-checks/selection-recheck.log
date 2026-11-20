@@ -1,0 +1,184 @@
+TAP version 13
+# Subtest: inheritance selection is cancellable, validated, consumed once and survives durable resume
+ok 1 - inheritance selection is cancellable, validated, consumed once and survives durable resume
+  ---
+  duration_ms: 675.955704
+  type: 'test'
+  ...
+# Subtest: completed lives collect once, retain report navigation, and reward both restart paths
+ok 2 - completed lives collect once, retain report navigation, and reward both restart paths
+  ---
+  duration_ms: 18679.90228
+  type: 'test'
+  ...
+# Subtest: read-only view shows a completed life without reconciling or writing its pending claim
+ok 3 - read-only view shows a completed life without reconciling or writing its pending claim
+  ---
+  duration_ms: 3220.363311
+  type: 'test'
+  ...
+# Subtest: read-only mode does not resume an unfinished life or start a new one
+ok 4 - read-only mode does not resume an unfinished life or start a new one
+  ---
+  duration_ms: 392.103415
+  type: 'test'
+  ...
+# Subtest: codex exposes all hints, conceals uncollected commentary and separates tab scrolling
+ok 5 - codex exposes all hints, conceals uncollected commentary and separates tab scrolling
+  ---
+  duration_ms: 228.614531
+  type: 'test'
+  ...
+# Subtest: failed current-life persistence blocks play and safely releases the reservation on retry
+ok 6 - failed current-life persistence blocks play and safely releases the reservation on retry
+  ---
+  duration_ms: 123.433815
+  type: 'test'
+  ...
+# Subtest: inherited candidate can be freely replaced and the consumed reward stays consumed after reload
+ok 7 - inherited candidate can be freely replaced and the consumed reward stays consumed after reload
+  ---
+  duration_ms: 401.874401
+  type: 'test'
+  ...
+# Subtest: an unreadable records key blocks starting until it can be read again
+ok 8 - an unreadable records key blocks starting until it can be read again
+  ---
+  duration_ms: 118.505954
+  type: 'test'
+  ...
+# Subtest: every claim write boundary survives restart without duplicated or silently lost inheritance
+ok 9 - every claim write boundary survives restart without duplicated or silently lost inheritance
+  ---
+  duration_ms: 4247.259744
+  type: 'test'
+  ...
+# Subtest: a damaged new slot cannot make a fallback life release an uncertain claim
+ok 10 - a damaged new slot cannot make a fallback life release an uncertain claim
+  ---
+  duration_ms: 886.450383
+  type: 'test'
+  ...
+# Subtest: abandoning an uncertain claim requires confirmation and preserves both life slots
+ok 11 - abandoning an uncertain claim requires confirmation and preserves both life slots
+  ---
+  duration_ms: 1288.336161
+  type: 'test'
+  ...
+# Subtest: forfeiture write failures recover before or after the durable write without changing life slots
+ok 12 - forfeiture write failures recover before or after the durable write without changing life slots
+  ---
+  duration_ms: 2023.899452
+  type: 'test'
+  ...
+# Subtest: a target repaired during forfeit confirmation is normally reconciled instead
+ok 13 - a target repaired during forfeit confirmation is normally reconciled instead
+  ---
+  duration_ms: 867.431251
+  type: 'test'
+  ...
+# Subtest: a repaired target with a failed normal commit stays blocked instead of being forfeited
+ok 14 - a repaired target with a failed normal commit stays blocked instead of being forfeited
+  ---
+  duration_ms: 880.923463
+  type: 'test'
+  ...
+# Subtest: a claim proven absent during confirmation is released instead of forfeited
+ok 15 - a claim proven absent during confirmation is released instead of forfeited
+  ---
+  duration_ms: 976.403084
+  type: 'test'
+  ...
+# Subtest: settlement failure recovers the saved ending and awards its next reward exactly once
+ok 16 - settlement failure recovers the saved ending and awards its next reward exactly once
+  ---
+  duration_ms: 4949.259961
+  type: 'test'
+  ...
+# Subtest: replacement is a legal, idempotent, deterministic engine command, not a story choice
+ok 17 - replacement is a legal, idempotent, deterministic engine command, not a story choice
+  ---
+  duration_ms: 77.010025
+  type: 'test'
+  ...
+# Subtest: directed inheritance occupies one of at most three unique offers and all remain replaceable
+ok 18 - directed inheritance occupies one of at most three unique offers and all remain replaceable
+  ---
+  duration_ms: 105.302368
+  type: 'test'
+  ...
+# Subtest: card drafts restore without locking and legacy cursors remain readable
+ok 19 - card drafts restore without locking and legacy cursors remain readable
+  ---
+  duration_ms: 231.767594
+  type: 'test'
+  ...
+# Subtest: both platform slots survive restart, fall back after corruption, and retain incompatible generations
+ok 20 - both platform slots survive restart, fall back after corruption, and retain incompatible generations
+  ---
+  duration_ms: 335.683977
+  type: 'test'
+  ...
+# Subtest: a failed write stops the session and can be explicitly restored without losing the prior offer
+ok 21 - a failed write stops the session and can be explicitly restored without losing the prior offer
+  ---
+  duration_ms: 345.409558
+  type: 'test'
+  ...
+# Subtest: controller reloads replaced offers, pauses, and asks before overwriting
+ok 22 - controller reloads replaced offers, pauses, and asks before overwriting
+  ---
+  duration_ms: 858.456714
+  type: 'test'
+  ...
+# Subtest: pending previews use projected luck and a successful 19 chooses critical only when that branch exists
+ok 23 - pending previews use projected luck and a successful 19 chooses critical only when that branch exists
+  ---
+  duration_ms: 33.590236
+  type: 'test'
+  ...
+# Subtest: controller blocks after a failed write and retry restores the last durable offer paused
+ok 24 - controller blocks after a failed write and retry restores the last durable offer paused
+  ---
+  duration_ms: 382.749868
+  type: 'test'
+  ...
+# Subtest: draft selection write failures stop play and recover only the durable selection
+ok 25 - draft selection write failures stop play and recover only the durable selection
+  ---
+  duration_ms: 742.560107
+  type: 'test'
+  ...
+# Subtest: a pending stage and death report restore paused, and the report is recorded only once
+ok 26 - a pending stage and death report restore paused, and the report is recorded only once
+  ---
+  duration_ms: 23.838431
+  type: 'test'
+  ...
+# Subtest: saved automatic advancement authorization is revoked on restore
+ok 27 - saved automatic advancement authorization is revoked on restore
+  ---
+  duration_ms: 17.395252
+  type: 'test'
+  ...
+# Subtest: Web session ownership admits one writer and leaves other pages read-only
+ok 28 - Web session ownership admits one writer and leaves other pages read-only
+  ---
+  duration_ms: 0.543653
+  type: 'test'
+  ...
+# Subtest: a read-only controller never writes current-life or completion records
+ok 29 - a read-only controller never writes current-life or completion records
+  ---
+  duration_ms: 481.609261
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 41281.236374

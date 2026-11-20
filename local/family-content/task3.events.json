@@ -1,0 +1,354 @@
+[
+  {
+    "id": "E_FAM_WEALTH_RELATIVE_HELP",
+    "title": "亲戚求助",
+    "text": "远房亲戚前些日子求过一次周转，如今旧债又到期，再来商量借钱。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 18},
+        {"op": "compare", "field": "wealth", "comparator": "gte", "value": 8},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_WEALTH_RELIEF_HANDLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 25, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你拿出一笔钱应急，说好不急着催还。亲戚感激地收下，记住了这份情。",
+      "effects": [
+        {"type": "attribute_add", "attribute": "wealth", "amount": -1},
+        {"type": "attribute_add", "attribute": "prestige", "amount": 1},
+        {"type": "flag_add", "id": "F_FAM_WEALTH_RELIEF_HANDLED"}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_RELATIVE_DECLINE",
+    "title": "亲戚求助",
+    "text": "远房亲戚前些日子求过一次周转，如今旧债又到期，再来商量借钱。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 18},
+        {"op": "compare", "field": "wealth", "comparator": "gte", "value": 6},
+        {"op": "compare", "field": "wealth", "comparator": "lt", "value": 8},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_WEALTH_RELIEF_HANDLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 25, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你盘算过家中开支，婉拒了借钱，转而帮亲戚打听能暂借粮食的人家。",
+      "effects": [
+        {"type": "flag_add", "id": "F_FAM_WEALTH_RELIEF_HANDLED"}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_OFFICE_HELP",
+    "title": "代递自荐",
+    "text": "亲戚拿着一份求官的自荐书登门，托你设法替他递进官署。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 18},
+        {"op": "compare", "field": "prestige", "comparator": "gte", "value": 10},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_WEALTH_OFFICE_HANDLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你答应按规矩代递自荐书，不许诺录用，也不替他作保。",
+      "effects": [
+        {"type": "flag_add", "id": "F_FAM_WEALTH_OFFICE_HANDLED"}
+      ],
+      "next_stage_id": "S_FAM_WEALTH_OFFICE_DELIVER"
+    },
+    "stages": [
+      {
+        "id": "S_FAM_WEALTH_OFFICE_DELIVER",
+        "text": "你得问清官署收件的规矩，把自荐书递到该收的人手里。",
+        "check": {"attribute": "intelligence", "dc": 14, "modifier": 0},
+        "success": {
+          "text": "你把自荐书交到官署，对方收下了。能否有人过目、是否任用，仍没有定论。",
+          "effects": [],
+          "next_stage_id": null
+        },
+        "failure": {
+          "text": "你没能把自荐书递成，亲戚以为你不够尽心，往来冷淡了一些。",
+          "effects": [
+            {"type": "attribute_add", "attribute": "prestige", "amount": -1}
+          ],
+          "next_stage_id": null
+        }
+      }
+    ]
+  },
+  {
+    "id": "E_FAM_WEALTH_OFFICE_DECLINE",
+    "title": "难托的自荐",
+    "text": "亲戚拿着一份求官的自荐书登门，托你设法替他递进官署。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 18},
+        {"op": "compare", "field": "prestige", "comparator": "gte", "value": 8},
+        {"op": "compare", "field": "prestige", "comparator": "lt", "value": 10},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_WEALTH_OFFICE_HANDLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你解释自己没有合适的门路，婉拒代递。亲戚虽没争辩，心里还是有些失望。",
+      "effects": [
+        {"type": "attribute_add", "attribute": "prestige", "amount": -1},
+        {"type": "flag_add", "id": "F_FAM_WEALTH_OFFICE_HANDLED"}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_HIGH_MARRIAGE_PRESSURE",
+    "title": "岳家施压",
+    "text": "岳家来人催你为远房亲眷的差事作保，言语间不容推辞。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 18},
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "compare", "field": "wealth", "comparator": "gte", "value": 6},
+            {"op": "compare", "field": "prestige", "comparator": "gte", "value": 6}
+          ]
+        },
+        {"op": "has", "collection": "flags", "id": "F_FAM_HIGH_MARRIAGE"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_MARRIED"},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_WIDOWED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你向岳家说明自己无法作保，几位亲眷虽不再催促，往来却冷淡了些。",
+      "effects": [
+        {"type": "attribute_add", "attribute": "prestige", "amount": -1}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_HEIRLESS",
+    "title": "未定的托付",
+    "text": "你清点家当时想起，至今没有孩子，往后怎样安排这些东西还未想好。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 50},
+        {"op": "compare", "field": "wealth", "comparator": "gte", "value": 8},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1"}},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_LIFE_HAS_CHILD"}},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_HEIRLESS"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "屋里安静下来，你把账册收好，打算以后再想清楚该将家当托付给谁。",
+      "effects": [
+        {"type": "flag_add", "id": "F_FAM_HEIRLESS"}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_ESTATE_LARGE",
+    "title": "分家立账",
+    "text": "两名成年子女商量分开持家，你打算趁自己还有精力，把分配章程说清楚。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 55},
+        {"op": "compare", "field": "wealth", "comparator": "gte", "value": 10},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2"},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_DEAD"}},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_DEAD"}},
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_18_26"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 44}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_27_39"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 57}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_LEGACY"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 58}
+            ]}
+          ]
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_BIRTH_18_26"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 44}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_BIRTH_27_39"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 57}
+            ]}
+          ]
+        },
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_ESTATE_SETTLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 25, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你给两名子女分出一笔家资，契据写得清楚，亲友也愿意多来往。",
+      "effects": [
+        {"type": "attribute_add", "attribute": "wealth", "amount": -2},
+        {"type": "attribute_add", "attribute": "prestige", "amount": 1},
+        {"type": "flag_add", "id": "F_FAM_ESTATE_SETTLED"}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_ESTATE_MODEST",
+    "title": "分家立账",
+    "text": "两名成年子女商量分开持家，你打算在力所能及的范围内，把账目说清楚。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 55},
+        {"op": "compare", "field": "wealth", "comparator": "gte", "value": 1},
+        {"op": "compare", "field": "wealth", "comparator": "lt", "value": 10},
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "compare", "field": "wealth", "comparator": "gte", "value": 6},
+            {"op": "compare", "field": "prestige", "comparator": "gte", "value": 6}
+          ]
+        },
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2"},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_DEAD"}},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_DEAD"}},
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_18_26"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 44}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_27_39"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 57}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_LEGACY"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 58}
+            ]}
+          ]
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_BIRTH_18_26"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 44}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_BIRTH_27_39"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 57}
+            ]}
+          ]
+        },
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_ESTATE_SETTLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 25, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你将能分出的家资分给两人，各自再谋生计；亲友称赞账目说得明白。",
+      "effects": [
+        {"type": "attribute_add", "attribute": "wealth", "amount": -1},
+        {"type": "attribute_add", "attribute": "prestige", "amount": 1},
+        {"type": "flag_add", "id": "F_FAM_ESTATE_SETTLED"}
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_WEALTH_HOUSEHOLD_DISPUTE",
+    "title": "家宅争产",
+    "text": "嫡出的子女与庶出的子女为将来如何分产争执起来，账册被反复翻看。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        {"op": "compare", "field": "age", "comparator": "gte", "value": 44},
+        {"op": "compare", "field": "wealth", "comparator": "gte", "value": 1},
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "compare", "field": "wealth", "comparator": "gte", "value": 6},
+            {"op": "compare", "field": "prestige", "comparator": "gte", "value": 6}
+          ]
+        },
+        {"op": "has", "collection": "flags", "id": "F_FAM_CONCUBINE"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_LEGITIMATE"},
+        {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_CONCUBINE_BORN"},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_DEAD"}},
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_DEAD"}},
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_18_26"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 44}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_1_BIRTH_27_39"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 57}
+            ]}
+          ]
+        },
+        {
+          "op": "any",
+          "conditions": [
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_BIRTH_18_26"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 44}
+            ]},
+            {"op": "all", "conditions": [
+              {"op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_BIRTH_27_39"},
+              {"op": "compare", "field": "age", "comparator": "gte", "value": 57}
+            ]}
+          ]
+        },
+        {"op": "not", "condition": {"op": "has", "collection": "flags", "id": "F_FAM_ESTATE_SETTLED"}}
+      ]
+    },
+    "trigger": {"kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.8, "cooldown_years": 0, "max_occurrences": 1, "rare": false},
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你请人核账、誊写契据，花去一笔家资，争执才暂时平息。",
+      "effects": [
+        {"type": "attribute_add", "attribute": "wealth", "amount": -1}
+      ],
+      "next_stage_id": null
+    }
+  }
+]

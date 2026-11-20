@@ -21,7 +21,7 @@ export type Event = ChoiceEvent | AutomaticEvent;
  * This interface was referenced by `ContentBundle`'s JSON-Schema
  * via the `definition` "Trigger".
  */
-export type Trigger = OpeningTrigger | RandomTrigger | HistoricalTrigger | ChainTrigger;
+export type Trigger = OpeningTrigger | RandomTrigger | HistoricalTrigger | FollowUpTrigger | ChainTrigger;
 /**
  * This interface was referenced by `ContentBundle`'s JSON-Schema
  * via the `definition` "VisibleAttribute".
@@ -92,6 +92,7 @@ export interface Rules {
   opening: OpeningRules;
   events: EventRules;
   chains: ChainRules;
+  late_life?: LateLifeRules;
 }
 export interface AttributeRules {
   min: number;
@@ -128,6 +129,18 @@ export interface LifespanRules {
 export interface CheckRules {
   modifier_min: number;
   modifier_max: number;
+  dynamic_raw_minimum: DynamicRawMinimumRules;
+  /**
+   * @minItems 1
+   */
+  luck_bonus_thresholds: number[];
+  critical_luck_minimum: number;
+  critical_luck_raw: number;
+}
+export interface DynamicRawMinimumRules {
+  attribute_base: number;
+  attribute_step: number;
+  floor: number;
 }
 export interface LuckRules {
   factor_min: number;
@@ -144,6 +157,19 @@ export interface EventRules {
 }
 export interface ChainRules {
   max_active: number;
+}
+export interface LateLifeRules {
+  start_years: number;
+  expansion_years: number;
+  settlement_years: number;
+  settlement_age: number;
+  confirmation_years: number;
+  routes: LateLifeRoute[];
+}
+export interface LateLifeRoute {
+  id: string;
+  entry_condition?: Condition;
+  retain_condition?: Condition;
 }
 /**
  * This interface was referenced by `ContentBundle`'s JSON-Schema
@@ -187,7 +213,7 @@ export interface NotCondition {
 }
 export interface CompareCondition {
   op: 'compare';
-  field: 'age' | 'calendar_year' | 'start_year' | 'physique' | 'intelligence' | 'wealth' | 'prestige' | 'luck';
+  field: 'age' | 'calendar_year' | 'start_year' | 'years_elapsed' | 'physique' | 'intelligence' | 'wealth' | 'prestige' | 'luck';
   comparator: 'eq' | 'ne' | 'lt' | 'lte' | 'gt' | 'gte';
   value: number;
 }
@@ -354,6 +380,15 @@ export interface HistoricalTrigger {
   kind: 'historical';
   year: number;
   priority: number;
+}
+export interface FollowUpTrigger {
+  kind: 'follow_up';
+  group_id: string;
+  after_group: string | null;
+  earliest: number;
+  latest: number;
+  priority: number;
+  fallback?: boolean;
 }
 export interface ChainTrigger {
   kind: 'chain';

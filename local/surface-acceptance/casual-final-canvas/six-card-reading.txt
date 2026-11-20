@@ -1,0 +1,114 @@
+
+=== CARD_MODERN_CORN strategy=career seed=1 1645 年 59 岁 → 1660 年 74 岁 D_OLD_AGE (3 choices) ===
+1645 E_MOD_CORN_OPEN_SENIOR event 你带着后生在田里认种，做起了他们的种田先生。
+1645 E_MOD_CORN_OPEN_SENIOR effects 你教后生判断土壤干湿，带着他们一起试种。
+1646 E_MOD_CORN_TRIAL event 旱田缺水，老农带你选了一小块田，准备试种玉米。
+1646 E_MOD_CORN_TRIAL effects 你跟老农照看试种的小田，大家比较水土，先试芽，再考虑扩种。
+1648 E_MOD_CORN_STORE event 邻里愿意凑粮合仓，却有人误以为玉米不用浇水；等粮的人已经排到了田边。
+1648 E_MOD_CORN_STORE effects 你帮忙辨认种袋，乡邻把口粮和种粮分开记账，商量各户领粮的次序。
+1651 E_MOD_CORN_RELIEF event 战乱中来了一队饥民，试田的玉米只够留种，乡邻们正商量怎样接济。
+1651 E_MOD_CORN_RELIEF effects 你拿出试田记录，乡邻按水土整理种法，留够口粮后再让大家试种。
+1651 E_MOD_CORN_BREAKTHROUGH event 各村想推广玉米，核对种法不顺可能损失家资或人脉。冒险送种到邻村，送到可得人脉+2，途中可能丧命。
+1651 E_MOD_CORN_BREAKTHROUGH option 按平价接济乡邻
+1651 E_MOD_CORN_BREAKTHROUGH effects 你帮着将现有粮食按平价分给乡邻。
+1654 E_MOD_CORN_LATE_HANDOFF event 乡邻想把你留下的试田记录交给新种田的人。大家要先核对水土和用水量，记错会影响乡邻对记录的信任。
+1654 E_MOD_CORN_LATE_HANDOFF effects 你和乡邻摊开试田记录，准备一起复核。
+1654 E_MOD_CORN_LATE_HANDOFF effects 你补齐了水土记录，乡邻照着传授种法，你也学会了更清楚地记账。
+
+=== CARD_MODERN_ANTIBIOTIC strategy=career seed=1 1645 年 59 岁 → 1660 年 74 岁 D_OLD_AGE (3 choices) ===
+1645 E_MOD_HEALER_OPEN_ELDER event 你教邻童洗手、保管饮水，挨个检查他们有没有把手洗干净。
+1645 E_MOD_HEALER_OPEN_ELDER effects 你也教后生先请郎中辨症，再决定是否用这点有限的药。
+1646 E_MOD_HEALER_NODE_1 event 邻居端着碗来排队求药，药片有限，郎中拦住了大家。
+1646 E_MOD_HEALER_NODE_1 effects 你跟着郎中看他核对病症，听他说明哪些情况能用药、哪些不能。
+1648 E_MOD_HEALER_NODE_2 event 临时照护处挤满了人，连清洗用的盆也拿来盛饮水。得先把照护和清洁安排好。
+1648 E_MOD_HEALER_NODE_2 effects 郎中划分照护区域，你帮着辨认盛饮水和清洗用的锅盆。
+1648 E_MOD_HEALER_NODE_2 effects 你辨认对了照护次序，郎中把分工清单贴到门板上。
+1651 E_MOD_HEALER_NODE_3 event 病家挤到门口，想买包治百病的药。可照护处既缺人手又缺饮水，这点药也得有人管。
+1651 E_MOD_HEALER_NODE_3 effects 你把手册拿给郎中，郎中辨症、管药，帮手们商量好轮班照护。
+1651 E_MOD_HEALER_BREAKTHROUGH event 救助手册传到邻县，照护接下来如何安排？推广没谈成会损失人脉；交出整板药后只留手册。
+1651 E_MOD_HEALER_BREAKTHROUGH option 继续照护乡邻
+1651 E_MOD_HEALER_BREAKTHROUGH effects 你暂不向外推广，留下来帮着照护乡邻。
+1654 E_MOD_HEALER_LATE_HANDOFF event 跟过诊的年轻人来学照护分工，你和郎中准备核对手册。交接有遗漏，乡邻会对册子产生疑虑。
+1654 E_MOD_HEALER_LATE_HANDOFF effects 你请郎中一起检查分工和手册上的用药边界。
+1654 E_MOD_HEALER_LATE_HANDOFF effects 你和郎中补齐交接记录，年轻人学会了分工，也记住不能随意用药。
+
+=== CARD_MODERN_FLASHLIGHT strategy=career seed=1 1645 年 59 岁 → 1660 年 74 岁 D_OLD_AGE (3 choices) ===
+1645 E_MOD_FLASHLIGHT_OPEN_ELDER event 后生来跟你学手电怎么用。
+1645 E_MOD_FLASHLIGHT_OPEN_ELDER effects 你教后生轮流摇灯，终于有人接班。
+1646 E_MOD_FLASHLIGHT_EVIDENCE event 米铺丢了两袋粮，后门留下半截印子，巡丁正向邻居打听。
+1646 E_MOD_FLASHLIGHT_EVIDENCE effects 你摇亮手电，请巡丁协助问询邻居。
+1646 E_MOD_FLASHLIGHT_EVIDENCE effects 你用手电照清鞋印，巡丁描下印迹，结合邻居的话找到一条线索。
+1648 E_MOD_FLASHLIGHT_PATROL event 巡夜的人轮流提灯，街坊正在商量怎样排班。
+1648 E_MOD_FLASHLIGHT_PATROL effects 你摇亮手电照路，街坊商量好轮班，夜路终于有人照看。
+1651 E_MOD_FLASHLIGHT_ESCORT event 夜路挤满行人，巡夜的人商量分段接应。
+1651 E_MOD_FLASHLIGHT_ESCORT effects 你摇亮手电照路，巡夜的人分段接应，乡邻少走了冤枉路。
+1651 E_MOD_FLASHLIGHT_BREAKTHROUGH event 乡邻请你合查几处失窃案。结伴核查失误会损失人脉；独自追贼避开同伙可得人脉+2，失败可能丧命。
+1651 E_MOD_FLASHLIGHT_BREAKTHROUGH option 把查案记录交巡丁
+1651 E_MOD_FLASHLIGHT_BREAKTHROUGH effects 你把查案记录交给巡丁，接着提着手电给乡邻照路。
+1654 E_MOD_FLASHLIGHT_LATE_HANDOFF event 巡丁请你讲解旧案记录，好让新人分辨鞋印和证词。若讲错线索，乡邻会对记录产生疑虑。
+1654 E_MOD_FLASHLIGHT_LATE_HANDOFF effects 你摇亮手电，和巡丁一起翻开旧案记录。
+1654 E_MOD_FLASHLIGHT_LATE_HANDOFF effects 你帮新人分清了线索和猜测，巡丁把补充后的记录收好。
+
+=== CARD_MODERN_CALCULATOR strategy=career seed=1 1645 年 59 岁 → 1660 年 74 岁 D_OLD_AGE (5 choices) ===
+1645 E_MOD_CALCULATOR_RETIRED event 你教后辈算账，先让他们拨算盘，再拿计算器核对结果。
+1645 E_MOD_CALCULATOR_RETIRED option 带后辈学复核
+1645 E_MOD_CALCULATOR_RETIRED effects 你画下按键位置教后辈使用，也教他们在光线不足时手工复核。
+1646 E_MOD_CALCULATOR_CORRUPT event 工钱和粮袋对不上，多出三袋粮，账房与经手人要查旧签单。
+1646 E_MOD_CALCULATOR_CORRUPT effects 你拿来计算器，账房和经手人对照工钱记录、粮袋与旧签单，核清了差额。
+1648 E_MOD_CALCULATOR_SUPPLY event 军需册上的数目有差额，经手人带来签单，还得逐袋复秤。
+1648 E_MOD_CALCULATOR_SUPPLY effects 你把计算器递给账房，经手人逐袋复秤并签字，差额有了核对依据。
+1651 E_MOD_CALCULATOR_MINISTRY event 邻里想公开总账，账房拿来计算器，经手人也准备核对签收和盘点记录。
+1651 E_MOD_CALCULATOR_MINISTRY effects 你拿出计算器供账房核算，经手人核清后公开支出，街坊可以对着账目查。
+1653 E_MOD_CALCULATOR_SSR_TREASURY event 各粮栈报来的数目对不上。你可以拿出计算器请账房验账，也可以保存凭据；验不清就退出这次清账。
+1653 E_MOD_CALCULATOR_SSR_TREASURY option 会同账房验账
+1653 E_MOD_CALCULATOR_SSR_TREASURY effects 你拿来计算器，账房按编号归档签收底单，准备核对各栈账目。
+1653 E_MOD_CALCULATOR_SSR_TREASURY effects 经手人核准了粮数并签字，原来的账房也肯借出副本，供人复核。
+1653 E_MOD_CALCULATOR_BREAKTHROUGH event 各粮栈催你认定亏空。除了计算差额，还得有盘点底单和经手人的见证；没查清就要暂停审核。
+1653 E_MOD_CALCULATOR_BREAKTHROUGH option 保存底单暂不定论
+1653 E_MOD_CALCULATOR_BREAKTHROUGH effects 你封好底单，等见证的人到齐，不在证据不足时作结论。
+1656 E_MOD_CALCULATOR_CLOUDY event 连日阴雨，计算器没了显示，急着核算的账只好改用算盘来算。
+1656 E_MOD_CALCULATOR_CLOUDY effects 你拿出纸笔慢慢复核，没有因为计算器用不了就把账搁下。
+
+=== CARD_MODERN_GLUE strategy=career seed=1 1645 年 59 岁 → 1660 年 74 岁 D_OLD_AGE (4 choices) ===
+1645 E_MOD_SWISS_CORAL event 后辈把红色刀壳认成珊瑚，捧来香炉想供起来。你让他们先放下香炉，看清这是什么。
+1645 E_MOD_SWISS_CORAL option 带后辈画工序图
+1645 E_MOD_SWISS_CORAL effects 你把旧刀壳画进识材图，教后辈先查材质和强度，再判断用途。
+1645 E_MOD_SWISS_MUSKET event 军匠急着排查鸟铳的小故障。你只能用折叠工具协助检查外部零件，高温、承压部位由军匠处理。
+1645 E_MOD_SWISS_MUSKET option 协助军匠检修
+1645 E_MOD_SWISS_MUSKET effects 你先请军匠停用鸟铳再查验，用军刀协助检查外部零件，不用胶处理铳管。
+1645 E_MOD_SWISS_MUSKET effects 你找准故障，协助修好鸟铳，大家对你的手艺更加认可。
+1646 E_MOD_GLUE_PORCELAIN_MASTER event 一只摆件瓷碗裂成几片，匠人准备把碎片对齐。
+1646 E_MOD_GLUE_PORCELAIN_MASTER effects 你递上胶管，匠人把碗拼回原样；它只能放着看，不能拿来盛饭。
+1648 E_MOD_SWISS_CHIEF event 工坊拿来旧农具的木样，师傅用军刀修形，承重和受热的部位还要仔细核验。
+1648 E_MOD_SWISS_CHIEF effects 你指给师傅看需要修补的地方，工匠把位置画进工序图，注明受热处不能用胶。
+1651 E_MOD_SWISS_GUNSMITH event 工坊想照着军刀做弹片，匠人先用木样核对形状，不能拿胶代替铆接。
+1651 E_MOD_SWISS_GUNSMITH effects 你拿出军刀供匠人比量，匠人留下试样和风险记录，按用途继续查验。
+1653 E_MOD_SWISS_BOOK event 工坊整理工序册，胶管也快用完了。你可以帮忙送验图纸，也可以留图样修小件；送验不过就退出这次修造。
+1653 E_MOD_SWISS_BOOK option 照图核验工序
+1653 E_MOD_SWISS_BOOK effects 你拿出工序图，准备和匠人逐项核验，让接手的人继续使用。
+1653 E_MOD_SWISS_BOOK effects 图样和材料用途通过核验，徒弟领到工序册，也知道哪些活不能硬接。
+1653 E_MOD_GLUE_CRAFT_CHALLENGE event 工坊催交修造章程，胶管也快空了。你要靠体魄、才干和试样图纸接下大活；验不过就得返工。
+1653 E_MOD_GLUE_CRAFT_CHALLENGE option 交出图样帮工
+1653 E_MOD_GLUE_CRAFT_CHALLENGE effects 你把能用的图样交给工友，胶不能处理的高温部件仍由军匠接手。
+
+=== CARD_MODERN_LIGHTER strategy=career seed=1 1645 年 59 岁 → 1660 年 74 岁 D_OLD_AGE (4 choices) ===
+1645 E_MOD_LIGHTER_OLD_WHEEL event 铁匠夸火机旧轮上的齿做得齐整，你惦记的却是队伍有没有带备用火种。
+1645 E_MOD_LIGHTER_OLD_WHEEL option 带后辈学轮班
+1645 E_MOD_LIGHTER_OLD_WHEEL effects 你把旧火轮画成保养图，教后辈节省燃料，再讲赶路的经验。
+1645 E_MOD_LIGHTER_TEMPLE_FIRE event 你随商队借宿荒庙，门外忽然有人探头。点亮残烛能看清周围，行李还得靠同伴一起看守。
+1645 E_MOD_LIGHTER_TEMPLE_FIRE option 结伴换地方歇脚
+1645 E_MOD_LIGHTER_TEMPLE_FIRE effects 你收好行李，与同伴离开荒庙，换个地方歇脚。
+1646 E_MOD_OIL_FOLK_DOCTOR event 邻里来问醒脑油怎么用，师傅说明用途与限制，照料病人和护送火种也各有分工。
+1646 E_MOD_OIL_FOLK_DOCTOR effects 你拿来醒脑油供师傅查看，师傅把它和火源分开放好，也说明了用药限制。
+1646 E_MOD_OIL_FOLK_DOCTOR effects 你记清了师傅讲的用法，也提醒来问的街坊不要夸大药效。
+1648 E_MOD_LIGHTER_ARMY_REFORM event 队伍冒着风雨催运粮车，大家商量着分好干料和雨具，再查清哪段路能走。
+1648 E_MOD_LIGHTER_ARMY_REFORM effects 你帮着递上干料和雨具，队伍按人分包，出发前又核对了一遍。
+1651 E_MOD_LIGHTER_PALACE_PRESENT event 火机的燃料快用完了。队伍整理护火记要，准备交给负责接手的人。
+1651 E_MOD_LIGHTER_PALACE_PRESENT effects 你把护火记要递给协理，队伍记下保养、探路和换班的办法。
+1653 E_MOD_LIGHTER_DYNASTY_MIRACLE event 风雪中火种难护，粮道队伍要核对交接。你可以帮着核验路线，也可以留下火种让大家先安顿；核验不过就退出这次接应。
+1653 E_MOD_LIGHTER_DYNASTY_MIRACLE option 与各队核验路线
+1653 E_MOD_LIGHTER_DYNASTY_MIRACLE effects 你拿出火机和干料，队伍准备对照交接单核对路线、人手和火源。
+1653 E_MOD_LIGHTER_DYNASTY_MIRACLE effects 粮车与接班人都按交接单到位，后续队伍能照着护火记要继续走。
+1653 E_MOD_LIGHTER_BREAKTHROUGH event 风雪阻住粮道，火机的燃料也快见底。你要靠体魄、气数与行伍协作带队；走不通就得先护人退回。
+1653 E_MOD_LIGHTER_BREAKTHROUGH option 交出火种先护人
+1653 E_MOD_LIGHTER_BREAKTHROUGH effects 你交出备用火种和轮值单，风雪太大，先把这队人安顿好。

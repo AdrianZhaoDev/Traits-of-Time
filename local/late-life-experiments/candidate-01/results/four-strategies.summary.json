@@ -1,0 +1,857 @@
+{
+  "root": "/mnt/c/Users/admin/Documents/pppp/local/late-life-experiments/candidate-01",
+  "events_override": null,
+  "seed_start": 0,
+  "samples_per_strategy": 100,
+  "selected_strategies": [
+    "normal",
+    "cautious",
+    "risky",
+    "career"
+  ],
+  "targeted_card": null,
+  "definitions": {
+    "start": "Opening year is year 1; late begins at calendar_year - start_year >= 9.",
+    "exposure": "Years with a pending/ready state or a scheduled event/draw; death in the vital phase before scheduling is excluded.",
+    "choices": "Successful resolveOption logs, deduplicated by event instance. Card selection and stage resolution are not choices.",
+    "progress": "Net attribute/identity/region/injury/achievement/material-flag/chain-status changes; chain node visits are reported separately. Two budget bookkeeping flags and node indices are excluded.",
+    "budget": "Five successful choices maximum; category exhaustion additionally requires direction and historical slots used, no pending choice and no future choice on an active chain.",
+    "targeted": "Target-card runs actively replace an offer when needed and are conditional scenarios, not natural selection rates.",
+    "percentiles": "Nearest rank among year-10 survivors; null denotes empty denominator."
+  },
+  "strategies": {
+    "all": {
+      "lives": 400,
+      "deaths_before_year_10": 52,
+      "early_death_rate": 0.13,
+      "survivors_year_10": 348,
+      "late_exposure_years": {
+        "n": 348,
+        "p50": 50,
+        "p90": 75,
+        "min": 1,
+        "max": 88
+      },
+      "total_choices": {
+        "n": 400,
+        "p50": 3,
+        "p90": 4,
+        "min": 1,
+        "max": 5
+      },
+      "late_presented_choices": {
+        "n": 348,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_successful_choices": {
+        "n": 348,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_career_nodes": {
+        "n": 348,
+        "p50": 0,
+        "p90": 0,
+        "min": 0,
+        "max": 1
+      },
+      "late_automatic_checks": {
+        "n": 348,
+        "p50": 11,
+        "p90": 16,
+        "min": 0,
+        "max": 27
+      },
+      "late_state_changes": {
+        "n": 348,
+        "p50": 30,
+        "p90": 44,
+        "min": 1,
+        "max": 55
+      },
+      "late_zero_choice_rate": 0.7729885057471264,
+      "budget_exhausted_before_year_10": 8,
+      "unspent_budget_survivors": 340,
+      "unspent_budget_late_zero_choice_rate": 0.7676470588235295,
+      "category_exhausted_at_year_10": 219,
+      "category_open_survivors": 129,
+      "category_open_late_zero_choice_rate": 0.3875968992248062,
+      "whole_life_no_choice_gap": {
+        "n": 400,
+        "p50": 42,
+        "p90": 72,
+        "min": 0,
+        "max": 90
+      },
+      "whole_life_no_progress_gap": {
+        "n": 400,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 6
+      },
+      "late_no_choice_gap": {
+        "n": 348,
+        "p50": 47,
+        "p90": 74,
+        "min": 0,
+        "max": 88
+      },
+      "late_no_progress_gap": {
+        "n": 348,
+        "p50": 3,
+        "p90": 3,
+        "min": 0,
+        "max": 4
+      },
+      "late_choice_candidate_reasons": {
+        "CONDITION_NOT_MET": 391155,
+        "ELIGIBLE": 20
+      },
+      "deaths": {
+        "D_OLD_AGE": 281,
+        "D_FREEZING": 13,
+        "D_BANDIT": 5,
+        "D_CRISIS": 2,
+        "D_WAR_CHAOS": 14,
+        "D_EPIDEMIC": 27,
+        "D_MOD_FLASHLIGHT_ROBBERY": 1,
+        "D_SENIOR_DECLINE": 22,
+        "D_MOD_SWISS_BLADE_SEVER": 1,
+        "D_DROWNING": 2,
+        "D_FAM_END_HOUSE_FIRE": 1,
+        "D_STARVATION": 9,
+        "D_FAM_END_FAMILY_SHELTER": 2,
+        "D_MOD_LIGHTER_GAS_BURST": 10,
+        "D_CHARLATAN": 1,
+        "D_MOD_GLUE_LIP_SEAL": 1,
+        "D_PRISON_CORVEE": 2,
+        "D_MOD_OIL_DRINK": 1,
+        "D_MOD_FLASHLIGHT_MISSTEP": 5
+      },
+      "cards": {
+        "CARD_MODERN_GLUE": 156,
+        "CARD_MODERN_FLASHLIGHT": 60,
+        "CARD_MODERN_CALCULATOR": 36,
+        "CARD_MODERN_ANTIBIOTIC": 20,
+        "CARD_MODERN_LIGHTER": 100,
+        "CARD_MODERN_CORN": 28
+      },
+      "age_bands": {
+        "adult": 128,
+        "senior": 64,
+        "youth": 100,
+        "child": 108
+      },
+      "start_years": {
+        "1628": 8,
+        "1629": 16,
+        "1630": 16,
+        "1631": 24,
+        "1632": 12,
+        "1633": 24,
+        "1634": 12,
+        "1635": 28,
+        "1636": 12,
+        "1637": 36,
+        "1638": 20,
+        "1639": 16,
+        "1640": 28,
+        "1641": 32,
+        "1642": 32,
+        "1643": 24,
+        "1644": 28,
+        "1645": 32
+      },
+      "coverage": {
+        "low_card_samples": [],
+        "low_age_band_samples": [],
+        "low_start_year_samples": [
+          "1628"
+        ]
+      }
+    },
+    "normal": {
+      "lives": 100,
+      "deaths_before_year_10": 17,
+      "early_death_rate": 0.17,
+      "survivors_year_10": 83,
+      "late_exposure_years": {
+        "n": 83,
+        "p50": 42,
+        "p90": 68,
+        "min": 1,
+        "max": 88
+      },
+      "total_choices": {
+        "n": 100,
+        "p50": 3,
+        "p90": 4,
+        "min": 1,
+        "max": 5
+      },
+      "late_presented_choices": {
+        "n": 83,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_successful_choices": {
+        "n": 83,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_career_nodes": {
+        "n": 83,
+        "p50": 0,
+        "p90": 0,
+        "min": 0,
+        "max": 1
+      },
+      "late_automatic_checks": {
+        "n": 83,
+        "p50": 11,
+        "p90": 16,
+        "min": 1,
+        "max": 24
+      },
+      "late_state_changes": {
+        "n": 83,
+        "p50": 26,
+        "p90": 40,
+        "min": 1,
+        "max": 55
+      },
+      "late_zero_choice_rate": 0.7951807228915663,
+      "budget_exhausted_before_year_10": 1,
+      "unspent_budget_survivors": 82,
+      "unspent_budget_late_zero_choice_rate": 0.7926829268292683,
+      "category_exhausted_at_year_10": 57,
+      "category_open_survivors": 26,
+      "category_open_late_zero_choice_rate": 0.34615384615384615,
+      "whole_life_no_choice_gap": {
+        "n": 100,
+        "p50": 37,
+        "p90": 67,
+        "min": 0,
+        "max": 89
+      },
+      "whole_life_no_progress_gap": {
+        "n": 100,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 6
+      },
+      "late_no_choice_gap": {
+        "n": 83,
+        "p50": 40,
+        "p90": 68,
+        "min": 1,
+        "max": 88
+      },
+      "late_no_progress_gap": {
+        "n": 83,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 4
+      },
+      "late_choice_candidate_reasons": {
+        "CONDITION_NOT_MET": 84045,
+        "ELIGIBLE": 5
+      },
+      "deaths": {
+        "D_OLD_AGE": 61,
+        "D_FREEZING": 5,
+        "D_BANDIT": 2,
+        "D_CRISIS": 1,
+        "D_WAR_CHAOS": 7,
+        "D_EPIDEMIC": 6,
+        "D_MOD_FLASHLIGHT_ROBBERY": 1,
+        "D_SENIOR_DECLINE": 6,
+        "D_MOD_SWISS_BLADE_SEVER": 1,
+        "D_DROWNING": 1,
+        "D_FAM_END_HOUSE_FIRE": 1,
+        "D_STARVATION": 4,
+        "D_FAM_END_FAMILY_SHELTER": 1,
+        "D_MOD_LIGHTER_GAS_BURST": 1,
+        "D_CHARLATAN": 1,
+        "D_MOD_GLUE_LIP_SEAL": 1
+      },
+      "cards": {
+        "CARD_MODERN_GLUE": 39,
+        "CARD_MODERN_FLASHLIGHT": 15,
+        "CARD_MODERN_CALCULATOR": 9,
+        "CARD_MODERN_ANTIBIOTIC": 5,
+        "CARD_MODERN_LIGHTER": 25,
+        "CARD_MODERN_CORN": 7
+      },
+      "age_bands": {
+        "adult": 32,
+        "senior": 16,
+        "youth": 25,
+        "child": 27
+      },
+      "start_years": {
+        "1628": 2,
+        "1629": 4,
+        "1630": 4,
+        "1631": 6,
+        "1632": 3,
+        "1633": 6,
+        "1634": 3,
+        "1635": 7,
+        "1636": 3,
+        "1637": 9,
+        "1638": 5,
+        "1639": 4,
+        "1640": 7,
+        "1641": 8,
+        "1642": 8,
+        "1643": 6,
+        "1644": 7,
+        "1645": 8
+      },
+      "coverage": {
+        "low_card_samples": [
+          "CARD_MODERN_CORN",
+          "CARD_MODERN_ANTIBIOTIC",
+          "CARD_MODERN_CALCULATOR"
+        ],
+        "low_age_band_samples": [],
+        "low_start_year_samples": [
+          "1628",
+          "1629",
+          "1630",
+          "1631",
+          "1632",
+          "1633",
+          "1634",
+          "1635",
+          "1636",
+          "1637",
+          "1638",
+          "1639",
+          "1640",
+          "1641",
+          "1642",
+          "1643",
+          "1644",
+          "1645"
+        ]
+      }
+    },
+    "cautious": {
+      "lives": 100,
+      "deaths_before_year_10": 9,
+      "early_death_rate": 0.09,
+      "survivors_year_10": 91,
+      "late_exposure_years": {
+        "n": 91,
+        "p50": 52,
+        "p90": 74,
+        "min": 5,
+        "max": 85
+      },
+      "total_choices": {
+        "n": 100,
+        "p50": 3,
+        "p90": 4,
+        "min": 1,
+        "max": 4
+      },
+      "late_presented_choices": {
+        "n": 91,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_successful_choices": {
+        "n": 91,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_career_nodes": {
+        "n": 91,
+        "p50": 0,
+        "p90": 0,
+        "min": 0,
+        "max": 0
+      },
+      "late_automatic_checks": {
+        "n": 91,
+        "p50": 11,
+        "p90": 16,
+        "min": 1,
+        "max": 27
+      },
+      "late_state_changes": {
+        "n": 91,
+        "p50": 30,
+        "p90": 43,
+        "min": 4,
+        "max": 54
+      },
+      "late_zero_choice_rate": 0.7472527472527473,
+      "budget_exhausted_before_year_10": 0,
+      "unspent_budget_survivors": 91,
+      "unspent_budget_late_zero_choice_rate": 0.7472527472527473,
+      "category_exhausted_at_year_10": 47,
+      "category_open_survivors": 44,
+      "category_open_late_zero_choice_rate": 0.4772727272727273,
+      "whole_life_no_choice_gap": {
+        "n": 100,
+        "p50": 49,
+        "p90": 72,
+        "min": 0,
+        "max": 85
+      },
+      "whole_life_no_progress_gap": {
+        "n": 100,
+        "p50": 3,
+        "p90": 3,
+        "min": 0,
+        "max": 6
+      },
+      "late_no_choice_gap": {
+        "n": 91,
+        "p50": 51,
+        "p90": 72,
+        "min": 4,
+        "max": 85
+      },
+      "late_no_progress_gap": {
+        "n": 91,
+        "p50": 3,
+        "p90": 3,
+        "min": 1,
+        "max": 4
+      },
+      "late_choice_candidate_reasons": {
+        "CONDITION_NOT_MET": 108646,
+        "ELIGIBLE": 4
+      },
+      "deaths": {
+        "D_OLD_AGE": 77,
+        "D_SENIOR_DECLINE": 7,
+        "D_WAR_CHAOS": 1,
+        "D_FREEZING": 2,
+        "D_EPIDEMIC": 6,
+        "D_PRISON_CORVEE": 1,
+        "D_MOD_LIGHTER_GAS_BURST": 3,
+        "D_BANDIT": 1,
+        "D_MOD_OIL_DRINK": 1,
+        "D_DROWNING": 1
+      },
+      "cards": {
+        "CARD_MODERN_GLUE": 39,
+        "CARD_MODERN_FLASHLIGHT": 15,
+        "CARD_MODERN_CALCULATOR": 9,
+        "CARD_MODERN_ANTIBIOTIC": 5,
+        "CARD_MODERN_LIGHTER": 25,
+        "CARD_MODERN_CORN": 7
+      },
+      "age_bands": {
+        "adult": 32,
+        "senior": 16,
+        "youth": 25,
+        "child": 27
+      },
+      "start_years": {
+        "1628": 2,
+        "1629": 4,
+        "1630": 4,
+        "1631": 6,
+        "1632": 3,
+        "1633": 6,
+        "1634": 3,
+        "1635": 7,
+        "1636": 3,
+        "1637": 9,
+        "1638": 5,
+        "1639": 4,
+        "1640": 7,
+        "1641": 8,
+        "1642": 8,
+        "1643": 6,
+        "1644": 7,
+        "1645": 8
+      },
+      "coverage": {
+        "low_card_samples": [
+          "CARD_MODERN_CORN",
+          "CARD_MODERN_ANTIBIOTIC",
+          "CARD_MODERN_CALCULATOR"
+        ],
+        "low_age_band_samples": [],
+        "low_start_year_samples": [
+          "1628",
+          "1629",
+          "1630",
+          "1631",
+          "1632",
+          "1633",
+          "1634",
+          "1635",
+          "1636",
+          "1637",
+          "1638",
+          "1639",
+          "1640",
+          "1641",
+          "1642",
+          "1643",
+          "1644",
+          "1645"
+        ]
+      }
+    },
+    "risky": {
+      "lives": 100,
+      "deaths_before_year_10": 16,
+      "early_death_rate": 0.16,
+      "survivors_year_10": 84,
+      "late_exposure_years": {
+        "n": 84,
+        "p50": 51,
+        "p90": 75,
+        "min": 1,
+        "max": 85
+      },
+      "total_choices": {
+        "n": 100,
+        "p50": 3,
+        "p90": 4,
+        "min": 1,
+        "max": 5
+      },
+      "late_presented_choices": {
+        "n": 84,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_successful_choices": {
+        "n": 84,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_career_nodes": {
+        "n": 84,
+        "p50": 0,
+        "p90": 0,
+        "min": 0,
+        "max": 1
+      },
+      "late_automatic_checks": {
+        "n": 84,
+        "p50": 10,
+        "p90": 16,
+        "min": 0,
+        "max": 19
+      },
+      "late_state_changes": {
+        "n": 84,
+        "p50": 30,
+        "p90": 45,
+        "min": 2,
+        "max": 51
+      },
+      "late_zero_choice_rate": 0.7738095238095238,
+      "budget_exhausted_before_year_10": 4,
+      "unspent_budget_survivors": 80,
+      "unspent_budget_late_zero_choice_rate": 0.7625,
+      "category_exhausted_at_year_10": 55,
+      "category_open_survivors": 29,
+      "category_open_late_zero_choice_rate": 0.3448275862068966,
+      "whole_life_no_choice_gap": {
+        "n": 100,
+        "p50": 42,
+        "p90": 73,
+        "min": 0,
+        "max": 90
+      },
+      "whole_life_no_progress_gap": {
+        "n": 100,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 4
+      },
+      "late_no_choice_gap": {
+        "n": 84,
+        "p50": 50,
+        "p90": 75,
+        "min": 0,
+        "max": 85
+      },
+      "late_no_progress_gap": {
+        "n": 84,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 4
+      },
+      "late_choice_candidate_reasons": {
+        "CONDITION_NOT_MET": 95494,
+        "ELIGIBLE": 6
+      },
+      "deaths": {
+        "D_OLD_AGE": 70,
+        "D_EPIDEMIC": 7,
+        "D_SENIOR_DECLINE": 4,
+        "D_WAR_CHAOS": 3,
+        "D_MOD_FLASHLIGHT_MISSTEP": 5,
+        "D_PRISON_CORVEE": 1,
+        "D_MOD_LIGHTER_GAS_BURST": 3,
+        "D_FAM_END_FAMILY_SHELTER": 1,
+        "D_FREEZING": 3,
+        "D_STARVATION": 2,
+        "D_CRISIS": 1
+      },
+      "cards": {
+        "CARD_MODERN_GLUE": 39,
+        "CARD_MODERN_FLASHLIGHT": 15,
+        "CARD_MODERN_CALCULATOR": 9,
+        "CARD_MODERN_ANTIBIOTIC": 5,
+        "CARD_MODERN_LIGHTER": 25,
+        "CARD_MODERN_CORN": 7
+      },
+      "age_bands": {
+        "adult": 32,
+        "senior": 16,
+        "youth": 25,
+        "child": 27
+      },
+      "start_years": {
+        "1628": 2,
+        "1629": 4,
+        "1630": 4,
+        "1631": 6,
+        "1632": 3,
+        "1633": 6,
+        "1634": 3,
+        "1635": 7,
+        "1636": 3,
+        "1637": 9,
+        "1638": 5,
+        "1639": 4,
+        "1640": 7,
+        "1641": 8,
+        "1642": 8,
+        "1643": 6,
+        "1644": 7,
+        "1645": 8
+      },
+      "coverage": {
+        "low_card_samples": [
+          "CARD_MODERN_CORN",
+          "CARD_MODERN_ANTIBIOTIC",
+          "CARD_MODERN_CALCULATOR"
+        ],
+        "low_age_band_samples": [],
+        "low_start_year_samples": [
+          "1628",
+          "1629",
+          "1630",
+          "1631",
+          "1632",
+          "1633",
+          "1634",
+          "1635",
+          "1636",
+          "1637",
+          "1638",
+          "1639",
+          "1640",
+          "1641",
+          "1642",
+          "1643",
+          "1644",
+          "1645"
+        ]
+      }
+    },
+    "career": {
+      "lives": 100,
+      "deaths_before_year_10": 10,
+      "early_death_rate": 0.1,
+      "survivors_year_10": 90,
+      "late_exposure_years": {
+        "n": 90,
+        "p50": 51,
+        "p90": 75,
+        "min": 3,
+        "max": 85
+      },
+      "total_choices": {
+        "n": 100,
+        "p50": 3,
+        "p90": 4,
+        "min": 1,
+        "max": 5
+      },
+      "late_presented_choices": {
+        "n": 90,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_successful_choices": {
+        "n": 90,
+        "p50": 0,
+        "p90": 1,
+        "min": 0,
+        "max": 1
+      },
+      "late_career_nodes": {
+        "n": 90,
+        "p50": 0,
+        "p90": 0,
+        "min": 0,
+        "max": 1
+      },
+      "late_automatic_checks": {
+        "n": 90,
+        "p50": 11,
+        "p90": 16,
+        "min": 1,
+        "max": 22
+      },
+      "late_state_changes": {
+        "n": 90,
+        "p50": 31,
+        "p90": 43,
+        "min": 2,
+        "max": 51
+      },
+      "late_zero_choice_rate": 0.7777777777777778,
+      "budget_exhausted_before_year_10": 3,
+      "unspent_budget_survivors": 87,
+      "unspent_budget_late_zero_choice_rate": 0.7701149425287356,
+      "category_exhausted_at_year_10": 60,
+      "category_open_survivors": 30,
+      "category_open_late_zero_choice_rate": 0.3333333333333333,
+      "whole_life_no_choice_gap": {
+        "n": 100,
+        "p50": 43,
+        "p90": 74,
+        "min": 0,
+        "max": 85
+      },
+      "whole_life_no_progress_gap": {
+        "n": 100,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 6
+      },
+      "late_no_choice_gap": {
+        "n": 90,
+        "p50": 50,
+        "p90": 74,
+        "min": 3,
+        "max": 85
+      },
+      "late_no_progress_gap": {
+        "n": 90,
+        "p50": 2,
+        "p90": 3,
+        "min": 0,
+        "max": 4
+      },
+      "late_choice_candidate_reasons": {
+        "CONDITION_NOT_MET": 102970,
+        "ELIGIBLE": 5
+      },
+      "deaths": {
+        "D_OLD_AGE": 73,
+        "D_EPIDEMIC": 8,
+        "D_WAR_CHAOS": 3,
+        "D_SENIOR_DECLINE": 5,
+        "D_BANDIT": 2,
+        "D_STARVATION": 3,
+        "D_MOD_LIGHTER_GAS_BURST": 3,
+        "D_FREEZING": 3
+      },
+      "cards": {
+        "CARD_MODERN_GLUE": 39,
+        "CARD_MODERN_FLASHLIGHT": 15,
+        "CARD_MODERN_CALCULATOR": 9,
+        "CARD_MODERN_ANTIBIOTIC": 5,
+        "CARD_MODERN_LIGHTER": 25,
+        "CARD_MODERN_CORN": 7
+      },
+      "age_bands": {
+        "adult": 32,
+        "senior": 16,
+        "youth": 25,
+        "child": 27
+      },
+      "start_years": {
+        "1628": 2,
+        "1629": 4,
+        "1630": 4,
+        "1631": 6,
+        "1632": 3,
+        "1633": 6,
+        "1634": 3,
+        "1635": 7,
+        "1636": 3,
+        "1637": 9,
+        "1638": 5,
+        "1639": 4,
+        "1640": 7,
+        "1641": 8,
+        "1642": 8,
+        "1643": 6,
+        "1644": 7,
+        "1645": 8
+      },
+      "coverage": {
+        "low_card_samples": [
+          "CARD_MODERN_CORN",
+          "CARD_MODERN_ANTIBIOTIC",
+          "CARD_MODERN_CALCULATOR"
+        ],
+        "low_age_band_samples": [],
+        "low_start_year_samples": [
+          "1628",
+          "1629",
+          "1630",
+          "1631",
+          "1632",
+          "1633",
+          "1634",
+          "1635",
+          "1636",
+          "1637",
+          "1638",
+          "1639",
+          "1640",
+          "1641",
+          "1642",
+          "1643",
+          "1644",
+          "1645"
+        ]
+      }
+    }
+  }
+}

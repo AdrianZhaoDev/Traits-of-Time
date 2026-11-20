@@ -1,0 +1,37 @@
+{
+  "id": "2a430f75-5d82-45ec-85d7-d18ff40263e6",
+  "ok": true,
+  "result": {
+    "origin": "http://localhost:5179/local/recovery-edges/harness.html",
+    "refs": {
+      "e1": {
+        "name": "",
+        "role": "Canvas"
+      },
+      "e2": {
+        "name": "查看已完成人生",
+        "role": "button"
+      },
+      "e3": {
+        "name": "声音",
+        "role": "button"
+      },
+      "e4": {
+        "name": "图鉴",
+        "role": "button"
+      },
+      "e5": {
+        "name": "统计",
+        "role": "button"
+      }
+    },
+    "removedRefs": [],
+    "snapshot": "- main\n  - Canvas [ref=e1] focusable [tabindex]\n  - group \"穿越了这次我带大喇叭逆袭 · 首页\"\n    - log\n      - StaticText \"穿越人生模拟 荒诞 · 明朝 · 你 穿越了 这次我带 大喇叭逆袭 带上一件现代物品， 去明朝过一生。 当前环境不支持安全的单页面存档锁。请使用支持 Web Locks 的浏览器，通过 HTTPS 或 localhost 访问；本页面只能查看已完成人生和记录。 图鉴收集 0/173 · 0.0% 成就 0/137 · 死因 0/36 查看已完成人生 本页面仅可查看已完成人生。 声音 图鉴 统计 当前为只读模式， 不能开始或覆盖人生。\"\n    - generic\n      - button \"查看已完成人生\" [ref=e2]\n      - button \"声音\" [ref=e3]\n      - button \"图鉴\" [ref=e4]\n      - button \"统计\" [ref=e5]\n    - status",
+    "browserPageId": "5e8e3a1f-7d66-4951-8fab-2a7dafb455ba",
+    "url": "http://localhost:5179/local/recovery-edges/harness.html",
+    "title": "localhost:5179/local/recovery-edges/harness.html?mode=locks"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}

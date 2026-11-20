@@ -1,0 +1,577 @@
+[
+  {
+    "hidden": false,
+    "visibility": "visible"
+  },
+  {
+    "name": "normal-39-entry",
+    "year": 1654,
+    "pending": "READY",
+    "route": {
+      "route_id": "prosperous_power",
+      "phase": "realization",
+      "entered_year": 1654,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-39-entry",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "pauseResumeSameEngine": true,
+    "year": 1655
+  },
+  {
+    "name": "normal-45-entry",
+    "year": 1649,
+    "pending": "READY",
+    "route": {
+      "route_id": "prosperous_free",
+      "phase": "realization",
+      "entered_year": 1649,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-45-entry",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-46-entry",
+    "year": 1640,
+    "pending": "READY",
+    "route": {
+      "route_id": "poor_renowned",
+      "phase": "realization",
+      "entered_year": 1640,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "手摇发电强光手电 · SR · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-46-entry",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-2-entry",
+    "year": 1644,
+    "pending": "READY",
+    "route": {
+      "route_id": "struggling",
+      "phase": "realization",
+      "entered_year": 1644,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-2-entry",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-28-year-1725",
+    "year": 1725,
+    "pending": "READY",
+    "route": {
+      "route_id": "prosperous_power",
+      "phase": "settlement",
+      "entered_year": 1708,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "手摇发电强光手电 · SR · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-28-year-1725",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-6-entry",
+    "year": 1652,
+    "pending": "READY",
+    "route": {
+      "route_id": "hardship",
+      "phase": "realization",
+      "entered_year": 1652,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "太阳能简易计算器 · SR · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (1)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-6-entry",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-0-stage",
+    "year": 1654,
+    "pending": "AWAITING_STAGE",
+    "route": {
+      "route_id": "ordinary",
+      "phase": "realization",
+      "entered_year": 1653,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-0-stage",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-2-option",
+    "year": 1645,
+    "pending": "AWAITING_OPTION",
+    "route": {
+      "route_id": "struggling",
+      "phase": "realization",
+      "entered_year": 1644,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-2-option",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-2-option",
+    "waitingNoAutoChoice": true
+  },
+  {
+    "name": "normal-39-year-1672",
+    "year": 1672,
+    "pending": "READY",
+    "route": {
+      "route_id": "prosperous_power",
+      "phase": "settlement",
+      "entered_year": 1654,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-39-year-1672",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-28-year-1698",
+    "year": 1698,
+    "pending": "READY",
+    "route": {
+      "route_id": "ordinary",
+      "phase": "settlement",
+      "entered_year": 1654,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "手摇发电强光手电 · SR · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-28-year-1698",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "normal-28-year-1701",
+    "year": 1701,
+    "pending": "READY",
+    "route": {
+      "route_id": "ordinary",
+      "phase": "settlement",
+      "entered_year": 1654,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "手摇发电强光手电 · SR · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "normal-28-year-1701",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "cautious-76-year-1698",
+    "year": 1698,
+    "pending": "READY",
+    "route": {
+      "route_id": "struggling",
+      "phase": "settlement",
+      "entered_year": 1638,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "cautious-76-year-1698",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "name": "cautious-76-year-1702",
+    "year": 1702,
+    "pending": "AWAITING_STAGE",
+    "route": {
+      "route_id": "struggling",
+      "phase": "settlement",
+      "entered_year": 1638,
+      "candidate_route_id": null,
+      "candidate_years": 0
+    },
+    "actions": [
+      {
+        "id": "heldItem",
+        "label": "502强力胶与折叠军刀 · R · 查看详情"
+      },
+      {
+        "id": "gameSound",
+        "label": "声音"
+      },
+      {
+        "id": "advance",
+        "label": "推进一年 · 按住连续"
+      },
+      {
+        "id": "gameCareer",
+        "label": "事业 (0)"
+      },
+      {
+        "id": "restartLife",
+        "label": "重启人生"
+      },
+      {
+        "id": "latest",
+        "label": "查看最新"
+      }
+    ]
+  },
+  {
+    "name": "cautious-76-year-1702",
+    "restoreSameEngine": true,
+    "restoredAuthorized": false
+  },
+  {
+    "incompatible": "incompatible",
+    "preserved": true
+  }
+]

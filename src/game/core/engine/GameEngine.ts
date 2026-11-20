@@ -1,17 +1,19 @@
 import type { ContentBundle, Event, Outcome, Stage } from '../types/content.generated';
-import type { ActiveEvent, Attributes, ChainInstance, CommandParameters, EndingReport, GameSave, GameView, LogData, LogEntry, PendingDecision, PlayerState, RunState } from '../types/schema';
+import type { ActiveEvent, Attributes, ChainInstance, CommandParameters, EndingReport, GameSave, GameView, InitGameOptions, LogData, LogEntry, PendingDecision, PlayerState, RunState } from '../types/schema';
 import type { CommandResult } from '../types/commands';
 import { createContentRegistry, type ContentRegistry } from '../content/ContentRegistry';
 import { cloneData } from './cloneData';
 import { DomainError } from './DomainError';
+import { isInheritanceBonus } from './Inheritance';
 import { Mulberry32, uniformInt } from './RandomSource';
 import { sampleWeighted } from './WeightedSampler';
 import { conditionContext, evaluateCondition, type ConditionContext } from './ConditionEvaluator';
 import { previewCheck, resolveCheck } from './DiceResolver';
 import { executeEffects, previewOutcome, projectOutcome } from './EffectExecutor';
 import { evaluateAchievements, endingReport } from './EndingEvaluator';
-import { scheduleHistory, scheduleWeightedEvents } from './EventScheduler';
+import { scheduleFollowUps, scheduleHistory, scheduleWeightedEvents } from './EventScheduler';
 import { dueChains, interruptChains } from './ChainRunner';
+import { updateLateLife } from './LateLife';
 import { decodeGameSave, encodeGameSave, equalData } from '../persistence/SaveCodec';
 
 interface Draft { player: PlayerState; run: RunState; logs: LogEntry[]; rng: Mulberry32 }
@@ -52,7 +54,7 @@ export class GameEngine {
     if (active.stage_id !== null) {
       const stage = event.stages!.find(s => s.id === active.stage_id)!;
       return { kind: 'stage', event_instance_id: active.instance_id, event_id: event.id, stage_id: stage.id, text: stage.text,
-        check: previewCheck(stage.check, player.attributes[stage.check.attribute], this.content.rules.check, this.checkBonus(stage.check, player)) };
+        check: previewCheck(stage.check, player.attributes[stage.check.attribute], this.content.rules.check, player.attributes.luck, this.checkBonus(stage.check, player)) };
     }
     if (event.interaction !== 'choice') return null;
     const context = conditionContext(player, run.timeline);
@@ -66,7 +68,7 @@ export class GameEngine {
       const projectedChain = active.chain_instance_id ? projected?.player.chains.find(chain => chain.instance_id === active.chain_instance_id) : undefined;
       if (projected && projected.run.status !== 'ENDED' && (!projectedChain || projectedChain.status === 'active') && option.outcome.next_stage_id !== null) {
         const stage = event.stages!.find(candidate => candidate.id === option.outcome.next_stage_id)!;
-        checks.push(previewCheck(stage.check, projected.player.attributes[stage.check.attribute], this.content.rules.check, this.checkBonus(stage.check, projected.player)));
+        checks.push(previewCheck(stage.check, projected.player.attributes[stage.check.attribute], this.content.rules.check, projected.player.attributes.luck, this.checkBonus(stage.check, projected.player)));
       }
       return { id: option.id, text: option.text, risk: option.risk, checks, available, reason: available ? null : condition ? 'OUTCOME_NOT_APPLICABLE' : option.unavailable_text };
     }) };
@@ -93,7 +95,7 @@ export class GameEngine {
     } else this.saved = { player: draft.player, run: draft.run, logs: draft.logs };
     return result;
   }
-  private command(commandId: string, parameters: CommandParameters, apply: (draft: Draft) => void): CommandResult {
+  private command(commandId: string, parameters: CommandParameters, apply: (draft: Draft) => void, evaluate = true): CommandResult {
     if (!this.saved) throw new DomainError('NOT_INITIALIZED');
     const previous = Object.hasOwn(this.saved.run.processed_commands, commandId) ? this.saved.run.processed_commands[commandId] : undefined;
     if (previous) {
@@ -103,21 +105,23 @@ export class GameEngine {
     try {
       if (!commandId) throw new DomainError('INVALID_COMMAND_ID');
       const draft = this.draft(); apply(draft);
-      if (draft.run.status !== 'ENDED') this.evaluateAchievements(draft);
+      if (evaluate && draft.run.status !== 'ENDED') this.evaluateAchievements(draft);
       return this.commit(draft, commandId, parameters);
     } catch (error) {
       if (!(error instanceof DomainError)) throw error;
       return { ok: false, error: { code: error.code, message: error.message }, state: this.current().state };
     }
   }
-  initGame(options: { seed: number }): CommandResult {
+  initGame(options: InitGameOptions): CommandResult {
     if (this.saved) return { ok: false, error: { code: 'ALREADY_INITIALIZED', message: 'Create a new engine to begin another life' }, state: this.current().state };
+    const inheritance = options.inheritance;
+    if ((inheritance !== undefined || Object.hasOwn(options, 'inheritance')) && !isInheritanceBonus(inheritance)) throw new DomainError('INVALID_INHERITANCE');
     const rng = new Mulberry32(options.seed);
     const c = this.content;
     const band = sampleWeighted([...c.rules.age_bands].sort(byId), a => a.weight, rng);
     const age = uniformInt(band.min, band.max, rng);
     const year = uniformInt(c.rules.opening.year_min, c.rules.opening.year_max, rng);
-    const context: ConditionContext = { age, calendar_year: year, start_year: year, physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
+    const context: ConditionContext = { age, calendar_year: year, start_year: year, years_elapsed: 0, physique: 0, intelligence: 0, wealth: 0, prestige: 0, luck: 0,
       region_id: '', caste_id: '', identity_id: '', timeline: 'historical', cards: [], flags: [], injuries: [], completed_chains: [], active_chains: [] };
     const pairs = [...c.regions].sort(byId).flatMap(region => [...c.castes].sort(byId).map(caste => ({ region, caste, weight: region.weight * caste.weight })))
       .filter(pair => pair.weight > 0 && c.era.backgrounds.some(background => background.weight > 0 && evaluateCondition(background.condition, { ...context, region_id: pair.region.id, caste_id: pair.caste.id })));
@@ -125,9 +129,15 @@ export class GameEngine {
     context.region_id = pair.region.id; context.caste_id = pair.caste.id;
     const background = sampleWeighted([...c.era.backgrounds].sort(byId).filter(b => evaluateCondition(b.condition, context)), b => b.weight, rng);
     const pool = this.registry.pools.get(c.rules.opening.pool_id)!;
-    // First offer retains the old draw position; subsequent offers consume one draw each.
+    // Default offers draw without replacement; a directed inheritance occupies one slot first.
     const remaining = [...pool.entries].sort((a, b) => a.card_id < b.card_id ? -1 : a.card_id > b.card_id ? 1 : 0).filter(entry => entry.weight > 0);
     const offers: string[] = [];
+    if (inheritance?.kind === 'extra_card') {
+      const index = remaining.findIndex(entry => entry.card_id === inheritance.card_id);
+      if (index < 0) throw new DomainError('INVALID_INHERITANCE');
+      offers.push(inheritance.card_id);
+      remaining.splice(index, 1);
+    }
     while (remaining.length && offers.length < 3) {
       const picked = sampleWeighted(remaining, entry => entry.weight, rng);
       offers.push(picked.card_id);
@@ -138,14 +148,27 @@ export class GameEngine {
     const values = {} as Attributes;
     const sources = [band, pair.caste, pair.region, background];
     for (const key of attributes) values[key] = Math.max(c.rules.attributes.min, Math.min(c.rules.attributes.max, c.rules.attributes.base + sources.reduce((sum, source) => sum + (source.modifiers[key] ?? 0), 0)));
+    if (inheritance?.kind === 'attribute') values[inheritance.attribute] = Math.min(c.rules.attributes.max, values[inheritance.attribute] + 1);
     const player: PlayerState = { era_id: c.era.id, start_age: age, age, max_lifespan, start_year: year, calendar_year: year,
       region_id: pair.region.id, caste_id: pair.caste.id, identity_id: background.identity_id, highest_identity_id: background.identity_id, attributes: values,
-      cards: [], flags: [...new Set([pair.caste, pair.region, background].flatMap(source => source.flags))], injuries: [], chains: [], achievements: [] };
-    const run: RunState = { run_id: `life:${this.fingerprint}:${options.seed}`, seed: options.seed, prng: rng.exportState(), status: 'AWAITING_CARD', card_offers: offers, opening_background_id: background.id, opening_age_band_id: band.id, timeline: 'historical', year_phase: 'opening', queue: [], queue_cursor: 0,
-      event_counter: 0, chain_counter: 0, active_event: null, processed_history: [], cooldowns: Object.create(null), event_counts: Object.create(null),
+      cards: [], flags: [...new Set([pair.caste, pair.region, background].flatMap(source => source.flags))], injuries: [], chains: [], achievements: [],
+      late_life: { route_id: null, phase: null, entered_year: null, candidate_route_id: null, candidate_years: 0 } };
+    const run: RunState = { run_id: `life:${this.fingerprint}:${options.seed}`, seed: options.seed, inheritance: inheritance ? { ...inheritance } : null, prng: rng.exportState(), status: 'AWAITING_CARD', card_offers: offers, opening_background_id: background.id, opening_age_band_id: band.id, timeline: 'historical', year_phase: 'opening', queue: [], queue_cursor: 0,
+      event_counter: 0, chain_counter: 0, active_event: null, processed_history: [], cooldowns: Object.create(null), event_counts: Object.create(null), follow_up_groups: Object.create(null),
       dice_results: [], death: null, ending: null, processed_commands: Object.create(null), revision: 0 };
     const draft: Draft = { player, run, logs: [], rng };
     return this.commit(draft);
+  }
+  replaceCardOffer(commandId: string, previousCardId: string, cardId: string): CommandResult {
+    return this.command(commandId, { api: 'replaceCardOffer', args: [previousCardId, cardId] }, draft => {
+      if (draft.run.status !== 'AWAITING_CARD') throw new DomainError('INVALID_STATE');
+      const index = draft.run.card_offers.indexOf(previousCardId);
+      const pool = this.registry.pools.get(this.content.rules.opening.pool_id)!;
+      if (index < 0 || draft.run.card_offers.includes(cardId) || !pool.entries.some(entry => entry.card_id === cardId && entry.weight > 0)) {
+        throw new DomainError('CARD_UNAVAILABLE');
+      }
+      draft.run.card_offers[index] = cardId;
+    }, false);
   }
   selectCard(commandId: string, cardId: string): CommandResult {
     return this.command(commandId, { api: 'selectCard', args: [cardId] }, draft => {
@@ -178,10 +201,10 @@ export class GameEngine {
       if (draft.run.status !== 'AWAITING_STAGE' || active?.instance_id !== eventInstanceId || active.stage_id !== stageId) throw new DomainError('STALE_DECISION');
       const event = this.registry.events.get(active.event_id)!;
       const stage = event.stages!.find(s => s.id === stageId)!;
-      const dice = resolveCheck(stage.check, draft.player.attributes[stage.check.attribute], this.content.rules.check, draft.rng, this.checkBonus(stage.check, draft.player));
+      const dice = resolveCheck(stage.check, draft.player.attributes[stage.check.attribute], this.content.rules.check, draft.player.attributes.luck, draft.rng, this.checkBonus(stage.check, draft.player));
       draft.run.dice_results.push(dice);
       this.log(draft, 'dice', event.id, stage.text, { ...dice, event_instance_id: eventInstanceId, stage_id: stageId });
-      const outcome = dice.raw === 20 && stage.critical_success ? stage.critical_success : dice.success ? stage.success : stage.failure;
+      const outcome = dice.critical_success && stage.critical_success ? stage.critical_success : dice.success ? stage.success : stage.failure;
       this.applyOutcome(draft, outcome, event.id); this.route(draft, outcome, active); this.resume(draft);
     });
   }
@@ -268,6 +291,7 @@ export class GameEngine {
         const active: ActiveEvent = { ...entry, instance_id: `${run.run_id}:event:${++run.event_counter}`, stage_id: null };
         run.active_event = active;
         run.event_counts[event.id] = (run.event_counts[event.id] ?? 0) + 1;
+        if (event.trigger.kind === 'follow_up') run.follow_up_groups[event.trigger.group_id] = draft.player.calendar_year;
         if (event.trigger.kind === 'random') run.cooldowns[event.id] = draft.player.calendar_year + event.trigger.cooldown_years;
         this.log(draft, 'event', event.id, event.text, { event_instance_id: active.instance_id });
         if (event.interaction === 'choice') { run.status = 'AWAITING_OPTION'; return; }
@@ -281,7 +305,11 @@ export class GameEngine {
           if (run.timeline === 'historical' && draft.player.calendar_year >= this.content.era.historical_end_year) {
             run.timeline = 'fictional'; this.log(draft, 'history_switch', this.content.era.id, '架空推演', { timeline: 'fictional' });
           }
-          run.year_phase = 'random'; run.queue = this.weighted(draft, 'random'); break;
+          updateLateLife(this.content, draft.player, run, data => this.log(draft, 'late_life', this.content.era.id, '', data));
+          run.year_phase = 'follow_up';
+          run.queue = scheduleFollowUps(this.content, draft.player, run, event => this.available(event, draft), data => this.log(draft, 'follow_up', data.group_id, '', data));
+          break;
+        case 'follow_up': run.year_phase = 'random'; run.queue = this.weighted(draft, 'random'); break;
         case 'random': run.year_phase = 'complete'; break;
         case 'complete': run.status = 'READY'; return;
         case 'vital': throw new DomainError('INVALID_STATE', 'Vital phase cannot resume without annual processing');
@@ -336,7 +364,7 @@ export class GameEngine {
       const entries = Object.entries(commands);
       if (entries.length !== data.revision - 1) invalid();
       const replay = new GameEngine(this.content, this.fingerprint);
-      replay.initGame({ seed: data.payload.run.seed });
+      replay.initGame({ seed: data.payload.run.seed, ...(data.payload.run.inheritance === null ? {} : { inheritance: data.payload.run.inheritance }) });
       entries.sort((a, b) => a[1].result.state.revision - b[1].result.state.revision);
       for (const [id, receipt] of entries) {
         if (!receipt || !receipt.parameters || !Array.isArray(receipt.parameters.args)) invalid();
@@ -345,6 +373,7 @@ export class GameEngine {
         let result: CommandResult;
         switch (api) {
           case 'selectCard': if (args.length !== 1) invalid(); result = replay.selectCard(id, args[0]!); break;
+          case 'replaceCardOffer': if (args.length !== 2) invalid(); result = replay.replaceCardOffer(id, args[0]!, args[1]!); break;
           case 'nextYear': if (args.length !== 0) invalid(); result = replay.nextYear(id); break;
           case 'resolveOption': if (args.length !== 2) invalid(); result = replay.resolveOption(id, args[0]!, args[1]!); break;
           case 'resolveStage': if (args.length !== 2) invalid(); result = replay.resolveStage(id, args[0]!, args[1]!); break;

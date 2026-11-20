@@ -1,0 +1,527 @@
+{
+  "events": [
+    {
+      "id": "E_MOD_FLASHLIGHT_EVIDENCE",
+      "title": "米铺丢了两袋粮",
+      "text": "米铺后门丢了两袋粮，手电照见朝向鸡笼的半截鞋印，围观的人催你抓贼。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你描下鞋底印迹，请巡丁协助问询邻居。",
+        "effects": [],
+        "next_stage_id": "evidence_check"
+      },
+      "stages": [
+        {
+          "id": "evidence_check",
+          "text": "大家轮流摇亮手电，你得仔细核对鞋印，不能只凭墙后的动静作证。",
+          "check": { "attribute": "intelligence", "dc": 15, "modifier": 0, "tag": "night_patrol" },
+          "success": {
+            "text": "你描下鞋底的印迹，再问邻居见过什么，找到了偷粮的线索。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_EVIDENCE" },
+              { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你认错了鸡爪印，承认后重新描好鞋印，邻人点头表示认可。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_EVIDENCE" },
+              { "type": "attribute_add", "attribute": "intelligence", "amount": 2 },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "E_MOD_FLASHLIGHT_PATROL",
+      "title": "夜巡轮流摇灯",
+      "text": "夜巡的人只肯提灯，街坊等你排班。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "轮班排妥，夜路总算有人照。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_PATROL" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_FLASHLIGHT_ESCORT",
+      "title": "照路护送乡邻",
+      "text": "夜路挤满行人，大家等你安排。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你分队接力护送，乡邻少走冤枉路。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_ESCORT" },
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_READY" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_FLASHLIGHT_FAST_FRAUD",
+      "title": "拆穿灯影骗局",
+      "text": "有人借灯影骗路费，你得查清机关。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 950 },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你拆开小机关，讲清影子原理。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_ABORT" },
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_EVIDENCE" },
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_FAST_1" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+          { "op": "is", "field": "timeline", "value": "historical" },
+          { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+          { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+        ]
+      }
+    },
+    {
+      "id": "E_MOD_FLASHLIGHT_FAST_ROTA",
+      "title": "换人接着摇灯",
+      "text": "摇灯的人累了，巷路还没照完。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 949 },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "路线和班次排好，巡夜不再独撑。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_PATROL" },
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_FAST_2" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+              { "op": "is", "field": "timeline", "value": "historical" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          },
+          { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_FAST_1" }
+        ]
+      }
+    },
+    {
+      "id": "E_MOD_FLASHLIGHT_FAST_EXIT",
+      "title": "结伴撤离",
+      "text": "撤离的人排成长队，暗沟挡在路上。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 948 },
+      "interaction": "automatic",
+      "outcome": {
+        "text": "你分段接力护送，乡邻少走冤枉路。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_ESCORT" },
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_READY" },
+          { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_FAST_DONE" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      },
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+              { "op": "is", "field": "timeline", "value": "historical" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          },
+          { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_FAST_2" }
+        ]
+      }
+    },
+    {
+      "id": "E_MOD_FLASHLIGHT_BREAKTHROUGH",
+      "title": "合查几处失窃案",
+      "text": "乡邻请你合查几处失窃案，有人想趁乱抢灯。追查或独闯暗沟可能失足丧命；独追抢灯贼、夸灯能透墙也可能丧命。",
+      "trigger": {
+        "kind": "random",
+        "weight": 100,
+        "priority": 900,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "flashlight_break_brain",
+          "text": "核对证词追查赃物",
+          "unavailable_text": "需持手摇发电强光手电，处于历史线1640年或以后，完成主线或应急护送，且才干≥12、人脉≥8。",
+          "risk": "high",
+          "outcome": {
+            "text": "你先请巡丁守住退路，再沿着鞋印逐户核对证词。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "break_intelligence"
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+                  { "op": "is", "field": "timeline", "value": "historical" },
+                  { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+                  { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+                  { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_READY" },
+                  {
+                    "op": "any",
+                    "conditions": [
+                      { "op": "compare", "field": "physique", "comparator": "gte", "value": 12 },
+                      { "op": "compare", "field": "intelligence", "comparator": "gte", "value": 12 }
+                    ]
+                  }
+                ]
+              },
+              { "op": "compare", "field": "intelligence", "comparator": "gte", "value": 12 }
+            ]
+          }
+        },
+        {
+          "id": "flashlight_break_body",
+          "text": "带队循鞋印追赃",
+          "unavailable_text": "需持手摇发电强光手电，处于历史线1640年或以后，完成主线或应急护送，且体魄≥12、人脉≥8。",
+          "risk": "high",
+          "outcome": {
+            "text": "你请巡丁守住退路，再分队沿着脚印追查。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "break_physique"
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              {
+                "op": "all",
+                "conditions": [
+                  { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+                  { "op": "is", "field": "timeline", "value": "historical" },
+                  { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+                  { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+                  { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_READY" },
+                  {
+                    "op": "any",
+                    "conditions": [
+                      { "op": "compare", "field": "physique", "comparator": "gte", "value": 12 },
+                      { "op": "compare", "field": "intelligence", "comparator": "gte", "value": 12 }
+                    ]
+                  }
+                ]
+              },
+              { "op": "compare", "field": "physique", "comparator": "gte", "value": 12 }
+            ]
+          }
+        },
+        {
+          "id": "flashlight_break_safe",
+          "text": "把查案记录交巡丁",
+          "unavailable_text": "需持手摇发电强光手电，完成主线或应急护送，且处于历史线1640年或以后。",
+          "risk": "safe",
+          "outcome": {
+            "text": "乡邻夜里赶路时，你提着手电帮他们看清脚下。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_SAFE" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "flashlight_robbery",
+          "text": "冒险独追抢灯贼",
+          "unavailable_text": "需持手摇发电强光手电，完成普通夜查主链并已查验过线索。",
+          "risk": "high",
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_MAIN_DONE" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_EVIDENCE" }
+            ]
+          },
+          "outcome": {
+            "text": "有人伸手抢灯，被你躲开后转身逃走。你独自追赶，发现对方还有同伙，得找退路，否则可能丧命。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "flashlight_break_robbery_escape"
+          }
+        },
+        {
+          "id": "flashlight_claims",
+          "text": "吹嘘手电能透墙",
+          "unavailable_text": "需持手摇发电强光手电，已查验线索并安排过夜巡。",
+          "risk": "high",
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_EVIDENCE" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_PATROL" }
+            ]
+          },
+          "outcome": {
+            "text": "你谎称手电能透墙认贼，人群挤乱货架，若躲闪不及可能丧命。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "flashlight_break_claims_escape"
+          }
+        },
+        {
+          "id": "flashlight_misstep",
+          "text": "举灯独自闯暗沟",
+          "unavailable_text": "需持手摇发电强光手电，已完成夜路护送并做好照路准备。",
+          "risk": "high",
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_ESCORT" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_READY" }
+            ]
+          },
+          "outcome": {
+            "text": "你独自闯向暗沟，脚下险些失稳，跌落可能丧命。",
+            "effects": [{ "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" }],
+            "next_stage_id": "flashlight_break_ditch_escape"
+          }
+        },
+        {
+          "id": "flashlight_quit",
+          "text": "交灯停止追查",
+          "unavailable_text": "暂时无法交灯退出。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你把手电交给家人保管，暂停查案，先顾自己的生计。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_ABORT" }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+          { "op": "is", "field": "timeline", "value": "historical" },
+          { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+          { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_READY" },
+          {
+            "op": "any",
+            "conditions": [
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_MAIN_DONE" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_FAST_DONE" }
+            ]
+          },
+          { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_HISTORICAL_TURN_USED" } }
+        ]
+      },
+      "stages": [
+        {
+          "id": "break_intelligence",
+          "text": "你对照几处鞋印和证词，逐一核实能连起来的线索。",
+          "check": { "attribute": "intelligence", "dc": 22, "modifier": 0, "tag": "night_patrol", "raw_minimum": 10 },
+          "success": {
+            "text": "你根据吻合的鞋印和证词找到了赃物，乡邻都很看重这份记录。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_SUCCESS" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 2 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你沿鞋印追查到暗沟边，没看清落脚处，失足丧命。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_DEATH_MISSTEP" },
+              { "type": "death", "id": "D_MOD_FLASHLIGHT_MISSTEP" }
+            ],
+            "next_stage_id": null
+          },
+          "critical_success": {
+            "text": "你连旧案的鞋印也一一核对上，乡邻争着传看查案记录。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_SUCCESS" },
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_CRITICAL" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "break_physique",
+          "text": "你要带巡丁沿脚印走完这段夜路，追查赃物的去向。",
+          "check": { "attribute": "physique", "dc": 22, "modifier": 0, "tag": "night_patrol", "raw_minimum": 10 },
+          "success": {
+            "text": "你带巡丁沿鞋印追回了赃物，乡邻也认可了你的本事。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_SUCCESS" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 2 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你追到暗沟边没能站稳，失足跌下，没能活下来。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_DEATH_MISSTEP" },
+              { "type": "death", "id": "D_MOD_FLASHLIGHT_MISSTEP" }
+            ],
+            "next_stage_id": null
+          },
+          "critical_success": {
+            "text": "你接连追查几起旧案，找回了线索，乡邻也把你的巡路经验传了开来。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_SUCCESS" },
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_BREAK_CRITICAL" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "flashlight_break_robbery_escape",
+          "text": "抢灯贼的同伙堵在巷尾，你得找准空隙退回去。",
+          "check": { "attribute": "physique", "dc": 17, "modifier": 0, "tag": "night_patrol" },
+          "success": {
+            "text": "你带着手电避开同伙退回巷口，跟巡丁重新查验留下的脚印。",
+            "effects": [{ "type": "flag_add", "id": "F_MOD_FLASHLIGHT_EVIDENCE" }],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "抢灯贼和同伙堵住退路，你没能逃出去，最终丧命。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_DEATH_ROBBERY" },
+              { "type": "death", "id": "D_MOD_FLASHLIGHT_ROBBERY" }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "flashlight_break_claims_escape",
+          "text": "人群撞歪货架，你得先认错脱身。",
+          "check": { "attribute": "intelligence", "dc": 17, "modifier": 0, "tag": "night_patrol" },
+          "success": {
+            "text": "你澄清透墙是谎话，货架旁的人慢慢散开。",
+            "effects": [{ "type": "flag_add", "id": "F_MOD_FLASHLIGHT_PATROL" }],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你没能躲开倒下的货架，最终身亡。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_DEATH_CLAIMS" },
+              { "type": "death", "id": "D_MOD_FLASHLIGHT_CLAIMS" }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "flashlight_break_ditch_escape",
+          "text": "你在沟边踩空，得赶紧站稳。",
+          "check": { "attribute": "physique", "dc": 17, "modifier": 0, "tag": "night_patrol" },
+          "success": {
+            "text": "你看清沟沿，退回队伍轮流护送。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_ESCORT" },
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_READY" }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "你没留意脚下，跌进暗沟后身亡。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_FLASHLIGHT_DEATH_MISSTEP" },
+              { "type": "death", "id": "D_MOD_FLASHLIGHT_MISSTEP" }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    }
+  ],
+  "chains": [
+    {
+      "id": "CHAIN_MOD_FLASHLIGHT_DETECTIVE",
+      "name": "手摇灯下捕神路",
+      "commitment": "历时六年，第1、3、6年自动搜证、巡夜和护送；搜证检定失败仍有进展。完成后若尚未用过历史重大选择，可选择查案、交记录、冒险或停止追查；冒险检定失败可能丧命。重伤或道路封闭会中断，经验保留。1643至1644年开局改走自动照路任务。",
+      "priority": 80,
+      "interrupt_condition": {
+        "op": "any",
+        "conditions": [
+          { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_ABORT" },
+          { "op": "has", "collection": "injuries", "id": "INJ_SEVERE" },
+          { "op": "has", "collection": "flags", "id": "F_ERA_ROADS_CLOSED" }
+        ]
+      },
+      "interrupt_text": "这次夜查与护送中断了，过去学到的查证和巡路方法仍在。",
+      "nodes": [
+        { "after_years": 1, "event_id": "E_MOD_FLASHLIGHT_EVIDENCE" },
+        { "after_years": 3, "event_id": "E_MOD_FLASHLIGHT_PATROL" },
+        { "after_years": 6, "event_id": "E_MOD_FLASHLIGHT_ESCORT" }
+      ],
+      "completion": {
+        "text": "你熟悉了查证和巡路的方法，也学会了与同伴轮流摇灯、分工护送。",
+        "effects": [{ "type": "flag_add", "id": "F_MOD_FLASHLIGHT_MAIN_DONE" }],
+        "next_stage_id": null
+      }
+    }
+  ],
+  "achievements": [
+    {
+      "id": "A_MOD_FLASHLIGHT_DEATH_ROBBERY",
+      "name": "追灯途中遇难",
+      "text": "追赶抢灯贼时遇险，这段人生就此结束。",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+          { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_DEATH_ROBBERY" }
+        ]
+      },
+      "priority": 20,
+      "category": "anecdote"
+    }
+  ],
+  "reasons": {
+    "E_MOD_FLASHLIGHT_EVIDENCE": "消除主链重复选择，自动进入原真实搜证D20；成功沿首个正常结果给予EVIDENCE及才干/人脉各3，失败沿原检定给予同一flag及才干2、人脉1，无死亡或重复奖励。抢灯危险和退出迁至重大菜单。",
+    "E_MOD_FLASHLIGHT_PATROL": "自动采用原首个安全排班结果；透墙危险迁至重大菜单，安全成长备选不与自动成长叠发。",
+    "E_MOD_FLASHLIGHT_ESCORT": "自动采用原首个分队护送结果；暗沟危险迁至重大菜单，安全成长备选不与自动成长叠发。",
+    "E_MOD_FLASHLIGHT_FAST_FRAUD": "保留原首个拆机关结果并自动结算，保留ABORT以中断普通链；透墙危险与普通对应风险合并到重大菜单。",
+    "E_MOD_FLASHLIGHT_FAST_ROTA": "保留原首个排班结果并自动结算，保留FAST_1前置和FAST_2进度。",
+    "E_MOD_FLASHLIGHT_FAST_EXIT": "保留原首个护送结果并自动结算，保留FAST_2前置及FAST_DONE；暗沟危险与普通对应风险合并到重大菜单。",
+    "E_MOD_FLASHLIGHT_BREAKTHROUGH": "保留原两属性门槛、DC22原骰下限10、成功/大成功/失败和安全退路；补共同历史选择门禁并让每个选项先写历史预算flag。迁入有持卡及已完成相关阶段事实前置的独追、透墙、暗沟原危险检定和退出，普通/快进重复风险共用阶段，三种死亡与成就flag仍有明确选择路径。",
+    "CHAIN_MOD_FLASHLIGHT_DETECTIVE": "只同步commitment：三节点自动推进，搜证真实检定可失败仍有进展，重大查案与危险/退出选择集中；节点、完成和中断机制不变。",
+    "A_MOD_FLASHLIGHT_DEATH_ROBBERY": "抢灯危险从首次搜证迁至完成主线后的重大选择，原短评称才刚接触夜查已不符；仅改text，保留成就ID、名称、条件、权重和分类。"
+  }
+}

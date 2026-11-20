@@ -1,0 +1,29 @@
+{
+  "name": "chuanyue-laba-nixi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.1"
+  },
+  "scripts": {
+    "validate:content": "node --import ./tools/register-typescript.mjs tools/validate-content.mjs",
+    "test": "node --import ./tools/register-typescript.mjs --test",
+    "prepare:assets": "node tools/prepare-assets.mjs",
+    "dev": "npm run prepare:assets && vite --host 0.0.0.0",
+    "build": "npm run prepare:assets && vite build",
+    "preview": "npm run prepare:assets && vite preview --host 0.0.0.0",
+    "typecheck": "npm run prepare:assets && tsc --noEmit",
+    "build:wechat": "npm run prepare:assets && node tools/build-wechat.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "minigame-canvas-engine": "1.0.29"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
+  }
+}

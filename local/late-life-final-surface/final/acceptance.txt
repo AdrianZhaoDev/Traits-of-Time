@@ -1,0 +1,10 @@
+结果：Web Canvas后期验收通过，保留真实平台限制；不替代Core工程测试。
+环境：现有localhost:5179 Vite生产源码Canvas；390x844，DPR1，Chromium headless shell真实渲染，document.hidden=false/visibility=visible。使用独立临时profile；CDP touchscreen.tap原子trusted触摸激活真实Canvas命中区域，未改DOM、未伪造controller状态。滚动使用CDP鼠标滚轮，不冒称微信触屏手势覆盖。Orca独立profile始终hidden导致生产暂停渲染，已报tool issue并关闭删除该profile；经Main批准换已安装Chromium。Chromium finally关闭并删除profile，临时脚本已删。
+最终内容指纹：e0bc9db4f16fe7da115fe6af711dd121bd89b2ed7d5dc60e6fc0bbbed251d9d2。
+合法来源：manifest.json列9条自然生产GameSession，首张真实候选卡，策略RNG与simulate一致，逐command到死亡。全部导出存档经新GameSession.restoreSave完整回放哈希验证，再CurrentLifeStore双槽编码。未更改版本或内容指纹。9条逐年year集合无缺年；定点载入不代表自然发生概率。所有保存与完整年表保留。
+实际UI代表及13边界：normal39有权家资6、45富无权、46家资1举人、2家资0流民、28体魄1家资6、6三岁开局第10年12岁。加normal0待检定、normal2待选、39取水路兑现、28 CREDIT安排/回话、cautious76 PASS备用安排/兑现。13组刷新恢复engine逐字相同，authorized全部false，无再次分流/重复兑现（browser-results.json）。
+真实UI继续→normal39 1654单次触摸推进→1655，打开声音暂停→刷新→继续恢复1655，engine相同。新按钮实际显示“推进一年·按住连续”，未有跳年入口。待选刷新、滚动、CDP冻结/恢复后仍AWAITING_OPTION，未代选。自动检定继续在原1702年完成，未跳年。长按持续与真实OS后台切换不冒称已实机覆盖；CDP生命周期冻结恢复已测，Runtime代码由Core覆盖。
+旧档：复用既有local/surface-acceptance/seed29-slots.json.card，真实save_version5；实际首页显示旧存档不兼容/重开再次确认，原槽字符串保持完全相同。不是人为把新档version改旧。
+手机可读：六代表实际截图，正文约16px完整换行；选择风险致伤/致死先见，滚动可看到全部选择和高风险，按钮不压住可滚动内容。清贫不是无用，少年称少年，富有体弱照料落实且不治愈身体。CREDIT新因果与PASS备用/破损新因果已自然年表+Canvas复读。阶段弹层显示明确任务、成功率、自然1失败/20成功及继续检定，恢复暂停。
+晚年与爽惨：详见../narrative-review.txt和../candidate04-continuous-excerpts.txt。权势取水路→修通、财富配送→按时送粮、中断仍保留农具图、贫困缩食/邻里温暖均有连续年份。最大whole_gap37谨慎14从1681至1721完整读；有旧文案多次复用但不是同一后期文案循环数十年，好友/孩子死亡与日用/工艺/生活差异不强算进展。发现CREDIT凭空兑现及PASS/LIVING同义重复两点，Stories已修并定点复验；不以active4掩盖whole19。
+限制：不是微信真机、不是实体手机；安全区/系统字体/真实触屏拖动未有设备证据。自动推进后台行为仅CDP冻结边界，不冒称真实手机退后台。未跑npm test/build/typecheck（Core负责）。

@@ -1,0 +1,9 @@
+
+> chuanyue-laba-nixi@1.0.0 typecheck
+> npm run prepare:assets && tsc --noEmit
+
+
+> chuanyue-laba-nixi@1.0.0 prepare:assets
+> node tools/prepare-assets.mjs
+
+已校验 27 个本地素材（2537945 字节）。

@@ -1,0 +1,442 @@
+{
+  "events": [
+    {
+      "id": "E_MOD_CORN_TRIAL",
+      "text": "旱田缺水，玉米也得先试芽、育苗。老农带你选了一小块田。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+          { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_MOD_CORN_ABORT" } },
+          {
+            "op": "not",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+                { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+              ]
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你用小块田比较水土条件，先试芽，再考虑扩种。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_CORN_TRIAL" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_CORN_STORE",
+      "text": "邻里愿意凑粮合仓，却有人误以为玉米不用浇水；等粮的人已经排到了田边。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+          { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_MOD_CORN_ABORT" } },
+          {
+            "op": "not",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+                { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+              ]
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你把口粮和种粮分开记账，再安排各户领粮的次序。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_CORN_STORE" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_CORN_RELIEF",
+      "text": "战乱中来了一队饥民，试田的玉米只够留种，乡邻们正商量怎样接济。",
+      "trigger": { "kind": "chain" },
+      "interaction": "automatic",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+          { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_MOD_CORN_ABORT" } },
+          {
+            "op": "not",
+            "condition": {
+              "op": "all",
+              "conditions": [
+                { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+                { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+              ]
+            }
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你按水土条件整理种法，分给乡邻，先留够口粮再让大家试种。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_CORN_RELIEF" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 },
+          { "type": "flag_add", "id": "F_MOD_CORN_READY" },
+          { "type": "flag_add", "id": "F_MOD_CORN_PRACTICE" }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_CORN_FAST_INVENTORY",
+      "text": "领粮的人催着清点，口粮和种粮却混在一起，试种也得先暂停。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 950 },
+      "interaction": "automatic",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          }
+        ]
+      },
+      "outcome": {
+        "text": "你称好现粮再分给大家，留种则标清来源，等来年试芽。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_CORN_FAST_ONE" },
+          { "type": "flag_add", "id": "F_MOD_CORN_ABORT" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_CORN_FAST_DISTRIBUTE",
+      "text": "领粮的队伍排到街口，人还在增加。现粮只剩几袋，各户都等着分粮。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 949 },
+      "interaction": "automatic",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          },
+          { "op": "has", "collection": "flags", "id": "F_MOD_CORN_FAST_ONE" }
+        ]
+      },
+      "outcome": {
+        "text": "你借来邻仓的粮，补足各户口粮，另把种粮留下。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_CORN_FAST_TWO" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_CORN_FAST_ESCORT",
+      "text": "粮车要经过战乱中的路口，老弱和种袋都在车边。附近有人抢粮，结伴绕路更稳妥。",
+      "trigger": { "kind": "historical", "year": 1644, "priority": 948 },
+      "interaction": "automatic",
+      "condition": {
+        "op": "all",
+        "conditions": [
+          {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+              { "op": "compare", "field": "start_year", "comparator": "gte", "value": 1643 },
+              { "op": "compare", "field": "start_year", "comparator": "lte", "value": 1644 }
+            ]
+          },
+          { "op": "has", "collection": "flags", "id": "F_MOD_CORN_FAST_TWO" }
+        ]
+      },
+      "outcome": {
+        "text": "你和邻人绕开抢粮的路口，结伴护送粮车，也照应着老弱。",
+        "effects": [
+          { "type": "flag_add", "id": "F_MOD_CORN_ESCORT" },
+          { "type": "flag_add", "id": "F_MOD_CORN_READY" },
+          { "type": "flag_add", "id": "F_MOD_CORN_PRACTICE" },
+          { "type": "attribute_add", "attribute": "intelligence", "amount": 3 },
+          { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+        ],
+        "next_stage_id": null
+      }
+    },
+    {
+      "id": "E_MOD_CORN_BREAKTHROUGH",
+      "text": "各村想推广玉米，须先核对水土，核验失败可能损失家资和人脉。独行护粮、争辩免水或卖光口粮都可能丧命，脱险也可能损失家资。",
+      "trigger": {
+        "kind": "random",
+        "weight": 100,
+        "priority": 940,
+        "trigger_probability": 1,
+        "cooldown_years": 0,
+        "max_occurrences": 1,
+        "rare": false
+      },
+      "interaction": "choice",
+      "options": [
+        {
+          "id": "corn_promote",
+          "text": "联村核验种法",
+          "unavailable_text": "需持高产耐旱玉米良种，处于历史线1640年或以后，才干≥12、人脉≥8，并有试种实践。",
+          "risk": "normal",
+          "outcome": {
+            "text": "你摊开试芽和用水记录，请各村老农逐一核对。",
+            "effects": [ { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" } ],
+            "next_stage_id": "promote"
+          },
+          "condition": {
+            "op": "all",
+            "conditions": [
+              { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+              { "op": "is", "field": "timeline", "value": "historical" },
+              { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+              { "op": "compare", "field": "intelligence", "comparator": "gte", "value": 12 },
+              { "op": "compare", "field": "prestige", "comparator": "gte", "value": 8 },
+              { "op": "has", "collection": "flags", "id": "F_MOD_CORN_PRACTICE" }
+            ]
+          }
+        },
+        {
+          "id": "corn_safe",
+          "text": "按平价接济乡邻",
+          "unavailable_text": "需持高产耐旱玉米良种，已做好推广准备，且处于历史线1640年或以后。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你按现有粮食的平价接济乡邻，不拿还没种出来的粮作保证。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_add", "id": "F_MOD_CORN_MODEST" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 1 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "corn_trial_risk",
+          "text": "独自背粮走险巷",
+          "unavailable_text": "须持有高产耐旱玉米良种，并已试田或结伴护粮。",
+          "risk": "high",
+          "condition": {
+            "op": "any",
+            "conditions": [
+              { "op": "has", "collection": "flags", "id": "F_MOD_CORN_TRIAL" },
+              { "op": "has", "collection": "flags", "id": "F_MOD_CORN_ESCORT" }
+            ]
+          },
+          "outcome": {
+            "text": "你独自背着种粮走近路，窄巷里已有抢粮的人。",
+            "effects": [ { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" } ],
+            "next_stage_id": "E_MOD_CORN_TRIAL_hazard"
+          }
+        },
+        {
+          "id": "corn_store_risk",
+          "text": "争辩免水的说法",
+          "unavailable_text": "须持有高产耐旱玉米良种，并已合仓记账。",
+          "risk": "high",
+          "condition": { "op": "has", "collection": "flags", "id": "F_MOD_CORN_STORE" },
+          "outcome": {
+            "text": "你当众争辩玉米是否需要浇水，争执越来越激烈。",
+            "effects": [ { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" } ],
+            "next_stage_id": "E_MOD_CORN_STORE_hazard"
+          }
+        },
+        {
+          "id": "corn_relief_risk",
+          "text": "卖掉口粮全押新种",
+          "unavailable_text": "须持有高产耐旱玉米良种，并已整理种植笔记、安排接济。",
+          "risk": "high",
+          "condition": { "op": "has", "collection": "flags", "id": "F_MOD_CORN_RELIEF" },
+          "outcome": {
+            "text": "你把旧粮全换成新种，没给自己留下等收成时吃的口粮。",
+            "effects": [ { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" } ],
+            "next_stage_id": "E_MOD_CORN_RELIEF_hazard"
+          }
+        },
+        {
+          "id": "corn_withdraw",
+          "text": "停止推广",
+          "unavailable_text": "需持高产耐旱玉米良种，已做好推广准备，且处于历史线1640年或以后。",
+          "risk": "safe",
+          "outcome": {
+            "text": "你不再张罗玉米推广，转去另谋生计。",
+            "effects": [
+              { "type": "flag_add", "id": "F_LIFE_HISTORICAL_TURN_USED" },
+              { "type": "flag_add", "id": "F_MOD_CORN_ABORT" }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ],
+      "condition": {
+        "op": "all",
+        "conditions": [
+          { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+          { "op": "has", "collection": "flags", "id": "F_MOD_CORN_READY" },
+          { "op": "compare", "field": "calendar_year", "comparator": "gte", "value": 1640 },
+          { "op": "is", "field": "timeline", "value": "historical" },
+          { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_HISTORICAL_TURN_USED" } }
+        ]
+      },
+      "stages": [
+        {
+          "id": "promote",
+          "text": "老农要逐页核对试种记录，看看种法是否适合当地的水土。",
+          "check": { "attribute": "intelligence", "dc": 24, "modifier": 0, "tag": "farming", "raw_minimum": 10 },
+          "success": {
+            "text": "你整理的种法经得起核对，传到了邻县，供乡邻照着试种。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_SUCCESS" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 3 }
+            ],
+            "next_stage_id": null
+          },
+          "critical_success": {
+            "text": "各地试种记录互相印证，乡里合力把种法刻印成册。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_LEGACY" },
+              { "type": "flag_add", "id": "F_MOD_CORN_SUCCESS" },
+              { "type": "attribute_add", "attribute": "prestige", "amount": 5 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "记录漏掉了用水量，你只好退回小田重试，还得赔出一些粮食。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_SETBACK" },
+              { "type": "attribute_add", "attribute": "wealth", "amount": -2 },
+              { "type": "attribute_add", "attribute": "prestige", "amount": -1 }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "E_MOD_CORN_TRIAL_hazard",
+          "text": "拦路人盯上了种袋，你得想办法脱身。",
+          "check": { "attribute": "intelligence", "dc": 16, "modifier": 0, "tag": "farming" },
+          "success": {
+            "text": "你舍出一部分粮食才得以脱身，余下的种粮还能继续试种。",
+            "effects": [ { "type": "attribute_add", "attribute": "wealth", "amount": -1 } ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "种袋保住了，你却在抢粮人的围堵中丧命。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_DEATH_THEFT" },
+              { "type": "death", "id": "D_MOD_CORN_THEFT" }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "E_MOD_CORN_STORE_hazard",
+          "text": "争执因免水的说法而起，你得找人作证，设法脱身。",
+          "check": { "attribute": "intelligence", "dc": 16, "modifier": 0, "tag": "farming" },
+          "success": {
+            "text": "你赔出一些粮食，才平息争执；仓里的账由见证人继续核对。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_STORE" },
+              { "type": "attribute_add", "attribute": "wealth", "amount": -1 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "争执中你跌进沟里，伤重没能活下来。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_DEATH_RUMOUR" },
+              { "type": "death", "id": "D_MOD_CORN_RUMOUR" }
+            ],
+            "next_stage_id": null
+          }
+        },
+        {
+          "id": "E_MOD_CORN_RELIEF_hazard",
+          "text": "新种还没收成，家里却要断粮，你得赶紧找到接济。",
+          "check": { "attribute": "intelligence", "dc": 16, "modifier": 0, "tag": "farming" },
+          "success": {
+            "text": "你亏本换来接济，撑过了断粮，也补齐了分发种植笔记的安排。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_RELIEF" },
+              { "type": "flag_add", "id": "F_MOD_CORN_READY" },
+              { "type": "flag_add", "id": "F_MOD_CORN_PRACTICE" },
+              { "type": "attribute_add", "attribute": "wealth", "amount": -1 }
+            ],
+            "next_stage_id": null
+          },
+          "failure": {
+            "text": "接济迟迟没到，你又误了农时，最终因饥饿没能活下来。",
+            "effects": [
+              { "type": "flag_add", "id": "F_MOD_CORN_DEATH_HUNGER" },
+              { "type": "death", "id": "D_MOD_CORN_HUNGER" }
+            ],
+            "next_stage_id": null
+          }
+        }
+      ]
+    }
+  ],
+  "chains": [
+    {
+      "id": "CHAIN_MOD_CORN_KING",
+      "name": "玉米试田济邻",
+      "commitment": "历时六年，起步免费，第1、3、6年自动试田、合仓和济邻；重大推广时再选择做法，冒险可能丧命。可主动退出事业，重伤或流离失所会中断，已学经验保留。玉米耐旱仍需浇水；1643至1644年开局改走自动盘粮、分粮和护送。",
+      "priority": 40,
+      "interrupt_condition": {
+        "op": "any",
+        "conditions": [
+          { "op": "has", "collection": "flags", "id": "F_MOD_CORN_ABORT" },
+          { "op": "has", "collection": "injuries", "id": "INJ_SEVERE" },
+          { "op": "has", "collection": "flags", "id": "F_ERA_DISPLACED" }
+        ]
+      },
+      "interrupt_text": "试田和合仓事务中断了，过去记下的水土、留种经验仍在。",
+      "nodes": [
+        { "after_years": 1, "event_id": "E_MOD_CORN_TRIAL" },
+        { "after_years": 3, "event_id": "E_MOD_CORN_STORE" },
+        { "after_years": 6, "event_id": "E_MOD_CORN_RELIEF" }
+      ],
+      "completion": {
+        "text": "一季季试下来，你记住了本地的水土条件，也懂得该怎样留种。",
+        "effects": [ { "type": "flag_add", "id": "F_MOD_CORN_DONE" } ],
+        "next_stage_id": null
+      }
+    }
+  ],
+  "reasons": {
+    "E_MOD_CORN_TRIAL": "改为原首项安全结果自动推进；排除快进开局，独行护粮风险迁往突破菜单。",
+    "E_MOD_CORN_STORE": "改为原首项安全结果自动推进；排除快进开局，免水争辩风险迁往突破菜单。",
+    "E_MOD_CORN_RELIEF": "改为原首项安全结果自动推进；排除快进开局，卖光口粮风险及停止推广迁往突破菜单。",
+    "E_MOD_CORN_FAST_INVENTORY": "原首项盘粮结果自动结算，保留中断普通链和原成长。",
+    "E_MOD_CORN_FAST_DISTRIBUTE": "原首项分粮结果自动结算，保留前置与原成长。",
+    "E_MOD_CORN_FAST_ESCORT": "原首项结伴护粮结果自动结算；与普通独行抢粮重复的风险并入突破菜单。",
+    "E_MOD_CORN_BREAKTHROUGH": "接入历史共享选择预算，集中保留高阶核验、安全接济、三种危险与停止推广，危险前保留经历与持物门槛。",
+    "CHAIN_MOD_CORN_KING": "准确说明普通和快进自动推进、重大选择及既有中断机制。"
+  }
+}

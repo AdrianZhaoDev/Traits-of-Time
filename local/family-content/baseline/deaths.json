@@ -1,0 +1,157 @@
+[
+  {
+    "id": "D_CRISIS",
+    "name": "困城遇难",
+    "text": "你在撤离时受伤，没能撑到安全的地方。"
+  },
+  {
+    "id": "D_OLD_AGE",
+    "name": "寿终",
+    "text": "你安静地走完了这一生。"
+  },
+  {
+    "id": "D_EPIDEMIC",
+    "name": "疫病夺命",
+    "text": "疫病加重，救治没能挽回你的性命。"
+  },
+  {
+    "id": "D_STARVATION",
+    "name": "饥荒断粮",
+    "text": "迟迟没有等来口粮，你没能撑过这场饥荒。"
+  },
+  {
+    "id": "D_EXPLOSION",
+    "name": "作坊事故",
+    "text": "烟尘封住了出口，你没能从作坊里逃出来。"
+  },
+  {
+    "id": "D_DROWNING",
+    "name": "洪水遇难",
+    "text": "撤离途中，你被急流卷走，没能获救。"
+  },
+  {
+    "id": "D_POISON",
+    "name": "误食坏饭菜",
+    "text": "变质饭菜引起急症，救治没能挽回你的性命。"
+  },
+  {
+    "id": "D_FREEZING",
+    "name": "严寒遇难",
+    "text": "柴火用尽，你没能熬过这场严寒。"
+  },
+  {
+    "id": "D_BANDIT",
+    "name": "遇匪身亡",
+    "text": "你遭到盗匪袭击，没能撑到医馆。"
+  },
+  {
+    "id": "D_CHARLATAN",
+    "name": "假药误命",
+    "text": "假药让病情加重，郎中也没能救回你。"
+  },
+  {
+    "id": "D_WAR_CHAOS",
+    "name": "兵乱遇难",
+    "text": "你在兵乱中受伤，没能等到救治。"
+  },
+  {
+    "id": "D_PRISON_CORVEE",
+    "name": "牢中病逝",
+    "text": "你在牢里病重，亲友还没等到放人，你就去世了。"
+  },
+  {
+    "id": "D_MOD_OIL_DRINK",
+    "name": "误饮醒脑油",
+    "text": "误饮醒脑油后，救治没能挽回你的性命。"
+  },
+  {
+    "id": "D_MOD_GLUE_LIP_SEAL",
+    "name": "误用胶水",
+    "text": "你误把胶水当作润唇油，几次求医仍没能救回。"
+  },
+  {
+    "id": "D_MOD_LIGHTER_GAS_BURST",
+    "name": "故障火机起火",
+    "text": "损坏的火机突然起火，你没能及时避开。"
+  },
+  {
+    "id": "D_MOD_SWISS_BLADE_SEVER",
+    "name": "耍刀时失足",
+    "text": "你躲开了脱手的军刀，却没能在陡坡上站稳。"
+  },
+  {
+    "id": "D_MOD_CALCULATOR_HERESY_FIRE",
+    "name": "栈桥拥挤失足",
+    "text": "算器黑屏引来误会，人群挤上窄桥，你失足遇难。"
+  },
+  {
+    "id": "D_SENIOR_DECLINE",
+    "name": "暮年病逝",
+    "text": "倒春寒里病情加重，你在家人的陪伴下离世。"
+  },
+  {
+    "id": "D_MOD_CORN_THEFT",
+    "name": "护粮遇难",
+    "text": "独自带粮种赶路时遇上抢夺，你没能脱身。"
+  },
+  {
+    "id": "D_MOD_CORN_RUMOUR",
+    "name": "争执时落沟",
+    "text": "围绕“玉米不用浇水”的争执失控，你跌进沟里，没能生还。"
+  },
+  {
+    "id": "D_MOD_CORN_HUNGER",
+    "name": "没等到收成",
+    "text": "口粮全换成了新种，你没等到收成，也没等来接济。"
+  },
+  {
+    "id": "D_MOD_HEALER_DELAY",
+    "name": "延误求医",
+    "text": "你以为有药就能撑住，耽误求医后没能获救。"
+  },
+  {
+    "id": "D_MOD_HEALER_ROBBERY",
+    "name": "携药途中遇难",
+    "text": "你独自带药赶路，遇到争抢后没能脱身。"
+  },
+  {
+    "id": "D_MOD_FLASHLIGHT_ROBBERY",
+    "name": "追灯遇难",
+    "text": "你独自追赶抢灯的人，没能逃出其同伙的围堵。"
+  },
+  {
+    "id": "D_MOD_FLASHLIGHT_CLAIMS",
+    "name": "争抢中货架倒塌",
+    "text": "你夸口手电能透墙，人群争抢时货架倒下，你没能避开。"
+  },
+  {
+    "id": "D_MOD_FLASHLIGHT_MISSTEP",
+    "name": "夜路落沟",
+    "text": "夜路上没看清脚下，你跌入暗沟，没能脱险。"
+  },
+  {
+    "id": "D_MOD_CALCULATOR_AUDIT_BRIDGE",
+    "name": "追账时坠桥",
+    "text": "独自追查缺账时遇上松动桥板，你没能退回安全处。"
+  },
+  {
+    "id": "D_NAT_BOWL_TERRITORY",
+    "name": "撤离时遇塌棚",
+    "text": "你为避开地痞换路离开，却没能躲过倒塌的棚子。"
+  },
+  {
+    "id": "D_NAT_BOWL_PROPERTY",
+    "name": "空宅塌棚",
+    "text": "买下的空宅需要修缮，你没能在棚梁塌落前离开。"
+  },
+  {
+    "id": "D_NAT_BOOK_SCROLL_BRIDGE",
+    "name": "运卷时坠桥",
+    "text": "运书途中桥板松动，你没能接住同伴抛来的绳索。"
+  },
+  {
+    "id": "D_NAT_BOOK_ARCHIVE_CART",
+    "name": "书车下坡失控",
+    "text": "书车滑向坡脚，你没能及时离开车旁，最终遇难。"
+  }
+]

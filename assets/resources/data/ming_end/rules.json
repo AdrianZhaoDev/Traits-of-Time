@@ -65,7 +65,15 @@
   },
   "check": {
     "modifier_min": -3,
-    "modifier_max": 3
+    "modifier_max": 3,
+    "dynamic_raw_minimum": {
+      "attribute_base": 12,
+      "attribute_step": 2,
+      "floor": 6
+    },
+    "luck_bonus_thresholds": [10, 20],
+    "critical_luck_minimum": 15,
+    "critical_luck_raw": 19
   },
   "luck": {
     "factor_min": 0.8,
@@ -82,5 +90,74 @@
   },
   "chains": {
     "max_active": 2
+  },
+  "late_life": {
+    "start_years": 9,
+    "expansion_years": 14,
+    "settlement_years": 19,
+    "settlement_age": 55,
+    "confirmation_years": 3,
+    "routes": [
+      {
+        "id": "prosperous_power",
+        "entry_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"gte","value":6},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}
+        ]},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"gte","value":4},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}
+        ]}
+      },
+      {
+        "id": "prosperous_free",
+        "entry_condition": {"op":"compare","field":"wealth","comparator":"gte","value":6},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"gte","value":4},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}}
+        ]}
+      },
+      {
+        "id": "respected",
+        "entry_condition": {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"lt","value":6},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}
+        ]}
+      },
+      {
+        "id": "poor_renowned",
+        "entry_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"lte","value":1},
+          {"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_JUREN"},{"op":"has","collection":"flags","id":"F_JN_POET_FAMOUS"},{"op":"has","collection":"flags","id":"F_MOD_GLUE_BREAK_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_CORN_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_FLASHLIGHT_BREAK_SUCCESS"}]}
+        ]},
+        "retain_condition": {"op":"all","conditions":[
+          {"op":"compare","field":"wealth","comparator":"lte","value":3},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}}
+        ]}
+      },
+      {
+        "id": "hardship",
+        "entry_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"lte","value":1},{"op":"compare","field":"physique","comparator":"lte","value":2}]},
+        "retain_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"lte","value":3},{"op":"compare","field":"physique","comparator":"lte","value":4},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_JUREN"},{"op":"has","collection":"flags","id":"F_JN_POET_FAMOUS"},{"op":"has","collection":"flags","id":"F_MOD_GLUE_BREAK_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_CORN_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_FLASHLIGHT_BREAK_SUCCESS"}]}}
+        ]}
+      },
+      {
+        "id": "struggling",
+        "entry_condition": {"op":"compare","field":"wealth","comparator":"lte","value":1},
+        "retain_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"lte","value":3},{"op":"compare","field":"physique","comparator":"gt","value":2},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_JUREN"},{"op":"has","collection":"flags","id":"F_JN_POET_FAMOUS"},{"op":"has","collection":"flags","id":"F_MOD_GLUE_BREAK_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_CORN_SUCCESS"},{"op":"has","collection":"flags","id":"F_MOD_FLASHLIGHT_BREAK_SUCCESS"}]}}
+        ]}
+      },
+      {
+        "id": "ordinary",
+        "retain_condition": {"op":"all","conditions":[{"op":"compare","field":"wealth","comparator":"gt","value":1},{"op":"compare","field":"wealth","comparator":"lt","value":6},
+          {"op":"not","condition":{"op":"any","conditions":[{"op":"is","field":"identity_id","value":"I_DEFENSE_COMMISSIONER"},{"op":"is","field":"identity_id","value":"I_MILITARY_OFFICER"},{"op":"is","field":"identity_id","value":"I_WAREHOUSE_OVERSEER"},{"op":"is","field":"identity_id","value":"I_CLAN_ELDER"},{"op":"is","field":"identity_id","value":"I_COMMUNITY_LEADER"}]}}
+        ]}
+      }
+    ]
   }
 }

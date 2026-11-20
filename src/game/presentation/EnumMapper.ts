@@ -67,15 +67,18 @@ const STAT_MAP: Record<string, StatInfo> = {
 const PLAYER_ERRORS: Record<string, string> = {
   NOT_INITIALIZED: '还没开局，请先重启人生。',
   ALREADY_INITIALIZED: '本局已经开始。想换一局，请点击“重启人生”。',
-  CARD_UNAVAILABLE: '这件家当不在本次候选里，请重新选择。',
+  INVALID_INHERITANCE: '传承选择无效，请重新选择。',
+  CARD_UNAVAILABLE: '这件家当无法用于当前候选，请重新选择。',
   OPTION_UNAVAILABLE: '现在不能这样选，请查看选项下的条件。',
   OUTCOME_NOT_APPLICABLE: '当前无法执行这项选择，请换一项。',
   STALE_DECISION: '这一步已经结束，请按当前画面继续。',
   INVALID_STATE: '现在不能执行这项操作，请先完成当前选择。',
   SESSION_BUSY: '上一项操作还没完成，请稍等。',
-  SAVE_FAILED: '未能确认进度，已停止推进。重启人生会开始新的一局。',
-  SAVE_INVALID: '进度数据无法读取。重启人生会开始新的一局。',
-  CONTENT_MISMATCH: '游戏资料已更新，旧进度不能继续。请新开一局。',
+  SAVE_FAILED: '未能确认存档，推进已停止。请重新读取本机存档。',
+  SAVE_INVALID: '本机进度无法读取，原档未被清除。',
+  CONTENT_MISMATCH: '游戏资料已更新，旧进度不能继续，原档未被清除。',
+  RULES_MISMATCH: '游戏规则已更新，旧进度不能继续，原档未被清除。',
+  SAVE_VERSION_MISMATCH: '本机存档版本不兼容，原档未被清除。',
   INVALID_DISTRIBUTION: '开局资料有误，暂时无法开始。',
 };
 

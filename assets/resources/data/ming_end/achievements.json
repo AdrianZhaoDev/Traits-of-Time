@@ -1,8 +1,8 @@
 [
   {
     "id": "A_PROJECT",
-    "name": "学徒出师",
-    "text": "两年手艺没白学，你已经能做出像样的活计了。",
+    "name": "学徒结业",
+    "text": "两年手艺没白学，交出的成品通过了验看。",
     "condition": {
       "op": "has",
       "collection": "flags",
@@ -196,8 +196,8 @@
   },
   {
     "id": "A_CAREER_WORKSHOP",
-    "name": "手艺能养家",
-    "text": "学成了手艺，家里也攒下了一份积蓄，往后的日子多些底气。",
+    "name": "手艺添底气",
+    "text": "手艺已有了基础，家里的日用也有余裕。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -2047,7 +2047,7 @@
   {
     "id": "A_MOD_FLASHLIGHT_DEATH_ROBBERY",
     "name": "追灯途中遇难",
-    "text": "才刚接触夜查，这段人生就结束了。",
+    "text": "追赶抢灯贼时遇险，这段人生就此结束。",
     "condition": {
       "op": "all",
       "conditions": [
@@ -2703,5 +2703,258 @@
     },
     "priority": 90,
     "category": "milestone"
+  }
+,
+{
+    "id": "A_FAM_HOME_AND_CAREER",
+    "name": "成家有方向",
+    "text": "有人相伴，也为自己选过一条努力的方向。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        {
+          "op": "any",
+          "conditions": [
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_MILITARY_MERIT" },
+            { "op": "has", "collection": "completed_chains", "id": "CHAIN_MILITARY_MERIT" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_FIREARMS_RESEARCH" },
+            { "op": "has", "collection": "completed_chains", "id": "CHAIN_FIREARMS_RESEARCH" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_EPIDEMIC_HEALING" },
+            { "op": "has", "collection": "completed_chains", "id": "CHAIN_EPIDEMIC_HEALING" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_FORTRESS_DEFENSE" },
+            { "op": "has", "collection": "completed_chains", "id": "CHAIN_FORTRESS_DEFENSE" },
+            { "op": "has", "collection": "active_chains", "id": "CHAIN_MARITIME_TRADE" },
+            { "op": "has", "collection": "completed_chains", "id": "CHAIN_MARITIME_TRADE" },
+            { "op": "has", "collection": "active_chains", "id": "CH_WORKSHOP" },
+            { "op": "has", "collection": "completed_chains", "id": "CH_WORKSHOP" },
+            { "op": "has", "collection": "active_chains", "id": "CH_JN_TRADE" },
+            { "op": "has", "collection": "completed_chains", "id": "CH_JN_TRADE" },
+            { "op": "has", "collection": "active_chains", "id": "CH_gm_arms" },
+            { "op": "has", "collection": "completed_chains", "id": "CH_gm_arms" },
+            { "op": "has", "collection": "active_chains", "id": "CH_gm_water" },
+            { "op": "has", "collection": "completed_chains", "id": "CH_gm_water" },
+            { "op": "has", "collection": "active_chains", "id": "CH_gm_fort" },
+            { "op": "has", "collection": "completed_chains", "id": "CH_gm_fort" }
+          ]
+        }
+      ]
+    },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_SON_AND_DAUGHTER",
+    "name": "儿女双全",
+    "text": "你曾迎来一双儿女，日子里多了两份牵挂。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_2" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_SON_AND_DAUGHTER" }
+      ]
+    },
+    "priority": 70,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_FIVE_GENERATIONS",
+    "name": "五世同堂",
+    "text": "你亲眼见到家中五代相聚，这份团圆来之不易。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 70 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_2" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_FIVE_GENERATIONS" }
+      ]
+    },
+    "priority": 95,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_CHILD_WELL_TAUGHT",
+    "name": "教子有方",
+    "text": "孩子有了自己的本事，做父母的也打心底高兴。",
+    "condition": { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_SUCCESS" },
+    "priority": 78,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_HIGH_MARRIAGE",
+    "name": "高门贵婿",
+    "text": "你曾与门第显赫的人家结亲，两家有了姻亲关系。",
+    "condition": { "op": "has", "collection": "flags", "id": "F_FAM_HIGH_MARRIAGE" },
+    "priority": 72,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_REMARRIED",
+    "name": "续弦不渝",
+    "text": "经历过丧偶，你又与人结成伴侣，共同过起了日子。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "flags", "id": "F_FAM_WIDOWED" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_REMARRIED" }
+      ]
+    },
+    "priority": 76,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_GRANDCHILD",
+    "name": "含饴弄孙",
+    "text": "家中的日子一代代往前走，你也迎来了孙辈。",
+    "condition": { "op": "has", "collection": "flags", "id": "F_FAM_GRANDCHILD" },
+    "priority": 74,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_HEIR",
+    "name": "后继有人",
+    "text": "你把一份家资分给长大成人的孩子，盼他们各自把日子过好。",
+    "condition": { "op": "has", "collection": "flags", "id": "F_FAM_ESTATE_SETTLED" },
+    "priority": 85,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_HEIRLESS",
+    "name": "后继无人",
+    "text": "你留下一份家资，却没能把它交到自己子女手中。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 8 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_HEIRLESS" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_1" } },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_HAS_CHILD" } }
+      ]
+    },
+    "priority": 93,
+    "category": "life"
+  },
+  {
+    "id": "A_FAM_BEREAVED_CHILD",
+    "name": "白发送黑发",
+    "text": "你曾送别自己的孩子，那份牵挂一直没有放下。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 50 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_BEREAVED" }
+      ]
+    },
+    "priority": 44,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_FAM_CHILD_MARRIED",
+    "name": "子女成家",
+    "text": "孩子也有了自己的家庭，做父母的又多了一份牵挂。",
+    "condition": { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_MARRIED" },
+    "priority": 65,
+    "category": "milestone"
+  },
+  {
+    "id": "A_FAM_LIFE_TOGETHER",
+    "name": "晚年有伴",
+    "text": "走到人生终点时，你仍有伴侣，也见过孩子做成自己的事。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 50 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_SUCCESS" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_CHILD_2_DEAD" } }
+      ]
+    },
+    "priority": 91,
+    "category": "life"
+  },
+  {
+    "id": "A_MOD_CORN_LOCAL_HELP",
+    "name": "有粮一起吃",
+    "text": "平价分粮，乡邻得了实惠。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+        { "op": "has", "collection": "flags", "id": "F_MOD_CORN_MODEST" }
+      ]
+    },
+    "priority": 21,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_CORN_TRY_AGAIN",
+    "name": "种法还得再试",
+    "text": "种法还得再琢磨，先前的试种经验也用得上。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_MODERN_CORN" },
+        { "op": "has", "collection": "flags", "id": "F_MOD_CORN_SETBACK" }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_LOCAL_HELP",
+    "name": "就在这儿帮忙",
+    "text": "先照顾好眼前这些人。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+        { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_LOCAL" }
+      ]
+    },
+    "priority": 21,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_HEALER_COURSE_HANDOFF",
+    "name": "药交给懂的人",
+    "text": "整板药交了出去，手册还留着。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_MODERN_ANTIBIOTIC" },
+        { "op": "has", "collection": "flags", "id": "F_MOD_HEALER_COURSE_USED" }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_FIRST_LIGHT",
+    "name": "先把灯摇亮",
+    "text": "手摇几圈，眼前就有了光。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+        { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_OPEN" }
+      ]
+    },
+    "priority": 21,
+    "category": "anecdote"
+  },
+  {
+    "id": "A_MOD_FLASHLIGHT_PASS_NOTES",
+    "name": "线索接着查",
+    "text": "记录交给巡丁，接着给乡邻照路。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "has", "collection": "cards", "id": "CARD_MODERN_FLASHLIGHT" },
+        { "op": "has", "collection": "flags", "id": "F_MOD_FLASHLIGHT_BREAK_SAFE" }
+      ]
+    },
+    "priority": 22,
+    "category": "anecdote"
   }
 ]

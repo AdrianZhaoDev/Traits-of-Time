@@ -1,0 +1,464 @@
+[
+  {
+    "id": "E_FAM_LIFE_CHILD_NEIGHBOR_FRIEND",
+    "title": "邻家的风车",
+    "text": "你和从小一起玩的邻家阿良扎风车，他的风车刚转起来就散了架。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 7 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 14 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你们一起把竹条重新系好，轮流举着风车跑了半条巷子。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_EARLY_FRIEND" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_CHILD_FIRST_PAY",
+    "title": "头一份工钱",
+    "text": "米铺请你扫门前、理箩筐，做了好些天，掌柜递来一串铜钱。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 8 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 10 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 8 },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_LIFE_ROUTE_LIVELIHOOD" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你第一次拿到自己挣的工钱，小心收好，预备替家里买米。",
+      "effects": [{ "type": "attribute_add", "attribute": "wealth", "amount": 1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_CHILD_GATHER_FIREWOOD",
+    "title": "灶边一捆柴",
+    "text": "家里的柴快用完了，邻人让你拣走劈柴剩下的碎枝。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 7 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 17 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 5 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.75, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你抱回一捆垒在灶边，晚饭总算能把火续上。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_CHILD_FIREWOOD" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_YOUNG_ON_THE_ROAD",
+    "title": "路上听乡音",
+    "text": "你跟着驮队出门做工，听脚夫说起家乡的集市，夜里惦记得睡不着。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 18 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 30 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "第二天你向同乡打听乡里的近况，心里踏实了些。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_TRAVELED" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_YOUNG_FELLOW_TRAVELER",
+    "title": "半块干粮",
+    "text": "同行多时的阿禾见你没带干粮，把自己的分给你一半。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 18 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 30 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你把水囊递过去，两人商定往后有难互相照应。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_EARLY_FRIEND" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_YOUNG_FIRST_WORK",
+    "title": "独自接活",
+    "text": "跟师傅学了几个月后，粮铺头一回把一批布袋交给你独自缝补。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 17 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 32 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你缝牢裂口，数清件数按期交活，掌柜如数付了工钱。",
+      "effects": [
+        { "type": "flag_add", "id": "F_FAM_LIFE_MENDING" },
+        { "type": "attribute_add", "attribute": "wealth", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_YOUNG_FRIEND_FAIR_PAY",
+    "title": "朋友替你对账",
+    "text": "你和一位朋友搭伙做活，结工钱时发现自己被少算了一份。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 18 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 34 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_EARLY_FRIEND" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "朋友陪你找东家对过账，少给的那份工钱补回来了。",
+      "effects": [{ "type": "attribute_add", "attribute": "wealth", "amount": 1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_MIDDLE_FAMILY_DEBT",
+    "title": "赊来的口粮",
+    "text": "这阵子进项不稳，你和伴侣为柴米发愁，米铺愿意赊一袋粗粮。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 35 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 59 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_MARRIED" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_RICE_DEBT" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你记下欠账，先把粮扛回家；米钱还得以后慢慢还。",
+      "effects": [
+        { "type": "flag_add", "id": "F_FAM_LIFE_RICE_DEBT" },
+        { "type": "attribute_add", "attribute": "wealth", "amount": 1 }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_MIDDLE_REPAY_DEBT",
+    "title": "还清米账",
+    "text": "先前在米铺赊的粮还记在账上，如今你攒出了一点余钱。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 35 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 2 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_RICE_DEBT" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你交还粮钱，存下的钱少了一些，也不用再为这笔旧账发愁。",
+      "effects": [
+        { "type": "attribute_add", "attribute": "wealth", "amount": -1 },
+        { "type": "flag_remove", "id": "F_FAM_LIFE_RICE_DEBT" }
+      ],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_MIDDLE_TRADING_PARTNER",
+    "title": "替搭档补袋",
+    "text": "你同摊贩阿全合卖一批布，运货时他的布袋被树枝刮破了。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 35 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 59 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你帮他把裂口缝牢，两人把布捡齐，赶上了开市。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_MENDING" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_MIDDLE_ILLNESS",
+    "title": "病后歇一歇",
+    "text": "你生了一场大病，卧床多日，起身时仍觉得手脚发软。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 35 },
+        { "op": "compare", "field": "age", "comparator": "lte", "value": 59 },
+        { "op": "compare", "field": "physique", "comparator": "gte", "value": 1 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 16, "priority": 0, "trigger_probability": 0.55, "cooldown_years": 8, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你不再逞强，把手里的活先放下，身子还得慢慢养。",
+      "effects": [{ "type": "attribute_add", "attribute": "physique", "amount": -1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_ELDER_ROAD_RECOLLECTION",
+    "title": "旧包袱",
+    "text": "翻出磨薄的旧包袱，你想起年轻时跟着驮队出门做工的日子。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 60 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_TRAVELED" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "听说邻家后生也要出门，你提醒他先问好落脚的地方，他认真谢了你。",
+      "effects": [{ "type": "attribute_add", "attribute": "prestige", "amount": 1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_ELDER_FRIEND_GONE",
+    "title": "故友来信",
+    "text": "一封信捎来消息：当年结识的好友过世了。你在门口站了很久。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 60 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_EARLY_FRIEND" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_FRIEND_LOST" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 15, "priority": 0, "trigger_probability": 0.55, "cooldown_years": 8, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你把信折好收起，想起从前彼此照应的日子。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_FRIEND_LOST" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_ELDER_MENDING_TAUGHT",
+    "title": "教人补袋",
+    "text": "邻居拿来一只破粮袋，请你教他怎样缝住裂口。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 60 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_MENDING" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你放慢针脚，一针一针教他；邻居照着补好，谢过了你。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_MENDING_TAUGHT" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_ELDER_GRANDCHILD_STORY",
+    "title": "说起旧时的雨",
+    "text": "孙辈在你身旁，你慢慢说起年轻时遇到的一场大雨。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 60 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_GRANDCHILD" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "那时邻里合力疏通街上的积水，你至今还记得他们的名字。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_GRANDCHILD_STORY" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_POOR_EMPTY_POT",
+    "title": "空锅等明日",
+    "text": "锅底摸不出一把米了，你去寻活，却没能在天黑前找到工。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 16 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "compare", "field": "physique", "comparator": "gte", "value": 1 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 16, "priority": 0, "trigger_probability": 0.6, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你先喝了热水歇下，腹中空着，第二天还得再去问。",
+      "effects": [{ "type": "attribute_add", "attribute": "physique", "amount": -1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_POOR_WARM_FIRE",
+    "title": "借邻家的火",
+    "text": "天寒无钱添柴，邻人招呼你到自家灶前暖暖手。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 10 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.75, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你顺手替邻人续上炉火，烤干湿鞋；他叮嘱你冷了还可以来。",
+      "effects": [{ "type": "attribute_add", "attribute": "prestige", "amount": 1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_POOR_BOWL_SOUP",
+    "title": "半碗热汤",
+    "text": "路过街边汤摊，你冻得缩起手。摊主看见，舀了半碗热汤给你。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 8 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.75, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你双手捧碗喝下，谢过摊主，寒意暂时缓了些。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_RECEIVED_SOUP" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_POOR_SHARE_WATER",
+    "title": "分出半碗水",
+    "text": "你记得人家递来的热汤。今日集上有个赶路人淋了雨，冻得发抖。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 12 },
+        { "op": "compare", "field": "wealth", "comparator": "lte", "value": 1 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_RECEIVED_SOUP" }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 5, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你分给他半碗热水，茶摊主又让他到棚里躲风，向你点了点头。",
+      "effects": [{ "type": "attribute_add", "attribute": "prestige", "amount": 1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_RICH_CROWDED_ALONE",
+    "title": "满席的请托",
+    "text": "酒席上客人围着你说恭维话；你想谈近日的烦心事，却总被请托打断。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 25 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 8 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 20, "priority": 0, "trigger_probability": 0.7, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "离席时你把想说的话咽回去，独自回房歇着。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_RICH_LONELY" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_RICH_ECHO",
+    "title": "席间的附和",
+    "text": "你在席间说错一笔账，几个人都忙着附和，没人指出哪一处不对。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 25 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 8 },
+        { "op": "compare", "field": "prestige", "comparator": "gte", "value": 6 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 16, "priority": 0, "trigger_probability": 0.6, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "账房随后核对出差额，你才知道应先把账算清，再听旁人夸。",
+      "effects": [{ "type": "attribute_add", "attribute": "intelligence", "amount": 1 }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_RICH_EMPTY_TEA",
+    "title": "茶凉以前",
+    "text": "你请常来拜访的几位客人喝茶，想听听他们的近况，席间却又说起请托。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 25 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 8 }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "你一一答复，散席时才发觉，自己的心事一个字也没说。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_RICH_LONELY" }],
+      "next_stage_id": null
+    }
+  },
+  {
+    "id": "E_FAM_LIFE_RICH_CONFIDANT",
+    "title": "有人听你说",
+    "text": "从前结识的朋友来访，你说起往日宴席散后无处可说的烦心事。",
+    "condition": {
+      "op": "all",
+      "conditions": [
+        { "op": "compare", "field": "age", "comparator": "gte", "value": 25 },
+        { "op": "compare", "field": "wealth", "comparator": "gte", "value": 8 },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_EARLY_FRIEND" },
+        { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_RICH_LONELY" },
+        { "op": "not", "condition": { "op": "has", "collection": "flags", "id": "F_FAM_LIFE_FRIEND_LOST" } }
+      ]
+    },
+    "trigger": { "kind": "random", "weight": 18, "priority": 0, "trigger_probability": 0.65, "cooldown_years": 6, "max_occurrences": 1, "rare": false },
+    "interaction": "automatic",
+    "outcome": {
+      "text": "朋友听完才讲自己的难处，你们坐了许久，谁也没急着托对方办事。",
+      "effects": [{ "type": "flag_add", "id": "F_FAM_LIFE_CONFIDED" }],
+      "next_stage_id": null
+    }
+  }
+]

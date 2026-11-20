@@ -1,0 +1,11 @@
+{
+  "id": "93e9652f-cf27-410d-af13-ebd9317e317b",
+  "ok": true,
+  "result": {
+    "result": "{\"commands\":35,\"maxLuck\":13,\"policy\":\"first offered card, first available option\",\"seed\":22,\"stages\":11,\"status\":\"ENDED\"}",
+    "origin": "http://localhost:5179/"
+  },
+  "_meta": {
+    "runtimeId": "6488b991-8aca-4cfe-bcd6-44fa6e1b3829"
+  }
+}
